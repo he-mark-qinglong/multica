@@ -2,61 +2,92 @@
 
 Helper scripts for the self-hosted Multica deployment under `/home/smark/multica`.
 
-## `agents_rebalance.py`
+## `agents_reclassify.py` & `agents_reclassify_sql.py`
 
-Spreads open work across the idle online agents so 100+ registered agents
-don't sit unused while a handful hog the queue.
+Re-route every agent to the provider runtime that matches its specialty.
 
-### What it does
+### Routing policy
 
-1. Loads `/tmp/issues.jsonl`, `/tmp/agents.json`, `/tmp/runtimes.json`
-   (snapshots from `multica issue list` / `agent list` / `runtime list`).
-2. Builds a **candidate pool** = issues with status `todo | blocked | in_progress`,
-   currently assigned to an agent.  Prioritised:
-     - p0 = assigned to an **offline**-runtime agent (stuck on a Mac that's off)
-     - p1 = assigned to a known hot agent (`dispatch-critic`, `planner`, etc.)
-     - p2 = everything else
-3. Builds a **target pool** = online + idle + non-archived agents with
-   `cur_load < max_concurrent_tasks`.
-4. Round-robin assigns at most `--max-per-agent` issues to each target.
-5. For each move:
-   - if `status == 'blocked'`, flip to `todo` (unblock)
-   - `multica issue assign <id> --to-id <target>`
-   - `multica issue rerun <id>`
+| Provider | Specialty                                                  |
+|----------|------------------------------------------------------------|
+| `kimi`   | long thinking, NOT coding (research, analysis, strategy, advisors, curators, philosophers, planners, triagers, document writers) |
+| `codex`  | quick + interruptible (fixers, runners, renderers, scrapers, testers, migrators) |
+| `claude` | rigorous + long-running coding (engineers, code reviewers, security, architects, team leads, orchestrators, dispatch-* workflow agents, and the default for anything unclear) |
+
+### How it works
+
+`agents_reclassify.py` calls `multica agent update --runtime-id <new>` for
+every agent that is on the wrong provider.  It works for agents that have
+no provider-specific thinking_level, but **fails with 400** for any agent
+whose current `thinking_level` is not valid for the destination runtime
+(common when moving a `medium`-thinking agent to kimi).
+
+`agents_reclassify_sql.py` is the same logic but writes directly to
+Postgres in one transaction, also clearing `thinking_level`, `model`,
+`custom_args`, and `runtime_config`.  Use it when the CLI refuses.
 
 ### Usage
 
 ```bash
-# refresh snapshots
-multica issue list --limit 100 --offset 0  --full-id --output json > /dev/null
-# (use the helper pull_issues.py in this directory to page through all 1.6k issues)
+# dry-run — show the plan
+python3 scripts/agents_reclassify.py
 
-# dry run — show what would happen
-python3 scripts/agents_rebalance.py --target-agents 40 --max-per-agent 1
+# apply via the CLI (skips working agents, clears runtime_config)
+python3 scripts/agents_reclassify.py --apply --skip-working --reset-runtime-config
 
-# actually do it
-python3 scripts/agents_rebalance.py --target-agents 40 --max-per-agent 1 --apply
+# apply via direct SQL (bypasses thinking_level validation)
+python3 scripts/agents_reclassify_sql.py --apply
 ```
 
-### Why this script exists
+### Last reclassify
 
-We routinely see the dispatch-critic / dispatch-evidence-reviewer /
-codex-orchestrator-02 trio hold 50+ open issues each while 120+ idle
-agents (mostly curators, advisors, specialist roles) sit unused.  This
-script pulls work off the overloaded and offline-runtime agents and
-parks one (or more) on each fresh online agent, then triggers a fresh
-run so the daemon actually picks them up.
+- Date: 2026-07-02 15:00 +08
+- CLI pass: 20 moved (null-thinking agents)
+- SQL pass: 120 moved (medium-thinking agents cleared)
+- Final distribution: claude=31, codex=5, kimi=132, total=168
 
-### Idempotency
+## `agents_rebalance.py`
 
-Re-runs are safe.  The plan only proposes (issue, target) pairs where
-the issue is currently assigned to a different agent; existing
-assignments to a target are kept.
+Spread open Multica issues across idle online agents, with role-aware
+routing that picks the right provider for each issue's label, and an
+optional floor for kimi-runtime working agents.
+
+### Routing policy
+
+| Issue label substring                | Preferred provider |
+|--------------------------------------|--------------------|
+| analysis / research / strategy / memo / doc / plan / design | `kimi` |
+| fix / hotfix / quick / test / build / migrate / render / chart | `codex` |
+| code / review / security / architecture / implement / refactor | `claude` |
+| (no match)                           | `claude` |
+
+The full pool of idle online agents is searched.  For each issue, the
+script first looks for a target on the preferred provider; if no agent
+in that provider has a free slot, it falls back to any other provider.
+While the kimi-runtime working count is below `--min-kimi-working`,
+kimi targets are prioritised regardless of the issue's preferred
+provider.
+
+### Usage
+
+```bash
+# refresh snapshots first
+multica agent list  --output json > /tmp/agents.json
+multica runtime list --output json > /tmp/runtimes.json
+multica issue list  --limit 100 --offset 0 --full-id --output json > /dev/null
+# (use the helper pull_issues.py in this directory to page through all 1.6k issues)
+
+# dry run
+python3 scripts/agents_rebalance.py --max-moves 40 --min-kimi-working 3
+
+# actually do it
+python3 scripts/agents_rebalance.py --max-moves 40 --min-kimi-working 3 --apply
+```
 
 ### Last successful run
 
-- Date: 2026-07-02 14:12 +08
-- Moves: 40 (38 unblock + 2 reassign)
-- Failures: 0
-- Working agents before: 3
-- Working agents after : 21 (then climbing)
+- Date: 2026-07-02 15:10 +08
+- Moves: 40 (13 kimi, 1 codex, 26 claude), 0 failures
+- kimi working before: 1
+- kimi working after : 4 (above --min-kimi-working=3 floor)
+- total working       : 20 (claude=15, codex=1, kimi=4)

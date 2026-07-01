@@ -1,23 +1,21 @@
 #!/usr/bin/env python3
 """
-agents_rebalance.py — spread open Multica issues across idle online agents.
+agents_rebalance.py — spread open Multica issues across idle online agents
+with role-aware routing.
 
-Strategy
---------
-- Candidates = issues with status in {todo, blocked, in_progress} currently
-  assigned to an agent.  Priority order:
-     0  offline-runtime agents (stuck on a Mac that's off)
-     1  hot overloaded online agents (dispatch-critic etc.)
-     2  other online agents
-- Targets = online + idle + not archived + (cur_load < max_concurrent_tasks).
-- Round-robin: each target gets up to ``--max-per-agent`` issues.
+Routing policy (matches the new agent distribution after reclassify):
+  - kimi  (132 agents): long thinking, non-code  -> analysis/research/strategy/doc
+  - codex (5 agents)  : quick, interruptible      -> fix/hotfix/test/quick
+  - claude (31 agents): rigorous, long-running   -> code/review/architecture
 
-For each (issue, target_agent):
-    1. if status == 'blocked',  issue status todo
-    2. issue assign <id> --to-id <target_agent>
-    3. issue rerun <id>
+Each candidate issue's labels (cat=code, cat=analysis, ...) pick a
+preferred provider.  The full pool of idle online agents is searched for
+a target on that provider first; if no free slot is available, fall
+back to any idle online agent.
 
-Without ``--apply`` the plan is printed and nothing is changed.
+The rebalance also enforces a floor of --min-kimi-working kimi agents
+working in steady state by prioritising kimi targets while we are below
+the floor.
 """
 import argparse
 import json
@@ -28,10 +26,27 @@ from collections import Counter, defaultdict
 
 OPEN_SET = {"backlog", "todo", "in_progress", "in_review", "blocked"}
 WORKABLE = {"todo", "blocked", "in_progress"}
-HOT_AGENT_PREFIXES = (
-    "dispatch-critic", "dispatch-evidence-reviewer",
-    "codex-orchestrator-02", "planner", "verifier-general",
-)
+
+LABEL_PROVIDER = [
+    (["analysis", "research", "strategy", "memo", "doc", "plan", "design",
+      "调研", "研究", "策略", "设计", "哲学", "分析", "审查"], "kimi"),
+    (["fix", "hotfix", "quick", "test", "build", "migrate", "snapshot",
+      "render", "chart", "indicator", "playwright", "scrape"], "codex"),
+    (["code", "review", "security", "architecture", "implement", "refactor",
+      "feature", "bug"], "claude"),
+]
+DEFAULT_PROVIDER = "claude"
+
+
+def label_to_provider(issue):
+    labels = [l.get("name", "").lower() for l in issue.get("labels", [])]
+    text = " ".join(labels) if labels else \
+           (issue.get("title", "") + " " + issue.get("identifier", "")).lower()
+    for kws, prov in LABEL_PROVIDER:
+        for kw in kws:
+            if kw in text:
+                return prov
+    return DEFAULT_PROVIDER
 
 
 def load_state():
@@ -41,30 +56,38 @@ def load_state():
     return issues, agents, runtimes
 
 
-def is_online(runtimes, agent):
+def provider_of(runtimes, agent):
     rt = runtimes.get(agent.get("runtime_id", ""), {})
-    return rt.get("status") == "online"
+    return rt.get("provider")
 
 
-def build_pools(issues, agents, runtimes, target_agents_n, max_per_agent):
+def build_pools(issues, agents, runtimes):
     agents_by_id = {a["id"]: a for a in agents}
-    online_rt_ids = {rid for rid, r in runtimes.items() if r.get("status") == "online"}
 
     load = Counter()
     for i in issues:
         if i["status"] in OPEN_SET and i.get("assignee_type") == "agent":
             load[i["assignee_id"]] += 1
 
-    # all idle online agents that have headroom
-    candidate_targets = [a for a in agents
-                         if a.get("runtime_id") in online_rt_ids
-                         and a.get("status") == "idle"
-                         and not a.get("archived_at")
-                         and (a.get("max_concurrent_tasks") or 0) > load.get(a["id"], 0)]
-    candidate_targets.sort(key=lambda a: -(a.get("max_concurrent_tasks") or 0))
-    target_pool = candidate_targets[:target_agents_n]
+    working_by_provider = Counter()
+    for a in agents:
+        if a.get("status") == "working":
+            working_by_provider[provider_of(runtimes, a)] += 1
 
-    # workable candidates
+    # ALL idle online agents with headroom
+    idle_pool = []
+    for a in agents:
+        rt = runtimes.get(a.get("runtime_id", ""), {})
+        if rt.get("status") != "online": continue
+        if a.get("status") != "idle": continue
+        if a.get("archived_at"): continue
+        cap = a.get("max_concurrent_tasks") or 0
+        if cap <= load.get(a["id"], 0): continue
+        a["_provider"] = provider_of(runtimes, a)
+        a["_free"] = cap - load.get(a["id"], 0)
+        idle_pool.append(a)
+
+    # candidates
     candidates = []
     for i in issues:
         if i["status"] not in WORKABLE: continue
@@ -72,34 +95,58 @@ def build_pools(issues, agents, runtimes, target_agents_n, max_per_agent):
         if not aid: continue
         ag = agents_by_id.get(aid)
         if not ag: continue
-        online = is_online(runtimes, ag)
-        name = ag.get("name") or ""
-        is_hot = any(name.startswith(p) for p in HOT_AGENT_PREFIXES)
-        if not online:
-            prio = 0
-        elif is_hot:
-            prio = 1
-        else:
-            prio = 2
-        candidates.append((prio, i["status"], i["created_at"],
-                           i["id"], i, aid, ag))
-    candidates.sort(key=lambda x: (x[0], x[1], x[2]))
+        if not ag.get("runtime_id"): continue
+        cur_prov = provider_of(runtimes, ag)
+        preferred = label_to_provider(i)
+        candidates.append((i["status"], i["created_at"], i["id"], i, aid, ag,
+                           cur_prov, preferred))
+    # priority: status (todo first, then blocked, then in_progress), then created
+    candidates.sort(key=lambda x: (
+        {"todo": 0, "blocked": 1, "in_progress": 2}.get(x[0], 3),
+        x[1]))
 
-    return target_pool, candidates, load, agents_by_id
+    return idle_pool, candidates, load, working_by_provider, agents_by_id
 
 
-def make_plan(target_pool, candidates, load, max_per_agent):
+def make_plan(idle_pool, candidates, load, max_per_agent, max_moves,
+              min_kimi_working, current_kimi_working):
+    """For each candidate, find a target on the preferred provider first,
+    then fall back.  Stop when ``max_moves`` is reached or pool is empty."""
+    # group pool by provider; sort each group by free capacity desc
+    pool_by_prov = defaultdict(list)
+    for a in idle_pool:
+        pool_by_prov[a["_provider"]].append(a)
+    for prov in pool_by_prov:
+        pool_by_prov[prov].sort(key=lambda a: -a["_free"])
+
+    # kimi is also kept first while we're below the floor
     plan = []
     used = Counter()
-    for prio, st, created, iid, issue, cur_aid, cur_agent in candidates:
-        for tgt in target_pool:
-            if tgt["id"] == cur_aid: continue
-            if used[tgt["id"]] >= max_per_agent: continue
-            cap = tgt.get("max_concurrent_tasks") or 1
-            cur = load.get(tgt["id"], 0) + used[tgt["id"]]
-            if cur >= cap: continue
-            plan.append((iid, tgt, cur_agent.get("name") or "?", st == "blocked"))
-            used[tgt["id"]] += 1
+    kimi_picks = 0
+
+    for st, created, iid, issue, cur_aid, cur_agent, cur_prov, preferred in candidates:
+        if len(plan) >= max_moves:
+            break
+        # Decide provider order: preferred first, then a kimi-fallback if we
+        # still need to satisfy the floor, then everything else.
+        below_floor = kimi_picks + current_kimi_working < min_kimi_working
+        order = [preferred]
+        if below_floor and "kimi" not in order:
+            order.append("kimi")
+        for p in ("claude", "codex", "kimi"):
+            if p not in order:
+                order.append(p)
+        for prov in order:
+            for tgt in pool_by_prov.get(prov, []):
+                if tgt["id"] == cur_aid: continue
+                if used[tgt["id"]] >= max_per_agent: continue
+                plan.append((iid, tgt, cur_agent.get("name") or "?",
+                             st == "blocked", preferred, prov))
+                used[tgt["id"]] += 1
+                if prov == "kimi": kimi_picks += 1
+                break
+            else:
+                continue
             break
     return plan
 
@@ -110,12 +157,12 @@ def cli(cmd):
 
 def apply(plan, dry_run=False, sleep=0.15):
     ok = fail = 0
-    for i, (iid, tgt, src_name, was_blocked) in enumerate(plan, 1):
+    for i, (iid, tgt, src_name, was_blocked, pref, prov) in enumerate(plan, 1):
         short = iid[:8]
         tname = (tgt.get("name") or "?")[:30]
         if dry_run:
             tag = " [unblock]" if was_blocked else ""
-            print(f"  [DRY] {i:>3} {short} -> {tname:<30} (was {src_name}){tag}")
+            print(f"  [DRY] {i:>3} {short} -> {tname:<30} (want {pref:<6}-> {prov}, was {src_name}){tag}")
             continue
         if was_blocked:
             r = cli(["multica", "issue", "status", iid, "todo"])
@@ -130,7 +177,7 @@ def apply(plan, dry_run=False, sleep=0.15):
         if r.returncode != 0:
             print(f"  [{i:>3}] {short} RERUN FAILED: {r.stderr[:120]}")
             fail += 1; continue
-        print(f"  [{i:>3}] {short} -> {tname:<30} (was {src_name})")
+        print(f"  [{i:>3}] {short} -> {tname:<30} ({pref:<6}-> {prov}, was {src_name})")
         ok += 1
         time.sleep(sleep)
     print()
@@ -140,36 +187,41 @@ def apply(plan, dry_run=False, sleep=0.15):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--target-agents", type=int, default=30)
+    ap.add_argument("--max-moves", type=int, default=40)
     ap.add_argument("--max-per-agent", type=int, default=1)
+    ap.add_argument("--min-kimi-working", type=int, default=3)
     ap.add_argument("--apply", action="store_true")
     ap.add_argument("--sleep", type=float, default=0.15)
     args = ap.parse_args()
 
     issues, agents, runtimes = load_state()
-    target_pool, candidates, load, agents_by_id = build_pools(
-        issues, agents, runtimes, args.target_agents, args.max_per_agent)
+    idle_pool, candidates, load, working_by_prov, agents_by_id = build_pools(
+        issues, agents, runtimes)
 
+    by_prov = Counter(a["_provider"] for a in idle_pool)
     print("=" * 70)
-    print(f" target pool: {len(target_pool)} idle-online agents with headroom")
-    for t in target_pool[:8]:
-        nm = t.get("name") or "?"
-        cap = t.get("max_concurrent_tasks") or 0
-        cur = load.get(t["id"], 0)
-        print(f"   {t['id'][:8]} {nm[:30]:<30} max={cap} cur={cur} free={cap-cur}")
-    if len(target_pool) > 8:
-        print(f"   ... and {len(target_pool)-8} more")
+    print(f" working-by-provider now: {dict(working_by_prov)}")
+    print(f" idle pool: {len(idle_pool)}  (with headroom)")
+    for p, n in by_prov.most_common():
+        print(f"   {n:>4}  {p}")
 
+    pref_n = Counter(c[7] for c in candidates)
+    status_n = Counter(c[0] for c in candidates)
     print()
-    print(f" candidates: {len(candidates)} workable issues (status in todo/blocked/in_progress)")
-    prio_n = Counter(c[0] for c in candidates)
-    print("   by priority: " + ", ".join(f"p{k}={v}" for k, v in sorted(prio_n.items())))
-    status_n = Counter(c[1] for c in candidates)
-    print("   by status  : " + ", ".join(f"{k}={v}" for k, v in status_n.most_common()))
+    print(f" candidates: {len(candidates)} workable issues")
+    print("   by preferred provider: " + ", ".join(f"{k}={v}" for k, v in pref_n.most_common()))
+    print("   by status            : " + ", ".join(f"{k}={v}" for k, v in status_n.most_common()))
 
-    plan = make_plan(target_pool, candidates, load, args.max_per_agent)
+    plan = make_plan(idle_pool, candidates, load, args.max_per_agent, args.max_moves,
+                     args.min_kimi_working, working_by_prov.get("kimi", 0))
+    kimi_n = sum(1 for (_, tgt, *_) in plan if tgt["_provider"] == "kimi")
+    codex_n = sum(1 for (_, tgt, *_) in plan if tgt["_provider"] == "codex")
+    claude_n = sum(1 for (_, tgt, *_) in plan if tgt["_provider"] == "claude")
     print()
-    print(f" PLAN: {len(plan)} moves")
+    print(f" PLAN: {len(plan)} moves  "
+          f"(kimi +{kimi_n}, codex +{codex_n}, claude +{claude_n})")
+    print(f" kimi working will go: {working_by_prov.get('kimi',0)} -> "
+          f"~{working_by_prov.get('kimi',0) + kimi_n}")
     print("=" * 70)
     if not plan:
         print(" nothing to do")
