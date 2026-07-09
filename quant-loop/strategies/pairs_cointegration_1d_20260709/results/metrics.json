@@ -1,0 +1,27 @@
+{
+  "_alias_note": "This is an alias of run_summary.json, generated for tools that look for the canonical metrics.json filename. The authoritative machine-readable result file is run_summary.json.",
+  "strategy": "pairs_cointegration_1d_20260709",
+  "universe": ["BTCUSDT", "ETHUSDT", "SOLUSDT"],
+  "n_active_pairs": 1,
+  "n_total_trades": 22,
+  "portfolio_total_pnl_usd": 2428.4365487453347,
+  "portfolio_total_pnl_pct": 0.024284365487453347,
+  "starting_capital_usd": 100000.0,
+  "fees_bps_per_side": 2.0,
+  "slippage_bps_per_side": 2.0,
+  "historical_coint_breaks_count": 16,
+  "active_pair": {
+    "pair_key": "BTCUSDT-SOLUSDT",
+    "p_value": 0.048,
+    "alpha": 7.730,
+    "beta": 0.786,
+    "r_squared": 0.814,
+    "n_trades": 22,
+    "win_rate": 0.8181818181818182,
+    "pnl_usd": 2428.4365487453347,
+    "pnl_pct": 0.024284365487453347
+  },
+  "tests": "20/20 passing in 0.77s (tests/test_cointegration.py)",
+  "commit": "6ec6d2c07",
+  "branch": "feat/pairs-cointegration-1d-20260709"
+}
