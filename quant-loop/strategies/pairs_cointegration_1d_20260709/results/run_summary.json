@@ -1,0 +1,78 @@
+{
+  "strategy": "pairs_cointegration_1d_20260709",
+  "universe": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "n_active_pairs": 1,
+  "n_total_trades": 22,
+  "portfolio_total_pnl_usd": 2428.4365487453347,
+  "portfolio_total_pnl_pct": 0.024284365487453347,
+  "starting_capital_usd": 100000.0,
+  "fees_bps_per_side": 2.0,
+  "slippage_bps_per_side": 2.0,
+  "historical_coint_breaks_count": 16,
+  "historical_coint_breaks_first10": [
+    {
+      "pair": "BTCUSDT-ETHUSDT",
+      "date": "2024-12-01",
+      "p_value_before": 0.038783888765071085,
+      "p_value_after": 0.10135577807483476
+    },
+    {
+      "pair": "BTCUSDT-ETHUSDT",
+      "date": "2025-02-23",
+      "p_value_before": 0.03980025075960869,
+      "p_value_after": 0.0642828829775931
+    },
+    {
+      "pair": "BTCUSDT-ETHUSDT",
+      "date": "2025-04-20",
+      "p_value_before": 0.024807053854503044,
+      "p_value_after": 0.24332357423627549
+    },
+    {
+      "pair": "BTCUSDT-ETHUSDT",
+      "date": "2025-08-03",
+      "p_value_before": 0.02975079288613336,
+      "p_value_after": 0.09004095233467796
+    },
+    {
+      "pair": "BTCUSDT-ETHUSDT",
+      "date": "2026-01-11",
+      "p_value_before": 0.0376657325534762,
+      "p_value_after": 0.13806998478617677
+    },
+    {
+      "pair": "BTCUSDT-ETHUSDT",
+      "date": "2026-04-05",
+      "p_value_before": 0.0143117447447319,
+      "p_value_after": 0.05304630607279751
+    },
+    {
+      "pair": "BTCUSDT-SOLUSDT",
+      "date": "2024-09-29",
+      "p_value_before": 0.047583191954656115,
+      "p_value_after": 0.11125561190092276
+    },
+    {
+      "pair": "BTCUSDT-SOLUSDT",
+      "date": "2024-12-08",
+      "p_value_before": 0.002489171972822157,
+      "p_value_after": 0.05244765483595311
+    },
+    {
+      "pair": "BTCUSDT-SOLUSDT",
+      "date": "2025-02-09",
+      "p_value_before": 0.03275177645534699,
+      "p_value_after": 0.08626504467741719
+    },
+    {
+      "pair": "BTCUSDT-SOLUSDT",
+      "date": "2025-04-27",
+      "p_value_before": 0.004597632741053641,
+      "p_value_after": 0.09977833999751318
+    }
+  ]
+}
