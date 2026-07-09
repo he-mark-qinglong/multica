@@ -202,6 +202,8 @@ class MultiPairResult:
     n_blocked_entries: int
     n_pair_pauses: int
     n_portfolio_pauses: int
+    portfolio_sharpe: float = 0.0
+    portfolio_max_drawdown: float = 0.0
 
 
 def run_multi_pair_backtest(cfg: dict) -> MultiPairResult:
@@ -265,6 +267,24 @@ def run_multi_pair_backtest(cfg: dict) -> MultiPairResult:
     portfolio_pnl_pct = portfolio_pnl_usd / starting_cap
     n_total = sum(r.n_trades for r in pair_results.values())
 
+    # Portfolio-level performance metrics (Sharpe, max drawdown). The
+    # B4 performance-analyst will replace these with rigorous market-
+    # neutrality verification; we surface enough here so the B1/B2
+    # evidence gate can confirm a real backtest produced a real curve.
+    portfolio_sharpe = 0.0
+    portfolio_max_drawdown = 0.0
+    if len(portfolio_equity) > 1:
+        # Daily returns: pct change of the equity curve.
+        eq = portfolio_equity.to_numpy(dtype=float)
+        daily_ret = np.diff(eq) / np.maximum(eq[:-1], 1e-9)
+        if daily_ret.size > 1:
+            mu = float(daily_ret.mean())
+            sd = float(daily_ret.std(ddof=1))
+            portfolio_sharpe = float(mu / sd * np.sqrt(252.0)) if sd > 0 else 0.0
+        peaks = np.maximum.accumulate(eq)
+        dd = (eq - peaks) / np.maximum(peaks, 1e-9)
+        portfolio_max_drawdown = float(dd.min())
+
     # State-machine audit
     n_pair_pauses = sum(1 for p in state.pairs.values() if p.is_paused)
     n_portfolio_pauses = 1 if state.is_portfolio_paused else 0
@@ -304,6 +324,8 @@ def run_multi_pair_backtest(cfg: dict) -> MultiPairResult:
         n_blocked_entries=n_blocked_entries,
         n_pair_pauses=n_pair_pauses,
         n_portfolio_pauses=n_portfolio_pauses,
+        portfolio_sharpe=portfolio_sharpe,
+        portfolio_max_drawdown=portfolio_max_drawdown,
     )
 
 
@@ -389,6 +411,12 @@ def persist_results(result: MultiPairResult) -> Dict[str, str]:
         "universe": result.universe,
         "n_active_pairs": result.n_active_pairs,
         "n_total_trades": result.n_total_trades,
+        "win_rate": (
+            sum(r.win_rate * r.n_trades for r in result.pair_results.values())
+            / max(1, result.n_total_trades)
+        ),
+        "sharpe": result.portfolio_sharpe,
+        "max_drawdown": result.portfolio_max_drawdown,
         "portfolio_total_pnl_usd": result.portfolio_total_pnl_usd,
         "portfolio_total_pnl_pct": result.portfolio_total_pnl_pct,
         "starting_capital_usd": result.cfg["starting_capital_usd"],

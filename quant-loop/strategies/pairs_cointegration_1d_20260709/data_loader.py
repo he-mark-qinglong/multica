@@ -163,8 +163,12 @@ def main() -> int:
     drift = manifest.verify()
     if drift:
         print(f"  !! drift detected on: {drift}", flush=True)
+    # NOTE: pass `data_dir=DATA_DIR` explicitly here rather than relying on
+    # the function default, because monkeypatching module-level DATA_DIR at
+    # test time does not affect function defaults (which are captured at
+    # definition time). Explicit threading keeps the test redictable.
     for sym in cfg["instruments"]:
-        df = load_symbol_1d(sym, refresh=True)
+        df = load_symbol_1d(sym, data_dir=DATA_DIR, refresh=True)
         print(
             f"  cached  {sym:<8} rows={len(df)} "
             f"span={df.index[0].date()}..{df.index[-1].date()}"

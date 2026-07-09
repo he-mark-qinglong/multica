@@ -8,10 +8,12 @@ Covers:
   - The state machine is called per entry/exit
 
 All tests are deterministic (fixed seeds, deterministic prices).
+
+The synthetic data generators live in `_synthetic.py` and are shared with
+`test_cointegration_*.py` so the suite has a single source of truth.
 """
 from __future__ import annotations
 
-from collections import deque
 from typing import List, Tuple
 
 import numpy as np
@@ -21,65 +23,7 @@ import pytest
 import strategy
 from portfolio import PortfolioState, PairAllocation
 
-# ---------------------------------------------------------------------------
-# Synthetic data generators — reuse the same pattern as test_cointegration.py
-# so behavior is consistent across the suite.
-# ---------------------------------------------------------------------------
-def make_cointegrated_prices(
-    n: int = 400,
-    true_beta: float = 1.5,
-    seed: int = 100,
-    ar1_phi: float = 0.5,
-) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    """Two OHLCV-ish DataFrames whose log-prices are cointegrated.
-
-    We only need `close` columns for the strategy. Index is daily bars.
-    """
-    rng = np.random.default_rng(seed)
-    log_x = np.cumsum(rng.normal(0.0, 0.05, size=n))
-    s = np.zeros(n)
-    for i in range(1, n):
-        s[i] = ar1_phi * s[i - 1] + rng.normal(0.0, 0.05)
-    log_y = true_beta * log_x + s
-
-    idx = pd.date_range("2024-01-01", periods=n, freq="1D")
-    px_a = np.exp(log_y)
-    px_b = np.exp(log_x)
-    df_a = pd.DataFrame({"open": px_a, "high": px_a, "low": px_a,
-                         "close": px_a, "volume": np.ones(n)}, index=idx)
-    df_b = pd.DataFrame({"open": px_b, "high": px_b, "low": px_b,
-                         "close": px_b, "volume": np.ones(n)}, index=idx)
-    return df_a, df_b
-
-
-def make_coint_break_prices(
-    n: int = 400,
-    break_at: int = 200,
-    true_beta: float = 1.5,
-    seed: int = 200,
-) -> Tuple[pd.DataFrame, pd.DataFrame, int]:
-    """Cointegrated pair with a structural break inserted at `break_at`.
-
-    Returns (df_a, df_b, break_index). At `break_at`, the spread gets a
-    permanent +0.5 shock that pushes the z-score above 4σ.
-    """
-    rng = np.random.default_rng(seed)
-    log_x = np.cumsum(rng.normal(0.0, 0.05, size=n))
-    s = np.zeros(n)
-    for i in range(1, n):
-        s[i] = 0.5 * s[i - 1] + rng.normal(0.0, 0.05)
-    log_y = true_beta * log_x + s
-    # Insert a permanent +0.5 shock to the spread starting at break_at.
-    log_y[break_at:] += 0.5
-
-    idx = pd.date_range("2024-01-01", periods=n, freq="1D")
-    px_a = np.exp(log_y)
-    px_b = np.exp(log_x)
-    df_a = pd.DataFrame({"open": px_a, "high": px_a, "low": px_a,
-                         "close": px_a, "volume": np.ones(n)}, index=idx)
-    df_b = pd.DataFrame({"open": px_b, "high": px_b, "low": px_b,
-                         "close": px_b, "volume": np.ones(n)}, index=idx)
-    return df_a, df_b, break_at
+from ._synthetic import make_coint_break_prices, make_cointegrated_prices
 
 
 def _default_cfg() -> dict:
