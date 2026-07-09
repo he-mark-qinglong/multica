@@ -11,6 +11,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 	"testing"
 
 	"github.com/spf13/cobra"
@@ -2037,6 +2038,92 @@ func TestRunIssueCommentList_DoesNotPrintShowingPreamble(t *testing.T) {
 	if got := stderr.read(); strings.Contains(got, "Showing") {
 		t.Errorf("stderr must not contain a 'Showing ...' preamble, got: %q", got)
 	}
+}
+
+func TestRunIssueStatusCancelIsIdempotent(t *testing.T) {
+	// Spec (EPIC-A:A7): issuing `multica issue status <id> cancelled` on an
+	// issue whose current status is already `cancelled` must be a no-op —
+	// no PUT must be sent to the update endpoint. This protects:
+	//   * dispatcher/replay loops from generating redundant traffic
+	//     when an autopilot re-issues cancel after the first call lands
+	//   * last-write-wins side effects (updated_at bumps, audit log entries)
+	//     that would otherwise fire on every retry.
+	//
+	// The current implementation always PUTs regardless of the current
+	// status, so this test is expected to be RED until the idempotency
+	// short-circuit is added to runIssueStatus.
+
+	const issueUUID = "11111111-2222-3333-4444-555555555555"
+
+	var (
+		mu          sync.Mutex
+		methodCalls []recordedCall
+	)
+	record := func(method, path string) {
+		mu.Lock()
+		defer mu.Unlock()
+		methodCalls = append(methodCalls, recordedCall{Method: method, Path: path})
+	}
+
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		record(r.Method, r.URL.Path)
+		switch {
+		case r.URL.Path == "/api/issues/SMA-4815" && r.Method == http.MethodGet:
+			// Issue already cancelled — the precondition for the idempotency check.
+			json.NewEncoder(w).Encode(map[string]any{
+				"id":         issueUUID,
+				"identifier": "SMA-4815",
+				"title":      "cancel idempotency",
+				"status":     "cancelled",
+			})
+		case r.URL.Path == "/api/issues/"+issueUUID && r.Method == http.MethodPut:
+			// If runIssueStatus issues this PUT, the idempotency contract is broken.
+			t.Errorf("unexpected PUT to %s — cancel of an already-cancelled issue must be a no-op", r.URL.Path)
+			w.WriteHeader(http.StatusOK)
+			json.NewEncoder(w).Encode(map[string]any{
+				"id":         issueUUID,
+				"identifier": "SMA-4815",
+				"status":     "cancelled",
+			})
+		default:
+			http.NotFound(w, r)
+		}
+	}))
+	defer srv.Close()
+
+	t.Setenv("MULTICA_SERVER_URL", srv.URL)
+	t.Setenv("MULTICA_WORKSPACE_ID", "ws-1")
+	t.Setenv("MULTICA_TOKEN", "test-token")
+
+	cmd := newIssueStatusTestCmd()
+	if err := runIssueStatus(cmd, []string{"SMA-4815", "cancelled"}); err != nil {
+		t.Fatalf("runIssueStatus on already-cancelled issue returned error: %v", err)
+	}
+
+	mu.Lock()
+	defer mu.Unlock()
+
+	// Exactly one request — the GET that resolves the issue reference — and
+	// no PUTs against the update endpoint.
+	if len(methodCalls) != 1 {
+		t.Fatalf("got %d HTTP calls, want 1 (no-op should not hit PUT): %+v", len(methodCalls), methodCalls)
+	}
+	if methodCalls[0].Method != http.MethodGet || methodCalls[0].Path != "/api/issues/SMA-4815" {
+		t.Fatalf("got call %+v, want GET /api/issues/SMA-4815", methodCalls[0])
+	}
+}
+
+// recordedCall is the minimum we need to assert on HTTP traffic inside the
+// idempotency test. It avoids pulling in a third-party matcher dependency.
+type recordedCall struct {
+	Method string
+	Path   string
+}
+
+func newIssueStatusTestCmd() *cobra.Command {
+	cmd := &cobra.Command{Use: "status"}
+	cmd.Flags().String("output", "table", "")
+	return cmd
 }
 
 func TestValidIssueStatuses(t *testing.T) {

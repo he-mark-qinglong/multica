@@ -1,0 +1,49 @@
+{
+  "strategy": "vpvr_reversion_1m_kama_reversal_20260709",
+  "iteration": 67,
+  "timeframe": "1m",
+  "source_timeframe": "1m",
+  "instruments": ["SOLUSDT"],
+  "data_source": "binance_usdm_1m_canonical",
+  "kama": {
+    "er_period": 14,
+    "fast": 2,
+    "slow": 30,
+    "src": "close"
+  },
+  "rsi": {
+    "period": 9,
+    "overbought": 75,
+    "oversold": 25
+  },
+  "vpvr": {
+    "window_bars": 240,
+    "n_bins": 18,
+    "value_area_pct": 0.7
+  },
+  "entry": {
+    "kama_pivot_atr": 0.5,
+    "rsi_divergence_lookback": 30,
+    "vpvr_distance_z_min": 0.4
+  },
+  "exit": {
+    "time_stop_bars": 60,
+    "time_stop_min_pnl_atr": 0.0,
+    "atr_trailing_k": 2.0,
+    "profit_lock_atr": 1.5
+  },
+  "sizing": {
+    "per_signal_weight_pct": 0.01,
+    "max_gross_exposure_pct": 0.05
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "Iteration #67 (Campaign 2026-07-09). New entry: KAMA pivot reversal + RSI divergence.",
+    "First VPVR variant explicitly trying reversal (not breakout) at 1m on SOLUSDT.",
+    "Time-stop (60 bars = 1h) is the headline exit — the strategy is meant to be short-horizon.",
+    "Universe shrunk to SOLUSDT for isolated study.",
+    "Direction: long+short (bidirectional)."
+  ]
+}

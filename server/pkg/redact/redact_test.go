@@ -203,6 +203,47 @@ func TestInputMapNil(t *testing.T) {
 	}
 }
 
+// TestInputMapEdgeCases pins the non-nil-empty and nil-value contract
+// of InputMap. The nil-input case is covered separately (TestInputMapNil);
+// this test guards the two near-miss shapes that also need explicit
+// behaviour:
+//
+//   - An empty non-nil map (e.g. map[string]any{}) must round-trip to a
+//     non-nil empty map, not nil. nil is reserved for "caller had no map
+//     at all" — passing an empty literal is a legitimate "I have nothing
+//     to redact" signal that callers can still range over.
+//   - nil-valued entries must be preserved as nil (not converted to an
+//     empty string). The type assertion v.(string) fails for nil so the
+//     else-branch keeps the value verbatim; pinning it here catches a
+//     future refactor that might (incorrectly) treat nil as "".
+func TestInputMapEdgeCases(t *testing.T) {
+	t.Parallel()
+
+	t.Run("empty non-nil map stays non-nil", func(t *testing.T) {
+		t.Parallel()
+		got := InputMap(map[string]any{})
+		if got == nil {
+			t.Fatal("InputMap(empty non-nil map) returned nil; want non-nil empty map")
+		}
+		if len(got) != 0 {
+			t.Fatalf("InputMap(empty non-nil map) returned %d entries; want 0", len(got))
+		}
+	})
+
+	t.Run("nil value preserved as nil", func(t *testing.T) {
+		t.Parallel()
+		in := map[string]any{"k": nil}
+		got := InputMap(in)
+		v, ok := got["k"]
+		if !ok {
+			t.Fatal("nil-valued key lost from output")
+		}
+		if v != nil {
+			t.Fatalf("nil value altered: got %#v; want nil", v)
+		}
+	})
+}
+
 func TestRedactMultipleSecrets(t *testing.T) {
 	t.Parallel()
 	input := "Keys: AKIAIOSFODNN7EXAMPLE and ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn"

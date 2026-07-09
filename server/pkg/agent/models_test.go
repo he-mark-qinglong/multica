@@ -908,3 +908,37 @@ func TestCachedDiscovery(t *testing.T) {
 		t.Errorf("expected 1 underlying call due to cache, got %d", calls)
 	}
 }
+
+// TestModelSelectionSupportedAllKnownProviders pins that every built-in
+// provider reports model selection as supported. The hook is retained as
+// a per-provider override point (per the doc comment on the function) so
+// a future model-less runtime can opt out by changing a single map
+// lookup; this test guards the "today every provider is supported"
+// invariant. Hermes and Antigravity already had their own dedicated
+// regression tests; the rest are covered here so adding a new provider
+// to ListModels without re-evaluating this contract fails loudly.
+func TestModelSelectionSupportedAllKnownProviders(t *testing.T) {
+	t.Parallel()
+
+	supported := []string{
+		"claude",
+		"codex",
+		"gemini",
+		"antigravity",
+		"cursor",
+		"copilot",
+		"hermes",
+		"kimi",
+		"kiro",
+		"opencode",
+		"pi",
+		"openclaw",
+	}
+	for _, provider := range supported {
+		t.Run(provider, func(t *testing.T) {
+			if !ModelSelectionSupported(provider) {
+				t.Errorf("ModelSelectionSupported(%q) = false, want true (provider is wired end-to-end)", provider)
+			}
+		})
+	}
+}

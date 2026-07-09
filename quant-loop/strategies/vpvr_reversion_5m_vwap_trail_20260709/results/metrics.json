@@ -1,0 +1,29 @@
+{
+  "iteration": 65,
+  "timeframe": "5m",
+  "instruments": [
+    "BTCUSDT",
+    "ETHUSDT"
+  ],
+  "by_symbol": {
+    "BTCUSDT": {
+      "sharpe": -0.6690098825414167,
+      "mdd": -0.010073974292418415,
+      "n_trades": 3308,
+      "win_rate": 0.5145102781136639,
+      "profit_factor": 0.9410056406268777,
+      "total_return": -0.006838914040397159
+    },
+    "ETHUSDT": {
+      "sharpe": -0.9753214340856234,
+      "mdd": -0.015848245984983432,
+      "n_trades": 3228,
+      "win_rate": 0.5157992565055762,
+      "profit_factor": 0.9144391691176572,
+      "total_return": -0.014401938511528822
+    }
+  },
+  "agg_sharpe_mean": -0.8221656583135201,
+  "agg_mdd_worst": -0.015848245984983432,
+  "agg_n_trades_total": 6536
+}
