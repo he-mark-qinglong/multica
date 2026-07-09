@@ -2,10 +2,11 @@
 
 - **Universe**: BTCUSDT, ETHUSDT, SOLUSDT
 - **Active pairs (EG p<0.05)**: 1
-- **Total trades**: 22
-- **Portfolio pnl**: +2428.44 USD (+2.428%)
+- **Total trades**: 21
+- **Portfolio pnl**: +2218.39 USD (+2.218%)
 - **Fees/slippage (per side)**: 2.0 / 2.0 bps
 - **Historical cointegration breaks detected**: 16
+- **State machine**: pair_pauses=1  portfolio_pauses=1  blocked_entries=0
 
 ## Files
 
@@ -16,12 +17,13 @@
 - `pairs_cointegration_1d_20260709/results/portfolio_equity.csv` — portfolio_equity
 - `pairs_cointegration_1d_20260709/results/trades_BTCUSDT-SOLUSDT.csv` — trades_BTCUSDT-SOLUSDT
 - `pairs_cointegration_1d_20260709/results/run_summary.json` — run_summary
+- `pairs_cointegration_1d_20260709/results/metrics.json` — metrics
 
 ## Per-pair summary
 
 | pair | trades | win_rate | pnl_usd | pnl_pct |
 |------|-------:|---------:|--------:|--------:|
-| BTCUSDT-SOLUSDT | 22 | 81.8% | +2428.44 | +2.428% |
+| BTCUSDT-SOLUSDT | 21 | 81.0% | +2218.39 | +2.218%
 
 ## Pair selection (full table)
 

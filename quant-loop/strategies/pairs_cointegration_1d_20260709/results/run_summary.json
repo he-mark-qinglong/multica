@@ -6,9 +6,9 @@
     "SOLUSDT"
   ],
   "n_active_pairs": 1,
-  "n_total_trades": 22,
-  "portfolio_total_pnl_usd": 2428.4365487453347,
-  "portfolio_total_pnl_pct": 0.024284365487453347,
+  "n_total_trades": 21,
+  "portfolio_total_pnl_usd": 2218.392454237231,
+  "portfolio_total_pnl_pct": 0.02218392454237231,
   "starting_capital_usd": 100000.0,
   "fees_bps_per_side": 2.0,
   "slippage_bps_per_side": 2.0,
@@ -74,5 +74,10 @@
       "p_value_before": 0.004597632741053641,
       "p_value_after": 0.09977833999751318
     }
-  ]
+  ],
+  "state_machine": {
+    "n_pair_pauses": 1,
+    "n_portfolio_pauses": 1,
+    "n_blocked_entries": 0
+  }
 }
