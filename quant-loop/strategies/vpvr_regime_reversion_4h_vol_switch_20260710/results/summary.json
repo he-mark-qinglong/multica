@@ -1,0 +1,25 @@
+[
+  {
+    "symbol": "SOLUSDT",
+    "rows": 4751,
+    "span_start": "2024-04-23",
+    "span_end": "2026-06-23",
+    "timeframe": "4h",
+    "iteration": 72,
+    "axis": "vol_regime",
+    "strategy": {
+      "trades": 87,
+      "win_rate": 0.47126436781609193,
+      "profit_factor": 0.8793404852527188,
+      "avg_hold_bars": 9.425287356321839,
+      "total_return": -0.0014796138338230014,
+      "sharpe": -0.2454348839756351,
+      "sortino": -0.05837041081989908,
+      "max_dd": -0.0047404271377222435,
+      "turnover_per_year": 40.1728824273072
+    },
+    "buy_hold": {
+      "total_return": -0.5555917869919191
+    }
+  }
+]
