@@ -1,0 +1,58 @@
+{
+  "strategy": "xs_momentum_rank_1d_20260709",
+  "n_rebalances": 762,
+  "total_return": 0.05343488985595357,
+  "annualized_return": 0.025299637593340973,
+  "annualized_sharpe": 0.32384416526800686,
+  "annualized_sortino": 0.44436300112587634,
+  "max_drawdown": -0.09063072701889711,
+  "avg_gross": 0.29999999999999993,
+  "total_turnover": 25.048073141527464,
+  "avg_per_bar_turnover": 0.03287148706237197,
+  "paused_days": 0,
+  "daily_loss_flatten_days": 1,
+  "equity_curve_start": "2024-05-23",
+  "equity_curve_end": "2026-06-23",
+  "active_universe": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "target_universe": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "BNBUSDT",
+    "XRPUSDT",
+    "ADAUSDT",
+    "DOGEUSDT",
+    "AVAXUSDT",
+    "LINKUSDT",
+    "DOTUSDT"
+  ],
+  "active_vs_target": {
+    "target_n": 10,
+    "active_n": 3,
+    "missing": [
+      "BNBUSDT",
+      "XRPUSDT",
+      "ADAUSDT",
+      "DOGEUSDT",
+      "AVAXUSDT",
+      "LINKUSDT",
+      "DOTUSDT"
+    ]
+  },
+  "factor_exposure": {
+    "long": {
+      "ETHUSDT": 0.027821522309711327,
+      "SOLUSDT": 0.028608923884514487,
+      "BTCUSDT": 0.04356955380577454
+    },
+    "short": {
+      "BTCUSDT": 0.05643044619422617,
+      "SOLUSDT": 0.07139107611548623,
+      "ETHUSDT": 0.07217847769028939
+    }
+  }
+}
