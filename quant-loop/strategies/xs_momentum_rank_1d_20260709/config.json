@@ -1,0 +1,64 @@
+{
+  "strategy": "xs_momentum_rank_1d_20260709",
+  "iteration": 1,
+  "branch": "001",
+  "parent_strategy": null,
+  "parent_iter": null,
+  "timeframe": "1d",
+  "source_timeframe": "1m",
+  "target_universe": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "BNBUSDT",
+    "XRPUSDT",
+    "ADAUSDT",
+    "DOGEUSDT",
+    "AVAXUSDT",
+    "LINKUSDT",
+    "DOTUSDT"
+  ],
+  "active_universe": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "data_source": "binance_usdm_1m_canonical",
+  "lookback_days": 365,
+  "momentum": {
+    "weight_30d": 0.5,
+    "weight_7d": 0.3,
+    "weight_3d": 0.2,
+    "min_history_bars": 35
+  },
+  "universe_filter": {
+    "min_bars_in_last_7d": 5,
+    "min_usd_volume_per_day": 1000000.0
+  },
+  "portfolio": {
+    "top_k_default": 3,
+    "bottom_k_default": 3,
+    "gross_target_pct": 0.6,
+    "per_leg_max_pct_nav": 0.10,
+    "per_symbol_max_pct_nav": 0.10,
+    "rebalance_freq": "1d",
+    "rebalance_hour_utc": 0
+  },
+  "risk": {
+    "daily_loss_flatten_pct": -0.02,
+    "monthly_loss_pause_pct": -0.05,
+    "monthly_pause_days": 30
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "Iteration #1 branch 001: first cross-sectional strategy in quant-loop.",
+    "Universe is rank-based across `target_universe` (10 majors), but only symbols with daily data on the canonical Binance fapi feed are tradeable today (3 symbols today: BTCUSDT/ETHUSDT/SOLUSDT). The strategy is built to take any N >= 6 and the per-leg weights are adapted so the position caps hold.",
+    "Momentum score = 0.5 * return_30d + 0.3 * return_7d + 0.2 * return_3d.",
+    "Portfolio: long top-K, short bottom-K, equal-weight within each side (1/(2K) of NAV per leg, capped at per_symbol_max_pct_nav).",
+    "Rebalance: every 1d bar at the configured UTC hour; signals are computed on the prior bar's close.",
+    "Risk: -2% daily PnL -> flatten all positions; -5% monthly PnL -> pause 30d.",
+    "Universe filter: a symbol must have >= 5 bars in the last 7d AND daily USD volume (close*volume) > $1M."
+  ]
+}
