@@ -1,0 +1,24 @@
+{
+  "strategy": "xs_momentum_rank_1d_20260709",
+  "sharpe": 0.3238,
+  "sortino": 0.4444,
+  "mdd": -0.0906,
+  "total_return": 0.0534,
+  "annualized_return": 0.0253,
+  "n_trades": 762,
+  "n_trades_alt_definition": 2286,
+  "n_rebalances": 762,
+  "total_turnover": 25.0481,
+  "avg_gross": 0.3,
+  "paused_days": 0,
+  "daily_loss_flatten_days": 1,
+  "equity_curve_start": "2024-05-23",
+  "equity_curve_end": "2026-06-23",
+  "active_universe": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "target_universe_size": 10,
+  "data_source": "Binance USD-M 1m parquet canonical (SHA256 manifest)"
+}

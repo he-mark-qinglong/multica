@@ -1,0 +1,85 @@
+{
+  "windows": [
+    {
+      "window_idx": 0,
+      "train_start": "2024-04-23",
+      "train_end": "2025-04-22",
+      "test_start": "2025-04-23",
+      "test_end": "2025-06-21",
+      "sharpe_train": 0.12233035277396748,
+      "sharpe_test": -0.19570871001546222,
+      "mdd_test": -0.026250841053948842,
+      "return_test": -0.0027379011897812333,
+      "n_trades_test": 60,
+      "n_rebalances_train": 335,
+      "n_rebalances_test": 60
+    },
+    {
+      "window_idx": 1,
+      "train_start": "2024-06-22",
+      "train_end": "2025-06-21",
+      "test_start": "2025-06-22",
+      "test_end": "2025-08-20",
+      "sharpe_train": -0.12608820251378017,
+      "sharpe_test": -0.4483798999685083,
+      "mdd_test": -0.032909825034364334,
+      "return_test": -0.00564533394060418,
+      "n_trades_test": 60,
+      "n_rebalances_train": 365,
+      "n_rebalances_test": 60
+    },
+    {
+      "window_idx": 2,
+      "train_start": "2024-08-21",
+      "train_end": "2025-08-20",
+      "test_start": "2025-08-21",
+      "test_end": "2025-10-19",
+      "sharpe_train": 0.03918494768571119,
+      "sharpe_test": -0.8762923410634978,
+      "mdd_test": -0.03113486594941046,
+      "return_test": -0.013880857566271332,
+      "n_trades_test": 60,
+      "n_rebalances_train": 365,
+      "n_rebalances_test": 60
+    },
+    {
+      "window_idx": 3,
+      "train_start": "2024-10-20",
+      "train_end": "2025-10-19",
+      "test_start": "2025-10-20",
+      "test_end": "2025-12-18",
+      "sharpe_train": 0.24365021268144202,
+      "sharpe_test": 2.370823886171449,
+      "mdd_test": -0.019254538876493487,
+      "return_test": 0.036541513523466795,
+      "n_trades_test": 60,
+      "n_rebalances_train": 365,
+      "n_rebalances_test": 60
+    },
+    {
+      "window_idx": 4,
+      "train_start": "2024-12-19",
+      "train_end": "2025-12-18",
+      "test_start": "2025-12-19",
+      "test_end": "2026-02-16",
+      "sharpe_train": 0.6788263473371774,
+      "sharpe_test": 1.4234613504944411,
+      "mdd_test": -0.02031614335534461,
+      "return_test": 0.020848015476381487,
+      "n_trades_test": 60,
+      "n_rebalances_train": 365,
+      "n_rebalances_test": 60
+    }
+  ],
+  "aggregate": {
+    "avg_sharpe_train": 0.1915807315929036,
+    "avg_sharpe_test": 0.4547808571236843,
+    "avg_mdd_test": -0.025973242853912348,
+    "avg_return_test": 0.007025087260638307,
+    "stability_ratio": 2.373834014216334,
+    "n_windows": 5,
+    "train_days": 365,
+    "test_days": 60,
+    "step_days": 60
+  }
+}

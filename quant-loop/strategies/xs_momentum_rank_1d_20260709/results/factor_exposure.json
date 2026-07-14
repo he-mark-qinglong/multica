@@ -8,5 +8,18 @@
     "BTCUSDT": 0.05643044619422617,
     "SOLUSDT": 0.07139107611548623,
     "ETHUSDT": 0.07217847769028939
+  },
+  "v2": {
+    "avg_daily_return": 7.954096339465243e-05,
+    "annualized_volatility": 0.07444175585910055,
+    "long_leg_pnl_contribution": 0.006053067314333051,
+    "short_leg_pnl_contribution": -0.012106134628666103,
+    "per_symbol_net_contribution": {
+      "BTCUSDT": 0.04172921080629214,
+      "ETHUSDT": -0.009276178597418458,
+      "SOLUSDT": -0.038506099523206674
+    },
+    "weight_hhi_avg": 0.33333333333333337,
+    "implied_avg_holding_period_days": 30.42146909346417
   }
 }
