@@ -63,9 +63,13 @@ func (s *stderrTail) Tail() string {
 // withAgentStderr appends a stderr tail hint to an error message when
 // non-empty, otherwise returns msg unchanged. The tail is prefixed with a
 // short label so the composed string stays readable even when the original
-// msg is already verbose.
+// msg is already verbose. A whitespace-only tail is treated as empty:
+// stderrTail.Tail() already trims before exposing the value, so a
+// downstream caller that hands its result straight to withAgentStderr
+// would otherwise append a noisy "; <label> stderr: " suffix with no
+// payload when the agent CLI exited cleanly without writing anything.
 func withAgentStderr(msg, label, tail string) string {
-	if tail == "" {
+	if strings.TrimSpace(tail) == "" {
 		return msg
 	}
 	return msg + "; " + label + " stderr: " + tail

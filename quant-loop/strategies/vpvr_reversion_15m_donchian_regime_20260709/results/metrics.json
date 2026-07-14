@@ -1,0 +1,20 @@
+{
+  "iteration": 66,
+  "timeframe": "15m",
+  "instruments": [
+    "BTCUSDT"
+  ],
+  "by_symbol": {
+    "BTCUSDT": {
+      "sharpe": 0.09646777518415167,
+      "mdd": -0.003217229617268278,
+      "n_trades": 960,
+      "win_rate": 0.36770833333333336,
+      "profit_factor": 1.0163217227688532,
+      "total_return": 0.0007651403614807872
+    }
+  },
+  "agg_sharpe_mean": 0.09646777518415167,
+  "agg_mdd_worst": -0.003217229617268278,
+  "agg_n_trades_total": 960
+}

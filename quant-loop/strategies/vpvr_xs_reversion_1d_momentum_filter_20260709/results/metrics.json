@@ -1,0 +1,39 @@
+{
+  "iteration": 68,
+  "timeframe": "1d",
+  "instruments": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "portfolio": true,
+  "sharpe": -0.3882503206826756,
+  "mdd": -0.0915036301641324,
+  "n_trades": 87,
+  "win_rate": 0.5862068965517241,
+  "profit_factor": 0.9487468451780013,
+  "total_return": -0.06123794676605743,
+  "by_symbol": {
+    "SOLUSDT": {
+      "n_trades": 42,
+      "pnl_sum": 0.2663417842050797,
+      "wins": 26,
+      "win_rate": 0.6190476190476191,
+      "avg_pnl_pct": 0.006341471052501897
+    },
+    "ETHUSDT": {
+      "n_trades": 36,
+      "pnl_sum": -0.44287929210139954,
+      "wins": 19,
+      "win_rate": 0.5277777777777778,
+      "avg_pnl_pct": -0.01230220255837221
+    },
+    "BTCUSDT": {
+      "n_trades": 9,
+      "pnl_sum": -0.022772203393876422,
+      "wins": 6,
+      "win_rate": 0.6666666666666666,
+      "avg_pnl_pct": -0.0025302448215418247
+    }
+  }
+}

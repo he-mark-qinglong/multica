@@ -3,12 +3,108 @@ package agent
 import (
 	"context"
 	"log/slog"
+	"os"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"strings"
 	"testing"
 	"time"
 )
+
+// sessionPathNameRe matches the UTC-timestamped filename produced by
+// newPiSessionPath: "YYYYMMDDTHHMMSS.nnnnnnnnn.jsonl". The fractional
+// seconds length is hard-coded in pi.go (9 digits) so this regex pins
+// the same shape rather than a placeholder.
+var sessionPathNameRe = regexp.MustCompile(`^\d{8}T\d{6}\.\d{9}\.jsonl$`)
+
+// withSyntheticHome sets the platform's home-env var to dir for the
+// duration of the test, so piSessionDir's call to os.UserHomeDir()
+// honors our override instead of the real user. Returns the value that
+// was set so callers can clear it explicitly if they need to. Mirrors
+// the two env vars os.UserHomeDir checks: HOME on Unix-like systems,
+// USERPROFILE on Windows.
+func withSyntheticHome(t *testing.T, dir string) {
+	t.Helper()
+	switch runtime.GOOS {
+	case "windows":
+		t.Setenv("USERPROFILE", dir)
+	default:
+		t.Setenv("HOME", dir)
+	}
+}
+
+func TestNewPiSessionPathLivesUnderSessionDirAndMatchesFilename(t *testing.T) {
+	home := t.TempDir()
+	withSyntheticHome(t, home)
+
+	got, err := newPiSessionPath()
+	if err != nil {
+		t.Fatalf("newPiSessionPath: %v", err)
+	}
+
+	wantDir := filepath.Join(home, ".multica", "pi-sessions")
+	if filepath.Dir(got) != wantDir {
+		t.Fatalf("newPiSessionPath dir = %q, want %q", filepath.Dir(got), wantDir)
+	}
+	if !sessionPathNameRe.MatchString(filepath.Base(got)) {
+		t.Fatalf("newPiSessionPath filename %q does not match %s",
+			filepath.Base(got), sessionPathNameRe)
+	}
+}
+
+func TestEnsurePiSessionFileCreatesFileWhenMissing(t *testing.T) {
+	dir := t.TempDir()
+	path := filepath.Join(dir, "sub", "session.jsonl")
+
+	if err := ensurePiSessionFile(path); err != nil {
+		t.Fatalf("ensurePiSessionFile: %v", err)
+	}
+
+	info, err := os.Stat(path)
+	if err != nil {
+		t.Fatalf("stat: %v", err)
+	}
+	if info.IsDir() {
+		t.Fatalf("expected file at %q, got directory", path)
+	}
+	if info.Size() != 0 {
+		t.Fatalf("expected empty file, got %d bytes", info.Size())
+	}
+
+	// Mode() masks with the file mode bits; we only check the user bits
+	// (0o644 == rw-r--r--) since umask can shift the group/other bits
+	// on the test host.
+	if mode := info.Mode().Perm(); mode != 0o644 {
+		t.Fatalf("file perms = %o, want 0644", mode)
+	}
+}
+
+func TestEnsurePiSessionFilePreservesExistingContents(t *testing.T) {
+	dir := t.TempDir()
+	path := filepath.Join(dir, "session.jsonl")
+
+	// Seed the file with a non-empty payload that a resumed session
+	// would already contain. ensurePiSessionFile must NOT truncate or
+	// rewrite it; Pi's --session semantics are "append to existing
+	// file, fail if missing."
+	prelude := `{"type":"agent_start"}` + "\n"
+	if err := os.WriteFile(path, []byte(prelude), 0o644); err != nil {
+		t.Fatalf("seed: %v", err)
+	}
+
+	if err := ensurePiSessionFile(path); err != nil {
+		t.Fatalf("ensurePiSessionFile: %v", err)
+	}
+
+	got, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatalf("read: %v", err)
+	}
+	if string(got) != prelude {
+		t.Fatalf("existing contents were disturbed.\nwant: %q\ngot:  %q", prelude, string(got))
+	}
+}
 
 func TestBuildPiArgsNoToolAllowlist(t *testing.T) {
 	// Extension tools registered via Pi's registerTool() must not be

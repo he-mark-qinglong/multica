@@ -1,0 +1,21 @@
+{
+  "iteration": 72,
+  "axis": "vol_regime",
+  "timeframe": "4h",
+  "instruments": [
+    "SOLUSDT"
+  ],
+  "by_symbol": {
+    "SOLUSDT": {
+      "sharpe": -0.2454348839756351,
+      "mdd": -0.0047404271377222435,
+      "n_trades": 87,
+      "win_rate": 0.47126436781609193,
+      "profit_factor": 0.8793404852527188,
+      "total_return": -0.0014796138338230014
+    }
+  },
+  "agg_sharpe_mean": -0.2454348839756351,
+  "agg_mdd_worst": -0.0047404271377222435,
+  "agg_n_trades_total": 87
+}

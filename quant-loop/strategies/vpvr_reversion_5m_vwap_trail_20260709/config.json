@@ -1,0 +1,38 @@
+{
+  "strategy": "vpvr_reversion_5m_vwap_trail_20260709",
+  "iteration": 65,
+  "timeframe": "5m",
+  "source_timeframe": "1m",
+  "instruments": ["BTCUSDT", "ETHUSDT"],
+  "data_source": "binance_usdm_1m_canonical",
+  "vpvr": {
+    "window_bars": 144,
+    "n_bins": 24,
+    "value_area_pct": 0.70
+  },
+  "entry": {
+    "vwap_rejection_z": 1.5,
+    "volume_spike_ratio": 1.6,
+    "vwap_lookback_bars": 48,
+    "vpvr_distance_z_min": 0.6
+  },
+  "exit": {
+    "atr_trailing_k": 3.0,
+    "target_vwap_touch_atr": 1.0,
+    "max_holding_bars": 96
+  },
+  "sizing": {
+    "per_signal_weight_pct": 0.01,
+    "max_gross_exposure_pct": 0.05
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "Iteration #65 (Campaign 2026-07-09). New entry family: VWAP rejection + volume spike.",
+    "Combines intraday VWAP rejection (z>1.5 above/below) with HVN/VAL distance filter derived from a 5m volume profile.",
+    "Exit is 3x ATR trailing — first time we use ATR trailing in this 5m family.",
+    "Universe shrunk to BTCUSDT+ETHUSDT (no SOL) to concentrate liquidity.",
+    "Direction: long+short (bidirectional)."
+  ]
+}

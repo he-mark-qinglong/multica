@@ -1,0 +1,49 @@
+{
+  "strategy": "vpvr_micro_reversion_1h_funding_filter_20260710",
+  "iteration": 70,
+  "timeframe": "1h",
+  "source_timeframe": "1m",
+  "axis": "microstructure",
+  "instruments": ["BTCUSDT"],
+  "data_source": "binance_usdm_1m_canonical",
+  "vpvr": {
+    "window_bars": 168,
+    "n_bins": 24,
+    "value_area_pct": 0.70,
+    "touch_band_pct": 0.05
+  },
+  "funding": {
+    "window_bars": 168,
+    "entry_z": 2.0,
+    "exit_abs_z": 0.5,
+    "name": "funding_proxy_z"
+  },
+  "entry": {
+    "funding_z_long_max": -2.0,
+    "funding_z_short_min": 2.0,
+    "vpvr_touch_required": true
+  },
+  "exit": {
+    "max_holding_bars": 4,
+    "funding_normalize_abs_z": 0.5,
+    "stop_loss_pct": 0.02
+  },
+  "sizing": {
+    "per_signal_weight_pct": 0.01,
+    "max_gross_exposure_pct": 0.05
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "Iteration #70 (Campaign 2026-07-10). NEW axis: microstructure.",
+    "Funding rate is a perp-specific payment between longs and shorts every 8h on Binance.",
+    "Canonical 1m parquets do not carry funding data; we use a defensible proxy:",
+    "    funding_proxy[t] = (close[t] - sma_N[t]) / std_N[t]",
+    "computed on the 1h timeframe over a rolling 1-week window (168 bars).",
+    "The proxy captures persistent one-sided drift in closes (longs or shorts over-leveraged).",
+    "Entry: funding z-score |z| > 2σ AND price touches the VPVR value-area band (±5% of VAH/VAL).",
+    "Exit: 4-bar time stop OR funding normalization (|z|<0.5) OR 2% stop loss.",
+    "Direction: long+short (bidirectional). Universe: BTCUSDT perp only (most liquid)."
+  ]
+}

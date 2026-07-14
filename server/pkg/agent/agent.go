@@ -13,6 +13,35 @@ import (
 )
 
 // Backend is the unified interface for executing prompts via coding agents.
+//
+// Lifecycle (caller's responsibility):
+//
+//   - Execute returns immediately with a *Session; the agent runs in a
+//     background goroutine owned by the backend.
+//   - Drain Session.Messages concurrently with waiting on Session.Result.
+//     A reader that blocks on Result before draining Messages will
+//     deadlock once the channel buffer fills.
+//   - Session.Messages is closed before Result receives its single value.
+//   - Session.Result receives exactly one Result, then is closed.
+//
+// Lifecycle (implementor's responsibility):
+//
+//   - Send every emitted Message on the Messages channel BEFORE Result,
+//     and close Messages before sending Result.
+//   - Honour ctx cancellation: a cancelled ctx must cause Execute to
+//     finish promptly with Result.Status="aborted" (not "completed"),
+//     and to close the child CLI process within the platform-reasonable
+//     grace period (cmd.WaitDelay covers this on POSIX/Windows).
+//   - Never return from the background goroutine without sending Result
+//     and closing both channels; callers rely on Result firing exactly
+//     once to release the task.
+//   - Apply redact.Text to any user-visible string before it leaves the
+//     backend (the daemon-side handler relies on this so secrets don't
+//     reach the database or WebSocket broadcast).
+//
+// The Execute method itself only documents the caller-facing contract;
+// implementors should read this comment too — the daemon-side watchdog
+// is built around the invariants above.
 type Backend interface {
 	// Execute runs a prompt and returns a Session for streaming results.
 	// The caller should read from Session.Messages (optional) and wait on
@@ -73,14 +102,41 @@ type Session struct {
 // MessageType identifies the kind of Message.
 type MessageType string
 
+// Canonical MessageType values emitted by every Backend. Backends pick
+// the value closest to the upstream protocol — the WebSocket / DB
+// translation layer is responsible for the rest of the wire shape, so
+// downstream consumers can switch on Message.Type without knowing
+// which agent runtime produced the event.
 const (
-	MessageText       MessageType = "text"
-	MessageThinking   MessageType = "thinking"
-	MessageToolUse    MessageType = "tool-use"
+	// MessageText is free-form assistant prose. Carried in Message.Content.
+	MessageText MessageType = "text"
+	// MessageThinking is the model's internal reasoning trace (Claude's
+	// "thinking" blocks, Codex's reasoning deltas). Carried in Message.Content;
+	// callers should hide it from end-users unless the UI explicitly opted in.
+	MessageThinking MessageType = "thinking"
+	// MessageToolUse is a tool invocation request emitted by the agent.
+	// Message.Tool carries the tool name, Message.CallID the opaque call id
+	// paired with the follow-up MessageToolResult, and Message.Input the
+	// structured parameters.
+	MessageToolUse MessageType = "tool-use"
+	// MessageToolResult is the outcome of a previously-emitted MessageToolUse.
+	// Message.CallID matches the originating MessageToolUse; Message.Output
+	// carries the tool's textual result (errors are surfaced via MessageError,
+	// not via a special MessageToolResult value).
 	MessageToolResult MessageType = "tool-result"
-	MessageStatus     MessageType = "status"
-	MessageError      MessageType = "error"
-	MessageLog        MessageType = "log"
+	// MessageStatus is a coarse lifecycle update ("running", "compacting",
+	// "completed", ...). Message.Status carries the verbatim token; the
+	// protocol layer decides whether to map it onto a finer-grained event.
+	MessageStatus MessageType = "status"
+	// MessageError is a non-fatal error mid-run (e.g. a single tool call
+	// failed). Fatal errors that abort the session land in Result.Error
+	// instead. Message.Content carries the error text.
+	MessageError MessageType = "error"
+	// MessageLog is a backend diagnostic line intended for the daemon log
+	// but surfaced on the wire so the UI's "show logs" pane can render it
+	// alongside the user-visible stream. Message.Level carries the
+	// severity ("debug" / "info" / "warn" / "error").
+	MessageLog MessageType = "log"
 )
 
 // Message is a unified event emitted by an agent during execution.
@@ -158,7 +214,24 @@ func New(agentType string, cfg Config) (Backend, error) {
 	}
 }
 
-// DetectVersion runs the agent CLI with --version and returns the output.
+// DetectVersion invokes `<executablePath> --version` and returns the cleaned
+// version line that the daemon should persist on the runtime row. The cleaning
+// matters: on Windows, npm-installed CLI shims (notably Gemini's) prepend a
+// `chcp` banner like `Active code page: 65001` to stdout, and without the
+// downstream filter that banner was being stored verbatim as the runtime
+// version (see #2516). The actual filter is extractVersionLine — it picks
+// the first non-empty line carrying a semver-shaped token (vX.Y.Z) and
+// returns the whole line, so full version strings like "2.1.5 (Claude Code)"
+// or "codex-cli 0.118.0" survive intact. If no line matches, the trimmed raw
+// stdout is returned so unusual version formats degrade gracefully rather
+// than silently collapsing to empty.
+//
+// executablePath is resolved through the OS PATH (exec.CommandContext does
+// not shell out), so a bare name like "claude" works if the binary is on
+// $PATH. A non-nil error is returned only when the process fails to spawn or
+// exits non-zero — an empty or garbage-but-parseable version string still
+// returns successfully (callers should validate via parseSemver if they need
+// strict semver semantics).
 func DetectVersion(ctx context.Context, executablePath string) (string, error) {
 	return detectCLIVersion(ctx, executablePath)
 }

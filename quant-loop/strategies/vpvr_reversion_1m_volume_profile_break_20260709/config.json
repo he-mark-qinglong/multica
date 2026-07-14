@@ -1,0 +1,40 @@
+{
+  "strategy": "vpvr_reversion_1m_volume_profile_break_20260709",
+  "iteration": 69,
+  "timeframe": "1m",
+  "source_timeframe": "1m",
+  "instruments": ["BTCUSDT"],
+  "data_source": "binance_usdm_1m_canonical",
+  "vpvr": {
+    "window_bars": 480,
+    "n_bins": 20,
+    "value_area_pct": 0.7,
+    "hvn_z_threshold": 1.5
+  },
+  "entry": {
+    "hvn_break_buffer_atr": 0.4,
+    "volume_spike_ratio": 1.8,
+    "vol_ma_period": 60
+  },
+  "exit": {
+    "atr_trailing_k": 2.0,
+    "profit_lock_atr": 2.0,
+    "profit_lock_trail_atr": 1.0,
+    "max_holding_bars": 240
+  },
+  "sizing": {
+    "per_signal_weight_pct": 0.01,
+    "max_gross_exposure_pct": 0.05
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "Iteration #69 (Campaign 2026-07-09). New entry: volume-profile breakout of a HIGH-VOLUME NODE (HVN).",
+    "HVN is identified as a bin whose volume exceeds (hvn_z_threshold * mean) within the rolling 1m profile.",
+    "When price breaks above/below an HVN with volume confirmation, take a position in the direction of the break.",
+    "Exit combines ATR trailing + profit-lock (ratchet from peak once profit exceeds profit_lock_atr).",
+    "BTCUSDT-only for clean execution study on the most liquid pair.",
+    "Direction: long+short (bidirectional)."
+  ]
+}

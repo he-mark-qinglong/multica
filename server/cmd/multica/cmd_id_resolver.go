@@ -18,12 +18,20 @@ const resolverListPageLimit = 50
 type resolvedID struct {
 	ID      string
 	Display string
+	// Status is the current status of the resource. Only populated for
+	// resource kinds that surface a status field (currently just issues).
+	// Empty string means "unknown" — callers must not infer a no-op from
+	// an empty Status alone.
+	Status string
 }
 
 type idCandidate struct {
 	ID      string
 	Display string
 	Detail  string
+	// Status mirrors the resource's current status, captured for callers
+	// that need to short-circuit no-op writes (see runIssueStatus).
+	Status string
 }
 
 func displayID(id string, full bool) string {
@@ -49,6 +57,7 @@ func issueCandidate(issue map[string]any) idCandidate {
 		ID:      strVal(issue, "id"),
 		Display: issueDisplayKey(issue),
 		Detail:  strVal(issue, "title"),
+		Status:  strVal(issue, "status"),
 	}
 }
 
@@ -110,7 +119,7 @@ func resolveIDByPrefix(ctx context.Context, client *cli.APIClient, kind, input s
 		if display == "" {
 			display = matches[0].ID
 		}
-		return resolvedID{ID: matches[0].ID, Display: display}, nil
+		return resolvedID{ID: matches[0].ID, Display: display, Status: matches[0].Status}, nil
 	default:
 		return resolvedID{}, ambiguousIDPrefixError(kind, input, matches)
 	}
