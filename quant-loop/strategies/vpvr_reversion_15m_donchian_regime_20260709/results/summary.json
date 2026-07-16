@@ -1,0 +1,24 @@
+[
+  {
+    "symbol": "BTCUSDT",
+    "rows": 76005,
+    "span_start": "2024-04-23",
+    "span_end": "2026-06-23",
+    "timeframe": "15m",
+    "iteration": 66,
+    "strategy": {
+      "trades": 960,
+      "win_rate": 0.36770833333333336,
+      "profit_factor": 1.0163217227688532,
+      "avg_hold_bars": 26.929166666666667,
+      "total_return": 0.0007651403614807872,
+      "sharpe": 0.09646777518415167,
+      "sortino": 0.02776361012742656,
+      "max_dd": -0.003217229617268278,
+      "turnover_per_year": 443.28697850821743
+    },
+    "buy_hold": {
+      "total_return": -0.06557189784141582
+    }
+  }
+]

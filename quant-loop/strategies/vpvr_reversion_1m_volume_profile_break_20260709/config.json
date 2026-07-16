@@ -1,0 +1,47 @@
+{
+  "variant": "A",
+  "strategy_key": "vpvr_reversion_1m_volume_profile_break_20260709",
+  "iteration": 69,
+  "version": "V5",
+  "date": "2026-07-16",
+  "timeframe": "1m",
+  "instruments": ["BTCUSDT"],
+  "axis": "failed_value_area_breakout_with_volume_confirmation_reverts_to_poc",
+  "starting_capital_usd": 100000.0,
+  "params": {
+    "vpvr_window_bars": 1440,
+    "vpvr_bins": 24,
+    "value_area_fraction": 0.70,
+    "atr_period": 14,
+    "vol_median_lookback_bars": 360,
+    "vol_spike_k": 2.0,
+    "break_lookback_bars": 12,
+    "tp_atr_k": 1.0,
+    "sl_atr_k": 1.5,
+    "max_hold_bars": 30,
+    "risk_target_pct": 0.005,
+    "cooldown_bars": 5,
+    "fee_bps_per_fill": 4.0,
+    "slippage_bps_per_fill": 1.0,
+    "walk_forward_folds": 3
+  },
+  "walk_forward": {
+    "folds": [
+      {"name": "2024-Q3", "train": ["2024-04-23", "2024-06-30"], "test": ["2024-07-01", "2024-09-30"]},
+      {"name": "2025-Q1", "train": ["2024-07-01", "2024-12-31"], "test": ["2025-01-01", "2025-03-31"]},
+      {"name": "2025-Q3", "train": ["2025-01-01", "2025-06-30"], "test": ["2025-07-01", "2025-09-30"]}
+    ]
+  },
+  "notes": [
+    "Iter#69 V5 NEW TRIGGER: failed value-area breakout + relative-volume spike + re-enter bar.",
+    "Re-enter bar (not breakout bar) is the entry — never chase the initial move.",
+    "Distinct from vpvr_reversion_1m_kama_reversal_20260709 (KAMA flip trigger) and vpvr_sentiment_attention_1m_20260716 (POC touch + attention z).",
+    "1m timeframe matches campaign 1m/15m/4h focus directive.",
+    "B3 run uses full 2024-04-23 → 2026-06-23 real BTCUSDT 1m parquet; walk-forward fold PnL lives in a follow-up issue."
+  ],
+  "data": {
+    "parquet": "data/fapi_BTCUSDT__1m.parquet",
+    "expected_rows": 1140075,
+    "span": ["2024-04-23", "2026-06-23"]
+  }
+}

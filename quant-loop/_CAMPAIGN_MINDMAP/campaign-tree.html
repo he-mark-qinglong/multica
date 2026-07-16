@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Campaign Tree — iter#70 → iter#106 (auto-generated 2026-07-17)</title>
+<style>
+:root { --bg:#0a0e14; --fg:#f0f0f0; --muted:#c9d1d9; --accent:#58a6ff;
+        --archived:#ef4444; --killed:#f59e0b; --live:#10b981; --stale:#6e7681;
+        --info:#58a6ff; --border:#1f242c; --depth1:#161b22; }
+* { box-sizing: border-box; }
+body { font: 12px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", monospace;
+       background: var(--bg); color: var(--fg); margin: 0; height: 100vh;
+       display: flex; flex-direction: column; overflow: hidden; }
+header { padding: 8px 12px; background: var(--depth1); border-bottom: 1px solid var(--border);
+         display: flex; align-items: center; gap: 12px; flex-shrink: 0; flex-wrap: wrap; }
+header h1 { font-size: 14px; font-weight: 600; margin: 0; flex-shrink: 0; }
+header h1 .iter { color: var(--accent); }
+header .meta { font-size: 11px; color: var(--muted); }
+header .meta b { color: var(--fg); }
+main { flex: 1; display: flex; overflow: hidden; min-height: 0; }
+#viz { flex: 1; position: relative; background: var(--bg); overflow: hidden; }
+#viz svg { width: 100%; height: 100%; display: block; }
+#viz .arc { stroke: var(--bg); stroke-width: 1; cursor: pointer; transition: opacity .15s; }
+#viz .arc:hover { opacity: 0.65; }
+#viz .arc.dimmed { opacity: 0.18; }
+#viz .arc.highlight { opacity: 1; stroke: #fff; stroke-width: 2; }
+#viz .arc-text { font-size: 10px; pointer-events: none; fill: rgba(255,255,255,0.92); }
+#viz .arc-text.dimmed { opacity: 0.18; }
+#viz .center-label { font: 600 14px monospace; pointer-events: none; }
+#viz .center-sub { font: 10px monospace; pointer-events: none; fill: var(--muted); }
+#viz .tip { position: absolute; background: rgba(20,22,28,.97); color: #fff;
+           padding: 8px 10px; border-radius: 5px; font-size: 11px; pointer-events: auto;
+           border: 1px solid var(--border); z-index: 10; max-width: 380px;
+           line-height: 1.5; box-shadow: 0 4px 12px rgba(0,0,0,.5); display: none; }
+#viz .tip.show { display: block; }
+#viz .tip .nm { font-weight: 700; color: #fff; }
+#viz .tip .mid { color: var(--muted); font-size: 10px; margin: 2px 0; }
+#viz .tip .desc { color: #c9d1d9; margin: 4px 0; }
+#viz .tip a.btn { color: var(--accent); text-decoration: none; display: inline-block;
+                  margin-top: 4px; padding: 2px 8px; border: 1px solid var(--accent);
+                  border-radius: 3px; font-size: 10px; cursor: pointer;
+                  background: transparent; }
+#viz .tip a.btn:hover { background: var(--accent); color: var(--bg); }
+.legend { position: absolute; bottom: 8px; left: 8px; display: flex; gap: 3px;
+         background: rgba(20,22,28,.92); padding: 4px 6px; border-radius: 5px;
+         font-size: 10px; z-index: 5; border: 1px solid var(--border); }
+.legend .chip { display: inline-flex; align-items: center; gap: 3px; padding: 1px 4px; }
+.legend .dot { width: 8px; height: 8px; border-radius: 50%; }
+.hint { position: absolute; bottom: 8px; right: 8px; padding: 4px 8px;
+         background: rgba(20,22,28,.92); border: 1px solid var(--border);
+         border-radius: 5px; font-size: 10px; color: var(--muted); z-index: 5; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Campaign Tree <span class="iter">iter#70 → iter#106</span></h1>  <span class="meta"><b>36</b> campaign commits · <b>2</b> multica issues · updated 2026-07-17T00:02:59+08:00</span>  <span class="axis-tag">[iceberg/large-order axis EXHAUSTED 2026-07-12]</span>
+  <span class="meta">SHIPPED <b>0 / 15</b> · ARCHIVED <b>35</b> · ITER# <b>92+</b> · 5/10 W done · REFRESH <b>2026-07-12 11:50+08</b></span>
+</header>
+<main>
+  <div id="viz">
+    <svg id="main-svg"></svg>
+    <div class="legend">
+      <span class="chip"><span class="dot" style="background:var(--info)"></span>info / root</span>
+      <span class="chip"><span class="dot" style="background:var(--archived)"></span>archived NOT-PROFIT</span>
+      <span class="chip"><span class="dot" style="background:var(--killed)"></span>superseded</span>
+      <span class="chip"><span class="dot" style="background:var(--live)"></span>in flight / live</span>
+    </div>
+    <div class="hint">hover = preview · click = open multica issue</div>
+    <div class="tip" id="tip"></div>
+  </div>
+</main>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+/* multica URL config (edit at top of script to match your multica web frontend) */
+const MULTICA_BASE = "http://192.168.0.105:3000/smark";
+
+/* =================== Data (auto-generated 2026-07-14T02:46:39+08:00) =================== */
+const DATA = {
+  "name": "multica quant-loop campaigns",
+  "status": "info",
+  "multica_id": "",
+  "description": "36 campaign commits across 2 multica issues. Generated 2026-07-17T00:02:59+08:00.",
+  "children": [
+    {
+      "name": "iter#106",
+      "status": "info",
+      "multica_id": "",
+      "description": "3 commits in iter#106",
+      "children": [
+        {
+          "name": "WIP on feat/vpvr-iter70-72-mtf-asymmetric-regime-20260714: 630733ccf feat(vpvr):",
+          "status": "stale",
+          "multica_id": "",
+          "description": "WIP on feat/vpvr-iter70-72-mtf-asymmetric-regime-20260714: 630733ccf feat(vpvr): iter#106-108 calendar/TOD/funding-reset axis trio (NOT-PROFITABLE)",
+          "value": 1
+        },
+        {
+          "name": "index on feat/vpvr-iter70-72-mtf-asymmetric-regime-20260714: 630733ccf feat(vpvr",
+          "status": "stale",
+          "multica_id": "",
+          "description": "index on feat/vpvr-iter70-72-mtf-asymmetric-regime-20260714: 630733ccf feat(vpvr): iter#106-108 calendar/TOD/funding-reset axis trio (NOT-PROFITABLE)",
+          "value": 1
+        },
+        {
+          "name": "feat(vpvr): iter#106-108 calendar/TOD/funding-reset axis trio (NOT-PROFITABLE)",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): iter#106-108 calendar/TOD/funding-reset axis trio (NOT-PROFITABLE)",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#105",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#105",
+      "children": [
+        {
+          "name": "feat(vpvr): V3_xs_smart_routing_15m_20260715 (iter#105) — NOT-PROFITABLE",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): V3_xs_smart_routing_15m_20260715 (iter#105) — NOT-PROFITABLE",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#104",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#104",
+      "children": [
+        {
+          "name": "feat(vpvr): V2_options_putcall_oi_pressure_8h_20260715 (iter#104) — NOT-PROFITAB",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): V2_options_putcall_oi_pressure_8h_20260715 (iter#104) — NOT-PROFITABLE",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#103",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#103",
+      "children": [
+        {
+          "name": "feat(vpvr): V1_options_iv_termstructure_4h_20260715 (iter#103) — NOT-PROFITABLE",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): V1_options_iv_termstructure_4h_20260715 (iter#103) — NOT-PROFITABLE",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#97",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#97",
+      "children": [
+        {
+          "name": "feat(vpvr): iter#97-99 variant sweep — funding-term curve, xs-corr breakdown, li",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): iter#97-99 variant sweep — funding-term curve, xs-corr breakdown, liquidation heatmap",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#96",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#96",
+      "children": [
+        {
+          "name": "feat(vpvr): iter#96 V3 vpvr_mtf_consensus_v2_4h_20260714 [NOT-PROFITABLE]",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): iter#96 V3 vpvr_mtf_consensus_v2_4h_20260714 [NOT-PROFITABLE]",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#95",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#95",
+      "children": [
+        {
+          "name": "feat(vpvr): iter#95 V2 vpvr_obi_micro_v2_1m_20260714 [NOT-PROFITABLE]",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): iter#95 V2 vpvr_obi_micro_v2_1m_20260714 [NOT-PROFITABLE]",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#94",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#94",
+      "children": [
+        {
+          "name": "feat(vpvr): iter#94 V1 vpvr_regime_blend_4h_20260714 [NOT-PROFITABLE]",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): iter#94 V1 vpvr_regime_blend_4h_20260714 [NOT-PROFITABLE]",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#93",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#93",
+      "children": [
+        {
+          "name": "feat(stat-arb): V14 multi_pair_basket + 1d regime filter (iter#93)",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(stat-arb): V14 multi_pair_basket + 1d regime filter (iter#93)",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#92",
+      "status": "info",
+      "multica_id": "",
+      "description": "2 commits in iter#92",
+      "children": [
+        {
+          "name": "feat(stat-arb): V13 sector-neutral_pairs + funding alignment (iter#92)",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(stat-arb): V13 sector-neutral_pairs + funding alignment (iter#92)",
+          "value": 1
+        },
+        {
+          "name": "feat(vpvr): iter#92 vpvr_funding_asym_4h_20260713 [NOT-PROFITABLE]",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): iter#92 vpvr_funding_asym_4h_20260713 [NOT-PROFITABLE]",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#92+",
+      "status": "info",
+      "multica_id": "",
+      "description": "2 commits in iter#92+",
+      "children": [
+        {
+          "name": "docs(campaign-tree): iter#92+ 2/2 NOT-PROFITABLE; 35 archived; axis exhausted",
+          "status": "stale",
+          "multica_id": "",
+          "description": "docs(campaign-tree): iter#92+ 2/2 NOT-PROFITABLE; 35 archived; axis exhausted",
+          "value": 1
+        },
+        {
+          "name": "feat(vpvr): iter#92+ V_ice_v2 + V_whale_v2 — cycle-46 single rebuild (NOT-PROFIT",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): iter#92+ V_ice_v2 + V_whale_v2 — cycle-46 single rebuild (NOT-PROFITABLE)",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#91",
+      "status": "info",
+      "multica_id": "",
+      "description": "2 commits in iter#91",
+      "children": [
+        {
+          "name": "feat(stat-arb): V12 cointegration_pairs + VPVR POC confluence (iter#91)",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(stat-arb): V12 cointegration_pairs + VPVR POC confluence (iter#91)",
+          "value": 1
+        },
+        {
+          "name": "feat(vpvr): iter#91 vpvr_options_iv_skew_1d_20260713 [NOT-PROFITABLE]",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): iter#91 vpvr_options_iv_skew_1d_20260713 [NOT-PROFITABLE]",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#90",
+      "status": "info",
+      "multica_id": "",
+      "description": "2 commits in iter#90",
+      "children": [
+        {
+          "name": "feat(vpvr): iter#90-92 derivatives-axis 3 variants (B2+B3 combined, all NOT-PROF",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): iter#90-92 derivatives-axis 3 variants (B2+B3 combined, all NOT-PROFITABLE)",
+          "value": 1
+        },
+        {
+          "name": "feat(vpvr): iter#90 vpvr_oi_divergence_4h_20260713 [NOT-PROFITABLE]",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): iter#90 vpvr_oi_divergence_4h_20260713 [NOT-PROFITABLE]",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#89",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#89",
+      "children": [
+        {
+          "name": "feat(vpvr): V_pair iter#89 cross-asset BTC->SOL funding divergence",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): V_pair iter#89 cross-asset BTC->SOL funding divergence",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#88",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#88",
+      "children": [
+        {
+          "name": "feat(vpvr): V_mtf iter#88 funding-delta + 15m multi-TF confirm (5m substituted)",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): V_mtf iter#88 funding-delta + 15m multi-TF confirm (5m substituted)",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#87",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#87",
+      "children": [
+        {
+          "name": "feat(vpvr): V_asym iter#87 funding-delta + asymmetric 2:1 TP:SL execution",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): V_asym iter#87 funding-delta + asymmetric 2:1 TP:SL execution",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#86",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#86",
+      "children": [
+        {
+          "name": "feat: momentum_trend_multi_tf_atr_scaled_1h_20260712 iter#86 (cycle-46 trend piv",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat: momentum_trend_multi_tf_atr_scaled_1h_20260712 iter#86 (cycle-46 trend pivot)",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#84+",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#84+",
+      "children": [
+        {
+          "name": "feat: campaign iter#84+ — V_liq/V_obi/V_fd VPVR variants (3/3 NOT-PROFITABLE, ar",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat: campaign iter#84+ — V_liq/V_obi/V_fd VPVR variants (3/3 NOT-PROFITABLE, archived per cycle-46 family exhaustion)",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#81",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#81",
+      "children": [
+        {
+          "name": "vpvr SMA-33026 iter#81-83: 3 NEW axes (VRP / cross-exchange basis / stablecoin n",
+          "status": "archived",
+          "multica_id": "SMA-33026",
+          "description": "[Campaign 2026-07-13] VPVR iter#70+ — 3 new axes (VRP / cross-exchange basis / stablecoin netflow)",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#72",
+      "status": "info",
+      "multica_id": "",
+      "description": "2 commits in iter#72",
+      "children": [
+        {
+          "name": "vpvr_xs_basis_zscore_15m_funding_filter_20260712: iter#72 NEW basis+funding axis",
+          "status": "stale",
+          "multica_id": "",
+          "description": "vpvr_xs_basis_zscore_15m_funding_filter_20260712: iter#72 NEW basis+funding axis [NOT-PROFITABLE]",
+          "value": 1
+        },
+        {
+          "name": "feat(vpvr): V8 multi-venue carry 8h variant iter#72 (cross-venue funding spread ",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): V8 multi-venue carry 8h variant iter#72 (cross-venue funding spread + term basis)",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#71",
+      "status": "info",
+      "multica_id": "",
+      "description": "2 commits in iter#71",
+      "children": [
+        {
+          "name": "vpvr_inverse_reversion_4h_funding_filter_20260712: iter#71 NEW inverse axis [DEF",
+          "status": "stale",
+          "multica_id": "",
+          "description": "vpvr_inverse_reversion_4h_funding_filter_20260712: iter#71 NEW inverse axis [DEFERRED — coinm BTCUSD 4h missing]",
+          "value": 1
+        },
+        {
+          "name": "feat(vpvr): V7 OBI microstructure 1m variant iter#71 (OBI z-score + VPVR POC, 6m",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): V7 OBI microstructure 1m variant iter#71 (OBI z-score + VPVR POC, 6mo subsample)",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "iter#70",
+      "status": "info",
+      "multica_id": "",
+      "description": "6 commits in iter#70",
+      "children": [
+        {
+          "name": "feat(vpvr): iter#70-72 B1 indicator specs for 3 new axes",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): iter#70-72 B1 indicator specs for 3 new axes",
+          "value": 1
+        },
+        {
+          "name": "docs(vpvr): add SPEC.md for V6/V7/V8 (iter#70-72) — all NOT-PROFITABLE",
+          "status": "stale",
+          "multica_id": "",
+          "description": "docs(vpvr): add SPEC.md for V6/V7/V8 (iter#70-72) — all NOT-PROFITABLE",
+          "value": 1
+        },
+        {
+          "name": "feat(vpvr): iter#70-72 multi-TF / asymmetric / vol-regime escape hatches (V6/V7/",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): iter#70-72 multi-TF / asymmetric / vol-regime escape hatches (V6/V7/V8)",
+          "value": 1
+        },
+        {
+          "name": "vpvr_reversion_30m_vwap_zscore_20260712: iter#70 NEW 30m TF axis [NOT-PROFITABLE",
+          "status": "stale",
+          "multica_id": "",
+          "description": "vpvr_reversion_30m_vwap_zscore_20260712: iter#70 NEW 30m TF axis [NOT-PROFITABLE]",
+          "value": 1
+        },
+        {
+          "name": "docs(campaign-tree): iter#70-92+; 29 archived; 0/15 shipped; iter#92+ in flight ",
+          "status": "stale",
+          "multica_id": "",
+          "description": "docs(campaign-tree): iter#70-92+; 29 archived; 0/15 shipped; iter#92+ in flight (502-blocked)",
+          "value": 1
+        },
+        {
+          "name": "feat(vpvr): V6 options-gamma 1d variant iter#70 (DVOL proxy + VPVR POC)",
+          "status": "stale",
+          "multica_id": "",
+          "description": "feat(vpvr): V6 options-gamma 1d variant iter#70 (DVOL proxy + VPVR POC)",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "other",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in other",
+      "children": [
+        {
+          "name": "vpvr SMA-32633 campaign: add SPEC.md for each of V1/V2/V3",
+          "status": "archived",
+          "multica_id": "SMA-32633",
+          "description": "[Campaign 2026-07-12] VPVR variant iter#70+ — 30m / inverse / cross-pair basis (3 变体)",
+          "value": 1
+        }
+      ]
+    }
+  ]
+};
+
+const STATUS_COLOR = { info: "#58a6ff", archived: "#ef4444", killed: "#f59e0b", live: "#10b981", stale: "#6e7681" };
+
+/* =================== Sunburst (full viewport) + click + tooltip =================== */
+const tip = document.getElementById("tip");
+let activeNode = null;
+function render() {
+  const container = document.getElementById("viz");
+  const svg = d3.select("#main-svg");
+  svg.selectAll("*").remove();
+  const w = container.clientWidth;
+  const h = container.clientHeight;
+  const radius = Math.min(w, h) / 2 - 10;
+  svg.attr("viewBox", `${-w/2} ${-h/2} ${w} ${h}`).attr("width", w).attr("height", h);
+  const root = d3.hierarchy(DATA)
+                 .sum(d => d.value || 1)
+                 .sort((a, b) => b.value - a.value);
+  d3.partition().size([2 * Math.PI, radius])(root);
+  const arc = d3.arc()
+    .startAngle(d => d.x0)
+    .endAngle(d => d.x1)
+    .innerRadius(d => d.y0)
+    .outerRadius(d => d.y1)
+    .padAngle(0.003)
+    .padRadius(radius / 3);
+  const g = svg.append("g");
+  const paths = g.selectAll("path")
+    .data(root.descendants().filter(d => d.depth > 0))
+    .join("path")
+    .attr("d", arc)
+    .attr("class", "arc")
+    .attr("fill", d => STATUS_COLOR[d.data.status] || "#444")
+    .attr("fill-opacity", d => d.depth === 1 ? 0.95 : 0.72)
+    .attr("stroke", d => d.depth === 1 ? "rgba(255,255,255,0.2)" : "none")
+    .attr("stroke-width", 1);
+  /* IMPORTANT: add <title> first so SVG title hover works, THEN events */
+  paths.append("title")
+       .text(d => `${d.ancestors().map(a => a.data.name).reverse().join(" → ")}\nstatus: ${d.data.status}${d.data.multica_id ? " · multica: " + d.data.multica_id : ""}`);
+  paths.on("mouseenter", (event, d) => {
+      activeNode = d;
+      const path = d.ancestors().map(a => a.data.name).reverse().join(" → ");
+      const multica = d.data.multica_id ? (d.data.url || (MULTICA_BASE + "/issues/" + d.data.multica_id)) : null;
+      const openBtn = multica ? `<a class="btn" href="${multica}" target="_blank" rel="noopener noreferrer" id="tipOpenBtn">open multica issue →</a>` : "";
+      tip.innerHTML = `<div class="nm">${d.data.name}</div>
+        <div class="mid">${path}</div>
+        <div class="mid">status: <b>${d.data.status}</b>${d.data.multica_id ? " · multica: <b>" + d.data.multica_id + "</b>" : ""}</div>
+        ${d.data.description ? `<div class="desc">${d.data.description}</div>` : ""}
+        ${openBtn}`;
+      tip.classList.add("show");
+      const rect = container.getBoundingClientRect();
+      const tipW = tip.offsetWidth || 380;
+      const tipH = tip.offsetHeight || 100;
+      tip.style.left = Math.min(event.clientX - rect.left + 14, rect.width - tipW - 8) + "px";
+      tip.style.top = Math.min(event.clientY - rect.top + 14, rect.height - tipH - 8) + "px";
+    })
+    .on("mousemove", (event) => {
+      const rect = container.getBoundingClientRect();
+      const tipW = tip.offsetWidth || 380;
+      const tipH = tip.offsetHeight || 100;
+      tip.style.left = Math.min(event.clientX - rect.left + 14, rect.width - tipW - 8) + "px";
+      tip.style.top = Math.min(event.clientY - rect.top + 14, rect.height - tipH - 8) + "px";
+    })
+    .on("mouseleave", () => { activeNode = null; tip.classList.remove("show"); })
+    .on("click", (event, d) => {
+      event.stopPropagation();
+      const url = d.data.url || (d.data.multica_id ? MULTICA_BASE + "/issues/" + d.data.multica_id : null);
+      if (!url) return;
+      window.open(url, "_blank", "noopener,noreferrer");
+    });
+  g.selectAll("text")
+    .data(root.descendants().filter(d => d.depth > 0 && (d.x1 - d.x0) > 0.10))
+    .join("text")
+    .attr("class", "arc-text")
+    .attr("transform", d => {
+      const a = (d.x0 + d.x1) / 2;
+      const r = (d.y0 + d.y1) / 2;
+      const flip = a > Math.PI ? 180 : 0;
+      return `rotate(${a * 180 / Math.PI - 90}) translate(${r},0) rotate(${flip})`;
+    })
+    .attr("text-anchor", "middle")
+    .attr("dominant-baseline", "middle")
+    .attr("font-weight", d => d.depth === 1 ? 700 : d.depth === 2 ? 600 : 400)
+    .style("font-size", d => d.depth === 1 ? "13px" : d.depth === 2 ? "11px" : d.depth === 3 ? "10px" : "9px")
+    .text(d => {
+      const maxLen = d.depth === 1 ? 16 : d.depth === 2 ? 20 : d.depth === 3 ? 28 : 36;
+      return d.data.name.length > maxLen ? d.data.name.slice(0, maxLen - 1) + "…" : d.data.name;
+    });
+  const center = svg.append("g");
+  center.append("text")
+    .attr("class", "center-label")
+    .attr("text-anchor", "middle")
+    .attr("dominant-baseline", "middle")
+    .attr("y", -10)
+    .text("multica quant-loop");
+  center.append("text")
+    .attr("class", "center-sub")
+    .attr("text-anchor", "middle")
+    .attr("dominant-baseline", "middle")
+    .attr("y", 8)
+    .text("iter#70-92+ · 35 archived · 0/15 shipped");
+  center.append("text")
+    .attr("class", "center-sub")
+    .attr("text-anchor", "middle")
+    .attr("dominant-baseline", "middle")
+    .attr("y", 24)
+    .attr("fill", "var(--live)")
+    .text("V9 cross-asset pairs in flight");
+}
+render();
+window.addEventListener("resize", render);
+</script>
+</body>
+</html>
