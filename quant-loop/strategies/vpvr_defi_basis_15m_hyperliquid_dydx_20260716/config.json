@@ -1,0 +1,40 @@
+{
+  "variant": "A",
+  "strategy_key": "vpvr_defi_basis_15m_hyperliquid_dydx_20260716",
+  "iteration": 70,
+  "date": "2026-07-16",
+  "timeframe": "15m",
+  "filter_timeframe": "1h",
+  "instruments": ["BTCUSDT"],
+  "axis": "defi_perp_cross_venue_basis_hyperliquid_dydx_vs_binance_usdm",
+  "starting_capital_usd": 100000.0,
+  "params": {
+    "vpvr_window_bars": 480,
+    "vpvr_bins": 24,
+    "atr_period": 14,
+    "basis_z_lookback_bars": 168,
+    "basis_z_threshold": 1.5,
+    "poc_atr_buffer": 0.75,
+    "take_profit_atr_k": 2.5,
+    "hard_stop_atr_k": 1.5,
+    "max_hold_bars": 60,
+    "risk_target_pct": 0.005,
+    "cooldown_bars": 12,
+    "fee_bps_per_fill": 4.0,
+    "slippage_bps_per_fill": 2.0,
+    "walk_forward_folds": 3
+  },
+  "walk_forward": {
+    "folds": [
+      {"name": "2024-Q1", "train": ["2023-01-01", "2023-12-31"], "test": ["2024-01-01", "2024-03-31"]},
+      {"name": "2024-Q3", "train": ["2023-07-01", "2024-06-30"], "test": ["2024-07-01", "2024-09-30"]},
+      {"name": "2025-Q2", "train": ["2024-04-01", "2025-03-31"], "test": ["2025-04-01", "2025-06-30"]}
+    ]
+  },
+  "notes": [
+    "Iter#70 NEW AXIS: DeFi perp cross-venue basis (Hyperliquid / dYdX vs Binance USD-M).",
+    "Uses 15m VPVR POC reversion gated by 1h DeFi-CEX basis z-score extremes.",
+    "Distinct from CEX cross-basis variants (vpvr_xs_basis_*) by venue source and construction.",
+    "Primary timeframe 15m matches campaign 1m/15m/4h focus directive."
+  ]
+}
