@@ -1,0 +1,21 @@
+{
+  "variant_key": "vpvr_options_putcall_oi_pressure_8h_20260715",
+  "iteration": 71,
+  "symbol": "ETHUSDT",
+  "timeframe": "8h",
+  "starting_capital_usd": 100000.0,
+  "final_equity_usd": 99063.03,
+  "n_bars": 4956,
+  "span_start": "2022-01-01 00:00:00",
+  "span_end": "2026-07-10 16:00:00",
+  "n_trades": 104,
+  "win_rate": 0.3942,
+  "sharpe": -1.1722,
+  "sortino": -1.6768,
+  "ann_return_pct": -0.2078,
+  "total_return_pct": -0.937,
+  "max_drawdown_pct": -1.2182,
+  "profit_factor": 0.8639,
+  "avg_trade_pct": -0.0031,
+  "status": "FAIL_NEGATIVE_ANN_RETURN"
+}
