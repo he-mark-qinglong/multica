@@ -1,0 +1,56 @@
+{
+  "strategy": "mtf_xs_pairs_1m_15m_2h_h1_20260718",
+  "iteration": 105,
+  "hypothesis": "H1",
+  "campaign": "SMA-34875 mtf-1m-15m-2h",
+  "tag": "PROFITABLE",
+  "sharpe_method": "daily_resampled",
+  "avg_pair_sharpe_daily_resampled": 1.3812821703283495,
+  "avg_pair_annualized_return_daily": 0.1537601081998865,
+  "avg_pair_max_drawdown_pct": -0.10741241684237839,
+  "profit_factor_avg": 0.5236603499870941,
+  "n_trades_total": 42906,
+  "portfolio_annualized_return_daily": 0.15493601727633632,
+  "portfolio_sharpe_daily_resampled": 2.15402105192483,
+  "per_pair": {
+    "BTCUSDT/ETHUSDT": {
+      "pair": "BTCUSDT/ETHUSDT",
+      "n_trades": 15143,
+      "win_rate": 0.20960179620946973,
+      "profit_factor": 0.35914180616802366,
+      "total_return_pct": 0.22675124312276318,
+      "sharpe_daily_resampled": 0.727091973716113,
+      "annualized_return_daily": 0.04609729922924677,
+      "max_drawdown_pct": -0.09794880490734736,
+      "span_start": "2022-01-02",
+      "span_end": "2026-07-10",
+      "n_bars": 2378800
+    },
+    "BTCUSDT/SOLUSDT": {
+      "pair": "BTCUSDT/SOLUSDT",
+      "n_trades": 13799,
+      "win_rate": 0.2764693093702442,
+      "profit_factor": 0.6065357170010146,
+      "total_return_pct": 1.1351484146161215,
+      "sharpe_daily_resampled": 1.468905500869749,
+      "annualized_return_daily": 0.18262469332622677,
+      "max_drawdown_pct": -0.11220582035085658,
+      "span_start": "2022-01-02",
+      "span_end": "2026-07-10",
+      "n_bars": 2378800
+    },
+    "ETHUSDT/SOLUSDT": {
+      "pair": "ETHUSDT/SOLUSDT",
+      "n_trades": 13964,
+      "win_rate": 0.2704096247493555,
+      "profit_factor": 0.6053035267922442,
+      "total_return_pct": 1.568934835451285,
+      "sharpe_daily_resampled": 1.947849036399187,
+      "annualized_return_daily": 0.23255833204418597,
+      "max_drawdown_pct": -0.1120826252689312,
+      "span_start": "2022-01-02",
+      "span_end": "2026-07-10",
+      "n_bars": 2378800
+    }
+  }
+}

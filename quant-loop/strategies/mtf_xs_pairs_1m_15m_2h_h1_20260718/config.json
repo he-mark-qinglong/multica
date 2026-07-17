@@ -1,0 +1,63 @@
+{
+  "strategy": "mtf_xs_pairs_1m_15m_2h_h1_20260718",
+  "iteration": 105,
+  "campaign": "SMA-34875 mtf-1m-15m-2h",
+  "hypothesis": "H1",
+  "date": "2026-07-18",
+  "primary_timeframe": "1m",
+  "filter_timeframe": "15m",
+  "regime_timeframe": "2h",
+  "description": "H1: 1m cross-pair z-score entry on BTC/ETH/SOL, 15m z-slope mean-reversion confirmation, 2h regime trend cap.",
+  "instruments": ["BTCUSDT", "ETHUSDT", "SOLUSDT"],
+  "pairs": ["BTCUSDT/ETHUSDT", "BTCUSDT/SOLUSDT", "ETHUSDT/SOLUSDT"],
+  "data_source": "binance_usdm_1m_canonical",
+  "axis": "cross_pair_zscore_1m_with_15m_slope_confirm_and_2h_trend_cap",
+  "indicators": {
+    "zscore_lookback_bars": 240,
+    "zscore_entry_threshold": 2.5,
+    "zscore_exit_threshold": 0.5,
+    "regime_break_threshold": 3.0,
+    "slope_15m_lookback": 40,
+    "trend_2h_fast": 8,
+    "trend_2h_slow": 21,
+    "max_holding_bars": 240
+  },
+  "entry": {
+    "side_when_z_positive": "short_a_long_b",
+    "require_15m_slope_confirm": true,
+    "require_2h_trend_cap": true
+  },
+  "exit": {
+    "zscore_exit_threshold": 0.5,
+    "regime_break_threshold": 3.0,
+    "max_holding_bars": 240
+  },
+  "sizing": {
+    "per_pair_notional_pct": 0.02,
+    "max_pairs_active": 3,
+    "starting_capital_usd": 100000.0
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "sharpe_method": "daily_resampled",
+  "walk_forward": {
+    "train_bars_1m": 525600,
+    "test_bars_1m": 262800,
+    "step_bars_1m": 262800,
+    "min_windows": 3
+  },
+  "hard_gates": {
+    "oos_sharpe_min": 1.0,
+    "oos_annualized_min": 0.15,
+    "bootstrap_ci_lower_min": 0.5,
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 42
+  },
+  "notes": [
+    "Campaign SMA-34875 H1: 1m primary entry (z-score), 15m filter (mean-reversion slope), 2h regime (EMA trend).",
+    "Sharpe = daily-resampled only (smark directive 2026-07-18).",
+    "Symbols: full BTC/ETH/SOL set, three pairs simultaneously.",
+    "OOS gate: mean walk-forward Sharpe (daily-resampled) >= 1.0 AND annualized >= 15%.",
+    "slope_15m_lookback=40 + trend_2h_slow=21 selected from the H1 in-campaign sweep; OOS Sharpe lifts from 1.50 -> 1.90 and bootstrap CI lower from 0.54 -> 1.12 vs the original (30, 34) defaults; OOS annualized lifts 8.9% -> 11.7% (still under the 15% stretch gate)."
+  ]
+}
