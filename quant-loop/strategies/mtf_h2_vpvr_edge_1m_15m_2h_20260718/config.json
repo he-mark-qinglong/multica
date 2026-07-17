@@ -1,0 +1,70 @@
+{
+  "strategy": "mtf_h2_vpvr_edge_1m_15m_2h_20260718",
+  "iteration": 107,
+  "campaign": "SMA-34875 mtf-1m-15m-2h",
+  "hypothesis": "H2",
+  "date": "2026-07-18",
+  "primary_timeframe": "1m",
+  "filter_timeframe": "15m",
+  "regime_timeframe": "2h",
+  "description": "H2 single-pair: VPVR edge touch (15m + 2h averaged POC/VAH/VAL) -> 1m mean-reversion toward POC. Exits on 1m revert, 15m regime change, 2-ATR stop, or max-hold.",
+  "instruments": ["BTCUSDT", "ETHUSDT", "SOLUSDT"],
+  "data_source": "binance_usdm_1m_canonical",
+  "axis": "vpvr_edge_touch_single_pair_15m_2h_with_1m_micro_reversion",
+  "indicators": {
+    "vpvr_window_bars_15m": 96,
+    "vpvr_window_bars_2h": 60,
+    "vpvr_n_bins": 24,
+    "touch_atr_k": 0.6,
+    "near_edge_atr_k": 1.5,
+    "min_holding_bars": 8,
+    "max_holding_bars": 240,
+    "target_reached_poc_frac": 0.5,
+    "stop_atr_k": 2.0,
+    "cooldown_bars": 30,
+    "require_2h_confirm": true,
+    "trend_2h_fast": 30,
+    "trend_2h_slow": 90,
+    "require_15m_close_poc_align": true
+  },
+  "entry": {
+    "long_trigger": "touch_VAL_or_near_VAL_from_below + 2h_trend_ge_0 + 15m_close_below_POC",
+    "short_trigger": "touch_VAH_or_near_VAH_from_above + 2h_trend_le_0 + 15m_close_above_POC",
+    "cooldown_bars": 30
+  },
+  "exit": {
+    "min_holding_bars": 8,
+    "target_reached_poc_frac": 0.5,
+    "stop_atr_k": 2.0,
+    "max_holding_bars": 240,
+    "regime_change": "15m_close_crosses_POC_against_position"
+  },
+  "sizing": {
+    "single_pair_notional_pct": 1.0,
+    "max_symbols_active": 3,
+    "starting_capital_usd": 100000.0
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "sharpe_method": "daily_resampled",
+  "walk_forward": {
+    "train_bars_1m": 525600,
+    "test_bars_1m": 262800,
+    "step_bars_1m": 262800,
+    "min_windows": 3
+  },
+  "hard_gates": {
+    "oos_sharpe_min": 1.0,
+    "oos_annualized_min": 0.15,
+    "bootstrap_ci_lower_min": 0.5,
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 42
+  },
+  "notes": [
+    "Single-pair H2 — no cross-pair alignment, each symbol trades its own profile.",
+    "VPVR edge = average of 15m VAH/VAL and 2h VAH/VAL (regime-stabilized).",
+    "15m regime change exit: current 15m close crosses POC against our position.",
+    "Stop-loss 2 ATR protects against failed reversion.",
+    "Daily-resampled Sharpe is the ONLY accepted method."
+  ]
+}

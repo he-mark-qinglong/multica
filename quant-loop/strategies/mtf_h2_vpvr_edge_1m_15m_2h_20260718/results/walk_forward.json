@@ -1,0 +1,315 @@
+{
+  "strategy": "mtf_h2_vpvr_edge_1m_15m_2h_20260718",
+  "iteration": 107,
+  "hypothesis": "H2",
+  "campaign": "SMA-34875 mtf-1m-15m-2h",
+  "n_windows": 7,
+  "train_bars_1m": 525600,
+  "test_bars_1m": 262800,
+  "step_bars_1m": 262800,
+  "oos_sharpe_mean_daily_resampled": 5.630281783208976,
+  "oos_annualized_mean_daily": 0.22039111582446516,
+  "oos_max_drawdown_worst": -0.02216221054879053,
+  "bootstrap_ci_lower": 4.5473246627337085,
+  "bootstrap_ci_upper": 6.672476308908469,
+  "bootstrap_resamples": 10000,
+  "bootstrap_seed": 42,
+  "sharpe_method": "daily_resampled",
+  "per_window": [
+    {
+      "window_id": 0,
+      "train_bars": [
+        0,
+        525600
+      ],
+      "test_bars": [
+        525600,
+        788400
+      ],
+      "test_start_iso": "2023-01-01 00:00:00+00:00",
+      "test_end_iso": "2023-07-02 13:19:00+00:00",
+      "n_test_bars": 262800,
+      "portfolio": {
+        "sharpe_daily_resampled": 4.396822429330832,
+        "annualized_return_daily": 0.19309948947714006,
+        "max_drawdown_pct": -0.02216221054879053,
+        "n_days": 182,
+        "n_trades_total": 574
+      },
+      "per_symbol": {
+        "BTCUSDT": {
+          "sharpe_daily_resampled": 4.431079756493551,
+          "annualized_return_daily": 0.18269989620662885,
+          "n_trades": 182,
+          "max_drawdown_pct": -0.02216221054879053
+        },
+        "ETHUSDT": {
+          "sharpe_daily_resampled": 3.9787313423850503,
+          "annualized_return_daily": 0.11341962913577075,
+          "n_trades": 154,
+          "max_drawdown_pct": -0.02216221054879053
+        },
+        "SOLUSDT": {
+          "sharpe_daily_resampled": 2.32110540190125,
+          "annualized_return_daily": 0.28437404968387936,
+          "n_trades": 238,
+          "max_drawdown_pct": -0.02216221054879053
+        }
+      }
+    },
+    {
+      "window_id": 1,
+      "train_bars": [
+        0,
+        788400
+      ],
+      "test_bars": [
+        788400,
+        1051200
+      ],
+      "test_start_iso": "2023-07-02 13:20:00+00:00",
+      "test_end_iso": "2024-01-01 01:19:00+00:00",
+      "n_test_bars": 262800,
+      "portfolio": {
+        "sharpe_daily_resampled": 5.978365164393056,
+        "annualized_return_daily": 0.159724343663042,
+        "max_drawdown_pct": -0.008374267300853777,
+        "n_days": 183,
+        "n_trades_total": 434
+      },
+      "per_symbol": {
+        "BTCUSDT": {
+          "sharpe_daily_resampled": 3.070835246036446,
+          "annualized_return_daily": 0.055604074055593866,
+          "n_trades": 92,
+          "max_drawdown_pct": -0.008374267300853777
+        },
+        "ETHUSDT": {
+          "sharpe_daily_resampled": 3.520139928550806,
+          "annualized_return_daily": 0.09776986001532939,
+          "n_trades": 193,
+          "max_drawdown_pct": -0.008374267300853777
+        },
+        "SOLUSDT": {
+          "sharpe_daily_resampled": 4.5562543468708006,
+          "annualized_return_daily": 0.34345295103424567,
+          "n_trades": 149,
+          "max_drawdown_pct": -0.008374267300853777
+        }
+      }
+    },
+    {
+      "window_id": 2,
+      "train_bars": [
+        0,
+        1051200
+      ],
+      "test_bars": [
+        1051200,
+        1314000
+      ],
+      "test_start_iso": "2024-01-01 01:20:00+00:00",
+      "test_end_iso": "2024-07-01 13:19:00+00:00",
+      "n_test_bars": 262800,
+      "portfolio": {
+        "sharpe_daily_resampled": 3.471199604969471,
+        "annualized_return_daily": 0.20826134106782268,
+        "max_drawdown_pct": -0.012694231901111075,
+        "n_days": 182,
+        "n_trades_total": 478
+      },
+      "per_symbol": {
+        "BTCUSDT": {
+          "sharpe_daily_resampled": 2.2384068920038342,
+          "annualized_return_daily": 0.10422780648192176,
+          "n_trades": 179,
+          "max_drawdown_pct": -0.012694231901111075
+        },
+        "ETHUSDT": {
+          "sharpe_daily_resampled": 2.42643351558414,
+          "annualized_return_daily": 0.12430321045116699,
+          "n_trades": 170,
+          "max_drawdown_pct": -0.012694231901111075
+        },
+        "SOLUSDT": {
+          "sharpe_daily_resampled": 2.466231048064758,
+          "annualized_return_daily": 0.41170129037922587,
+          "n_trades": 129,
+          "max_drawdown_pct": -0.012694231901111075
+        }
+      }
+    },
+    {
+      "window_id": 3,
+      "train_bars": [
+        0,
+        1314000
+      ],
+      "test_bars": [
+        1314000,
+        1576800
+      ],
+      "test_start_iso": "2024-07-01 13:20:00+00:00",
+      "test_end_iso": "2024-12-31 01:19:00+00:00",
+      "n_test_bars": 262800,
+      "portfolio": {
+        "sharpe_daily_resampled": 7.000411111674439,
+        "annualized_return_daily": 0.26391192074285685,
+        "max_drawdown_pct": -0.012258109004301576,
+        "n_days": 183,
+        "n_trades_total": 499
+      },
+      "per_symbol": {
+        "BTCUSDT": {
+          "sharpe_daily_resampled": 5.050606828769822,
+          "annualized_return_daily": 0.2609235027245882,
+          "n_trades": 170,
+          "max_drawdown_pct": -0.012258109004301576
+        },
+        "ETHUSDT": {
+          "sharpe_daily_resampled": 4.570342121776473,
+          "annualized_return_daily": 0.23953535845205276,
+          "n_trades": 197,
+          "max_drawdown_pct": -0.012258109004301576
+        },
+        "SOLUSDT": {
+          "sharpe_daily_resampled": 3.9010506099007976,
+          "annualized_return_daily": 0.28748061857928553,
+          "n_trades": 132,
+          "max_drawdown_pct": -0.012258109004301576
+        }
+      }
+    },
+    {
+      "window_id": 4,
+      "train_bars": [
+        0,
+        1576800
+      ],
+      "test_bars": [
+        1576800,
+        1839600
+      ],
+      "test_start_iso": "2024-12-31 01:20:00+00:00",
+      "test_end_iso": "2025-07-01 13:19:00+00:00",
+      "n_test_bars": 262800,
+      "portfolio": {
+        "sharpe_daily_resampled": 6.6178755803583815,
+        "annualized_return_daily": 0.32156636865313026,
+        "max_drawdown_pct": -0.008318231098602635,
+        "n_days": 182,
+        "n_trades_total": 431
+      },
+      "per_symbol": {
+        "BTCUSDT": {
+          "sharpe_daily_resampled": 3.758115562492278,
+          "annualized_return_daily": 0.15950235854754258,
+          "n_trades": 104,
+          "max_drawdown_pct": -0.008318231098602635
+        },
+        "ETHUSDT": {
+          "sharpe_daily_resampled": 4.670979596059677,
+          "annualized_return_daily": 0.4459516097513534,
+          "n_trades": 183,
+          "max_drawdown_pct": -0.008318231098602635
+        },
+        "SOLUSDT": {
+          "sharpe_daily_resampled": 4.490067150447762,
+          "annualized_return_daily": 0.37253576785666276,
+          "n_trades": 144,
+          "max_drawdown_pct": -0.008318231098602635
+        }
+      }
+    },
+    {
+      "window_id": 5,
+      "train_bars": [
+        0,
+        1839600
+      ],
+      "test_bars": [
+        1839600,
+        2102400
+      ],
+      "test_start_iso": "2025-07-01 13:20:00+00:00",
+      "test_end_iso": "2025-12-31 01:19:00+00:00",
+      "n_test_bars": 262800,
+      "portfolio": {
+        "sharpe_daily_resampled": 4.376011966202466,
+        "annualized_return_daily": 0.126042491208751,
+        "max_drawdown_pct": -0.012563648606074618,
+        "n_days": 183,
+        "n_trades_total": 499
+      },
+      "per_symbol": {
+        "BTCUSDT": {
+          "sharpe_daily_resampled": 1.5553381105536295,
+          "annualized_return_daily": 0.04119873445741207,
+          "n_trades": 166,
+          "max_drawdown_pct": -0.012563648606074618
+        },
+        "ETHUSDT": {
+          "sharpe_daily_resampled": 3.003706145661343,
+          "annualized_return_daily": 0.11809947383672181,
+          "n_trades": 165,
+          "max_drawdown_pct": -0.012563648606074618
+        },
+        "SOLUSDT": {
+          "sharpe_daily_resampled": 3.290717461952639,
+          "annualized_return_daily": 0.22364539654278337,
+          "n_trades": 168,
+          "max_drawdown_pct": -0.012563648606074618
+        }
+      }
+    },
+    {
+      "window_id": 6,
+      "train_bars": [
+        0,
+        2102400
+      ],
+      "test_bars": [
+        2102400,
+        2365200
+      ],
+      "test_start_iso": "2025-12-31 01:20:00+00:00",
+      "test_end_iso": "2026-07-01 13:19:00+00:00",
+      "n_test_bars": 262800,
+      "portfolio": {
+        "sharpe_daily_resampled": 7.571286625534192,
+        "annualized_return_daily": 0.2701318559585133,
+        "max_drawdown_pct": -0.005442585199767147,
+        "n_days": 182,
+        "n_trades_total": 495
+      },
+      "per_symbol": {
+        "BTCUSDT": {
+          "sharpe_daily_resampled": 5.222907055368825,
+          "annualized_return_daily": 0.27468129820880627,
+          "n_trades": 175,
+          "max_drawdown_pct": -0.005442585199767147
+        },
+        "ETHUSDT": {
+          "sharpe_daily_resampled": 4.95846394828002,
+          "annualized_return_daily": 0.27517309336288176,
+          "n_trades": 144,
+          "max_drawdown_pct": -0.005442585199767147
+        },
+        "SOLUSDT": {
+          "sharpe_daily_resampled": 5.13400692890996,
+          "annualized_return_daily": 0.2582403967708271,
+          "n_trades": 176,
+          "max_drawdown_pct": -0.005442585199767147
+        }
+      }
+    }
+  ],
+  "gates": {
+    "oos_sharpe_min_required": 1.0,
+    "oos_annualized_min_required": 0.15,
+    "bootstrap_ci_lower_min_required": 0.5,
+    "passed": true
+  },
+  "tag": "PROFITABLE",
+  "verdict": "PROFITABLE"
+}
