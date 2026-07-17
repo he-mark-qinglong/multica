@@ -1,0 +1,12 @@
+{
+  "per_pair_notional_pct": {
+    "BTCUSDT/ETHUSDT": 0.02,
+    "BTCUSDT/SOLUSDT": 0.02,
+    "ETHUSDT/SOLUSDT": 0.02
+  },
+  "gross_notional_pct": 0.06,
+  "mean_off_diag_corr": NaN,
+  "max_pairs_active": 3,
+  "gross_cap": 0.06,
+  "net_cap": 0.04
+}
