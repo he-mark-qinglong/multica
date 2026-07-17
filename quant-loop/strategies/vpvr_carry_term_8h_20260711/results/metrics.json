@@ -1,0 +1,34 @@
+{
+  "iteration": 72,
+  "variant": "V8",
+  "strategy_key": "vpvr_carry_term_8h_20260711",
+  "date": "2026-07-11",
+  "timeframe": "8h",
+  "instruments": [
+    "BTCUSDT",
+    "ETHUSDT"
+  ],
+  "axis": "multi_venue_carry_term_structure_with_vpvr_poc",
+  "tag": "NOT-PROFITABLE",
+  "by_symbol": {
+    "BTCUSDT": {
+      "sharpe": -0.802644935182249,
+      "mdd": -0.37488516017917806,
+      "n_trades": 24,
+      "win_rate": 0.375,
+      "profit_factor": 0.3334665976020018,
+      "total_return_pct": -0.3155139168533433
+    },
+    "ETHUSDT": {
+      "sharpe": 0.2753673531716541,
+      "mdd": -0.1382180581192317,
+      "n_trades": 18,
+      "win_rate": 0.5,
+      "profit_factor": 1.552974833147011,
+      "total_return_pct": 0.06506686670007578
+    }
+  },
+  "agg_sharpe_mean": -0.2636387910052974,
+  "agg_mdd_worst": -0.37488516017917806,
+  "agg_n_trades_total": 42
+}

@@ -1,0 +1,56 @@
+{
+  "strategy": "vpvr_carry_term_8h_20260711",
+  "iteration": 72,
+  "variant": "V8",
+  "date": "2026-07-11",
+  "timeframe": "8h",
+  "instruments": [
+    "BTCUSDT",
+    "ETHUSDT"
+  ],
+  "axis": "multi_venue_carry_term_structure_with_vpvr_poc",
+  "tag": "NOT-PROFITABLE",
+  "per_symbol": [
+    {
+      "n_trades": 24,
+      "win_rate": 0.375,
+      "profit_factor": 0.3334665976020018,
+      "avg_hold_bars": 7.666666666666667,
+      "total_return_pct": -0.3155139168533433,
+      "sharpe": -0.802644935182249,
+      "sortino": -0.8633908533859151,
+      "max_drawdown_pct": -0.37488516017917806,
+      "trades_per_year": 5.306295399515738,
+      "tag": "NOT-PROFITABLE",
+      "exit_reasons": {
+        "spread_decay": 16,
+        "atr_trail": 4,
+        "hard_stop": 4
+      },
+      "symbol": "BTCUSDT",
+      "span_start": "2022-01-01T00:00:00+00:00",
+      "span_end": "2026-07-10T16:00:00+00:00",
+      "n_bars": 4956
+    },
+    {
+      "n_trades": 18,
+      "win_rate": 0.5,
+      "profit_factor": 1.552974833147011,
+      "avg_hold_bars": 7.388888888888889,
+      "total_return_pct": 0.06506686670007578,
+      "sharpe": 0.2753673531716541,
+      "sortino": 0.8337804953953326,
+      "max_drawdown_pct": -0.1382180581192317,
+      "trades_per_year": 3.979721549636804,
+      "tag": "NOT-PROFITABLE",
+      "exit_reasons": {
+        "spread_decay": 17,
+        "atr_trail": 1
+      },
+      "symbol": "ETHUSDT",
+      "span_start": "2022-01-01T00:00:00+00:00",
+      "span_end": "2026-07-10T16:00:00+00:00",
+      "n_bars": 4956
+    }
+  ]
+}

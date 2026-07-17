@@ -1,0 +1,35 @@
+{
+  "strategy": "vpvr_micro_reversion_1h_funding_filter_20260710",
+  "iteration": 70,
+  "timeframe": "1h",
+  "instruments": [
+    "BTCUSDT"
+  ],
+  "sharpe": 0.34810949413815684,
+  "sortino": 0.12582681177072866,
+  "mdd": -0.001863739464465608,
+  "total_return": 0.0010040434899383222,
+  "annualized_return": 0.00046349916886767595,
+  "n_trades": 1070,
+  "by_symbol": {
+    "BTCUSDT": {
+      "sharpe": 0.34810949413815684,
+      "mdd": -0.0018637394644656277,
+      "n_trades": 1070,
+      "win_rate": 0.6308411214953271,
+      "profit_factor": 1.0385358050197178,
+      "total_return": 0.0010040434899383222
+    }
+  },
+  "agg_sharpe_mean": 0.34810949413815684,
+  "agg_mdd_worst": -0.001863739464465608,
+  "agg_n_trades_total": 1070,
+  "equity_curve_start": "2024-04-23",
+  "equity_curve_end": "2026-06-23",
+  "active_universe": [
+    "BTCUSDT"
+  ],
+  "target_universe_size": 1,
+  "data_source": "binance_usdm_1h_canonical",
+  "generated_at": "2026-07-17T05:24:34.886344+00:00"
+}

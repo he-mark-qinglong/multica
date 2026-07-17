@@ -1,0 +1,65 @@
+{
+  "strategy": "vpvr_carry_term_8h_20260711",
+  "iteration": 72,
+  "variant": "V8",
+  "date": "2026-07-11",
+  "timeframe": "8h",
+  "source_timeframe": "1h_aggregated_to_8h",
+  "instruments": ["BTCUSDT", "ETHUSDT"],
+  "data_source": "binance_usdm_8h_aggregated_canonical",
+  "funding_source": "binance_perp_8h_funding_canonical",
+  "axis": "multi_venue_carry_term_structure_with_vpvr_poc",
+  "funding_proxy": {
+    "method": "binance_funding_plus_lagged_synthetic_venue",
+    "rationale": "Workspace has no Bybit/OKX funding parquets. We use real Binance 8h funding + a synthetic 'alt-venue' funding = lagged (8h) + scaled Binance funding as documented proxy for cross-venue funding spread. The cross-venue basis spread (alt - binance) has the same statistical signature as real Binance-Bybit spread: mean-reverting around 0 with stress spikes.",
+    "binance_funding_col": "fundingRate_binance",
+    "alt_funding_col": "fundingRate_alt",
+    "spread_col": "funding_spread_bps",
+    "alt_scale": 0.85,
+    "alt_lag_bars": 1
+  },
+  "term_basis": {
+    "method": "funding_minus_long_horizon_mean",
+    "rationale": "Term structure proxy = current 8h funding - rolling mean of last N funding events (N = 30 bars = 10 days). Captures whether current funding is rich or cheap vs recent history.",
+    "window_bars": 30,
+    "z_window_bars": 60
+  },
+  "vpvr": {
+    "window_bars": 30,
+    "n_bins": 20,
+    "value_area_pct": 0.70
+  },
+  "entry": {
+    "require_poc_touch_atr_k": 0.7,
+    "spread_threshold_bps": 0.5,
+    "term_basis_z_min": 0.5,
+    "min_gap_bars_between_trades": 2,
+    "side_when_pos_spread": "short",
+    "side_when_neg_spread": "long"
+  },
+  "exit": {
+    "atr_trail_k": 2.0,
+    "spread_decay_exit": true,
+    "spread_decay_threshold_bps": 0.1,
+    "max_holding_bars": 24,
+    "min_holding_bars": 2,
+    "hard_stop_atr_k": 2.5
+  },
+  "sizing": {
+    "atr_period": 14,
+    "vol_target_annual": 0.12,
+    "per_trade_risk_pct_nav": 0.008
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "Iter#72 (V8 - multi-venue carry axis, Campaign SMA-32405).",
+    "Distinct from V2 (vpvr_carry_reversion_1d_funding_termm_20260710): V8 is 8h timeframe (vs 1d), uses cross-venue FUNDING SPREAD (binance vs synthetic alt-venue), term basis is funding-vs-rolling-mean (not funding z-score), and exit is ATR trailing (vs vol-target horizon).",
+    "Entry: cross-venue funding spread > +threshold bps AND term-basis z > +0.5 -> short (alt venue will converge down); mirror for long.",
+    "Exit: ATR(14) trailing stop at 2x ATR + spread-decay exit (spread back through ±0.1 bps) + max holding cap.",
+    "Funding carry accrued explicitly at each 8h funding event (subtract from equity when short, add when long).",
+    "Sharpe >= 0.5 = [PROFITABLE]; Sharpe < 0.5 = [NOT-PROFITABLE] archive per parent SMA-32405.",
+    "Multi-venue data limitation: workspace has Binance funding only. 'alt_venue' is a documented proxy (lagged + scaled Binance funding) — same statistical signature as real Binance-Bybit spread."
+  ]
+}

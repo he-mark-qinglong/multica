@@ -1,0 +1,44 @@
+{
+  "strategy": "vpvr_micro_reversion_1h_funding_filter_20260710",
+  "iteration": 70,
+  "axis": "microstructure",
+  "timeframe": "1h",
+  "source_timeframe": "1h",
+  "instruments": ["BTCUSDT"],
+  "data_source": "binance_usdm_1h_canonical",
+  "indicators": {
+    "vpvr_lookback_hours": 168,
+    "poc_dev_atr_k_long": 0.5,
+    "poc_dev_atr_k_short": 0.5,
+    "vah_val_band_atr_k": 1.5,
+    "atr_period": 14,
+    "rolling_return_lookback": 8,
+    "funding_proxy_min": -0.003,
+    "funding_proxy_max": 0.003
+  },
+  "exit": {
+    "stop_loss_atr_k": 1.5,
+    "take_profit_atr_k": 0.75,
+    "time_stop_bars": 12,
+    "target_to_poc_atr_k": 1.0
+  },
+  "entry": {
+    "cooldown_bars": 4
+  },
+  "sizing": {
+    "per_signal_weight_pct": 0.005,
+    "max_gross_exposure_pct": 0.05
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "B3 backtest iteration: VPVR micro-reversion on 1h with funding-rate proxy filter.",
+    "VPVR construction: rolling 7d (168h) window builds a coarse 24-bin volume profile;",
+    "POC = price bin with peak volume; VAH/VAL = bins bracketing 70% of window volume.",
+    "Long entry: close < VAL (mean reversion up) AND funding proxy <= 0 (no long-funding drag).",
+    "Short entry: close > VAH (mean reversion down) AND funding proxy >= 0 (no short-funding drag).",
+    "Funding proxy is rolling 8h return since funding rate series is not in the canonical 1h parquet.",
+    "Exit first triggered wins: target to POC, stop-loss, take-profit, time stop."
+  ]
+}
