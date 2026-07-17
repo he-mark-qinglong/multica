@@ -1,0 +1,63 @@
+{
+  "strategy": "mtf_xs_pairs_1m_15m_2h_h3_20260718",
+  "iteration": 107,
+  "campaign": "SMA-34875 mtf-1m-15m-2h",
+  "hypothesis": "H3",
+  "date": "2026-07-18",
+  "primary_timeframe": "1m",
+  "filter_timeframe": "15m",
+  "regime_timeframe": "2h",
+  "description": "H3: 2h funding-rate EMA regime filter + 1m BTC/SOL pair entry + 15m ATR scaling.",
+  "instruments": ["BTCUSDT", "SOLUSDT"],
+  "pairs": ["BTCUSDT/SOLUSDT"],
+  "data_source": "binance_usdm_1m_canonical",
+  "axis": "funding_regime_2h_with_1m_15m_btc_sol_pair",
+  "indicators": {
+    "zscore_lookback_bars": 240,
+    "zscore_entry_threshold": 2.0,
+    "zscore_exit_threshold": 0.5,
+    "regime_break_threshold": 3.5,
+    "max_holding_bars": 240,
+    "funding_ema_window": 4,
+    "funding_filter_threshold": 0.0005,
+    "atr_normalize_window": 1440
+  },
+  "entry": {
+    "require_funding_regime": true,
+    "side_when_z_positive": "short_a_long_b"
+  },
+  "exit": {
+    "zscore_exit_threshold": 0.5,
+    "regime_break_threshold": 3.5,
+    "max_holding_bars": 240
+  },
+  "sizing": {
+    "per_pair_notional_pct": 0.02,
+    "atr_scale_min": 0.5,
+    "atr_scale_max": 2.0,
+    "max_pairs_active": 1,
+    "starting_capital_usd": 100000.0
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "sharpe_method": "daily_resampled",
+  "walk_forward": {
+    "train_bars_1m": 525600,
+    "test_bars_1m": 262800,
+    "step_bars_1m": 262800,
+    "min_windows": 3
+  },
+  "hard_gates": {
+    "oos_sharpe_min": 1.0,
+    "oos_annualized_min": 0.15,
+    "bootstrap_ci_lower_min": 0.5,
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 42
+  },
+  "notes": [
+    "Campaign SMA-34875 H3: BTC/SOL only (xs winner per iter#83).",
+    "Funding filter: |funding_2h_EMA(4 events)| < 0.0005.",
+    "Size scaled by 15m ATR (higher ATR -> smaller size), clipped to [0.5, 2.0].",
+    "Daily-resampled Sharpe only."
+  ]
+}

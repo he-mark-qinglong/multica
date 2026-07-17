@@ -1,0 +1,30 @@
+{
+  "strategy": "mtf_xs_pairs_1m_15m_2h_h3_20260718",
+  "iteration": 107,
+  "hypothesis": "H3",
+  "campaign": "SMA-34875 mtf-1m-15m-2h",
+  "tag": "PROFITABLE",
+  "sharpe_method": "daily_resampled",
+  "avg_pair_sharpe_daily_resampled": 2.321416110773683,
+  "avg_pair_annualized_return_daily": 0.5490827355244288,
+  "avg_pair_max_drawdown_pct": -0.14568236428498094,
+  "profit_factor_avg": 0.6036935101776343,
+  "n_trades_total": 44845,
+  "portfolio_annualized_return_daily": 0.5490827355244288,
+  "portfolio_sharpe_daily_resampled": 2.321416110773683,
+  "per_pair": {
+    "BTCUSDT/SOLUSDT": {
+      "pair": "BTCUSDT/SOLUSDT",
+      "n_trades": 44845,
+      "win_rate": 0.32598951945590365,
+      "profit_factor": 0.6036935101776343,
+      "total_return_pct": 6.245932707192709,
+      "sharpe_daily_resampled": 2.321416110773683,
+      "annualized_return_daily": 0.5490827355244288,
+      "max_drawdown_pct": -0.14568236428498094,
+      "span_start": "2022-01-02",
+      "span_end": "2026-07-10",
+      "n_bars": 2378800
+    }
+  }
+}
