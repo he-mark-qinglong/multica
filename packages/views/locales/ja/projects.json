@@ -116,5 +116,16 @@
   },
   "chip": {
     "fallback_label": "プロジェクト"
+  },
+  "map": {
+    "connect_title": "リンクを作成",
+    "connect_description": "2つのイシューの関係を選択してください。",
+    "type_child": "サブイシュー（接続先が接続元の子になる）",
+    "delete_edge_title": "リンクを削除",
+    "delete_edge_description": "2つのイシュー間の依存関係を削除します。イシュー自体は残ります。",
+    "delete_edge_child_hint": "子イシューの親リンクを解除します。イシュー自体は残ります。",
+    "toast_create_failed": "リンクの作成に失敗しました",
+    "toast_delete_failed": "リンクの削除に失敗しました",
+    "legend_parent": "親 → 子"
   }
 }

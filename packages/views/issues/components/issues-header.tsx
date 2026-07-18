@@ -13,6 +13,7 @@ import {
   FolderKanban,
   FolderMinus,
   List,
+  Network,
   SignalHigh,
   SlidersHorizontal,
   X,
@@ -501,9 +502,11 @@ function LabelSubContent({
 export function IssuesHeader({
   scopedIssues,
   allowGantt = false,
+  allowMap = false,
 }: {
   scopedIssues: Issue[];
   allowGantt?: boolean;
+  allowMap?: boolean;
 }) {
   const { t } = useT("issues");
   const scope = useIssuesScopeStore((s) => s.scope);
@@ -600,7 +603,7 @@ export function IssuesHeader({
             onToggle={toggleAgentRunningFilter}
             scopedIssueIds={scopedIssueIds}
           />
-          <IssueDisplayControls scopedIssues={scopedIssues} allowGantt={allowGantt} />
+          <IssueDisplayControls scopedIssues={scopedIssues} allowGantt={allowGantt} allowMap={allowMap} />
         </div>
       </div>
     </div>
@@ -611,6 +614,7 @@ export function IssueDisplayControls({
   scopedIssues,
   hideViewToggle = false,
   allowGantt = false,
+  allowMap = false,
 }: {
   scopedIssues: Issue[];
   hideViewToggle?: boolean;
@@ -618,6 +622,9 @@ export function IssueDisplayControls({
   // /my-issues, actor panel) ignore viewMode === "gantt" and would silently
   // fall back to List if the option were exposed there. Keep Gantt opt-in.
   allowGantt?: boolean;
+  // Same opt-in discipline as Gantt: only Project Detail renders the map
+  // view, so the option stays hidden everywhere else.
+  allowMap?: boolean;
 }) {
   const { t } = useT("issues");
   const viewMode = useViewStore((s) => s.viewMode);
@@ -1079,6 +1086,8 @@ export function IssueDisplayControls({
                           <Waves className="size-3.5" />
                         ) : viewMode === "gantt" && allowGantt ? (
                           <ChartGantt className="size-3.5" />
+                        ) : viewMode === "map" && allowMap ? (
+                          <Network className="size-3.5" />
                         ) : (
                           <List className="size-3.5" />
                         )}
@@ -1089,6 +1098,8 @@ export function IssueDisplayControls({
                             ? t(($) => $.view.swimlane)
                             : viewMode === "gantt" && allowGantt
                             ? t(($) => $.view.gantt)
+                            : viewMode === "map" && allowMap
+                            ? t(($) => $.view.map)
                             : t(($) => $.view.list)}
                         </span>
                       </Button>
@@ -1103,6 +1114,8 @@ export function IssueDisplayControls({
                   ? t(($) => $.view.tooltip_swimlane)
                   : viewMode === "gantt" && allowGantt
                   ? t(($) => $.view.tooltip_gantt)
+                  : viewMode === "map" && allowMap
+                  ? t(($) => $.view.tooltip_map)
                   : t(($) => $.view.tooltip_list)}
               </TooltipContent>
             </Tooltip>
@@ -1127,6 +1140,12 @@ export function IssueDisplayControls({
                   <DropdownMenuRadioItem value="gantt">
                     <ChartGantt />
                     {t(($) => $.view.gantt)}
+                  </DropdownMenuRadioItem>
+                )}
+                {allowMap && (
+                  <DropdownMenuRadioItem value="map">
+                    <Network />
+                    {t(($) => $.view.map)}
                   </DropdownMenuRadioItem>
                 )}
               </DropdownMenuRadioGroup>

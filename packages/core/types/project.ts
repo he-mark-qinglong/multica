@@ -1,3 +1,5 @@
+import type { IssueStatus, IssuePriority } from "./issue";
+
 export type ProjectStatus = "planned" | "in_progress" | "paused" | "completed" | "cancelled";
 
 export type ProjectPriority = "urgent" | "high" | "medium" | "low" | "none";
@@ -104,4 +106,35 @@ export interface UpdateProjectResourceRequest {
 export interface ListProjectResourcesResponse {
   resources: ProjectResource[];
   total: number;
+}
+
+// Project map view (node graph): every issue in the project is a node,
+// including isolated ones with no edges. Edges from `issue_dependency`;
+// the parent/child hierarchy is derived from each node's parent_issue_id.
+export type IssueDependencyType = "blocks" | "related" | "supersedes";
+
+export interface ProjectGraphNode {
+  id: string;
+  identifier: string;
+  title: string;
+  status: IssueStatus;
+  priority: IssuePriority;
+  parent_issue_id: string | null;
+}
+
+export interface ProjectGraphEdge {
+  id: string;
+  issue_id: string;
+  depends_on_issue_id: string;
+  type: IssueDependencyType;
+}
+
+export interface ProjectGraphResponse {
+  nodes: ProjectGraphNode[];
+  edges: ProjectGraphEdge[];
+}
+
+export interface CreateIssueDependencyRequest {
+  depends_on_issue_id: string;
+  type: IssueDependencyType;
 }

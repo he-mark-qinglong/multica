@@ -83,6 +83,11 @@ export type {
   CreateProjectResourceRequest,
   UpdateProjectResourceRequest,
   ListProjectResourcesResponse,
+  IssueDependencyType,
+  ProjectGraphNode,
+  ProjectGraphEdge,
+  ProjectGraphResponse,
+  CreateIssueDependencyRequest,
 } from "./project";
 export type { PinnedItem, PinnedItemType, CreatePinRequest, ReorderPinsRequest } from "./pin";
 export type {

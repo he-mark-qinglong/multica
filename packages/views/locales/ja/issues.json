@@ -85,7 +85,9 @@
     "board": "ボード",
     "list": "リスト",
     "gantt": "ガント",
-    "swimlane": "スイムレーン"
+    "swimlane": "スイムレーン",
+    "map": "マップ",
+    "tooltip_map": "マップ表示"
   },
   "gantt": {
     "header_issue": "イシュー",

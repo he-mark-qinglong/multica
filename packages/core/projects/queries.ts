@@ -22,3 +22,10 @@ export function projectDetailOptions(wsId: string, id: string) {
     queryFn: () => api.getProject(id),
   });
 }
+
+export function projectGraphOptions(wsId: string, projectId: string) {
+  return queryOptions({
+    queryKey: [...projectKeys.all(wsId), "graph", projectId] as const,
+    queryFn: () => api.getProjectGraph(projectId),
+  });
+}

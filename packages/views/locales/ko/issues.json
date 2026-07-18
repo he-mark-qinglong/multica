@@ -87,7 +87,9 @@
     "board": "보드",
     "list": "리스트",
     "gantt": "간트",
-    "swimlane": "스윔레인"
+    "swimlane": "스윔레인",
+    "map": "맵",
+    "tooltip_map": "맵 보기"
   },
   "gantt": {
     "header_issue": "이슈",

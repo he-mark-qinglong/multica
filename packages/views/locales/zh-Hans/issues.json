@@ -85,7 +85,9 @@
     "board": "看板",
     "list": "列表",
     "gantt": "甘特图",
-    "swimlane": "泳道"
+    "swimlane": "泳道",
+    "map": "地图",
+    "tooltip_map": "地图视图"
   },
   "gantt": {
     "header_issue": "Issue",

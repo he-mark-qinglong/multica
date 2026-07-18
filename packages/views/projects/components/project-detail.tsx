@@ -47,6 +47,7 @@ import { BoardView } from "../../issues/components/board-view";
 import { ListView } from "../../issues/components/list-view";
 import { GanttView } from "../../issues/components/gantt-view";
 import { SwimLaneView } from "../../issues/components/swimlane-view";
+import { ProjectMapView } from "./map-view";
 import { BatchActionToolbar } from "../../issues/components/batch-action-toolbar";
 import { Skeleton } from "@multica/ui/components/ui/skeleton";
 import { Button } from "@multica/ui/components/ui/button";
@@ -233,7 +234,7 @@ function ProjectIssuesContent({
   // but non-empty project would surface a misleading "no issues" CTA.
   // For Board/List the bucketed cache really is the ground truth,
   // so an empty result means an empty project.
-  if (viewMode !== "gantt" && viewMode !== "swimlane" && projectIssues.length === 0) {
+  if (viewMode !== "gantt" && viewMode !== "swimlane" && viewMode !== "map" && projectIssues.length === 0) {
     return (
       <div className="flex flex-1 min-h-0 flex-col items-center justify-center gap-3 text-muted-foreground">
         <ListTodo className="h-10 w-10 text-muted-foreground/40" />
@@ -285,6 +286,7 @@ function ProjectIssuesContent({
         />
       )}
       {viewMode === "gantt" && <GanttView issues={filteredGanttIssues} />}
+      {viewMode === "map" && <ProjectMapView projectId={projectId} />}
       {viewMode === "swimlane" && (
         <SwimLaneView
           issues={issues}
@@ -326,6 +328,9 @@ function ProjectIssuesSurface({
   const labelFilters = useViewStore((s) => s.labelFilters);
   const usesAssigneeBoard = viewMode === "board" && grouping === "assignee";
   const usesGantt = viewMode === "gantt";
+  // Map owns its data source too (projectGraphOptions inside ProjectMapView),
+  // so the bucketed fetch stays off while the map is on screen.
+  const usesMap = viewMode === "map";
 
   const sort = useMemo(
     () => ({
@@ -361,7 +366,7 @@ function ProjectIssuesSurface({
   // per-status fetch in the background.
   const statusIssuesQuery = useQuery({
     ...myIssueListOptions(wsId, scope, filter, undefined, sort),
-    enabled: !usesAssigneeBoard && !usesGantt,
+    enabled: !usesAssigneeBoard && !usesGantt && !usesMap,
   });
   const assigneeGroupsQuery = useQuery({
     ...assigneeGroupsOptions,
@@ -387,7 +392,7 @@ function ProjectIssuesSurface({
 
   return (
     <>
-      <IssuesHeader scopedIssues={projectIssues} allowGantt />
+      <IssuesHeader scopedIssues={projectIssues} allowGantt allowMap />
       <ProjectIssuesContent
         projectId={projectId}
         projectIssues={projectIssues}

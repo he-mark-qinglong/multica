@@ -87,7 +87,9 @@
     "board": "Board",
     "list": "List",
     "gantt": "Gantt",
-    "swimlane": "Swimlane"
+    "swimlane": "Swimlane",
+    "map": "Map",
+    "tooltip_map": "Map view"
   },
   "gantt": {
     "header_issue": "Issue",

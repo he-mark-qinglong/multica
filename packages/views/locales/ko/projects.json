@@ -116,5 +116,16 @@
   },
   "chip": {
     "fallback_label": "프로젝트"
+  },
+  "map": {
+    "connect_title": "연결 만들기",
+    "connect_description": "두 이슈의 관계를 선택하세요.",
+    "type_child": "하위 이슈 (대상이 소스의 자식이 됨)",
+    "delete_edge_title": "연결 삭제",
+    "delete_edge_description": "두 이슈 사이의 의존 관계를 삭제합니다. 이슈 자체는 유지됩니다.",
+    "delete_edge_child_hint": "자식 이슈의 부모 연결을 해제합니다. 이슈 자체는 유지됩니다.",
+    "toast_create_failed": "연결 만들기 실패",
+    "toast_delete_failed": "연결 삭제 실패",
+    "legend_parent": "부모 → 자식"
   }
 }

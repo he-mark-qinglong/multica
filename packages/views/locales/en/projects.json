@@ -116,5 +116,16 @@
   },
   "chip": {
     "fallback_label": "Project"
+  },
+  "map": {
+    "connect_title": "Create link",
+    "connect_description": "Choose how these two issues relate.",
+    "type_child": "Sub-issue (target becomes a child of the source)",
+    "delete_edge_title": "Remove link",
+    "delete_edge_description": "This removes the dependency between the two issues. The issues themselves are kept.",
+    "delete_edge_child_hint": "This clears the child issue's parent link. The issues themselves are kept.",
+    "toast_create_failed": "Failed to create link",
+    "toast_delete_failed": "Failed to remove link",
+    "legend_parent": "parent → child"
   }
 }

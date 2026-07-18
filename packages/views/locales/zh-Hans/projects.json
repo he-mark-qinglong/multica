@@ -116,5 +116,16 @@
   },
   "chip": {
     "fallback_label": "项目"
+  },
+  "map": {
+    "connect_title": "创建连接",
+    "connect_description": "选择这两个 issue 之间的关系。",
+    "type_child": "子任务（目标成为源节点的子级）",
+    "delete_edge_title": "删除连接",
+    "delete_edge_description": "将删除两个 issue 之间的依赖关系，issue 本身保留。",
+    "delete_edge_child_hint": "将清除子 issue 的父子关系，issue 本身保留。",
+    "toast_create_failed": "创建连接失败",
+    "toast_delete_failed": "删除连接失败",
+    "legend_parent": "父 → 子"
   }
 }

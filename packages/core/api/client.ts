@@ -73,6 +73,9 @@ import type {
   CreateProjectResourceRequest,
   UpdateProjectResourceRequest,
   ListProjectResourcesResponse,
+  ProjectGraphResponse,
+  ProjectGraphEdge,
+  CreateIssueDependencyRequest,
   Label,
   CreateLabelRequest,
   UpdateLabelRequest,
@@ -1777,6 +1780,30 @@ export class ApiClient {
     resourceId: string,
   ): Promise<void> {
     await this.fetch(`/api/projects/${projectId}/resources/${resourceId}`, {
+      method: "DELETE",
+    });
+  }
+
+  // Project map view (node graph)
+  async getProjectGraph(projectId: string): Promise<ProjectGraphResponse> {
+    return this.fetch(`/api/projects/${projectId}/graph`);
+  }
+
+  async createIssueDependency(
+    issueId: string,
+    data: CreateIssueDependencyRequest,
+  ): Promise<ProjectGraphEdge> {
+    return this.fetch(`/api/issues/${issueId}/dependencies`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteIssueDependency(
+    issueId: string,
+    depId: string,
+  ): Promise<void> {
+    await this.fetch(`/api/issues/${issueId}/dependencies/${depId}`, {
       method: "DELETE",
     });
   }
