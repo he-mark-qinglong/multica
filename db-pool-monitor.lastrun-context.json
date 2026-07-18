@@ -1,0 +1,36 @@
+{
+  "run_id": "f98306c7-8815-427c-b3a1-a3ad168d1ed0",
+  "autopilot_id": "c8ec222b-1f58-429a-b58d-7014da99f395",
+  "triggered_at": "2026-07-16T22:35:14Z",
+  "completed_at": "2026-07-16T22:35:14Z",
+  "db_host": "127.0.0.1:5432",
+  "daemon_pid": 614431,
+  "daemon_alive": true,
+  "skip_guard": "passed (last_completed 22:32:51 -> now 22:35:14 = ~143s, > 100s)",
+  "metrics": {
+    "idle": 9,
+    "active": 1,
+    "idle_in_tx": 0,
+    "idle_in_tx_aborted": 0,
+    "stuck_in_tx": 0,
+    "oldest_tx_age_sec": null,
+    "fastpath": 0,
+    "slow_queries": 0,
+    "total_conns": 10,
+    "max_conns_pg": 100,
+    "app_pool_max_conns": 25,
+    "acquired_pct_app_pool": 4
+  },
+  "thresholds": {
+    "acquired_pct_warn": 80,
+    "stuck_in_tx_escalate": 0,
+    "slow_queries_warn": 5,
+    "oldest_tx_age_escalate": 60
+  },
+  "verdict": "healthy no-op",
+  "issues_created": [],
+  "top_connections_sample": [
+    {"state": "idle", "count": 9, "max_state_age_sec": 84.2, "note": "9 idle pool connections (max 84s state age), normal pool idle"},
+    {"state": "active", "count": 1, "max_state_age_sec": 0, "note": "1 active query, just started"}
+  ]
+}

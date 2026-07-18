@@ -1,0 +1,12 @@
+{
+  "sharpe": -0.2561967937856048,
+  "annualized_return": null,
+  "total_return": -2.9999999999854525,
+  "max_drawdown": -2.985236823661329,
+  "n_trades_total": 140975,
+  "win_rate_avg": 0.2519588178097524,
+  "profit_factor_avg": 0.6698647022957847,
+  "sharpe_method": "daily_resampled",
+  "sharpe_method_evidence": "run_backtest.py: [run_backtest.py] L98:\"total_return\": strat.total_return, \"sharpe\": strat.annualized_sharpe, \"sortino\": strat.annualized_sortino, \"max_dd\": strat.max_drawdown, \"turnover_per_year\": strat.turnover_per_",
+  "sharpe_method_audit_date": "2026-07-17T06:30:53+00:00"
+}

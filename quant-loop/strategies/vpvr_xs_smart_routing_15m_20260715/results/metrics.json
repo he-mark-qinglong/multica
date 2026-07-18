@@ -1,0 +1,31 @@
+{
+  "iteration": 105,
+  "variant": "V3_xs_smart_routing",
+  "strategy_key": "vpvr_xs_smart_routing_15m_20260715",
+  "date": "2026-07-15",
+  "timeframe": "15m",
+  "instruments": [
+    "BTCUSDT"
+  ],
+  "axis": "multi_venue_smart_routing_microprice_divergence_with_twap_sliced_volaware_exit",
+  "tag": "NOT-PROFITABLE",
+  "data_status": "MULTI-VENUE-DATA-MISSING microprice=binance_buy_share_proxy",
+  "agg_sharpe_mean": -4.4331553511737605,
+  "agg_n_trades_total": 2772,
+  "agg_mdd_worst": -0.022109291733624414,
+  "agg_profit_factor": 0.5668155040436723,
+  "agg_return_pct": -0.02091414629888899,
+  "by_symbol": {
+    "BTCUSDT": {
+      "sharpe": -3.6593,
+      "mdd": -0.022109291733624414,
+      "n_trades": 2772,
+      "win_rate": 0.30014430014430016,
+      "profit_factor": 0.5668155040436723,
+      "total_return_pct": -0.02091414629888899
+    }
+  },
+  "sharpe_method": "bar_freq_annualized",
+  "sharpe_method_evidence": "run_backtest.py: [run_backtest.py] L57:sharpe = (mu_t / sd_t) * np.sqrt(tpy) if sd_t > 0 else 0.0 ds = pnls[pnls < 0] dsigma = float(np.std(ds, ddof=0)) if ds.size else 0.0; L67:tag = \"PROFITABLE\" if sharpe >= 1.0 els",
+  "sharpe_method_audit_date": "2026-07-17T06:30:53+00:00"
+}

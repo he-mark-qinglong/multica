@@ -1,0 +1,47 @@
+{
+  "strategy": "trend_regime_gate_1d_adx_4h_1h_20260714",
+  "iteration": 101,
+  "axis": "trend_dominant_regime_gate",
+  "n_windows": 3,
+  "schedule": {
+    "train_bars": 8760,
+    "test_bars": 4380,
+    "step_bars": 4380
+  },
+  "in_sample_sharpe": 0.2119342041557734,
+  "oos": {
+    "annualized_return_mean": -0.1353743877677032,
+    "sharpe_mean": -8.043589083313053,
+    "profit_factor_mean": 0.8620178790830707,
+    "n_trades_total": 307,
+    "min_sharpe": -19.3544254201529,
+    "per_window_annualized": [
+      -0.3853206659108148,
+      0.24112017636905825,
+      -0.26192267376135303
+    ],
+    "per_window_sharpe": [
+      -19.3544254201529,
+      6.87820744009573,
+      -11.654549269881992
+    ],
+    "per_window_profit_factor": [
+      0.6090756884605096,
+      1.2225226428585612,
+      0.7544553059301415
+    ],
+    "per_window_n_trades": [
+      77,
+      143,
+      87
+    ]
+  },
+  "gates": {
+    "in_sample_sharpe_>=1.0": false,
+    "oos_sharpe_>=1.0": false,
+    "annualized_return_>=0.15": false,
+    "profit_factor_>1.5": false,
+    "max_drawdown_<0.25": true
+  },
+  "all_gates_pass": false
+}

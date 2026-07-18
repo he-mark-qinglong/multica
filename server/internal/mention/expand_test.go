@@ -117,3 +117,4 @@ func TestExpandIssueIdentifiers(t *testing.T) {
 		})
 	}
 }
+

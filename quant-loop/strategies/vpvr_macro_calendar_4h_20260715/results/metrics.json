@@ -1,0 +1,32 @@
+{
+  "variant_key": "vpvr_macro_calendar_4h_20260715",
+  "iteration": 75,
+  "symbol": "BTCUSDT",
+  "timeframe": "4h",
+  "starting_capital_usd": 100000.0,
+  "final_equity_usd": 99987.46,
+  "n_bars": 9912,
+  "span_start": "2022-01-01 00:00:00",
+  "span_end": "2026-07-10 20:00:00",
+  "n_trades": 212,
+  "win_rate": 0.4057,
+  "sharpe": -0.0165,
+  "sortino": -0.0263,
+  "ann_return_pct": -0.0028,
+  "total_return_pct": -0.0125,
+  "max_drawdown_pct": -0.3231,
+  "profit_factor": 1.0635,
+  "avg_trade_pct": 0.0009,
+  "status": "FAIL_NEGATIVE_ANN_RETURN",
+  "sharpe_method": "bar_freq_annualized",
+  "sharpe_method_evidence": "run_backtest.py: [run_backtest.py] L6:- results/metrics.json   (Sharpe, Sortino, max DD, annualized return, win-rate, profit-factor) - results/summary.json   (per-symbol + portfolio summary); L61:sharpe = float(rets.m",
+  "sharpe_method_audit_date": "2026-07-17T06:30:53+00:00",
+  "sharpe_daily_resampled": -0.014588183466658033,
+  "sharpe_daily_resampled_n_days": 1651,
+  "sharpe_daily_resampled_span": [
+    "2022-01-01",
+    "2026-07-10"
+  ],
+  "sharpe_daily_resampled_source": "aggregate(symbol equity_*.csv)",
+  "sharpe_daily_resampled_audit_date": "2026-07-17T06:31:57Z"
+}

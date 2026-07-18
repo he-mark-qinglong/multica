@@ -1,0 +1,133 @@
+{
+  "window_days": 30,
+  "window_start": "2026-06-17T00:00:00+00:00",
+  "data_end": "2026-07-10T23:59:59+00:00",
+  "today": "2026-07-17T00:00:00+00:00",
+  "data_source": "/home/smark/multica/quant-loop/strategies/vpvr_volume_edge_3tf_v1_20260711/data",
+  "return_type": "log",
+  "method": "pearson",
+  "tickers": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "timeframes": {
+    "1m": {
+      "n_bars_loaded_per_ticker": {
+        "BTCUSDT": 34559,
+        "ETHUSDT": 34559,
+        "SOLUSDT": 34559
+      },
+      "n_aligned_rows": 34559,
+      "strongest_pair": {
+        "pair": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "r": 0.879985772824256
+      },
+      "weakest_pair": {
+        "pair": [
+          "BTCUSDT",
+          "SOLUSDT"
+        ],
+        "r": 0.8125499314497997
+      },
+      "matrix": {
+        "BTCUSDT": {
+          "BTCUSDT": 1.0,
+          "ETHUSDT": 0.88,
+          "SOLUSDT": 0.8125
+        },
+        "ETHUSDT": {
+          "BTCUSDT": 0.88,
+          "ETHUSDT": 1.0,
+          "SOLUSDT": 0.8373
+        },
+        "SOLUSDT": {
+          "BTCUSDT": 0.8125,
+          "ETHUSDT": 0.8373,
+          "SOLUSDT": 1.0
+        }
+      }
+    },
+    "15m": {
+      "n_bars_loaded_per_ticker": {
+        "BTCUSDT": 2303,
+        "ETHUSDT": 2303,
+        "SOLUSDT": 2303
+      },
+      "n_aligned_rows": 2303,
+      "strongest_pair": {
+        "pair": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "r": 0.9052076880876828
+      },
+      "weakest_pair": {
+        "pair": [
+          "BTCUSDT",
+          "SOLUSDT"
+        ],
+        "r": 0.8330185522181263
+      },
+      "matrix": {
+        "BTCUSDT": {
+          "BTCUSDT": 1.0,
+          "ETHUSDT": 0.9052,
+          "SOLUSDT": 0.833
+        },
+        "ETHUSDT": {
+          "BTCUSDT": 0.9052,
+          "ETHUSDT": 1.0,
+          "SOLUSDT": 0.8481
+        },
+        "SOLUSDT": {
+          "BTCUSDT": 0.833,
+          "ETHUSDT": 0.8481,
+          "SOLUSDT": 1.0
+        }
+      }
+    },
+    "4h": {
+      "n_bars_loaded_per_ticker": {
+        "BTCUSDT": 143,
+        "ETHUSDT": 143,
+        "SOLUSDT": 143
+      },
+      "n_aligned_rows": 143,
+      "strongest_pair": {
+        "pair": [
+          "BTCUSDT",
+          "ETHUSDT"
+        ],
+        "r": 0.9007790009427412
+      },
+      "weakest_pair": {
+        "pair": [
+          "ETHUSDT",
+          "SOLUSDT"
+        ],
+        "r": 0.8115538532672625
+      },
+      "matrix": {
+        "BTCUSDT": {
+          "BTCUSDT": 1.0,
+          "ETHUSDT": 0.9008,
+          "SOLUSDT": 0.8161
+        },
+        "ETHUSDT": {
+          "BTCUSDT": 0.9008,
+          "ETHUSDT": 1.0,
+          "SOLUSDT": 0.8116
+        },
+        "SOLUSDT": {
+          "BTCUSDT": 0.8161,
+          "ETHUSDT": 0.8116,
+          "SOLUSDT": 1.0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "page": {
+    "breadcrumb_title": "对比",
+    "empty_title": "暂无指标数据",
+    "empty_hint": "该 campaign 还没有回测迭代记录。",
+    "no_campaign_title": "请选择 Campaign",
+    "no_campaign_hint": "选择一个策略 campaign，并排对比它的各次迭代。",
+    "total_iterations": "{{total}} 次迭代"
+  },
+  "filter": {
+    "campaign_placeholder": "选择 campaign",
+    "campaign_free_placeholder": "输入 campaign 名称…",
+    "campaign_apply": "加载"
+  },
+  "col": {
+    "iteration": "迭代",
+    "timeframe": "周期",
+    "sharpe": "夏普",
+    "ann_return": "年化收益",
+    "max_drawdown": "最大回撤",
+    "profit_factor": "盈亏比",
+    "oos_sharpe": "样本外夏普",
+    "oos_windows": "样本外窗口",
+    "gate": "门禁",
+    "created": "创建时间"
+  },
+  "gate": {
+    "pass": "通过",
+    "fail": "未通过",
+    "none": "—",
+    "details_title": "门禁规则",
+    "rule_pass": "通过",
+    "rule_fail": "未通过"
+  },
+  "chart": {
+    "title": "净值曲线",
+    "select_hint": "最多选择 {{max}} 次迭代叠加净值曲线。",
+    "no_equity_title": "没有净值工件",
+    "no_equity_hint": "所选迭代都没有上传净值 CSV 工件。请在回测中开启工件上传后重跑。",
+    "series_missing": "{{label}}：没有净值工件",
+    "series_unparseable": "{{label}}：净值 CSV 无法解析",
+    "series_error": "{{label}}：净值工件加载失败"
+  }
+}

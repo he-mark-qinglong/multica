@@ -459,3 +459,4 @@ func TestCloudPATVerifier_LookupSuccessIsCached(t *testing.T) {
 		t.Fatalf("expected 1 lookup call (second hits cache), got %d", got)
 	}
 }
+

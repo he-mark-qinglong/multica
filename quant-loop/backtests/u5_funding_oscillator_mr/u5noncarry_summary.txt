@@ -1,0 +1,11 @@
+=== SMA-34957-w365 funding-oscillator-MR window=365d ===
+family_n = 72, alpha_adj = 0.000174
+variants = 36, symbols = ['ETHUSDT', 'SOLUSDT']
+funding event stats (window):
+  ETHUSDT: n_events=1094 max=0.000100 p99=0.000100 min=-0.000365 mean=2.489525e-05
+  SOLUSDT: n_events=1095 max=0.000259 p99=0.000100 min=-0.003028 mean=-1.083196e-05
+--- per-symbol best (n>=30) ---
+  ETHUSDT z2_n90_h2: Sharpe=-0.0018 ann=-0.033103 mdd=-22.56% PF=0.9993 n=45 ci_lo=-1.8073 p_pos=0.4963
+  SOLUSDT z2_n90_h1: Sharpe=0.7273 ann=0.108833 mdd=-15.8238% PF=1.3064 n=52 ci_lo=-1.2011 p_pos=0.2294
+--- portfolio best (n>=30) ---
+  ETH+SOL z3_n90_h3: Sharpe=0.2971 ann=0.033698 mdd=-15.3665% PF=1.1892 n=30 ci_lo=-1.4637 p_pos=0.3653

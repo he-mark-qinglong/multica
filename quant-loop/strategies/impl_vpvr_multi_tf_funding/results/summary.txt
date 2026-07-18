@@ -1,0 +1,38 @@
+=== vpvr_multi_tf_funding_v1 (SMA-34989) ===
+  Implementation issue: SMA-34989
+  Source spec:          SMA-34911
+  Instruments:          ['BTCUSDT']
+  Timeframes:           ['1m', '15m', '4h']
+  Sharpe method:        daily_resampled_per_SMA-34787 (sqrt(365.25))
+
+=== Per-fold ===
+  2024-Q1  test=[2024-01-01 .. 2024-03-31]
+    trades=17057  win_rate=0.238  pf=0.2537  avg_bars=5.87
+    sharpe_d=-41.6542  ann=-0.160114  mdd=-4.2088%  CI=[-53.8963, -34.7168]  resamples=1000
+  2024-Q3  test=[2024-07-01 .. 2024-09-30]
+    trades=16938  win_rate=0.227  pf=0.2262  avg_bars=6.0
+    sharpe_d=-45.6842  ann=-0.15797  mdd=-4.1934%  CI=[-57.3937, -36.9574]  resamples=1000
+  2025-Q2  test=[2025-04-01 .. 2025-06-30]
+    trades=16731  win_rate=0.168  pf=0.1336  avg_bars=6.0
+    sharpe_d=-52.6788  ann=-0.154567  mdd=-4.0533%  CI=[-73.6524, -39.5362]  resamples=1000
+
+=== Aggregate ===
+  mean_sharpe_d=-46.6724  mean_ann=-0.15755  worst_mdd=-4.2088%  min_pf=0.1336
+  n_trades_total=50726  folds_valid=3/3  folds_with_30+_trades=3
+  min_bootstrap_CI_lower=-73.6524
+
+=== Acceptance gates (G1-G7) ===
+  G1 Sharpe_d >= 1.0            : pass=False
+  G2 annualized >= 15%      : pass=False
+  G3 max_drawdown > -25%      : pass=True
+  G4 profit_factor > 1.5          : pass=False
+  G5 n_trades >= 30 (≥2 folds) : pass=True
+  G6 bootstrap CI lower >= 0.5     : pass=False
+  G7 Bonferroni alpha = 0.0125        : documented
+
+  Failed gate details:
+    2024-Q1: failed=['G1', 'G2', 'G4', 'G6']
+    2024-Q3: failed=['G1', 'G2', 'G4', 'G6']
+    2025-Q2: failed=['G1', 'G2', 'G4', 'G6']
+
+VERDICT: NOT-PROFITABLE

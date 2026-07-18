@@ -1,0 +1,36 @@
+vpvr_funding_hvn_lvn_confluence — SMA-34901
+  Window        = [2023-11-01 00:00:00 .. 2024-12-31 23:45:00]
+  Symbols       = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT']
+  Funding gate  = 0.0003 (0.030% / 8h)
+  Position size = fixed-fraction 1.0 per trade
+
+=== Per-symbol ===
+  BTCUSDT   span=2023-11-01 00:00:00 → 2024-12-31 23:45:00  bars=40992
+             diag: long_signals=20  funding_above=2887  near_hvn=20
+             met: trades=20  wr=0.600  pf=1.623  avg_pnl=+0.60%  med_pnl=+0.80%
+             sharpe_d=0.836  ann=+9.99%  total_ret=+11.75%  mdd=-11.03%
+  ETHUSDT   span=2023-11-01 00:00:00 → 2024-12-31 23:45:00  bars=40992
+             diag: long_signals=13  funding_above=3333  near_hvn=13
+             met: trades=13  wr=0.538  pf=1.836  avg_pnl=+1.26%  med_pnl=+0.41%
+             sharpe_d=0.891  ann=+13.14%  total_ret=+15.48%  mdd=-13.55%
+  SOLUSDT   span=2023-11-01 00:00:00 → 2024-12-31 23:45:00  bars=40992
+             diag: long_signals=16  funding_above=4707  near_hvn=16
+             met: trades=16  wr=0.500  pf=1.243  avg_pnl=+0.37%  med_pnl=-0.20%
+             sharpe_d=0.309  ann=+3.86%  total_ret=+4.52%  mdd=-13.79%
+
+=== Combined (all symbols) ===
+  trades=49  wr=0.551  pf=1.544  avg_pnl=+0.70%  med_pnl=+0.55%
+  sharpe_d=1.053  ann=+26.67%  total_ret=+31.75%  mdd=-18.48%
+
+=== Acceptance gates ===
+  G1 Sharpe_d >= 1.0          : 1.053  pass=True
+  G2 annualized >= 15%        : +26.67%  pass=True
+  G3 max_drawdown > -25%      : -18.48%  pass=True
+  G4 profit_factor > 1.5      : 1.544  pass=True
+  G5 n_trades >= 30           : 49  pass=True
+
+=== Cross-check vs SMA-34897 (funding_carry_asym baseline) ===
+  baseline (Q1 2024, 1 symbol): Sharpe=-1.522  ann=-0.094%  PF=0.59  MDD=-2.72%  n=63
+  confluence (hot 23-24, 3 symbols): Sharpe=1.053  ann=+26.67%  PF=1.544  MDD=-18.48%  n=49
+
+VERDICT: PROFITABLE

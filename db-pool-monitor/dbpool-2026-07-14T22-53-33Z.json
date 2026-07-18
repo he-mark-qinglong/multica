@@ -1,0 +1,102 @@
+{
+  "ts": 1784069613,
+  "ts_utc": "2026-07-14T22:53:33Z",
+  "ts_cn": "2026-07-15T06:53:33+08:00",
+  "run_id": "dbpool-2026-07-14T22-53-33Z",
+  "autopilot_id": "c8ec222b-1f58-429a-b58d-7014da99f395",
+  "autopilot_run_id": "91c4fb9b-0f79-4e1a-9019-33685f4627fc",
+  "host_used": "127.0.0.1:5432",
+  "host_spec_note": "spec says 192.168.0.105:5432 but unreachable from workdir; fallback to localhost per established pattern",
+  "skip_guard": {
+    "applies": false,
+    "prior_run_age_sec": 2530,
+    "min_gap_sec": 100,
+    "reason": "prior_run_age_sec=2530 > min_gap_sec=100; proceed"
+  },
+  "daemon_alive": true,
+  "daemon_pid": 2609883,
+  "metrics": {
+    "idle": 9,
+    "active": 1,
+    "idle_in_tx": 0,
+    "idle_in_tx_aborted": 0,
+    "stuck_in_tx": 0,
+    "oldest_tx_age_sec": null,
+    "fastpath": 0,
+    "slow_queries": 0,
+    "total_db_conns": 10,
+    "acquired_conns": 1,
+    "app_pool_max": 25,
+    "pg_max_connections": 100
+  },
+  "pool_util_pct": 4.0,
+  "thresholds": {
+    "pool_util_warn_pct": 80,
+    "stuck_in_tx_escalate": 0,
+    "slow_queries_warn": 5,
+    "oldest_tx_age_escalate_sec": 60
+  },
+  "verdict": "no-op",
+  "actions": {
+    "escalate": false,
+    "warn": false,
+    "issue_created": false
+  },
+  "note": "All thresholds clear; 9 idle + 1 active connections; pool utilization 4.0% (1/25)",
+  "top_activity_sample": [
+    {
+      "pid": 157127,
+      "state": "active",
+      "app": "psql",
+      "client_addr": "172.18.0.1",
+      "q_age_sec": 0,
+      "x_age_sec": 0,
+      "query_head": "SELECT pid, state, COALESCE(application_name,'')..."
+    },
+    {
+      "pid": 156868,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1",
+      "q_age_sec": 92,
+      "x_age_sec": 0,
+      "query_head": "-- name: GetWorkspace :one"
+    },
+    {
+      "pid": 156902,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1",
+      "q_age_sec": 92,
+      "x_age_sec": 0,
+      "query_head": "-- name: GetAgentRuntime :one"
+    },
+    {
+      "pid": 156860,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1",
+      "q_age_sec": 39,
+      "x_age_sec": 0,
+      "query_head": "-- name: GetMemberByUserAndWorkspace :one"
+    },
+    {
+      "pid": 156871,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1",
+      "q_age_sec": 32,
+      "x_age_sec": 0,
+      "query_head": "-- name: GetAgentRuntime :one"
+    },
+    {
+      "pid": 156872,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1",
+      "q_age_sec": 32,
+      "x_age_sec": 0,
+      "query_head": "-- name: GetWorkspace :one"
+    }
+  ]
+}

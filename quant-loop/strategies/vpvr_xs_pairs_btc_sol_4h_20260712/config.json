@@ -1,0 +1,47 @@
+{
+  "strategy": "vpvr_xs_pairs_btc_sol_4h_20260712",
+  "iteration": 80,
+  "date": "2026-07-12",
+  "timeframe": "4h",
+  "source_timeframe": "1h->4h_resample (BTC); native 4h (SOL)",
+  "instruments": ["BTCUSDT", "SOLUSDT"],
+  "pairs": ["BTCUSDT/SOLUSDT"],
+  "data_source": "binance_usdm_4h_canonical",
+  "axis": "xs_pair_zscore_with_vpvr_confluence",
+  "indicators": {
+    "vpvr_window_bars": 60,
+    "vpvr_n_bins": 24,
+    "zscore_lookback_bars": 90,
+    "zscore_entry_threshold": 1.8,
+    "zscore_exit_threshold": 0.3,
+    "vpvr_proximity_atr_k": 0.7,
+    "atr_period": 14,
+    "resample_tf": "4h"
+  },
+  "entry": {
+    "zscore_side_when_positive": "short_a_long_b",
+    "require_vpvr_confluence": true
+  },
+  "exit": {
+    "zscore_exit_threshold": 0.3,
+    "regime_switch_zscore_threshold": 3.0,
+    "max_holding_bars": 60
+  },
+  "sizing": {
+    "per_pair_notional_pct": 0.01,
+    "max_pairs_active": 2
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "Iteration #80 (Campaign SMA-32892): VPVR variant V4 — narrow V3 (#75) universe to BTCUSDT/SOLUSDT only.",
+    "V3 (#75) BTCUSDT/ETHUSDT pair was a drag (sharpe 0.282). BTCUSDT/SOLUSDT was the only pair that beat",
+    "the 0.5 evidence gate on its own (sharpe 0.568 in V3 per-pair breakdown). Dropping the ETH drag is",
+    "expected to let the SOL pair's signal be measured cleanly; identical otherwise (vpvr_window_bars=60,",
+    "n_bins=24, zscore_lookback=90, entry_z=1.8, exit_z=0.3).",
+    "Pairs: BTCUSDT/SOLUSDT only. BTC resampled 1h→4h on the fly (canonical 4h parquet not present",
+    "for BTC); SOLUSDT loaded from native 4h parquet.",
+    "Sharpe >= 0.5 = [PROFITABLE]; Sharpe < 0.5 = [NOT-PROFITABLE] archive (per parent SMA-32012)."
+  ]
+}

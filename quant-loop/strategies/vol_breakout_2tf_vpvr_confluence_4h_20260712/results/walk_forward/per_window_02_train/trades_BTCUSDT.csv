@@ -1,0 +1,2 @@
+symbol,entry_signal_date,entry_fill_date,entry_price,exit_signal_date,exit_fill_date,exit_price,reason,pnl_usd,pnl_pct,bars_held,atr_4h_at_entry,vpvr_dist_atr_4h_at_entry
+BTCUSDT,2022-05-15 20:00:00+00:00,2022-05-16 00:00:00+00:00,31335.155778,2022-05-16 04:00:00+00:00,2022-05-16 08:00:00+00:00,29587.971222,trailing_stop<entry-2.0*ATR,-552.4186799107899,-0.05575796617633777,2,1017.3427612520939,0.5275224718613327

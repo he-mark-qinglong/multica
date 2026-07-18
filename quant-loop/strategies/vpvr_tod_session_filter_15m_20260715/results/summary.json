@@ -1,0 +1,58 @@
+{
+  "strategy": "vpvr_tod_session_filter_15m_20260715",
+  "iteration": 1,
+  "timeframe": "15m",
+  "instruments": [
+    "BTCUSDT",
+    "ETHUSDT"
+  ],
+  "bars_per_year": 35040,
+  "data_source": "perp_30m_synthesised_15m_BTCUSDT_ETHUSDT_session_of_day_embedded",
+  "starting_capital_usd": 100000.0,
+  "per_symbol": [
+    {
+      "symbol": "BTCUSDT",
+      "n_trades": 3528,
+      "win_rate": 0.415,
+      "ann_return_pct": -0.1617,
+      "max_drawdown_pct": -0.8491,
+      "profit_factor": 0.7452,
+      "sharpe": -1.0803,
+      "sortino": -1.5568,
+      "final_equity": 99270.16,
+      "total_return": -0.007298,
+      "pnl_usd_sum": -729.84,
+      "n_bars": 158592,
+      "span_start": "2022-01-01 00:00:00",
+      "span_end": "2026-07-10 23:45:00"
+    },
+    {
+      "symbol": "ETHUSDT",
+      "n_trades": 3388,
+      "win_rate": 0.4295,
+      "ann_return_pct": 0.1015,
+      "max_drawdown_pct": -0.3914,
+      "profit_factor": 0.8321,
+      "sharpe": 0.5268,
+      "sortino": 0.7643,
+      "final_equity": 100460.03,
+      "total_return": 0.0046,
+      "pnl_usd_sum": 460.03,
+      "n_bars": 158592,
+      "span_start": "2022-01-01 00:00:00",
+      "span_end": "2026-07-10 23:45:00"
+    }
+  ],
+  "portfolio": {
+    "n_trades_total": 6916,
+    "avg_sharpe": -0.2767,
+    "avg_sortino": -0.3962,
+    "avg_ann_return_pct": -0.0301,
+    "worst_max_drawdown_pct": -0.8491,
+    "final_equity_total": 199730.19,
+    "total_return": -0.001349
+  },
+  "walk_forward": {
+    "note": "config.json holds fold definitions; fold-by-fold evaluation requires walking each fold separately."
+  }
+}

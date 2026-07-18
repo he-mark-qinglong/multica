@@ -1,0 +1,44 @@
+{
+  "variant": "funding_carry_asym",
+  "strategy_key": "funding_carry_asym",
+  "iteration": 2,
+  "date": "2026-07-18",
+  "source_spec": "SMA-34793",
+  "instruments": [
+    "BTCUSDT"
+  ],
+  "starting_capital_usd": 100000.0,
+  "timeframes": [
+    "15m"
+  ],
+  "window_days": 90,
+  "params": {
+    "funding_threshold": 0.0003,
+    "support_kind": "HVN",
+    "proximity_atr": 1.0,
+    "atr_period": 14,
+    "vpvr_window_bars": 180,
+    "vpvr_snapshot_every_bars": 6,
+    "vpvr_bins": 24,
+    "vpvr_hvn_quantile": 0.85,
+    "vpvr_lvn_quantile": 0.15,
+    "vpvr_num_hvn": 3,
+    "vpvr_num_lvn": 3,
+    "take_profit_atr_k": 1.5,
+    "hard_stop_atr_k": 1.0,
+    "max_hold_bars_1m": 30,
+    "max_hold_bars_15m": 8,
+    "max_hold_bars_4h": 6,
+    "risk_target_pct": 0.005,
+    "cooldown_bars": 5,
+    "fee_bps_per_fill": 4.0,
+    "slippage_bps_per_fill": 1.0,
+    "funding_carry_bps_per_bar": 0.01
+  },
+  "notes": [
+    "SMA-34858 iter 2. Same prototype, but window placed in the Q1 2024 hot-funding regime (2024-02-01 \u2192 2024-04-30) where ~57 funding events cross the 0.0003 threshold. This is the regime the signal was designed for (per SMA-34793 spec).",
+    "Last 30d window (SMA-34854 baseline) has 0 hot funding events; the signal cannot fire. To honestly measure Sharpe/ann under the signal-designed regime, we place the window where the trigger can fire.",
+    "Funding threshold = 0.0003 raw (3 bps per 8h event = 0.03%).",
+    "Sharpe is daily-resampled per SMA-34787 audit convention."
+  ]
+}

@@ -85,6 +85,7 @@ func resolveTextFlag(cmd *cobra.Command, flagName string) (string, bool, error) 
 
 var issueCmd = &cobra.Command{
 	Use:   "issue",
+	RunE:  groupRunE,
 	Short: "Work with issues",
 }
 
@@ -95,10 +96,11 @@ var issueListCmd = &cobra.Command{
 }
 
 var issueGetCmd = &cobra.Command{
-	Use:   "get <id>",
-	Short: "Get issue details",
-	Args:  exactArgs(1),
-	RunE:  runIssueGet,
+	Use:     "get <id>",
+	Aliases: []string{"view"},
+	Short:   "Get issue details",
+	Args:    exactArgs(1),
+	RunE:    runIssueGet,
 }
 
 var issuePullRequestsCmd = &cobra.Command{
@@ -238,6 +240,39 @@ var validIssueStatuses = []string{
 	"backlog", "todo", "in_progress", "in_review", "done", "blocked", "cancelled",
 }
 
+// dispatchStatuses are the issue statuses for which assigning an agent
+// actually fires the dispatcher. Assignment on any other status (notably
+// backlog, the parking lot) is accepted by the server but no task is
+// enqueued until the status moves — warn the user instead of letting the
+// assignment look like a silent no-op.
+var dispatchStatuses = []string{"todo", "in_progress", "in_review"}
+
+// validateStatus checks s against a list of allowed values, returning an
+// error that names them all.
+func validateStatus(s string, valid []string) error {
+	for _, v := range valid {
+		if v == s {
+			return nil
+		}
+	}
+	return fmt.Errorf("invalid status %q; valid values: %s", s, strings.Join(valid, ", "))
+}
+
+// assignmentDispatchWarning returns a stderr warning when an issue's
+// resulting status is outside the dispatcher's firing set, or "" when the
+// assignment will dispatch as expected.
+func assignmentDispatchWarning(issue map[string]any) string {
+	status := strVal(issue, "status")
+	for _, s := range dispatchStatuses {
+		if s == status {
+			return ""
+		}
+	}
+	key := issueDisplayKey(issue)
+	return fmt.Sprintf("Warning: issue %s is %s — the assignment will not dispatch until the status moves to todo.\nRun: multica issue status %s todo",
+		key, status, key)
+}
+
 func init() {
 	issueCmd.AddCommand(issueListCmd)
 	issueCmd.AddCommand(issueGetCmd)
@@ -295,6 +330,7 @@ func init() {
 	issueCreateCmd.Flags().String("due-date", "", "Due date (calendar day, YYYY-MM-DD)")
 	issueCreateCmd.Flags().Bool("allow-duplicate", false, "Allow creating an issue even when an active duplicate exists")
 	issueCreateCmd.Flags().String("output", "json", "Output format: table or json")
+	issueCreateCmd.Flags().Bool("preview", false, "Preview what creating this issue would dispatch (agent, runtime, skills, queue depth) without creating anything")
 	issueCreateCmd.Flags().StringSlice("attachment", nil, "File path(s) to attach (can be specified multiple times)")
 
 	// issue update
@@ -319,6 +355,7 @@ func init() {
 	issueAssignCmd.Flags().String("to", "", "Assignee name (member, agent, or squad; fuzzy match)")
 	issueAssignCmd.Flags().String("to-id", "", "Assignee UUID — member, agent, or squad (mutually exclusive with --to)")
 	issueAssignCmd.Flags().Bool("unassign", false, "Remove current assignee")
+	issueAssignCmd.Flags().String("status", "", "Also move the issue to this status in the same update (e.g. todo, so the assignment dispatches)")
 	issueAssignCmd.Flags().String("output", "json", "Output format: table or json")
 
 	// issue comment list
@@ -702,6 +739,12 @@ func runIssueCreate(cmd *cobra.Command, _ []string) error {
 		body["origin_id"] = taskID
 	}
 
+	// --preview: ask the server what this create WOULD dispatch and stop
+	// there — no issue is created, no task enqueued, no attachments read.
+	if preview, _ := cmd.Flags().GetBool("preview"); preview {
+		return runIssueCreatePreview(cmd, ctx, client, body)
+	}
+
 	// Pre-validate attachments BEFORE creating the issue so a bad path
 	// can never produce a half-created issue (which would otherwise
 	// trigger callers — especially the agent doing quick-create — to
@@ -786,6 +829,69 @@ func activeDuplicateIssueCreateMessage(err error) (string, bool) {
 		return "", false
 	}
 	return payload.Error, true
+}
+
+// runIssueCreatePreview POSTs the would-be create body to the read-only
+// preview endpoint and prints what creating the issue WOULD dispatch. The
+// server response is authoritative — nothing was created or enqueued.
+func runIssueCreatePreview(cmd *cobra.Command, ctx context.Context, client *cli.APIClient, body map[string]any) error {
+	var preview map[string]any
+	if err := client.PostJSON(ctx, "/api/issues/preview-dispatch", body, &preview); err != nil {
+		return fmt.Errorf("preview dispatch: %w", err)
+	}
+
+	output, _ := cmd.Flags().GetString("output")
+	if output == "json" {
+		return cli.PrintJSON(os.Stdout, preview)
+	}
+
+	fmt.Fprintln(os.Stdout, "Dispatch preview (nothing was created or enqueued)")
+	if agent, _ := preview["agent"].(map[string]any); agent != nil {
+		fmt.Fprintf(os.Stdout, "Agent:   %s (%s)\n", strVal(agent, "name"), truncateID(strVal(agent, "id")))
+		if rt, _ := agent["runtime"].(map[string]any); rt != nil {
+			online := "offline"
+			if on, _ := rt["online"].(bool); on {
+				online = "online"
+			}
+			fmt.Fprintf(os.Stdout, "Runtime: %s (%s)\n", strVal(rt, "provider"), online)
+		} else {
+			fmt.Fprintln(os.Stdout, "Runtime: none configured")
+		}
+		if model := strVal(agent, "model"); model != "" {
+			fmt.Fprintf(os.Stdout, "Model:   %s\n", model)
+		}
+	} else if aType := strVal(preview, "assignee_type"); aType != "" {
+		fmt.Fprintf(os.Stdout, "Assignee: %s (no direct agent dispatch)\n", aType)
+	} else {
+		fmt.Fprintln(os.Stdout, "Assignee: unassigned")
+	}
+
+	skillNames := []string{}
+	if skills, _ := preview["skills"].([]any); len(skills) > 0 {
+		for _, s := range skills {
+			if sk, _ := s.(map[string]any); sk != nil {
+				skillNames = append(skillNames, strVal(sk, "name"))
+			}
+		}
+	}
+	if len(skillNames) > 0 {
+		fmt.Fprintf(os.Stdout, "Skills:  %s\n", strings.Join(skillNames, ", "))
+	} else {
+		fmt.Fprintln(os.Stdout, "Skills:  none bound")
+	}
+
+	wouldDispatch, _ := preview["would_dispatch"].(bool)
+	verdict := "yes"
+	if !wouldDispatch {
+		verdict = "no (" + strVal(preview, "reason") + ")"
+	}
+	fmt.Fprintf(os.Stdout, "Would dispatch: %s\n", verdict)
+
+	if q, _ := preview["queue"].(map[string]any); q != nil {
+		fmt.Fprintf(os.Stdout, "Queue:   agent currently has %v queued / %v running (max %v)\n",
+			q["queued"], q["running"], q["max_concurrent_tasks"])
+	}
+	return nil
 }
 
 func runIssueUpdate(cmd *cobra.Command, args []string) error {
@@ -874,6 +980,16 @@ func runIssueUpdate(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("update issue: %w", err)
 	}
 
+	// Assignment on an issue outside the dispatch statuses (e.g. backlog) is
+	// accepted by the server but enqueues nothing — warn so it doesn't look
+	// like the agent started.
+	assigneeTouched := cmd.Flags().Changed("assignee") || cmd.Flags().Changed("assignee-id")
+	if assigneeTouched && strVal(result, "assignee_id") != "" {
+		if warning := assignmentDispatchWarning(result); warning != "" {
+			fmt.Fprintln(os.Stderr, warning)
+		}
+	}
+
 	output, _ := cmd.Flags().GetString("output")
 	if output == "table" {
 		headers := []string{"KEY", "TITLE", "STATUS", "PRIORITY"}
@@ -932,6 +1048,13 @@ func runIssueAssign(cmd *cobra.Command, args []string) error {
 			displayTarget = loadActorDisplayLookup(ctx, client).actor(aType, aID)
 		}
 	}
+	if cmd.Flags().Changed("status") {
+		v, _ := cmd.Flags().GetString("status")
+		if err := validateStatus(v, validIssueStatuses); err != nil {
+			return err
+		}
+		body["status"] = v
+	}
 
 	var result map[string]any
 	if err := client.PutJSON(ctx, "/api/issues/"+issueRef.ID, body, &result); err != nil {
@@ -942,6 +1065,9 @@ func runIssueAssign(cmd *cobra.Command, args []string) error {
 		fmt.Fprintf(os.Stderr, "Issue %s unassigned.\n", issueDisplayKey(result))
 	} else {
 		fmt.Fprintf(os.Stderr, "Issue %s assigned to %s.\n", issueDisplayKey(result), displayTarget)
+		if warning := assignmentDispatchWarning(result); warning != "" {
+			fmt.Fprintln(os.Stderr, warning)
+		}
 	}
 
 	output, _ := cmd.Flags().GetString("output")
@@ -955,15 +1081,8 @@ func runIssueStatus(cmd *cobra.Command, args []string) error {
 	id := args[0]
 	status := args[1]
 
-	valid := false
-	for _, s := range validIssueStatuses {
-		if s == status {
-			valid = true
-			break
-		}
-	}
-	if !valid {
-		return fmt.Errorf("invalid status %q; valid values: %s", status, strings.Join(validIssueStatuses, ", "))
+	if err := validateStatus(status, validIssueStatuses); err != nil {
+		return err
 	}
 
 	client, err := newAPIClient(cmd)

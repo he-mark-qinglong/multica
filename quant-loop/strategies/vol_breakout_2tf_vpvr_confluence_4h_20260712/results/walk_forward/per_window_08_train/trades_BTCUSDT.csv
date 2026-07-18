@@ -1,0 +1,2 @@
+symbol,entry_signal_date,entry_fill_date,entry_price,exit_signal_date,exit_fill_date,exit_price,reason,pnl_usd,pnl_pct,bars_held,atr_4h_at_entry,vpvr_dist_atr_4h_at_entry
+BTCUSDT,2022-09-09 00:00:00+00:00,2022-09-09 04:00:00+00:00,19953.579918,2022-09-13 00:00:00+00:00,2022-09-13 04:00:00+00:00,22228.273456000003,vol_cool,1137.2198619968458,0.11399926967230667,24,333.68749029389244,2.1906966069796465

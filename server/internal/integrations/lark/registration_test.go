@@ -646,3 +646,4 @@ func TestRegistrationClient_Poll_MissingDeviceCode(t *testing.T) {
 // errorsAs is a tiny wrapper over errors.As so the test source stays
 // terse — call sites read `errorsAs(err, &re)`.
 func errorsAs(err error, target any) bool { return errors.As(err, target) }
+

@@ -1,0 +1,1 @@
+{"run_id":"7ac71dc8-ec8c-4cbe-8ab4-225cbd0e9a84","triggered_at":"2026-07-17T05:46:13Z","metrics":{"idle":25,"active":1,"idle_in_tx":0,"idle_in_tx_aborted":0,"stuck_in_tx":0,"oldest_tx_age_sec":null,"fastpath":0,"slow_queries":0,"total_conns":26,"max_conns_pg":100,"app_pool_max_conns":25,"acquired_pct_app_pool":4},"verdict":"healthy no-op"}

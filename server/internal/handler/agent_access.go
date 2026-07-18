@@ -87,3 +87,4 @@ func (h *Handler) canEnqueueSquadLeader(ctx context.Context, leaderID pgtype.UUI
 	}
 	return h.canAccessPrivateAgent(ctx, agent, actorType, actorID, workspaceID)
 }
+

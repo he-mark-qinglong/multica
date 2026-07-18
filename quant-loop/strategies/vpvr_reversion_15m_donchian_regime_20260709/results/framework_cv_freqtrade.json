@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "autopilot_id": "51e7cb03-f866-47ae-95f2-86d94f23ffa3",
+  "autopilot_run_id": "96d3f43a-5bc7-4fdf-b1c2-3954e2950a07",
+  "run_at": "2026-07-17T11:04:42.562191+00:00",
+  "strategy_key": "vpvr_reversion_15m_donchian_regime_20260709",
+  "strategy_issue": "SMA-34670",
+  "iteration": 66,
+  "timeframe": "15m",
+  "engine": "freqtrade",
+  "engine_version": "2026.6",
+  "freqtrade_execution": "real engine via freqtrade.optimize.backtesting.Backtesting API",
+  "oos_protocol": {
+    "kind": "anchored walk-forward",
+    "initial_train_fraction": 0.5,
+    "n_folds": 5,
+    "comparison": "daily realized-PnL equity from identical OOS windows",
+    "windows": [
+      {
+        "fold": 1,
+        "train_start": "2024-04-23T00:00:00+00:00",
+        "train_end": "2025-05-23T20:15:00+00:00",
+        "test_start": "2025-05-23T20:30:00+00:00",
+        "test_end": "2025-08-11T00:15:00+00:00"
+      },
+      {
+        "fold": 2,
+        "train_start": "2024-04-23T00:00:00+00:00",
+        "train_end": "2025-08-11T00:15:00+00:00",
+        "test_start": "2025-08-11T00:30:00+00:00",
+        "test_end": "2025-10-29T04:30:00+00:00"
+      },
+      {
+        "fold": 3,
+        "train_start": "2024-04-23T00:00:00+00:00",
+        "train_end": "2025-10-29T04:30:00+00:00",
+        "test_start": "2025-10-29T04:45:00+00:00",
+        "test_end": "2026-01-16T08:30:00+00:00"
+      },
+      {
+        "fold": 4,
+        "train_start": "2024-04-23T00:00:00+00:00",
+        "train_end": "2026-01-16T08:30:00+00:00",
+        "test_start": "2026-01-16T08:45:00+00:00",
+        "test_end": "2026-04-05T12:45:00+00:00"
+      },
+      {
+        "fold": 5,
+        "train_start": "2024-04-23T00:00:00+00:00",
+        "train_end": "2026-04-05T12:45:00+00:00",
+        "test_start": "2026-04-05T13:00:00+00:00",
+        "test_end": "2026-06-23T17:00:00+00:00"
+      }
+    ]
+  },
+  "execution_model": {
+    "pair": "BTC/USDT:USDT",
+    "stake_amount": 1000.0,
+    "starting_capital": 100000.0,
+    "fee_per_side": 0.0001,
+    "entry_exit": "frozen in-house schedule submitted one candle early; Freqtrade fills on next candle open",
+    "shorting": true
+  },
+  "inhouse_oos": {
+    "sharpe": 0.02613466527040025,
+    "total_return": 5.1557465070328766e-05,
+    "max_dd": -0.001937745863619389,
+    "n_trades": 488,
+    "folds": [
+      {
+        "fold": 1,
+        "train_start": "2024-04-23T00:00:00+00:00",
+        "train_end": "2025-05-23T20:15:00+00:00",
+        "test_start": "2025-05-23T20:30:00+00:00",
+        "test_end": "2025-08-11T00:15:00+00:00",
+        "sharpe": 1.1743238827299305,
+        "total_return": 0.0005188514555074519,
+        "max_dd": -0.000517457556501566,
+        "n_trades": 105
+      },
+      {
+        "fold": 2,
+        "train_start": "2024-04-23T00:00:00+00:00",
+        "train_end": "2025-08-11T00:15:00+00:00",
+        "test_start": "2025-08-11T00:30:00+00:00",
+        "test_end": "2025-10-29T04:30:00+00:00",
+        "sharpe": -0.43611709274294813,
+        "total_return": -0.0002453644463223936,
+        "max_dd": -0.0013842194454334322,
+        "n_trades": 102
+      },
+      {
+        "fold": 3,
+        "train_start": "2024-04-23T00:00:00+00:00",
+        "train_end": "2025-10-29T04:30:00+00:00",
+        "test_start": "2025-10-29T04:45:00+00:00",
+        "test_end": "2026-01-16T08:30:00+00:00",
+        "sharpe": 0.3212629961272486,
+        "total_return": 0.00023321309302026805,
+        "max_dd": -0.0011041894234908867,
+        "n_trades": 92
+      },
+      {
+        "fold": 4,
+        "train_start": "2024-04-23T00:00:00+00:00",
+        "train_end": "2026-01-16T08:30:00+00:00",
+        "test_start": "2026-01-16T08:45:00+00:00",
+        "test_end": "2026-04-05T12:45:00+00:00",
+        "sharpe": 0.822534607219289,
+        "total_return": 0.0007743997139348924,
+        "max_dd": -0.0012802926902986123,
+        "n_trades": 96
+      },
+      {
+        "fold": 5,
+        "train_start": "2024-04-23T00:00:00+00:00",
+        "train_end": "2026-04-05T12:45:00+00:00",
+        "test_start": "2026-04-05T13:00:00+00:00",
+        "test_end": "2026-06-23T17:00:00+00:00",
+        "sharpe": -1.7513310669815187,
+        "total_return": -0.0010233124907885749,
+        "max_dd": -0.001937745863619389,
+        "n_trades": 93
+      }
+    ]
+  },
+  "framework_oos": {
+    "sharpe": 10.309479871534455,
+    "total_return": 0.005619797895039991,
+    "max_dd": -0.0001319800332612031,
+    "n_trades": 488,
+    "folds": [
+      {
+        "fold": 1,
+        "train_start": "2024-04-23T00:00:00+00:00",
+        "train_end": "2025-05-23T20:15:00+00:00",
+        "test_start": "2025-05-23T20:30:00+00:00",
+        "test_end": "2025-08-11T00:15:00+00:00",
+        "sharpe": 12.395355486030198,
+        "total_return": 0.004602802233000025,
+        "max_dd": -9.6705329285518e-05,
+        "n_trades": 105
+      },
+      {
+        "fold": 2,
+        "train_start": "2024-04-23T00:00:00+00:00",
+        "train_end": "2025-08-11T00:15:00+00:00",
+        "test_start": "2025-08-11T00:30:00+00:00",
+        "test_end": "2025-10-29T04:30:00+00:00",
+        "sharpe": 10.207253966122149,
+        "total_return": 0.00431984364599991,
+        "max_dd": -0.00010441153395179814,
+        "n_trades": 102
+      },
+      {
+        "fold": 3,
+        "train_start": "2024-04-23T00:00:00+00:00",
+        "train_end": "2025-10-29T04:30:00+00:00",
+        "test_start": "2025-10-29T04:45:00+00:00",
+        "test_end": "2026-01-16T08:30:00+00:00",
+        "sharpe": 10.802897511751967,
+        "total_return": 0.006212295823900149,
+        "max_dd": -6.56277715878062e-05,
+        "n_trades": 92
+      },
+      {
+        "fold": 4,
+        "train_start": "2024-04-23T00:00:00+00:00",
+        "train_end": "2026-01-16T08:30:00+00:00",
+        "test_start": "2026-01-16T08:45:00+00:00",
+        "test_end": "2026-04-05T12:45:00+00:00",
+        "sharpe": 9.273037641785816,
+        "total_return": 0.00852061075369992,
+        "max_dd": -8.491594579618233e-05,
+        "n_trades": 96
+      },
+      {
+        "fold": 5,
+        "train_start": "2024-04-23T00:00:00+00:00",
+        "train_end": "2026-04-05T12:45:00+00:00",
+        "test_start": "2026-04-05T13:00:00+00:00",
+        "test_end": "2026-06-23T17:00:00+00:00",
+        "sharpe": 8.868854751982141,
+        "total_return": 0.0044434370185999494,
+        "max_dd": -0.0001319800332612031,
+        "n_trades": 93
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 39347.52980330238,
+    "total_return": 10800.0663383549,
+    "max_dd": 93.188991614479
+  },
+  "max_divergence_metric": "sharpe",
+  "max_abs_rel_divergence_pct": 39347.52980330238,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "artifacts": {
+    "freqtrade_result_archive": "/home/smark/multica_workspaces/f9a9d34e-b809-4564-b0c0-b781a70a3f25/728706f4/workdir/framework_validation/artifacts/vpvr_reversion_15m_donchian_regime_20260709/freqtrade/user_data/backtest_results/backtest-result-2026-07-17_19-04-42.zip",
+    "freqtrade_log": "/home/smark/multica_workspaces/f9a9d34e-b809-4564-b0c0-b781a70a3f25/728706f4/workdir/framework_validation/artifacts/vpvr_reversion_15m_donchian_regime_20260709/freqtrade/freqtrade_backtest.log",
+    "adapter_source": "/home/smark/multica_workspaces/f9a9d34e-b809-4564-b0c0-b781a70a3f25/728706f4/workdir/framework_validation/validate_freqtrade.py",
+    "replay_strategy_source": "/home/smark/multica_workspaces/f9a9d34e-b809-4564-b0c0-b781a70a3f25/728706f4/workdir/framework_validation/replay_strategy.py"
+  }
+}

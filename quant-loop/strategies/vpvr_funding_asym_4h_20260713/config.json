@@ -1,0 +1,46 @@
+{
+  "strategy": "vpvr_funding_asym_4h_20260713",
+  "iteration": 92,
+  "variant": "V3_funding_asym",
+  "date": "2026-07-13",
+  "timeframe": "4h",
+  "source_timeframe": "4h",
+  "instruments": ["BTCUSDT", "ETHUSDT"],
+  "data_source": "binance_usdm_4h + funding_analysis_funding_proxy (8h funding, ffilled)",
+  "axis": "vpvr_with_funding_asymmetry_asymmetric_execution_4to1_5",
+  "starting_capital_usd": 200000.0,
+  "starting_capital_per_symbol_usd": 100000.0,
+  "params": {
+    "vpvr_window_bars": 180,
+    "vpvr_bins": 24,
+    "funding_annualized_basis_bps_threshold": -10.0,
+    "funding_z_lookback_bars": 360,
+    "funding_z_threshold": 1.5,
+    "poc_atr_buffer": 1.0,
+    "atr_period": 14,
+    "vol_target_pct": 0.005,
+    "asymmetric_take_profit_atr_k": 4.0,
+    "asymmetric_hard_stop_atr_k": 1.5,
+    "max_hold_bars": 90,
+    "fee_bps_per_fill": 4.0,
+    "slippage_bps_per_fill": 2.0,
+    "funding_carry_bps_per_bar": 0.01,
+    "risk_target_pct": 0.005,
+    "min_gap_bars_between_trades": 12,
+    "walk_forward_folds": 3
+  },
+  "walk_forward": {
+    "folds": [
+      {"name": "2024-Q1", "train": ["2023-01-01", "2023-12-31"], "test": ["2024-01-01", "2024-03-31"]},
+      {"name": "2024-Q3", "train": ["2023-07-01", "2024-06-30"], "test": ["2024-07-01", "2024-09-30"]},
+      {"name": "2025-Q2", "train": ["2024-04-01", "2025-03-31"], "test": ["2025-04-01", "2025-06-30"]}
+    ]
+  },
+  "notes": [
+    "Iter#92 NEW AXIS: funding asymmetry (annualized funding < -10 bps AND price < VA low = strong reversion long).",
+    "Asymmetric TP:SL = 4 ATR target / 1.5 ATR stop (per cycle-46 lesson: 2:1 was insufficient; this is 4:1.5 ≈ 2.67:1).",
+    "Funding carry: ±0.01% / 8h bar, applied per bar the position is held (longs pay when funding>0).",
+    "Multi-symbol: BTCUSDT + ETHUSDT (per spec). Independent sizing per symbol, combined PnL book.",
+    "Sharpe >= 1.0 = [PROFITABLE]; < 1.0 = [NOT-PROFITABLE] per cycle-46 family discipline."
+  ]
+}

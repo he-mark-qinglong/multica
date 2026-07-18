@@ -1,0 +1,1 @@
+variant,symbol,direction,entry_event_ts,entry_bar_ts,entry_price,exit_event_ts,exit_bar_ts,exit_price,price_pnl_pct,funding_pnl_pct,pnl_pct,funding_at_entry,funding_received,bars_held,exit_reason

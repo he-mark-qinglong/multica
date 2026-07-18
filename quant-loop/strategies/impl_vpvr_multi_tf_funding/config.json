@@ -1,0 +1,112 @@
+{
+  "strategy_key": "vpvr_multi_tf_funding",
+  "variant_key": "vpvr_multi_tf_funding_v1",
+  "iteration": 1,
+  "date": "2026-07-18",
+  "source_spec": "SMA-34911",
+  "implementation_issue": "SMA-34989",
+  "instruments": ["BTCUSDT"],
+  "timeframes": ["1m", "15m", "4h"],
+  "starting_capital_usd": 100000.0,
+
+  "oos_folds": [
+    {"name": "2024-Q1", "train_start": "2023-01-01", "train_end": "2023-12-31", "test_start": "2024-01-01", "test_end": "2024-03-31"},
+    {"name": "2024-Q3", "train_start": "2023-07-01", "train_end": "2024-06-30", "test_start": "2024-07-01", "test_end": "2024-09-30"},
+    {"name": "2025-Q2", "train_start": "2024-04-01", "train_end": "2025-03-31", "test_start": "2025-04-01", "test_end": "2025-06-30"}
+  ],
+
+  "sharpe_method": "daily_resampled_per_SMA-34787",
+  "sharpe_method_audit_ref": "SMA-34787",
+
+  "params": {
+    "fee_bps_per_fill": 4.0,
+    "slippage_bps_per_fill": 1.0,
+
+    "weighting_mode": "equal",
+
+    "funding_threshold": 0.0003,
+
+    "regime_z_threshold": 1.5,
+    "regime_vol_cap_bps": 15.0,
+
+    "tf": {
+      "1m": {
+        "iceberg_lookback": 60,
+        "iceberg_min_periods": 30,
+        "iceberg_volume_zscore": 3.0,
+        "iceberg_max_range_ratio": 0.75,
+
+        "vpvr_window_bars": 240,
+        "vpvr_snapshot_every_bars": 30,
+        "vpvr_bins": 24,
+        "vpvr_hvn_quantile": 0.85,
+        "vpvr_lvn_quantile": 0.15,
+        "vpvr_num_hvn": 3,
+        "vpvr_num_lvn": 3,
+        "atr_period": 14,
+        "hvn_atr_buffer": 0.5,
+        "lvn_atr_buffer": 0.5,
+
+        "take_profit_atr_k": 1.5,
+        "hard_stop_atr_k": 1.0,
+        "max_hold_bars": 30,
+        "cooldown_bars": 5,
+        "risk_target_pct": 0.005,
+        "tp_sl_ratio": 1.5,
+        "trailing_atr_k": 1.0
+      },
+      "15m": {
+        "vpvr_window_bars": 180,
+        "vpvr_snapshot_every_bars": 16,
+        "vpvr_bins": 24,
+        "vpvr_hvn_quantile": 0.85,
+        "vpvr_lvn_quantile": 0.15,
+        "vpvr_num_hvn": 3,
+        "vpvr_num_lvn": 3,
+        "atr_period": 14,
+        "proximity_atr": 1.0,
+
+        "take_profit_atr_k": 2.5,
+        "hard_stop_atr_k": 1.5,
+        "max_hold_bars": 8,
+        "cooldown_bars": 5,
+        "risk_target_pct": 0.005,
+        "tp_sl_ratio": 1.67,
+        "trailing_atr_k": 1.0
+      },
+      "4h": {
+        "funding_div_lookback_bars": 180,
+        "z_lookback_bars": 180,
+        "vpvr_window_bars": 180,
+        "vpvr_snapshot_every_bars": 6,
+        "vpvr_bins": 24,
+        "vpvr_hvn_quantile": 0.85,
+        "vpvr_lvn_quantile": 0.15,
+        "vpvr_num_hvn": 3,
+        "vpvr_num_lvn": 3,
+        "atr_period": 14,
+        "proximity_atr": 1.0,
+
+        "take_profit_atr_k": 4.0,
+        "hard_stop_atr_k": 2.0,
+        "max_hold_bars": 6,
+        "cooldown_bars": 5,
+        "risk_target_pct": 0.005,
+        "tp_sl_ratio": 2.0,
+        "trailing_atr_k": 1.0
+      }
+    }
+  },
+
+  "gates": {
+    "G1_sharpe_daily_min": 1.0,
+    "G2_annualized_return_min": 0.15,
+    "G3_max_drawdown_pct_min": -0.25,
+    "G4_profit_factor_min": 1.5,
+    "G5_n_trades_min": 30,
+    "G5_n_folds_min_with_trades": 2,
+    "G6_bootstrap_ci_lower_min": 0.5,
+    "G6_bootstrap_resamples": 1000,
+    "G7_bonferroni_alpha": 0.0125
+  }
+}

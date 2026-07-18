@@ -1,0 +1,50 @@
+{
+  "strategy": "vpvr_xs_pairs_30m_funding_filter_eth_sol_20260717",
+  "iteration": 84,
+  "date": "2026-07-17",
+  "timeframe": "30m",
+  "instruments": [
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "pairs": [
+    "ETHUSDT/SOLUSDT"
+  ],
+  "variant": "A",
+  "n_trades": 2588,
+  "win_rate": 0.4431993817619784,
+  "profit_factor": 0.7423512200417439,
+  "total_return_pct": -0.01774818564340952,
+  "sharpe": 0.02651758952891868,
+  "max_drawdown_pct": -0.23172633954383437,
+  "tag": "NOT-PROFITABLE",
+  "evidence_gate_sharpe_threshold": 0.5,
+  "per_pair": {
+    "ETHUSDT/SOLUSDT": {
+      "n_trades": 2588,
+      "win_rate": 0.4431993817619784,
+      "profit_factor": 0.7423512200417439,
+      "avg_hold_bars": 2.447449768160742,
+      "total_return_pct": -0.01774818564340952,
+      "sharpe": 0.02651758952891868,
+      "sortino": 0.005811532289527157,
+      "max_drawdown_pct": -0.23172633954383437,
+      "trades_per_year": 572.1955205811138,
+      "pair": "ETHUSDT/SOLUSDT",
+      "span_start": "2022-01-01",
+      "span_end": "2026-07-10",
+      "n_bars": 79296
+    }
+  },
+  "sharpe_method": "bar_freq_annualized",
+  "sharpe_method_evidence": "run_backtest.py: [run_backtest.py] L43:sharpe = (mu / sigma) * ann if sigma > 0 else 0.0 ds = bar_r[bar_r < 0] dsigma = float(np.std(ds, ddof=0)) if ds.size else 0.0; L104:avg_sharpe = float(np.mean([m[\"sharpe\"] for m",
+  "sharpe_method_audit_date": "2026-07-17T06:30:53+00:00",
+  "sharpe_daily_resampled": 0.018398846528548722,
+  "sharpe_daily_resampled_n_days": 1651,
+  "sharpe_daily_resampled_span": [
+    "2022-01-01",
+    "2026-07-10"
+  ],
+  "sharpe_daily_resampled_source": "aggregate(symbol equity_*.csv)",
+  "sharpe_daily_resampled_audit_date": "2026-07-17T06:32:01Z"
+}

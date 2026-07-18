@@ -1,0 +1,343 @@
+{
+  "strategy_key": "vpvr_funding_aware_v1_20260711",
+  "iteration": 82,
+  "timeframe": "4h",
+  "instruments": [
+    "BTCUSDT",
+    "ETHUSDT"
+  ],
+  "n_folds_target": 16,
+  "n_folds_executed": 32,
+  "train_bars": 720,
+  "test_bars": 168,
+  "bootstrap_seed": 42,
+  "bootstrap_samples": 10000,
+  "bonferroni_alpha": 0.0125,
+  "per_symbol": {
+    "BTCUSDT": {
+      "n_oos_trades": 16,
+      "oos_pnl_sum": -0.0661982656286656,
+      "oos_annualised_sharpe": -1.6673501699979054,
+      "oos_bootstrap_lower_sharpe": -56.990426974342085,
+      "oos_bootstrap_upper_sharpe": 22.409920472309796,
+      "oos_bootstrap_alpha": 0.0125,
+      "folds": [
+        {
+          "fold": 0,
+          "test_start": "2022-05-01T00:00:00+00:00",
+          "test_end": "2022-05-28T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 2,
+          "oos_pnl_sum": -0.022763463575199268,
+          "oos_sharpe": -10.347470574155539
+        },
+        {
+          "fold": 1,
+          "test_start": "2022-05-29T00:00:00+00:00",
+          "test_end": "2022-06-25T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 3,
+          "oos_pnl_sum": -0.2967234503005697,
+          "oos_sharpe": -152.05241827190207
+        },
+        {
+          "fold": 2,
+          "test_start": "2022-06-26T00:00:00+00:00",
+          "test_end": "2022-07-23T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 1,
+          "oos_pnl_sum": 0.10495828863334279,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 3,
+          "test_start": "2022-07-24T00:00:00+00:00",
+          "test_end": "2022-08-20T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 1,
+          "oos_pnl_sum": -0.04854534583981352,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 4,
+          "test_start": "2022-08-21T00:00:00+00:00",
+          "test_end": "2022-09-17T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 2,
+          "oos_pnl_sum": -0.00705348113952696,
+          "oos_sharpe": -2.880999011075182
+        },
+        {
+          "fold": 5,
+          "test_start": "2022-09-18T00:00:00+00:00",
+          "test_end": "2022-10-15T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 0,
+          "oos_pnl_sum": 0.0,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 6,
+          "test_start": "2022-10-16T00:00:00+00:00",
+          "test_end": "2022-11-12T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 2,
+          "oos_pnl_sum": -0.09904219912598236,
+          "oos_sharpe": -29.916392874831995
+        },
+        {
+          "fold": 7,
+          "test_start": "2022-11-13T00:00:00+00:00",
+          "test_end": "2022-12-10T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 2,
+          "oos_pnl_sum": -0.0072200510885169,
+          "oos_sharpe": -3.4569453875788683
+        },
+        {
+          "fold": 8,
+          "test_start": "2022-12-11T00:00:00+00:00",
+          "test_end": "2023-01-07T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 1,
+          "oos_pnl_sum": -0.018227581932052636,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 9,
+          "test_start": "2023-01-08T00:00:00+00:00",
+          "test_end": "2023-02-04T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 0,
+          "oos_pnl_sum": 0.0,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 10,
+          "test_start": "2023-02-05T00:00:00+00:00",
+          "test_end": "2023-03-04T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 0,
+          "oos_pnl_sum": 0.0,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 11,
+          "test_start": "2023-03-05T00:00:00+00:00",
+          "test_end": "2023-04-01T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 1,
+          "oos_pnl_sum": 0.36720192276026825,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 12,
+          "test_start": "2023-04-02T00:00:00+00:00",
+          "test_end": "2023-04-29T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 0,
+          "oos_pnl_sum": 0.0,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 13,
+          "test_start": "2023-04-30T00:00:00+00:00",
+          "test_end": "2023-05-27T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 0,
+          "oos_pnl_sum": 0.0,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 14,
+          "test_start": "2023-05-28T00:00:00+00:00",
+          "test_end": "2023-06-24T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 1,
+          "oos_pnl_sum": -0.03878290402061537,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 15,
+          "test_start": "2023-06-25T00:00:00+00:00",
+          "test_end": "2023-07-22T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 0,
+          "oos_pnl_sum": 0.0,
+          "oos_sharpe": 0.0
+        }
+      ]
+    },
+    "ETHUSDT": {
+      "n_oos_trades": 21,
+      "oos_pnl_sum": 0.5485270751814316,
+      "oos_annualised_sharpe": 8.13103074185355,
+      "oos_bootstrap_lower_sharpe": -24.480983690996542,
+      "oos_bootstrap_upper_sharpe": 30.787656062182407,
+      "oos_bootstrap_alpha": 0.0125,
+      "folds": [
+        {
+          "fold": 0,
+          "test_start": "2022-05-01T00:00:00+00:00",
+          "test_end": "2022-05-28T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 2,
+          "oos_pnl_sum": -0.06304784616047582,
+          "oos_sharpe": -33.721957263998924
+        },
+        {
+          "fold": 1,
+          "test_start": "2022-05-29T00:00:00+00:00",
+          "test_end": "2022-06-25T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 3,
+          "oos_pnl_sum": -0.42302412710277426,
+          "oos_sharpe": -182.15427743514454
+        },
+        {
+          "fold": 2,
+          "test_start": "2022-06-26T00:00:00+00:00",
+          "test_end": "2022-07-23T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 2,
+          "oos_pnl_sum": 0.44039752258204395,
+          "oos_sharpe": 41.68926625718913
+        },
+        {
+          "fold": 3,
+          "test_start": "2022-07-24T00:00:00+00:00",
+          "test_end": "2022-08-20T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 2,
+          "oos_pnl_sum": 0.1669622074710663,
+          "oos_sharpe": 24.133379129512097
+        },
+        {
+          "fold": 4,
+          "test_start": "2022-08-21T00:00:00+00:00",
+          "test_end": "2022-09-17T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 2,
+          "oos_pnl_sum": 0.043066442654494316,
+          "oos_sharpe": 24.840441341291566
+        },
+        {
+          "fold": 5,
+          "test_start": "2022-09-18T00:00:00+00:00",
+          "test_end": "2022-10-15T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 2,
+          "oos_pnl_sum": -0.008662343831772668,
+          "oos_sharpe": -6.4367901094402225
+        },
+        {
+          "fold": 6,
+          "test_start": "2022-10-16T00:00:00+00:00",
+          "test_end": "2022-11-12T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 2,
+          "oos_pnl_sum": 0.04846078686298491,
+          "oos_sharpe": 6.568561778842746
+        },
+        {
+          "fold": 7,
+          "test_start": "2022-11-13T00:00:00+00:00",
+          "test_end": "2022-12-10T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 1,
+          "oos_pnl_sum": 0.14615031450404092,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 8,
+          "test_start": "2022-12-11T00:00:00+00:00",
+          "test_end": "2023-01-07T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 1,
+          "oos_pnl_sum": 0.022536174048343037,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 9,
+          "test_start": "2023-01-08T00:00:00+00:00",
+          "test_end": "2023-02-04T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 0,
+          "oos_pnl_sum": 0.0,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 10,
+          "test_start": "2023-02-05T00:00:00+00:00",
+          "test_end": "2023-03-04T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 0,
+          "oos_pnl_sum": 0.0,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 11,
+          "test_start": "2023-03-05T00:00:00+00:00",
+          "test_end": "2023-04-01T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 1,
+          "oos_pnl_sum": 0.21026207323165566,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 12,
+          "test_start": "2023-04-02T00:00:00+00:00",
+          "test_end": "2023-04-29T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 1,
+          "oos_pnl_sum": 0.001678548940015687,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 13,
+          "test_start": "2023-04-30T00:00:00+00:00",
+          "test_end": "2023-05-27T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 1,
+          "oos_pnl_sum": -0.006799099583085659,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 14,
+          "test_start": "2023-05-28T00:00:00+00:00",
+          "test_end": "2023-06-24T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 1,
+          "oos_pnl_sum": -0.029453578435104745,
+          "oos_sharpe": 0.0
+        },
+        {
+          "fold": 15,
+          "test_start": "2023-06-25T00:00:00+00:00",
+          "test_end": "2023-07-22T20:00:00+00:00",
+          "n_bars_test": 168,
+          "n_trades": 0,
+          "oos_pnl_sum": 0.0,
+          "oos_sharpe": 0.0
+        }
+      ]
+    }
+  },
+  "pooled": {
+    "n_oos_trades": 37,
+    "oos_pnl_sum": 0.482328809552766,
+    "oos_annualised_sharpe": 4.439433296588383,
+    "oos_bootstrap_lower_sharpe": -21.021804589242098,
+    "oos_bootstrap_median_sharpe": 4.129136589204604,
+    "oos_bootstrap_upper_sharpe": 20.921100665762165
+  },
+  "gates": {
+    "G1_sharpe_ge_1": true,
+    "G5_oos_sharpe_ge_1": true,
+    "G6_bootstrap_lower_ge_0_5": false,
+    "G7_bonferroni_significant": false,
+    "n_pass": 2,
+    "n_total_oos_gates": 4
+  },
+  "verdict": "FAIL"
+}

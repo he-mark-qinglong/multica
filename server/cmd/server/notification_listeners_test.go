@@ -1278,3 +1278,4 @@ func TestNotification_StatusChange_ReopenSurfacesNewTaskFailed(t *testing.T) {
 		t.Fatalf("expected 1 archived task_failed row preserved from prior cycle, got %d", archived)
 	}
 }
+

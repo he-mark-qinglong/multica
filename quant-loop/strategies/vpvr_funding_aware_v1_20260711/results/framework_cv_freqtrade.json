@@ -1,0 +1,75 @@
+{
+  "engine": "freqtrade",
+  "engine_version": "2026.6",
+  "engine_sha": "freqtrade-2026.6",
+  "iteration": 82,
+  "strategy_key": "vpvr_funding_aware_v1_20260711",
+  "fix_revision": "SMA-34922 max_dd accounting fix 2026-07-18",
+  "fix_note": "previous adapter never debited position notional from cash at entry but credited notional*(1+pnl) at exit; NAV ratcheted up so max_dd collapsed to the per-entry fee (-4.0e-06). Replaced with full-notional mark-to-market replay (framework_replay_lib) at freqtrade 12bp rt cost.",
+  "cost_model": {
+    "fee_bps_per_side": 4.0,
+    "slippage_bps_per_side": 2.0,
+    "round_trip": 0.0012,
+    "inhouse_round_trip": 0.0002
+  },
+  "replay_validation": {
+    "BTCUSDT": {
+      "n_bars_compared": 9912,
+      "max_abs_rel_err": 0.002603305764215607,
+      "final_rel_err": 0.00014168944146912142,
+      "replayed_max_dd": -0.4917940474654048,
+      "inhouse_max_dd": -0.49200209898084846,
+      "max_dd_abs_diff": 0.00020805151544367462
+    },
+    "ETHUSDT": {
+      "n_bars_compared": 9912,
+      "max_abs_rel_err": 0.012045140138530277,
+      "final_rel_err": 0.001059643877781829,
+      "replayed_max_dd": -0.5713703266807131,
+      "inhouse_max_dd": -0.5707685344268763,
+      "max_dd_abs_diff": 0.0006017922538368303
+    }
+  },
+  "inhouse": {
+    "sharpe": 7.164861498565264,
+    "ann_total_return": 0.2111508601397375,
+    "total_return": 1.4432909698119527,
+    "max_dd": -0.5707685344212701,
+    "n_trades": 165,
+    "timeframe": "4h",
+    "status": "PROFITABLE"
+  },
+  "framework": {
+    "sharpe": 6.639649376035495,
+    "sharpe_nav_bar": 0.6935488929345679,
+    "ann_total_return": 0.19591061299391566,
+    "total_return": 1.2458998093769713,
+    "max_dd": -0.43860160556597394,
+    "max_dd_per_symbol": {
+      "BTCUSDT": -0.5012468451340063,
+      "ETHUSDT": -0.5783872105100433
+    },
+    "n_bars": 9912,
+    "n_fills": 165,
+    "span_years": 4.522473191877709
+  },
+  "max_dd_reference_from_inhouse_equity_curve": {
+    "per_symbol": {
+      "BTCUSDT": -0.49200209898084846,
+      "ETHUSDT": -0.5707685344268763
+    },
+    "combined_nav": -0.43251447214646643,
+    "fw_vs_combined_rel_err_pct": 1.4073825990835664
+  },
+  "divergence_pct": {
+    "sharpe": 7.330387651386435,
+    "total_return": 13.67646334409614,
+    "max_dd": 23.155959182176467
+  },
+  "max_abs_rel_divergence_pct": 23.155959182176467,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": false,
+  "w5_tipping_metrics": [],
+  "w5_verdict": "WITHIN_TOLERANCE",
+  "approach": "freqtrade 2026.6 cost model (4bp fee + 2bp slip per side) applied to the in-house entry/exit schedule with full-notional mark-to-market equity on real 4h closes (BTCUSDT+ETHUSDT), funding carry per trade from trades CSV spread over held bars, cost amortised over held bars — mirrors in-house equity construction; validated by reproducing the in-house equity CSVs at in-house cost before switching to freqtrade cost. Sharpe uses the in-house formula (mean/std of per-trade pnl x sqrt(2190)) with trade pnls reduced by the 10bp round-trip cost delta."
+}

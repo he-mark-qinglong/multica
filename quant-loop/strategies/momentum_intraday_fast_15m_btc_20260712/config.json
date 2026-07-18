@@ -1,0 +1,57 @@
+{
+  "strategy": "momentum_intraday_fast_15m_btc_20260712",
+  "iteration": 89,
+  "axis": "trend_following_intraday_fast_15m_1h_v13_btc_only",
+  "timeframe_entry": "15m",
+  "timeframe_filter": "1h",
+  "instruments": ["BTCUSDT"],
+  "data_source": "live_data_15m_1h_canonical",
+  "indicators": {
+    "ema_period": 20,
+    "rsi_period": 14,
+    "adx_period": 14,
+    "adx_min": 18.0,
+    "atr_period": 14,
+    "rsi_cross_long": 55.0,
+    "rsi_cross_short": 45.0,
+    "rsi_exit_level": 50.0,
+    "trend_slope_threshold": 0.0
+  },
+  "exit": {
+    "use_1h_trend_reversal": true,
+    "use_rsi_cross_back": true,
+    "use_atr_trailing": true,
+    "atr_trailing_k": 1.5
+  },
+  "sizing": {
+    "risk_per_atr_pct": 0.005,
+    "max_notional_pct": 0.05,
+    "max_gross_exposure_pct": 0.05
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "walk_forward": {
+    "n_windows": 4,
+    "train_bars_15m": 35040,
+    "test_bars_15m": 17520,
+    "step_bars_15m": 17520,
+    "bars_per_year_15m": 35040
+  },
+  "evidence_gate": {
+    "in_sample_sharpe_min": 0.5,
+    "wf_ratio_min": 0.5,
+    "min_oos_sharpe_min": 0.0
+  },
+  "notes": [
+    "Iteration #89: V13 — orchestrator direction (kimi cycle-15).",
+    "V13 = intraday 15m entry + 1h trend filter (V12 was 1h entry + 4h trend).",
+    "Entry RSI off 50 (55 long / 45 short) to require momentum confirmation.",
+    "ADX threshold lowered to 18 (15m ADX is intrinsically lower than 1h).",
+    "Stop tightened to -1.5 ATR (V12 used 3.5 ATR).",
+    "Sizing halved to 0.5% per ATR to absorb 4x higher trade frequency.",
+    "BTCUSDT only — V12 dropped ETH under regime filter.",
+    "Hard user gates G1–G7 deferred (single-strategy family test, not a ship candidate).",
+    "If V13 fails gate: momentum family closes per cycle-46 exhaustion rules."
+  ]
+}

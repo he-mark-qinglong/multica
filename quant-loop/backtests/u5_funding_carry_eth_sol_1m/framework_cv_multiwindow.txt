@@ -1,0 +1,20 @@
+=== Framework-CV per-window (SMA-34947) ===
+windows=[30, 90, 365]  label=pct_q05
+Adapter guards: only runs if inhouse_sharpe >= 0.5.
+
+  win=30  fw=backtrader  sym=SOLUSDT  in_sharpe=4.8529  fw_sharpe=4.8529  div%=0.0  verdict=WITHIN_TOLERANCE (<=50% divergence)
+  win=30  fw=backtrader  sym=ETHUSDT  in_sharpe=-3.0253  fw_sharpe=None  div%=None  verdict=?
+  win=30  fw=backtrader  sym=PORTFOLIO_ETH_SOL  in_sharpe=3.8243  fw_sharpe=3.8243  div%=0.0119  verdict=WITHIN_TOLERANCE (<=50% divergence)
+  win=30  fw=freqtrade  sym=SOLUSDT  in_sharpe=4.8529  fw_sharpe=4.8529  div%=0.0  verdict=WITHIN_TOLERANCE (<=50% divergence)
+  win=30  fw=freqtrade  sym=ETHUSDT  in_sharpe=-3.0253  fw_sharpe=None  div%=None  verdict=?
+  win=30  fw=freqtrade  sym=PORTFOLIO_ETH_SOL  in_sharpe=3.8243  fw_sharpe=3.8243  div%=0.0119  verdict=WITHIN_TOLERANCE (<=50% divergence)
+  win=90  fw=backtrader  sym=SOLUSDT  in_sharpe=0.8618  fw_sharpe=0.8618  div%=0.0  verdict=WITHIN_TOLERANCE (<=50% divergence)
+  win=90  fw=backtrader  sym=ETHUSDT  in_sharpe=1.2919  fw_sharpe=1.2919  div%=0.0  verdict=WITHIN_TOLERANCE (<=50% divergence)
+  win=90  fw=backtrader  sym=PORTFOLIO_ETH_SOL  in_sharpe=1.3963  fw_sharpe=1.3963  div%=0.0023  verdict=WITHIN_TOLERANCE (<=50% divergence)
+  win=90  fw=freqtrade  sym=SOLUSDT  in_sharpe=0.8618  fw_sharpe=0.8606  div%=0.1392  verdict=WITHIN_TOLERANCE (<=50% divergence)
+  win=90  fw=freqtrade  sym=ETHUSDT  in_sharpe=1.2919  fw_sharpe=1.2901  div%=0.8154  verdict=WITHIN_TOLERANCE (<=50% divergence)
+  win=90  fw=freqtrade  sym=PORTFOLIO_ETH_SOL  in_sharpe=1.3963  fw_sharpe=1.3963  div%=0.0023  verdict=WITHIN_TOLERANCE (<=50% divergence)
+  win=365  fw=backtrader  sym=SOLUSDT  in_sharpe=-0.5881  fw_sharpe=None  div%=None  verdict=?
+  win=365  fw=backtrader  sym=ETHUSDT  in_sharpe=-0.29  fw_sharpe=None  div%=None  verdict=?
+  win=365  fw=freqtrade  sym=SOLUSDT  in_sharpe=-0.5881  fw_sharpe=None  div%=None  verdict=?
+  win=365  fw=freqtrade  sym=ETHUSDT  in_sharpe=-0.29  fw_sharpe=None  div%=None  verdict=?

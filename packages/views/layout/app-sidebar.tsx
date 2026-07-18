@@ -16,6 +16,7 @@ import {
 import { SortableContext, verticalListSortingStrategy, useSortable, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
+  Activity,
   Inbox,
   ListTodo,
   Bot,
@@ -31,6 +32,7 @@ import {
   CircleUser,
   FolderKanban,
   BarChart3,
+  GitCompareArrows,
   X,
   Zap,
   Users,
@@ -108,6 +110,8 @@ type NavKey =
   | "inbox"
   | "myIssues"
   | "issues"
+  | "runs"
+  | "compare"
   | "projects"
   | "autopilots"
   | "agents"
@@ -122,6 +126,8 @@ type NavLabelKey =
   | "inbox"
   | "my_issues"
   | "issues"
+  | "runs"
+  | "compare"
   | "projects"
   | "autopilots"
   | "agents"
@@ -138,6 +144,8 @@ const personalNav: { key: NavKey; labelKey: NavLabelKey; icon: typeof Inbox }[] 
 
 const workspaceNav: { key: NavKey; labelKey: NavLabelKey; icon: typeof Inbox }[] = [
   { key: "issues", labelKey: "issues", icon: ListTodo },
+  { key: "runs", labelKey: "runs", icon: Activity },
+  { key: "compare", labelKey: "compare", icon: GitCompareArrows },
   { key: "projects", labelKey: "projects", icon: FolderKanban },
   { key: "autopilots", labelKey: "autopilots", icon: Zap },
   { key: "agents", labelKey: "agents", icon: Bot },

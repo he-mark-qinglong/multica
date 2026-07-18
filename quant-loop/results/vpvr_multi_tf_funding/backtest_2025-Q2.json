@@ -1,0 +1,68 @@
+{
+  "fold": "2025-Q2",
+  "test_window": [
+    "2025-04-01",
+    "2025-06-30"
+  ],
+  "train_window": [
+    "2024-04-01",
+    "2025-03-31"
+  ],
+  "n_bars": 129601,
+  "metrics": {
+    "n_bars": 129601,
+    "n_trades": 16731,
+    "win_rate": 0.1684,
+    "profit_factor": 0.1336,
+    "sharpe_daily": -52.6788,
+    "total_return": -0.040529,
+    "annualized_return": -0.154567,
+    "max_drawdown_pct": -4.0533,
+    "avg_bars_held": 6.0,
+    "bootstrap_ci_lower_sharpe": -73.6524,
+    "bootstrap_ci_upper_sharpe": -39.5362,
+    "bootstrap_resamples": 1000
+  },
+  "diagnostics": {
+    "n_long_entries": 15328,
+    "n_short_entries": 1403,
+    "n_conviction_high": 0,
+    "exit_reasons": {
+      "take_profit": 0,
+      "lead_1m_no_confirm": 0,
+      "trailing_stop": 0,
+      "hard_stop": 0,
+      "block_exit": 0,
+      "time_stop": 16731
+    },
+    "per_tf": {
+      "1m": {
+        "n_micro_long_signals": 0,
+        "n_micro_short_signals": 0,
+        "n_near_hvn": 5774,
+        "n_near_lvn": 3587
+      },
+      "15m": {
+        "n_carry_long_signals": 0,
+        "n_support_zone": 1318
+      },
+      "4h": {
+        "regime_counts": {
+          "TREND_UP": 27,
+          "TREND_DOWN": 41,
+          "MEAN_REVERT": 421,
+          "BLOCKED": 52
+        },
+        "n_struct_long": 96,
+        "n_struct_short": 4
+      }
+    },
+    "combination": {
+      "n_decision_long": 107281,
+      "n_decision_short": 9840,
+      "n_decision_flat": 12480,
+      "n_conviction_high": 0,
+      "n_lead_1m": 0
+    }
+  }
+}

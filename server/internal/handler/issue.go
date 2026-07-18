@@ -696,6 +696,48 @@ func (h *Handler) SearchIssues(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// validIssueStatuses is the canonical set of issue.status values. Used to
+// validate the ?status= list filter up front — an unknown status silently
+// matches zero rows, which is exactly how `--status todo,in_progress` used to
+// return nothing (the literal string matched no row).
+var validIssueStatuses = []string{
+	"backlog", "todo", "in_progress", "in_review", "done", "blocked", "cancelled",
+}
+
+// parseStatusFilter parses a comma-separated query filter value (e.g.
+// "todo,in_progress"), validating each entry against valid. Duplicates are
+// dropped preserving first-seen order. An empty input returns nil (no
+// filter); any unknown value is an error so the caller can 400 with the list
+// of valid values instead of silently returning an empty result set.
+func parseStatusFilter(raw string, valid []string) ([]string, error) {
+	if strings.TrimSpace(raw) == "" {
+		return nil, nil
+	}
+	seen := map[string]bool{}
+	var out []string
+	for _, part := range strings.Split(raw, ",") {
+		s := strings.TrimSpace(part)
+		if s == "" {
+			continue
+		}
+		ok := false
+		for _, v := range valid {
+			if v == s {
+				ok = true
+				break
+			}
+		}
+		if !ok {
+			return nil, fmt.Errorf("invalid status %q; valid values: %s", s, strings.Join(valid, ", "))
+		}
+		if !seen[s] {
+			seen[s] = true
+			out = append(out, s)
+		}
+	}
+	return out, nil
+}
+
 func (h *Handler) ListIssues(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
@@ -823,9 +865,15 @@ func (h *Handler) ListIssues(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	var statusFilter pgtype.Text
-	if s := r.URL.Query().Get("status"); s != "" {
-		statusFilter = pgtype.Text{String: s, Valid: true}
+	// The status filter accepts a comma-separated list (e.g.
+	// ?status=todo,in_progress) so API consumers get SQL IN (...) semantics
+	// without extra round-trips. Values are validated up front — before this,
+	// the literal string "todo,in_progress" was compared against status and
+	// silently matched zero rows.
+	statuses, statusErr := parseStatusFilter(r.URL.Query().Get("status"), validIssueStatuses)
+	if statusErr != nil {
+		writeError(w, http.StatusBadRequest, statusErr.Error())
+		return
 	}
 
 	// scheduled=true restricts the result to issues that have at least one of
@@ -875,8 +923,8 @@ func (h *Handler) ListIssues(w http.ResponseWriter, r *http.Request) {
 		return "$" + strconv.Itoa(len(args))
 	}
 
-	if statusFilter.Valid {
-		where = append(where, fmt.Sprintf("i.status = %s", addArg(statusFilter.String)))
+	if len(statuses) > 0 {
+		where = append(where, fmt.Sprintf("i.status = ANY(%s::text[])", addArg(statuses)))
 	}
 	if priorityFilter.Valid {
 		where = append(where, fmt.Sprintf("i.priority = %s", addArg(priorityFilter.String)))

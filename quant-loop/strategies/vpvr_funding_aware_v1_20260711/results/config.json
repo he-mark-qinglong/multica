@@ -1,0 +1,52 @@
+{
+  "strategy": "vpvr_funding_aware_v1_20260711",
+  "strategy_key": "vpvr_funding_aware_v1_20260711",
+  "variant": "V8_funding_aware_rev2",
+  "iteration": 82,
+  "date": "2026-07-11",
+  "timeframe": "4h",
+  "instruments": ["BTCUSDT", "ETHUSDT"],
+  "data_source": "binance_usdm_4h + funding_8h_event_parquet",
+  "axis": "funding_sum_24h_long_only_with_vol_regime_filter",
+  "starting_capital_usd": 100000.0,
+  "starting_capital_per_symbol_usd": 50000.0,
+  "direction": "long_only",
+  "fill_convention": "bar[t+1].open + cost_per_side",
+  "funding_carry_model": "8h_event_applied_to_held_position_via_CarryLedger",
+  "bars_per_year_4h": 2190,
+  "annualisation_factor_4h_sqrt": 46.79743582719036,
+  "rule_a_rev2": {
+    "method": "long_when_funding_sum_24h_below_zero_AND_funding_vol_regime_ok",
+    "funding_sum_window_hours": 24,
+    "funding_sum_window_bars_4h": 6,
+    "funding_vol_window_hours": 168,
+    "funding_vol_window_bars_4h": 42,
+    "funding_vol_max_bps_std": 30.0,
+    "min_gap_bars_between_trades": 12
+  },
+  "exits": {
+    "funding_reversal_bps_threshold": 5.0,
+    "carry_stop_pct_of_notional": -0.02,
+    "time_stop_bars_4h": 60,
+    "hard_stop_atr_k": 2.5,
+    "atr_period": 14
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 0.0,
+  "walk_forward": {
+    "folds": 16,
+    "train_bars": 720,
+    "test_bars": 168,
+    "bootstrap_seed": 42,
+    "bootstrap_samples": 10000,
+    "bonferroni_alpha": 0.0125
+  },
+  "notes": [
+    "Iter#82 (V8 funding-aware, Rule A rev2 — drop EMA trend filter, retain funding_sum_24h<0 entry + funding-vol regime filter).",
+    "Long-only BTCUSDT + ETHUSDT (SOL intentionally skipped per rev2 spec).",
+    "Funding carry applied via CarryLedger at each 8h funding event for held positions.",
+    "Exits in priority: (1) funding reversal >+5bps; (2) carry stop at -2% notional cumulative; (3) time stop at 60 4h bars; (4) hard stop at -2.5 ATR.",
+    "Cost ~1bp per side in-house (matches framework_adapter_report.json cost_bps_per_side=2.0 minus slippage treated as 0 in-house).",
+    "Fill at bar[t+1].open + cost_per_side (no look-ahead)."
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "variant_key": "vpvr_funding_carry_asym_v2_20260718",
+  "iteration": 2,
+  "date": "2026-07-18",
+  "source_spec": "SMA-34990",
+  "implementation_issue": "SMA-34990",
+  "instruments": [
+    "BTCUSDT"
+  ],
+  "timeframes": [
+    "1m",
+    "15m",
+    "4h"
+  ],
+  "generated_at_utc": "2026-07-18T15:37:52+00:00",
+  "aggregate": {
+    "mean_sharpe_daily": -3.5092,
+    "std_sharpe_daily": 6.0782,
+    "mean_annualized_return": -0.328356,
+    "worst_max_drawdown_pct": -64.5115,
+    "min_profit_factor": 0.0,
+    "n_trades_total": 2099,
+    "n_folds_total": 3,
+    "n_folds_valid": 3
+  },
+  "gates": {
+    "pass_min_mean_oos_sharpe": false,
+    "pass_min_profit_factor": false,
+    "pass_max_drawdown": false,
+    "pass_n_trades_min": false,
+    "pass_sharpe_consistency": false,
+    "folds_meeting_trade_min": 1,
+    "per_fold": [
+      {
+        "fold": "2024-Q1",
+        "n_trades": 2099,
+        "sharpe_daily": -10.5277,
+        "annualized_return": -0.985068,
+        "max_drawdown_pct": -64.5115,
+        "profit_factor": 0.1855,
+        "bootstrap_ci_lower_sharpe": -12.9699
+      },
+      {
+        "fold": "2024-Q3",
+        "n_trades": 0,
+        "sharpe_daily": 0.0,
+        "annualized_return": 0.0,
+        "max_drawdown_pct": 0.0,
+        "profit_factor": 0.0,
+        "bootstrap_ci_lower_sharpe": 0.0
+      },
+      {
+        "fold": "2025-Q2",
+        "n_trades": 0,
+        "sharpe_daily": 0.0,
+        "annualized_return": 0.0,
+        "max_drawdown_pct": 0.0,
+        "profit_factor": 0.0,
+        "bootstrap_ci_lower_sharpe": 0.0
+      }
+    ],
+    "verdict": "NOT-PROFITABLE[mean_oos_sharpe<1.2; min_pf<1.4; mdd<-25.0; trade-count-min not met; sharpe-std too high]"
+  },
+  "verdict": "NOT-PROFITABLE[mean_oos_sharpe<1.2; min_pf<1.4; mdd<-25.0; trade-count-min not met; sharpe-std too high]",
+  "per_fold": [
+    {
+      "fold": "2024-Q1",
+      "test_window": [
+        "2024-01-01",
+        "2024-03-31"
+      ],
+      "n_bars": 129601,
+      "metrics": {
+        "n_bars": 129601,
+        "n_trades": 2099,
+        "win_rate": 0.2025,
+        "profit_factor": 0.1855,
+        "sharpe_daily": -10.5277,
+        "total_return": -0.645115,
+        "annualized_return": -0.985068,
+        "max_drawdown_pct": -64.5115,
+        "avg_bars_held": 3.7,
+        "_validator_ok": false,
+        "_validator_msg": "[vpvr_funding_carry_asym_v2_20260718] max_drawdown_pct=-64.5115 outside expected range [-1.0, 0.0]",
+        "bootstrap_ci_lower_sharpe": -12.9699
+      },
+      "diagnostics": {
+        "n_long_entries": 2099,
+        "n_short_entries": 0,
+        "exit_reasons": {
+          "take_profit": 808,
+          "time_stop": 0,
+          "hard_stop": 1291
+        }
+      }
+    },
+    {
+      "fold": "2024-Q3",
+      "test_window": [
+        "2024-07-01",
+        "2024-09-30"
+      ],
+      "n_bars": 131041,
+      "metrics": {
+        "n_bars": 131041,
+        "n_trades": 0,
+        "win_rate": 0.0,
+        "profit_factor": 0.0,
+        "sharpe_daily": 0.0,
+        "total_return": 0.0,
+        "annualized_return": 0.0,
+        "max_drawdown_pct": 0.0,
+        "avg_bars_held": 0.0,
+        "_validator_ok": true,
+        "_validator_msg": "skipped (no trades)",
+        "bootstrap_ci_lower_sharpe": 0.0
+      },
+      "diagnostics": {
+        "n_long_entries": 0,
+        "n_short_entries": 0,
+        "exit_reasons": {
+          "take_profit": 0,
+          "time_stop": 0,
+          "hard_stop": 0
+        }
+      }
+    },
+    {
+      "fold": "2025-Q2",
+      "test_window": [
+        "2025-04-01",
+        "2025-06-30"
+      ],
+      "n_bars": 129601,
+      "metrics": {
+        "n_bars": 129601,
+        "n_trades": 0,
+        "win_rate": 0.0,
+        "profit_factor": 0.0,
+        "sharpe_daily": 0.0,
+        "total_return": 0.0,
+        "annualized_return": 0.0,
+        "max_drawdown_pct": 0.0,
+        "avg_bars_held": 0.0,
+        "_validator_ok": true,
+        "_validator_msg": "skipped (no trades)",
+        "bootstrap_ci_lower_sharpe": 0.0
+      },
+      "diagnostics": {
+        "n_long_entries": 0,
+        "n_short_entries": 0,
+        "exit_reasons": {
+          "take_profit": 0,
+          "time_stop": 0,
+          "hard_stop": 0
+        }
+      }
+    }
+  ]
+}

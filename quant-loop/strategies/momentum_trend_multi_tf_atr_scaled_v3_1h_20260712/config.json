@@ -1,0 +1,52 @@
+{
+  "strategy": "momentum_trend_multi_tf_atr_scaled_v3_1h_20260712",
+  "iteration": 88,
+  "axis": "trend_following_multi_tf_v3_btc_only_softer_stop",
+  "timeframe_entry": "1h",
+  "timeframe_filter": "4h",
+  "instruments": ["BTCUSDT"],
+  "data_source": "live_data_1h_4h_canonical",
+  "indicators": {
+    "ema_period": 50,
+    "rsi_period": 14,
+    "adx_period": 14,
+    "adx_min": 20.0,
+    "atr_period": 14,
+    "rsi_cross_level": 50.0,
+    "trend_slope_threshold": 0.0
+  },
+  "exit": {
+    "use_4h_trend_reversal": true,
+    "use_rsi_cross_back": true,
+    "use_atr_trailing": true,
+    "atr_trailing_k": 3.5
+  },
+  "sizing": {
+    "risk_per_atr_pct": 0.01,
+    "max_notional_pct": 0.05,
+    "max_gross_exposure_pct": 0.05
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "walk_forward": {
+    "n_windows": 4,
+    "train_bars_1h": 8760,
+    "test_bars_1h": 4380,
+    "step_bars_1h": 4380
+  },
+  "evidence_gate": {
+    "in_sample_sharpe_min": 0.5,
+    "wf_ratio_min": 0.5,
+    "min_oos_sharpe_min": 0.0
+  },
+  "notes": [
+    "Iteration #88: V12 — orchestrator direction after V11 regression (kimi 2dc6dfc5 cycle-14).",
+    "V12 = V10 (no regime filter) + BTC-only + softer -3.5 ATR stop (was 2.5).",
+    "Rationale: V11 regime filter excluded recovery entries in w0 and didn't materially help w1.",
+    "ETH degrades more than BTC under regime filter, drop ETH.",
+    "Softer 3.5 ATR stop gives more breathing room during volatility spikes without single-trade blowups.",
+    "Hard user gates G1-G7 deferred (single-strategy hypothesis test).",
+    "Fees follow V5 convention (1bps/side, 1bps slip) for apples-to-apples vs V10/V11."
+  ]
+}

@@ -1835,6 +1835,10 @@ type TaskCompleteRequest struct {
 	Output    string `json:"output"`
 	SessionID string `json:"session_id"` // Claude session ID for future resumption
 	WorkDir   string `json:"work_dir"`   // working directory used during execution
+	// Result is an optional structured run result (the agent's result.json).
+	// Any valid JSON value is accepted and stored as-is inside the task's
+	// result column; old daemons omit it entirely.
+	Result json.RawMessage `json:"result,omitempty"`
 }
 
 func (h *Handler) CompleteTask(w http.ResponseWriter, r *http.Request) {

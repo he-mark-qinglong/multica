@@ -1,0 +1,56 @@
+{
+  "engine": "backtrader",
+  "engine_version": "1.9.78.123",
+  "engine_sha": "b853d7c9",
+  "iteration": 75,
+  "strategy_key": "vpvr_macro_calendar_4h_20260715",
+  "inhouse": {
+    "sharpe": -0.0165,
+    "total_return": -0.000125,
+    "ann_total_return": -2.8e-05,
+    "max_dd": -0.003231,
+    "n_trades": 212,
+    "timeframe": "4h",
+    "status": "FAIL_NEGATIVE_ANN_RETURN"
+  },
+  "framework": {
+    "sharpe": 0.13699462553149377,
+    "total_return": 0.0014290912504801856,
+    "ann_total_return": 0.0003158220086854069,
+    "max_dd": -0.00413486870436075,
+    "n_bars": 9488,
+    "span_years": 4.522473191877709
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": 0.13699462553149377,
+    "oos_total_return_ann_mean": 0.0003158220086854069,
+    "oos_max_dd_max": -0.00413486870436075,
+    "n_folds": 1,
+    "folds": [
+      {
+        "fold": 1,
+        "bars": 9488,
+        "metrics": {
+          "sharpe": 0.13699462553149377,
+          "ann_total_return": 0.0003158220086854069,
+          "max_dd": -0.00413486870436075
+        }
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 930.2704577666291,
+    "ann_total_return": 1227.9357453050245,
+    "max_dd": 27.974890261861663
+  },
+  "max_abs_rel_divergence_pct": 1227.9357453050245,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_tipping_metrics": [
+    "sharpe 930.27%",
+    "ann_return 1227.94%"
+  ],
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "backtrader 1.9.78.123 replay: applied the in-house entry/exit schedule from trades_4h_BTCUSDT.csv to the BTCUSDT 4h bar stream with next-bar entry fill, slip_open + slip_match at 0.02% per side and commission 0.05% per side round-trip, 1% fractional sizing per signal. Equity tracked bar-by-bar via broker.getvalue(); Sharpe/ann_return/max_dd computed via the in-house formula.",
+  "framework_metrics_file": "/tmp/framework-validate-vpvr_macro_calendar_4h_20260715-backtrader/results.json"
+}

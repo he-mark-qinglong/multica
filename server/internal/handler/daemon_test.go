@@ -3876,3 +3876,125 @@ func TestClaimTaskByRuntime_CommentResumeDefaultOn(t *testing.T) {
 		t.Errorf("prior_session_id = %q, want %q (comment resume is default-on)", resp.Task.PriorSessionID, priorSession)
 	}
 }
+
+// The daemon may attach a structured run result (the agent's result.json) to
+// the complete payload. The server must persist it inside the task's result
+// JSONB column, alongside the output text. Any valid JSON value is stored
+// as-is; a daemon that omits the field keeps the old behavior.
+func TestCompleteTask_StructuredResultPersisted(t *testing.T) {
+	if testHandler == nil {
+		t.Skip("database not available")
+	}
+
+	ctx := context.Background()
+
+	var agentID, runtimeID string
+	if err := testPool.QueryRow(ctx, `
+		SELECT a.id, a.runtime_id FROM agent a WHERE a.workspace_id = $1 LIMIT 1
+	`, testWorkspaceID).Scan(&agentID, &runtimeID); err != nil {
+		t.Fatalf("setup: get agent: %v", err)
+	}
+
+	var taskID string
+	if err := testPool.QueryRow(ctx, `
+		INSERT INTO agent_task_queue (agent_id, runtime_id, status, priority, started_at)
+		VALUES ($1, $2, 'running', 0, now())
+		RETURNING id
+	`, agentID, runtimeID).Scan(&taskID); err != nil {
+		t.Fatalf("setup: create task: %v", err)
+	}
+	t.Cleanup(func() { testPool.Exec(ctx, `DELETE FROM agent_task_queue WHERE id = $1`, taskID) })
+
+	structured := map[string]any{"summary": "fixed the bug", "score": 0.9}
+
+	w := httptest.NewRecorder()
+	req := newDaemonTokenRequest("POST", "/api/daemon/tasks/"+taskID+"/complete",
+		map[string]any{"output": "done", "result": structured},
+		testWorkspaceID, "legit-daemon")
+	rctx := chi.NewRouteContext()
+	rctx.URLParams.Add("taskId", taskID)
+	req = req.WithContext(context.WithValue(req.Context(), chi.RouteCtxKey, rctx))
+
+	testHandler.CompleteTask(w, req)
+	if w.Code != http.StatusOK {
+		t.Fatalf("CompleteTask: expected 200, got %d: %s", w.Code, w.Body.String())
+	}
+
+	var raw []byte
+	if err := testPool.QueryRow(ctx,
+		`SELECT result FROM agent_task_queue WHERE id = $1`, taskID,
+	).Scan(&raw); err != nil {
+		t.Fatalf("read task result: %v", err)
+	}
+	var stored struct {
+		Output string          `json:"output"`
+		Result json.RawMessage `json:"result"`
+	}
+	if err := json.Unmarshal(raw, &stored); err != nil {
+		t.Fatalf("stored result is not valid JSON: %v (%s)", err, raw)
+	}
+	var got map[string]any
+	if err := json.Unmarshal(stored.Result, &got); err != nil {
+		t.Fatalf("nested result is not an object: %v (%s)", err, stored.Result)
+	}
+	if got["summary"] != "fixed the bug" {
+		t.Fatalf("stored result.summary = %v, want %q", got["summary"], "fixed the bug")
+	}
+	if got["score"] != 0.9 {
+		t.Fatalf("stored result.score = %v, want 0.9", got["score"])
+	}
+}
+
+// Companion: an old daemon that sends no result field must keep completing
+// fine, and the stored payload must not gain a result key.
+func TestCompleteTask_NoStructuredResult_BackwardCompat(t *testing.T) {
+	if testHandler == nil {
+		t.Skip("database not available")
+	}
+
+	ctx := context.Background()
+
+	var agentID, runtimeID string
+	if err := testPool.QueryRow(ctx, `
+		SELECT a.id, a.runtime_id FROM agent a WHERE a.workspace_id = $1 LIMIT 1
+	`, testWorkspaceID).Scan(&agentID, &runtimeID); err != nil {
+		t.Fatalf("setup: get agent: %v", err)
+	}
+
+	var taskID string
+	if err := testPool.QueryRow(ctx, `
+		INSERT INTO agent_task_queue (agent_id, runtime_id, status, priority, started_at)
+		VALUES ($1, $2, 'running', 0, now())
+		RETURNING id
+	`, agentID, runtimeID).Scan(&taskID); err != nil {
+		t.Fatalf("setup: create task: %v", err)
+	}
+	t.Cleanup(func() { testPool.Exec(ctx, `DELETE FROM agent_task_queue WHERE id = $1`, taskID) })
+
+	w := httptest.NewRecorder()
+	req := newDaemonTokenRequest("POST", "/api/daemon/tasks/"+taskID+"/complete",
+		map[string]any{"output": "done"},
+		testWorkspaceID, "legit-daemon")
+	rctx := chi.NewRouteContext()
+	rctx.URLParams.Add("taskId", taskID)
+	req = req.WithContext(context.WithValue(req.Context(), chi.RouteCtxKey, rctx))
+
+	testHandler.CompleteTask(w, req)
+	if w.Code != http.StatusOK {
+		t.Fatalf("CompleteTask: expected 200, got %d: %s", w.Code, w.Body.String())
+	}
+
+	var raw []byte
+	if err := testPool.QueryRow(ctx,
+		`SELECT result FROM agent_task_queue WHERE id = $1`, taskID,
+	).Scan(&raw); err != nil {
+		t.Fatalf("read task result: %v", err)
+	}
+	var stored map[string]json.RawMessage
+	if err := json.Unmarshal(raw, &stored); err != nil {
+		t.Fatalf("stored result is not valid JSON: %v (%s)", err, raw)
+	}
+	if _, present := stored["result"]; present {
+		t.Fatalf("old-daemon payload unexpectedly gained a result key: %s", raw)
+	}
+}

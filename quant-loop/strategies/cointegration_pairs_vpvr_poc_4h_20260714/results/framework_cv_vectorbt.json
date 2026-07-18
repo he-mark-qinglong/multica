@@ -1,0 +1,83 @@
+{
+  "engine": "vectorbt",
+  "engine_version": "1.1.0",
+  "engine_available": true,
+  "variant": null,
+  "iteration": 91,
+  "n_trades_total": 16,
+  "n_folds": 4,
+  "folds": [
+    {
+      "n_trades": 0,
+      "sharpe": 0.0,
+      "total_return": 0.0,
+      "max_dd": 0.0,
+      "engine": "vectorbt",
+      "fold": 1,
+      "oos_window": [
+        "2022-09-08 00:00:00+00:00",
+        "2023-01-06 00:00:00+00:00"
+      ]
+    },
+    {
+      "n_trades": 0,
+      "sharpe": 0.0,
+      "total_return": 0.0,
+      "max_dd": 0.0,
+      "engine": "vectorbt",
+      "fold": 2,
+      "oos_window": [
+        "2023-01-06 00:00:00+00:00",
+        "2023-05-06 00:00:00+00:00"
+      ]
+    },
+    {
+      "n_trades": 0,
+      "sharpe": 0.0,
+      "total_return": 0.0,
+      "max_dd": 0.0,
+      "engine": "vectorbt",
+      "fold": 3,
+      "oos_window": [
+        "2023-05-06 00:00:00+00:00",
+        "2023-09-03 00:00:00+00:00"
+      ]
+    },
+    {
+      "n_trades": 1,
+      "sharpe": 0.0,
+      "total_return": 0.0,
+      "max_dd": 0.0,
+      "engine": "vectorbt",
+      "fold": 4,
+      "oos_window": [
+        "2023-09-03 00:00:00+00:00",
+        "2024-01-01 00:00:00+00:00"
+      ]
+    }
+  ],
+  "oos_sharpe_mean": 0.0,
+  "oos_sharpe_ann": 0.0,
+  "oos_total_return_mean": 0.0,
+  "oos_max_dd_max": 0.0,
+  "inhouse_oos_sharpe_mean": 0.0,
+  "inhouse_oos_return_mean": 4.79630275662668e-07,
+  "inhouse_oos_mdd_worst": 0.0,
+  "inhouse_sharpe_full": -12.6678,
+  "inhouse_total_return_full": -0.24113876587032335,
+  "inhouse_mdd_full": -0.7292480545481941,
+  "divergence_pct_oos": {
+    "sharpe": 0.0,
+    "total_return": 47.9630275662668,
+    "max_dd": 0.0
+  },
+  "max_abs_rel_divergence_pct_oos": 47.9630275662668,
+  "divergence_pct_full_period": {
+    "sharpe": 100.0,
+    "total_return": 100.0,
+    "max_dd": 100.0
+  },
+  "max_abs_rel_divergence_pct_full_period": 100.0,
+  "g5_threshold": 1.0,
+  "g5_passed": false
+}

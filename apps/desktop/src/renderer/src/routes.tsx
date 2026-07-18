@@ -15,6 +15,8 @@ import { MemberDetailPage } from "./pages/member-detail-page";
 import { RuntimeDetailPage } from "./pages/runtime-detail-page";
 import { AttachmentPreviewRoute } from "./pages/attachment-preview-page";
 import { IssuesPage } from "@multica/views/issues/components";
+import { RunsPage } from "@multica/views/runs/components";
+import { ComparePage } from "@multica/views/compare/components";
 import { ProjectsPage } from "@multica/views/projects/components";
 import { DashboardPage } from "@multica/views/dashboard";
 import { AutopilotsPage } from "@multica/views/autopilots/components";
@@ -127,6 +129,8 @@ export const appRoutes: RouteObject[] = [
             element: <IssueDetailPage />,
             handle: { title: "Issue" },
           },
+          { path: "runs", element: <RunsPage />, handle: { title: "Runs" } },
+          { path: "compare", element: <ComparePage />, handle: { title: "Compare" } },
           {
             path: "projects",
             element: <ProjectsPage />,

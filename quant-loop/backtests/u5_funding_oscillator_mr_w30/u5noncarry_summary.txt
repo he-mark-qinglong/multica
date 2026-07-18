@@ -1,0 +1,8 @@
+=== SMA-34957-w30 funding-oscillator-MR window=30d ===
+family_n = 72, alpha_adj = 0.000174
+variants = 36, symbols = ['ETHUSDT', 'SOLUSDT']
+funding event stats (window):
+  ETHUSDT: n_events=89 max=0.000100 p99=0.000098 min=-0.000081 mean=3.144753e-05
+  SOLUSDT: n_events=90 max=0.000100 p99=0.000100 min=-0.000209 mean=6.561111e-07
+--- per-symbol best (n>=30) ---
+--- portfolio best (n>=30) ---

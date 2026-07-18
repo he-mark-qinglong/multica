@@ -1,0 +1,113 @@
+{
+  "window": {
+    "start": "2025-01-18",
+    "end": "2026-04-12",
+    "days": 450,
+    "definition": "A: union of 4 WF test windows (genuine OOS). B: post-WF holdout, selection leakage caveat."
+  },
+  "metrics_portfolio": {
+    "sharpe": 4.051001552135068,
+    "ann_return": 0.5036501676567711,
+    "max_dd": -0.04824763867889059,
+    "pf": 3.92560749840812,
+    "total_return": 0.6534846711085169,
+    "n_days": 450
+  },
+  "metrics_A_only": {
+    "sharpe": 2.478177526086011,
+    "ann_return": 0.01787098479632765,
+    "max_dd": -0.0025430026559001284,
+    "pf": 9.600130477351906,
+    "total_return": 0.022078360295620048,
+    "n_days": 450
+  },
+  "metrics_B_only": {
+    "sharpe": 5.000669107941579,
+    "ann_return": 1.167524677499145,
+    "max_dd": -0.08270686942746563,
+    "pf": 4.149528603079026,
+    "total_return": 1.5953877725486683,
+    "n_days": 450
+  },
+  "corr_full": -0.001735567717154473,
+  "corr_90d_min": -0.10939440889085013,
+  "corr_90d_max": 0.15664031524756986,
+  "corr_90d_mean": 0.00702252190833478,
+  "turnover_annual_pct_nav": 1269.3155458852113,
+  "n_rebalances": 450,
+  "clamp_days": 450,
+  "weight_stats": {
+    "w_A_mean": 0.49666666666666653,
+    "w_A_min": 0.1,
+    "w_A_max": 0.6
+  },
+  "folds": [
+    {
+      "fold": 1,
+      "test_start": "2025-07-17",
+      "test_end": "2025-09-21",
+      "sharpe": 3.040072503314157,
+      "ret": 0.02065546283576647
+    },
+    {
+      "fold": 2,
+      "test_start": "2025-09-22",
+      "test_end": "2025-11-27",
+      "sharpe": 1.4260879860965996,
+      "ret": 0.029300825696051858
+    },
+    {
+      "fold": 3,
+      "test_start": "2025-11-28",
+      "test_end": "2026-02-02",
+      "sharpe": 7.310686033710305,
+      "ret": 0.13233207339967934
+    },
+    {
+      "fold": 4,
+      "test_start": "2026-02-03",
+      "test_end": "2026-04-12",
+      "sharpe": 6.307638265498739,
+      "ret": 0.2305974204741894
+    }
+  ],
+  "g5_mean": 4.52112119715495,
+  "bootstrap": {
+    "n": 10000,
+    "ci95": [
+      2.4374797141386537,
+      6.071567499032034
+    ]
+  },
+  "gates": {
+    "G1_sharpe>=1.0": {
+      "value": 4.051001552135068,
+      "pass": true
+    },
+    "G2_ann_return>=15%": {
+      "value": 0.5036501676567711,
+      "pass": true
+    },
+    "G3_mdd<25%": {
+      "value": -0.04824763867889059,
+      "pass": true
+    },
+    "G4_pf>1.5": {
+      "value": 3.92560749840812,
+      "pass": true
+    },
+    "G5_WF_temporal_split_mean>=1.0 (stability proxy, NOT framework CV)": {
+      "value": 4.52112119715495,
+      "pass": true
+    },
+    "G6_bootstrap_CI_lower>=0.5": {
+      "value": 2.4374797141386537,
+      "pass": true
+    },
+    "G7_bonferroni_alpha=0.0125": {
+      "t_stat": 4.4980288251786344,
+      "z_crit": 2.2414027276049464,
+      "pass": true
+    }
+  }
+}

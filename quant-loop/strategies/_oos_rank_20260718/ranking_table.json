@@ -1,0 +1,54 @@
+{
+  "ranked": [
+    {
+      "variant": "vpvr_funding_aware_v1_20260711",
+      "tf": "4h",
+      "instruments": [
+        "BTCUSDT",
+        "ETHUSDT"
+      ],
+      "n_folds": 23,
+      "n_oos_bars": 3965,
+      "sharpe": 0.6929567283329379,
+      "ann_ret": 0.23112643867945648,
+      "max_dd": -0.2920455519167551,
+      "G1": false,
+      "G2": true,
+      "G3": true,
+      "n_pass": 2
+    },
+    {
+      "variant": "vpvr_funding_asym_4h_20260713",
+      "tf": "4h",
+      "instruments": [
+        "BTCUSDT",
+        "ETHUSDT"
+      ],
+      "n_folds": 23,
+      "n_oos_bars": 3965,
+      "sharpe": 0.6295765939182478,
+      "ann_ret": 1.5809554420709304e-05,
+      "max_dd": -0.001316524615966097,
+      "G1": false,
+      "G2": false,
+      "G3": true,
+      "n_pass": 1
+    },
+    {
+      "variant": "vpvr_funding_reset_window_1h_20260715",
+      "tf": "1h",
+      "instruments": [
+        "BTCUSDT"
+      ],
+      "n_folds": 94,
+      "n_oos_bars": 15859,
+      "sharpe": -1.634149153864898,
+      "ann_ret": -0.0024056847274743776,
+      "max_dd": -0.004626456362659126,
+      "G1": false,
+      "G2": false,
+      "G3": true,
+      "n_pass": 1
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "absolute_relative_divergence_pct": {
+    "max_dd": 5.52640365315087e-13,
+    "sharpe": 1.0415681894571576e-13,
+    "total_return": 3.9247914180250863e-13
+  },
+  "data_sha256": {
+    "BTCUSDT__8h.parquet": "ef757ef61039b8997f42902638e0b79128b42e4a791120b026f0613327b85433",
+    "ETHUSDT__8h.parquet": "abe44e9afaf19abdcfa9b8358e529256bd73b759293dbd866b8a0afe628ac88e"
+  },
+  "fee_slippage_bps_per_side": 2.0,
+  "fold_count": 4,
+  "folds": [
+    {
+      "fold": 1,
+      "framework": {
+        "max_dd": 0.0,
+        "n_trades": 1,
+        "sharpe": 0.0,
+        "total_return": 0.03692488374178171
+      },
+      "inhouse": {
+        "max_dd": 0.0,
+        "n_trades": 1,
+        "sharpe": 0.0,
+        "total_return": 0.03692488374178171
+      },
+      "oos_end": "2024-10-29T08:00:00+00:00",
+      "oos_start": "2024-04-06T00:00:00+00:00",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "fold": 2,
+      "framework": {
+        "max_dd": -0.00622508011714884,
+        "n_trades": 2,
+        "sharpe": -2.553341240295947,
+        "total_return": -0.00622508011714884
+      },
+      "inhouse": {
+        "max_dd": -0.00622508011714884,
+        "n_trades": 2,
+        "sharpe": -2.553341240295947,
+        "total_return": -0.00622508011714884
+      },
+      "oos_end": "2025-05-23T16:00:00+00:00",
+      "oos_start": "2024-10-29T16:00:00+00:00",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "fold": 3,
+      "framework": {
+        "max_dd": -0.05464041114839335,
+        "n_trades": 3,
+        "sharpe": -1.7877584249461007,
+        "total_return": -0.05464041114839335
+      },
+      "inhouse": {
+        "max_dd": -0.0546404111483938,
+        "n_trades": 3,
+        "sharpe": -1.7877584249461191,
+        "total_return": -0.0546404111483938
+      },
+      "oos_end": "2025-12-16T08:00:00+00:00",
+      "oos_start": "2025-05-24T00:00:00+00:00",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "fold": 4,
+      "framework": {
+        "max_dd": 0.0,
+        "n_trades": 1,
+        "sharpe": 0.0,
+        "total_return": 0.010936698282228319
+      },
+      "inhouse": {
+        "max_dd": 0.0,
+        "n_trades": 1,
+        "sharpe": 0.0,
+        "total_return": 0.010936698282228319
+      },
+      "oos_end": "2026-07-10T16:00:00+00:00",
+      "oos_start": "2025-12-16T16:00:00+00:00",
+      "symbol": "BTCUSDT"
+    },
+    {
+      "fold": 1,
+      "framework": {
+        "max_dd": -0.01949223099328401,
+        "n_trades": 1,
+        "sharpe": 0.0,
+        "total_return": -0.01949223099328401
+      },
+      "inhouse": {
+        "max_dd": -0.01949223099328401,
+        "n_trades": 1,
+        "sharpe": 0.0,
+        "total_return": -0.01949223099328401
+      },
+      "oos_end": "2024-10-29T08:00:00+00:00",
+      "oos_start": "2024-04-06T00:00:00+00:00",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "fold": 2,
+      "framework": {
+        "max_dd": 0.0,
+        "n_trades": 2,
+        "sharpe": 21.39573763691484,
+        "total_return": 0.01415546357823505
+      },
+      "inhouse": {
+        "max_dd": 0.0,
+        "n_trades": 2,
+        "sharpe": 21.39573763691484,
+        "total_return": 0.01415546357823505
+      },
+      "oos_end": "2025-05-23T16:00:00+00:00",
+      "oos_start": "2024-10-29T16:00:00+00:00",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "fold": 3,
+      "framework": {
+        "max_dd": 0.0,
+        "n_trades": 1,
+        "sharpe": 0.0,
+        "total_return": 0.13149043738285315
+      },
+      "inhouse": {
+        "max_dd": 0.0,
+        "n_trades": 1,
+        "sharpe": 0.0,
+        "total_return": 0.13149043738285315
+      },
+      "oos_end": "2025-12-16T08:00:00+00:00",
+      "oos_start": "2025-05-24T00:00:00+00:00",
+      "symbol": "ETHUSDT"
+    },
+    {
+      "fold": 4,
+      "framework": {
+        "max_dd": 0.0,
+        "n_trades": 0,
+        "sharpe": 0.0,
+        "total_return": 0.0
+      },
+      "inhouse": {
+        "max_dd": 0.0,
+        "n_trades": 0,
+        "sharpe": 0.0,
+        "total_return": 0.0
+      },
+      "oos_end": "2026-07-10T16:00:00+00:00",
+      "oos_start": "2025-12-16T16:00:00+00:00",
+      "symbol": "ETHUSDT"
+    }
+  ],
+  "framework": "backtrader",
+  "framework_oos_mean": {
+    "max_dd": -0.010044715282353275,
+    "sharpe": 2.131829746459099,
+    "total_return": 0.014143720090784004
+  },
+  "framework_version": "1.9.78.123",
+  "inhouse_metrics_path": "/home/smark/multica/quant-loop/strategies/vpvr_carry_term_8h_20260711/results/metrics.json",
+  "inhouse_metrics_tag_untouched": true,
+  "inhouse_oos_mean": {
+    "max_dd": -0.010044715282353331,
+    "sharpe": 2.131829746459097,
+    "total_return": 0.014143720090783948
+  },
+  "max_absolute_relative_divergence_pct": 5.52640365315087e-13,
+  "oos_fraction": 0.5,
+  "run_at_utc": "2026-07-17T18:49:38.612389+00:00",
+  "signal_source": "canonical build_signal; independent backtrader order/fill/position lifecycle",
+  "strategy": "vpvr_carry_term_8h_20260711",
+  "strategy_issue": "SMA-34745",
+  "validation_type": "OOS walk-forward",
+  "w5_auto_archive": false,
+  "w5_threshold_pct": 50.0,
+  "w5_tipping_metrics": [],
+  "w5_verdict": "WITHIN_TOLERANCE (ESCALATE per W5)"
+}

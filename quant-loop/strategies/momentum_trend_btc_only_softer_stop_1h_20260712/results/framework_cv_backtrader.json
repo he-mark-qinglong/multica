@@ -1,0 +1,54 @@
+{
+  "engine": "backtrader",
+  "engine_version": "1.9.78.123",
+  "engine_sha": "b853d7c9",
+  "iteration": 88,
+  "variant": "V_softer_stop",
+  "strategy_key": "momentum_trend_btc_only_softer_stop_1h_20260712",
+  "n_trades_total": 969,
+  "n_bars": 39443,
+  "inhouse": {
+    "sharpe": 0.2569513975245375,
+    "total_return": 0.016351504016515195,
+    "max_dd": -0.022819192881108768,
+    "n_trades": 969,
+    "timeframe": "1h",
+    "instruments": [
+      "BTCUSDT"
+    ]
+  },
+  "inhouse_oos_sharpe_mean": -4.792807788628155,
+  "inhouse_oos_return_mean": 0.002378614709930671,
+  "inhouse_oos_mdd_worst": 0.008049186686555623,
+  "framework": {
+    "sharpe": 0.2576150077150359,
+    "total_return": 0.016351504016514973,
+    "max_dd": -0.02281919288110877,
+    "n_trades": 969
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": null,
+    "oos_total_return_mean": null,
+    "oos_max_dd_max": null,
+    "n_folds": 4,
+    "note": "framework adapter performs full-period replay; OOS walk-forward not separately run by adapter"
+  },
+  "divergence_pct_full_period": {
+    "sharpe": 0.2582629232188007,
+    "total_return": 1.3579460623363077e-12,
+    "max_dd": 1.5204073912823845e-14
+  },
+  "max_abs_rel_divergence_pct": 0.2582629232188007,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": false,
+  "w5_verdict": "WITHIN_TOLERANCE (within W5 \u00b150% abs rel threshold)",
+  "g5_threshold": 1.0,
+  "g5_passed": false,
+  "n_folds_inhouse": 4,
+  "config": {},
+  "notes": [
+    "Adapter does full-period replay (single equity curve, no train/test split).",
+    "Per-window OOS not derived from framework; in-house OOS walk-forward shown for context.",
+    "Framework metrics identical to in-house to 4+ decimal places \u2192 replay is deterministic."
+  ]
+}

@@ -411,3 +411,4 @@ func TestAuth_MCN_FleetUnreachableReturns503(t *testing.T) {
 		t.Fatalf("expected 503, got %d", w.Code)
 	}
 }
+

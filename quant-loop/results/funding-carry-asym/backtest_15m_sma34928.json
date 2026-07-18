@@ -1,0 +1,225 @@
+{
+  "variant_key": "funding_carry_asym",
+  "iteration": "SMA-34928",
+  "source_spec": "SMA-34928",
+  "instruments": [
+    "BTCUSDT"
+  ],
+  "timeframes": [
+    "15m"
+  ],
+  "window_days": 30,
+  "span_start": "2026-06-18 02:00:00",
+  "span_end": "2026-07-18 02:00:00",
+  "funding_event_stats_30d": {
+    "n_events": 88,
+    "max": 0.0001,
+    "p99": 0.0001,
+    "p95": 0.0001,
+    "p90": 0.0001,
+    "p80": 8.311800000000001e-05,
+    "p70": 7.2394e-05,
+    "p50": 5.2795e-05,
+    "mean": 5.2871931818181815e-05
+  },
+  "generated_at_utc": "2026-07-18T04:36:10+00:00",
+  "sharpe_method": "daily_resampled_per_SMA-34787",
+  "variants": [
+    {
+      "n_bars": 2881,
+      "n_trades": 0,
+      "win_rate": 0.0,
+      "profit_factor": null,
+      "sharpe_daily": 0.0,
+      "total_return": 0.0,
+      "annualized_return": 0.0,
+      "max_drawdown_pct": 0.0,
+      "avg_bars_held": 0.0,
+      "tf": "15m",
+      "variant": "funding_carry_asym",
+      "diagnostics": {
+        "n_long_signals": 0,
+        "signal_bars_with_positive_signal": 0,
+        "signal_bars_funding_above_threshold": 0,
+        "signal_bars_near_support": 433
+      },
+      "span_start": "2026-06-18 02:00:00+00:00",
+      "span_end": "2026-07-18 02:00:00+00:00",
+      "symbol": "BTCUSDT",
+      "sharpe_method": "daily_resampled_per_SMA-34787",
+      "label": "abs_0.0003",
+      "params_override": {
+        "funding_threshold": 0.0003
+      },
+      "elapsed_sec": 9.41
+    },
+    {
+      "n_bars": 2881,
+      "n_trades": 0,
+      "win_rate": 0.0,
+      "profit_factor": null,
+      "sharpe_daily": 0.0,
+      "total_return": 0.0,
+      "annualized_return": 0.0,
+      "max_drawdown_pct": 0.0,
+      "avg_bars_held": 0.0,
+      "tf": "15m",
+      "variant": "funding_carry_asym",
+      "diagnostics": {
+        "n_long_signals": 0,
+        "signal_bars_with_positive_signal": 0,
+        "signal_bars_funding_above_threshold": 0,
+        "signal_bars_near_support": 433
+      },
+      "span_start": "2026-06-18 02:00:00+00:00",
+      "span_end": "2026-07-18 02:00:00+00:00",
+      "symbol": "BTCUSDT",
+      "sharpe_method": "daily_resampled_per_SMA-34787",
+      "label": "abs_0.0001",
+      "params_override": {
+        "funding_threshold": 0.0001
+      },
+      "elapsed_sec": 8.9
+    },
+    {
+      "n_bars": 2881,
+      "n_trades": 42,
+      "win_rate": 0.4048,
+      "profit_factor": 0.6957,
+      "sharpe_daily": 0.6314,
+      "total_return": 2.8e-05,
+      "annualized_return": 0.000342,
+      "max_drawdown_pct": -0.0242,
+      "avg_bars_held": 5.21,
+      "tf": "15m",
+      "variant": "funding_carry_asym",
+      "diagnostics": {
+        "n_long_signals": 226,
+        "signal_bars_with_positive_signal": 226,
+        "signal_bars_funding_above_threshold": 1501,
+        "signal_bars_near_support": 433
+      },
+      "span_start": "2026-06-18 02:00:00+00:00",
+      "span_end": "2026-07-18 02:00:00+00:00",
+      "symbol": "BTCUSDT",
+      "sharpe_method": "daily_resampled_per_SMA-34787",
+      "label": "abs_0.00005",
+      "params_override": {
+        "funding_threshold": 5e-05
+      },
+      "elapsed_sec": 8.18
+    },
+    {
+      "n_bars": 2881,
+      "n_trades": 5,
+      "win_rate": 0.4,
+      "profit_factor": 2.2976,
+      "sharpe_daily": 2.4878,
+      "total_return": 7.5e-05,
+      "annualized_return": 0.00091,
+      "max_drawdown_pct": -0.0033,
+      "avg_bars_held": 4.6,
+      "tf": "15m",
+      "variant": "funding_carry_asym",
+      "diagnostics": {
+        "n_long_signals": 12,
+        "signal_bars_with_positive_signal": 12,
+        "signal_bars_funding_above_threshold": 115,
+        "signal_bars_near_support": 433
+      },
+      "span_start": "2026-06-18 02:00:00+00:00",
+      "span_end": "2026-07-18 02:00:00+00:00",
+      "symbol": "BTCUSDT",
+      "sharpe_method": "daily_resampled_per_SMA-34787",
+      "label": "pct_q95",
+      "params_override": {
+        "funding_percentile_q": 95.0
+      },
+      "elapsed_sec": 8.54
+    },
+    {
+      "n_bars": 2881,
+      "n_trades": 8,
+      "win_rate": 0.375,
+      "profit_factor": 0.9778,
+      "sharpe_daily": -0.5949,
+      "total_return": -2.4e-05,
+      "annualized_return": -0.000292,
+      "max_drawdown_pct": -0.0128,
+      "avg_bars_held": 5.25,
+      "tf": "15m",
+      "variant": "funding_carry_asym",
+      "diagnostics": {
+        "n_long_signals": 28,
+        "signal_bars_with_positive_signal": 28,
+        "signal_bars_funding_above_threshold": 207,
+        "signal_bars_near_support": 433
+      },
+      "span_start": "2026-06-18 02:00:00+00:00",
+      "span_end": "2026-07-18 02:00:00+00:00",
+      "symbol": "BTCUSDT",
+      "sharpe_method": "daily_resampled_per_SMA-34787",
+      "label": "pct_q90",
+      "params_override": {
+        "funding_percentile_q": 90.0
+      },
+      "elapsed_sec": 8.62
+    },
+    {
+      "n_bars": 2881,
+      "n_trades": 15,
+      "win_rate": 0.3333,
+      "profit_factor": 0.5564,
+      "sharpe_daily": -5.9841,
+      "total_return": -6.3e-05,
+      "annualized_return": -0.000767,
+      "max_drawdown_pct": -0.0182,
+      "avg_bars_held": 5.13,
+      "tf": "15m",
+      "variant": "funding_carry_asym",
+      "diagnostics": {
+        "n_long_signals": 65,
+        "signal_bars_with_positive_signal": 65,
+        "signal_bars_funding_above_threshold": 414,
+        "signal_bars_near_support": 433
+      },
+      "span_start": "2026-06-18 02:00:00+00:00",
+      "span_end": "2026-07-18 02:00:00+00:00",
+      "symbol": "BTCUSDT",
+      "sharpe_method": "daily_resampled_per_SMA-34787",
+      "label": "pct_q80",
+      "params_override": {
+        "funding_percentile_q": 80.0
+      },
+      "elapsed_sec": 7.68
+    },
+    {
+      "n_bars": 2881,
+      "n_trades": 20,
+      "win_rate": 0.35,
+      "profit_factor": 0.5864,
+      "sharpe_daily": -2.6429,
+      "total_return": -7.5e-05,
+      "annualized_return": -0.000907,
+      "max_drawdown_pct": -0.0188,
+      "avg_bars_held": 4.85,
+      "tf": "15m",
+      "variant": "funding_carry_asym",
+      "diagnostics": {
+        "n_long_signals": 115,
+        "signal_bars_with_positive_signal": 115,
+        "signal_bars_funding_above_threshold": 729,
+        "signal_bars_near_support": 433
+      },
+      "span_start": "2026-06-18 02:00:00+00:00",
+      "span_end": "2026-07-18 02:00:00+00:00",
+      "symbol": "BTCUSDT",
+      "sharpe_method": "daily_resampled_per_SMA-34787",
+      "label": "pct_q70",
+      "params_override": {
+        "funding_percentile_q": 70.0
+      },
+      "elapsed_sec": 7.66
+    }
+  ]
+}

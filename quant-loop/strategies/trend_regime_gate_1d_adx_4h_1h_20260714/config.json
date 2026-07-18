@@ -1,0 +1,55 @@
+{
+  "strategy": "trend_regime_gate_1d_adx_4h_1h_20260714",
+  "iteration": 101,
+  "axis": "trend_dominant_regime_gate",
+  "description": "Trend-dominant 4h EMA continuation with 1d ADX regime confirmation and asymmetric ATR exits.",
+  "timeframe_entry": "1h",
+  "timeframe_trend": "4h",
+  "timeframe_regime": "1d",
+  "instruments": ["BTCUSDT", "ETHUSDT", "SOLUSDT"],
+  "signal": {
+    "trend_ema_fast": 20,
+    "trend_ema_slow": 50,
+    "regime_adx_period": 14,
+    "regime_adx_min": 25.0,
+    "entry_lookback": 20,
+    "atr_period": 14,
+    "volume_period": 20,
+    "volume_ratio_min": 1.0
+  },
+  "exit": {
+    "atr_stop": 1.5,
+    "atr_target": 3.0,
+    "atr_trailing": 2.0,
+    "max_holding_bars": 240
+  },
+  "sizing": {
+    "starting_capital_usd": 100000.0,
+    "risk_per_trade": 0.01,
+    "max_notional_pct": 1.0
+  },
+  "costs": {
+    "fee_bps_per_side": 10.0,
+    "slippage_bps_per_side": 5.0
+  },
+  "walk_forward": {
+    "train_bars": 8760,
+    "test_bars": 4380,
+    "step_bars": 4380,
+    "min_windows": 3
+  },
+  "hard_gates": {
+    "sharpe_min": 1.0,
+    "annualized_return_min": 0.15,
+    "profit_factor_min": 1.5,
+    "max_drawdown_max": 0.25,
+    "oos_sharpe_min": 1.0,
+    "bootstrap_ci_lower_min": 0.5,
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 42,
+    "bonferroni_alpha": 0.0125
+  },
+  "trend_alpha_weight": 0.7,
+  "cross_axis_weight": 0.3,
+  "paper_trade_only": true
+}

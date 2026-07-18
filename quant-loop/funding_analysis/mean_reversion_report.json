@@ -1,0 +1,258 @@
+{
+  "extreme_threshold": 0.001,
+  "revert_threshold": 0.0003,
+  "lookahead_hours": 4,
+  "summary": [
+    {
+      "symbol": "BTCUSDT",
+      "n": 2,
+      "pos_ep_n": 0,
+      "neg_ep_n": 1,
+      "neg_ep_pct": 0.0,
+      "neg_ep_n_with_revert": 0,
+      "neg_ep_median_gap_h": null,
+      "total_events": 2,
+      "total_episodes": 1,
+      "pos_ep_pct": NaN,
+      "pos_ep_n_with_revert": NaN,
+      "pos_ep_median_gap_h": NaN,
+      "pct_within_4h": NaN,
+      "n_observed": NaN
+    },
+    {
+      "symbol": "ETHUSDT",
+      "n": 5,
+      "pos_ep_n": 1,
+      "neg_ep_n": 1,
+      "neg_ep_pct": 0.0,
+      "neg_ep_n_with_revert": 0,
+      "neg_ep_median_gap_h": null,
+      "total_events": 6,
+      "total_episodes": 2,
+      "pos_ep_pct": 0.0,
+      "pos_ep_n_with_revert": 0.0,
+      "pos_ep_median_gap_h": NaN,
+      "pct_within_4h": NaN,
+      "n_observed": NaN
+    },
+    {
+      "symbol": "SOLUSDT",
+      "n": 79,
+      "pos_ep_n": 1,
+      "neg_ep_n": 16,
+      "neg_ep_pct": 0.0,
+      "neg_ep_n_with_revert": 0,
+      "neg_ep_median_gap_h": null,
+      "total_events": 81,
+      "total_episodes": 17,
+      "pos_ep_pct": 0.0,
+      "pos_ep_n_with_revert": 0.0,
+      "pos_ep_median_gap_h": NaN,
+      "pct_within_4h": 2.6,
+      "n_observed": 38.0
+    }
+  ],
+  "details": {
+    "BTCUSDT": {
+      "n_rows": 5100,
+      "n_extreme_events": 2,
+      "n_extreme_episodes": 1,
+      "episodes": [
+        {
+          "start_ts": "2022-11-10T00:00:00.006000+00:00",
+          "first_rate": -0.00119172,
+          "side": "neg",
+          "first_revert_ts": "2022-11-10T16:00:00.015000+00:00",
+          "first_revert_gap_h": 16.0000025,
+          "reverted_within_4h": false,
+          "reverted_within_24h": true
+        }
+      ]
+    },
+    "ETHUSDT": {
+      "n_rows": 5100,
+      "n_extreme_events": 6,
+      "n_extreme_episodes": 2,
+      "episodes": [
+        {
+          "start_ts": "2022-09-14T00:00:00+00:00",
+          "first_rate": -0.00111142,
+          "side": "neg",
+          "first_revert_ts": "2022-09-15T16:00:00.007000+00:00",
+          "first_revert_gap_h": 40.00000194444445,
+          "reverted_within_4h": false,
+          "reverted_within_24h": false
+        },
+        {
+          "start_ts": "2024-03-05T08:00:00+00:00",
+          "first_rate": 0.00101724,
+          "side": "pos",
+          "first_revert_ts": "2024-03-06T00:00:00+00:00",
+          "first_revert_gap_h": 16.0,
+          "reverted_within_4h": false,
+          "reverted_within_24h": true
+        }
+      ]
+    },
+    "SOLUSDT": {
+      "n_rows": 5175,
+      "n_extreme_events": 81,
+      "n_extreme_episodes": 17,
+      "episodes": [
+        {
+          "start_ts": "2022-05-11T16:00:00.008000+00:00",
+          "first_rate": -0.00131956,
+          "side": "neg",
+          "first_revert_ts": "2022-05-14T00:00:00+00:00",
+          "first_revert_gap_h": 55.99999777777778,
+          "reverted_within_4h": false,
+          "reverted_within_24h": false
+        },
+        {
+          "start_ts": "2022-11-08T08:00:00.001000+00:00",
+          "first_rate": -0.00124635,
+          "side": "neg",
+          "first_revert_ts": "2022-11-14T20:00:00.021000+00:00",
+          "first_revert_gap_h": 156.00000555555556,
+          "reverted_within_4h": false,
+          "reverted_within_24h": false
+        },
+        {
+          "start_ts": "2022-11-15T18:00:00.010000+00:00",
+          "first_rate": -0.00136816,
+          "side": "neg",
+          "first_revert_ts": "2022-11-16T20:00:00.006000+00:00",
+          "first_revert_gap_h": 25.99999888888889,
+          "reverted_within_4h": false,
+          "reverted_within_24h": false
+        },
+        {
+          "start_ts": "2022-11-17T14:00:00+00:00",
+          "first_rate": -0.00336778,
+          "side": "neg",
+          "first_revert_ts": "2022-11-18T06:00:00.007000+00:00",
+          "first_revert_gap_h": 16.000001944444445,
+          "reverted_within_4h": false,
+          "reverted_within_24h": true
+        },
+        {
+          "start_ts": "2022-11-19T08:00:00.004000+00:00",
+          "first_rate": -0.00114938,
+          "side": "neg",
+          "first_revert_ts": "2022-11-22T00:00:00+00:00",
+          "first_revert_gap_h": 63.99999888888889,
+          "reverted_within_4h": false,
+          "reverted_within_24h": false
+        },
+        {
+          "start_ts": "2022-11-20T16:00:00+00:00",
+          "first_rate": -0.00112922,
+          "side": "neg",
+          "first_revert_ts": "2022-11-22T00:00:00+00:00",
+          "first_revert_gap_h": 32.0,
+          "reverted_within_4h": false,
+          "reverted_within_24h": false
+        },
+        {
+          "start_ts": "2022-11-24T00:00:00.007000+00:00",
+          "first_rate": -0.00110661,
+          "side": "neg",
+          "first_revert_ts": "2022-11-25T08:00:00.015000+00:00",
+          "first_revert_gap_h": 32.00000222222222,
+          "reverted_within_4h": false,
+          "reverted_within_24h": false
+        },
+        {
+          "start_ts": "2022-11-27T00:00:00.012000+00:00",
+          "first_rate": -0.00147702,
+          "side": "neg",
+          "first_revert_ts": "2022-11-28T00:00:00.015000+00:00",
+          "first_revert_gap_h": 24.00000083333333,
+          "reverted_within_4h": false,
+          "reverted_within_24h": false
+        },
+        {
+          "start_ts": "2022-11-28T08:00:00.004000+00:00",
+          "first_rate": -0.00540619,
+          "side": "neg",
+          "first_revert_ts": "2022-11-29T00:00:00+00:00",
+          "first_revert_gap_h": 15.99999888888889,
+          "reverted_within_4h": false,
+          "reverted_within_24h": true
+        },
+        {
+          "start_ts": "2022-11-30T08:00:00+00:00",
+          "first_rate": -0.00140667,
+          "side": "neg",
+          "first_revert_ts": "2022-12-01T08:00:00.006000+00:00",
+          "first_revert_gap_h": 24.000001666666666,
+          "reverted_within_4h": false,
+          "reverted_within_24h": false
+        },
+        {
+          "start_ts": "2022-12-02T08:00:00.016000+00:00",
+          "first_rate": -0.00174192,
+          "side": "neg",
+          "first_revert_ts": "2022-12-02T16:00:00.017000+00:00",
+          "first_revert_gap_h": 8.000000277777778,
+          "reverted_within_4h": false,
+          "reverted_within_24h": true
+        },
+        {
+          "start_ts": "2022-12-24T08:00:00.007000+00:00",
+          "first_rate": -0.00121249,
+          "side": "neg",
+          "first_revert_ts": "2022-12-25T16:00:00+00:00",
+          "first_revert_gap_h": 31.999998055555555,
+          "reverted_within_4h": false,
+          "reverted_within_24h": false
+        },
+        {
+          "start_ts": "2022-12-30T00:00:00+00:00",
+          "first_rate": -0.00277763,
+          "side": "neg",
+          "first_revert_ts": "2023-01-05T08:00:00.011000+00:00",
+          "first_revert_gap_h": 152.00000305555557,
+          "reverted_within_4h": false,
+          "reverted_within_24h": false
+        },
+        {
+          "start_ts": "2023-01-02T00:00:00+00:00",
+          "first_rate": -0.00105604,
+          "side": "neg",
+          "first_revert_ts": "2023-01-05T08:00:00.011000+00:00",
+          "first_revert_gap_h": 80.00000305555555,
+          "reverted_within_4h": false,
+          "reverted_within_24h": false
+        },
+        {
+          "start_ts": "2023-01-03T00:00:00.003000+00:00",
+          "first_rate": -0.00137389,
+          "side": "neg",
+          "first_revert_ts": "2023-01-06T08:00:00.001000+00:00",
+          "first_revert_gap_h": 79.99999944444446,
+          "reverted_within_4h": false,
+          "reverted_within_24h": false
+        },
+        {
+          "start_ts": "2024-03-05T08:00:00+00:00",
+          "first_rate": 0.00119261,
+          "side": "pos",
+          "first_revert_ts": "2024-03-06T00:00:00+00:00",
+          "first_revert_gap_h": 16.0,
+          "reverted_within_4h": false,
+          "reverted_within_24h": true
+        },
+        {
+          "start_ts": "2025-10-11T00:00:00+00:00",
+          "first_rate": -0.00302761,
+          "side": "neg",
+          "first_revert_ts": "2025-10-13T08:00:00.002000+00:00",
+          "first_revert_gap_h": 56.00000055555556,
+          "reverted_within_4h": false,
+          "reverted_within_24h": false
+        }
+      ]
+    }
+  }
+}

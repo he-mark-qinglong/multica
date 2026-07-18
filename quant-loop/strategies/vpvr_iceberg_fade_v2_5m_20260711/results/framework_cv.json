@@ -1,0 +1,46 @@
+{
+  "variant": "vpvr_iceberg_fade_v2_5m_20260711",
+  "iteration": 92,
+  "engines": {
+    "backtrader": {
+      "engine_available": true,
+      "n_trades_total": 13,
+      "oos_sharpe_mean": 0.0,
+      "oos_sharpe_median": 0.0,
+      "oos_sharpe_min": 0.0,
+      "oos_sharpe_max": 0.0,
+      "oos_positive_folds": 0,
+      "g5_passed": false
+    }
+  },
+  "inhouse_wf_mean_sharpe": -8.031924539115302,
+  "abs_sharpe_divergence_pct_vs_inhouse": 1.0,
+  "g5_threshold": 1.0,
+  "g5_passed": false,
+  "method_note": "Signal-replay partition through backtrader bt.Strategy contract (mirrors V10 precedent). The 100% apparent divergence vs in-house is artifactual: per-window n_trades=0-1 prevents meaningful Sharpe calculation in the framework partition; the backtrader adapter reports 0.0 because there are too few trades per fold for a non-zero std. This is NOT a clean implementation-gap measurement — a full event-driven vectorbt/backtrader port (as done for SMA-34405 bb_reversion × vectorbt) would be required for genuine framework parity.",
+  "parity_note": "Both engines partition identically to in-house walk_forward.json. Per-fold partition is correct; Sharpe magnitude differs because Sharpe is unstable at n_trades=1.",
+  "folds": [
+    {"fold": 0, "n_trades": 0, "oos_sharpe": 0.0},
+    {"fold": 1, "n_trades": 1, "oos_sharpe": 0.0},
+    {"fold": 2, "n_trades": 1, "oos_sharpe": 0.0},
+    {"fold": 3, "n_trades": 1, "oos_sharpe": 0.0},
+    {"fold": 4, "n_trades": 1, "oos_sharpe": 0.0},
+    {"fold": 5, "n_trades": 0, "oos_sharpe": 0.0},
+    {"fold": 6, "n_trades": 1, "oos_sharpe": 0.0},
+    {"fold": 7, "n_trades": 1, "oos_sharpe": 0.0},
+    {"fold": 8, "n_trades": 1, "oos_sharpe": 0.0},
+    {"fold": 9, "n_trades": 1, "oos_sharpe": 0.0},
+    {"fold": 10, "n_trades": 0, "oos_sharpe": 0.0},
+    {"fold": 11, "n_trades": 1, "oos_sharpe": 0.0},
+    {"fold": 12, "n_trades": 1, "oos_sharpe": 0.0},
+    {"fold": 13, "n_trades": 1, "oos_sharpe": 0.0},
+    {"fold": 14, "n_trades": 1, "oos_sharpe": 0.0},
+    {"fold": 15, "n_trades": 1, "oos_sharpe": 0.0}
+  ],
+  "w5_verdict": {
+    "abs_divergence_pct": 100.0,
+    "threshold_pct": 50.0,
+    "decision": "AUTO-ARCHIVED per W5",
+    "rationale": "100% abs rel divergence > 50% threshold. Note: the measured divergence reflects signal starvation (n_trades=13 total → 0-1 trades per fold) rather than an implementation gap; the strategy is already NOT-PROFITABLE in-sample so W5 auto-archive aligns with the existing verdict."
+  }
+}

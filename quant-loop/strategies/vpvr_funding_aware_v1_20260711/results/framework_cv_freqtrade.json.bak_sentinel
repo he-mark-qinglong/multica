@@ -1,0 +1,38 @@
+{
+  "engine": "freqtrade",
+  "engine_version": "2026.6",
+  "engine_sha": "freqtrade-2026.6",
+  "iteration": 82,
+  "strategy_key": "vpvr_funding_aware_v1_20260711",
+  "inhouse": {
+    "sharpe": 7.164861498565264,
+    "ann_total_return": 0.2111508601397375,
+    "total_return": 1.4432909698119527,
+    "max_dd": -0.5707685344212701,
+    "n_trades": 165,
+    "timeframe": "4h",
+    "status": "PROFITABLE"
+  },
+  "framework": {
+    "sharpe": 5.830994502218345,
+    "ann_total_return": 0.20341833840237977,
+    "total_return": 1.3185860197099513,
+    "max_dd": -4.000000000226045e-06,
+    "n_bars": 9954,
+    "n_fills": 165,
+    "span_years": 4.541638147387634
+  },
+  "divergence_pct": {
+    "sharpe": 18.61678689272669,
+    "total_return": 8.640319430409056,
+    "max_dd": 99.99929919051962
+  },
+  "max_abs_rel_divergence_pct": 99.99929919051962,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_tipping_metrics": [
+    "max_dd 100.00%"
+  ],
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "freqtrade 2026.6 replay: applied the in-house entry/exit schedule from trades_A_4h_BTCUSDT.csv + trades_A_4h_ETHUSDT.csv to the BTCUSDT + ETHUSDT 4h bar streams with next-bar entry fill, slip_open + slip_match at 0.02% per side and commission 0.04% per side (freqtrade crypto perp default), 1% fractional sizing per symbol on $200k starting capital split $100k+$100k. Sharpe/ann_return/max_dd computed via bar-by-bar NAV."
+}

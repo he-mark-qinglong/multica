@@ -1,0 +1,46 @@
+=== funding_carry_u5_eth_sol_1m (SMA-34947-w30) — event-driven ===
+window_days=30  bars_per_year=365  sqrt_bpy=19.1115  sharpe_method=daily_resampled_per_SMA-34787
+G1-G7 hard gates: sharpe>=1.0, ann>=15%, maxdd>=-25%, pf>=1.5, bs_ci_lo>=0.5, bonferroni_alpha=0.0125 (one-sided H1: Sharpe>0), trades>=30
+
+Funding event stats (30d, raw 8h events):
+  SOLUSDT: n=90 max=0.0100% min=-0.0209% neg=50.0% <=-1bp=4.4% <=-0.5bp=15.6%
+  ETHUSDT: n=89 max=0.0100% min=-0.0081% neg=12.4% <=-1bp=0.0% <=-0.5bp=2.2%
+
+Per-symbol results:
+Sym     Variant     Fires   Sharpe_d     Ann%    MaxDD%     WR%       PF   BS_CIlo    p_one  Gates
+SOLUSDT abs_1bp         4      0.928    9.88%    -2.136   50.0%     1.38    -5.022    0.416  NNYNNNN
+SOLUSDT abs_0.5bp      14      2.492   87.95%    -4.560   50.0%     1.63    -5.558    0.241  YYYYNNN
+SOLUSDT abs_0.25bp     32     -0.522  -36.59%   -15.134   46.9%     0.92    -8.235    0.571  NNYNNNY
+SOLUSDT pct_q20         4      0.891    7.70%    -1.579   50.0%     1.28    -5.687    0.393  NNYNNNN
+SOLUSDT pct_q10         3      1.774   17.74%    -1.579   66.7%     1.87    -5.022    0.327  YYYYNNN
+SOLUSDT pct_q05         2      4.853   42.92%     0.000  100.0%      inf     0.000    0.128  YYYNNNN
+ETHUSDT abs_1bp         0      0.000    0.00%     0.000    0.0%     0.00     0.000    1.000  NNYNNNN
+ETHUSDT abs_0.5bp       2     -3.025   -3.72%    -0.354   50.0%     0.12    -6.263    0.770  NNYNNNN
+ETHUSDT abs_0.25bp      4      1.924    4.33%    -0.354   75.0%     1.99    -5.022    0.324  YNYYNNN
+ETHUSDT pct_q20         6      4.794   17.26%     0.000   83.3%     4.71     0.000    0.045  YYYYNNN
+ETHUSDT pct_q10         5      4.317   15.35%     0.000   80.0%     4.33     0.000    0.131  YYYYNNN
+ETHUSDT pct_q05         2     -3.025   -3.72%    -0.354   50.0%     0.12    -6.263    0.770  NNYNNNN
+
+Portfolio (equal-risk, ETH+SOL) results:
+Variant               Fires   Sharpe_d     Ann%    MaxDD%   BS_CIlo  Gates
+portfolio_abs_1bp         4      0.656    4.01%    -1.068    -3.490  NNYNNN
+portfolio_abs_0.5bp      16      2.116   28.07%    -2.296    -5.049  YYYNNN
+portfolio_abs_0.25bp     36     -0.407  -12.66%    -7.519    -7.025  NNYNNY
+portfolio_pct_q20        10      2.301   10.02%    -0.789    -3.711  YNYNNN
+portfolio_pct_q10         8      2.817   13.33%    -0.789    -3.329  YNYNNN
+portfolio_pct_q05         4      3.824   13.88%    -0.177    -4.199  YNYNNN
+
+Bonferroni (one-sided H1: Sharpe > 0, across SOL×ETH×variant family):
+  alpha=0.0125  n_tests=12  alpha_adj=0.001042
+  SOLUSDT/abs_1bp          p_raw=0.4156  passes_pos=False
+  SOLUSDT/abs_0.5bp        p_raw=0.2408  passes_pos=False
+  SOLUSDT/abs_0.25bp       p_raw=0.5705  passes_pos=False
+  SOLUSDT/pct_q20          p_raw=0.3927  passes_pos=False
+  SOLUSDT/pct_q10          p_raw=0.3272  passes_pos=False
+  SOLUSDT/pct_q05          p_raw=0.1276  passes_pos=False
+  ETHUSDT/abs_1bp          p_raw=1.0000  passes_pos=False
+  ETHUSDT/abs_0.5bp        p_raw=0.7697  passes_pos=False
+  ETHUSDT/abs_0.25bp       p_raw=0.3238  passes_pos=False
+  ETHUSDT/pct_q20          p_raw=0.0448  passes_pos=False
+  ETHUSDT/pct_q10          p_raw=0.1307  passes_pos=False
+  ETHUSDT/pct_q05          p_raw=0.7697  passes_pos=False

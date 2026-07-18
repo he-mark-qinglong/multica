@@ -1,0 +1,288 @@
+{
+  "variant_key": "vpvr_multi_tf_funding_v1",
+  "iteration": 1,
+  "date": "2026-07-18",
+  "source_spec": "SMA-34911",
+  "implementation_issue": "SMA-34989",
+  "instruments": [
+    "BTCUSDT"
+  ],
+  "timeframes": [
+    "1m",
+    "15m",
+    "4h"
+  ],
+  "sharpe_method": "daily_resampled_per_SMA-34787",
+  "sharpe_method_audit_ref": "SMA-34787",
+  "generated_at_utc": "2026-07-18T14:52:32+00:00",
+  "aggregate": {
+    "mean_sharpe_daily": -46.6724,
+    "mean_annualized_return": -0.15755,
+    "worst_max_drawdown_pct": -4.2088,
+    "min_profit_factor": 0.1336,
+    "n_trades_total": 50726,
+    "n_folds_total": 3,
+    "n_folds_valid": 3,
+    "n_folds_with_min_trades": 3,
+    "min_bootstrap_ci_lower": -73.6524
+  },
+  "gates": {
+    "G1_mean_sharpe_daily_min": 1.0,
+    "G1_pass": false,
+    "G2_annualized_return_min": 0.15,
+    "G2_pass": false,
+    "G3_max_drawdown_pct_min_pct": -25.0,
+    "G3_pass": true,
+    "G4_profit_factor_min": 1.5,
+    "G4_pass": false,
+    "G5_n_trades_min": 30,
+    "G5_n_folds_min_with_trades": 2,
+    "G5_pass": true,
+    "G6_bootstrap_ci_lower_min": 0.5,
+    "G6_pass": false,
+    "G7_bonferroni_alpha": 0.0125,
+    "failed_folds": [
+      "2024-Q1",
+      "2024-Q3",
+      "2025-Q2"
+    ],
+    "failed_gates_per_fold": [
+      {
+        "fold": "2024-Q1",
+        "failed": [
+          "G1",
+          "G2",
+          "G4",
+          "G6"
+        ]
+      },
+      {
+        "fold": "2024-Q3",
+        "failed": [
+          "G1",
+          "G2",
+          "G4",
+          "G6"
+        ]
+      },
+      {
+        "fold": "2025-Q2",
+        "failed": [
+          "G1",
+          "G2",
+          "G4",
+          "G6"
+        ]
+      }
+    ],
+    "n_folds_fail_two_or_more": 3,
+    "verdict": "NOT-PROFITABLE"
+  },
+  "verdict": "NOT-PROFITABLE",
+  "per_fold": [
+    {
+      "fold": "2024-Q1",
+      "test_window": [
+        "2024-01-01",
+        "2024-03-31"
+      ],
+      "train_window": [
+        "2023-01-01",
+        "2023-12-31"
+      ],
+      "n_bars": 129601,
+      "metrics": {
+        "n_bars": 129601,
+        "n_trades": 17057,
+        "win_rate": 0.2378,
+        "profit_factor": 0.2537,
+        "sharpe_daily": -41.6542,
+        "total_return": -0.042084,
+        "annualized_return": -0.160114,
+        "max_drawdown_pct": -4.2088,
+        "avg_bars_held": 5.87,
+        "bootstrap_ci_lower_sharpe": -53.8963,
+        "bootstrap_ci_upper_sharpe": -34.7168,
+        "bootstrap_resamples": 1000
+      },
+      "diagnostics": {
+        "n_long_entries": 15856,
+        "n_short_entries": 1201,
+        "n_conviction_high": 0,
+        "exit_reasons": {
+          "take_profit": 56,
+          "lead_1m_no_confirm": 0,
+          "trailing_stop": 393,
+          "hard_stop": 307,
+          "block_exit": 0,
+          "time_stop": 16301
+        },
+        "per_tf": {
+          "1m": {
+            "n_micro_long_signals": 0,
+            "n_micro_short_signals": 0,
+            "n_near_hvn": 7090,
+            "n_near_lvn": 3310
+          },
+          "15m": {
+            "n_carry_long_signals": 324,
+            "n_support_zone": 1515
+          },
+          "4h": {
+            "regime_counts": {
+              "TREND_UP": 42,
+              "TREND_DOWN": 35,
+              "MEAN_REVERT": 412,
+              "BLOCKED": 52
+            },
+            "n_struct_long": 73,
+            "n_struct_short": 3
+          }
+        },
+        "combination": {
+          "n_decision_long": 108721,
+          "n_decision_short": 8400,
+          "n_decision_flat": 12480,
+          "n_conviction_high": 0,
+          "n_lead_1m": 0
+        }
+      }
+    },
+    {
+      "fold": "2024-Q3",
+      "test_window": [
+        "2024-07-01",
+        "2024-09-30"
+      ],
+      "train_window": [
+        "2023-07-01",
+        "2024-06-30"
+      ],
+      "n_bars": 131041,
+      "metrics": {
+        "n_bars": 131041,
+        "n_trades": 16938,
+        "win_rate": 0.2267,
+        "profit_factor": 0.2262,
+        "sharpe_daily": -45.6842,
+        "total_return": -0.041933,
+        "annualized_return": -0.15797,
+        "max_drawdown_pct": -4.1934,
+        "avg_bars_held": 6.0,
+        "bootstrap_ci_lower_sharpe": -57.3937,
+        "bootstrap_ci_upper_sharpe": -36.9574,
+        "bootstrap_resamples": 1000
+      },
+      "diagnostics": {
+        "n_long_entries": 15430,
+        "n_short_entries": 1508,
+        "n_conviction_high": 0,
+        "exit_reasons": {
+          "take_profit": 0,
+          "lead_1m_no_confirm": 0,
+          "trailing_stop": 2,
+          "hard_stop": 0,
+          "block_exit": 0,
+          "time_stop": 16936
+        },
+        "per_tf": {
+          "1m": {
+            "n_micro_long_signals": 0,
+            "n_micro_short_signals": 0,
+            "n_near_hvn": 7004,
+            "n_near_lvn": 3544
+          },
+          "15m": {
+            "n_carry_long_signals": 0,
+            "n_support_zone": 1200
+          },
+          "4h": {
+            "regime_counts": {
+              "TREND_UP": 37,
+              "TREND_DOWN": 44,
+              "MEAN_REVERT": 414,
+              "BLOCKED": 52
+            },
+            "n_struct_long": 62,
+            "n_struct_short": 5
+          }
+        },
+        "combination": {
+          "n_decision_long": 108001,
+          "n_decision_short": 10560,
+          "n_decision_flat": 12480,
+          "n_conviction_high": 0,
+          "n_lead_1m": 0
+        }
+      }
+    },
+    {
+      "fold": "2025-Q2",
+      "test_window": [
+        "2025-04-01",
+        "2025-06-30"
+      ],
+      "train_window": [
+        "2024-04-01",
+        "2025-03-31"
+      ],
+      "n_bars": 129601,
+      "metrics": {
+        "n_bars": 129601,
+        "n_trades": 16731,
+        "win_rate": 0.1684,
+        "profit_factor": 0.1336,
+        "sharpe_daily": -52.6788,
+        "total_return": -0.040529,
+        "annualized_return": -0.154567,
+        "max_drawdown_pct": -4.0533,
+        "avg_bars_held": 6.0,
+        "bootstrap_ci_lower_sharpe": -73.6524,
+        "bootstrap_ci_upper_sharpe": -39.5362,
+        "bootstrap_resamples": 1000
+      },
+      "diagnostics": {
+        "n_long_entries": 15328,
+        "n_short_entries": 1403,
+        "n_conviction_high": 0,
+        "exit_reasons": {
+          "take_profit": 0,
+          "lead_1m_no_confirm": 0,
+          "trailing_stop": 0,
+          "hard_stop": 0,
+          "block_exit": 0,
+          "time_stop": 16731
+        },
+        "per_tf": {
+          "1m": {
+            "n_micro_long_signals": 0,
+            "n_micro_short_signals": 0,
+            "n_near_hvn": 5774,
+            "n_near_lvn": 3587
+          },
+          "15m": {
+            "n_carry_long_signals": 0,
+            "n_support_zone": 1318
+          },
+          "4h": {
+            "regime_counts": {
+              "TREND_UP": 27,
+              "TREND_DOWN": 41,
+              "MEAN_REVERT": 421,
+              "BLOCKED": 52
+            },
+            "n_struct_long": 96,
+            "n_struct_short": 4
+          }
+        },
+        "combination": {
+          "n_decision_long": 107281,
+          "n_decision_short": 9840,
+          "n_decision_flat": 12480,
+          "n_conviction_high": 0,
+          "n_lead_1m": 0
+        }
+      }
+    }
+  ]
+}

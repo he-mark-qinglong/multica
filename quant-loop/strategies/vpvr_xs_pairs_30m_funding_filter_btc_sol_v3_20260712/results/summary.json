@@ -1,0 +1,56 @@
+{
+  "strategy": "vpvr_xs_pairs_30m_funding_filter_btc_sol_v3_20260712",
+  "iteration": 85,
+  "date": "2026-07-13",
+  "timeframe": "30m",
+  "instruments": [
+    "BTCUSDT",
+    "SOLUSDT"
+  ],
+  "pairs": [
+    "BTCUSDT/SOLUSDT"
+  ],
+  "axis": "xs_pair_zscore_with_vpvr_confluence_and_funding_blowoff_filter_regularized_v3",
+  "tag": "PROFITABLE",
+  "variant": "A",
+  "n_trades": 1729,
+  "win_rate": 0.5367264314632736,
+  "profit_factor": 1.3717221733299974,
+  "total_return_pct": 6.227821902678091,
+  "sharpe": 2.6833111075765643,
+  "max_drawdown_pct": -0.1923863649179327,
+  "evidence_gate": {
+    "sharpe_threshold": 0.5,
+    "sharpe_observed": 2.6833111075765643,
+    "passed": true
+  },
+  "params": {
+    "vpvr_window_bars": 60,
+    "vpvr_n_bins": 24,
+    "zscore_lookback_bars": 288,
+    "zscore_entry_threshold": 2.8,
+    "zscore_exit_threshold": 0.5,
+    "vpvr_proximity_atr_k": 0.7,
+    "atr_period": 14,
+    "resample_tf": "30m",
+    "funding_8h_ema_window": 8,
+    "funding_filter_threshold": 0.0002
+  },
+  "per_pair": {
+    "BTCUSDT/SOLUSDT": {
+      "n_trades": 1729,
+      "win_rate": 0.5367264314632736,
+      "profit_factor": 1.3717221733299974,
+      "avg_hold_bars": 2.283400809716599,
+      "total_return_pct": 6.227821902678091,
+      "sharpe": 2.6833111075765643,
+      "sortino": 0.5440841963609574,
+      "max_drawdown_pct": -0.1923863649179327,
+      "trades_per_year": 382.2840063560925,
+      "pair": "BTCUSDT/SOLUSDT",
+      "span_start": "2022-01-01",
+      "span_end": "2026-07-10",
+      "n_bars": 79294
+    }
+  }
+}

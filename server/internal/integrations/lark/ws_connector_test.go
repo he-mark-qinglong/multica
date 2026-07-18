@@ -673,3 +673,4 @@ func TestWSConnectorCredentialsErrorIsReturned(t *testing.T) {
 		t.Fatalf("expected wrapped credentials error, got %v", err)
 	}
 }
+

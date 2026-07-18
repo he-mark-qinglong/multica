@@ -1,0 +1,95 @@
+{
+  "variant_key": "vpvr_multi_tf_funding_v1",
+  "gates": {
+    "G1_mean_sharpe_daily_min": 1.0,
+    "G1_pass": false,
+    "G2_annualized_return_min": 0.15,
+    "G2_pass": false,
+    "G3_max_drawdown_pct_min_pct": -25.0,
+    "G3_pass": true,
+    "G4_profit_factor_min": 1.5,
+    "G4_pass": false,
+    "G5_n_trades_min": 30,
+    "G5_n_folds_min_with_trades": 2,
+    "G5_pass": true,
+    "G6_bootstrap_ci_lower_min": 0.5,
+    "G6_pass": false,
+    "G7_bonferroni_alpha": 0.0125,
+    "failed_folds": [
+      "2024-Q1",
+      "2024-Q3",
+      "2025-Q2"
+    ],
+    "failed_gates_per_fold": [
+      {
+        "fold": "2024-Q1",
+        "failed": [
+          "G1",
+          "G2",
+          "G4",
+          "G6"
+        ]
+      },
+      {
+        "fold": "2024-Q3",
+        "failed": [
+          "G1",
+          "G2",
+          "G4",
+          "G6"
+        ]
+      },
+      {
+        "fold": "2025-Q2",
+        "failed": [
+          "G1",
+          "G2",
+          "G4",
+          "G6"
+        ]
+      }
+    ],
+    "n_folds_fail_two_or_more": 3,
+    "verdict": "NOT-PROFITABLE"
+  },
+  "aggregate": {
+    "mean_sharpe_daily": -46.6724,
+    "mean_annualized_return": -0.15755,
+    "worst_max_drawdown_pct": -4.2088,
+    "min_profit_factor": 0.1336,
+    "n_trades_total": 50726,
+    "n_folds_total": 3,
+    "n_folds_valid": 3,
+    "n_folds_with_min_trades": 3,
+    "min_bootstrap_ci_lower": -73.6524
+  },
+  "per_fold_gate_results": [
+    {
+      "fold": "2024-Q1",
+      "n_trades": 17057,
+      "sharpe_daily": -41.6542,
+      "annualized_return": -0.160114,
+      "max_drawdown_pct": -4.2088,
+      "profit_factor": 0.2537,
+      "bootstrap_ci_lower_sharpe": -53.8963
+    },
+    {
+      "fold": "2024-Q3",
+      "n_trades": 16938,
+      "sharpe_daily": -45.6842,
+      "annualized_return": -0.15797,
+      "max_drawdown_pct": -4.1934,
+      "profit_factor": 0.2262,
+      "bootstrap_ci_lower_sharpe": -57.3937
+    },
+    {
+      "fold": "2025-Q2",
+      "n_trades": 16731,
+      "sharpe_daily": -52.6788,
+      "annualized_return": -0.154567,
+      "max_drawdown_pct": -4.0533,
+      "profit_factor": 0.1336,
+      "bootstrap_ci_lower_sharpe": -73.6524
+    }
+  ]
+}

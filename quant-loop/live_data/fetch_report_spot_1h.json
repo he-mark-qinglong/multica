@@ -1,0 +1,21 @@
+{
+  "interval": "1h",
+  "start_iso": "2022-01-01",
+  "end_iso": "2026-07-10T23:00:00",
+  "endpoint": "api.binance.com (spot)",
+  "out_dir": "/home/smark/multica/quant-loop/live_data",
+  "symbols": {
+    "SOLUSDT": {
+      "symbol": "SOLUSDT",
+      "rows": 39646,
+      "first_open_time_ms": 1640995200000,
+      "last_open_time_ms": 1783720800000,
+      "first_open_time_iso": "2022-01-01T00:00:00+00:00",
+      "last_open_time_iso": "2026-07-10T22:00:00+00:00",
+      "max_gap_bars": 2,
+      "boundary_misalign_count": 0,
+      "parquet_path": "/home/smark/multica/quant-loop/live_data/SOLUSDT_1h.parquet",
+      "elapsed_s": 13.36
+    }
+  }
+}

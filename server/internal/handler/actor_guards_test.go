@@ -160,3 +160,4 @@ func TestRequireHumanActor_AppliedViaChiRouterUse(t *testing.T) {
 		t.Fatalf("status = %d, want 403", w.Code)
 	}
 }
+

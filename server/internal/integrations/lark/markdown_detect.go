@@ -59,3 +59,4 @@ func containsMarkdown(s string) bool {
 	}
 	return false
 }
+

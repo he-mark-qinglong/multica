@@ -14,6 +14,7 @@ import (
 
 var squadCmd = &cobra.Command{
 	Use:   "squad",
+	RunE:  groupRunE,
 	Short: "Work with squads",
 }
 

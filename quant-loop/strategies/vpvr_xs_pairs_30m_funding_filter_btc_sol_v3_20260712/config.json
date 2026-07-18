@@ -1,0 +1,47 @@
+{
+  "strategy": "vpvr_xs_pairs_30m_funding_filter_btc_sol_v3_20260712",
+  "iteration": 85,
+  "date": "2026-07-13",
+  "timeframe": "30m",
+  "source_timeframe": "30m_native (BTC); 15m->30m_resample (SOL)",
+  "instruments": ["BTCUSDT", "SOLUSDT"],
+  "pairs": ["BTCUSDT/SOLUSDT"],
+  "data_source": "binance_usdm_30m_canonical",
+  "axis": "xs_pair_zscore_with_vpvr_confluence_and_funding_blowoff_filter_regularized_v3",
+  "indicators": {
+    "vpvr_window_bars": 60,
+    "vpvr_n_bins": 24,
+    "zscore_lookback_bars": 288,
+    "zscore_entry_threshold": 2.8,
+    "zscore_exit_threshold": 0.5,
+    "vpvr_proximity_atr_k": 0.7,
+    "atr_period": 14,
+    "resample_tf": "30m",
+    "funding_8h_ema_window": 8,
+    "funding_filter_threshold": 0.0002
+  },
+  "entry": {
+    "zscore_side_when_positive": "short_a_long_b",
+    "require_vpvr_confluence": true,
+    "require_funding_filter": true
+  },
+  "exit": {
+    "zscore_exit_threshold": 0.5,
+    "regime_switch_zscore_threshold": 3.0,
+    "max_holding_bars": 144
+  },
+  "sizing": {
+    "per_pair_notional_pct": 0.01,
+    "max_pairs_active": 1
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "Iteration #85 (Campaign SMA-32952): VPVR variant V9 — V7 over-regularized further to close wf_ratio gap.",
+    "BTCUSDT/SOLUSDT only (V7 winning pair).",
+    "Tightening knobs vs V7: entry_threshold 2.5->2.8, zscore_lookback 192->288 (6d), max_holding 96->144, funding_filter_threshold 0.0003->0.0002.",
+    "Expected: in-sample sharpe drops 5.10 -> 1-2 range, OOS sharpe stays 0.7-1.2, wf_ratio rises to 0.4-0.7.",
+    "Evidence gate: in_sample_sharpe >= 0.5 AND wf_ratio >= 0.5 (both required)."
+  ]
+}

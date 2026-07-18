@@ -1,0 +1,75 @@
+{
+  "engine": "freqtrade",
+  "engine_version": "freqtrade 2026.6",
+  "iteration": 108,
+  "strategy_key": "vpvr_funding_reset_window_1h_20260715",
+  "inhouse": {
+    "sharpe": -1.1577,
+    "ann_total_return": -0.00797773207952579,
+    "max_dd": -0.010210576923736392,
+    "n_trades": 626,
+    "status": "NOT-PROFITABLE"
+  },
+  "framework": {
+    "sharpe": 0.00026646901535844485,
+    "ann_total_return": 0.0,
+    "max_dd": -0.0003125818804710079,
+    "n_bars": 39817,
+    "span_years": 4.542208532968287
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": 0.00026479938986291747,
+    "oos_total_return_ann_mean": 0.0,
+    "oos_max_dd_max": -0.0003125818804710079,
+    "n_folds": 5,
+    "folds": [
+      {
+        "fold": 1,
+        "bars": 7963,
+        "sharpe": 0.00032226144181677626,
+        "ann_total_return": 0.0,
+        "max_dd": -0.0003125818804710079
+      },
+      {
+        "fold": 2,
+        "bars": 7963,
+        "sharpe": 0.00023940181566198235,
+        "ann_total_return": 0.0,
+        "max_dd": -0.00018139082067958334
+      },
+      {
+        "fold": 3,
+        "bars": 7963,
+        "sharpe": 0.00026049512084578967,
+        "ann_total_return": 0.0,
+        "max_dd": -0.00024927792540929694
+      },
+      {
+        "fold": 4,
+        "bars": 7963,
+        "sharpe": 0.0002575210768305809,
+        "ann_total_return": 0.0,
+        "max_dd": -0.00022289856855950418
+      },
+      {
+        "fold": 5,
+        "bars": 7965,
+        "sharpe": 0.00024431749415945844,
+        "ann_total_return": 0.0,
+        "max_dd": -0.00025389104957207476
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 100.02287288501883,
+    "ann_total_return": 100.0,
+    "max_dd": 96.93864624099395
+  },
+  "max_abs_rel_divergence_pct": 100.02287288501883,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "freqtrade 2026.6 IStrategy contract replay: BTCUSDT 1h USDT-margined linear perp, pnl_pct applied linearly across held bars with weight 0.01; walk-forward OOS 5 folds; freqtrade-imported",
+  "freqtrade_imported": true,
+  "cache_dir": "/tmp/framework-validate-vpvr_funding_reset_window_1h_20260715-freqtrade"
+}

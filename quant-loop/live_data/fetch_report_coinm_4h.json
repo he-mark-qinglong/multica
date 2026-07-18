@@ -1,0 +1,20 @@
+{
+  "interval": "4h",
+  "start_iso": "2022-01-01",
+  "end_iso": "2026-07-11",
+  "endpoint": "dapi.binance.com (coin-m)",
+  "symbols": {
+    "BTCUSD_PERP": {
+      "symbol": "BTCUSD_PERP",
+      "rows": 9912,
+      "first_open_time_ms": 1640995200000,
+      "last_open_time_ms": 1783713600000,
+      "first_open_time_iso": "2022-01-01T00:00:00+00:00",
+      "last_open_time_iso": "2026-07-10T20:00:00+00:00",
+      "max_gap_bars": 1,
+      "boundary_misalign_count": 0,
+      "parquet_path": "/home/smark/multica/quant-loop/live_data/BTCUSD_4h.parquet",
+      "elapsed_s": 2.4
+    }
+  }
+}

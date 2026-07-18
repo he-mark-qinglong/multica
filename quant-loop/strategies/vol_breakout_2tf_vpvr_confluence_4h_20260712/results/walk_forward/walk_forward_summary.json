@@ -1,0 +1,100 @@
+{
+  "strategy": "vol_breakout_2tf_vpvr_confluence_4h_20260712",
+  "iteration": 84,
+  "timeframe": "4h",
+  "n_windows_run": 8,
+  "n_windows_planned": 8,
+  "schedule": {
+    "train_4h": 720,
+    "test_4h": 168,
+    "step_4h": 168
+  },
+  "full_period": {
+    "total_return": 0.021401344149510004,
+    "annualized_return": 0.004689579370990238,
+    "n_bars": 9912,
+    "n_years": 4.526027397260274,
+    "starting_capital": 100000.0,
+    "final_equity": 102140.13441495101
+  },
+  "oos": {
+    "annualized_return_mean": 0.0,
+    "sharpe_mean": 0.0,
+    "profit_factor_mean": NaN,
+    "max_drawdown_max": 0.0,
+    "n_trades_total": 0,
+    "per_window_annualized": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "per_window_sharpe": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "per_window_profit_factor": [
+      Infinity,
+      Infinity,
+      Infinity,
+      Infinity,
+      Infinity,
+      Infinity,
+      Infinity,
+      Infinity
+    ],
+    "per_window_max_dd": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "per_window_n_trades": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "bootstrap_95ci": {
+    "lower": 0.0,
+    "upper": 0.0,
+    "resamples": 10000,
+    "seed": 42
+  },
+  "fwer_bonferroni": {
+    "alpha": 0.0125,
+    "n_tests": 1
+  },
+  "gates": {
+    "G1_sharpe_oos_mean_>=1.0": false,
+    "G2_annualized_min>=0.15": false,
+    "G3_profit_factor_>1.5": false,
+    "G4_max_drawdown_<0.25": true,
+    "G5_framework_cv_oos_walk_forward": false,
+    "G6_bootstrap_CI_lower>=0.5": false,
+    "G7_fwer_bonferroni_alpha=0.0125": true,
+    "G5_framework_cv_oos_walk_forward_pending": true
+  },
+  "verdict": "[NOT-PROFITABLE]",
+  "n_gates_pass": 3,
+  "n_gates_total": 8
+}

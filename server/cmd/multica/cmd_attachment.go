@@ -14,6 +14,7 @@ import (
 
 var attachmentCmd = &cobra.Command{
 	Use:   "attachment",
+	RunE:  groupRunE,
 	Short: "Work with attachments",
 }
 

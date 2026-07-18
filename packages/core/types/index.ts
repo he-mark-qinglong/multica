@@ -52,6 +52,14 @@ export type {
   RuntimeLocalSkillImportResult,
   IssueUsageSummary,
 } from "./agent";
+export type { Task, TaskStatus, ListTasksParams, ListTasksResponse } from "./task";
+export type {
+  RunMetric,
+  GateDetailEntry,
+  ListCampaignsResponse,
+  QueryMetricsResponse,
+  TaskArtifact,
+} from "./metric";
 export type { Workspace, WorkspaceRepo, Member, MemberRole, User, MemberWithUser, Invitation } from "./workspace";
 export type { InboxItem, InboxSeverity, InboxItemType } from "./inbox";
 export type { NotificationGroupKey, NotificationGroupValue, NotificationPreferences, NotificationPreferenceResponse } from "./notification-preference";

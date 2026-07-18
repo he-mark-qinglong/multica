@@ -57,3 +57,4 @@
 //  5. `app_secret` is encrypted at rest via internal/util/secretbox.
 //     The DB never sees plaintext.
 package lark
+

@@ -1,0 +1,59 @@
+{
+  "strategy": "vol_breakout_2tf_vpvr_confluence_4h_20260712",
+  "iteration": 84,
+  "parent_iteration": 80,
+  "parent_strategy": "vpvr_vol_breakout_2tf_v1_20260711",
+  "axis": "vpvr_confluence_4h_single_tf",
+  "timeframe": "4h",
+  "source_timeframe": "4h",
+  "filter_timeframe": null,
+  "instruments": ["BTCUSDT", "ETHUSDT", "SOLUSDT"],
+  "data_source": "binance_spot_4h_canonical",
+  "indicators_4h": {
+    "vpvr_window_bars": 80,
+    "vpvr_bins": 24,
+    "atr_period": 14,
+    "range_n": 20,
+    "realized_vol_n": 20,
+    "vol_median_m": 120,
+    "vol_regime_min": 1.2,
+    "proximity_atr_k": 0.6
+  },
+  "entry": {
+    "direction": "long_only",
+    "max_positions_per_symbol": 1,
+    "max_concurrent_positions_total": 3,
+    "require_vol_regime": true,
+    "require_poc_proximity": true
+  },
+  "exit": {
+    "vol_regime_max": 0.8,
+    "trend_fail_use_range_low": true,
+    "atr_trailing_k": 2.0,
+    "time_stop_bars": 30,
+    "priority": ["trend_fail", "trailing_stop", "vol_cool", "time_stop"]
+  },
+  "sizing": {
+    "vol_target_annual_pct": 0.10,
+    "max_position_pct_nav": 0.10,
+    "bars_per_year_4h": 2190
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "fill_convention": "bar[t+1].open + cost_per_side",
+  "notes": [
+    "Iter#84 (V8) — single-TF 4h vol breakout + VPVR confluence.",
+    "Parent: vpvr_vol_breakout_2tf_v1_20260711 (iter#80, 4h filter + 1h entry).",
+    "Axis-difference vs parent: V8 drops the 1h fine TF and runs entirely on 4h.",
+    "VPVR window shrunk 240 -> 80 4h bars (~13d vs ~40d) so POC tracks recent volume.",
+    "Confluence filter: |close_4h - POC| <= 0.6 * ATR(14,4h).",
+    "V1 used vpvr_dist_atr_max=0.5 / vpvr_window=240; V8 is 0.6 / vpvr_window=80.",
+    "Donchian breakout (range_n=20 4h bars = ~3.3d lookback).",
+    "BARS_PER_YEAR_4H = 2190 (365.25 * 6, 24/7 crypto). sqrt = 46.818.",
+    "Time-stop = 30 * 4h bars = 120h = 5 days.",
+    "Long-only, per-symbol 1-position-max, up to 3 concurrent across BTC/ETH/SOL.",
+    "Real Binance data only — 4h parquet, 2022-01-01 -> 2026-07-11.",
+    "Per-symbol equity CSVs MUST be distinct and reconcile with summary.json."
+  ]
+}

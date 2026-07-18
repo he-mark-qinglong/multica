@@ -1,0 +1,57 @@
+{
+  "per_symbol": [
+    {
+      "variant_key": "vpvr_tod_session_filter_15m_20260715",
+      "iteration": 1,
+      "symbol": "BTCUSDT",
+      "timeframe": "15m",
+      "starting_capital_usd": 100000.0,
+      "final_equity_usd": 99270.16,
+      "n_bars": 158592,
+      "span_start": "2022-01-01 00:00:00",
+      "span_end": "2026-07-10 23:45:00",
+      "n_trades": 3528,
+      "win_rate": 0.415,
+      "sharpe": -1.0803,
+      "sortino": -1.5568,
+      "ann_return_pct": -0.1617,
+      "total_return_pct": -0.7298,
+      "max_drawdown_pct": -0.8491,
+      "profit_factor": 0.7452,
+      "avg_trade_pct": -0.001,
+      "status": "FAIL_NEGATIVE_ANN_RETURN"
+    },
+    {
+      "variant_key": "vpvr_tod_session_filter_15m_20260715",
+      "iteration": 1,
+      "symbol": "ETHUSDT",
+      "timeframe": "15m",
+      "starting_capital_usd": 100000.0,
+      "final_equity_usd": 100460.03,
+      "n_bars": 158592,
+      "span_start": "2022-01-01 00:00:00",
+      "span_end": "2026-07-10 23:45:00",
+      "n_trades": 3388,
+      "win_rate": 0.4295,
+      "sharpe": 0.5268,
+      "sortino": 0.7643,
+      "ann_return_pct": 0.1015,
+      "total_return_pct": 0.46,
+      "max_drawdown_pct": -0.3914,
+      "profit_factor": 0.8321,
+      "avg_trade_pct": -0.0009,
+      "status": "PASS"
+    }
+  ],
+  "sharpe_method": "bar_freq_annualized",
+  "sharpe_method_evidence": "run_backtest.py: [run_backtest.py] L62:sharpe = float(rets.mean() / (rets.std(ddof=0) + 1e-12) * np.sqrt(ann_factor)) downside = rets.copy(); L206:# Portfolio-level risk metrics: average per-symbol Sharpe (simple mean",
+  "sharpe_method_audit_date": "2026-07-17T06:30:53+00:00",
+  "sharpe_daily_resampled": -0.17046976894160823,
+  "sharpe_daily_resampled_n_days": 1651,
+  "sharpe_daily_resampled_span": [
+    "2022-01-01",
+    "2026-07-10"
+  ],
+  "sharpe_daily_resampled_source": "aggregate(symbol equity_*.csv)",
+  "sharpe_daily_resampled_audit_date": "2026-07-17T06:32:00Z"
+}

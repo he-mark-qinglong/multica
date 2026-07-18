@@ -1,0 +1,20 @@
+{
+  "variant": "vol_breakout_vpvr_val_fade_1h_5m_20260714",
+  "iteration": 74,
+  "hypothesis": "Sharpe > 0 (one-sided)",
+  "null": "Sharpe = 0 (block-bootstrap, samples shifted to null mean)",
+  "alpha_bonferroni": 0.0125,
+  "alpha_bonferroni_denominator": 4,
+  "alpha_bonferroni_numerator": 0.05,
+  "sharpe_observed": -0.02439039114021875,
+  "p_value_raw": 0.7455,
+  "p_value_bonferroni_adjusted": 1.0,
+  "g7_pass": false,
+  "method": "block bootstrap one-sided empirical p-value, samples shifted to null mean",
+  "n_resamples": 10000,
+  "block_size": 5,
+  "seed": 42,
+  "n_bars": 6,
+  "family_size_m": 4,
+  "family_context": "V10 (vol_breakout_vpvr_val_fade_1h_5m_20260714, iter#74) + V9 (vol_breakout_vpvr_confluence_4h_15m_20260714) + V11 (vol_breakout_vpvr_regime_blend_4h_20260714) + V13 funding reference. m=4."
+}

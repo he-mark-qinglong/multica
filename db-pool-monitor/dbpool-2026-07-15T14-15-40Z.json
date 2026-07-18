@@ -1,0 +1,172 @@
+{
+  "run_id": "dbpool-2026-07-15T14-15-40Z",
+  "ts_epoch": 1784124940,
+  "ts_utc": "2026-07-15T14:15:40.094254+00:00",
+  "ts_cn": "2026-07-15T22:15:40+0800",
+  "autopilot_id": "c8ec222b-1f58-429a-b58d-7014da99f395",
+  "autopilot_run_id": "b6657ded-1f70-4234-a107-3cf7955e04ce",
+  "host_used": "127.0.0.1:5432",
+  "host_spec_note": "spec host 192.168.0.105:5432 unreachable; fallback to 127.0.0.1:5432",
+  "skip_guard": {
+    "prior_run_age_sec": 40797,
+    "min_gap_sec": 100,
+    "passed": true,
+    "reason": "40797s since prior run, above 100s threshold; daemon alive (pid=614431)",
+    "daemon_alive": true,
+    "daemon_pid": 614431
+  },
+  "metrics": {
+    "idle": 15,
+    "active": 1,
+    "idle_in_tx": 0,
+    "idle_in_tx_aborted": 0,
+    "stuck_in_tx": 0,
+    "oldest_tx_age_sec": null,
+    "fastpath": 0,
+    "slow_queries": 0,
+    "total_db_conns": 16,
+    "active_app_only": 0,
+    "acquired_app_estimate": 0,
+    "app_pool_max": 25,
+    "pg_max_connections": 100,
+    "total_pg_conns_at_probe": 16
+  },
+  "pool_util_pct": 0.0,
+  "pg_util_pct": 16.0,
+  "top_activity_sample": [
+    {
+      "pid": "167386",
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 0,
+      "state_age_sec": 0,
+      "query_head": "-- name: GetAgentRuntime :one"
+    },
+    {
+      "pid": "167838",
+      "state": "active",
+      "app": "psql",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": 0,
+      "query_age_sec": 0,
+      "state_age_sec": 0,
+      "query_head": ""
+    },
+    {
+      "pid": "167379",
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 0,
+      "state_age_sec": 0,
+      "query_head": "-- name: UpdatePersonalAccessTokenLastUsed :exec"
+    },
+    {
+      "pid": "167384",
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 0,
+      "state_age_sec": 0,
+      "query_head": "-- name: CreateTaskMessage :one"
+    },
+    {
+      "pid": "167373",
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 0,
+      "state_age_sec": 0,
+      "query_head": "-- name: UpdatePersonalAccessTokenLastUsed :exec"
+    },
+    {
+      "pid": "167513",
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 3,
+      "state_age_sec": 3,
+      "query_head": "-- name: UpdatePersonalAccessTokenLastUsed :exec"
+    },
+    {
+      "pid": "167375",
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 3,
+      "state_age_sec": 3,
+      "query_head": "-- name: UpdatePersonalAccessTokenLastUsed :exec"
+    },
+    {
+      "pid": "167374",
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 3,
+      "state_age_sec": 3,
+      "query_head": "-- name: GetMemberByUserAndWorkspace :one"
+    },
+    {
+      "pid": "167376",
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 39,
+      "state_age_sec": 39,
+      "query_head": "-- name: UpdatePersonalAccessTokenLastUsed :exec"
+    },
+    {
+      "pid": "167380",
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 39,
+      "state_age_sec": 39,
+      "query_head": "-- name: UpdatePersonalAccessTokenLastUsed :exec"
+    }
+  ],
+  "thresholds": {
+    "pool_util_warn_pct": 80,
+    "stuck_in_tx_escalate_gt": 0,
+    "slow_queries_warn_gt": 5,
+    "oldest_tx_age_escalate_sec_gt": 60
+  },
+  "checks": {
+    "pool_capacity_warn": {
+      "triggered": false,
+      "value": 0.0
+    },
+    "stuck_in_tx_escalate": {
+      "triggered": false,
+      "value": 0
+    },
+    "slow_query_storm_warn": {
+      "triggered": false,
+      "value": 0
+    },
+    "long_tx_escalate": {
+      "triggered": false,
+      "value": null
+    }
+  },
+  "any_escalate": false,
+  "any_warn": false,
+  "actions": {
+    "escalate": false,
+    "warn": false,
+    "issue_created": false,
+    "issue_id": null
+  },
+  "verdict": "no-op",
+  "note": "acquired=0/25 (0.0%); idle_in_tx=0; stuck_in_tx=0; slow_queries=0; oldest_tx_age_sec=None. verdict=no-op; issue=none."
+}

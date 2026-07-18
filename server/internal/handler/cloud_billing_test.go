@@ -437,3 +437,4 @@ func TestStripeWebhookRateLimited(t *testing.T) {
 type denyingWebhookIPRateLimiter struct{}
 
 func (denyingWebhookIPRateLimiter) Allow(_ context.Context, _ string) bool { return false }
+

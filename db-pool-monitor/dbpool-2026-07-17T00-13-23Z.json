@@ -1,0 +1,24 @@
+{
+  "run_id": "195f30cb-bc75-49ca-a0a7-97122d195f16-1784247203",
+  "ts_epoch": 1784247203,
+  "ts_utc": "2026-07-17T00:13:23Z",
+  "autopilot_id": "c8ec222b-1f58-429a-b58d-7014da99f395",
+  "verdict": "no-op",
+  "metrics": {
+    "idle": 8,
+    "active": 1,
+    "idle_in_tx": 0,
+    "stuck_in_tx": 0,
+    "oldest_tx_age_sec": 0,
+    "slow_queries": 0
+  },
+  "judgments": {
+    "pool_near_capacity": false,
+    "stuck_tx": false,
+    "long_tx": false,
+    "slow_query_storm": false,
+    "active_over_20": false
+  },
+  "escalations": [],
+  "warnings": []
+}

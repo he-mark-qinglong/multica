@@ -1,0 +1,41 @@
+{
+  "strategy": "bb_reversion_rsi_1m_20260707",
+  "iteration": 1,
+  "timeframe": "1m",
+  "source_timeframe": "1m",
+  "instruments": ["BTCUSDT"],
+  "data_source": "binance_usdm_1m_canonical",
+  "indicators": {
+    "bb_period": 20,
+    "bb_k": 2.0,
+    "rsi_period": 14,
+    "rsi_oversold": 25.0,
+    "rsi_overbought": 75.0,
+    "atr_period": 14,
+    "volume_ma_period": 30,
+    "volume_ratio_min": 0.5
+  },
+  "exit": {
+    "exit_rsi_mid": 50.0,
+    "stop_loss_atr_k": 2.0,
+    "take_profit_atr_k": 1.0,
+    "time_stop_bars": 60,
+    "bars_to_mid_max": 240
+  },
+  "entry": {
+    "cooldown_bars": 5,
+    "require_volume_floor": true
+  },
+  "sizing": {
+    "per_signal_weight_pct": 0.005,
+    "max_gross_exposure_pct": 0.05
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "Iteration #1: bootstrap Bollinger Band + RSI 1m mean-reversion on BTCUSDT.",
+    "Direction: bidirectional. Entry long when close < bb_lower AND rsi < rsi_oversold; entry short when close > bb_upper AND rsi > rsi_overbought.",
+    "Exit first triggered wins: rsi crosses midpoint, price returns to bb_mid, ATR stop, target, time stop."
+  ]
+}

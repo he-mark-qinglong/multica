@@ -1,0 +1,41 @@
+{
+  "iteration": 74,
+  "variant": "V10",
+  "strategy_key": "vol_breakout_vpvr_val_fade_1h_5m_20260714",
+  "date": "2026-07-14",
+  "timeframe": "5m",
+  "filter_timeframe": "1h",
+  "instruments": [
+    "BTCUSDT"
+  ],
+  "axis": "val_reject_fade_multi_tf",
+  "verdict": "NOT-PROFITABLE",
+  "per_symbol": {
+    "BTCUSDT": {
+      "sharpe": 0.420327928880685,
+      "annualised_pct": -0.0006723380474012997,
+      "profit_factor": 0.7826842855795947,
+      "max_drawdown_pct": -0.5042202474422681,
+      "n_trades": 6,
+      "win_rate": 0.3333333333333333,
+      "total_return_pct": -0.003037140640738653,
+      "n_wins": 2,
+      "n_losses": 4,
+      "bars_per_year": 105192,
+      "span_start": "2022-01-01 00:00:00+00:00",
+      "span_end": "2026-07-10 23:55:00+00:00",
+      "n_bars": 475746,
+      "g1_sharpe": false,
+      "g2_annualized": false,
+      "g3_profit_factor": false,
+      "g4_max_drawdown": false
+    }
+  },
+  "walk_forward_summary": {
+    "n_folds": 5,
+    "oos_sharpe_mean": 0.0,
+    "oos_sharpe_median": 0.0,
+    "oos_sharpe_min": 0.0,
+    "oos_positive_folds": 0
+  }
+}

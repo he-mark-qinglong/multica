@@ -1,0 +1,4 @@
+new_variant,vpvr_xs_pairs_30m_funding_filter_20260712,vpvr_funding_regime_15m_20260711,vpvr_xs_pairs_30m_funding_filter_eth_sol_20260712,vpvr_reversion_1m_kama_reversal_20260709,vpvr_xs_pairs_btc_sol_4h_20260712,vpvr_reversion_1m_volume_profile_break_20260709,vpvr_xs_pairs_30m_funding_filter_btc_sol_regularized_20260712,vpvr_onchain_proxy_1h_20260711,vpvr_xs_leadlag_5m_20260711,vpvr_xs_pairs_30m_funding_filter_btc_sol_v3_20260712
+iter#70_DeFi-basis,0.774,0.779,-0.080,0.336,0.781,-0.708,-0.707,-0.750,-0.498,0.157
+iter#71_sentiment,0.099,-0.106,-0.596,-0.839,0.352,-0.388,-0.402,-0.549,-0.607,-0.916
+iter#72_stable-depeg,0.091,0.144,0.340,0.575,-0.118,0.088,0.123,0.257,0.378,0.610

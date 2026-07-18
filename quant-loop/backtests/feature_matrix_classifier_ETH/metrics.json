@@ -1,0 +1,77 @@
+{
+  "issue": "SMA-34939",
+  "symbol": "ETHUSDT",
+  "feature_path": "/home/smark/multica/quant-loop/data/features/feature_matrix_ETH.parquet",
+  "source_paths": {
+    "loid_bar_features": "/home/smark/multica/quant-loop/strategies/loid_detector/results/bar_features.parquet",
+    "loid_events": "/home/smark/multica/quant-loop/strategies/loid_detector/results/events.csv",
+    "vpvr_module": "/home/smark/multica/quant-loop/strategies/_indicators/vpvr_levels.py",
+    "vpvr_ohlcv": "/home/smark/multica/quant-loop/live_data/ETHUSDT_4h.parquet",
+    "funding": "/home/smark/multica/quant-loop/data/funding/ETHUSDT.csv"
+  },
+  "requested_paths_missing": [
+    "/home/smark/multica/quant-loop/data/signals/loid_ETH_1m.csv",
+    "/home/smark/multica/quant-loop/data/signals/vpvr_ETH_4h.csv",
+    "/home/smark/multica/quant-loop/data/funding/ETH_funding_90d.csv"
+  ],
+  "label": "1 iff close[t+15m] / close[t] - 1 > 0; LVN-gap bars excluded",
+  "split": "walk-forward: first 60d train, last 30d OOS; no shuffle",
+  "feature_matrix": {
+    "symbol": "ETHUSDT",
+    "rows": 119522,
+    "start": "2026-04-18T19:59:00+00:00",
+    "end": "2026-07-17T16:00:00+00:00",
+    "train_rows": 79681,
+    "oos_rows": 39841,
+    "positive_class_pct": 49.2034939174378,
+    "iceberg_rows": 4009,
+    "funding_regime_rows": 0
+  },
+  "classifier": {
+    "model": "lightgbm.LGBMClassifier(default_params)",
+    "cv": "5-fold expanding TimeSeriesSplit (no shuffle)",
+    "cv_auc_mean": 0.49993928142577426,
+    "cv_auc_folds": [
+      0.5051153562674853,
+      0.48465364952170253,
+      0.5121910722197331,
+      0.49685065860734706,
+      0.5008856705126028
+    ],
+    "oos_auc": 0.5015420919471588,
+    "oos_precision": 0.4945059976192656,
+    "oos_recall": 0.5496132709139019,
+    "oos_f1": 0.5206053887309009
+  },
+  "strategy_backtest": {
+    "wrapper": {
+      "probability_threshold": 0.6,
+      "iceberg_flag": 1,
+      "near_HVN_threshold": 0.005,
+      "funding_threshold": 0.0005,
+      "hold_minutes": 15,
+      "round_trip_cost_bps": 10.0
+    },
+    "oos_start": "2026-06-17T16:00:00+00:00",
+    "oos_end": "2026-07-17T16:00:00+00:00",
+    "n_days": 31,
+    "n_trades": 0,
+    "daily_sharpe": null,
+    "annualized_return": 0.0,
+    "max_drawdown": 0.0,
+    "profit_factor": 0.0,
+    "win_rate": 0.0,
+    "bootstrap_sharpe_95ci_lower": null,
+    "gates": {
+      "G1_daily_sharpe_ge_1": 0,
+      "G2_annualized_ge_15pct": 0,
+      "G3_profit_factor_gt_1_5": 0,
+      "G4_max_drawdown_lt_25pct": 1,
+      "G5_cross_framework_walk_forward": 0,
+      "G6_bootstrap_95ci_lower_ge_0_5": 0,
+      "G7_bonferroni_alpha_0_0125": 1
+    },
+    "verdict": "FAIL",
+    "reason": "failed gates G1,G2,G3,G5,G6"
+  }
+}

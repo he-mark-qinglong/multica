@@ -1,0 +1,21 @@
+{
+  "ts": "2026-07-15T17-43-20Z",
+  "ts_epoch": 1784137400,
+  "max_conns": 25,
+  "total_conns": 11,
+  "idle": 10,
+  "active": 1,
+  "idle_in_tx": 0,
+  "idle_in_tx_aborted": 0,
+  "stuck_in_tx": 0,
+  "oldest_tx_age_sec": 0,
+  "fastpath": 0,
+  "slow_queries": 0,
+  "verdict": "no-op",
+  "judge": {
+    "pool_near_capacity": false,
+    "stuck_transaction": false,
+    "slow_query_storm": false,
+    "long_transaction": false
+  }
+}

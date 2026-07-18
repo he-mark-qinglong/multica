@@ -4,8 +4,10 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
+	"mime"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -15,6 +17,11 @@ import (
 	"strings"
 	"time"
 )
+
+// ErrDryRun is returned by mutating request methods when APIClient.DryRun is
+// set: the request was reported through the hook and deliberately NOT sent.
+// Callers (the multica CLI) treat it as a clean exit, not a failure.
+var ErrDryRun = errors.New("dry-run: request not sent")
 
 // ClientVersion is the CLI version sent on every request as X-Client-Version.
 // Set by the multica binary at init() so the package doesn't depend on the
@@ -53,6 +60,12 @@ type APIClient struct {
 	AgentID     string // When set, requests are attributed to this agent instead of the user.
 	TaskID      string // When set, sent as X-Task-ID for agent-task validation.
 	HTTPClient  *http.Client
+
+	// DryRun, when non-nil, intercepts every mutating request (POST/PUT/
+	// PATCH/DELETE): the hook receives the method, path, and body, the
+	// request is NOT sent, and the method returns ErrDryRun. Reads pass
+	// through normally so read-then-write flows still resolve real data.
+	DryRun func(method, path string, body any)
 
 	// Identity overrides. Empty values fall back to the package-level
 	// ClientPlatform / ClientVersion / ClientOS.
@@ -161,6 +174,22 @@ func NewAPIClient(baseURL, workspaceID, token string) *APIClient {
 	}
 }
 
+// PrintDryRunHook returns a DryRun hook that prints each intercepted request
+// to w in a stable, human-readable form:
+//
+//	DRY-RUN POST /api/issues
+//	{ "title": "..." }
+func PrintDryRunHook(w io.Writer) func(method, path string, body any) {
+	return func(method, path string, body any) {
+		fmt.Fprintf(w, "DRY-RUN %s %s\n", method, path)
+		if body != nil {
+			if data, err := json.MarshalIndent(body, "", "  "); err == nil {
+				fmt.Fprintln(w, string(data))
+			}
+		}
+	}
+}
+
 func (c *APIClient) setHeaders(req *http.Request) {
 	if c.Token != "" {
 		req.Header.Set("Authorization", "Bearer "+c.Token)
@@ -258,6 +287,10 @@ func (c *APIClient) GetJSONWithHeaders(ctx context.Context, path string, out any
 
 // DeleteJSON performs a DELETE request.
 func (c *APIClient) DeleteJSON(ctx context.Context, path string) error {
+	if c.DryRun != nil {
+		c.DryRun(http.MethodDelete, path, nil)
+		return ErrDryRun
+	}
 	req, err := http.NewRequestWithContext(ctx, http.MethodDelete, c.BaseURL+path, nil)
 	if err != nil {
 		return err
@@ -305,6 +338,10 @@ func (c *APIClient) DeleteJSONWithBody(ctx context.Context, path string, body an
 
 // PostJSON performs a POST request with a JSON body.
 func (c *APIClient) PostJSON(ctx context.Context, path string, body any, out any) error {
+	if c.DryRun != nil {
+		c.DryRun(http.MethodPost, path, body)
+		return ErrDryRun
+	}
 	data, err := json.Marshal(body)
 	if err != nil {
 		return err
@@ -335,6 +372,10 @@ func (c *APIClient) PostJSON(ctx context.Context, path string, body any, out any
 
 // PutJSON performs a PUT request with a JSON body.
 func (c *APIClient) PutJSON(ctx context.Context, path string, body any, out any) error {
+	if c.DryRun != nil {
+		c.DryRun(http.MethodPut, path, body)
+		return ErrDryRun
+	}
 	data, err := json.Marshal(body)
 	if err != nil {
 		return err
@@ -365,6 +406,10 @@ func (c *APIClient) PutJSON(ctx context.Context, path string, body any, out any)
 
 // PatchJSON performs a PATCH request with a JSON body.
 func (c *APIClient) PatchJSON(ctx context.Context, path string, body any, out any) error {
+	if c.DryRun != nil {
+		c.DryRun(http.MethodPatch, path, body)
+		return ErrDryRun
+	}
 	data, err := json.Marshal(body)
 	if err != nil {
 		return err
@@ -586,4 +631,112 @@ func (c *APIClient) HealthCheck(ctx context.Context) (string, error) {
 		}
 	}
 	return strings.TrimSpace(string(data)), nil
+}
+
+// ---------------------------------------------------------------------------
+// Artifacts
+// ---------------------------------------------------------------------------
+
+// ArtifactResponse mirrors handler.ArtifactResponse — one typed run artifact
+// row. DownloadURL is a server-relative API path (/api/artifacts/{id}/download).
+type ArtifactResponse struct {
+	ID          string          `json:"id"`
+	WorkspaceID string          `json:"workspace_id"`
+	TaskID      *string         `json:"task_id"`
+	IssueID     *string         `json:"issue_id"`
+	Kind        string          `json:"kind"`
+	Name        string          `json:"name"`
+	SizeBytes   int64           `json:"size_bytes"`
+	ContentType string          `json:"content_type"`
+	Meta        json.RawMessage `json:"meta"`
+	DownloadURL string          `json:"download_url"`
+	CreatedAt   string          `json:"created_at"`
+}
+
+// UploadArtifact uploads a file to POST /api/tasks/{taskId}/artifacts as a
+// multipart form (file + optional kind + optional meta JSON string) and
+// decodes the created artifact row.
+func (c *APIClient) UploadArtifact(ctx context.Context, taskID string, fileData []byte, filename, kind, meta string) (*ArtifactResponse, error) {
+	var body bytes.Buffer
+	writer := multipart.NewWriter(&body)
+
+	part, err := writer.CreateFormFile("file", filepath.Base(filename))
+	if err != nil {
+		return nil, fmt.Errorf("create form file: %w", err)
+	}
+	if _, err := part.Write(fileData); err != nil {
+		return nil, fmt.Errorf("write file data: %w", err)
+	}
+	if kind != "" {
+		if err := writer.WriteField("kind", kind); err != nil {
+			return nil, fmt.Errorf("write kind field: %w", err)
+		}
+	}
+	if meta != "" {
+		if err := writer.WriteField("meta", meta); err != nil {
+			return nil, fmt.Errorf("write meta field: %w", err)
+		}
+	}
+	if err := writer.Close(); err != nil {
+		return nil, fmt.Errorf("close multipart writer: %w", err)
+	}
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, c.BaseURL+"/api/tasks/"+taskID+"/artifacts", &body)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+	c.setHeaders(req)
+
+	resp, err := c.HTTPClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode >= 400 {
+		respData, _ := io.ReadAll(io.LimitReader(resp.Body, 4096))
+		return nil, fmt.Errorf("upload artifact returned %d: %s", resp.StatusCode, strings.TrimSpace(string(respData)))
+	}
+
+	var result ArtifactResponse
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return nil, fmt.Errorf("decode artifact response: %w", err)
+	}
+	return &result, nil
+}
+
+// DownloadArtifact fetches GET /api/artifacts/{id}/download and returns the
+// body plus the server-suggested filename from Content-Disposition.
+func (c *APIClient) DownloadArtifact(ctx context.Context, id string) ([]byte, string, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.BaseURL+"/api/artifacts/"+id+"/download", nil)
+	if err != nil {
+		return nil, "", err
+	}
+	c.setHeaders(req)
+
+	resp, err := c.HTTPClient.Do(req)
+	if err != nil {
+		return nil, "", err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode >= 400 {
+		respData, _ := io.ReadAll(io.LimitReader(resp.Body, 4096))
+		return nil, "", fmt.Errorf("download artifact returned %d: %s", resp.StatusCode, strings.TrimSpace(string(respData)))
+	}
+
+	filename := ""
+	if cd := resp.Header.Get("Content-Disposition"); cd != "" {
+		if _, params, err := mime.ParseMediaType(cd); err == nil {
+			filename = params["filename"]
+		}
+	}
+
+	const maxDownloadSize = 100 << 20 // 100 MB
+	data, err := io.ReadAll(io.LimitReader(resp.Body, maxDownloadSize))
+	if err != nil {
+		return nil, "", err
+	}
+	return data, filename, nil
 }

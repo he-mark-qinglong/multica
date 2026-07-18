@@ -1,0 +1,139 @@
+{
+  "variant": "vpvr_regime_blend_4h_20260714",
+  "iteration": 94,
+  "timeframe": "4h",
+  "instruments": [
+    "BTCUSDT",
+    "ETHUSDT"
+  ],
+  "axis": "regime_router_3state_with_vpvr_poc_filter_regime_aware_trail",
+  "tag_in_sample": "NOT-PROFITABLE",
+  "agg_sharpe_in_sample": 0.2561805028690829,
+  "agg_n_trades_total": 325,
+  "agg_mdd_worst": -0.0089704989050714,
+  "agg_profit_factor": 1.1308157644900247,
+  "agg_return_pct": 0.007046316786754159,
+  "turnover_per_year_weighted": 35.93098342335631,
+  "walk_forward_folds": [
+    "fold_1_2024Q1",
+    "fold_2_2024Q3",
+    "fold_3_2025Q2"
+  ],
+  "per_symbol_per_fold": {
+    "BTCUSDT": {
+      "fold_1_2024Q1": {
+        "fold": "fold_1_2024Q1",
+        "window": [
+          "2024-01-01",
+          "2024-04-01"
+        ],
+        "n_trades": 10,
+        "freqtrade_sharpe": 0.966444285974765,
+        "backtrader_sharpe": 0.5969377725070668,
+        "freqtrade_mean_pnl_pct": 0.0036616999999999995,
+        "backtrader_mean_pnl_pct": 0.0022617000000000006,
+        "low_trade_count": false
+      },
+      "fold_2_2024Q3": {
+        "fold": "fold_2_2024Q3",
+        "window": [
+          "2024-07-01",
+          "2024-10-01"
+        ],
+        "n_trades": 8,
+        "freqtrade_sharpe": -0.2914582857184716,
+        "backtrader_sharpe": -0.5223489916207831,
+        "freqtrade_mean_pnl_pct": -0.0017672500000000006,
+        "backtrader_mean_pnl_pct": -0.00316725,
+        "low_trade_count": false
+      },
+      "fold_3_2025Q2": {
+        "fold": "fold_3_2025Q2",
+        "window": [
+          "2025-04-01",
+          "2025-07-01"
+        ],
+        "n_trades": 7,
+        "freqtrade_sharpe": 0.08440749720886226,
+        "backtrader_sharpe": -0.28241887647045016,
+        "freqtrade_mean_pnl_pct": 0.0003221428571428572,
+        "backtrader_mean_pnl_pct": -0.0010778571428571421,
+        "low_trade_count": false
+      }
+    },
+    "ETHUSDT": {
+      "fold_1_2024Q1": {
+        "fold": "fold_1_2024Q1",
+        "window": [
+          "2024-01-01",
+          "2024-04-01"
+        ],
+        "n_trades": 8,
+        "freqtrade_sharpe": -5.865276581395397,
+        "backtrader_sharpe": -6.12775644407077,
+        "freqtrade_mean_pnl_pct": -0.031283875,
+        "backtrader_mean_pnl_pct": -0.032683875,
+        "low_trade_count": false
+      },
+      "fold_2_2024Q3": {
+        "fold": "fold_2_2024Q3",
+        "window": [
+          "2024-07-01",
+          "2024-10-01"
+        ],
+        "n_trades": 7,
+        "freqtrade_sharpe": 4.568521834069349,
+        "backtrader_sharpe": 4.39512123695211,
+        "freqtrade_mean_pnl_pct": 0.03688528571428572,
+        "backtrader_mean_pnl_pct": 0.03548528571428571,
+        "low_trade_count": false
+      },
+      "fold_3_2025Q2": {
+        "fold": "fold_3_2025Q2",
+        "window": [
+          "2025-04-01",
+          "2025-07-01"
+        ],
+        "n_trades": 10,
+        "freqtrade_sharpe": 2.489600418476223,
+        "backtrader_sharpe": 2.363608949899016,
+        "freqtrade_mean_pnl_pct": 0.027664099999999997,
+        "backtrader_mean_pnl_pct": 0.026264099999999995,
+        "low_trade_count": false
+      }
+    }
+  },
+  "agg_per_fold": {
+    "fold_1_2024Q1": {
+      "freqtrade_oos_sharpe_mean": -2.4494161477103162,
+      "backtrader_oos_sharpe_mean": -2.7654093357818517,
+      "n_symbols_evaluated": 2
+    },
+    "fold_2_2024Q3": {
+      "freqtrade_oos_sharpe_mean": 2.138531774175439,
+      "backtrader_oos_sharpe_mean": 1.9363861226656636,
+      "n_symbols_evaluated": 2
+    },
+    "fold_3_2025Q2": {
+      "freqtrade_oos_sharpe_mean": 1.2870039578425425,
+      "backtrader_oos_sharpe_mean": 1.0405950367142829,
+      "n_symbols_evaluated": 2
+    }
+  },
+  "overall_oos_sharpe": {
+    "freqtrade_mean": 0.3253731947692217,
+    "backtrader_mean": 0.07052394119936493
+  },
+  "gate_g5_framework_cv": {
+    "threshold": "BOTH freqtrade AND backtrader OOS walk-forward Sharpe \u2265 1.0",
+    "freqtrade_pass": false,
+    "backtrader_pass": false,
+    "g5_pass": false
+  },
+  "framework_proxy_notes": {
+    "freqtrade": "vectorized close-close fills, no slippage adjustment",
+    "backtrader": "event-driven next-bar fill, +0.02% slip/side + 0.05% fee/side round-trip cost",
+    "min_trades_per_fold": 5,
+    "cycle_45_lesson_applied": "walk-forward (not full-period)"
+  }
+}

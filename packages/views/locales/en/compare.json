@@ -1,0 +1,44 @@
+{
+  "page": {
+    "breadcrumb_title": "Compare",
+    "empty_title": "No metrics found",
+    "empty_hint": "This campaign has no backtest iterations yet.",
+    "no_campaign_title": "Select a campaign",
+    "no_campaign_hint": "Pick a strategy campaign to compare its iterations side by side.",
+    "total_iterations": "{{total}} iterations"
+  },
+  "filter": {
+    "campaign_placeholder": "Select campaign",
+    "campaign_free_placeholder": "Campaign name…",
+    "campaign_apply": "Load"
+  },
+  "col": {
+    "iteration": "Iteration",
+    "timeframe": "TF",
+    "sharpe": "Sharpe",
+    "ann_return": "Ann. return",
+    "max_drawdown": "Max DD",
+    "profit_factor": "Profit factor",
+    "oos_sharpe": "OOS Sharpe",
+    "oos_windows": "OOS win.",
+    "gate": "Gate",
+    "created": "Created"
+  },
+  "gate": {
+    "pass": "PASS",
+    "fail": "FAIL",
+    "none": "—",
+    "details_title": "Gate rules",
+    "rule_pass": "pass",
+    "rule_fail": "fail"
+  },
+  "chart": {
+    "title": "Equity curves",
+    "select_hint": "Select up to {{max}} iterations to overlay their equity curves.",
+    "no_equity_title": "No equity artifacts",
+    "no_equity_hint": "None of the selected iterations has an equity CSV artifact. Re-run the backtest with artifact upload enabled.",
+    "series_missing": "{{label}}: no equity artifact",
+    "series_unparseable": "{{label}}: equity CSV could not be parsed",
+    "series_error": "{{label}}: failed to load equity artifact"
+  }
+}

@@ -17,6 +17,7 @@ import (
 
 var autopilotCmd = &cobra.Command{
 	Use:   "autopilot",
+	RunE:  groupRunE,
 	Short: "Manage autopilots (scheduled/triggered agent automations)",
 }
 
@@ -27,10 +28,11 @@ var autopilotListCmd = &cobra.Command{
 }
 
 var autopilotGetCmd = &cobra.Command{
-	Use:   "get <id>",
-	Short: "Get autopilot details (includes triggers)",
-	Args:  exactArgs(1),
-	RunE:  runAutopilotGet,
+	Use:     "get <id>",
+	Aliases: []string{"view"},
+	Short:   "Get autopilot details (includes triggers)",
+	Args:    exactArgs(1),
+	RunE:    runAutopilotGet,
 }
 
 var autopilotCreateCmd = &cobra.Command{

@@ -1,0 +1,73 @@
+{
+  "strategy": "pairs_cointegration_1d_20260709",
+  "iteration": 1,
+  "date": "2026-07-17",
+  "timeframe": "1d",
+  "instruments": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "pairs": [
+    "BTCUSDT/ETHUSDT",
+    "BTCUSDT/SOLUSDT",
+    "ETHUSDT/SOLUSDT"
+  ],
+  "variant": "A",
+  "n_trades": 70,
+  "win_rate": 0.5,
+  "profit_factor": 1.634689150190803,
+  "total_return_pct": 0.33531939992069115,
+  "sharpe": 0.7415580657336254,
+  "sortino": 0.5569951015376403,
+  "max_drawdown_pct": -0.13953379991371828,
+  "tag": "PROFITABLE",
+  "evidence_gate_sharpe_threshold": 0.5,
+  "per_pair": {
+    "BTCUSDT/ETHUSDT": {
+      "n_trades": 22,
+      "win_rate": 0.45454545454545453,
+      "profit_factor": 2.4542929047925512,
+      "avg_hold_bars": 13.772727272727273,
+      "total_return_pct": 0.22154817624364376,
+      "sharpe": 0.693921974113232,
+      "sortino": 0.5170896729560392,
+      "max_drawdown_pct": -0.0982847383776898,
+      "trades_per_year": 10.145833333333332,
+      "pair": "BTCUSDT/ETHUSDT",
+      "span_start": "2024-06-22T00:00:00+00:00",
+      "span_end": "2026-06-23T00:00:00+00:00",
+      "n_bars": 732
+    },
+    "BTCUSDT/SOLUSDT": {
+      "n_trades": 22,
+      "win_rate": 0.5454545454545454,
+      "profit_factor": 1.251489125097522,
+      "avg_hold_bars": 13.409090909090908,
+      "total_return_pct": 0.05025174215460848,
+      "sharpe": 0.28774595103930367,
+      "sortino": 0.08531825639385311,
+      "max_drawdown_pct": -0.09257738479025424,
+      "trades_per_year": 10.145833333333332,
+      "pair": "BTCUSDT/SOLUSDT",
+      "span_start": "2024-06-22T00:00:00+00:00",
+      "span_end": "2026-06-23T00:00:00+00:00",
+      "n_bars": 732
+    },
+    "ETHUSDT/SOLUSDT": {
+      "n_trades": 26,
+      "win_rate": 0.5,
+      "profit_factor": 1.198285420682336,
+      "avg_hold_bars": 12.115384615384615,
+      "total_return_pct": 0.041578412901546624,
+      "sharpe": 0.2253201040610688,
+      "sortino": 0.08932767418591823,
+      "max_drawdown_pct": -0.11943026144128566,
+      "trades_per_year": 11.990530303030303,
+      "pair": "ETHUSDT/SOLUSDT",
+      "span_start": "2024-06-22T00:00:00+00:00",
+      "span_end": "2026-06-23T00:00:00+00:00",
+      "n_bars": 732
+    }
+  }
+}

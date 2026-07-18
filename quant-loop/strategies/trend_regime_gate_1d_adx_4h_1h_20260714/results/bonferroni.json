@@ -1,0 +1,8 @@
+{
+  "alpha": 0.0125,
+  "n_variants_in_campaign": 4,
+  "mean_trade_return": -0.0011124315055525693,
+  "ci_lower": -0.004064546887638309,
+  "ci_upper": 0.0019785786669431725,
+  "passes_bonferroni": false
+}

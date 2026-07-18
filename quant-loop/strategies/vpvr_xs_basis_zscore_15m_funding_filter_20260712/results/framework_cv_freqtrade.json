@@ -1,0 +1,106 @@
+{
+  "engine": "freqtrade",
+  "engine_version": "freqtrade 2026.6 (IStrategy shim)",
+  "iteration": 72,
+  "strategy_key": "vpvr_xs_basis_zscore_15m_funding_filter_20260712",
+  "timeframe": "15m",
+  "symbol_pair": "BTCUSDT/ETHUSDT",
+  "data_source": {
+    "btc_path": "/home/smark/multica/quant-loop/strategies/vpvr_xs_basis_zscore_15m_funding_filter_20260712/data/BTCUSDT__15m.parquet",
+    "eth_path": "/home/smark/multica/quant-loop/strategies/vpvr_xs_basis_zscore_15m_funding_filter_20260712/data/ETHUSDT__15m.parquet",
+    "n_15m_bars": 158587,
+    "span_start": "2022-01-01 00:00:00",
+    "span_end": "2026-07-10 23:45:00",
+    "trades_total": 11605,
+    "trades_replayed": 11605,
+    "trades_skipped_out_of_window": 0
+  },
+  "inhouse": {
+    "sharpe": 0.24961667592798473,
+    "ann_total_return": 0.07501611920857276,
+    "total_return": 0.07501611920857276,
+    "max_dd": -0.1451634640542535,
+    "n_trades": 11605,
+    "status": "NOT-PROFITABLE"
+  },
+  "inhouse_oos_walkforward": {
+    "n_windows": 3,
+    "mean_oos_sharpe": -6.48356751042805,
+    "mean_oos_total_return": -3.021998719217183,
+    "worst_oos_max_dd": -3.0985227376496525
+  },
+  "framework": {
+    "sharpe": -45.71876317508529,
+    "max_dd": -0.999999999999164,
+    "total_return": -0.999999999999164,
+    "ann_total_return": -0.9978638321604044,
+    "span_years": 4.522900981063199,
+    "n_bars": 158587
+  },
+  "framework_oos": {
+    "n_folds": 3,
+    "folds": [
+      {
+        "fold": 1,
+        "bars": 52862,
+        "sharpe": -46.23785698458887,
+        "max_dd": -0.9999053542727907,
+        "total_return": -0.9999053542727907,
+        "ann_total_return": -0.9978566090801816,
+        "span_years": 1.507700205338809,
+        "n_bars": 52862
+      },
+      {
+        "fold": 2,
+        "bars": 52862,
+        "sharpe": -46.13406577863901,
+        "max_dd": -0.9999009530561072,
+        "total_return": -0.9999009530561072,
+        "ann_total_return": -0.9977922849752855,
+        "span_years": 1.507557608943646,
+        "n_bars": 52862
+      },
+      {
+        "fold": 3,
+        "bars": 52863,
+        "sharpe": -44.83396991202152,
+        "max_dd": -0.9999106102803506,
+        "total_return": -0.9999106077172116,
+        "ann_total_return": -0.9979372402753728,
+        "span_years": 1.5075861282226786,
+        "n_bars": 52863
+      }
+    ],
+    "oos_sharpe_mean": -45.73529755841647,
+    "oos_ann_total_return_mean": -0.9978620447769466,
+    "oos_max_dd_max": -0.9999106102803506
+  },
+  "divergence_pct": {
+    "oos_sharpe": 605.4032750465952,
+    "oos_ann_total_return": 66.98006394140921,
+    "oos_max_dd": 67.72944093226758,
+    "max_abs_rel": 605.4032750465952,
+    "w5_threshold_pct": 50.0
+  },
+  "validation": {
+    "n_bars_compared": 158582,
+    "max_abs_rel_err": 0.027722972434748454,
+    "mean_abs_rel_err": 0.00019718292876921517,
+    "final_abs_rel_err": 1.3276562277476073e-12,
+    "replayed_terminal_equity": 107501.61192085728,
+    "inhouse_terminal_equity": 107501.611921,
+    "n_fills": 11605,
+    "n_skipped": 0,
+    "note": "replay uses in-house cost; small drift expected due to cost-model granularity"
+  },
+  "w5_action": {
+    "auto_archive": true,
+    "rule": "max_abs_rel_div_pct=605.4033% > W5_THRESHOLD=50.0% \u2192 AUTO-ARCHIVE NOT-PROFITABLE (no ESCALATE)"
+  },
+  "notes": [
+    "Pair strategy: held-bar gross mark-to-market, framework cost amortised over held bars.",
+    "INHOUSE_COST_RT=0.0000 (in-house equity walk is GROSS \u2014 cost only on trade-level pnl)",
+    "FREQTRADE_COST_RT_PAIR=0.0024 (24 bps freqtrade pair cost amortised over held bars)",
+    "Validation: replay with cost_rt=0 reproduces the in-house equity CSV at the held-bar level."
+  ]
+}

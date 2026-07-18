@@ -1,0 +1,50 @@
+{
+  "strategy": "vpvr_xs_pairs_30m_funding_filter_btc_bnb_v5_loose_20260717",
+  "iteration": 87,
+  "date": "2026-07-17",
+  "timeframe": "30m",
+  "instruments": [
+    "BTCUSDT",
+    "BNBUSDT"
+  ],
+  "pairs": [
+    "BTCUSDT/BNBUSDT"
+  ],
+  "variant": "A",
+  "n_trades": 5731,
+  "win_rate": 0.3877159309021113,
+  "profit_factor": 0.5883370371308795,
+  "total_return_pct": -0.04416538882422205,
+  "sharpe": -0.06638029906846288,
+  "max_drawdown_pct": -0.29120360028546666,
+  "tag": "NOT-PROFITABLE",
+  "evidence_gate_sharpe_threshold": 0.5,
+  "per_pair": {
+    "BTCUSDT/BNBUSDT": {
+      "n_trades": 5731,
+      "win_rate": 0.3877159309021113,
+      "profit_factor": 0.5883370371308795,
+      "avg_hold_bars": 2.5276566044320363,
+      "total_return_pct": -0.04416538882422205,
+      "sharpe": -0.06638029906846288,
+      "sortino": -0.026851592942102,
+      "max_drawdown_pct": -0.29120360028546666,
+      "trades_per_year": 1267.099122276029,
+      "pair": "BTCUSDT/BNBUSDT",
+      "span_start": "2022-01-01",
+      "span_end": "2026-07-10",
+      "n_bars": 79296
+    }
+  },
+  "sharpe_method": "bar_freq_annualized",
+  "sharpe_method_evidence": "run_backtest.py: [run_backtest.py] L43:sharpe = (mu / sigma) * ann if sigma > 0 else 0.0 ds = bar_r[bar_r < 0] dsigma = float(np.std(ds, ddof=0)) if ds.size else 0.0; L104:avg_sharpe = float(np.mean([m[\"sharpe\"] for m",
+  "sharpe_method_audit_date": "2026-07-17T06:30:53+00:00",
+  "sharpe_daily_resampled": -0.06081003324071211,
+  "sharpe_daily_resampled_n_days": 1651,
+  "sharpe_daily_resampled_span": [
+    "2022-01-01",
+    "2026-07-10"
+  ],
+  "sharpe_daily_resampled_source": "aggregate(symbol equity_*.csv)",
+  "sharpe_daily_resampled_audit_date": "2026-07-17T06:32:00Z"
+}

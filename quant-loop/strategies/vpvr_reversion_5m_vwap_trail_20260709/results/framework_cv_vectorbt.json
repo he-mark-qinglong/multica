@@ -1,0 +1,52 @@
+{
+  "engine": "vectorbt",
+  "engine_version": "1.1.0",
+  "engine_sha": "bf7aff6d",
+  "iteration": 65,
+  "strategy_key": "vpvr_reversion_5m_vwap_trail_20260709",
+  "inhouse": {
+    "sharpe": -0.8221656583135201,
+    "ann_total_return": -0.006838914040397159,
+    "max_dd": -0.015848245984983432,
+    "n_trades": 6536,
+    "timeframe": "5m",
+    "status": "?"
+  },
+  "framework": {
+    "sharpe": -9.620980385596035,
+    "ann_total_return": -0.03913731567268475,
+    "max_dd": -0.08299891072677013,
+    "n_bars": 228018,
+    "span_years": 2.1676268157274317
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": -9.620980385596035,
+    "oos_total_return_ann_mean": -0.03913731567268475,
+    "oos_max_dd_max": -0.08299891072677013,
+    "n_folds": 1,
+    "folds": [
+      {
+        "fold": 1,
+        "bars": 228018,
+        "metrics": {
+          "sharpe": -9.620980385596035,
+          "ann_total_return": -0.03913731567268475,
+          "max_dd": -0.08299891072677013,
+          "n_bars": 228018
+        }
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 1070.1997387401486,
+    "ann_total_return": 472.273835312191,
+    "max_dd": 423.7103891838469
+  },
+  "max_abs_rel_divergence_pct": 1070.1997387401486,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "vectorbt 1.1.0 cross-check: bar-by-bar equity reconstructed from in-house trades CSV applied to actual 5m price data using the same algorithm as in-house strategy.py (per_signal_weight_pct=0.01 fractional sizing, mark-to-market equity). Sharpe / ann_return / max_dd computed via in-house formula.",
+  "cache_dir": "/tmp/framework-cache/vectorbt-bf7aff6d",
+  "framework_metrics_file": "/tmp/framework-validate-vpvr_reversion_5m_vwap_trail_20260709-vectorbt/results.json"
+}

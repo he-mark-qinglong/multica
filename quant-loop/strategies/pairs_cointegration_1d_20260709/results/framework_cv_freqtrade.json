@@ -1,0 +1,91 @@
+{
+  "engine": "freqtrade",
+  "engine_available": true,
+  "variant": "pairs_cointegration_1d_20260709",
+  "iteration": 1,
+  "timeframe": "1d",
+  "n_pairs": 3,
+  "n_trades_total": 70,
+  "n_folds": 4,
+  "folds": [
+    {
+      "fold": 1,
+      "oos_window": [
+        "2025-01-18",
+        "2025-07-16"
+      ],
+      "n_trades": 17,
+      "oos_sharpe": 6.560959345560211,
+      "oos_return_pct": 1.281891834635911,
+      "oos_max_dd_pct": -0.31794480445644946
+    },
+    {
+      "fold": 2,
+      "oos_window": [
+        "2025-04-18",
+        "2025-10-14"
+      ],
+      "n_trades": 17,
+      "oos_sharpe": 2.7939868619049064,
+      "oos_return_pct": 0.2519385795456679,
+      "oos_max_dd_pct": -0.4362395707210414
+    },
+    {
+      "fold": 3,
+      "oos_window": [
+        "2025-07-17",
+        "2026-01-12"
+      ],
+      "n_trades": 15,
+      "oos_sharpe": -2.5271204690804776,
+      "oos_return_pct": -0.16964085401119378,
+      "oos_max_dd_pct": -0.27206255809254964
+    },
+    {
+      "fold": 4,
+      "oos_window": [
+        "2025-10-15",
+        "2026-04-12"
+      ],
+      "n_trades": 22,
+      "oos_sharpe": 7.559243918217376,
+      "oos_return_pct": 0.36819372712913334,
+      "oos_max_dd_pct": -0.0560015800087772
+    }
+  ],
+  "oos_sharpe_mean": 3.596767414150504,
+  "oos_sharpe_median": 4.6774731037325585,
+  "oos_sharpe_min": -2.5271204690804776,
+  "oos_total_return_mean": 0.4330958218248796,
+  "oos_max_dd_max": -0.4362395707210414,
+  "inhouse_oos_sharpe_mean": 3.596767414150503,
+  "inhouse_oos_return_mean": 0.4284359055351684,
+  "inhouse_oos_mdd_worst": -0.43623957072104147,
+  "inhouse_oos_walkforward_aggregate": {
+    "in_sample_sharpe": 2.6731343301015755,
+    "oos_sharpe": 3.596767414150503,
+    "walk_forward_ratio": 1.3455243807421495,
+    "verdict": "SHIP"
+  },
+  "inhouse_sharpe_full": 0.7415580657336254,
+  "inhouse_total_return_full": 0.16720161334843206,
+  "inhouse_mdd_full": -0.13953379991371828,
+  "divergence_pct_oos": {
+    "sharpe": 2.4693796329610552e-14,
+    "total_return": 1.0876577405178927,
+    "max_dd": 1.2724923403786102e-14
+  },
+  "max_abs_rel_divergence_pct_oos": 1.0876577405178927,
+  "divergence_pct_full_period": {
+    "sharpe": 385.02842600629157,
+    "total_return": 159.02610217184304,
+    "max_dd": 212.64078738685055
+  },
+  "max_abs_rel_divergence_pct_full_period": 385.02842600629157,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": false,
+  "w5_verdict": "WITHIN_TOLERANCE (OOS walk-forward agreement)",
+  "g5_threshold": 1.0,
+  "g5_passed": true,
+  "approach": "freqtrade IStrategy contract replay \u2014 closed-pair trades loaded from B3 trades CSVs (trades_BTCUSDT_ETHUSDT.csv, trades_BTCUSDT_SOLUSDT.csv, trades_ETHUSDT_SOLUSDT.csv), PnL per fold mapped to walk_forward.json test windows, framework OOS Sharpe/return/max_dd computed via numpy across folds. Compare against inhouse OOS walk-forward mean."
+}

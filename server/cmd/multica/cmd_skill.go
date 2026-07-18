@@ -21,6 +21,7 @@ import (
 
 var skillCmd = &cobra.Command{
 	Use:   "skill",
+	RunE:  groupRunE,
 	Short: "Work with skills",
 }
 
@@ -31,10 +32,11 @@ var skillListCmd = &cobra.Command{
 }
 
 var skillGetCmd = &cobra.Command{
-	Use:   "get <id>",
-	Short: "Get skill details (includes files)",
-	Args:  exactArgs(1),
-	RunE:  runSkillGet,
+	Use:     "get <id>",
+	Aliases: []string{"view"},
+	Short:   "Get skill details (includes files)",
+	Args:    exactArgs(1),
+	RunE:    runSkillGet,
 }
 
 var skillCreateCmd = &cobra.Command{

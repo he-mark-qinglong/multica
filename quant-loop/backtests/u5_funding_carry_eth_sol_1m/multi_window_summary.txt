@@ -1,0 +1,71 @@
+=== U5 funding_carry ETH/SOL 1m — multi-window (SMA-34947) ===
+windows=[30, 90, 365]  elapsed=13.83s
+G1 Sharpe>=1, G2 ann>=15%, G3 maxDD>=-25%, G4 PF>=1.5, G5 BS-CI_lo>=0.5, G7 trades>=30 (G6 Bonferroni per-variant)
+
+Funding event stats per window:
+Window Sym       n_evt     max%     min%     mean%    neg%   <=-1bp%  <=-0.5bp%
+30     SOLUSDT      90  0.0100% -0.0209%   0.0001%   50.0%      4.4%      15.6%
+30     ETHUSDT      89  0.0100% -0.0081%   0.0031%   12.4%      0.0%       2.2%
+90     SOLUSDT     270  0.0100% -0.0388%  -0.0007%   50.4%     10.4%      24.4%
+90     ETHUSDT     269  0.0100% -0.0230%   0.0016%   32.3%      3.0%      10.4%
+365    SOLUSDT    1095  0.0259% -0.3028%  -0.0011%   44.5%     12.1%      24.6%
+365    ETHUSDT    1094  0.0100% -0.0365%   0.0025%   27.2%      2.5%       8.5%
+
+Per-(window, scope, symbol, variant) results:
+Win  Scope      Sym     Variant     Trades  Sharpe    Ann%   MaxDD%     PF  BS_CIlo  p1side G_pass  Gates
+30   per_symbol SOLUSDT abs_1bp          4   0.928   9.88%   -2.136   1.38   -5.022   0.416      1  NNYNNNN
+30   per_symbol SOLUSDT abs_0.5bp       14   2.492  87.95%   -4.560   1.63   -5.558   0.241      4  YYYYNNN
+30   per_symbol SOLUSDT abs_0.25bp      32  -0.522 -36.59%  -15.134   0.92   -8.235   0.571      2  NNYNNNY
+30   per_symbol SOLUSDT pct_q20          4   0.891   7.70%   -1.579   1.28   -5.687   0.393      1  NNYNNNN
+30   per_symbol SOLUSDT pct_q10          3   1.774  17.74%   -1.579   1.87   -5.022   0.327      4  YYYYNNN
+30   per_symbol SOLUSDT pct_q05          2   4.853  42.92%    0.000      -    0.000   0.128      3  YYYNNNN
+30   per_symbol ETHUSDT abs_1bp          0   0.000   0.00%    0.000   0.00    0.000   1.000      1  NNYNNNN
+30   per_symbol ETHUSDT abs_0.5bp        2  -3.025  -3.72%   -0.354   0.12   -6.263   0.770      1  NNYNNNN
+30   per_symbol ETHUSDT abs_0.25bp       4   1.924   4.33%   -0.354   1.99   -5.022   0.324      3  YNYYNNN
+30   per_symbol ETHUSDT pct_q20          6   4.794  17.26%    0.000   4.71    0.000   0.045      4  YYYYNNN
+30   per_symbol ETHUSDT pct_q10          5   4.317  15.35%    0.000   4.33    0.000   0.131      4  YYYYNNN
+30   per_symbol ETHUSDT pct_q05          2  -3.025  -3.72%   -0.354   0.12   -6.263   0.770      1  NNYNNNN
+30   portfolio  ETH+SOL abs_1bp          4   0.656   4.01%   -1.068   0.00   -3.490   0.406      1  NNYNNN
+30   portfolio  ETH+SOL abs_0.5bp       16   2.116  28.07%   -2.296   0.00   -5.049   0.254      3  YYYNNN
+30   portfolio  ETH+SOL abs_0.25bp      36  -0.407 -12.66%   -7.519   0.00   -7.025   0.561      2  NNYNNY
+30   portfolio  ETH+SOL pct_q20         10   2.301  10.02%   -0.789   0.00   -3.711   0.226      2  YNYNNN
+30   portfolio  ETH+SOL pct_q10          8   2.817  13.33%   -0.789   0.00   -3.329   0.180      2  YNYNNN
+30   portfolio  ETH+SOL pct_q05          4   3.824  13.88%   -0.177   0.00   -4.199   0.103      2  YNYNNN
+90   per_symbol SOLUSDT abs_1bp         28  -0.492  -8.41%   -7.685   0.88   -4.232   0.591      1  NNYNNNN
+90   per_symbol SOLUSDT abs_0.5bp       66  -1.217 -33.99%  -21.921   0.80   -5.001   0.725      2  NNYNNNY
+90   per_symbol SOLUSDT abs_0.25bp     101  -1.744 -57.82%  -23.554   0.76   -5.743   0.804      2  NNYNNNY
+90   per_symbol SOLUSDT pct_q20         38  -2.326 -43.83%  -16.097   0.52   -5.160   0.888      2  NNYNNNY
+90   per_symbol SOLUSDT pct_q10         23  -0.187  -3.59%   -7.685   0.95   -3.819   0.526      1  NNYNNNN
+90   per_symbol SOLUSDT pct_q05         18   0.862  10.15%   -4.559   1.30   -3.039   0.333      1  NNYNNNN
+90   per_symbol ETHUSDT abs_1bp          8  -3.591 -24.96%   -7.468   0.14   -5.654   0.983      1  NNYNNNN
+90   per_symbol ETHUSDT abs_0.5bp       28  -2.968 -35.98%  -13.025   0.41   -6.009   0.941      1  NNYNNNN
+90   per_symbol ETHUSDT abs_0.25bp      52  -2.943 -44.46%  -16.964   0.53   -6.008   0.940      2  NNYNNNY
+90   per_symbol ETHUSDT pct_q20         30  -1.593 -27.89%  -12.860   0.65   -5.091   0.787      2  NNYNNNY
+90   per_symbol ETHUSDT pct_q10         19  -1.693 -24.91%  -10.129   0.50   -4.862   0.806      1  NNYNNNN
+90   per_symbol ETHUSDT pct_q05          9   1.292  11.16%   -1.005   1.85   -4.694   0.363      3  YNYYNNN
+90   portfolio  ETH+SOL abs_1bp         36  -1.991 -15.68%   -6.586   0.00   -5.510   0.859      2  NNYNNY
+90   portfolio  ETH+SOL abs_0.5bp       94  -2.143 -32.17%  -17.419   0.00   -6.157   0.874      2  NNYNNY
+90   portfolio  ETH+SOL abs_0.25bp     153  -2.369 -48.02%  -20.197   0.00   -6.059   0.892      2  NNYNNY
+90   portfolio  ETH+SOL pct_q20         68  -2.137 -33.97%  -14.433   0.00   -5.088   0.879      2  NNYNNY
+90   portfolio  ETH+SOL pct_q10         42  -1.131 -13.65%   -7.519   0.00   -4.005   0.717      2  NNYNNY
+90   portfolio  ETH+SOL pct_q05         27   1.396  10.12%   -2.374   0.00   -2.598   0.238      2  YNYNNN
+365  per_symbol SOLUSDT abs_1bp        133  -0.566 -16.30%  -24.802   0.87   -2.383   0.718      2  NNYNNNY
+365  per_symbol SOLUSDT abs_0.5bp      269   0.121  -2.19%  -37.492   1.02   -1.817   0.457      1  NNNNNNY
+365  per_symbol SOLUSDT abs_0.25bp     362  -0.172 -15.28%  -47.560   0.97   -2.084   0.577      1  NNNNNNY
+365  per_symbol SOLUSDT pct_q20        205  -0.382 -15.85%  -38.767   0.93   -2.214   0.655      1  NNNNNNY
+365  per_symbol SOLUSDT pct_q10        119  -0.781 -18.58%  -31.388   0.81   -2.521   0.784      1  NNNNNNY
+365  per_symbol SOLUSDT pct_q05         75  -0.588 -11.51%  -20.828   0.83   -2.405   0.725      2  NNYNNNY
+365  per_symbol ETHUSDT abs_1bp         27  -0.241  -2.24%   -7.877   0.89   -2.328   0.598      1  NNYNNNN
+365  per_symbol ETHUSDT abs_0.5bp       93  -1.175 -20.08%  -24.353   0.73   -3.103   0.879      2  NNYNNNY
+365  per_symbol ETHUSDT abs_0.25bp     170  -0.446 -12.11%  -21.018   0.91   -2.449   0.674      2  NNYNNNY
+365  per_symbol ETHUSDT pct_q20        206  -2.735 -48.45%  -52.558   0.62   -4.384   0.997      1  NNNNNNY
+365  per_symbol ETHUSDT pct_q10        114  -1.992 -33.23%  -35.585   0.62   -3.697   0.980      1  NNNNNNY
+365  per_symbol ETHUSDT pct_q05         68  -0.290  -5.14%  -13.913   0.92   -2.206   0.609      2  NNYNNNY
+365  portfolio  ETH+SOL abs_1bp        160  -0.575  -8.65%  -16.096   0.00   -2.454   0.727      2  NNYNNY
+365  portfolio  ETH+SOL abs_0.5bp      362  -0.358 -10.05%  -29.198   0.00   -2.247   0.644      1  NNNNNY
+365  portfolio  ETH+SOL abs_0.25bp     532  -0.304 -11.92%  -33.179   0.00   -2.209   0.627      1  NNNNNY
+365  portfolio  ETH+SOL pct_q20        411  -1.638 -32.77%  -40.085   0.00   -3.355   0.956      1  NNNNNY
+365  portfolio  ETH+SOL pct_q10        233  -1.598 -25.31%  -30.550   0.00   -3.222   0.951      1  NNNNNY
+365  portfolio  ETH+SOL pct_q05        143  -0.528  -7.89%  -14.555   0.00   -2.278   0.705      2  NNYNNY
+
+Rows passing G1+G2+G3+G4+G5+G7 across all windows: 0

@@ -234,3 +234,4 @@ func TestCreateContactSalesNormalizesDisplayNameEmail(t *testing.T) {
 		t.Fatalf("expected canonical email persisted, got %q", stored)
 	}
 }
+

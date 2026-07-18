@@ -1,0 +1,60 @@
+{
+  "window": {
+    "start": "2026-06-17T08:00:00+00:00",
+    "end": "2026-07-17T08:00:00+00:00",
+    "days": 30,
+    "cadence": "1h (upsampled from 8h funding via ffill)"
+  },
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "pairs": [
+    "BTCUSDT-ETHUSDT",
+    "BTCUSDT-SOLUSDT",
+    "ETHUSDT-SOLUSDT"
+  ],
+  "n_funding_obs_per_symbol": {
+    "BTCUSDT": 90,
+    "ETHUSDT": 90,
+    "SOLUSDT": 90
+  },
+  "n_1h_bars": 720,
+  "per_pair_stats": {
+    "BTCUSDT-ETHUSDT": {
+      "mean_bps": 0.1997175,
+      "std_bps": 0.33760797673043313,
+      "min_bps": -0.9024,
+      "max_bps": 0.9715,
+      "abs_mean_bps": 0.31296833333333335,
+      "abs_p90_bps": 0.6786,
+      "abs_p10_bps": 0.05119999999999998
+    },
+    "BTCUSDT-SOLUSDT": {
+      "mean_bps": 0.3681897222222222,
+      "std_bps": 0.46137043224460644,
+      "min_bps": -0.8147,
+      "max_bps": 1.8965999999999998,
+      "abs_mean_bps": 0.48577444444444434,
+      "abs_p90_bps": 0.8892000000000001,
+      "abs_p10_bps": 0.0757
+    },
+    "ETHUSDT-SOLUSDT": {
+      "mean_bps": 0.16847222222222222,
+      "std_bps": 0.5175881504873904,
+      "min_bps": -1.041,
+      "max_bps": 1.7001,
+      "abs_mean_bps": 0.4279663888888889,
+      "abs_p90_bps": 0.8812,
+      "abs_p10_bps": 0.06532
+    }
+  },
+  "divergence_count": 15,
+  "convergence_count": 15,
+  "output_files": {
+    "heatmap_png": "/home/smark/multica/quant-loop/analysis/funding_spread_heatmap/heatmap.png",
+    "daily_mean_png": "/home/smark/multica/quant-loop/analysis/funding_spread_heatmap/daily_mean_spread.png",
+    "extremes_csv": "/home/smark/multica/quant-loop/analysis/funding_spread_heatmap/divergence_windows.csv"
+  }
+}

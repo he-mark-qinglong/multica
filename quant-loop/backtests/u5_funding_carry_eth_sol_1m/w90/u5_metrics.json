@@ -1,0 +1,1003 @@
+{
+  "variant_key": "funding_carry_u5_eth_sol_1m",
+  "iteration": "SMA-34947-w90",
+  "source_spec": "SMA-34947-w90",
+  "instruments": [
+    "SOLUSDT",
+    "ETHUSDT"
+  ],
+  "timeframes": [
+    "1m"
+  ],
+  "window_days": 90,
+  "hard_gates": {
+    "sharpe_min": 1.0,
+    "annualized_return_min": 0.15,
+    "max_drawdown_max": -0.25,
+    "profit_factor_min": 1.5,
+    "bootstrap_ci_lower_min": 0.5,
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 42,
+    "bonferroni_alpha": 0.0125,
+    "trades_min": 30
+  },
+  "funding_event_stats": {
+    "SOLUSDT": {
+      "n_events": 270,
+      "max": 0.0001,
+      "p99": 0.0001,
+      "p95": 0.0001,
+      "p90": 9.4147e-05,
+      "p80": 6.3422e-05,
+      "p20": -6.0965999999999985e-05,
+      "p10": -0.00010102399999999999,
+      "p05": -0.0001426655,
+      "p01": -0.0002557748,
+      "min": -0.00038757,
+      "mean": -7.161444444444442e-06,
+      "neg_pct": 0.5037037037037037,
+      "le_-1bp_pct": 0.1037037037037037,
+      "le_-0.5bp_pct": 0.24444444444444444
+    },
+    "ETHUSDT": {
+      "n_events": 269,
+      "max": 0.0001,
+      "p99": 0.0001,
+      "p95": 8.700799999999999e-05,
+      "p90": 7.381400000000001e-05,
+      "p80": 5.897e-05,
+      "p20": -2.4064e-05,
+      "p10": -5.1276e-05,
+      "p05": -7.667399999999999e-05,
+      "p01": -0.0001204164,
+      "min": -0.00022976,
+      "mean": 1.6391412639405202e-05,
+      "neg_pct": 0.32342007434944237,
+      "le_-1bp_pct": 0.02973977695167286,
+      "le_-0.5bp_pct": 0.10408921933085502
+    }
+  },
+  "generated_at_utc": "2026-07-18T07:02:43+00:00",
+  "sharpe_method": "daily_resampled_per_SMA-34787",
+  "sharpe_method_audit_ref": "SMA-34787",
+  "data_provenance": {
+    "ETH_1m": "data/perp_1m/ETHUSDT_1m.parquet (shared pool, real Binance)",
+    "SOL_1m": "strategies/vpvr_volume_edge_3tf_v1_20260711/data/SOLUSDT__1m.parquet and identical-copy at strategies/vpvr_xs_pairs_mr_1m_v1_20260711/data/SOLUSDT__1m.parquet \u2014 SHA256 match dd7f59ea\u20266a7e, 2,378,800 rows 2022-01-01..2026-07-10, real Binance 1m, no synthetic)",
+    "ETH_FUND": "data/funding/ETHUSDT.parquet (Binance USDT-M, 5100 events 8h cadence)",
+    "SOL_FUND": "data/funding/SOLUSDT.parquet (Binance USDT-M, 5175 events 8h cadence)"
+  },
+  "per_symbol_variants": {
+    "SOLUSDT": [
+      {
+        "label": "abs_1bp",
+        "metrics": {
+          "n_trades": 28,
+          "win_rate": 0.5,
+          "profit_factor": 0.8844,
+          "sharpe_daily": -0.4925,
+          "total_return": -0.021423,
+          "annualized_return": -0.084136,
+          "max_drawdown_pct": -7.6849,
+          "avg_bars_held": 480.0,
+          "bootstrap_sharpe_mean": -0.4282,
+          "bootstrap_sharpe_ci_lo": -4.2322,
+          "bootstrap_sharpe_ci_hi": 3.5856,
+          "sharpe_p_value_two_sided": 0.4091,
+          "sharpe_p_value_pos_one_sided": 0.5909,
+          "daily_rets_n": 90,
+          "n_funding_events": 264,
+          "tf": "1m",
+          "variant": "funding_carry_u5_eth_sol_1m",
+          "diagnostics": {
+            "funding_below_threshold_events": 28,
+            "funding_below_percentile_events": 0,
+            "funding_threshold": 0.0001,
+            "funding_percentile_q": null
+          },
+          "span_start": "2026-04-11 23:59:00+00:00",
+          "span_end": "2026-07-10 23:59:00+00:00",
+          "symbol": "SOLUSDT",
+          "label": "abs_1bp",
+          "params_override": {
+            "funding_threshold": 0.0001,
+            "funding_percentile_q": null
+          },
+          "sharpe_method": "daily_resampled_per_SMA-34787",
+          "sharpe_method_audit_ref": "SMA-34787",
+          "elapsed_sec": 0.12,
+          "gates": {
+            "G1_sharpe_ge_1": false,
+            "G2_ann_ge_15pct": false,
+            "G3_maxdd_ge_-25pct": true,
+            "G4_pf_ge_1_5": false,
+            "G5_bs_ci_lo_ge_0_5": false,
+            "G7_trades_ge_30": false,
+            "G6_bonferroni_pos_one_sided": false
+          },
+          "bonferroni_p_raw": 0.5909,
+          "bonferroni_alpha_adj": 0.0010416666666666667,
+          "bonferroni_family_n": 12
+        },
+        "diagnostics": {
+          "funding_below_threshold_events": 28,
+          "funding_below_percentile_events": 0,
+          "funding_threshold": 0.0001,
+          "funding_percentile_q": null
+        }
+      },
+      {
+        "label": "abs_0.5bp",
+        "metrics": {
+          "n_trades": 66,
+          "win_rate": 0.4394,
+          "profit_factor": 0.8024,
+          "sharpe_daily": -1.2173,
+          "total_return": -0.097277,
+          "annualized_return": -0.339877,
+          "max_drawdown_pct": -21.9212,
+          "avg_bars_held": 480.0,
+          "bootstrap_sharpe_mean": -1.2041,
+          "bootstrap_sharpe_ci_lo": -5.001,
+          "bootstrap_sharpe_ci_hi": 2.8338,
+          "sharpe_p_value_two_sided": 0.2747,
+          "sharpe_p_value_pos_one_sided": 0.7253,
+          "daily_rets_n": 90,
+          "n_funding_events": 264,
+          "tf": "1m",
+          "variant": "funding_carry_u5_eth_sol_1m",
+          "diagnostics": {
+            "funding_below_threshold_events": 66,
+            "funding_below_percentile_events": 0,
+            "funding_threshold": 5e-05,
+            "funding_percentile_q": null
+          },
+          "span_start": "2026-04-11 23:59:00+00:00",
+          "span_end": "2026-07-10 23:59:00+00:00",
+          "symbol": "SOLUSDT",
+          "label": "abs_0.5bp",
+          "params_override": {
+            "funding_threshold": 5e-05,
+            "funding_percentile_q": null
+          },
+          "sharpe_method": "daily_resampled_per_SMA-34787",
+          "sharpe_method_audit_ref": "SMA-34787",
+          "elapsed_sec": 0.12,
+          "gates": {
+            "G1_sharpe_ge_1": false,
+            "G2_ann_ge_15pct": false,
+            "G3_maxdd_ge_-25pct": true,
+            "G4_pf_ge_1_5": false,
+            "G5_bs_ci_lo_ge_0_5": false,
+            "G7_trades_ge_30": true,
+            "G6_bonferroni_pos_one_sided": false
+          },
+          "bonferroni_p_raw": 0.7253,
+          "bonferroni_alpha_adj": 0.0010416666666666667,
+          "bonferroni_family_n": 12
+        },
+        "diagnostics": {
+          "funding_below_threshold_events": 66,
+          "funding_below_percentile_events": 0,
+          "funding_threshold": 5e-05,
+          "funding_percentile_q": null
+        }
+      },
+      {
+        "label": "abs_0.25bp",
+        "metrics": {
+          "n_trades": 101,
+          "win_rate": 0.4851,
+          "profit_factor": 0.7596,
+          "sharpe_daily": -1.7437,
+          "total_return": -0.191618,
+          "annualized_return": -0.578228,
+          "max_drawdown_pct": -23.554,
+          "avg_bars_held": 480.0,
+          "bootstrap_sharpe_mean": -1.8228,
+          "bootstrap_sharpe_ci_lo": -5.7429,
+          "bootstrap_sharpe_ci_hi": 2.1728,
+          "sharpe_p_value_two_sided": 0.1964,
+          "sharpe_p_value_pos_one_sided": 0.8036,
+          "daily_rets_n": 90,
+          "n_funding_events": 264,
+          "tf": "1m",
+          "variant": "funding_carry_u5_eth_sol_1m",
+          "diagnostics": {
+            "funding_below_threshold_events": 101,
+            "funding_below_percentile_events": 0,
+            "funding_threshold": 2.5e-05,
+            "funding_percentile_q": null
+          },
+          "span_start": "2026-04-11 23:59:00+00:00",
+          "span_end": "2026-07-10 23:59:00+00:00",
+          "symbol": "SOLUSDT",
+          "label": "abs_0.25bp",
+          "params_override": {
+            "funding_threshold": 2.5e-05,
+            "funding_percentile_q": null
+          },
+          "sharpe_method": "daily_resampled_per_SMA-34787",
+          "sharpe_method_audit_ref": "SMA-34787",
+          "elapsed_sec": 0.12,
+          "gates": {
+            "G1_sharpe_ge_1": false,
+            "G2_ann_ge_15pct": false,
+            "G3_maxdd_ge_-25pct": true,
+            "G4_pf_ge_1_5": false,
+            "G5_bs_ci_lo_ge_0_5": false,
+            "G7_trades_ge_30": true,
+            "G6_bonferroni_pos_one_sided": false
+          },
+          "bonferroni_p_raw": 0.8036,
+          "bonferroni_alpha_adj": 0.0010416666666666667,
+          "bonferroni_family_n": 12
+        },
+        "diagnostics": {
+          "funding_below_threshold_events": 101,
+          "funding_below_percentile_events": 0,
+          "funding_threshold": 2.5e-05,
+          "funding_percentile_q": null
+        }
+      },
+      {
+        "label": "pct_q20",
+        "metrics": {
+          "n_trades": 38,
+          "win_rate": 0.4474,
+          "profit_factor": 0.5241,
+          "sharpe_daily": -2.3264,
+          "total_return": -0.132505,
+          "annualized_return": -0.438349,
+          "max_drawdown_pct": -16.0967,
+          "avg_bars_held": 480.0,
+          "bootstrap_sharpe_mean": -2.1891,
+          "bootstrap_sharpe_ci_lo": -5.1605,
+          "bootstrap_sharpe_ci_hi": 1.7864,
+          "sharpe_p_value_two_sided": 0.112,
+          "sharpe_p_value_pos_one_sided": 0.888,
+          "daily_rets_n": 90,
+          "n_funding_events": 264,
+          "tf": "1m",
+          "variant": "funding_carry_u5_eth_sol_1m",
+          "diagnostics": {
+            "funding_below_threshold_events": 0,
+            "funding_below_percentile_events": 38,
+            "funding_threshold": null,
+            "funding_percentile_q": 20.0
+          },
+          "span_start": "2026-04-11 23:59:00+00:00",
+          "span_end": "2026-07-10 23:59:00+00:00",
+          "symbol": "SOLUSDT",
+          "label": "pct_q20",
+          "params_override": {
+            "funding_threshold": null,
+            "funding_percentile_q": 20.0
+          },
+          "sharpe_method": "daily_resampled_per_SMA-34787",
+          "sharpe_method_audit_ref": "SMA-34787",
+          "elapsed_sec": 0.12,
+          "gates": {
+            "G1_sharpe_ge_1": false,
+            "G2_ann_ge_15pct": false,
+            "G3_maxdd_ge_-25pct": true,
+            "G4_pf_ge_1_5": false,
+            "G5_bs_ci_lo_ge_0_5": false,
+            "G7_trades_ge_30": true,
+            "G6_bonferroni_pos_one_sided": false
+          },
+          "bonferroni_p_raw": 0.888,
+          "bonferroni_alpha_adj": 0.0010416666666666667,
+          "bonferroni_family_n": 12
+        },
+        "diagnostics": {
+          "funding_below_threshold_events": 0,
+          "funding_below_percentile_events": 38,
+          "funding_threshold": null,
+          "funding_percentile_q": 20.0
+        }
+      },
+      {
+        "label": "pct_q10",
+        "metrics": {
+          "n_trades": 23,
+          "win_rate": 0.5217,
+          "profit_factor": 0.9502,
+          "sharpe_daily": -0.1866,
+          "total_return": -0.008967,
+          "annualized_return": -0.035896,
+          "max_drawdown_pct": -7.6849,
+          "avg_bars_held": 480.0,
+          "bootstrap_sharpe_mean": -0.0912,
+          "bootstrap_sharpe_ci_lo": -3.8187,
+          "bootstrap_sharpe_ci_hi": 4.0642,
+          "sharpe_p_value_two_sided": 0.4737,
+          "sharpe_p_value_pos_one_sided": 0.5263,
+          "daily_rets_n": 90,
+          "n_funding_events": 264,
+          "tf": "1m",
+          "variant": "funding_carry_u5_eth_sol_1m",
+          "diagnostics": {
+            "funding_below_threshold_events": 0,
+            "funding_below_percentile_events": 23,
+            "funding_threshold": null,
+            "funding_percentile_q": 10.0
+          },
+          "span_start": "2026-04-11 23:59:00+00:00",
+          "span_end": "2026-07-10 23:59:00+00:00",
+          "symbol": "SOLUSDT",
+          "label": "pct_q10",
+          "params_override": {
+            "funding_threshold": null,
+            "funding_percentile_q": 10.0
+          },
+          "sharpe_method": "daily_resampled_per_SMA-34787",
+          "sharpe_method_audit_ref": "SMA-34787",
+          "elapsed_sec": 0.12,
+          "gates": {
+            "G1_sharpe_ge_1": false,
+            "G2_ann_ge_15pct": false,
+            "G3_maxdd_ge_-25pct": true,
+            "G4_pf_ge_1_5": false,
+            "G5_bs_ci_lo_ge_0_5": false,
+            "G7_trades_ge_30": false,
+            "G6_bonferroni_pos_one_sided": false
+          },
+          "bonferroni_p_raw": 0.5263,
+          "bonferroni_alpha_adj": 0.0010416666666666667,
+          "bonferroni_family_n": 12
+        },
+        "diagnostics": {
+          "funding_below_threshold_events": 0,
+          "funding_below_percentile_events": 23,
+          "funding_threshold": null,
+          "funding_percentile_q": 10.0
+        }
+      },
+      {
+        "label": "pct_q05",
+        "metrics": {
+          "n_trades": 18,
+          "win_rate": 0.5556,
+          "profit_factor": 1.297,
+          "sharpe_daily": 0.8618,
+          "total_return": 0.024106,
+          "annualized_return": 0.101498,
+          "max_drawdown_pct": -4.559,
+          "avg_bars_held": 480.0,
+          "bootstrap_sharpe_mean": 0.9192,
+          "bootstrap_sharpe_ci_lo": -3.0387,
+          "bootstrap_sharpe_ci_hi": 4.7033,
+          "sharpe_p_value_two_sided": 0.3326,
+          "sharpe_p_value_pos_one_sided": 0.3326,
+          "daily_rets_n": 90,
+          "n_funding_events": 264,
+          "tf": "1m",
+          "variant": "funding_carry_u5_eth_sol_1m",
+          "diagnostics": {
+            "funding_below_threshold_events": 0,
+            "funding_below_percentile_events": 18,
+            "funding_threshold": null,
+            "funding_percentile_q": 5.0
+          },
+          "span_start": "2026-04-11 23:59:00+00:00",
+          "span_end": "2026-07-10 23:59:00+00:00",
+          "symbol": "SOLUSDT",
+          "label": "pct_q05",
+          "params_override": {
+            "funding_threshold": null,
+            "funding_percentile_q": 5.0
+          },
+          "sharpe_method": "daily_resampled_per_SMA-34787",
+          "sharpe_method_audit_ref": "SMA-34787",
+          "elapsed_sec": 0.12,
+          "gates": {
+            "G1_sharpe_ge_1": false,
+            "G2_ann_ge_15pct": false,
+            "G3_maxdd_ge_-25pct": true,
+            "G4_pf_ge_1_5": false,
+            "G5_bs_ci_lo_ge_0_5": false,
+            "G7_trades_ge_30": false,
+            "G6_bonferroni_pos_one_sided": false
+          },
+          "bonferroni_p_raw": 0.3326,
+          "bonferroni_alpha_adj": 0.0010416666666666667,
+          "bonferroni_family_n": 12
+        },
+        "diagnostics": {
+          "funding_below_threshold_events": 0,
+          "funding_below_percentile_events": 18,
+          "funding_threshold": null,
+          "funding_percentile_q": 5.0
+        }
+      }
+    ],
+    "ETHUSDT": [
+      {
+        "label": "abs_1bp",
+        "metrics": {
+          "n_trades": 8,
+          "win_rate": 0.25,
+          "profit_factor": 0.1404,
+          "sharpe_daily": -3.5905,
+          "total_return": -0.068306,
+          "annualized_return": -0.249586,
+          "max_drawdown_pct": -7.4683,
+          "avg_bars_held": 480.0,
+          "bootstrap_sharpe_mean": -3.5039,
+          "bootstrap_sharpe_ci_lo": -5.6542,
+          "bootstrap_sharpe_ci_hi": -0.463,
+          "sharpe_p_value_two_sided": 0.0186,
+          "sharpe_p_value_pos_one_sided": 0.9826,
+          "daily_rets_n": 90,
+          "n_funding_events": 269,
+          "tf": "1m",
+          "variant": "funding_carry_u5_eth_sol_1m",
+          "diagnostics": {
+            "funding_below_threshold_events": 9,
+            "funding_below_percentile_events": 0,
+            "funding_threshold": 0.0001,
+            "funding_percentile_q": null
+          },
+          "span_start": "2026-04-18 19:39:00+00:00",
+          "span_end": "2026-07-17 19:39:00+00:00",
+          "symbol": "ETHUSDT",
+          "label": "abs_1bp",
+          "params_override": {
+            "funding_threshold": 0.0001,
+            "funding_percentile_q": null
+          },
+          "sharpe_method": "daily_resampled_per_SMA-34787",
+          "sharpe_method_audit_ref": "SMA-34787",
+          "elapsed_sec": 0.12,
+          "gates": {
+            "G1_sharpe_ge_1": false,
+            "G2_ann_ge_15pct": false,
+            "G3_maxdd_ge_-25pct": true,
+            "G4_pf_ge_1_5": false,
+            "G5_bs_ci_lo_ge_0_5": false,
+            "G7_trades_ge_30": false,
+            "G6_bonferroni_pos_one_sided": false
+          },
+          "bonferroni_p_raw": 0.9826,
+          "bonferroni_alpha_adj": 0.0010416666666666667,
+          "bonferroni_family_n": 12
+        },
+        "diagnostics": {
+          "funding_below_threshold_events": 9,
+          "funding_below_percentile_events": 0,
+          "funding_threshold": 0.0001,
+          "funding_percentile_q": null
+        }
+      },
+      {
+        "label": "abs_0.5bp",
+        "metrics": {
+          "n_trades": 28,
+          "win_rate": 0.2857,
+          "profit_factor": 0.4072,
+          "sharpe_daily": -2.9678,
+          "total_return": -0.104076,
+          "annualized_return": -0.359822,
+          "max_drawdown_pct": -13.0249,
+          "avg_bars_held": 480.0,
+          "bootstrap_sharpe_mean": -3.0721,
+          "bootstrap_sharpe_ci_lo": -6.0086,
+          "bootstrap_sharpe_ci_hi": 0.865,
+          "sharpe_p_value_two_sided": 0.0592,
+          "sharpe_p_value_pos_one_sided": 0.9408,
+          "daily_rets_n": 90,
+          "n_funding_events": 269,
+          "tf": "1m",
+          "variant": "funding_carry_u5_eth_sol_1m",
+          "diagnostics": {
+            "funding_below_threshold_events": 29,
+            "funding_below_percentile_events": 0,
+            "funding_threshold": 5e-05,
+            "funding_percentile_q": null
+          },
+          "span_start": "2026-04-18 19:39:00+00:00",
+          "span_end": "2026-07-17 19:39:00+00:00",
+          "symbol": "ETHUSDT",
+          "label": "abs_0.5bp",
+          "params_override": {
+            "funding_threshold": 5e-05,
+            "funding_percentile_q": null
+          },
+          "sharpe_method": "daily_resampled_per_SMA-34787",
+          "sharpe_method_audit_ref": "SMA-34787",
+          "elapsed_sec": 0.12,
+          "gates": {
+            "G1_sharpe_ge_1": false,
+            "G2_ann_ge_15pct": false,
+            "G3_maxdd_ge_-25pct": true,
+            "G4_pf_ge_1_5": false,
+            "G5_bs_ci_lo_ge_0_5": false,
+            "G7_trades_ge_30": false,
+            "G6_bonferroni_pos_one_sided": false
+          },
+          "bonferroni_p_raw": 0.9408,
+          "bonferroni_alpha_adj": 0.0010416666666666667,
+          "bonferroni_family_n": 12
+        },
+        "diagnostics": {
+          "funding_below_threshold_events": 29,
+          "funding_below_percentile_events": 0,
+          "funding_threshold": 5e-05,
+          "funding_percentile_q": null
+        }
+      },
+      {
+        "label": "abs_0.25bp",
+        "metrics": {
+          "n_trades": 52,
+          "win_rate": 0.4231,
+          "profit_factor": 0.5263,
+          "sharpe_daily": -2.9433,
+          "total_return": -0.13491,
+          "annualized_return": -0.444642,
+          "max_drawdown_pct": -16.9644,
+          "avg_bars_held": 480.0,
+          "bootstrap_sharpe_mean": -2.9705,
+          "bootstrap_sharpe_ci_lo": -6.0076,
+          "bootstrap_sharpe_ci_hi": 0.7915,
+          "sharpe_p_value_two_sided": 0.0598,
+          "sharpe_p_value_pos_one_sided": 0.9402,
+          "daily_rets_n": 90,
+          "n_funding_events": 269,
+          "tf": "1m",
+          "variant": "funding_carry_u5_eth_sol_1m",
+          "diagnostics": {
+            "funding_below_threshold_events": 53,
+            "funding_below_percentile_events": 0,
+            "funding_threshold": 2.5e-05,
+            "funding_percentile_q": null
+          },
+          "span_start": "2026-04-18 19:39:00+00:00",
+          "span_end": "2026-07-17 19:39:00+00:00",
+          "symbol": "ETHUSDT",
+          "label": "abs_0.25bp",
+          "params_override": {
+            "funding_threshold": 2.5e-05,
+            "funding_percentile_q": null
+          },
+          "sharpe_method": "daily_resampled_per_SMA-34787",
+          "sharpe_method_audit_ref": "SMA-34787",
+          "elapsed_sec": 0.12,
+          "gates": {
+            "G1_sharpe_ge_1": false,
+            "G2_ann_ge_15pct": false,
+            "G3_maxdd_ge_-25pct": true,
+            "G4_pf_ge_1_5": false,
+            "G5_bs_ci_lo_ge_0_5": false,
+            "G7_trades_ge_30": true,
+            "G6_bonferroni_pos_one_sided": false
+          },
+          "bonferroni_p_raw": 0.9402,
+          "bonferroni_alpha_adj": 0.0010416666666666667,
+          "bonferroni_family_n": 12
+        },
+        "diagnostics": {
+          "funding_below_threshold_events": 53,
+          "funding_below_percentile_events": 0,
+          "funding_threshold": 2.5e-05,
+          "funding_percentile_q": null
+        }
+      },
+      {
+        "label": "pct_q20",
+        "metrics": {
+          "n_trades": 30,
+          "win_rate": 0.4,
+          "profit_factor": 0.6533,
+          "sharpe_daily": -1.593,
+          "total_return": -0.07742,
+          "annualized_return": -0.278934,
+          "max_drawdown_pct": -12.8601,
+          "avg_bars_held": 480.0,
+          "bootstrap_sharpe_mean": -1.5818,
+          "bootstrap_sharpe_ci_lo": -5.0912,
+          "bootstrap_sharpe_ci_hi": 2.3414,
+          "sharpe_p_value_two_sided": 0.213,
+          "sharpe_p_value_pos_one_sided": 0.787,
+          "daily_rets_n": 90,
+          "n_funding_events": 269,
+          "tf": "1m",
+          "variant": "funding_carry_u5_eth_sol_1m",
+          "diagnostics": {
+            "funding_below_threshold_events": 0,
+            "funding_below_percentile_events": 30,
+            "funding_threshold": null,
+            "funding_percentile_q": 20.0
+          },
+          "span_start": "2026-04-18 19:39:00+00:00",
+          "span_end": "2026-07-17 19:39:00+00:00",
+          "symbol": "ETHUSDT",
+          "label": "pct_q20",
+          "params_override": {
+            "funding_threshold": null,
+            "funding_percentile_q": 20.0
+          },
+          "sharpe_method": "daily_resampled_per_SMA-34787",
+          "sharpe_method_audit_ref": "SMA-34787",
+          "elapsed_sec": 0.12,
+          "gates": {
+            "G1_sharpe_ge_1": false,
+            "G2_ann_ge_15pct": false,
+            "G3_maxdd_ge_-25pct": true,
+            "G4_pf_ge_1_5": false,
+            "G5_bs_ci_lo_ge_0_5": false,
+            "G7_trades_ge_30": true,
+            "G6_bonferroni_pos_one_sided": false
+          },
+          "bonferroni_p_raw": 0.787,
+          "bonferroni_alpha_adj": 0.0010416666666666667,
+          "bonferroni_family_n": 12
+        },
+        "diagnostics": {
+          "funding_below_threshold_events": 0,
+          "funding_below_percentile_events": 30,
+          "funding_threshold": null,
+          "funding_percentile_q": 20.0
+        }
+      },
+      {
+        "label": "pct_q10",
+        "metrics": {
+          "n_trades": 19,
+          "win_rate": 0.3684,
+          "profit_factor": 0.5032,
+          "sharpe_daily": -1.6926,
+          "total_return": -0.068164,
+          "annualized_return": -0.249122,
+          "max_drawdown_pct": -10.1289,
+          "avg_bars_held": 480.0,
+          "bootstrap_sharpe_mean": -1.7549,
+          "bootstrap_sharpe_ci_lo": -4.8625,
+          "bootstrap_sharpe_ci_hi": 2.27,
+          "sharpe_p_value_two_sided": 0.1941,
+          "sharpe_p_value_pos_one_sided": 0.8059,
+          "daily_rets_n": 90,
+          "n_funding_events": 269,
+          "tf": "1m",
+          "variant": "funding_carry_u5_eth_sol_1m",
+          "diagnostics": {
+            "funding_below_threshold_events": 0,
+            "funding_below_percentile_events": 19,
+            "funding_threshold": null,
+            "funding_percentile_q": 10.0
+          },
+          "span_start": "2026-04-18 19:39:00+00:00",
+          "span_end": "2026-07-17 19:39:00+00:00",
+          "symbol": "ETHUSDT",
+          "label": "pct_q10",
+          "params_override": {
+            "funding_threshold": null,
+            "funding_percentile_q": 10.0
+          },
+          "sharpe_method": "daily_resampled_per_SMA-34787",
+          "sharpe_method_audit_ref": "SMA-34787",
+          "elapsed_sec": 0.12,
+          "gates": {
+            "G1_sharpe_ge_1": false,
+            "G2_ann_ge_15pct": false,
+            "G3_maxdd_ge_-25pct": true,
+            "G4_pf_ge_1_5": false,
+            "G5_bs_ci_lo_ge_0_5": false,
+            "G7_trades_ge_30": false,
+            "G6_bonferroni_pos_one_sided": false
+          },
+          "bonferroni_p_raw": 0.8059,
+          "bonferroni_alpha_adj": 0.0010416666666666667,
+          "bonferroni_family_n": 12
+        },
+        "diagnostics": {
+          "funding_below_threshold_events": 0,
+          "funding_below_percentile_events": 19,
+          "funding_threshold": null,
+          "funding_percentile_q": 10.0
+        }
+      },
+      {
+        "label": "pct_q05",
+        "metrics": {
+          "n_trades": 9,
+          "win_rate": 0.5556,
+          "profit_factor": 1.8516,
+          "sharpe_daily": 1.2919,
+          "total_return": 0.026412,
+          "annualized_return": 0.111597,
+          "max_drawdown_pct": -1.0046,
+          "avg_bars_held": 480.0,
+          "bootstrap_sharpe_mean": -0.0371,
+          "bootstrap_sharpe_ci_lo": -4.6935,
+          "bootstrap_sharpe_ci_hi": 3.4137,
+          "sharpe_p_value_two_sided": 0.363,
+          "sharpe_p_value_pos_one_sided": 0.363,
+          "daily_rets_n": 90,
+          "n_funding_events": 269,
+          "tf": "1m",
+          "variant": "funding_carry_u5_eth_sol_1m",
+          "diagnostics": {
+            "funding_below_threshold_events": 0,
+            "funding_below_percentile_events": 9,
+            "funding_threshold": null,
+            "funding_percentile_q": 5.0
+          },
+          "span_start": "2026-04-18 19:39:00+00:00",
+          "span_end": "2026-07-17 19:39:00+00:00",
+          "symbol": "ETHUSDT",
+          "label": "pct_q05",
+          "params_override": {
+            "funding_threshold": null,
+            "funding_percentile_q": 5.0
+          },
+          "sharpe_method": "daily_resampled_per_SMA-34787",
+          "sharpe_method_audit_ref": "SMA-34787",
+          "elapsed_sec": 0.12,
+          "gates": {
+            "G1_sharpe_ge_1": true,
+            "G2_ann_ge_15pct": false,
+            "G3_maxdd_ge_-25pct": true,
+            "G4_pf_ge_1_5": true,
+            "G5_bs_ci_lo_ge_0_5": false,
+            "G7_trades_ge_30": false,
+            "G6_bonferroni_pos_one_sided": false
+          },
+          "bonferroni_p_raw": 0.363,
+          "bonferroni_alpha_adj": 0.0010416666666666667,
+          "bonferroni_family_n": 12
+        },
+        "diagnostics": {
+          "funding_below_threshold_events": 0,
+          "funding_below_percentile_events": 9,
+          "funding_threshold": null,
+          "funding_percentile_q": 5.0
+        }
+      }
+    ]
+  },
+  "bonferroni": {
+    "alpha": 0.0125,
+    "n_tests": 12,
+    "alpha_adj": 0.0010416666666666667,
+    "per_variant": [
+      {
+        "p_raw": 0.5909,
+        "alpha_adj": 0.0010416666666666667,
+        "passes_bonferroni_positive": false
+      },
+      {
+        "p_raw": 0.7253,
+        "alpha_adj": 0.0010416666666666667,
+        "passes_bonferroni_positive": false
+      },
+      {
+        "p_raw": 0.8036,
+        "alpha_adj": 0.0010416666666666667,
+        "passes_bonferroni_positive": false
+      },
+      {
+        "p_raw": 0.888,
+        "alpha_adj": 0.0010416666666666667,
+        "passes_bonferroni_positive": false
+      },
+      {
+        "p_raw": 0.5263,
+        "alpha_adj": 0.0010416666666666667,
+        "passes_bonferroni_positive": false
+      },
+      {
+        "p_raw": 0.3326,
+        "alpha_adj": 0.0010416666666666667,
+        "passes_bonferroni_positive": false
+      },
+      {
+        "p_raw": 0.9826,
+        "alpha_adj": 0.0010416666666666667,
+        "passes_bonferroni_positive": false
+      },
+      {
+        "p_raw": 0.9408,
+        "alpha_adj": 0.0010416666666666667,
+        "passes_bonferroni_positive": false
+      },
+      {
+        "p_raw": 0.9402,
+        "alpha_adj": 0.0010416666666666667,
+        "passes_bonferroni_positive": false
+      },
+      {
+        "p_raw": 0.787,
+        "alpha_adj": 0.0010416666666666667,
+        "passes_bonferroni_positive": false
+      },
+      {
+        "p_raw": 0.8059,
+        "alpha_adj": 0.0010416666666666667,
+        "passes_bonferroni_positive": false
+      },
+      {
+        "p_raw": 0.363,
+        "alpha_adj": 0.0010416666666666667,
+        "passes_bonferroni_positive": false
+      }
+    ],
+    "all_pass_positive": false
+  },
+  "portfolio_variants": {
+    "abs_1bp": {
+      "label": "portfolio_abs_1bp",
+      "n_trades": 36,
+      "win_rate": 0.0,
+      "profit_factor": 0.0,
+      "sharpe_daily": -1.9913,
+      "total_return": -0.04427,
+      "annualized_return": -0.156756,
+      "max_drawdown_pct": -6.5858,
+      "bootstrap_sharpe_mean": -1.9854,
+      "bootstrap_sharpe_ci_lo": -5.5101,
+      "bootstrap_sharpe_ci_hi": 1.8503,
+      "sharpe_p_value_two_sided": 0.1407,
+      "sharpe_p_value_pos_one_sided": 0.8593,
+      "daily_rets_n": 97,
+      "symbols": [
+        "SOLUSDT",
+        "ETHUSDT"
+      ],
+      "sharpe_method": "daily_resampled_per_SMA-34787",
+      "gates": {
+        "G1_sharpe_ge_1": false,
+        "G2_ann_ge_15pct": false,
+        "G3_maxdd_ge_-25pct": true,
+        "G4_pf_ge_1_5": false,
+        "G5_bs_ci_lo_ge_0_5": false,
+        "G7_trades_ge_30": true
+      }
+    },
+    "abs_0.5bp": {
+      "label": "portfolio_abs_0.5bp",
+      "n_trades": 94,
+      "win_rate": 0.0,
+      "profit_factor": 0.0,
+      "sharpe_daily": -2.1431,
+      "total_return": -0.097964,
+      "annualized_return": -0.321738,
+      "max_drawdown_pct": -17.4187,
+      "bootstrap_sharpe_mean": -2.2734,
+      "bootstrap_sharpe_ci_lo": -6.157,
+      "bootstrap_sharpe_ci_hi": 1.5924,
+      "sharpe_p_value_two_sided": 0.1262,
+      "sharpe_p_value_pos_one_sided": 0.8738,
+      "daily_rets_n": 97,
+      "symbols": [
+        "SOLUSDT",
+        "ETHUSDT"
+      ],
+      "sharpe_method": "daily_resampled_per_SMA-34787",
+      "gates": {
+        "G1_sharpe_ge_1": false,
+        "G2_ann_ge_15pct": false,
+        "G3_maxdd_ge_-25pct": true,
+        "G4_pf_ge_1_5": false,
+        "G5_bs_ci_lo_ge_0_5": false,
+        "G7_trades_ge_30": true
+      }
+    },
+    "abs_0.25bp": {
+      "label": "portfolio_abs_0.25bp",
+      "n_trades": 153,
+      "win_rate": 0.0,
+      "profit_factor": 0.0,
+      "sharpe_daily": -2.3688,
+      "total_return": -0.159493,
+      "annualized_return": -0.480167,
+      "max_drawdown_pct": -20.1969,
+      "bootstrap_sharpe_mean": -2.4296,
+      "bootstrap_sharpe_ci_lo": -6.0587,
+      "bootstrap_sharpe_ci_hi": 1.3773,
+      "sharpe_p_value_two_sided": 0.1083,
+      "sharpe_p_value_pos_one_sided": 0.8917,
+      "daily_rets_n": 97,
+      "symbols": [
+        "SOLUSDT",
+        "ETHUSDT"
+      ],
+      "sharpe_method": "daily_resampled_per_SMA-34787",
+      "gates": {
+        "G1_sharpe_ge_1": false,
+        "G2_ann_ge_15pct": false,
+        "G3_maxdd_ge_-25pct": true,
+        "G4_pf_ge_1_5": false,
+        "G5_bs_ci_lo_ge_0_5": false,
+        "G7_trades_ge_30": true
+      }
+    },
+    "pct_q20": {
+      "label": "portfolio_pct_q20",
+      "n_trades": 68,
+      "win_rate": 0.0,
+      "profit_factor": 0.0,
+      "sharpe_daily": -2.1369,
+      "total_return": -0.104359,
+      "annualized_return": -0.339669,
+      "max_drawdown_pct": -14.433,
+      "bootstrap_sharpe_mean": -2.0858,
+      "bootstrap_sharpe_ci_lo": -5.0885,
+      "bootstrap_sharpe_ci_hi": 1.7497,
+      "sharpe_p_value_two_sided": 0.1207,
+      "sharpe_p_value_pos_one_sided": 0.8793,
+      "daily_rets_n": 97,
+      "symbols": [
+        "SOLUSDT",
+        "ETHUSDT"
+      ],
+      "sharpe_method": "daily_resampled_per_SMA-34787",
+      "gates": {
+        "G1_sharpe_ge_1": false,
+        "G2_ann_ge_15pct": false,
+        "G3_maxdd_ge_-25pct": true,
+        "G4_pf_ge_1_5": false,
+        "G5_bs_ci_lo_ge_0_5": false,
+        "G7_trades_ge_30": true
+      }
+    },
+    "pct_q10": {
+      "label": "portfolio_pct_q10",
+      "n_trades": 42,
+      "win_rate": 0.0,
+      "profit_factor": 0.0,
+      "sharpe_daily": -1.1308,
+      "total_return": -0.038214,
+      "annualized_return": -0.136461,
+      "max_drawdown_pct": -7.5191,
+      "bootstrap_sharpe_mean": -0.9122,
+      "bootstrap_sharpe_ci_lo": -4.0051,
+      "bootstrap_sharpe_ci_hi": 3.2971,
+      "sharpe_p_value_two_sided": 0.2831,
+      "sharpe_p_value_pos_one_sided": 0.7169,
+      "daily_rets_n": 97,
+      "symbols": [
+        "SOLUSDT",
+        "ETHUSDT"
+      ],
+      "sharpe_method": "daily_resampled_per_SMA-34787",
+      "gates": {
+        "G1_sharpe_ge_1": false,
+        "G2_ann_ge_15pct": false,
+        "G3_maxdd_ge_-25pct": true,
+        "G4_pf_ge_1_5": false,
+        "G5_bs_ci_lo_ge_0_5": false,
+        "G7_trades_ge_30": true
+      }
+    },
+    "pct_q05": {
+      "label": "portfolio_pct_q05",
+      "n_trades": 27,
+      "win_rate": 0.0,
+      "profit_factor": 0.0,
+      "sharpe_daily": 1.3963,
+      "total_return": 0.025929,
+      "annualized_return": 0.101188,
+      "max_drawdown_pct": -2.3745,
+      "bootstrap_sharpe_mean": 1.321,
+      "bootstrap_sharpe_ci_lo": -2.5979,
+      "bootstrap_sharpe_ci_hi": 4.6875,
+      "sharpe_p_value_two_sided": 0.238,
+      "sharpe_p_value_pos_one_sided": 0.238,
+      "daily_rets_n": 97,
+      "symbols": [
+        "SOLUSDT",
+        "ETHUSDT"
+      ],
+      "sharpe_method": "daily_resampled_per_SMA-34787",
+      "gates": {
+        "G1_sharpe_ge_1": true,
+        "G2_ann_ge_15pct": false,
+        "G3_maxdd_ge_-25pct": true,
+        "G4_pf_ge_1_5": false,
+        "G5_bs_ci_lo_ge_0_5": false,
+        "G7_trades_ge_30": false
+      }
+    }
+  }
+}

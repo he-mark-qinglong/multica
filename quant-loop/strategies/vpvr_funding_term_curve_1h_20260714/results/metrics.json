@@ -1,0 +1,39 @@
+{
+  "iteration": 97,
+  "variant": "V1_funding_term_curve",
+  "strategy_key": "vpvr_funding_term_curve_1h_20260714",
+  "date": "2026-07-14",
+  "timeframe": "1h",
+  "instruments": [
+    "BTCUSDT",
+    "ETHUSDT"
+  ],
+  "axis": "funding_term_curve_steepness_z_spread_with_vpvr_poc_directional_filter",
+  "tag": "NOT-PROFITABLE",
+  "agg_sharpe_mean": -0.9184309189374368,
+  "agg_n_trades_total": 2576,
+  "agg_mdd_worst": -0.8464427963164732,
+  "agg_profit_factor": 0.827470884512014,
+  "agg_return_pct": -0.7814848720983039,
+  "by_symbol": {
+    "BTCUSDT": {
+      "sharpe": -0.9797,
+      "mdd": -0.8464427963164732,
+      "n_trades": 1314,
+      "win_rate": 0.3858447488584475,
+      "profit_factor": 0.7803533356151954,
+      "total_return_pct": -0.8094717054410983
+    },
+    "ETHUSDT": {
+      "sharpe": -0.9797,
+      "mdd": -0.7903607651996152,
+      "n_trades": 1262,
+      "win_rate": 0.3977812995245642,
+      "profit_factor": 0.8745884334088326,
+      "total_return_pct": -0.7534980387555095
+    }
+  },
+  "sharpe_method": "bar_freq_annualized",
+  "sharpe_method_evidence": "run_backtest.py: [run_backtest.py] L57:sharpe = (mu_t / sd_t) * np.sqrt(tpy) if sd_t > 0 else 0.0 ds = pnls[pnls < 0] dsigma = float(np.std(ds, ddof=0)) if ds.size else 0.0; L67:tag = \"PROFITABLE\" if sharpe >= 1.0 els",
+  "sharpe_method_audit_date": "2026-07-17T06:30:53+00:00"
+}

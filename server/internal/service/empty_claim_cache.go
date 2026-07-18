@@ -195,3 +195,4 @@ func (c *EmptyClaimCache) Bump(ctx context.Context, runtimeID string) {
 		slog.Warn("empty_claim_cache: bump failed; entry will expire on TTL", "error", err)
 	}
 }
+

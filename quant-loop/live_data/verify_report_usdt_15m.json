@@ -1,0 +1,64 @@
+{
+  "allowed_max_gap_bars": 5,
+  "expected_columns": [
+    "open_time",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "quote_volume",
+    "trades",
+    "taker_buy_base",
+    "taker_buy_quote"
+  ],
+  "expected_first_iso": "2022-01-01T00:00:00+00:00",
+  "expected_first_ms": 1640995200000,
+  "expected_last_iso": "2026-07-10T23:45:00+00:00",
+  "expected_last_ms": 1783727100000,
+  "interval": "15m",
+  "symbols": {
+    "BTCUSDT": {
+      "date_range_ok": true,
+      "first_open_time_iso": "2022-01-01T00:00:00+00:00",
+      "first_open_time_ms": 1640995200000,
+      "last_open_time_iso": "2026-07-10T23:45:00+00:00",
+      "last_open_time_ms": 1783727100000,
+      "max_gap_bars": 5,
+      "nan_columns": [],
+      "parquet_bytes": 12123296,
+      "parquet_path": "/home/smark/multica/quant-loop/live_data/BTCUSDT_15m.parquet",
+      "rows": 158587,
+      "schema_ok": true,
+      "symbol": "BTCUSDT"
+    },
+    "ETHUSDT": {
+      "date_range_ok": true,
+      "first_open_time_iso": "2022-01-01T00:00:00+00:00",
+      "first_open_time_ms": 1640995200000,
+      "last_open_time_iso": "2026-07-10T23:45:00+00:00",
+      "last_open_time_ms": 1783727100000,
+      "max_gap_bars": 5,
+      "nan_columns": [],
+      "parquet_bytes": 10922178,
+      "parquet_path": "/home/smark/multica/quant-loop/live_data/ETHUSDT_15m.parquet",
+      "rows": 158587,
+      "schema_ok": true,
+      "symbol": "ETHUSDT"
+    },
+    "SOLUSDT": {
+      "date_range_ok": true,
+      "first_open_time_iso": "2022-01-01T00:00:00+00:00",
+      "first_open_time_ms": 1640995200000,
+      "last_open_time_iso": "2026-07-10T23:45:00+00:00",
+      "last_open_time_ms": 1783727100000,
+      "max_gap_bars": 5,
+      "nan_columns": [],
+      "parquet_bytes": 8736308,
+      "parquet_path": "/home/smark/multica/quant-loop/live_data/SOLUSDT_15m.parquet",
+      "rows": 158587,
+      "schema_ok": true,
+      "symbol": "SOLUSDT"
+    }
+  }
+}

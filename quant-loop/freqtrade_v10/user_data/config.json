@@ -1,0 +1,24 @@
+{
+    "max_open_trades": 1,
+    "stake_currency": "USDT",
+    "stake_amount": 1000,
+    "dry_run": true,
+    "timeframe": "30m",
+    "can_short": true,
+    "trading_mode": "futures",
+    "margin_mode": "isolated",
+    "stoploss": -0.05,
+    "minimal_roi": {"0": 100},
+    "exchange": {
+        "name": "binance",
+        "key": "",
+        "secret": "",
+        "ccxt_config": {"enableRateLimit": false, "timeout": 60000},
+        "ccxt_async_config": {"enableRateLimit": false, "timeout": 60000},
+        "skip_open_order_update": true,
+        "markets_refresh_interval": -1,
+        "options": {"defaultType": "future"}
+    },
+    "pairlists": [{"method": "StaticPairList"}],
+    "pairs": ["BTCUSDT/SOLUSDT"]
+}

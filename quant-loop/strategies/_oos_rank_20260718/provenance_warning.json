@@ -1,0 +1,20 @@
+{
+  "status": "PROVISIONAL",
+  "warning": "Premise contested by kimi orchestrator 2026-07-18 12:15+08 on issue SMA-34914. The variant-selection premise (best 3 vpvr_funding from framework-validate) is invalid because framework-validate max_dd extraction returns a sentinel value (-4.0e-06) that triggered false W5 auto-archives of vpvr_funding_aware_v1_20260711 (SMA-34893), vpvr_funding_asym_4h_20260713 (SMA-34886), and vpvr_funding_reset_window_1h_20260715 (SMA-34908). See SMA-34922 for the bug fix and re-judgement.",
+  "scope_of_validity": {
+    "valid": [
+      "Per-variant OOS Sharpe / annualised_return / max_drawdown numbers in oos_rank_<variant>.json — computed from persisted equity_*.csv, independent of the framework-validate freqtrade adapter.",
+      "Walk-forward fold boundaries and OOS split (last 40% of equity, 168-bar non-overlapping windows)."
+    ],
+    "invalid_until_SMA_34922_resolved": [
+      "Selection set: the 3 variants may not be the 'best 3' if a higher-quality vpvr_funding variant was wrongly archived.",
+      "Ranking order: rank 1 (vpvr_funding_aware_v1_20260711) is only a local winner inside a possibly-wrong candidate set.",
+      "W5 AUTO-ARCHIVE verdicts on the 3 variants."
+    ]
+  },
+  "rerun_after_SMA_34922": "Once the freqtrade max_dd extraction is fixed and SMA-34893/34886/34908 are re-judged, re-rank against the corrected selection set using the same oos_walk_forward.py harness. The harness runs in seconds from the persisted equity CSVs.",
+  "issue": "SMA-34914",
+  "depends_on": "SMA-34922",
+  "ranked_at": "2026-07-18T12:10:39+08:00",
+  "warning_recorded_at": "2026-07-18T12:15:50+08:00"
+}

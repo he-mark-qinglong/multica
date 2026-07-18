@@ -1,0 +1,11 @@
+{
+  "n_trades": 1,
+  "win_rate": 0.0,
+  "profit_factor": 0.0,
+  "avg_pnl_pct": -0.055023033073340555,
+  "total_pnl_usd": -429.2722710221588,
+  "annualized_return": -0.012999898929262343,
+  "sharpe": 0.0,
+  "max_drawdown": 0.00429272271022157,
+  "final_equity": 99570.72772897784
+}

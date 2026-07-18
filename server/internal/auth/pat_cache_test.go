@@ -165,3 +165,4 @@ func TestPATCache_Set_RespectsClampedTTL(t *testing.T) {
 		t.Fatal("negative-TTL Set must not cache")
 	}
 }
+

@@ -1,0 +1,58 @@
+{
+  "strategy": "momentum_trend_multi_tf_atr_scaled_v2_1h_20260712",
+  "iteration": 87,
+  "axis": "trend_following_multi_tf_v2_regime_stop",
+  "timeframe_entry": "1h",
+  "timeframe_filter": "4h",
+  "instruments": ["BTCUSDT", "ETHUSDT"],
+  "data_source": "live_data_1h_4h_canonical",
+  "indicators": {
+    "ema_period": 50,
+    "rsi_period": 14,
+    "adx_period": 14,
+    "adx_min": 20.0,
+    "atr_period": 14,
+    "rsi_cross_level": 50.0,
+    "trend_slope_threshold": 0.0
+  },
+  "regime_filter": {
+    "enabled": true,
+    "window_24h_bars": 24,
+    "window_30d_bars": 720,
+    "vol_ratio_max": 2.0
+  },
+  "exit": {
+    "use_4h_trend_reversal": true,
+    "use_rsi_cross_back": true,
+    "use_atr_trailing": true,
+    "atr_trailing_k": 2.5,
+    "anchored_to_entry_atr": true
+  },
+  "sizing": {
+    "risk_per_atr_pct": 0.01,
+    "max_notional_pct": 0.05,
+    "max_gross_exposure_pct": 0.05
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "walk_forward": {
+    "n_windows": 4,
+    "train_bars_1h": 8760,
+    "test_bars_1h": 4380,
+    "step_bars_1h": 4380
+  },
+  "evidence_gate": {
+    "in_sample_sharpe_min": 0.5,
+    "wf_ratio_min": 0.5,
+    "min_oos_sharpe_min": 0.0
+  },
+  "notes": [
+    "Iteration #87: V11 — fix V10 catastrophic w1 (sharpe -14.77).",
+    "V11 fix #1: regime filter — skip entry when 24h realized vol / 30d avg > 2.0.",
+    "V11 fix #2: ATR hard stop is now entry-anchored (uses ATR(14) at entry, not current bar).",
+    "Goal: w1 from -14.77 -> ~-2.0 (cut by stop), other 3 windows slightly lower (regime filter reduces some entries) but still positive.",
+    "Hard user gates G1-G7 deferred (single-strategy hypothesis test, not a ship candidate).",
+    "Fees follow V5 convention (1bps/side, 1bps slip) for apples-to-apples vs V10."
+  ]
+}

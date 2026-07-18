@@ -1,0 +1,20 @@
+{
+  "n_trades": 6,
+  "n_resamples": 10000,
+  "seed": 42,
+  "ci_level": 0.95,
+  "sharpe_like_mean": -0.38242112970613873,
+  "sharpe_like_median": -0.03899144632232337,
+  "ci_lower": -3.6827947144281605,
+  "ci_upper": 0.751644854499784,
+  "g6_threshold": 0.5,
+  "g6_passed": false,
+  "trade_returns": [
+    -0.003045,
+    -0.005059,
+    0.007446,
+    -0.003136,
+    0.004953,
+    -0.0019
+  ]
+}

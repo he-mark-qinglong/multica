@@ -1,0 +1,113 @@
+{
+  "n_windows_planned": 8,
+  "n_windows_run": 8,
+  "train_4h": 720,
+  "test_4h": 168,
+  "step_4h": 168,
+  "windows": [
+    {
+      "window": 0,
+      "train": {
+        "start_idx": 0,
+        "end_idx": 720,
+        "n_bars": 720
+      },
+      "test": {
+        "start_idx": 720,
+        "end_idx": 888,
+        "n_bars": 168
+      }
+    },
+    {
+      "window": 1,
+      "train": {
+        "start_idx": 168,
+        "end_idx": 888,
+        "n_bars": 720
+      },
+      "test": {
+        "start_idx": 888,
+        "end_idx": 1056,
+        "n_bars": 168
+      }
+    },
+    {
+      "window": 2,
+      "train": {
+        "start_idx": 336,
+        "end_idx": 1056,
+        "n_bars": 720
+      },
+      "test": {
+        "start_idx": 1056,
+        "end_idx": 1224,
+        "n_bars": 168
+      }
+    },
+    {
+      "window": 3,
+      "train": {
+        "start_idx": 504,
+        "end_idx": 1224,
+        "n_bars": 720
+      },
+      "test": {
+        "start_idx": 1224,
+        "end_idx": 1392,
+        "n_bars": 168
+      }
+    },
+    {
+      "window": 4,
+      "train": {
+        "start_idx": 672,
+        "end_idx": 1392,
+        "n_bars": 720
+      },
+      "test": {
+        "start_idx": 1392,
+        "end_idx": 1560,
+        "n_bars": 168
+      }
+    },
+    {
+      "window": 5,
+      "train": {
+        "start_idx": 840,
+        "end_idx": 1560,
+        "n_bars": 720
+      },
+      "test": {
+        "start_idx": 1560,
+        "end_idx": 1728,
+        "n_bars": 168
+      }
+    },
+    {
+      "window": 6,
+      "train": {
+        "start_idx": 1008,
+        "end_idx": 1728,
+        "n_bars": 720
+      },
+      "test": {
+        "start_idx": 1728,
+        "end_idx": 1896,
+        "n_bars": 168
+      }
+    },
+    {
+      "window": 7,
+      "train": {
+        "start_idx": 1176,
+        "end_idx": 1896,
+        "n_bars": 720
+      },
+      "test": {
+        "start_idx": 1896,
+        "end_idx": 2064,
+        "n_bars": 168
+      }
+    }
+  ]
+}

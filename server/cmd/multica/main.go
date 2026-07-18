@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"runtime"
@@ -41,6 +42,7 @@ func init() {
 	rootCmd.PersistentFlags().String("workspace-id", "", "Workspace ID (env: MULTICA_WORKSPACE_ID)")
 	rootCmd.PersistentFlags().String("profile", "", "Configuration profile name (e.g. dev) — isolates config, daemon state, and workspaces")
 	rootCmd.PersistentFlags().BoolVar(&debugFlag, "debug", false, "Print full error details on failure (env: MULTICA_DEBUG)")
+	rootCmd.PersistentFlags().Bool("dry-run", false, "Print the mutating request(s) a command would send without sending them")
 
 	// Core commands
 	issueCmd.GroupID = groupCore
@@ -52,6 +54,9 @@ func init() {
 	repoCmd.GroupID = groupCore
 	skillCmd.GroupID = groupCore
 	squadCmd.GroupID = groupCore
+	taskCmd.GroupID = groupCore
+	artifactCmd.GroupID = groupCore
+	metricCmd.GroupID = groupCore
 
 	// Runtime commands
 	daemonCmd.GroupID = groupRuntime
@@ -64,10 +69,14 @@ func init() {
 	setupCmd.GroupID = groupAdditional
 	attachmentCmd.GroupID = groupAdditional
 	configCmd.GroupID = groupAdditional
+	doctorCmd.GroupID = groupAdditional
 	updateCmd.GroupID = groupAdditional
 	versionCmd.GroupID = groupAdditional
 
 	rootCmd.AddCommand(issueCmd)
+	rootCmd.AddCommand(taskCmd)
+	rootCmd.AddCommand(artifactCmd)
+	rootCmd.AddCommand(metricCmd)
 	rootCmd.AddCommand(projectCmd)
 	rootCmd.AddCommand(labelCmd)
 	rootCmd.AddCommand(agentCmd)
@@ -84,6 +93,7 @@ func init() {
 	rootCmd.AddCommand(setupCmd)
 	rootCmd.AddCommand(attachmentCmd)
 	rootCmd.AddCommand(configCmd)
+	rootCmd.AddCommand(doctorCmd)
 	rootCmd.AddCommand(updateCmd)
 	rootCmd.AddCommand(versionCmd)
 
@@ -93,6 +103,11 @@ func init() {
 func main() {
 	cli.CleanupStaleUpdateArtifacts()
 	if err := rootCmd.Execute(); err != nil {
+		if errors.Is(err, cli.ErrDryRun) {
+			// --dry-run: the request was already printed by the hook; exit
+			// cleanly without treating the unsent request as a failure.
+			os.Exit(0)
+		}
 		if err != errSilent {
 			fmt.Fprintln(os.Stderr, cli.FormatError(err, debugFlag))
 		}

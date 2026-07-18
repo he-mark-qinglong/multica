@@ -2389,3 +2389,4 @@ func TestWebhook_InstallationCreatedRefreshesUnknownLogin(t *testing.T) {
 		t.Errorf("expected github_installation:created broadcast after webhook refresh, got none in 2s")
 	}
 }
+

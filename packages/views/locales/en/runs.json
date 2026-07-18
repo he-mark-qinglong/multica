@@ -1,0 +1,41 @@
+{
+  "page": {
+    "breadcrumb_title": "Runs",
+    "empty_title": "No runs found",
+    "empty_hint": "Try widening the status filter, or run an agent on an issue.",
+    "total_runs": "{{total}} runs"
+  },
+  "filter": {
+    "status_all": "All statuses"
+  },
+  "status": {
+    "queued": "Queued",
+    "dispatched": "Starting",
+    "running": "Running",
+    "completed": "Completed",
+    "failed": "Failed",
+    "cancelled": "Cancelled",
+    "waiting_local_directory": "Waiting for directory"
+  },
+  "col": {
+    "status": "Status",
+    "agent": "Agent",
+    "issue": "Issue",
+    "trigger": "Trigger",
+    "created": "Created",
+    "duration": "Duration"
+  },
+  "trigger": {
+    "autopilot": "Autopilot run",
+    "comment": "Comment trigger",
+    "initial": "Initial run",
+    "retry_prefix": "Retry · ",
+    "retry_attempt_prefix": "Retry #{{attempt}} · "
+  },
+  "pagination": {
+    "prev": "Previous",
+    "next": "Next",
+    "page_of": "Page {{page}} of {{pages}}"
+  },
+  "transcript_tooltip": "View transcript"
+}

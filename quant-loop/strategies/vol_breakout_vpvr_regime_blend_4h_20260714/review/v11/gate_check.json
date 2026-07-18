@@ -1,0 +1,225 @@
+{
+  "review_issue": "SMA-33964",
+  "variant": "vol_breakout_vpvr_regime_blend_4h_20260714",
+  "iter": 75,
+  "reviewer_agent": "code-reviewer (aefe1356-9356-42c6-ad58-d2cd23009d76)",
+  "review_timestamp": "2026-07-14T15:35:00+08:00",
+  "verdict": "REJECTED",
+  "verdict_reason": "INSUFFICIENT_EVIDENCE + CODE_DEFECTS",
+  "predecessor_state": {
+    "v11_b3_backtest": {
+      "issue_id": "SMA-33962",
+      "status": "in_progress",
+      "results_published": false,
+      "results_path": null
+    },
+    "v11_b6_walk_forward": {
+      "issue_id": "NOT_FOUND",
+      "status": "not_started",
+      "results_published": false,
+      "results_path": null
+    }
+  },
+  "gates": {
+    "G1_sharpe_full_backtest_mean": {
+      "threshold": ">= 1.0",
+      "result": "FAIL",
+      "evidence": "no_backtest_results",
+      "raw_value": null,
+      "note": "V11-B3 (SMA-33962) still in_progress; no results/v11/metrics.json exists. Cannot evaluate without evidence."
+    },
+    "G2_annualized_floor": {
+      "threshold": "min(annualized_full, mean_OOS_annualized) >= 15%",
+      "result": "FAIL",
+      "evidence": "no_backtest_results",
+      "raw_value": null,
+      "note": "No backtest or walk-forward output exists."
+    },
+    "G3_profit_factor": {
+      "threshold": "> 1.5",
+      "result": "FAIL",
+      "evidence": "no_backtest_results",
+      "raw_value": null,
+      "note": "No backtest output exists."
+    },
+    "G4_max_drawdown": {
+      "threshold": "< 25%",
+      "result": "FAIL",
+      "evidence": "no_backtest_results",
+      "raw_value": null,
+      "note": "No backtest output exists."
+    },
+    "G5_framework_cv_oos_wf_sharpe": {
+      "threshold": ">= 1.0 BOTH freqtrade AND backtrader",
+      "result": "FAIL",
+      "evidence": "no_walk_forward_results",
+      "raw_value": null,
+      "note": "V11-B6 (walk-forward + framework CV) has not been started. The list of in_progress issues contains V11-B3 (SMA-33962) and V11-B7 (this review SMA-33964) but NO V11-B6 issue. Per the B7 spec, the predecessor B6 must show all gates passed; that condition is not satisfied."
+    },
+    "G6_bootstrap_95_ci_lower": {
+      "threshold": ">= 0.5",
+      "result": "FAIL",
+      "evidence": "no_bootstrap_results",
+      "raw_value": null,
+      "note": "No bootstrap_ci.json exists. No walk-forward run means no bootstrap input data."
+    },
+    "G7_fwer_bonferroni": {
+      "threshold": "alpha = 0.0125 (Bonferroni-adjusted p-value <= 0.0125)",
+      "result": "FAIL",
+      "evidence": "no_bonferroni_results",
+      "raw_value": null,
+      "note": "No bonferroni.json exists."
+    }
+  },
+  "all_gates_passed": false,
+  "any_gate_passed": false,
+  "extra_scrutiny_v11": {
+    "three_axis_contribution": {
+      "result": "PARTIAL",
+      "evidence": "trend + regime + POC are all hard-AND gates (any single failure -> return None). This is not a blend; it is a 3-axis gate. Per the issue brief: 'extra scrutiny on whether regime blend degenerates to single-axis' — without attribution analysis, we cannot confirm that the regime axis actually contributes beyond a simple trend+vol_breakout+POC gate. The regime_atr_pct gate fires BEFORE the vol_breakout check (line 555-557), so it could be doing real work, but per-axis attribution (ablation study) was not provided.",
+      "ablation_evidence_path": null
+    },
+    "asymmetric_rr_1_2": {
+      "result": "PASS_CODE_LEVEL",
+      "evidence": "vol_breakout_vpvr.py:508-509 — stop_loss_atr=1.0, take_profit_atr=2.0. The test (test_vol_breakout_vpvr.py:317) verifies 1.8 < RR < 2.2 for the produced Signal. Asymmetric RR 1:2 is correctly implemented at the strategy level.",
+      "code_reference": "strategies/team/combo/vol_breakout_vpvr.py:508-509"
+    },
+    "multi_symbol_consistency": {
+      "result": "FAIL_NO_EVIDENCE",
+      "evidence": "Strategy class does not have per-symbol logic — it runs identically on BTCUSDT, ETHUSDT, SOLUSDT. There are no per-symbol backtest results, so BTC/ETH/SOL divergence cannot be evaluated. The campaign spec says 'multi-symbol BTC/ETH/SOL all required' (V11-B3 spec), but B3 has not produced any per-symbol results.",
+      "code_reference": "strategies/team/combo/vol_breakout_vpvr.py:483-609"
+    }
+  },
+  "code_review_findings": {
+    "critical": [
+      {
+        "id": "CR-1",
+        "title": "regime_atr_pct has no producer in the worktree",
+        "files": ["strategies/team/combo/vol_breakout_vpvr.py:555"],
+        "description": "VolBreakoutVPVRRegimeBlend4h.generate_signal reads data['regime_atr_pct'] (line 555), but a worktree-wide grep shows the symbol regime_atr_pct appears ONLY in the test file and the strategy file. No src/ module computes or injects this value. When V11-B3 runs against the real indicator pipeline, every bar will silently return None because data.get('regime_atr_pct') is None.",
+        "impact": "Backtest will produce zero trades on V11. Sharpe, profit_factor, max_dd all undefined. The strategy's regime axis is dead-on-arrival in production wiring.",
+        "fix": "Either (a) add a regime_atr_pct emitter to src/core/indicators/ (recommend extending vpvr_factor.py or a new regime factor module), OR (b) compute it from df directly inside the strategy: e.g. pct = df['atr'].rolling(N).rank(pct=True).iloc[-1] and threshold against regime_min_atr_pct. Option (b) keeps the strategy self-contained and is KISS-correct."
+      },
+      {
+        "id": "CR-2",
+        "title": "higher_ema_50 column has no producer in the worktree",
+        "files": ["strategies/team/combo/vol_breakout_vpvr.py:230, 362, 502, 550"],
+        "description": "All three V9/V10/V11 strategies read higher_tf_trend(df, ema_col='higher_ema_50') which calls df.iloc[-1].get(ema_col). The string 'higher_ema_50' is not produced by any module under src/ in the indicator-engineer worktree. The strategy relies on upstream pipeline code to inject this column, but the worktree shows no such producer. Like CR-1, the trend axis will silently fail and produce zero signals.",
+        "impact": "Same as CR-1: zero trades. The trend axis is dead-on-arrival in production wiring.",
+        "fix": "Compute the higher-TF EMA inside the strategy OR add an upstream producer. Recommend: pass a separate higher_tf_df via the data dict and compute ema_50 there. This makes the multi-TF contract explicit and testable."
+      }
+    ],
+    "major": [
+      {
+        "id": "MR-1",
+        "title": "'3-axis blend' is actually a 3-axis AND-gate, not a blend",
+        "files": ["strategies/team/combo/vol_breakout_vpvr.py:536-585"],
+        "description": "The strategy docstring claims '3-axis blend' but the implementation is a sequential AND: trend != None AND regime_pct >= threshold AND vol_breakout fires AND POC proximity. A blend implies weighted attribution or confidence fusion (e.g. confidence = w_trend*trend_score + w_regime*regime_score + w_poc*poc_score). The current logic cannot show per-axis contribution because all axes are hard gates. To verify regime axis actually contributes, an ablation study (V11 with regime gate removed) is required — none provided.",
+        "impact": "Cannot prove the regime axis is non-redundant. Could be that trend + vol_breakout + POC alone would give identical Sharpe.",
+        "fix": "Either rename to '3-axis gate' (more accurate), OR implement a confidence-weighted blend: confidence = base * f_trend * f_regime * f_poc, where each f is in (0, 1]. Then ablate each axis to measure contribution."
+      },
+      {
+        "id": "MR-2",
+        "title": "regime_atr_pct read once — no persistence/stability check",
+        "files": ["strategies/team/combo/vol_breakout_vpvr.py:555-557"],
+        "description": "regime_pct = data.get('regime_atr_pct') is a single-point threshold check. A 1h ATR percentile of 0.4 can be a momentary spike that reverses next bar. This causes regime flicker — strategy enters on a regime-confirmed bar and exits on a regime-denied bar. A persistence window (e.g. regime_pct >= threshold for last K bars) is standard practice and missing here.",
+        "impact": "Regime flicker can drag Sharpe on noise. Especially risky on 1h regime for 15m entry.",
+        "fix": "Add regime_persistence_bars param (default 3). Compute rolling min of last K regime_atr_pct values and require it >= threshold. If upstream is single-point, compute from df's atr history inside the strategy."
+      },
+      {
+        "id": "MR-3",
+        "title": "signal_id collision risk at millisecond resolution",
+        "files": ["strategies/team/combo/vol_breakout_vpvr.py:588, 316, 456"],
+        "description": "f'vol_breakout_vpvr_regime_blend_4h_{int(datetime.utcnow().timestamp() * 1000)}' uses millisecond precision. On burst signals (multiple symbols in the same ms), ids collide. The downstream backtest engine typically dedupes by signal_id, which would silently drop one of the signals.",
+        "impact": "Silent data loss on multi-symbol burst. Hard to debug.",
+        "fix": "Append symbol + a monotonic counter: f'{strategy_name}_{symbol}_{int(ts*1000)}_{counter}'. Counter is per-strategy instance and incremented on every generate_signal call."
+      }
+    ],
+    "minor": [
+      {
+        "id": "MN-1",
+        "title": "datetime.utcnow() called twice in same Signal",
+        "files": ["strategies/team/combo/vol_breakout_vpvr.py:588, 592"],
+        "description": "Two calls to datetime.utcnow() in close succession. Could disagree by 1ms. Minor but inconsistent with KISS — use a single ts variable.",
+        "fix": "ts = datetime.utcnow(); signal_id = f'...{int(ts.timestamp() * 1000)}'; ...; timestamp=ts"
+      },
+      {
+        "id": "MN-2",
+        "title": "Default poc_k_atr=0.7 is tight; no sensitivity report",
+        "files": ["strategies/team/combo/vol_breakout_vpvr.py:507"],
+        "description": "POC proximity gate is |close - poc| / atr <= 0.7. With 15m noise this may be too tight. The strategy doesn't expose a sensitivity analysis (e.g. k_atr in {0.5, 0.7, 1.0, 1.5}). The campaign did not include a parameter sensitivity grid for V11.",
+        "fix": "Add a sensitivity report to B3 deliverables. Sweep k_atr in {0.5, 0.7, 1.0, 1.5} and report Sharpe/annualized/pf at each."
+      },
+      {
+        "id": "MN-3",
+        "title": "Strategy has no explicit symbol-availability guard",
+        "files": ["strategies/team/combo/vol_breakout_vpvr.py:590-592"],
+        "description": "Signal uses data.get('symbol', 'UNKNOWN'). When symbol is missing, the Signal is emitted as 'UNKNOWN' — downstream backtest will not be able to attribute trades correctly. This should be a hard guard that returns None.",
+        "fix": "Add `if not data.get('symbol'): return None` early in generate_signal."
+      }
+    ]
+  },
+  "test_results": {
+    "tests_run": 18,
+    "tests_passed": 18,
+    "tests_failed": 0,
+    "command": "python3 -m pytest tests/unit/test_vol_breakout_vpvr.py -v",
+    "note": "All unit tests pass. Tests cover skeleton helpers + each variant class init/required_indicators/registration/signal-logic gates. Tests do NOT cover wiring to upstream indicator pipeline (which is where CR-1 and CR-2 hit)."
+  },
+  "kiss_dry_solid_audit": {
+    "KISS": "PASS — three variants share ~80% skeleton (signal dataclass, vol-band math, ema/trend helper). Single file instead of three. Module docstring explicitly justifies this choice.",
+    "DRY": "PASS — compute_vol_bands, poc_proximity_ok, val_reject_fade, higher_tf_trend, _safe_float are shared helpers. No copy-paste across V9/V10/V11.",
+    "SOLID": "MIXED — Single Responsibility OK (one strategy per class). Open/Closed OK (BaseStrategy subclass). Liskov OK. Interface Segregation: validate_params + get_required_indicators + generate_signal is the minimum. Dependency Inversion: V11 depends on data dict keys (regime_atr_pct) and df columns (higher_ema_50) that are not produced by any known module — this violates the principle that high-level policy should not depend on undeclared low-level details."
+  },
+  "security_audit": {
+    "hardcoded_secrets": "NONE",
+    "sql_injection": "N/A (no SQL in strategy code)",
+    "xss": "N/A (no HTML in strategy code)",
+    "csrf": "N/A",
+    "auth": "N/A",
+    "rate_limit": "N/A",
+    "error_info_leakage": "NONE — signal_id encodes only the variant name + timestamp; no PII / no exchange keys / no account info."
+  },
+  "untested_code_paths": [
+    "regime_atr_pct wiring (depends on upstream — see CR-1)",
+    "higher_ema_50 wiring (depends on upstream — see CR-2)",
+    "down direction: tests cover LONG only. SHORT path (lines 582-585) has the same logic but is not exercised.",
+    "real data path: tests use synthetic _force_breakout. No integration test with real OHLCV + VPVR + ATR.",
+    "edge cases: df with NaN, with inf, with single bar, with mismatched column dtypes."
+  ],
+  "unhandled_error_paths": [
+    "data['df'] may have duplicate timestamps — compute_vol_bands will treat duplicates as separate bars; no de-dup.",
+    "data['df'] may have NaN in atr — _safe_float returns None, strategy returns None (graceful). OK.",
+    "data['df'] may have negative volume — vol_mean will be mean of negatives or partial; is_breakout still computes a threshold. Mathematically valid but semantically suspect.",
+    "data['regime_atr_pct'] may be a string (e.g. '0.5') — _safe_float coerces, OK.",
+    "datetime.utcnow() is deprecated in Python 3.12+ — recommend datetime.now(timezone.utc)."
+  ],
+  "concrete_modification_suggestions": [
+    {
+      "file": "strategies/team/combo/vol_breakout_vpvr.py",
+      "lines": "555-557",
+      "old": "        regime_pct = _safe_float(data.get(\"regime_atr_pct\"))\n        if regime_pct is None or regime_pct < self.params[\"regime_min_atr_pct\"]:\n            return None",
+      "new": "        # Self-contained regime: 1h ATR percentile from rolling window.\n        # KISS-correct: avoid the undeclared contract on data['regime_atr_pct'].\n        regime_window = self.params.get(\"regime_window_bars\", 96)  # 1d at 15m\n        if \"atr\" not in df.columns or len(df) < regime_window + 2:\n            return None\n        regime_pct = float(df[\"atr\"].rolling(regime_window).rank(pct=True).iloc[-1])\n        if not np.isfinite(regime_pct) or regime_pct < self.params[\"regime_min_atr_pct\"]:\n            return None",
+      "reason": "CR-1 fix: make regime axis self-contained; remove the undeclared contract on data['regime_atr_pct']."
+    },
+    {
+      "file": "strategies/team/combo/vol_breakout_vpvr.py",
+      "lines": "550-552",
+      "old": "        trend = higher_tf_trend(df, ema_col=self.params[\"higher_tf_ema_col\"])\n        if trend is None:\n            return None",
+      "new": "        # Self-contained higher-TF trend: 4h ema_50 = close.rolling(16).mean() at 15m.\n        # KISS-correct: avoid undeclared contract on df['higher_ema_50'].\n        higher_tf_period = self.params.get(\"higher_tf_ema_period\", 16)  # 4h at 15m\n        if len(df) < higher_tf_period + 2:\n            return None\n        ema_col = df[\"close\"].ewm(span=higher_tf_period, adjust=False).mean().iloc[-1]\n        close = _safe_float(df[\"close\"].iloc[-1])\n        if ema_col is None or close is None or not np.isfinite(ema_col):\n            return None\n        trend = \"up\" if close > ema_col else (\"down\" if close < ema_col else None)\n        if trend is None:\n            return None",
+      "reason": "CR-2 fix: make trend axis self-contained; remove the undeclared contract on df['higher_ema_50']."
+    },
+    {
+      "file": "strategies/team/combo/vol_breakout_vpvr.py",
+      "lines": "588",
+      "old": "            signal_id=f\"vol_breakout_vpvr_regime_blend_4h_{int(datetime.utcnow().timestamp() * 1000)}\",",
+      "new": "            signal_id=f\"vol_breakout_vpvr_regime_blend_4h_{data.get('symbol','UNKNOWN')}_{int(datetime.now(timezone.utc).timestamp() * 1000)}_{self._sig_counter}\",",
+      "reason": "MR-3 fix: prevent collision by including symbol + monotonic counter; switch to datetime.now(timezone.utc) (utcnow is deprecated in 3.12+)."
+    }
+  ],
+  "deliverables_paths": [
+    "/home/smark/multica/quant-loop/strategies/vol_breakout_vpvr_regime_blend_4h_20260714/review/v11/review.md",
+    "/home/smark/multica/quant-loop/strategies/vol_breakout_vpvr_regime_blend_4h_20260714/review/v11/gate_check.json",
+    "/home/smark/multica/quant-loop/strategies/vol_breakout_vpvr_regime_blend_4h_20260714/review/v11/verdict.txt"
+  ]
+}

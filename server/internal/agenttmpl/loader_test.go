@@ -166,3 +166,4 @@ func TestLoadFromFS_DuplicateSlug(t *testing.T) {
 		}
 	}
 }
+

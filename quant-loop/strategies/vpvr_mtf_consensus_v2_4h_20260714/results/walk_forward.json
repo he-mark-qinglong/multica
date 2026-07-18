@@ -1,0 +1,48 @@
+{
+  "variant": "vpvr_mtf_consensus_v2_4h_20260714",
+  "iteration": 96,
+  "timeframe": "4h",
+  "n_per_bar_total": 361,
+  "annualization_factor": 2190,
+  "folds": [
+    {
+      "name": "2024-Q1",
+      "test_window": [
+        "2024-01-01",
+        "2024-04-01"
+      ],
+      "n_trades_oos": 16,
+      "oos_sharpe_annualized": 2.063170296883406,
+      "oos_mean_per_bar_return": 0.0001349334477239451,
+      "oos_std_per_bar_return": 0.0030606001697201226
+    },
+    {
+      "name": "2024-Q3",
+      "test_window": [
+        "2024-07-01",
+        "2024-10-01"
+      ],
+      "n_trades_oos": 21,
+      "oos_sharpe_annualized": -12.550028883870676,
+      "oos_mean_per_bar_return": -0.001956054673595221,
+      "oos_std_per_bar_return": 0.0072938750905739685
+    },
+    {
+      "name": "2025-Q2",
+      "test_window": [
+        "2025-04-01",
+        "2025-07-01"
+      ],
+      "n_trades_oos": 22,
+      "oos_sharpe_annualized": 2.2485463763597386,
+      "oos_mean_per_bar_return": 0.00015007573079819594,
+      "oos_std_per_bar_return": 0.00312342207173745
+    }
+  ],
+  "mean_oos_sharpe_3folds": -2.7461040702091766,
+  "framework_cv": {
+    "freqtrade_oos_sharpe": null,
+    "backtrader_oos_sharpe": null,
+    "note": "framework CV requires freqtrade/backtrader execution runs; B6 quant-researcher does not run execution backtests. See SMA-32358 for the in-house-vs-framework Sharpe methodology divergence lesson."
+  }
+}

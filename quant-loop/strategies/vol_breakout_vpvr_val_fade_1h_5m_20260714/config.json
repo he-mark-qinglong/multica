@@ -1,0 +1,64 @@
+{
+  "strategy": "vol_breakout_vpvr_val_fade_1h_5m_20260714",
+  "iteration": 74,
+  "variant": "V10",
+  "date": "2026-07-14",
+  "parent_iteration": 73,
+  "parent_strategy": "vol_breakout_vpvr_confluence_4h_15m_20260714",
+  "axis": "val_reject_fade_multi_tf",
+  "timeframe": "5m",
+  "source_timeframe": "5m",
+  "filter_timeframe": "1h",
+  "instruments": ["BTCUSDT"],
+  "data_source": "binance_usdm_5m_canonical_with_1h_ema50_and_vpvr_val",
+  "class_path": "strategies.team.combo.vol_breakout_vpvr:VolBreakoutVPVRValFade1h5m",
+  "params": {
+    "higher_tf_ema_col": "higher_ema_50",
+    "lookback": 20,
+    "price_atr_mult": 1.5,
+    "vol_mult": 1.2,
+    "val_pierce_atr": 0.3,
+    "val_vol_expand_mult": 1.3,
+    "stop_loss_atr": 1.0,
+    "take_profit_atr": 2.0,
+    "min_confidence": 0.65
+  },
+  "indicators": {
+    "atr_period_5m": 14,
+    "ema_period_1h": 50,
+    "vpvr_window_bars_1h": 168,
+    "vpvr_bins_1h": 24,
+    "vpvr_value_area_pct": 0.70
+  },
+  "entry": {
+    "direction": "long_only",
+    "require_1h_uptrend": true,
+    "require_5m_val_pierce": true,
+    "require_5m_vol_expansion": true,
+    "avoid_higher_tf_vol_breakout": true
+  },
+  "exit": {
+    "stop_loss_atr": 1.0,
+    "take_profit_atr": 2.0,
+    "max_hold_bars": 288
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "position_size_pct": 0.95,
+  "fill_convention": "bar[t].close + cost_per_side",
+  "data_root": "/home/smark/multica/quant-loop/live_data",
+  "bars_per_year_5m": 105120,
+  "notes": [
+    "Iter#74 (V10) — multi-TF VAL fade: 1h trend + 5m entry.",
+    "Class lives in trading repo branch agent/indicator-engineer-clone-17/42a03459.",
+    "Import path: strategies.team.combo.vol_breakout_vpvr:VolBreakoutVPVRValFade1h5m",
+    "1h frame precomputes ema_50 + VPVR VAL (rolling 168 bars = 7d, 24 bins, 70% VA).",
+    "5m frame gets higher_ema_50 + vpvr_val via merge_asof (no look-ahead).",
+    "Long-only; lower VAL pierce with vol expansion -> reclaim fade.",
+    "Hard gates (smark 2026-07-14): Sharpe OOS WF >= 1.0, annualized >= 15%,",
+    "max_drawdown < 25%, profit_factor > 1.5, framework CV OOS walk-forward Sharpe >= 1.0.",
+    "Real Binance data: 5m parquet from vpvr_iceberg_fade cache, 1h from live_data/.",
+    "OOS walk-forward: 5 folds, 60% train, 40% test, BTCUSDT 2022-01 -> 2026-07."
+  ]
+}

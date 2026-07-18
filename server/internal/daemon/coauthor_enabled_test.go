@@ -137,3 +137,4 @@ func TestSyncWorkspacesRefreshesSettingsOnExistingWorkspace(t *testing.T) {
 		t.Fatalf("expected co-author hook re-enabled after toggling back on")
 	}
 }
+

@@ -11,6 +11,8 @@ import type {
   UpdateMemberRequest,
   ListIssuesParams,
   ListGroupedIssuesParams,
+  ListTasksParams,
+  ListTasksResponse,
   Agent,
   CreateAgentRequest,
   AgentTemplate,
@@ -119,6 +121,9 @@ import type {
   CreateBillingCheckoutSessionResponse,
   BillingCheckoutSessionStatus,
   CreateBillingPortalSessionResponse,
+  ListCampaignsResponse,
+  QueryMetricsResponse,
+  TaskArtifact,
 } from "../types";
 import type { OnboardingCompletionPath } from "../onboarding/types";
 import type {
@@ -1305,6 +1310,47 @@ export class ApiClient {
 
   async listTasksByIssue(issueId: string): Promise<AgentTask[]> {
     return this.fetch(`/api/issues/${issueId}/task-runs`);
+  }
+
+  // Workspace-wide task list backing the global Runs page. Filters map
+  // 1:1 onto the query params of `GET /api/tasks`; the response carries
+  // `total` for prev/next pagination.
+  async listTasks(params?: ListTasksParams): Promise<ListTasksResponse> {
+    const search = new URLSearchParams();
+    if (params?.status) search.set("status", params.status);
+    if (params?.agent_id) search.set("agent_id", params.agent_id);
+    if (params?.issue_id) search.set("issue_id", params.issue_id);
+    if (params?.limit) search.set("limit", String(params.limit));
+    if (params?.offset) search.set("offset", String(params.offset));
+    const qs = search.toString();
+    return this.fetch(`/api/tasks${qs ? `?${qs}` : ""}`);
+  }
+
+  // Metrics (strategy-iteration compare page). Campaign list backs the
+  // page's campaign selector; queryMetrics returns the per-iteration rows.
+  async listCampaigns(): Promise<ListCampaignsResponse> {
+    return this.fetch("/api/metrics/campaigns");
+  }
+
+  async queryMetrics(params: { campaign: string; limit?: number }): Promise<QueryMetricsResponse> {
+    const search = new URLSearchParams();
+    search.set("campaign", params.campaign);
+    if (params.limit) search.set("limit", String(params.limit));
+    return this.fetch(`/api/metrics/query?${search}`);
+  }
+
+  // Artifact metadata for one task. The equity-curve CSV is the row whose
+  // `kind` is "equity".
+  async listTaskArtifacts(taskId: string): Promise<TaskArtifact[]> {
+    return this.fetch(`/api/tasks/${taskId}/artifacts`);
+  }
+
+  // Raw bytes of an artifact (e.g. the equity-curve CSV). Routes through
+  // fetchRaw so it inherits the standard auth headers + 401 handling,
+  // same as getAttachmentTextContent.
+  async downloadArtifact(id: string): Promise<Blob> {
+    const res = await this.fetchRaw(`/api/artifacts/${id}/download`);
+    return res.blob();
   }
 
   async getIssueUsage(issueId: string): Promise<IssueUsageSummary> {

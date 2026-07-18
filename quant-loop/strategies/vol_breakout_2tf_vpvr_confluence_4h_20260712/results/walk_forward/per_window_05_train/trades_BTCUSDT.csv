@@ -1,0 +1,2 @@
+symbol,entry_signal_date,entry_fill_date,entry_price,exit_signal_date,exit_fill_date,exit_price,reason,pnl_usd,pnl_pct,bars_held,atr_4h_at_entry,vpvr_dist_atr_4h_at_entry
+BTCUSDT,2022-06-21 04:00:00+00:00,2022-06-21 08:00:00+00:00,21124.504055999998,2022-06-24 04:00:00+00:00,2022-06-24 08:00:00+00:00,20909.547254,vol_cool,-66.19246650208572,-0.010175708808602413,18,878.4973305890323,0.16263695354935842

@@ -13,6 +13,7 @@ import (
 
 var runtimeCmd = &cobra.Command{
 	Use:   "runtime",
+	RunE:  groupRunE,
 	Short: "Work with agent runtimes",
 }
 

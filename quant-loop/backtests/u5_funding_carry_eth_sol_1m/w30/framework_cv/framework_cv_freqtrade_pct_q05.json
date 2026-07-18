@@ -1,0 +1,67 @@
+{
+  "strategy": "funding_carry_u5_eth_sol_1m",
+  "source_spec": "SMA-34930",
+  "framework": "freqtrade",
+  "framework_version": "freqtrade 2026.6",
+  "validation_type": "in-house trade-schedule replay via freqtrade IStrategy contract",
+  "run_at_utc": "2026-07-18T07:04:04.428934+00:00",
+  "w5_threshold_pct": 50.0,
+  "approach": "freqtrade 2026.6 IStrategy contract replay: in-house trade schedule is replayed on 1m BTCUSDT / SOLUSDT perp close prices; pnl_pct applied linearly across held bars with weight 0.01; daily-resampled Sharpe per SMA-34787.",
+  "label_filter": "pct_q05",
+  "data_sha256": {
+    "ETH_1m": "ddc212817184a93f91ed59b7fe763b59e3169203715c35a80f9d1d916698d966",
+    "SOL_1m": "dd7f59eaad41b8f3c70478a04ffb906c99ffda360f0d19a1dd3f8e1d2a796a7e"
+  },
+  "freqtrade_imported": true,
+  "folds": [
+    {
+      "symbol": "SOLUSDT",
+      "label": "pct_q05",
+      "inhouse_sharpe": 4.8529,
+      "inhouse_ann_return": 0.429172,
+      "inhouse_max_dd": 0.0,
+      "inhouse_n_trades": 2,
+      "framework_sharpe": 4.8529,
+      "framework_ann_return": 0.429172,
+      "framework_max_dd": 0.0,
+      "framework_n_trades": 2,
+      "divergence_pct": {
+        "sharpe_pct": 0.0,
+        "ann_return_pct": 0.0,
+        "max_dd_pct": 0.0
+      },
+      "max_abs_rel_divergence_pct": 0.0,
+      "w5_threshold_pct": 50.0,
+      "w5_auto_archive": false,
+      "w5_verdict": "WITHIN_TOLERANCE (<=50% divergence)"
+    },
+    {
+      "symbol": "ETHUSDT",
+      "label": "pct_q05",
+      "inhouse_sharpe": -3.0253,
+      "framework_sharpe": null,
+      "skipped_reason": "inhouse_sharpe_lt_0_5"
+    },
+    {
+      "symbol": "PORTFOLIO_ETH_SOL",
+      "label": "pct_q05",
+      "inhouse_sharpe": 3.8243,
+      "inhouse_ann_return": 0.138816,
+      "inhouse_max_dd": -0.0017699999999999999,
+      "inhouse_n_trades": 4,
+      "framework_sharpe": 3.8243,
+      "framework_ann_return": 0.138816,
+      "framework_max_dd": -0.00177,
+      "framework_n_trades": 4,
+      "divergence_pct": {
+        "sharpe_pct": 0.0006,
+        "ann_return_pct": 0.0001,
+        "max_dd_pct": 0.0119
+      },
+      "max_abs_rel_divergence_pct": 0.0119,
+      "w5_threshold_pct": 50.0,
+      "w5_auto_archive": false,
+      "w5_verdict": "WITHIN_TOLERANCE (<=50% divergence)"
+    }
+  ]
+}

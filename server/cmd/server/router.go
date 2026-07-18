@@ -514,6 +514,7 @@ func NewRouterWithOptions(pool *pgxpool.Pool, hub *realtime.Hub, bus *events.Bus
 		r.Post("/tasks/{taskId}/usage", h.ReportTaskUsage)
 		r.Post("/tasks/{taskId}/messages", h.ReportTaskMessages)
 		r.Get("/tasks/{taskId}/messages", h.ListTaskMessages)
+		r.Post("/tasks/{taskId}/artifacts", h.DaemonUploadArtifact)
 
 		r.Get("/issues/{issueId}/gc-check", h.GetIssueGCCheck)
 		r.Get("/chat-sessions/{sessionId}/gc-check", h.GetChatSessionGCCheck)
@@ -697,6 +698,8 @@ func NewRouterWithOptions(pool *pgxpool.Pool, hub *realtime.Hub, bus *events.Bus
 				r.Get("/grouped", h.ListGroupedIssues)
 				r.Get("/", h.ListIssues)
 				r.Post("/", h.CreateIssue)
+				// Dispatch preview: read-only "what would this create trigger".
+				r.Post("/preview-dispatch", h.PreviewDispatch)
 				r.Post("/quick-create", h.QuickCreateIssue)
 				r.Post("/batch-update", h.BatchUpdateIssues)
 				r.Post("/batch-delete", h.BatchDeleteIssues)
@@ -940,8 +943,26 @@ func NewRouterWithOptions(pool *pgxpool.Pool, hub *realtime.Hub, bus *events.Bus
 				r.Post("/nodes/exec", h.ExecCloudRuntimeNode)
 			})
 
-			// Tasks (user-facing, with ownership check)
+			// Tasks (user-facing): workspace-scoped list/detail, plus cancel
+			// with ownership check.
+			r.Get("/api/tasks", h.ListWorkspaceTasks)
+			r.Get("/api/tasks/{taskId}", h.GetWorkspaceTask)
 			r.Post("/api/tasks/{taskId}/cancel", h.CancelTaskByUser)
+
+			// Artifacts: typed run outputs (metrics/equity/plot/...) uploaded
+			// against a task, queryable workspace-wide.
+			r.Post("/api/tasks/{taskId}/artifacts", h.UploadArtifact)
+			r.Get("/api/tasks/{taskId}/artifacts", h.ListTaskArtifacts)
+			r.Get("/api/artifacts", h.ListArtifacts)
+			r.Get("/api/artifacts/{id}/download", h.DownloadArtifact)
+			r.Delete("/api/artifacts/{id}", h.DeleteArtifact)
+
+			// Run metrics: queryable rows parsed from kind=metrics artifacts
+			// ("all Sharpe values for campaign X" without parsing blobs).
+			r.Get("/api/metrics/query", h.QueryRunMetrics)
+			r.Get("/api/metrics/campaigns", h.ListMetricCampaigns)
+			// Recompute hard gates (server/internal/gate) over stored rows.
+			r.Post("/api/metrics/reevaluate", h.ReevaluateRunMetrics)
 
 			// Workspace-wide agent task snapshot for presence derivation:
 			// every active task + each agent's most recent terminal task.

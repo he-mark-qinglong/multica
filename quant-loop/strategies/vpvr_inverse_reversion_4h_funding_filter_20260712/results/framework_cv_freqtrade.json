@@ -1,0 +1,75 @@
+{
+  "engine": "freqtrade",
+  "engine_version": "freqtrade 2026.6 (shim)",
+  "iteration": 71,
+  "strategy_key": "vpvr_inverse_reversion_4h_funding_filter_20260712",
+  "inhouse": {
+    "sharpe": 0.1698324460327584,
+    "ann_total_return": NaN,
+    "max_dd": -0.18851227890299815,
+    "n_trades": 388,
+    "status": "NOT-PROFITABLE"
+  },
+  "framework": {
+    "sharpe": 0.0006271401030469035,
+    "ann_total_return": 0.0,
+    "max_dd": -0.0008644664029463511,
+    "n_bars": 9912,
+    "span_years": 4.522473191877709
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": -0.003270515391893495,
+    "oos_total_return_ann_mean": 2.6797681851320477e-10,
+    "oos_max_dd_max": -0.0008644664029463511,
+    "n_folds": 5,
+    "folds": [
+      {
+        "fold": 1,
+        "bars": 1982,
+        "sharpe": 0.0007267108560423852,
+        "ann_total_return": 0.0,
+        "max_dd": -0.0008644664029463511
+      },
+      {
+        "fold": 2,
+        "bars": 1982,
+        "sharpe": 0.0006286802975697016,
+        "ann_total_return": 0.0,
+        "max_dd": -0.0006657569713476308
+      },
+      {
+        "fold": 3,
+        "bars": 1982,
+        "sharpe": 0.00026228415362813495,
+        "ann_total_return": 0.0,
+        "max_dd": -0.00020739767007516008
+      },
+      {
+        "fold": 4,
+        "bars": 1982,
+        "sharpe": 0.0242314744031107,
+        "ann_total_return": 3.6605096017661154e-05,
+        "max_dd": -0.0006906832984069355
+      },
+      {
+        "fold": 5,
+        "bars": 1984,
+        "sharpe": -0.0422017266698184,
+        "ann_total_return": -3.660375613356859e-05,
+        "max_dd": -0.000550922076409277
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 101.92573060583645,
+    "ann_total_return": NaN,
+    "max_dd": 99.54142700519196
+  },
+  "max_abs_rel_divergence_pct": 101.92573060583645,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "freqtrade 2026.6 IStrategy contract replay: BTCUSD 4h inverse-coinm, pnl_pct applied linearly across held bars with weight 0.01; walk-forward OOS 5 folds; freqtrade-imported",
+  "freqtrade_imported": true,
+  "cache_dir": "/tmp/framework-validate-vpvr_inverse_reversion_4h_funding_filter_20260712-freqtrade"
+}

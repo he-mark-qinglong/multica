@@ -1,0 +1,62 @@
+{
+  "variant": "funding_carry_asym_15m_prototype",
+  "source_spec": "SMA-34806",
+  "symbol": "BTCUSDT",
+  "timeframe": "15m",
+  "vpvr_timeframe": "4h",
+  "window_days": 30,
+  "span_start": "2026-06-10 23:45:00",
+  "span_end": "2026-07-10 23:45:00",
+  "n_bars": 2881,
+  "generated_at_utc": "2026-07-17T11:02:35+00:00",
+  "config": {
+    "symbol": "BTCUSDT",
+    "timeframe": "15m",
+    "vpvr_timeframe": "4h",
+    "window_days": 30,
+    "funding_threshold": 0.0003,
+    "support_kind": "HVN",
+    "proximity_atr": 1.0,
+    "atr_period": 14,
+    "vpvr_window_bars_4h": 180,
+    "vpvr_snapshot_every_bars_4h": 6,
+    "vpvr_bins": 24,
+    "vpvr_hvn_quantile": 0.85,
+    "vpvr_lvn_quantile": 0.15,
+    "vpvr_num_hvn": 3,
+    "vpvr_num_lvn": 3,
+    "stop_atr_k": 1.0,
+    "max_hold_bars": 8,
+    "fee_bps_per_fill": 4.0,
+    "slippage_bps_per_fill": 1.0,
+    "funding_carry_bps_per_bar": 0.01,
+    "starting_capital_usd": 100000.0,
+    "risk_target_pct": 0.005,
+    "cooldown_bars": 5,
+    "data_paths": {
+      "ohlcv_15m": "/home/smark/multica/quant-loop/strategies/funding_carry_asym/data/BTCUSDT__15m.parquet",
+      "ohlcv_4h": "/home/smark/multica/quant-loop/live_data/BTCUSDT_4h.parquet",
+      "funding": "/home/smark/multica/quant-loop/data/funding/BTCUSDT.parquet"
+    },
+    "output_path": "/home/smark/multica/quant-loop/strategies/funding_carry_asym/results/prototype_15m.json"
+  },
+  "diagnostics": {
+    "n_long_signals": 0,
+    "signal_bars_funding_above_threshold": 0,
+    "signal_bars_near_support": 227,
+    "warmup_bars": 15
+  },
+  "metrics": {
+    "n_trades": 0,
+    "win_rate": 0.0,
+    "profit_factor": 0.0,
+    "mean_r": 0.0,
+    "mean_pnl_pct": 0.0,
+    "max_drawdown_pct": 0.0,
+    "total_return": 0.0,
+    "annualized_return": 0.0,
+    "sharpe_daily": 0.0,
+    "avg_bars_held": 0.0
+  },
+  "trades": []
+}

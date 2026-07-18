@@ -1,0 +1,93 @@
+{
+  "strategy": "trend_regime_gate_1d_adx_4h_1h_20260714",
+  "iteration": 101,
+  "axis": "trend_dominant_regime_gate",
+  "timeframe_entry": "1h",
+  "timeframe_trend": "4h",
+  "timeframe_regime": "1d",
+  "instruments": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "portfolio": {
+    "starting_capital_usd": 100000.0,
+    "final_equity_usd": 109243.06341717692,
+    "total_return": 0.09243063417176911,
+    "annualized_return": 0.019750340334562466,
+    "sharpe": 0.2119342041557734,
+    "max_drawdown": -0.5841244922002088,
+    "n_years": 4.520191649555099
+  },
+  "per_symbol": [
+    {
+      "symbol": "BTCUSDT",
+      "rows_1h": 39647,
+      "rows_4h": 9912,
+      "rows_1d": 1653,
+      "span_start": "2022-01-01",
+      "span_end": "2026-07-10",
+      "strategy": {
+        "trades": 351,
+        "win_rate": 0.37606837606837606,
+        "profit_factor": 0.9527882005757928,
+        "avg_hold_bars": 12.245014245014245,
+        "total_return": -0.09771907745393704,
+        "sharpe": -0.098985535953127,
+        "sortino": -0.027628684788490718,
+        "max_dd": -0.3571284476232553,
+        "turnover_per_year": 77.65157480314961,
+        "final_equity": 90228.0922546063
+      },
+      "buy_hold": {
+        "total_return": 0.3710850671776047
+      }
+    },
+    {
+      "symbol": "ETHUSDT",
+      "rows_1h": 39647,
+      "rows_4h": 9912,
+      "rows_1d": 1653,
+      "span_start": "2022-01-01",
+      "span_end": "2026-07-10",
+      "strategy": {
+        "trades": 400,
+        "win_rate": 0.32,
+        "profit_factor": 0.8790971232630663,
+        "avg_hold_bars": 13.735,
+        "total_return": -0.29879858370809687,
+        "sharpe": -0.4484616997443955,
+        "sortino": -0.14147903251423358,
+        "max_dd": -0.41707624827434736,
+        "turnover_per_year": 88.49182313749243,
+        "final_equity": 70120.14162919032
+      },
+      "buy_hold": {
+        "total_return": -0.5188159343669614
+      }
+    },
+    {
+      "symbol": "SOLUSDT",
+      "rows_1h": 39647,
+      "rows_4h": 9912,
+      "rows_1d": 1653,
+      "span_start": "2022-01-01",
+      "span_end": "2026-07-10",
+      "strategy": {
+        "trades": 348,
+        "win_rate": 0.3764367816091954,
+        "profit_factor": 1.172573641562451,
+        "avg_hold_bars": 12.60632183908046,
+        "total_return": 0.48894829533380313,
+        "sharpe": 0.6702058759574977,
+        "sortino": 0.23766605423921447,
+        "max_dd": -0.23339329425885713,
+        "turnover_per_year": 76.98788612961842,
+        "final_equity": 148894.8295333803
+      },
+      "buy_hold": {
+        "total_return": -0.5481148563730573
+      }
+    }
+  ]
+}

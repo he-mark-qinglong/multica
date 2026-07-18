@@ -1,0 +1,92 @@
+{
+  "strategy": "vol_breakout_1m_15m_vpvr_confluence_u6_20260718",
+  "iteration": 89,
+  "parent_iteration": 84,
+  "parent_strategy": "vol_breakout_2tf_vpvr_confluence_4h_20260712",
+  "axis": "tf_downshift_1m_15m",
+  "hypothesis_source": "results-ledger.md UNTESTED U6",
+  "source_ledger_entry": "U6 vol_breakout 1m/15m TF-downshift (Donchian + VPVR confluence)",
+  "hypothesis": "4h Sharpe 0.38 FAIL on G1 (iter#84). Test if Donchian+VPVR confluence edges hold on 1m/15m (more trades, micro-structure).",
+  "instruments": ["BTCUSDT", "ETHUSDT", "SOLUSDT"],
+  "data_source": "perp_1m_15m_30d_window",
+  "timeframe": "tf_dependent",
+  "primary_variants": ["BTC_15m", "BTC_1m"],
+  "secondary_variants_if_btc_15m_sharpe_ge_0_5": ["ETH_15m", "SOL_15m"],
+  "indicators_15m": {
+    "vpvr_window_bars": 1248,
+    "vpvr_bins": 24,
+    "vpvr_snapshot_every_bars": 96,
+    "atr_period": 14,
+    "range_n": 96,
+    "realized_vol_n": 20,
+    "vol_median_m": 120,
+    "vol_regime_min": 1.2,
+    "proximity_atr_k": 0.6
+  },
+  "indicators_1m": {
+    "vpvr_window_bars": 18720,
+    "vpvr_bins": 24,
+    "vpvr_snapshot_every_bars": 240,
+    "atr_period": 14,
+    "range_n": 480,
+    "realized_vol_n": 20,
+    "vol_median_m": 120,
+    "vol_regime_min": 1.2,
+    "proximity_atr_k": 0.6
+  },
+  "entry": {
+    "direction": "long_only",
+    "max_positions_per_symbol": 1,
+    "max_concurrent_positions_total": 1,
+    "require_vol_regime": true,
+    "require_poc_proximity": true
+  },
+  "exit": {
+    "vol_regime_max": 0.8,
+    "trend_fail_use_range_low": true,
+    "atr_trailing_k": 2.0,
+    "time_stop_bars": 480,
+    "priority": ["trend_fail", "trailing_stop", "vol_cool", "time_stop"]
+  },
+  "time_stop_bars_per_tf": {
+    "15m": 480,
+    "1m": 7200
+  },
+  "sizing": {
+    "vol_target_annual_pct": 0.10,
+    "max_position_pct_nav": 0.10
+  },
+  "bars_per_year": {
+    "1m": 525600,
+    "15m": 35040
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "fill_convention": "bar[t+1].open + cost_per_side",
+  "window_days": 30,
+  "extended_windows_for_trade_floor": {
+    "15m": {"secondary_days": 365, "rationale": "30d < 30 trades floor; LOID harness uses 365d for 15m"},
+    "1m":  {"secondary_days": 90,  "rationale": "30d = 0 signals; 1m allows structural 0-trade reporting"}
+  },
+  "data_paths": {
+    "BTCUSDT_15m": "live_data/BTCUSDT_15m.parquet",
+    "ETHUSDT_15m": "live_data/ETHUSDT_15m.parquet",
+    "SOLUSDT_15m": "live_data/SOLUSDT_15m.parquet",
+    "BTCUSDT_1m": "data/perp_1m/BTCUSDT_1m.parquet",
+    "ETHUSDT_1m": "data/perp_1m/ETHUSDT_1m.parquet"
+  },
+  "notes": [
+    "U6 — TF-downshift of vol_breakout_2tf_vpvr_confluence_4h from 4h to 1m/15m.",
+    "Iter#84 4h FAIL on G1 (Sharpe 0.38); this run targets the gap from results-ledger U6 row.",
+    "Window: 30d per SMA-34802 (matches LOID+VPVR harness).",
+    "Single-TF design (no merge_asof) — same as iter#84.",
+    "VPVR uses snapshot grid for 1m/15m to avoid O(N*W*b) blowup.",
+    "Calibration choice: VPVR window in BARS tuned to ~13d lookback (4h used 80 bars = 13d).",
+    "Range_n in BARS tuned to ~1d lookback (4h used 20 bars = 3.3d; halved for fast TF).",
+    "Vol_median 120 bars (~5d on 15m, ~2h on 1m; 4h used 120 = 20d; shorter to be more responsive).",
+    "Daily-resampled Sharpe per SMA-34787 audit; not per-trade.",
+    "Long-only, single-position-per-symbol, 1 concurrent per symbol.",
+    "Real Binance perp 1m + spot 15m data only."
+  ]
+}

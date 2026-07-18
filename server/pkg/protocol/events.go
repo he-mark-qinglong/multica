@@ -134,3 +134,4 @@ const (
 	EventLarkInstallationCreated = "lark_installation:created"
 	EventLarkInstallationRevoked = "lark_installation:revoked"
 )
+

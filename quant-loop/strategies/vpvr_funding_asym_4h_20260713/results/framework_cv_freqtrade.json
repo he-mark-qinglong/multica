@@ -1,0 +1,67 @@
+{
+  "engine": "freqtrade",
+  "engine_version": "2026.6",
+  "engine_sha": "freqtrade-2026.6",
+  "iteration": 92,
+  "strategy_key": "vpvr_funding_asym_4h_20260713",
+  "fix_revision": "SMA-34922 max_dd accounting fix 2026-07-18",
+  "fix_note": "previous adapter never debited position notional from cash at entry but credited notional*(1+pnl) at exit; NAV ratcheted up so max_dd collapsed to the per-entry fee (-4.0e-06) and total_return was fabricated (62.7% vs in-house 0.14%). Replaced with a replay that mirrors the in-house risk_target-scaled equity construction at the freqtrade cost model (which equals the in-house 12bp rt cost here).",
+  "cost_model": {
+    "fee_bps_per_side": 4.0,
+    "slippage_bps_per_side": 2.0,
+    "round_trip": 0.0012,
+    "inhouse_round_trip": 0.0012
+  },
+  "replay_validation": {
+    "BTCUSDT": {
+      "n_bars_compared": 9912,
+      "max_abs_rel_err": 6.097670455718153e-05,
+      "final_rel_err": 2.2121668032460126e-05,
+      "replayed_max_dd": -0.0023530722780570335,
+      "inhouse_max_dd": -0.002353400853641885,
+      "max_dd_abs_diff": 3.2857558485144267e-07
+    },
+    "ETHUSDT": {
+      "n_bars_compared": 9912,
+      "max_abs_rel_err": 0.0010538864286536854,
+      "final_rel_err": 0.0005284217217165318,
+      "replayed_max_dd": -0.0012271256557662147,
+      "inhouse_max_dd": -0.001039765693813477,
+      "max_dd_abs_diff": 0.00018735996195273774
+    }
+  },
+  "inhouse": {
+    "sharpe": -0.2165539269783084,
+    "ann_total_return": null,
+    "total_return": 0.001398207187347622,
+    "max_dd": -0.002353400856122345,
+    "n_trades": 97,
+    "timeframe": "4h",
+    "status": "NOT-PROFITABLE"
+  },
+  "framework": {
+    "sharpe": -0.2166435899362876,
+    "sharpe_nav_bar": 0.4936364255292858,
+    "ann_total_return": 0.0003700333808300815,
+    "total_return": 0.0016745570094336415,
+    "max_dd": -0.0012184711682075022,
+    "max_dd_per_symbol": {
+      "BTCUSDT": -0.0023530722780570335,
+      "ETHUSDT": -0.0012271256557662147
+    },
+    "n_bars": 9912,
+    "n_fills": 97,
+    "span_years": 4.522473191877709
+  },
+  "divergence_pct": {
+    "sharpe": 0.04140444794990736,
+    "total_return": 19.76458314523836,
+    "max_dd": 48.22509029697752
+  },
+  "max_abs_rel_divergence_pct": 48.22509029697752,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": false,
+  "w5_tipping_metrics": [],
+  "w5_verdict": "WITHIN_TOLERANCE",
+  "approach": "freqtrade 2026.6 cost model (4bp fee + 2bp slip per side; identical to this strategy's in-house cost) applied to the in-house entry/exit schedule with risk_target-scaled mark-to-market equity on real 4h closes, synthetic funding carry and exit-bar net update mirroring strategy.py; validated by reproducing the in-house equity CSVs at in-house cost. Sharpe uses the in-house formula (mean/std of per-trade pnl x sqrt(trades/yr))."
+}

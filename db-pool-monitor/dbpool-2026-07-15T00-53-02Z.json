@@ -1,0 +1,173 @@
+{
+  "run_id": "dbpool-2026-07-15T00-53-02Z",
+  "ts_epoch": 1784076782,
+  "ts_utc": "2026-07-15T00:53:02Z",
+  "ts_cn": "2026-07-15T08:53:02+0800",
+  "autopilot_id": "c8ec222b-1f58-429a-b58d-7014da99f395",
+  "autopilot_run_id": "2860b458-12c4-442c-93f3-88d10312e7b8",
+  "host_used": "127.0.0.1:5432",
+  "host_spec_note": "spec says 192.168.0.105:5432 but unreachable from workdir; fallback to localhost per established pattern",
+  "skip_guard": {
+    "applies": false,
+    "prior_run_age_sec": 6571,
+    "min_gap_sec": 100,
+    "reason": "prior_run_age_sec=6571 > min_gap_sec=100; daemon alive; proceed",
+    "daemon_alive": true,
+    "daemon_pid": 2609883,
+    "server_pid_8080": 2188693
+  },
+  "metrics": {
+    "idle": 9,
+    "active": 1,
+    "idle_in_tx": 0,
+    "idle_in_tx_aborted": 0,
+    "stuck_in_tx": 0,
+    "oldest_tx_age_sec": null,
+    "fastpath": 0,
+    "slow_queries": 0,
+    "total_db_conns": 12,
+    "active_app_only": 0,
+    "acquired_app_estimate": 0,
+    "app_pool_max": 25,
+    "monitoring_probe_pid": 157618,
+    "pg_max_connections": 100,
+    "total_pg_conns_at_probe": 15
+  },
+  "pool_util_pct": 0.0,
+  "top_activity_sample": [
+    {
+      "pid": 157618,
+      "state": "active",
+      "app": "psql",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": 0,
+      "q_age_sec": 0,
+      "state_age_sec": 0,
+      "query_head": "SELECT pid, state, COALESCE(application_name,'')... -- THIS MONITOR"
+    },
+    {
+      "pid": 157598,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "q_age_sec": 34,
+      "state_age_sec": 34,
+      "query_head": "-- name: UpdatePersonalAccessTokenLastUsed :exec ... last_used_at = now()"
+    },
+    {
+      "pid": 157460,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "q_age_sec": 31,
+      "state_age_sec": 31,
+      "query_head": "-- name: UpdatePersonalAccessTokenLastUsed :exec ... last_used_at = now()"
+    },
+    {
+      "pid": 157603,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "q_age_sec": 31,
+      "state_age_sec": 31,
+      "query_head": "-- name: GetMemberByUserAndWorkspace :one"
+    },
+    {
+      "pid": 157606,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "q_age_sec": 30,
+      "state_age_sec": 30,
+      "query_head": "-- name: TouchAgentRuntimesLastSeenBatch :execrows"
+    },
+    {
+      "pid": 157605,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "q_age_sec": 30,
+      "state_age_sec": 30,
+      "query_head": "-- name: GetMemberByUserAndWorkspace :one"
+    },
+    {
+      "pid": 157596,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "q_age_sec": 0,
+      "state_age_sec": 0,
+      "query_head": "-- name: ReclaimStaleDispatchedTaskForRuntime :one"
+    },
+    {
+      "pid": 157604,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "q_age_sec": 0,
+      "state_age_sec": 0,
+      "query_head": "-- name: ListQueuedClaimCandidatesByRuntime :many"
+    },
+    {
+      "pid": 157597,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "q_age_sec": 0,
+      "state_age_sec": 0,
+      "query_head": "-- name: UpdatePersonalAccessTokenLastUsed :exec"
+    },
+    {
+      "pid": 157595,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "q_age_sec": 0,
+      "state_age_sec": 0,
+      "query_head": "-- name: GetMemberByUserAndWorkspace :one"
+    }
+  ],
+  "thresholds": {
+    "pool_util_warn_pct": 80,
+    "stuck_in_tx_escalate_gt": 0,
+    "slow_queries_warn_gt": 5,
+    "oldest_tx_age_escalate_sec_gt": 60
+  },
+  "checks": {
+    "pool_capacity_warn": {
+      "triggered": false,
+      "value": 0.0
+    },
+    "stuck_in_tx_escalate": {
+      "triggered": false,
+      "value": 0
+    },
+    "slow_query_storm_warn": {
+      "triggered": false,
+      "value": 0
+    },
+    "long_tx_escalate": {
+      "triggered": false,
+      "value": null
+    }
+  },
+  "any_escalate": false,
+  "any_warn": false,
+  "verdict": "no-op",
+  "actions": {
+    "escalate": false,
+    "warn": false,
+    "issue_created": false,
+    "issue_id": null
+  },
+  "note": "All thresholds clear. App pool ~0/25 acquired (only the monitoring psql probe is `active`; all daemon connections are `idle`). idle_in_tx=0; slow_queries=0; oldest_tx_age=null. Prior run was 50+ min ago, no escalation needed for dedup."
+}

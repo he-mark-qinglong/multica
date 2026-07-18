@@ -1,0 +1,133 @@
+{
+  "constituents": {
+    "A": "pairs_cointegration_1d_20260709 (WF OOS Sharpe 3.60, SHIP, SMA-34859; equity=published realized-acct curve, BTC-SOL pair)",
+    "B": "vpvr_xs_pairs_30m_funding_filter_btc_sol_regularized_20260712 (WF OOS mean 1.203, SMA-34846 family gate; common-span equity is IN-SAMPLE for B: its WF test windows 2023-01..2024-07 all predate the common span)"
+  },
+  "window_labeling": {
+    "full_common_span": "A: WF-OOS from 2025-01-18 onward (WF test w1..w4), IS before. B: entire span IN-SAMPLE (final fit covers 2022-01..2026-07).",
+    "oos_tilted_2025-01-18+": "OOS for A only; B still in-sample. Portfolio-level numbers are therefore mixed IS/OOS evidence, NOT a clean portfolio OOS."
+  },
+  "common_span": {
+    "start": "2024-08-23",
+    "end": "2026-05-07",
+    "days": 623
+  },
+  "metrics_portfolio_full": {
+    "sharpe": 5.107674931587952,
+    "ann_return": 0.4399533871091217,
+    "max_dd": -0.03363292305153809,
+    "pf": 4.4767440086739105,
+    "total_return": 0.8632748227134972,
+    "n_days": 623,
+    "window": "full_common_span"
+  },
+  "metrics_A_only": {
+    "sharpe": 1.7926174196406353,
+    "ann_return": 0.012937917174328462,
+    "max_dd": -0.0034372528257431423,
+    "pf": 3.848082008739737,
+    "total_return": 0.022183924542372724,
+    "n_days": 623,
+    "window": "A_only_common_span"
+  },
+  "metrics_B_only": {
+    "sharpe": 5.603752152927556,
+    "ann_return": 1.3052466283987316,
+    "max_dd": -0.08270686942746541,
+    "pf": 4.667729211734892,
+    "total_return": 3.1601016074475545,
+    "n_days": 623,
+    "window": "B_only_common_span"
+  },
+  "metrics_portfolio_oos_tilted": {
+    "sharpe": 4.84816348017164,
+    "ann_return": 0.43738123250950656,
+    "max_dd": -0.0336329230515382,
+    "pf": 4.124694912779261,
+    "total_return": 0.6034647357592924,
+    "n_days": 475,
+    "window": "oos_tilted_2025-01-18+"
+  },
+  "corr_full": 0.0007476313793549769,
+  "corr_90d_min": -0.10939440889085,
+  "corr_90d_max": 0.15664031524756977,
+  "corr_90d_mean": 0.00012367223965051768,
+  "turnover_annual_pct_nav": 529.4794152797278,
+  "rebalance_cadence": "daily (rolling 30d cov, data through t-1)",
+  "n_rebalances": 593,
+  "clamp_days": 441,
+  "weight_stats": {
+    "w_A_mean": 0.5487352445193929,
+    "w_A_min": 0.4,
+    "w_A_max": 0.6
+  },
+  "portfolio_walkforward_folds": [
+    {
+      "fold": 1,
+      "test_start": "2025-04-29",
+      "test_end": "2025-07-30",
+      "sharpe": 5.505603801402578,
+      "ret": 0.07652361373779204
+    },
+    {
+      "fold": 2,
+      "test_start": "2025-07-31",
+      "test_end": "2025-10-31",
+      "sharpe": 0.5882759947689549,
+      "ret": 0.009170652845729821
+    },
+    {
+      "fold": 3,
+      "test_start": "2025-11-01",
+      "test_end": "2026-02-01",
+      "sharpe": 7.879237303052974,
+      "ret": 0.12348031297483075
+    },
+    {
+      "fold": 4,
+      "test_start": "2026-02-02",
+      "test_end": "2026-05-07",
+      "sharpe": 7.724348339739312,
+      "ret": 0.23239542364517685
+    }
+  ],
+  "g5_mean_oos_sharpe": 5.424366359740954,
+  "bootstrap": {
+    "n": 10000,
+    "ci95": [
+      3.6853846164529527,
+      6.7182202915082785
+    ]
+  },
+  "gates": {
+    "G1_sharpe>=1.0": {
+      "value": 5.107674931587952,
+      "pass": true
+    },
+    "G2_ann_return>=15%": {
+      "value": 0.4399533871091217,
+      "pass": true
+    },
+    "G3_mdd<25%": {
+      "value": -0.03363292305153809,
+      "pass": true
+    },
+    "G4_pf>1.5": {
+      "value": 4.4767440086739105,
+      "pass": true
+    },
+    "G5_portfolio_WF_OOS_sharpe>=1.0 (in-house proxy, NOT framework CV)": {
+      "value": 5.424366359740954,
+      "pass": true
+    },
+    "G6_bootstrap_CI_lower>=0.5": {
+      "value": 3.6853846164529527,
+      "pass": true
+    },
+    "G7_bonferroni_alpha=0.0125": {
+      "t_stat": 6.6729956341773935,
+      "z_crit": 2.2414027276049464,
+      "pass": true
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "variant": "vol_breakout_vpvr_val_fade_1h_5m_20260714",
+  "iteration": 74,
+  "n_folds": 5,
+  "is_sharpe_mean": 0.5426422771486896,
+  "oos_sharpe_mean": 0.0,
+  "oos_sharpe_median": 0.0,
+  "oos_sharpe_min": 0.0,
+  "oos_positive_folds": 0,
+  "oos_total_trades": 0,
+  "verdict": "NOT-PROFITABLE",
+  "g1_pass": false,
+  "g2_min_annualized_pass": false,
+  "note": "All V10 signals fall in 2022-2023 IS region; OOS windows (2024-09-18 onwards) produce 0 trades in every fold. Walk-forward OOS Sharpe cannot pass G1/G5 in this regime."
+}

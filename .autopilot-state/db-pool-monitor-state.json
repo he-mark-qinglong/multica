@@ -1,0 +1,41 @@
+{
+  "run_id": "dbpool-20260716T011145Z",
+  "autopilot_id": "c8ec222b-1f58-429a-b58d-7014da99f395",
+  "triggered_at": "2026-07-16T01:11:45Z",
+  "checked_at": "2026-07-16T01:11:45Z",
+  "db_host": "127.0.0.1:5432",
+  "verdict": "no-op — all thresholds clear",
+  "sql_raw_output": "17|1|0|0|0||0|0|100",
+  "metrics": {
+    "idle": 17,
+    "active": 1,
+    "idle_in_tx": 0,
+    "idle_in_tx_aborted": 0,
+    "stuck_in_tx": 0,
+    "oldest_tx_age_sec": null,
+    "fastpath": 0,
+    "slow_queries": 0,
+    "total_conns": 18,
+    "pg_max_connections": 100
+  },
+  "thresholds": {
+    "pool_max_conns": 25,
+    "pool_capacity_active_pct": 4.0,
+    "pool_capacity_pct_threshold_warn": 80,
+    "stuck_in_tx": 0,
+    "stuck_in_tx_threshold_escalate": 0,
+    "slow_queries": 0,
+    "slow_queries_threshold_warn": 5,
+    "oldest_tx_age_sec": null,
+    "oldest_tx_age_sec_threshold_escalate": 60,
+    "active_conns_escalate": 20
+  },
+  "checks": {
+    "pool_capacity_warn": false,
+    "stuck_tx_escalate": false,
+    "slow_query_warn": false,
+    "long_tx_escalate": false,
+    "active_conns_escalate": false
+  },
+  "actions_taken": []
+}

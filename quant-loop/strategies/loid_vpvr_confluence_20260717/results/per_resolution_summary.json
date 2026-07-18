@@ -1,0 +1,108 @@
+{
+  "variant_key": "loid_vpvr_confluence_20260717",
+  "iteration": 1,
+  "source_spec": "SMA-34803",
+  "sharpe_method": "daily_resampled_per_SMA-34787",
+  "sharpe_method_audit_ref": "SMA-34787",
+  "per_resolution": [
+    {
+      "tf": "1m",
+      "rows": 43201,
+      "span_start": "2026-06-10 23:59:00+00:00",
+      "span_end": "2026-07-10 23:59:00+00:00",
+      "diagnostics": {
+        "n_iceberg_bars": 22,
+        "n_near_hvn": 1928,
+        "n_near_lvn": 1173
+      },
+      "iceberg_only": {
+        "n_bars": 43201,
+        "n_trades": 21,
+        "win_rate": 0.2381,
+        "profit_factor": 0.2431,
+        "sharpe_daily": -4.8748,
+        "total_return": -5.5e-05,
+        "annualized_return": -0.00067,
+        "max_drawdown_pct": -0.0067,
+        "avg_bars_held": 3.43
+      },
+      "iceberg_vpvr_confluence": {
+        "n_bars": 43201,
+        "n_trades": 3,
+        "win_rate": 0.3333,
+        "profit_factor": 0.2547,
+        "sharpe_daily": -3.7511,
+        "total_return": -8e-06,
+        "annualized_return": -0.000102,
+        "max_drawdown_pct": -0.002,
+        "avg_bars_held": 2.33
+      }
+    },
+    {
+      "tf": "15m",
+      "rows": 2881,
+      "span_start": "2026-06-10 23:45:00+00:00",
+      "span_end": "2026-07-10 23:45:00+00:00",
+      "diagnostics": {
+        "n_iceberg_bars": 1,
+        "n_near_hvn": 697,
+        "n_near_lvn": 303
+      },
+      "iceberg_only": {
+        "n_bars": 2881,
+        "n_trades": 1,
+        "win_rate": 0.0,
+        "profit_factor": 0.0,
+        "sharpe_daily": -3.4893,
+        "total_return": -1e-06,
+        "annualized_return": -7e-06,
+        "max_drawdown_pct": -0.0009,
+        "avg_bars_held": 8.0
+      },
+      "iceberg_vpvr_confluence": {
+        "n_bars": 2881,
+        "n_trades": 1,
+        "win_rate": 0.0,
+        "profit_factor": 0.0,
+        "sharpe_daily": -3.4893,
+        "total_return": -1e-06,
+        "annualized_return": -7e-06,
+        "max_drawdown_pct": -0.0009,
+        "avg_bars_held": 8.0
+      }
+    },
+    {
+      "tf": "4h",
+      "rows": 181,
+      "span_start": "2026-06-10 20:00:00+00:00",
+      "span_end": "2026-07-10 20:00:00+00:00",
+      "diagnostics": {
+        "n_iceberg_bars": 0,
+        "n_near_hvn": 56,
+        "n_near_lvn": 31
+      },
+      "iceberg_only": {
+        "n_bars": 181,
+        "n_trades": 0,
+        "win_rate": 0.0,
+        "profit_factor": null,
+        "sharpe_daily": 0.0,
+        "total_return": 0.0,
+        "annualized_return": 0.0,
+        "max_drawdown_pct": 0.0,
+        "avg_bars_held": 0.0
+      },
+      "iceberg_vpvr_confluence": {
+        "n_bars": 181,
+        "n_trades": 0,
+        "win_rate": 0.0,
+        "profit_factor": null,
+        "sharpe_daily": 0.0,
+        "total_return": 0.0,
+        "annualized_return": 0.0,
+        "max_drawdown_pct": 0.0,
+        "avg_bars_held": 0.0
+      }
+    }
+  ]
+}

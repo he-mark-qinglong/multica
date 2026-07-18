@@ -1,0 +1,34 @@
+{
+  "iteration": 108,
+  "variant": "V3_funding_reset_window",
+  "strategy_key": "vpvr_funding_reset_window_1h_20260715",
+  "date": "2026-07-15",
+  "timeframe": "1h",
+  "instruments": [
+    "BTCUSDT"
+  ],
+  "axis": "perp_funding_reset_window_with_vpvr_poc_reversion_asymmetric_exit",
+  "tag": "NOT-PROFITABLE",
+  "data_status": "FUNDING-DATA-PRESENT funding_cadence=8h",
+  "agg_sharpe_mean": -1.392367688833999,
+  "agg_n_trades_total": 626,
+  "agg_mdd_worst": -0.010210576923736392,
+  "agg_profit_factor": 0.7173065632838143,
+  "agg_return_pct": -0.00797773207952579,
+  "by_symbol": {
+    "BTCUSDT": {
+      "sharpe": -1.1577,
+      "mdd": -0.010210576923736392,
+      "n_trades": 626,
+      "win_rate": 0.4440894568690096,
+      "profit_factor": 0.7173065632838143,
+      "total_return_pct": -0.00797773207952579,
+      "tp_count": 46,
+      "sl_count": 184,
+      "tp_to_sl_ratio": 0.25
+    }
+  },
+  "sharpe_method": "bar_freq_annualized",
+  "sharpe_method_evidence": "run_backtest.py: [run_backtest.py] L58:sharpe = (mu_t / sd_t) * np.sqrt(tpy) if sd_t > 0 else 0.0 ds = pnls[pnls < 0] dsigma = float(np.std(ds, ddof=0)) if ds.size else 0.0; L68:tag = \"PROFITABLE\" if sharpe >= 1.0 els",
+  "sharpe_method_audit_date": "2026-07-17T06:30:53+00:00"
+}

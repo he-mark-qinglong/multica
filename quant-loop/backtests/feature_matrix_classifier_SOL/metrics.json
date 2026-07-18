@@ -1,0 +1,37 @@
+{
+  "issue": "SMA-34939",
+  "symbol": "SOLUSDT",
+  "status": "BLOCKED",
+  "verdict": "FAIL",
+  "reason": "Required upstream signal sources for SOLUSDT are not available; per issue scope rule 'If any input file is missing, REPORT blocker + STOP. Do NOT fabricate signals.'",
+  "missing_inputs": [
+    {
+      "requested_path": "data/signals/loid_SOL_1m.csv",
+      "actual_source": "strategies/loid_detector/results/bar_features.parquet",
+      "status": "missing",
+      "evidence": "bar_features.parquet symbol coverage = ['BTCUSDT','ETHUSDT']; SOLUSDT absent (SMA-34910 detector ran BTC+ETH only)"
+    },
+    {
+      "requested_path": "data/signals/vpvr_SOL_4h.csv",
+      "actual_source": "computed from strategies/_indicators/vpvr_levels.py on live_data/SOLUSDT_4h.parquet",
+      "status": "missing-but-derivable",
+      "evidence": "VPVR is a pure function with no pre-materialised CSV; would need a 1m base grid that does not exist for SOLUSDT"
+    },
+    {
+      "requested_path": "data/funding/SOL_funding_90d.csv",
+      "actual_source": "data/funding/SOLUSDT.csv (5175 rows, 2021-11 to 2026-07)",
+      "status": "missing",
+      "evidence": "Filename mismatch: issue path uses bare 'SOL_funding_90d.csv'; actual funding file is SOLUSDT.csv with 5+ years of history, not 90 days / 500 records"
+    },
+    {
+      "requested_path": "data/perp_1m/SOLUSDT_1m.parquet",
+      "actual_source": "n/a",
+      "status": "missing",
+      "evidence": "perp_1m directory contains only BTCUSDT_1m.{parquet,csv} and ETHUSDT_1m.{parquet,csv}; AGENTS.md documents 'SOLUSDT_1m is intentionally absent'"
+    }
+  ],
+  "feature_matrix_rows": 0,
+  "oos_trades": 0,
+  "annualized_return": null,
+  "next_action": "Open a separate child issue to extend LOID detector (SMA-34910) to SOLUSDT and to source SOLUSDT 1m perp bars before re-running this feature build for SOL."
+}

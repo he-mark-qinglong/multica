@@ -19,6 +19,7 @@ import (
 
 var agentCmd = &cobra.Command{
 	Use:   "agent",
+	RunE:  groupRunE,
 	Short: "Work with agents",
 }
 
@@ -29,10 +30,11 @@ var agentListCmd = &cobra.Command{
 }
 
 var agentGetCmd = &cobra.Command{
-	Use:   "get <id>",
-	Short: "Get agent details",
-	Args:  exactArgs(1),
-	RunE:  runAgentGet,
+	Use:     "get <id>",
+	Aliases: []string{"view"},
+	Short:   "Get agent details",
+	Args:    exactArgs(1),
+	RunE:    runAgentGet,
 }
 
 var agentCreateCmd = &cobra.Command{
@@ -249,6 +251,11 @@ func newAPIClient(cmd *cobra.Command) (*cli.APIClient, error) {
 	}
 
 	client := cli.NewAPIClient(serverURL, workspaceID, token)
+	// --dry-run: intercept mutating requests at the client layer so every
+	// command gets the behavior for free; reads still go through.
+	if dryRun, _ := cmd.Flags().GetBool("dry-run"); dryRun {
+		client.DryRun = cli.PrintDryRunHook(os.Stdout)
+	}
 	// When running inside a daemon task, attribute actions to the agent.
 	if agentID := os.Getenv("MULTICA_AGENT_ID"); agentID != "" {
 		client.AgentID = agentID

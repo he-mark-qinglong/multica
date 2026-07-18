@@ -360,3 +360,4 @@ t.Errorf("non-leader claim should NOT contain %q\n--- instructions ---\n%s", mus
 
 // Avoid "imported and not used: pgtype" if helpers above are the only users.
 var _ pgtype.UUID
+

@@ -1,0 +1,2 @@
+variant,symbol,direction,entry_event_ts,entry_bar_ts,entry_price,exit_event_ts,exit_bar_ts,exit_price,price_pnl_pct,funding_pnl_pct,pnl_pct,z_at_entry,funding_at_entry,funding_at_exit,bars_held,exit_reason
+funding_oscillator_z_mr_u5_rebuild,ETHUSDT,long,2026-06-26 00:00:00+00:00,2026-06-26 00:00:00+00:00,1568.09,2026-06-26 16:00:00+00:00,2026-06-26 16:00:00+00:00,1591.37,0.014846086640435185,-5.22e-06,0.013846086640435185,-3.172975009693548,-1.665e-05,5.22e-06,960,hold_horizon

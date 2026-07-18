@@ -1,0 +1,57 @@
+{
+  "strategy": "vpvr_volume_edge_3tf_v1_20260711",
+  "iteration": 81,
+  "axis": "vpvr_volume_edge_3tf",
+  "description": "VPVR volume edge across 4h trend + 15m filter + 1m entry. Long+short. POC reclaims, vol-spike entries.",
+  "timeframe_entry": "1m",
+  "timeframe_filter": "15m",
+  "timeframe_trend": "4h",
+  "instruments": ["BTCUSDT", "ETHUSDT", "SOLUSDT"],
+  "signal": {
+    "poc_lookback_4h": 240,
+    "poc_lookback_15m": 96,
+    "vol_bins_4h": 50,
+    "vol_bins_15m": 50,
+    "value_area_pct": 0.7,
+    "poc_proximity_atr_4h": 1.5,
+    "vol_spike_ratio_min": 1.5,
+    "vol_ma_period_1m": 30,
+    "trend_ema_period_4h": 50,
+    "trend_slope_min": 0.0
+  },
+  "exit": {
+    "atr_stop": 2.0,
+    "atr_target": 3.0,
+    "atr_trailing": 1.5,
+    "max_holding_bars_1m": 240
+  },
+  "sizing": {
+    "starting_capital_usd": 100000.0,
+    "risk_per_trade": 0.01,
+    "max_notional_pct": 1.0
+  },
+  "costs": {
+    "fee_bps_per_side": 2.0,
+    "slippage_bps_per_side": 1.0
+  },
+  "walk_forward": {
+    "train_bars_1m": 525600,
+    "test_bars_1m": 52560,
+    "step_bars_1m": 52560,
+    "min_windows": 3
+  },
+  "hard_gates": {
+    "sharpe_min": 1.0,
+    "annualized_return_min": 0.15,
+    "profit_factor_min": 1.5,
+    "max_drawdown_max": 0.25,
+    "oos_sharpe_min": 1.0,
+    "bootstrap_ci_lower_min": 0.5,
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 42,
+    "bonferroni_alpha": 0.0125
+  },
+  "vpvr_alpha_weight": 0.7,
+  "trend_alpha_weight": 0.3,
+  "paper_trade_only": true
+}

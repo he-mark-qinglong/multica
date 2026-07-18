@@ -1,0 +1,521 @@
+{
+  "n_zones_total": 8675,
+  "per_symbol": {
+    "BTCUSDT": {
+      "n_zones": 2869,
+      "strict": {
+        "6h": {
+          "n_respected": 266,
+          "pct_respected": 9.271523178807946
+        },
+        "12h": {
+          "n_respected": 126,
+          "pct_respected": 4.3917741373300805
+        },
+        "24h": {
+          "n_respected": 70,
+          "pct_respected": 2.4398745207389334
+        }
+      },
+      "soft": {
+        "6h": {
+          "n_respected": 845,
+          "pct_respected": 29.452771000348555
+        },
+        "12h": {
+          "n_respected": 656,
+          "pct_respected": 22.865109794353433
+        },
+        "24h": {
+          "n_respected": 521,
+          "pct_respected": 18.15963750435692
+        }
+      }
+    },
+    "ETHUSDT": {
+      "n_zones": 2924,
+      "strict": {
+        "6h": {
+          "n_respected": 230,
+          "pct_respected": 7.865937072503421
+        },
+        "12h": {
+          "n_respected": 117,
+          "pct_respected": 4.001367989056088
+        },
+        "24h": {
+          "n_respected": 61,
+          "pct_respected": 2.086183310533516
+        }
+      },
+      "soft": {
+        "6h": {
+          "n_respected": 862,
+          "pct_respected": 29.480164158686726
+        },
+        "12h": {
+          "n_respected": 681,
+          "pct_respected": 23.29001367989056
+        },
+        "24h": {
+          "n_respected": 524,
+          "pct_respected": 17.920656634746923
+        }
+      }
+    },
+    "SOLUSDT": {
+      "n_zones": 2882,
+      "strict": {
+        "6h": {
+          "n_respected": 203,
+          "pct_respected": 7.0437196391394865
+        },
+        "12h": {
+          "n_respected": 115,
+          "pct_respected": 3.99028452463567
+        },
+        "24h": {
+          "n_respected": 69,
+          "pct_respected": 2.394170714781402
+        }
+      },
+      "soft": {
+        "6h": {
+          "n_respected": 790,
+          "pct_respected": 27.411519777931993
+        },
+        "12h": {
+          "n_respected": 623,
+          "pct_respected": 21.616932685634975
+        },
+        "24h": {
+          "n_respected": 458,
+          "pct_respected": 15.891741845940318
+        }
+      }
+    }
+  },
+  "per_window_overall": {
+    "strict": {
+      "6h": {
+        "n_respected": 699,
+        "n_total": 8675,
+        "pct_respected": 8.05763688760807
+      },
+      "12h": {
+        "n_respected": 358,
+        "n_total": 8675,
+        "pct_respected": 4.126801152737753
+      },
+      "24h": {
+        "n_respected": 200,
+        "n_total": 8675,
+        "pct_respected": 2.3054755043227666
+      }
+    },
+    "soft": {
+      "6h": {
+        "n_respected": 2497,
+        "n_total": 8675,
+        "pct_respected": 28.78386167146974
+      },
+      "12h": {
+        "n_respected": 1960,
+        "n_total": 8675,
+        "pct_respected": 22.59365994236311
+      },
+      "24h": {
+        "n_respected": 1503,
+        "n_total": 8675,
+        "pct_respected": 17.325648414985594
+      }
+    }
+  },
+  "per_window_by_size": {
+    "strict": {
+      "6h": {
+        "tight": {
+          "n_zones": 87,
+          "pct_respected": 0.0
+        },
+        "medium": {
+          "n_zones": 2077,
+          "pct_respected": 1.059220028887819
+        },
+        "wide": {
+          "n_zones": 6511,
+          "pct_respected": 10.397788358163108
+        }
+      },
+      "12h": {
+        "tight": {
+          "n_zones": 87,
+          "pct_respected": 0.0
+        },
+        "medium": {
+          "n_zones": 2077,
+          "pct_respected": 0.2407318247472316
+        },
+        "wide": {
+          "n_zones": 6511,
+          "pct_respected": 5.421594225157426
+        }
+      },
+      "24h": {
+        "tight": {
+          "n_zones": 87,
+          "pct_respected": 0.0
+        },
+        "medium": {
+          "n_zones": 2077,
+          "pct_respected": 0.04814636494944632
+        },
+        "wide": {
+          "n_zones": 6511,
+          "pct_respected": 3.056366149592997
+        }
+      }
+    },
+    "soft": {
+      "6h": {
+        "tight": {
+          "n_zones": 87,
+          "pct_respected": 21.839080459770116
+        },
+        "medium": {
+          "n_zones": 2077,
+          "pct_respected": 22.773230621088107
+        },
+        "wide": {
+          "n_zones": 6511,
+          "pct_respected": 30.794040853939485
+        }
+      },
+      "12h": {
+        "tight": {
+          "n_zones": 87,
+          "pct_respected": 11.494252873563218
+        },
+        "medium": {
+          "n_zones": 2077,
+          "pct_respected": 15.551275878671161
+        },
+        "wide": {
+          "n_zones": 6511,
+          "pct_respected": 24.988481032099525
+        }
+      },
+      "24h": {
+        "tight": {
+          "n_zones": 87,
+          "pct_respected": 8.045977011494253
+        },
+        "medium": {
+          "n_zones": 2077,
+          "pct_respected": 10.06259027443428
+        },
+        "wide": {
+          "n_zones": 6511,
+          "pct_respected": 19.766548917217015
+        }
+      }
+    }
+  },
+  "per_symbol_by_size": {
+    "strict": {},
+    "soft": {},
+    "BTCUSDT": {
+      "strict": {
+        "6h": {
+          "tight": {
+            "n_zones": 80,
+            "pct_respected": 0.0
+          },
+          "medium": {
+            "n_zones": 1038,
+            "pct_respected": 1.2524084778420037
+          },
+          "wide": {
+            "n_zones": 1751,
+            "pct_respected": 14.448886350656768
+          }
+        },
+        "12h": {
+          "tight": {
+            "n_zones": 80,
+            "pct_respected": 0.0
+          },
+          "medium": {
+            "n_zones": 1038,
+            "pct_respected": 0.2890173410404624
+          },
+          "wide": {
+            "n_zones": 1751,
+            "pct_respected": 7.024557395773844
+          }
+        },
+        "24h": {
+          "tight": {
+            "n_zones": 80,
+            "pct_respected": 0.0
+          },
+          "medium": {
+            "n_zones": 1038,
+            "pct_respected": 0.09633911368015415
+          },
+          "wide": {
+            "n_zones": 1751,
+            "pct_respected": 3.9406053683609366
+          }
+        }
+      },
+      "soft": {
+        "6h": {
+          "tight": {
+            "n_zones": 80,
+            "pct_respected": 21.25
+          },
+          "medium": {
+            "n_zones": 1038,
+            "pct_respected": 22.639691714836225
+          },
+          "wide": {
+            "n_zones": 1751,
+            "pct_respected": 33.86636207881211
+          }
+        },
+        "12h": {
+          "tight": {
+            "n_zones": 80,
+            "pct_respected": 11.25
+          },
+          "medium": {
+            "n_zones": 1038,
+            "pct_respected": 15.221579961464354
+          },
+          "wide": {
+            "n_zones": 1751,
+            "pct_respected": 27.926898914905767
+          }
+        },
+        "24h": {
+          "tight": {
+            "n_zones": 80,
+            "pct_respected": 7.5
+          },
+          "medium": {
+            "n_zones": 1038,
+            "pct_respected": 10.308285163776493
+          },
+          "wide": {
+            "n_zones": 1751,
+            "pct_respected": 23.300970873786408
+          }
+        }
+      }
+    },
+    "ETHUSDT": {
+      "strict": {
+        "6h": {
+          "tight": {
+            "n_zones": 6,
+            "pct_respected": 0.0
+          },
+          "medium": {
+            "n_zones": 666,
+            "pct_respected": 1.2012012012012012
+          },
+          "wide": {
+            "n_zones": 2252,
+            "pct_respected": 9.857904085257548
+          }
+        },
+        "12h": {
+          "tight": {
+            "n_zones": 6,
+            "pct_respected": 0.0
+          },
+          "medium": {
+            "n_zones": 666,
+            "pct_respected": 0.15015015015015015
+          },
+          "wide": {
+            "n_zones": 2252,
+            "pct_respected": 5.150976909413854
+          }
+        },
+        "24h": {
+          "tight": {
+            "n_zones": 6,
+            "pct_respected": 0.0
+          },
+          "medium": {
+            "n_zones": 666,
+            "pct_respected": 0.0
+          },
+          "wide": {
+            "n_zones": 2252,
+            "pct_respected": 2.708703374777975
+          }
+        }
+      },
+      "soft": {
+        "6h": {
+          "tight": {
+            "n_zones": 6,
+            "pct_respected": 33.33333333333333
+          },
+          "medium": {
+            "n_zones": 666,
+            "pct_respected": 23.873873873873876
+          },
+          "wide": {
+            "n_zones": 2252,
+            "pct_respected": 31.127886323268207
+          }
+        },
+        "12h": {
+          "tight": {
+            "n_zones": 6,
+            "pct_respected": 16.666666666666664
+          },
+          "medium": {
+            "n_zones": 666,
+            "pct_respected": 16.516516516516518
+          },
+          "wide": {
+            "n_zones": 2252,
+            "pct_respected": 25.31083481349911
+          }
+        },
+        "24h": {
+          "tight": {
+            "n_zones": 6,
+            "pct_respected": 16.666666666666664
+          },
+          "medium": {
+            "n_zones": 666,
+            "pct_respected": 10.21021021021021
+          },
+          "wide": {
+            "n_zones": 2252,
+            "pct_respected": 20.20426287744227
+          }
+        }
+      }
+    },
+    "SOLUSDT": {
+      "strict": {
+        "6h": {
+          "tight": {
+            "n_zones": 1,
+            "pct_respected": 0.0
+          },
+          "medium": {
+            "n_zones": 373,
+            "pct_respected": 0.2680965147453083
+          },
+          "wide": {
+            "n_zones": 2508,
+            "pct_respected": 8.054226475279107
+          }
+        },
+        "12h": {
+          "tight": {
+            "n_zones": 1,
+            "pct_respected": 0.0
+          },
+          "medium": {
+            "n_zones": 373,
+            "pct_respected": 0.2680965147453083
+          },
+          "wide": {
+            "n_zones": 2508,
+            "pct_respected": 4.545454545454546
+          }
+        },
+        "24h": {
+          "tight": {
+            "n_zones": 1,
+            "pct_respected": 0.0
+          },
+          "medium": {
+            "n_zones": 373,
+            "pct_respected": 0.0
+          },
+          "wide": {
+            "n_zones": 2508,
+            "pct_respected": 2.751196172248804
+          }
+        }
+      },
+      "soft": {
+        "6h": {
+          "tight": {
+            "n_zones": 1,
+            "pct_respected": 0.0
+          },
+          "medium": {
+            "n_zones": 373,
+            "pct_respected": 21.179624664879356
+          },
+          "wide": {
+            "n_zones": 2508,
+            "pct_respected": 28.349282296650717
+          }
+        },
+        "12h": {
+          "tight": {
+            "n_zones": 1,
+            "pct_respected": 0.0
+          },
+          "medium": {
+            "n_zones": 373,
+            "pct_respected": 14.745308310991955
+          },
+          "wide": {
+            "n_zones": 2508,
+            "pct_respected": 22.647527910685806
+          }
+        },
+        "24h": {
+          "tight": {
+            "n_zones": 1,
+            "pct_respected": 0.0
+          },
+          "medium": {
+            "n_zones": 373,
+            "pct_respected": 9.115281501340483
+          },
+          "wide": {
+            "n_zones": 2508,
+            "pct_respected": 16.905901116427433
+          }
+        }
+      }
+    }
+  },
+  "excursion_stats": {
+    "6h": {
+      "median_bps": 516.9240016529553,
+      "p90_bps": 2351.096910888605,
+      "p99_bps": 6127.053144821667
+    },
+    "12h": {
+      "median_bps": 612.1295633339174,
+      "p90_bps": 2484.139942466584,
+      "p99_bps": 6466.246010592006
+    },
+    "24h": {
+      "median_bps": 698.6389140271488,
+      "p90_bps": 2607.369938330662,
+      "p99_bps": 6779.472822007411
+    }
+  },
+  "recommendation": {
+    "best_window": "6h",
+    "best_window_pct_soft_respected": 28.78386167146974,
+    "best_window_pct_strict_respected": 8.05763688760807,
+    "caveat": "Reported in-sample on a hot-funding-support strategy; out-of-sample walk-forward (G5) required before declaring zones valid for live entries."
+  }
+}

@@ -21,6 +21,8 @@ function workspaceScoped(slug: string) {
     usage: () => `${ws}/usage`,
     issues: () => `${ws}/issues`,
     issueDetail: (id: string) => `${ws}/issues/${encode(id)}`,
+    runs: () => `${ws}/runs`,
+    compare: () => `${ws}/compare`,
     projects: () => `${ws}/projects`,
     projectDetail: (id: string) => `${ws}/projects/${encode(id)}`,
     autopilots: () => `${ws}/autopilots`,

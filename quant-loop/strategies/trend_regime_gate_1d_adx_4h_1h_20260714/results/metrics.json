@@ -1,0 +1,20 @@
+{
+  "sharpe": 0.1777,
+  "annualized_return": 0.019750340334562466,
+  "total_return": 0.09243063417176911,
+  "max_drawdown": -0.5841244922002088,
+  "n_trades_total": 1099,
+  "win_rate_avg": 0.35750171922585716,
+  "profit_factor_avg": 1.0014863218004366,
+  "sharpe_method": "bar_freq_annualized",
+  "sharpe_method_evidence": "run_backtest.py: [run_backtest.py] L88:port_sharpe = float(bar_ret.mean() / bar_ret.std() * np.sqrt(bpy)) if bar_ret.std() > 0 else 0.0 port_dd = float(((portfolio_equity - portfolio_equity.cummax()) / portfolio_equit",
+  "sharpe_method_audit_date": "2026-07-17T06:30:53+00:00",
+  "sharpe_daily_resampled": 0.21391720817749202,
+  "sharpe_daily_resampled_n_days": 1651,
+  "sharpe_daily_resampled_span": [
+    "2022-01-01",
+    "2026-07-10"
+  ],
+  "sharpe_daily_resampled_source": "equity_portfolio.csv",
+  "sharpe_daily_resampled_audit_date": "2026-07-17T06:31:57Z"
+}

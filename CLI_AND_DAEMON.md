@@ -518,6 +518,19 @@ multica issue run-messages <task-id> --since 42 --output json
 
 The `runs` command shows all past and current executions for an issue, including running tasks. Table output uses short task UUID prefixes by default; pass `--full-id` to print canonical task UUIDs. The `run-messages` command accepts full task UUIDs directly; copied short task prefixes must be scoped with `--issue <issue-id>` so the CLI only checks that issue's runs. It shows the detailed message log (tool calls, thinking, text, errors) for a single run. Use `--since` for efficient polling of in-progress runs.
 
+## Structured Run Results (`result.json`)
+
+An agent may drop a file named `result.json` (exact name) into the task working directory before it exits. When the run finishes successfully, the daemon reads it and attaches it to the completion report; the server stores it in the task's `result` column.
+
+- Schema-free: any valid JSON value is accepted and stored as-is (object, array, string, number — your call).
+- Size cap: 64 KiB. Larger files, invalid JSON, or a missing file are skipped with a log line — the task never fails over its result file.
+- Read it back with `multica task get <task-id>` (pretty-printed in the `result` field) or `GET /api/tasks/{id}`.
+
+```json
+// .multica-workdir/result.json — example
+{"summary": "fixed the login redirect", "pr_url": "https://github.com/org/repo/pull/42", "tests": "pass"}
+```
+
 ## Projects
 
 Projects group related issues (e.g. a sprint, an epic, a workstream). Every project

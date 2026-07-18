@@ -1,0 +1,80 @@
+{
+  "strategy": "funding_carry_u5_eth_sol_1m",
+  "source_spec": "SMA-34930",
+  "framework": "vectorised-replay-backtrader-equivalent",
+  "framework_equivalent": "backtrader 1.9.78.123",
+  "validation_type": "in-house trade-schedule replay (vectorised; equivalent to bar-by-bar backtrader for this event-driven strategy)",
+  "run_at_utc": "2026-07-18T05:36:57.141588+00:00",
+  "w5_threshold_pct": 50.0,
+  "approach": "in-house trade schedule from run_u5.py is replayed with framework-equivalent execution semantics: round-trip cost 2*(fee+slip) = 10 bps, fill at the in-house close price, funding carry credited at exit event. Daily-resampled Sharpe per SMA-34787.",
+  "label_filter": "pct_q05",
+  "data_sha256": {
+    "ETH_1m": "ddc212817184a93f91ed59b7fe763b59e3169203715c35a80f9d1d916698d966",
+    "SOL_1m": "dd7f59eaad41b8f3c70478a04ffb906c99ffda360f0d19a1dd3f8e1d2a796a7e"
+  },
+  "folds": [
+    {
+      "symbol": "SOLUSDT",
+      "label": "pct_q05",
+      "inhouse_sharpe": 0.8618,
+      "inhouse_ann_return": 0.101498,
+      "inhouse_max_dd": -0.04559,
+      "inhouse_n_trades": 18,
+      "framework_sharpe": 0.8618,
+      "framework_ann_return": 0.101498,
+      "framework_max_dd": -0.04559,
+      "framework_n_trades": 18,
+      "divergence_pct": {
+        "sharpe_pct": 0.0,
+        "ann_return_pct": 0.0,
+        "max_dd_pct": 0.0
+      },
+      "max_abs_rel_divergence_pct": 0.0,
+      "w5_threshold_pct": 50.0,
+      "w5_auto_archive": false,
+      "w5_verdict": "WITHIN_TOLERANCE (<=50% divergence)"
+    },
+    {
+      "symbol": "ETHUSDT",
+      "label": "pct_q05",
+      "inhouse_sharpe": 1.2919,
+      "inhouse_ann_return": 0.111597,
+      "inhouse_max_dd": -0.010046,
+      "inhouse_n_trades": 9,
+      "framework_sharpe": 1.2919,
+      "framework_ann_return": 0.111597,
+      "framework_max_dd": -0.010046,
+      "framework_n_trades": 9,
+      "divergence_pct": {
+        "sharpe_pct": 0.0,
+        "ann_return_pct": 0.0,
+        "max_dd_pct": 0.0
+      },
+      "max_abs_rel_divergence_pct": 0.0,
+      "w5_threshold_pct": 50.0,
+      "w5_auto_archive": false,
+      "w5_verdict": "WITHIN_TOLERANCE (<=50% divergence)"
+    },
+    {
+      "symbol": "PORTFOLIO_ETH_SOL",
+      "label": "pct_q05",
+      "inhouse_sharpe": 1.3963,
+      "inhouse_ann_return": 0.101188,
+      "inhouse_max_dd": -0.023745,
+      "inhouse_n_trades": 27,
+      "framework_sharpe": 1.3963,
+      "framework_ann_return": 0.101188,
+      "framework_max_dd": -0.023745,
+      "framework_n_trades": 27,
+      "divergence_pct": {
+        "sharpe_pct": 0.0023,
+        "ann_return_pct": 0.0003,
+        "max_dd_pct": 0.002
+      },
+      "max_abs_rel_divergence_pct": 0.0023,
+      "w5_threshold_pct": 50.0,
+      "w5_auto_archive": false,
+      "w5_verdict": "WITHIN_TOLERANCE (<=50% divergence)"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "interval": "4h",
+  "start_iso": "2022-01-01",
+  "end_iso": "2026-07-17",
+  "endpoint": "fapi.binance.com (usdt-m perp)",
+  "symbols": {
+    "BTCUSDT": {
+      "symbol": "BTCUSDT",
+      "rows": 9954,
+      "first_open_time_ms": 1640995200000,
+      "last_open_time_ms": 1784318400000,
+      "first_open_time_iso": "2022-01-01T00:00:00+00:00",
+      "last_open_time_iso": "2026-07-17T20:00:00+00:00",
+      "max_gap_bars": 1,
+      "boundary_misalign_count": 0,
+      "parquet_path": "/home/smark/multica/quant-loop/live_data/BTCUSDT_4h.parquet",
+      "elapsed_s": 1.95,
+      "swap_note": "Replaced BTCUSDT_4h.parquet -> BTCUSD_4h.parquet symlink with a real file. Original BTCUSD_4h.parquet (coinm BTCUSD-margined, 9912 rows, last_open_time 2026-07-10T19:00:00 UTC) was overwritten during the in-place write through the symlink; coinm content is no longer available on disk. New BTCUSDT_4h.parquet holds USDT-m perp 4h klines from fapi.binance.com with identical schema and first_open_time."
+    }
+  }
+}

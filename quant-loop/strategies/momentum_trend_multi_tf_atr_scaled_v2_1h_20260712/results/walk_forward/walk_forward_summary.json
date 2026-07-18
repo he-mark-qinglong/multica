@@ -1,0 +1,63 @@
+{
+  "strategy": "momentum_trend_multi_tf_atr_scaled_v2_1h_20260712",
+  "iteration": 87,
+  "axis": "trend_following_multi_tf_v2_regime_stop",
+  "n_windows_run": 4,
+  "n_windows_planned": 4,
+  "schedule": {
+    "train_bars_1h": 8760,
+    "test_bars_1h": 4380,
+    "step_bars_1h": 4380
+  },
+  "in_sample": {
+    "sharpe": 0.1864240168311145,
+    "total_return": 0.01849840609087683,
+    "n_years": 4.520191649555099
+  },
+  "oos": {
+    "annualized_return_mean": 0.0072364781331134,
+    "sharpe_mean": -0.8988504423685773,
+    "profit_factor_mean": 1.0389257023186724,
+    "max_drawdown_max": 0.010317522554061478,
+    "n_trades_total": 696,
+    "min_sharpe": -11.960186846536557,
+    "per_window_annualized": [
+      -0.009092222572732123,
+      -0.021225882881389824,
+      0.014519780950568384,
+      0.04474423703600716
+    ],
+    "per_window_sharpe": [
+      -3.7808314585470573,
+      -11.960186846536557,
+      3.951994998029192,
+      8.193621537580112
+    ],
+    "per_window_profit_factor": [
+      0.8433444780369437,
+      0.5975267409523584,
+      1.1956536280458565,
+      1.519177962239531
+    ],
+    "per_window_max_dd": [
+      0.0071426996160970915,
+      0.007077032968046696,
+      0.005337707228456416,
+      0.010317522554061478
+    ],
+    "per_window_n_trades": [
+      147,
+      183,
+      181,
+      185
+    ]
+  },
+  "wf_ratio": -4.821537791361212,
+  "gates": {
+    "in_sample_sharpe_>=0.5": false,
+    "wf_ratio_>=0.5": false,
+    "min_oos_sharpe_>=0": false
+  },
+  "all_gates_pass": false,
+  "verdict": "[NOT-PROFITABLE]"
+}

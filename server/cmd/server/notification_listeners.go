@@ -941,3 +941,4 @@ func inboxItemToResponse(item db.InboxItem) map[string]any {
 		"details":        json.RawMessage(item.Details),
 	}
 }
+

@@ -1,0 +1,2 @@
+symbol,entry_signal_date,entry_fill_date,entry_price,exit_signal_date,exit_fill_date,exit_price,reason,pnl_usd,pnl_pct,bars_held,atr_4h_at_entry,vpvr_dist_atr_4h_at_entry
+SOLUSDT,2022-10-25 12:00:00+00:00,2022-10-25 16:00:00+00:00,29.695938,2022-10-30 16:00:00+00:00,2022-10-30 20:00:00+00:00,32.34353,time_stop>=30bars,899.539578458027,0.08915670553999666,31,0.6325490970463309,2.283702319621698

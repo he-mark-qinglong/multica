@@ -1,0 +1,46 @@
+{
+  "strategy": "bb_reversion_rsi_1m_20260707",
+  "iteration": 1,
+  "timeframe": "1m",
+  "instruments": [
+    "BTCUSDT"
+  ],
+  "sharpe": 1.9147,
+  "sortino": 0.16430555394561747,
+  "mdd": -0.0013231584616238967,
+  "total_return": 0.016611782791227547,
+  "annualized_return": 0.0024186606365925734,
+  "n_trades": 26945,
+  "by_symbol": {
+    "BTCUSDT": {
+      "sharpe": 1.9147,
+      "mdd": -0.0013231584616238419,
+      "n_trades": 26945,
+      "win_rate": 0.6899610317313045,
+      "profit_factor": 1.1152682772153353,
+      "total_return": 0.016611782791227547
+    }
+  },
+  "agg_sharpe_mean": 2.081211836216129,
+  "agg_mdd_worst": -0.0013231584616238967,
+  "agg_n_trades_total": 26945,
+  "equity_curve_start": "2019-09-08",
+  "equity_curve_end": "2026-07-05",
+  "active_universe": [
+    "BTCUSDT"
+  ],
+  "target_universe_size": 1,
+  "data_source": "binance_usdm_1m_canonical",
+  "generated_at": "2026-07-10T09:59:26.768537+00:00",
+  "sharpe_method": "bar_freq_annualized",
+  "sharpe_method_evidence": "run_backtest.py: [run_backtest.py] L150:agg_sharpe = ( float(bar_ret.mean() / sigma * math.sqrt(bars_per_year)) if sigma > 0 else 0.0; L164:agg_sharpe = only[\"sharpe\"] agg_mdd = only[\"mdd\"] agg_return = only[\"total_re",
+  "sharpe_method_audit_date": "2026-07-17T06:30:53+00:00",
+  "sharpe_daily_resampled": 2.3048034984168217,
+  "sharpe_daily_resampled_n_days": 2492,
+  "sharpe_daily_resampled_span": [
+    "2019-09-08",
+    "2026-07-05"
+  ],
+  "sharpe_daily_resampled_source": "aggregate(symbol equity_*.csv)",
+  "sharpe_daily_resampled_audit_date": "2026-07-17T06:31:57Z"
+}

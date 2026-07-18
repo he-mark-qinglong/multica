@@ -1,0 +1,41 @@
+{
+  "ts_utc": "2026-07-14T12:43:51Z",
+  "ts_local": "2026-07-14T20:43:51+0800",
+  "epoch": 1784033031,
+  "autopilot_run_id": "593556d8-abe1-4fc3-957b-49cee80deacb",
+  "autopilot_id": "c8ec222b-1f58-429a-b58d-7014da99f395",
+  "result": "ok",
+  "verdict": "no-op",
+  "totals": {
+    "idle": 11,
+    "active": 1,
+    "idle_in_tx": 0,
+    "idle_in_tx_aborted": 0,
+    "stuck_in_tx": 0,
+    "slow_queries": 0,
+    "oldest_tx_age_sec": null,
+    "fastpath": 0,
+    "total_conns": 12
+  },
+  "pool": {
+    "acquired_like": 1,
+    "go_pool_max": 25,
+    "acquired_over_max_pct": 4.0,
+    "pg_max_connections": 100
+  },
+  "thresholds": {
+    "pool_warn_pct": 80,
+    "stuck_tx": 0,
+    "slow_queries": 5,
+    "oldest_tx_age_sec": 60
+  },
+  "skip_guard": {
+    "daemon_alive": true,
+    "daemon_pid": 2609883,
+    "server_pid": 2188693,
+    "last_run_interval_s": 1171,
+    "pg_reachable": true
+  },
+  "verdict_reason": "all thresholds below limits: active=1/25 (4% < 80%); stuck_in_tx=0; slow_queries=0; oldest_tx_age_sec=null (< 60, no idle-in-tx present)",
+  "notes": "psql against 127.0.0.1:5432 (autopilot spec mentions 192.168.0.105:5432 which is the LAN IP; local pg on 127.0.0.1 is the actual daemon target)"
+}

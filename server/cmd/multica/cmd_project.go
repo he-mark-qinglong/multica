@@ -15,6 +15,7 @@ import (
 
 var projectCmd = &cobra.Command{
 	Use:   "project",
+	RunE:  groupRunE,
 	Short: "Work with projects",
 }
 
@@ -25,10 +26,11 @@ var projectListCmd = &cobra.Command{
 }
 
 var projectGetCmd = &cobra.Command{
-	Use:   "get <id>",
-	Short: "Get project details",
-	Args:  exactArgs(1),
-	RunE:  runProjectGet,
+	Use:     "get <id>",
+	Aliases: []string{"view"},
+	Short:   "Get project details",
+	Args:    exactArgs(1),
+	RunE:    runProjectGet,
 }
 
 var projectCreateCmd = &cobra.Command{

@@ -90,3 +90,4 @@ func TestMembershipCache_IsolatesKeysByUser(t *testing.T) {
 		t.Fatal("user-B should still be cached")
 	}
 }
+

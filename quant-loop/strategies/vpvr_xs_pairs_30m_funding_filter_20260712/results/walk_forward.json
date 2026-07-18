@@ -1,0 +1,70 @@
+{
+  "strategy": "vpvr_xs_pairs_30m_funding_filter_20260712",
+  "iteration": 81,
+  "timeframe": "30m",
+  "variant": "A",
+  "n_windows": 3,
+  "windows": [
+    {
+      "window_id": 1,
+      "train_start": "2022-01-01",
+      "train_end": "2023-01-01",
+      "test_start": "2023-01-01",
+      "test_end": "2023-07-01",
+      "n_test_bars": 8686,
+      "n_test_trades": 649,
+      "test_sharpe": 1.0237998640656807,
+      "test_return": 1.066175144663895,
+      "test_mdd": -0.13979267096489423,
+      "test_win_rate": 0.5993836671802774
+    },
+    {
+      "window_id": 2,
+      "train_start": "2022-01-01",
+      "train_end": "2023-07-01",
+      "test_start": "2023-07-01",
+      "test_end": "2024-01-01",
+      "n_test_bars": 8832,
+      "n_test_trades": 625,
+      "test_sharpe": 0.58617573197344,
+      "test_return": 0.7134082647463118,
+      "test_mdd": -0.25316154876309976,
+      "test_win_rate": 0.5792
+    },
+    {
+      "window_id": 3,
+      "train_start": "2022-01-01",
+      "train_end": "2024-01-01",
+      "test_start": "2024-01-01",
+      "test_end": "2024-07-01",
+      "n_test_bars": 8736,
+      "n_test_trades": 663,
+      "test_sharpe": 1.3900787989720167,
+      "test_return": 1.707671899999748,
+      "test_mdd": -0.12075959541031023,
+      "test_win_rate": 0.5731523378582202
+    }
+  ],
+  "aggregate": {
+    "mean_test_sharpe": 1.0000181316703791,
+    "std_test_sharpe": 0.4024788359395073,
+    "min_test_sharpe": 0.58617573197344,
+    "mean_test_return": 1.162418436469985,
+    "worst_test_mdd": -0.25316154876309976,
+    "in_sample_sharpe": 7.865640432897487,
+    "walk_forward_ratio": 0.12713753447054021,
+    "deflated_sharpe_z": -0.3268735345749437,
+    "ship_gate": {
+      "wf_ratio_threshold": 0.5,
+      "wf_ratio_pass": false,
+      "min_oos_sharpe_threshold": 0.0,
+      "min_oos_sharpe_pass": true,
+      "overall_pass": false
+    }
+  },
+  "evidence_gate": {
+    "sharpe_threshold": 0.5,
+    "wf_ratio_threshold": 0.5,
+    "passed": false
+  }
+}

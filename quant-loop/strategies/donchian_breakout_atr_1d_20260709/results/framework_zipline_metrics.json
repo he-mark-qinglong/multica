@@ -1,0 +1,59 @@
+{
+  "BTCUSDT": {
+    "pass_a": {
+      "sharpe": 0.19642682640735334,
+      "sortino": 0.37161409858294664,
+      "max_dd": -0.002555016953482895,
+      "cum_return": 0.0017226379421908522,
+      "annual_return": 0.0005477904971045167,
+      "inhouse_sharpe": 0.1964268264073372,
+      "inhouse_max_dd": -0.0025550169534826104,
+      "inhouse_total_return": 0.0017226379421908522,
+      "inhouse_sortino": 0.08383146994312679
+    },
+    "pass_b": {
+      "n_trades": 14,
+      "win_rate": 0.42857142857142855,
+      "inhouse_n_trades": 14,
+      "inhouse_win_rate": 0.42857142857142855
+    }
+  },
+  "ETHUSDT": {
+    "pass_a": {
+      "sharpe": 0.3047109963636701,
+      "sortino": 0.5112398466600044,
+      "max_dd": -0.003209686856975193,
+      "cum_return": 0.0035366763469926177,
+      "annual_return": 0.0011239520292474214,
+      "inhouse_sharpe": 0.3047109963636971,
+      "inhouse_max_dd": -0.0032096868569750255,
+      "inhouse_total_return": 0.0035366763469928397,
+      "inhouse_sortino": 0.14230611164667764
+    },
+    "pass_b": {
+      "n_trades": 16,
+      "win_rate": 0.5625,
+      "inhouse_n_trades": 16,
+      "inhouse_win_rate": 0.5625
+    }
+  },
+  "SOLUSDT": {
+    "pass_a": {
+      "sharpe": 0.29628778456214766,
+      "sortino": 0.5174220451541258,
+      "max_dd": -0.004645897753633422,
+      "cum_return": 0.0031292656214887415,
+      "annual_return": 0.0009946151028255024,
+      "inhouse_sharpe": 0.29628778456214616,
+      "inhouse_max_dd": -0.004645897753633561,
+      "inhouse_total_return": 0.0031292656214882975,
+      "inhouse_sortino": 0.06674427676379946
+    },
+    "pass_b": {
+      "n_trades": 10,
+      "win_rate": 0.5,
+      "inhouse_n_trades": 10,
+      "inhouse_win_rate": 0.5
+    }
+  }
+}

@@ -17,6 +17,7 @@ import (
 
 var labelCmd = &cobra.Command{
 	Use:   "label",
+	RunE:  groupRunE,
 	Short: "Work with issue labels",
 }
 

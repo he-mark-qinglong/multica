@@ -1,0 +1,50 @@
+{
+  "strategy": "vpvr_xs_pairs_30m_funding_filter_btc_sol_regularized_20260712",
+  "iteration": 83,
+  "date": "2026-07-12",
+  "timeframe": "30m",
+  "instruments": [
+    "BTCUSDT",
+    "SOLUSDT"
+  ],
+  "pairs": [
+    "BTCUSDT/SOLUSDT"
+  ],
+  "variant": "A",
+  "n_trades": 2703,
+  "win_rate": 0.5941546429892712,
+  "profit_factor": 1.7069028395571366,
+  "total_return_pct": 70.66133697893399,
+  "sharpe": 4.7525,
+  "max_drawdown_pct": -0.15392507149472723,
+  "tag": "PROFITABLE",
+  "evidence_gate_sharpe_threshold": 0.5,
+  "per_pair": {
+    "BTCUSDT/SOLUSDT": {
+      "n_trades": 2703,
+      "win_rate": 0.5941546429892712,
+      "profit_factor": 1.7069028395571366,
+      "avg_hold_bars": 2.386237513873474,
+      "total_return_pct": 70.66133697893399,
+      "sharpe": 4.7525,
+      "sortino": 1.4650598984820242,
+      "max_drawdown_pct": -0.15392507149472723,
+      "trades_per_year": 597.6365929326305,
+      "pair": "BTCUSDT/SOLUSDT",
+      "span_start": "2022-01-01",
+      "span_end": "2026-07-10",
+      "n_bars": 79294
+    }
+  },
+  "sharpe_method": "bar_freq_annualized",
+  "sharpe_method_evidence": "run_backtest.py: [run_backtest.py] L43:sharpe = (mu / sigma) * ann if sigma > 0 else 0.0 ds = bar_r[bar_r < 0] dsigma = float(np.std(ds, ddof=0)) if ds.size else 0.0; L104:avg_sharpe = float(np.mean([m[\"sharpe\"] for m",
+  "sharpe_method_audit_date": "2026-07-17T06:30:53+00:00",
+  "sharpe_daily_resampled": 5.7214229514903385,
+  "sharpe_daily_resampled_n_days": 1651,
+  "sharpe_daily_resampled_span": [
+    "2022-01-01",
+    "2026-07-10"
+  ],
+  "sharpe_daily_resampled_source": "aggregate(symbol equity_*.csv)",
+  "sharpe_daily_resampled_audit_date": "2026-07-17T06:32:00Z"
+}

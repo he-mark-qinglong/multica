@@ -168,3 +168,4 @@ func parseChunkHeaders(f *Frame) (sum, seq int, messageID string) {
 	messageID = f.HeaderValue(FrameHeaderMessageIDKey)
 	return
 }
+

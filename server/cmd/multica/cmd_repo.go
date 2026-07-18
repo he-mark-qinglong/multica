@@ -14,6 +14,7 @@ import (
 
 var repoCmd = &cobra.Command{
 	Use:   "repo",
+	RunE:  groupRunE,
 	Short: "Work with repositories",
 }
 

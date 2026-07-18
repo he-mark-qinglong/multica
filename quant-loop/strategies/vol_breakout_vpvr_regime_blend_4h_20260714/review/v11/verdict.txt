@@ -1,0 +1,73 @@
+REJECTED
+
+Variant: vol_breakout_vpvr_regime_blend_4h_20260714 (V11 / iter#75)
+Review issue: SMA-33964
+Reviewer: code-reviewer (aefe1356-9356-42c6-ad58-d2cd23009d76)
+Date: 2026-07-14
+
+Verdict reason: INSUFFICIENT_EVIDENCE + CODE_DEFECTS
+
+Hard-gate summary: 0/7 passed
+  G1 Sharpe>=1.0                 FAIL (no backtest results)
+  G2 annualized>=15%             FAIL (no backtest results)
+  G3 profit_factor>1.5           FAIL (no backtest results)
+  G4 max_dd<25%                  FAIL (no backtest results)
+  G5 framework CV OOS WF>=1.0    FAIL (V11-B6 not started)
+  G6 bootstrap 95% CI lower>=0.5 FAIL (no bootstrap results)
+  G7 FWER Bonferroni alpha=0.0125 FAIL (no bonferroni results)
+
+Predecessor state:
+  V11-B3 (backtest, SMA-33962)        in_progress   (still running)
+  V11-B6 (walk-forward + FW CV)       not started   (NOT FOUND in in_progress list)
+  V11-B7 (this review, SMA-33964)     in_review     (this file)
+
+The B7 spec explicitly says: "Predecessor: V11-B6 walk-forward (must show all gates passed)".
+That condition is structurally not satisfied — even a miracle B3 result cannot pass B7 without B6.
+
+Extra scrutiny:
+  3-axis contribution     PARTIAL      (gate, not blend; no ablation)
+  asymmetric RR 1:2       PASS_CODE    (line 508-509; verified by test line 317)
+  multi-symbol consistency FAIL        (no per-symbol backtest results)
+
+Code review findings:
+  CRITICAL: 2
+    CR-1  regime_atr_pct has no producer in the worktree  (vol_breakout_vpvr.py:555)
+    CR-2  higher_ema_50 column has no producer             (vol_breakout_vpvr.py:230,362,502,550)
+  MAJOR: 3
+    MR-1  3-axis "blend" is actually a 3-axis AND-gate   (vol_breakout_vpvr.py:536-585)
+    MR-2  regime_atr_pct read once, no persistence check  (vol_breakout_vpvr.py:555-557)
+    MR-3  signal_id collision risk at millisecond         (vol_breakout_vpvr.py:588)
+  MINOR: 3
+    MN-1  datetime.utcnow() called twice in same Signal
+    MN-2  poc_k_atr=0.7 default with no sensitivity sweep
+    MN-3  No explicit symbol-availability guard
+
+Test coverage:
+  18/18 unit tests pass (python3 -m pytest tests/unit/test_vol_breakout_vpvr.py -v)
+  Gap: tests do NOT cover wiring to upstream indicator pipeline (where CR-1 and CR-2 hit).
+  Gap: SHORT direction not tested (only LONG).
+  Gap: no integration test with real OHLCV + VPVR + ATR + EMA data.
+
+KISS/DRY/SOLID:
+  KISS  PASS       (single file, shared skeleton for 3 variants)
+  DRY   PASS       (compute_vol_bands, poc_proximity_ok, val_reject_fade shared)
+  SOLID MIXED      (Dependency Inversion VIOLATED by CR-1 + CR-2)
+
+Security:
+  No hardcoded secrets. No SQL/XSS/CSRF/Auth surfaces in strategy code.
+  signal_id encodes only variant name + timestamp; no PII.
+
+Predecessor family (cycle-46 vpvr_regime_blend_4h_20260714):
+  Sharpe=-2.29, CI lower=-6.78, all gates failed. Archived NOT-PROFITABLE.
+  V11 is the cycle-49 pivot on the same family with vol_breakout skeleton + multi-TF + asymmetric RR 1:2.
+  Per cycle-46 family-exhaustion: this is the family's last shot.
+
+Recommendation:
+  REJECT this issue. Do NOT advance to done.
+  Sign-off required from smark for: restart V11-B3, dispatch V11-B6, push CR-1/CR-2 fixes,
+  or close this issue as [NOT-PROFITABLE] per spec.
+
+Deliverables:
+  /home/smark/multica/quant-loop/strategies/vol_breakout_vpvr_regime_blend_4h_20260714/review/v11/review.md
+  /home/smark/multica/quant-loop/strategies/vol_breakout_vpvr_regime_blend_4h_20260714/review/v11/gate_check.json
+  /home/smark/multica/quant-loop/strategies/vol_breakout_vpvr_regime_blend_4h_20260714/review/v11/verdict.txt

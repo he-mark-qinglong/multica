@@ -1,0 +1,45 @@
+{
+  "strategy": "vol_breakout_2tf_vpvr_confluence_4h_20260712",
+  "iteration": 84,
+  "parent_strategy": "vpvr_vol_breakout_2tf_v1_20260711",
+  "timeframe": "4h",
+  "bars_per_year_4h": 2190,
+  "sqrt_bars_per_year_4h": 46.79743582719036,
+  "fill_convention": "bar[t+1].open + cost_per_side",
+  "max_concurrent_positions": 3,
+  "per_symbol": [
+    {
+      "symbol": "BTCUSDT",
+      "n_trades": 8,
+      "pnl_usd_sum": 2140.9830137936774,
+      "total_return": 0.021409830137936847,
+      "final_equity": 102140.98301379368
+    },
+    {
+      "symbol": "ETHUSDT",
+      "n_trades": 12,
+      "pnl_usd_sum": 1938.3602906351775,
+      "total_return": 0.01938360290635166,
+      "final_equity": 101938.36029063517
+    },
+    {
+      "symbol": "SOLUSDT",
+      "n_trades": 12,
+      "pnl_usd_sum": -1939.2088894778774,
+      "total_return": -0.019392088894778725,
+      "final_equity": 98060.79111052213
+    }
+  ],
+  "audit": {
+    "per_symbol_equity_csvs_distinct": true,
+    "per_symbol_final_equity_reconciles_to_csv_last_row": true,
+    "per_symbol_curves_method": "equity_sym[t] = starting_capital + sum(pnl_usd for sym's trades whose exit_fill_date <= t)",
+    "defect_cycle44_status": "fixed"
+  },
+  "portfolio": {
+    "starting_capital_usd": 100000.0,
+    "final_equity_usd": 102140.13441495101,
+    "total_return": 0.021401344149510004,
+    "n_trades_total": 32
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "start_iso": "2022-01-01",
+  "end_iso": "2026-07-11",
+  "symbols": {
+    "BTCUSDT": {
+      "rows": 4956,
+      "first_fundingTime_ms": 1640995200000,
+      "last_fundingTime_ms": 1783699200000,
+      "first_iso": "2022-01-01T00:00:00+00:00",
+      "last_iso": "2026-07-10T16:00:00+00:00",
+      "coverage": 1.0,
+      "parquet_path": "/home/smark/multica/quant-loop/funding_analysis/BTCUSDT_bybit_funding.parquet",
+      "elapsed_s": 4.08
+    },
+    "ETHUSDT": {
+      "rows": 4956,
+      "first_fundingTime_ms": 1640995200000,
+      "last_fundingTime_ms": 1783699200000,
+      "first_iso": "2022-01-01T00:00:00+00:00",
+      "last_iso": "2026-07-10T16:00:00+00:00",
+      "coverage": 1.0,
+      "parquet_path": "/home/smark/multica/quant-loop/funding_analysis/ETHUSDT_bybit_funding.parquet",
+      "elapsed_s": 3.8
+    },
+    "SOLUSDT": {
+      "rows": 5316,
+      "first_fundingTime_ms": 1640995200000,
+      "last_fundingTime_ms": 1783699200000,
+      "first_iso": "2022-01-01T00:00:00+00:00",
+      "last_iso": "2026-07-10T16:00:00+00:00",
+      "coverage": 1.0726,
+      "parquet_path": "/home/smark/multica/quant-loop/funding_analysis/SOLUSDT_bybit_funding.parquet",
+      "elapsed_s": 4.16
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "issue_id": "28ac6337-0838-459d-be13-b752de95cce2",
+  "issue_identifier": "SMA-35012",
+  "signoff_issue": "SMA-34986",
+  "title": "[PAPER-TRADING] mtf_xs_pairs ETH/SOL leg — forward shadow execution with kill criteria",
+  "phase": 1,
+  "phase_name": "paper_shadow_execution",
+  "real_capital": false,
+  "started_at": "2026-07-19T03:05:02+08:00",
+  "started_by": "smark",
+
+  "strategy_target": "vpvr_xs_pairs_30m_funding_filter_eth_sol_v5_loose_20260717",
+  "strategy_iter": 85,
+  "axis": "xs_pair_zscore_with_vpvr_confluence_and_funding_blowoff_filter_loose",
+  "instruments": ["ETHUSDT", "SOLUSDT"],
+  "pair": "ETHUSDT/SOLUSDT",
+  "timeframe": "30m",
+  "exchange": "binance_usdm",
+  "venue": "binance_usdm_paper",
+  "live_endpoint": "https://fapi.binance.com",
+
+  "data_sources": {
+    "perp_30m": "/home/smark/multica/quant-loop/data/perp_30m",
+    "live_data": "/home/smark/multica/quant-loop/live_data",
+    "funding": "/home/smark/multica/quant-loop/data/funding"
+  },
+
+  "cost_model": {
+    "module": "_shared.execution.cost_model",
+    "venue": "BINANCE_FUTURES",
+    "default_venue_bps_per_side_fee": 4.0,
+    "default_venue_bps_per_side_slip": 2.0,
+    "apply_function": "apply_cost",
+    "no_hardcoded_fees": true,
+    "notes": "Cost model MUST be sourced from _shared/execution/cost_model.py. No per-strategy hardcoded fees."
+  },
+
+  "starting_capital_usd": 100000.0,
+  "per_pair_notional_pct": 0.01,
+  "max_pairs_active": 1,
+
+  "backtest_expectations": {
+    "oos_sharpe": 2.43,
+    "ann_total_return_pct": 46.27,
+    "profit_factor": 1.016,
+    "bootstrap_ci_lo": 1.68,
+    "n_trades_oos": 39211,
+    "g5_cv_passed": true,
+    "source_signoff": "SMA-34986 (2026-07-19)"
+  },
+
+  "kill_criteria": {
+    "min_trades_before_kill_check": 100,
+    "min_live_profit_factor": 1.0,
+    "max_drawdown_multiple_vs_backtest": 1.5,
+    "rolling_20d_sharpe_floor": 0.0,
+    "evaluation_frequency": "every_close_bar_30m",
+    "known_weak_point": "PF 1.016 is thin — watch cost drag first."
+  },
+
+  "review_cadence": {
+    "daily_metrics_log": "results-ledger/daily_metrics.csv",
+    "weekly_review_comment_on_issue": true,
+    "weekly_review_fields": ["sharpe", "profit_factor", "max_drawdown", "trade_count"]
+  },
+
+  "phase_transitions": {
+    "phase_2_minimal_real_capital": {
+      "min_paper_weeks": 4,
+      "explicit_smark_approval_required": true,
+      "blocked_until_signoff": true
+    }
+  },
+
+  "notes": [
+    "Phase 1: forward paper trading — shadow execution on live Binance USD-M data.",
+    "NO real capital is deployed at any point in phase 1.",
+    "Cost model: _shared/execution/cost_model.py is the single source of truth.",
+    "Daily metrics must be logged to results-ledger/daily_metrics.csv.",
+    "Kill criteria trigger automatic halt; comment on issue with reason.",
+    "Weekly review comment on issue SMA-35012 with Sharpe/PF/DD/trade-count.",
+    "Phase 2 requires >=4 weeks paper AND smark explicit approval per issue."
+  ]
+}

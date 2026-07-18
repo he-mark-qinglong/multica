@@ -1,0 +1,55 @@
+{
+  "engine": "freqtrade",
+  "engine_version": "2026.6",
+  "engine_sha": "freqtrade-2026.6",
+  "iteration": 108,
+  "strategy_key": "vpvr_funding_reset_window_1h_20260715",
+  "fix_revision": "SMA-34922 max_dd accounting fix 2026-07-18",
+  "fix_note": "previous adapter diluted pnl_pct by weight 0.01 and spread it across held bars, scaling framework metrics ~100x down (max_dd -3.126e-04 sentinel, Sharpe 0.0003). Replaced with a replay that mirrors the in-house risk_per_trade-scaled equity construction at the freqtrade cost model (which equals the in-house 12bp rt cost here).",
+  "cost_model": {
+    "fee_bps_per_side": 4.0,
+    "slippage_bps_per_side": 2.0,
+    "round_trip": 0.0012,
+    "inhouse_round_trip": 0.0012
+  },
+  "replay_validation": {
+    "BTCUSDT": {
+      "n_bars_compared": 39647,
+      "max_abs_rel_err": 6.043149320502798e-06,
+      "final_rel_err": 4.345768692088733e-08,
+      "replayed_max_dd": -0.010209232020501058,
+      "inhouse_max_dd": -0.010210576921291348,
+      "max_dd_abs_diff": 1.3449007902899268e-06
+    }
+  },
+  "inhouse": {
+    "sharpe": -1.392367688833999,
+    "ann_total_return": null,
+    "total_return": -0.00797773207952579,
+    "max_dd": -0.010210576923736392,
+    "n_trades": 626,
+    "timeframe": "1h",
+    "status": "NOT-PROFITABLE"
+  },
+  "framework": {
+    "sharpe": -1.3928527876560746,
+    "sharpe_nav_bar": -1.3678482582827376,
+    "ann_total_return": -0.001769402201055148,
+    "total_return": -0.007977775190993075,
+    "max_dd": -0.010209232020501058,
+    "n_bars": 39647,
+    "n_fills": 626,
+    "span_years": 4.522815423226101
+  },
+  "divergence_pct": {
+    "sharpe": 0.03483985056287203,
+    "total_return": 0.0005403975322211583,
+    "max_dd": 0.013171667432499484
+  },
+  "max_abs_rel_divergence_pct": 0.03483985056287203,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": false,
+  "w5_tipping_metrics": [],
+  "w5_verdict": "WITHIN_TOLERANCE",
+  "approach": "freqtrade 2026.6 cost model (4bp fee + 2bp slip per side; identical to this strategy's in-house cost) applied to the in-house entry/exit schedule with risk_per_trade-scaled mark-to-market equity on real 1h closes, cost amortised over held bars, mirroring strategy.py; validated by reproducing the in-house equity CSV at in-house cost. Sharpe uses the in-house formula (mean/std of per-trade pnl x sqrt(trades/yr))."
+}

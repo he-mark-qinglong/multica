@@ -1,0 +1,2 @@
+symbol,entry_signal_date,entry_fill_date,entry_price,exit_signal_date,exit_fill_date,exit_price,reason,pnl_usd,pnl_pct,bars_held,atr_4h_at_entry,vpvr_dist_atr_4h_at_entry
+ETHUSDT,2022-02-25 20:00:00+00:00,2022-02-26 00:00:00+00:00,2768.60361,2022-02-27 20:00:00+00:00,2022-02-28 00:00:00+00:00,2616.266642,trailing_stop<entry-2.0*ATR,-429.2722710221588,-0.055023033073340555,12,103.44811177994562,0.6146488209005511

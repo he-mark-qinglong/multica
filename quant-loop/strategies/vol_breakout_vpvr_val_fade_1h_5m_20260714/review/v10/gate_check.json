@@ -1,0 +1,154 @@
+{
+  "issue_id": "c46c0e1d-8b53-4f80-8e14-3293249175c3",
+  "issue_identifier": "SMA-33961",
+  "reviewer_agent": "code-reviewer (aefe1356-9356-42c6-ad58-d2cd23009d76)",
+  "review_started_at": "2026-07-14T15:30:00+08:00",
+  "strategy": {
+    "name": "vol_breakout_vpvr_val_fade_1h_5m_20260714",
+    "variant": "V10",
+    "iteration": 74,
+    "class": "strategies.team.combo.vol_breakout_vpvr:VolBreakoutVPVRValFade1h5m",
+    "tf_stack": "1h trend + 5m entry",
+    "universe": ["BTCUSDT"],
+    "skeleton": "vol_breakout + VPVR VAL reject fade (long-only)",
+    "code_path": "42a03459/workdir/trading/strategies/team/combo/vol_breakout_vpvr.py",
+    "tests_path": "42a03459/workdir/trading/tests/unit/test_vol_breakout_vpvr.py"
+  },
+  "predecessor_state": {
+    "v10_b3_issue": "SMA-33959 (9d0c9a32-6e17-4816-a4f4-3af66e316718)",
+    "v10_b3_status": "in_progress",
+    "v10_b3_results_dropped": false,
+    "v10_b6_issue": "SMA-33960 (72d54ba0-21fc-4124-977f-f6ae9f04f124)",
+    "v10_b6_status": "blocked_on_b3",
+    "v10_b6_results_dropped": false
+  },
+  "gates": {
+    "G1_sharpe_full_backtest_mean_ge_1.0": {
+      "passed": false,
+      "verdict": "FAIL",
+      "reason": "results/v10/metrics.json does not exist; full-backtest Sharpe not measurable. B3 (SMA-33959) is still in_progress and has not yet emitted metrics.json as of this review."
+    },
+    "G2_min_annualized_full_and_mean_OOS_ge_15pct": {
+      "passed": false,
+      "verdict": "FAIL",
+      "reason": "results/v10/summary.json does not exist; annualised metrics not measurable."
+    },
+    "G3_profit_factor_gt_1.5": {
+      "passed": false,
+      "verdict": "FAIL",
+      "reason": "results/v10/metrics.json does not exist; profit_factor not measurable."
+    },
+    "G4_max_drawdown_lt_25pct": {
+      "passed": false,
+      "verdict": "FAIL",
+      "reason": "results/v10/metrics.json does not exist; max_drawdown_pct not measurable."
+    },
+    "G5_framework_cv_oos_walkforward_sharpe_ge_1.0_freqtrade_AND_backtrader": {
+      "passed": false,
+      "verdict": "FAIL",
+      "reason": "results/v10/framework_cv.json does not exist; framework CV (freqtrade + backtrader OOS walk-forward) not measurable. B6 (SMA-33960) is blocked on B3."
+    },
+    "G6_bootstrap_95ci_lower_ge_0.5_10000_resamples_seed42": {
+      "passed": false,
+      "verdict": "FAIL",
+      "reason": "results/v10/bootstrap_ci.json does not exist; bootstrap CI not measurable."
+    },
+    "G7_fwer_bonferroni_alpha_0.0125": {
+      "passed": false,
+      "verdict": "FAIL",
+      "reason": "results/v10/fwer.json does not exist; Bonferroni FWER not measurable."
+    }
+  },
+  "summary": {
+    "total_gates": 7,
+    "passed_gates": 0,
+    "failed_gates": 7,
+    "all_passed": false,
+    "verdict": "REJECTED",
+    "verdict_reason": "All 7 hard gates FAIL on the basis of no evidence produced (no B3 backtest results, no B6 walk-forward / framework CV / bootstrap / FWER artifacts). V10-B3 (SMA-33959) is still in_progress and V10-B6 (SMA-33960) is blocked on B3; per issue spec, B7 review cannot proceed before B3 + B6 deliverables land."
+  },
+  "structural_code_review": {
+    "scope_lock_vpvr_reversion_banned": {
+      "passed": true,
+      "verdict": "PASS",
+      "evidence": "Class is in strategies/team/combo/, not strategies/team/vpvr_reversion_*/; skeleton derives from vol_breakout (compute_vol_bands + bands.is_breakout) cross-coupled with VAL pierce-reject."
+    },
+    "scope_lock_val_fade_not_degenerate_reversion": {
+      "passed": true,
+      "verdict": "PASS",
+      "evidence": "V10 explicitly rejects entries when bands.is_breakout == 'up' (lines 429-431), which prevents double-counting with the breakout family. It is long-only (no short tail) and demands 1h trend == 'up' before any VAL fade. Cross-axis (vol_breakout x vpvr_VAL) is preserved, not a pure reversion."
+    },
+    "kiss_dry_solid": {
+      "passed": true,
+      "verdict": "PASS",
+      "evidence": "Single skeleton file (vol_breakout_vpvr.py:618 lines) hosts three thin specializations (V9/V10/V11) sharing compute_vol_bands, poc_proximity_ok, val_reject_fade, higher_tf_trend helpers. This is correct DRY here — splitting into 3 files would create 3x drift risk for the shared vol-band logic."
+    },
+    "lookahead_discipline": {
+      "passed": true,
+      "verdict": "PASS",
+      "evidence": "data_loader.compute_1h_indicators applies shift(1) to ema_50 AND vpvr_val before merging onto 5m bars (lines 188, 210-211). 5m ATR uses standard Wilder with bars [t-13, t]. Strategy's compute_vol_bands anchors to prev_close (df.iloc[-(lookback+1):-1]) to avoid the trivial always-true breakout bug (comment lines 113-117)."
+    },
+    "no_hardcoded_secrets": {
+      "passed": true,
+      "verdict": "PASS",
+      "evidence": "No API keys, no credentials, no URLs in any file. All paths come from config.json or DEFAULT_SOURCE_ROOT."
+    },
+    "no_mutation_anti_patterns": {
+      "passed": true,
+      "verdict": "PASS",
+      "evidence": "Indicators are computed via df.copy() before mutation; backtest engine uses immutable trade/state dataclasses. compute_vol_bands and indicator helpers do not mutate input frames."
+    },
+    "test_coverage": {
+      "passed": true,
+      "verdict": "PASS",
+      "evidence": "tests/unit/test_vol_breakout_vpvr.py covers V10 with 6 tests: default_init, required_indicators, registered, long_when_val_reject_with_uptrend, no_signal_when_downtrend, no_signal_when_higher_tf_already_breakout. ALL 18 tests in the file pass (pytest run 2026-07-14 15:42 local, 0.47s, 18/18 PASSED)."
+    },
+    "fill_convention_disclosure": {
+      "passed": true,
+      "verdict": "PASS",
+      "evidence": "config.json declares fill_convention='bar[t].close + cost_per_side' and explicitly notes the bar[t+1].open proxy as documented in strategy.py docstring (lines 28-35). Conservative SL-first ordering on same-bar SL/TP is also documented (line 33)."
+    },
+    "long_only_decision_disclosure": {
+      "passed": true,
+      "verdict": "PASS",
+      "evidence": "Class docstring (lines 348-358) explicitly justifies why V10 is long-only — short tail has historically destroyed Sharpe in cycle-46 family. This is exactly the kind of decision a code review should accept without re-litigating."
+    }
+  },
+  "structural_findings": {
+    "critical": [],
+    "major": [],
+    "minor": [
+      {
+        "id": "F-MIN-01",
+        "file": "strategy.py (quant-loop directory)",
+        "lines": "299",
+        "summary": "Variable `pending_qty_units` is computed with walrus operator but never used; the actual `qty` used downstream is also undefined in the entry-exit branch (the same block computes `qty` again inside the if).",
+        "recommendation": "Remove dead walrus + redundant `qty` line 299. Replace with a clean qty computation immediately before use."
+      },
+      {
+        "id": "F-MIN-02",
+        "file": "strategy.py (trading repo)",
+        "lines": "242, 255",
+        "summary": "Entry fill uses `prev['close'] * (1.0 + cost_per_side)` and exit fill uses `prev['close'] * (1.0 - cost_per_side)`. This is the conservative-bar[t+1].open proxy disclosed in config but it double-counts slippage into both sides if the price moves against the fill — i.e. exit uses `prev_close * (1 - cost)` even when the actual exit fill is `bar[t].open`. This is acceptable as documented but is worth noting in the comment for future readers.",
+        "recommendation": "Add 1-line doc clarification: 'Cost-per-side on entry/exit fill proxy includes both fee + slippage; bar[t].open-vs-prev_close gap is implicitly absorbed.'"
+      },
+      {
+        "id": "F-MIN-03",
+        "file": "strategy.py (trading repo, vol_breakout_vpvr.py)",
+        "lines": "455-456",
+        "summary": "signal_id uses `int(datetime.utcnow().timestamp() * 1000)` — fine for backtests but susceptible to collisions when the strategy is called at sub-ms resolution across multiple workers. For paper-trade this is fine.",
+        "recommendation": "No action. Document the collision risk in class docstring if V10 ever ships to multi-worker paper-trade."
+      },
+      {
+        "id": "F-MIN-04",
+        "file": "data_loader.py (V10 strategy dir)",
+        "lines": "237",
+        "summary": "_import_vpvr_value_area silently falls back across two import paths. The fallback also silently swallows Exception. This is fine for cycle-49 but the cycle-49 broken chain (kama_trend_vwap → LHFrameStd) is mentioned only in a docstring — a future agent debugging a missing function would benefit from logging the actual exception.",
+        "recommendation": "Log the swallowed exception with `logger.warning(...)` at minimum."
+      }
+    ]
+  },
+  "verdict_artifact": "review/v10/verdict.txt",
+  "verdict_value": "REJECTED",
+  "next_step_required": "Re-run B7 review AFTER V10-B3 (SMA-33959) drops results/v10/{metrics.json, summary.json, equity_BTCUSDT.csv, trades_BTCUSDT.csv, walk_forward.json} AND V10-B6 (SMA-33960) drops results/v10/{walk_forward_summary.json, bootstrap_ci.json, framework_cv.json}. Per the issue spec, do NOT advance until every gate is measurable."
+}

@@ -1,0 +1,95 @@
+{
+  "n_samples": 20,
+  "lookback_days": 30,
+  "lookback_bars": 30,
+  "horizons_bars": [
+    4,
+    12,
+    24
+  ],
+  "primary_horizon_bars": 12,
+  "wilson_95ci": {
+    "HVN_loose": [
+      0.188775429471914,
+      0.7333526542559703
+    ],
+    "HVN_strict": [
+      0.019890371327130535,
+      0.4350062147680601
+    ],
+    "LVN_loose": [
+      0.7411599827511859,
+      1.0
+    ],
+    "LVN_strict": [
+      0.15166223614131383,
+      0.6462032231083628
+    ],
+    "baseline_HVN_loose": [
+      0.2992949144298199,
+      0.7007050855701801
+    ],
+    "baseline_HVN_strict": [
+      0.11186005278940309,
+      0.4687050099580636
+    ],
+    "baseline_LVN_loose": [
+      0.8388698745050668,
+      0.9999999999999999
+    ],
+    "baseline_LVN_strict": [
+      0.0806563532712,
+      0.41602172202575993
+    ]
+  },
+  "reversal_rule": {
+    "HVN_loose": "max_drawdown <= -0.5% AND max_upside >= +1.0% over 12 bars",
+    "HVN_strict": "max_drawdown <= -1.0% AND max_upside >= +2.0% over 12 bars",
+    "LVN_loose": "abs(max excursion) >= 1.0% either direction over 12 bars",
+    "LVN_strict": "dominant move >= +1.5% with opposing <= 0.3% over 12 bars"
+  },
+  "counts": {
+    "total": 20,
+    "HVN": 9,
+    "LVN": 11,
+    "reversals_total_loose": 15,
+    "reversals_HVN_loose": 4,
+    "reversals_LVN_loose": 11,
+    "reversals_HVN_strict": 1,
+    "reversals_LVN_strict": 4,
+    "baseline_HVN_loose": 10,
+    "baseline_LVN_loose": 20,
+    "baseline_HVN_strict": 5,
+    "baseline_LVN_strict": 4
+  },
+  "rates": {
+    "reversal_rate_loose": 0.75,
+    "reversal_rate_HVN_loose": 0.4444444444444444,
+    "reversal_rate_LVN_loose": 1.0,
+    "reversal_rate_HVN_strict": 0.1111111111111111,
+    "reversal_rate_LVN_strict": 0.36363636363636365,
+    "baseline_rate_HVN_loose": 0.5,
+    "baseline_rate_LVN_loose": 1.0,
+    "baseline_rate_HVN_strict": 0.25,
+    "baseline_rate_LVN_strict": 0.2
+  },
+  "delta_vs_baseline": {
+    "HVN_loose": -6,
+    "HVN_strict": -4,
+    "LVN_loose": -9,
+    "LVN_strict": 0
+  },
+  "verdict": "weakens",
+  "limitations": [
+    "n=20 is far below the sample size needed to draw conclusions about predictive power (~95% CI on a binomial p\u22480.5 is \u00b10.22).",
+    "HVN/LVN bands are sampled chronologically; later samples may have less forward data and use truncated horizons.",
+    "Only BTCUSDT 4h \u2014 results do not generalise to ETH/SOL or other timeframes.",
+    "Random baseline is a sanity check, not a hypothesis test.",
+    "LVN levels are detected in tight clusters at similar prices; some samples share first-touch bars because multiple near-identical bands were each touched at the same bar.",
+    "The 'approach_dir' is a coarse proxy for pre-touch trend; more refined direction inference (e.g. cross-timeframe) would need additional work."
+  ],
+  "artifacts": {
+    "samples_csv": "/home/smark/multica/quant-loop/strategies/vpvr_reversal_check_20260717/results/samples.csv",
+    "summary_json": "/home/smark/multica/quant-loop/strategies/vpvr_reversal_check_20260717/results/summary.json"
+  }
+}

@@ -1,0 +1,13 @@
+=== loid_vpvr_confluence_20260717 (SMA-34803) ===
+instruments=['BTCUSDT'] window_days=30 TFs=['1m', '15m', '4h']
+sharpe_method=daily_resampled sqrt(365.25) per SMA-34787
+
+TF    Variant                       Trades   WinRate       PF   Sharpe_d     AnnRet    MaxDD%
+1m    iceberg_only                      21     0.238    0.243     -4.875    -0.0007    -0.007
+1m    iceberg_vpvr_confluence            3     0.333    0.255     -3.751    -0.0001    -0.002
+15m   iceberg_only                       1     0.000    0.000     -3.489    -0.0000    -0.001
+15m   iceberg_vpvr_confluence            1     0.000    0.000     -3.489    -0.0000    -0.001
+4h    iceberg_only                       0     0.000      inf      0.000     0.0000     0.000
+4h    iceberg_vpvr_confluence            0     0.000      inf      0.000     0.0000     0.000
+
+Mean Sharpe_d (confluence) = -2.413  Mean AnnRet (confluence) = -0.0000  Trades (LOID/confluence) = 22/4

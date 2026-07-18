@@ -1,0 +1,23 @@
+vpvr_funding_hvn_lvn — SMA-34890 prototype
+  start_capital_usd = 100,000
+  funding_threshold  = 0.0003  (0.030% / 8h)
+  vpvr_window_4h     = 180 bars (~30d)
+  cooldown=16 bars, max_hold=96 bars, fee=4.0bps, slip=1.0bps
+
+[last_30d]  span=2026-06-10 23:45:00 → 2026-07-10 23:45:00  bars=2881
+  diagnostics: long_signals=0  funding_above=0  near_hvn=0
+  metrics: trades=0  win_rate=NA  pf=NA  avg_pnl=NA  med_pnl=NA
+           sharpe_d=NA  ann_ret=NA  total_ret=NA  mdd=NA
+
+[q1_2024_hot_funding]  span=2024-02-01 00:00:00 → 2024-04-30 23:45:00  bars=8640
+  diagnostics: long_signals=11  funding_above=1826  near_hvn=11
+  metrics: trades=11  win_rate=0.636  pf=1.463  avg_pnl=+0.54%  med_pnl=+1.63%
+           sharpe_d=1.132  ann_ret=+24.30%  total_ret=+5.44%  mdd=-10.88%
+
+VERDICT: PROTOTYPE WIRE-UP OK — primary window passed gates: ['G1', 'G2', 'G4']. Still prototype-grade: G5-G7 require full-period data and cross-framework CV which are out of scope here.
+
+Notes:
+  - Sharpe is daily-resampled (sqrt(365.25)) per SMA-34787 audit.
+  - Prototype only: G6 (bootstrap CI) and G7 (Bonferroni) are
+    not computed — they need a full-period run, not the 30d /
+    90d windows used here.

@@ -256,3 +256,4 @@ func TestKimiResumeIncludesMcpServers(t *testing.T) {
 		t.Fatalf("session/resume.mcpServers: got %v, want one entry named fetch", servers)
 	}
 }
+

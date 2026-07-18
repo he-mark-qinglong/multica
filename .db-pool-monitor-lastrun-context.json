@@ -1,0 +1,1 @@
+{"ts":"2026-07-16T15:37:38Z","active":3,"idle":7,"stuck_in_tx":0,"slow_queries":0,"oldest_tx_age_sec":null,"verdict":"no-op","max_connections":100,"pool_max":25,"threshold_active":20,"source":"psql"}

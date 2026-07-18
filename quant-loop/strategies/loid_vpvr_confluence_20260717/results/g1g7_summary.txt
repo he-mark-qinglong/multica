@@ -1,0 +1,16 @@
+=== LOID G1-G7 backtest — SMA-34929 (U4 closure) ===
+variant=loid_vpvr_confluence_20260717  source_spec=SMA-34803 → re-evaluated under SMA-34929
+sharpe_method=daily_resampled sqrt(365.25) per SMA-34787
+bootstrap=block-1d n_iter=1000 seed=42
+windows (TF → days): {'15m': 365, '1m': 90, '4h': 365}
+
+TF    Window  Variant                      Trades     WR     PF  Sharpe_d           CI95   AnnRet%   MaxDD%  G1  G2  G3  G4  G5  G6
+15m   365     iceberg_only                      8  0.250  0.077    -1.687  [-2.52,-0.55]    -0.011   -0.012   N   N   N   -   N   Y
+15m   365     iceberg_vpvr_confluence           2  0.500  0.919    +0.878  [-1.42,+1.67]    +0.000   -0.001   N   N   N   -   N   Y
+1m    90      iceberg_only                     88  0.136  0.075    -9.887 [-12.82,-7.49]    -0.163   -0.042   N   N   N   -   N   Y
+1m    90      iceberg_vpvr_confluence           8  0.125  0.069    -4.913  [-6.58,-3.09]    -0.023   -0.006   N   N   N   -   N   Y
+4h    365     iceberg_only                      0  0.000    inf    +0.000  [+0.00,+0.00]    +0.000   +0.000   N   N   N   -   N   Y
+4h    365     iceberg_vpvr_confluence           0  0.000    inf    +0.000  [+0.00,+0.00]    +0.000   +0.000   N   N   N   -   N   Y
+
+Gate legend: G1 Sharpe>=1.0 | G2 AnnRet>=15% | G3 PF>=1.5 | G4 framework CV | G5 bootstrap CI lo>=0.5 | G6 MaxDD>=-25%
+G4 is framework CV (freqtrade+backtrader+vectorbt); harness is in-house only → G4 = NOT RUN.

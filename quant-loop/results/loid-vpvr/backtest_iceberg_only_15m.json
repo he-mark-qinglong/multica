@@ -1,0 +1,23 @@
+{
+  "n_bars": 2881,
+  "n_trades": 1,
+  "win_rate": 0.0,
+  "profit_factor": 0.0,
+  "sharpe_daily": -3.4893,
+  "total_return": -1e-06,
+  "annualized_return": -7e-06,
+  "max_drawdown_pct": -0.0009,
+  "avg_bars_held": 8.0,
+  "tf": "15m",
+  "variant": "iceberg_only",
+  "diagnostics": {
+    "n_iceberg_bars": 1,
+    "n_long_signals": 1,
+    "n_short_signals": 0
+  },
+  "span_start": "2026-06-10 23:45:00+00:00",
+  "span_end": "2026-07-10 23:45:00+00:00",
+  "symbol": "BTCUSDT",
+  "sharpe_method": "daily_resampled_per_SMA-34787",
+  "sharpe_method_audit_ref": "SMA-34787"
+}

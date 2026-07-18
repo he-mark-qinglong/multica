@@ -1,0 +1,11 @@
+{
+  "n_trades": 1,
+  "win_rate": 1.0,
+  "profit_factor": Infinity,
+  "avg_pnl_pct": 0.11399926967230667,
+  "total_pnl_usd": 1137.2198619968458,
+  "annualized_return": 0.03499358782584294,
+  "sharpe": 0.0,
+  "max_drawdown": 0.0,
+  "final_equity": 101137.21986199684
+}

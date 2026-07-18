@@ -1,0 +1,1 @@
+symbol,direction,entry_signal_date,entry_fill_date,entry_price,exit_signal_date,exit_fill_date,exit_price,reason,pnl_usd,pnl_pct,bars_held,atr_at_entry,vpvr_dist_atr_at_entry,realized_vol_at_entry,size_units,nav_at_entry

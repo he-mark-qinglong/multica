@@ -7,7 +7,10 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"mime/multipart"
 	"net/http"
+	"os"
+	"path/filepath"
 	"runtime"
 	"strings"
 	"time"
@@ -206,7 +209,10 @@ func (c *Client) ReportTaskMessages(ctx context.Context, taskID string, messages
 	}, nil)
 }
 
-func (c *Client) CompleteTask(ctx context.Context, taskID, output, branchName, sessionID, workDir string) error {
+// CompleteTask reports a successful run. result is the optional structured
+// run result collected from <workDir>/result.json (nil when absent); it is
+// sent as raw JSON so old servers simply ignore the unknown field.
+func (c *Client) CompleteTask(ctx context.Context, taskID, output, branchName, sessionID, workDir string, result json.RawMessage) error {
 	body := map[string]any{"output": output}
 	if branchName != "" {
 		body["branch_name"] = branchName
@@ -216,6 +222,9 @@ func (c *Client) CompleteTask(ctx context.Context, taskID, output, branchName, s
 	}
 	if workDir != "" {
 		body["work_dir"] = workDir
+	}
+	if len(result) > 0 {
+		body["result"] = result
 	}
 	return c.postJSONWithRetry(ctx, fmt.Sprintf("/api/daemon/tasks/%s/complete", taskID), body, nil, defaultTerminalRetrySchedule)
 }
@@ -227,6 +236,69 @@ func (c *Client) ReportTaskUsage(ctx context.Context, taskID string, usage []Tas
 	return c.postJSON(ctx, fmt.Sprintf("/api/daemon/tasks/%s/usage", taskID), map[string]any{
 		"usage": usage,
 	}, nil)
+}
+
+// UploadArtifact streams one file to the daemon artifact-upload endpoint as a
+// multipart form (fields: file, kind, meta). kind may be "" — the server then
+// stores "other"; meta may be nil. Error semantics match postJSON: a >=400
+// response surfaces as *requestError.
+func (c *Client) UploadArtifact(ctx context.Context, taskID, filePath, kind string, meta map[string]any) error {
+	f, err := os.Open(filePath)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	var body bytes.Buffer
+	writer := multipart.NewWriter(&body)
+	if kind != "" {
+		if err := writer.WriteField("kind", kind); err != nil {
+			return err
+		}
+	}
+	if len(meta) > 0 {
+		metaJSON, err := json.Marshal(meta)
+		if err != nil {
+			return err
+		}
+		if err := writer.WriteField("meta", string(metaJSON)); err != nil {
+			return err
+		}
+	}
+	part, err := writer.CreateFormFile("file", filepath.Base(filePath))
+	if err != nil {
+		return err
+	}
+	if _, err := io.Copy(part, f); err != nil {
+		return err
+	}
+	if err := writer.Close(); err != nil {
+		return err
+	}
+
+	path := fmt.Sprintf("/api/daemon/tasks/%s/artifacts", taskID)
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, c.baseURL+path, &body)
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+	if c.token != "" {
+		req.Header.Set("Authorization", "Bearer "+c.token)
+	}
+	c.setIdentityHeaders(req)
+
+	resp, err := c.client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode >= 400 {
+		data, _ := io.ReadAll(io.LimitReader(resp.Body, 4096))
+		return &requestError{Method: http.MethodPost, Path: path, StatusCode: resp.StatusCode, Body: strings.TrimSpace(string(data))}
+	}
+	io.Copy(io.Discard, resp.Body)
+	return nil
 }
 
 func (c *Client) FailTask(ctx context.Context, taskID, errMsg, sessionID, workDir, failureReason string) error {

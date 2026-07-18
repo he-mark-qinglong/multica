@@ -1,0 +1,51 @@
+{
+  "strategy": "momentum_trend_btc_only_softer_stop_1h_20260712",
+  "iteration": 88,
+  "axis": "trend_following_multi_tf_v3_btc_only_softer_stop",
+  "timeframe_entry": "1h",
+  "timeframe_filter": "4h",
+  "instruments": ["BTCUSDT"],
+  "data_source": "live_data_1h_4h_canonical",
+  "indicators": {
+    "ema_period": 50,
+    "rsi_period": 14,
+    "adx_period": 14,
+    "adx_min": 20.0,
+    "atr_period": 14,
+    "rsi_cross_level": 50.0,
+    "trend_slope_threshold": 0.0
+  },
+  "exit": {
+    "use_4h_trend_reversal": true,
+    "use_rsi_cross_back": true,
+    "use_atr_trailing": true,
+    "atr_trailing_k": 3.5,
+    "anchored_to_entry_atr": true
+  },
+  "sizing": {
+    "risk_per_atr_pct": 0.01,
+    "max_notional_pct": 0.05,
+    "max_gross_exposure_pct": 0.05
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "walk_forward": {
+    "n_windows": 4,
+    "train_bars_1h": 8760,
+    "test_bars_1h": 4380,
+    "step_bars_1h": 4380
+  },
+  "evidence_gate": {
+    "in_sample_sharpe_min": 0.5,
+    "wf_ratio_min": 0.5,
+    "min_oos_sharpe_min": 0.0
+  },
+  "notes": [
+    "Iteration #88: V12 — drop ETH, soften ATR stop from -2.5 to -3.5 ATR, remove regime filter.",
+    "V11 arc: BTC+ETH with regime filter + 2.5 ATR stop regressed (2/4 OOS, mean -0.90) because regime filter calibration was wrong and ETH dragged the portfolio.",
+    "V12 hypothesis: BTC is the alpha carrier. Drop ETH, drop regime filter, keep entry-anchored ATR stop at -3.5 ATR (V10 logic + softer breathing room).",
+    "Hard user gates G1-G7 deferred (single-strategy hypothesis test, not a ship candidate).",
+    "Fees follow V10/V11 convention (1bps/side, 1bps slip) for apples-to-apples."
+  ]
+}

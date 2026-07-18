@@ -1,0 +1,66 @@
+{
+  "variant": "vpvr_mtf_consensus_v2_4h_20260714",
+  "iteration": 96,
+  "family_size_m": 4,
+  "fwer_alpha": 0.0125,
+  "raw_alpha": 0.05,
+  "this_variant": {
+    "variant": "vpvr_mtf_consensus_v2_4h_20260714",
+    "iteration": 96,
+    "n_per_bar_total": 361,
+    "sharpe_observed_annualized": -3.9147196954186887,
+    "ci_95_lower_annualized": -9.99447988957481,
+    "p_value_raw": 0.5195,
+    "min_sample_size_ok": true,
+    "p_value_bonferroni_adjusted": 1.0,
+    "g7_pass": false
+  },
+  "family": [
+    {
+      "variant": "vpvr_regime_blend_4h_20260714",
+      "iteration": 94,
+      "n_per_bar_total": 325,
+      "sharpe_observed_annualized": -2.2912965312843716,
+      "ci_95_lower_annualized": -6.784521252294632,
+      "p_value_raw": 0.5381,
+      "min_sample_size_ok": true,
+      "p_value_bonferroni_adjusted": 1.0,
+      "g7_pass": false
+    },
+    {
+      "variant": "vpvr_obi_micro_v2_1m_20260714",
+      "iteration": 95,
+      "n_per_bar_total": 84,
+      "sharpe_observed_annualized": -271.46298117726343,
+      "ci_95_lower_annualized": -410.6228042201786,
+      "p_value_raw": 0.5342,
+      "min_sample_size_ok": false,
+      "p_value_bonferroni_adjusted": 1.0,
+      "g7_pass": false
+    },
+    {
+      "variant": "vpvr_mtf_consensus_v2_4h_20260714",
+      "iteration": 96,
+      "n_per_bar_total": 361,
+      "sharpe_observed_annualized": -3.9147196954186887,
+      "ci_95_lower_annualized": -9.99447988957481,
+      "p_value_raw": 0.5195,
+      "min_sample_size_ok": true,
+      "p_value_bonferroni_adjusted": 1.0,
+      "g7_pass": false
+    },
+    {
+      "variant": "vpvr_funding_asym_4h_20260713",
+      "iteration": 92,
+      "n_per_bar_total": 103,
+      "sharpe_observed_annualized": -19.375922805037916,
+      "ci_95_lower_annualized": -27.526193050213305,
+      "p_value_raw": 0.5141,
+      "min_sample_size_ok": true,
+      "p_value_bonferroni_adjusted": 1.0,
+      "g7_pass": false
+    }
+  ],
+  "g7_pass": false,
+  "note": "Bonferroni FWER across m=4 strategies (V1/V2/V3 iter#94+ + iter#92 vpvr_funding_asym_4h_20260713 reference). \u03b1_FWER = 0.05/4 = 0.0125. G7 gate = adjusted p <= 0.0125."
+}

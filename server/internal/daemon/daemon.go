@@ -2479,8 +2479,15 @@ func (d *Daemon) reportTaskResult(ctx context.Context, taskID string, result Tas
 	switch result.Status {
 	case "completed":
 		taskLog.Info("task completed", "status", result.Status)
-		err := d.client.CompleteTask(ctx, taskID, result.Comment, result.BranchName, result.SessionID, result.WorkDir)
+		// Collect the optional structured run result the agent may have left
+		// in the task workdir. Never fails the task over a missing/invalid file.
+		structured := collectResultFile(result.WorkDir, taskLog)
+		err := d.client.CompleteTask(ctx, taskID, result.Comment, result.BranchName, result.SessionID, result.WorkDir, structured)
 		if err == nil {
+			// Upload <workdir>/artifacts only after the task is durably
+			// complete, so slow or failing uploads can never block or
+			// fail the run.
+			d.collectArtifacts(ctx, taskID, result.WorkDir, taskLog)
 			return
 		}
 		// CompleteTask retries transient errors internally. A transient

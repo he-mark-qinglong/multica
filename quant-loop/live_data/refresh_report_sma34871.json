@@ -1,0 +1,38 @@
+{
+  "endpoints": {
+    "15m": [
+      "spot",
+      "https://api.binance.com/api/v3/klines"
+    ],
+    "1h": [
+      "spot",
+      "https://api.binance.com/api/v3/klines"
+    ],
+    "1m": [
+      "perp",
+      "https://fapi.binance.com/fapi/v1/klines"
+    ]
+  },
+  "interval_ms": {
+    "15m": 900000,
+    "1h": 3600000,
+    "1m": 60000
+  },
+  "overall_ok": true,
+  "results": [
+    {
+      "after_last_open_iso": "2026-07-18T05:45:00+00:00",
+      "before_last_open_iso": "2026-07-18T05:19:00+00:00",
+      "dry_run": false,
+      "elapsed_s": 2.11,
+      "interval": "1m",
+      "max_gap_in_new_bars": 0,
+      "out_path": "/home/smark/multica/quant-loop/data/perp_1m/SOLUSDT_1m.parquet",
+      "rows_after": 3071446,
+      "rows_appended": 26,
+      "rows_before": 3071420,
+      "src_path": "/home/smark/multica/quant-loop/data/perp_1m/SOLUSDT_1m.parquet",
+      "symbol": "SOLUSDT"
+    }
+  ]
+}

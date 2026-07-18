@@ -1,0 +1,17 @@
+{
+  "strategy": "vpvr_oi_divergence_4h_20260713",
+  "iteration": 90,
+  "hypothesis": "Sharpe > 0 (one-sided)",
+  "null": "Sharpe = 0 (bootstrap-shifted)",
+  "alpha_bonferroni": 0.0125,
+  "alpha_bonferroni_denominator": 4,
+  "alpha_bonferroni_numerator": 0.05,
+  "p_value": 1.0,
+  "bonferroni_pass": false,
+  "sharpe_observed": -1.880645183373453,
+  "method": "block bootstrap one-sided empirical p-value, samples shifted to null mean (standard bootstrap H0)",
+  "n_resamples": 10000,
+  "block_size": 5,
+  "seed": 42,
+  "n_bars": 9911
+}

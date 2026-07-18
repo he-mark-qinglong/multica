@@ -1,0 +1,16 @@
+U5 SMA-34946 funding_carry ETH/SOL 1m — summary
+window: 90d  grid: ±[0.0001, 0.0003, 0.0005, 0.001] ([1, 2, 5, 10] bps)
+
+== SOLUSDT ==
+  abs_1bp    trades= 27 WR=0.481 PF=0.950 Sharpe=-0.247 ann=-6.27% mdd=-7.65% bs_lo=-4.95 gates=1/7
+  abs_3bp    trades=  1 WR=1.000 PF=inf Sharpe=+0.000 ann=+290170.33% mdd=+0.00% bs_lo=+0.00 gates=3/7
+  abs_5bp    trades=  0 WR=0.000 PF=0.000 Sharpe=+0.000 ann=+0.00% mdd=+0.00% bs_lo=+0.00 gates=1/7
+  abs_10bp   trades=  0 WR=0.000 PF=0.000 Sharpe=+0.000 ann=+0.00% mdd=+0.00% bs_lo=+0.00 gates=1/7
+  verdict: FAIL_NEG_ANN  best: abs_1bp
+
+== ETHUSDT ==
+  abs_1bp    trades=  8 WR=0.250 PF=0.140 Sharpe=-4.258 ann=-35.66% mdd=-6.39% bs_lo=-7.10 gates=1/7
+  abs_3bp    trades=  0 WR=0.000 PF=0.000 Sharpe=+0.000 ann=+0.00% mdd=+0.00% bs_lo=+0.00 gates=1/7
+  abs_5bp    trades=  0 WR=0.000 PF=0.000 Sharpe=+0.000 ann=+0.00% mdd=+0.00% bs_lo=+0.00 gates=1/7
+  abs_10bp   trades=  0 WR=0.000 PF=0.000 Sharpe=+0.000 ann=+0.00% mdd=+0.00% bs_lo=+0.00 gates=1/7
+  verdict: FAIL_NEG_ANN  best: abs_1bp

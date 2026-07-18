@@ -1,0 +1,40 @@
+{
+  "run_id": "eba57882-2017-40fe-abdb-35f5413d0f32",
+  "ts_local": "2026-07-16T05:05:10+0800",
+  "ts_utc": "2026-07-15T21:05:10Z",
+  "ts_epoch": 1784149510,
+  "host": "127.0.0.1:5432 (multica DB)",
+  "verdict": "HEALTHY_NOOP",
+  "metrics": {
+    "idle": 13,
+    "active": 1,
+    "idle_in_tx": 0,
+    "idle_in_tx_aborted": 0,
+    "stuck_in_tx": 0,
+    "oldest_tx_age_sec": 0,
+    "fastpath": 0,
+    "slow_queries": 0,
+    "total_conns": 14,
+    "server_pool_max": 25,
+    "server_pool_used": 1,
+    "pool_pct": 4
+  },
+  "thresholds": {
+    "acquired_pct_warn": 80,
+    "stuck_in_tx_escalate": 0,
+    "slow_queries_warn": 5,
+    "oldest_tx_age_sec_escalate": 60
+  },
+  "judgment": {
+    "pool_capacity": "OK",
+    "stuck_transactions": "OK",
+    "slow_query_storm": "OK",
+    "long_transaction": "OK"
+  },
+  "skip_guards": {
+    "daemon_alive": true,
+    "daemon_pid": 614431,
+    "last_run_gap_sec": 525
+  },
+  "server_pool_api": null
+}

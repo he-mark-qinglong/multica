@@ -1,0 +1,66 @@
+{
+  "strategy": "momentum_trend_multi_tf_atr_scaled_1h_20260712",
+  "iteration": 86,
+  "axis": "trend_following_multi_tf",
+  "timeframe_entry": "1h",
+  "timeframe_filter": "4h",
+  "instruments": [
+    "BTCUSDT",
+    "ETHUSDT"
+  ],
+  "portfolio": {
+    "starting_capital_usd": 100000.0,
+    "final_equity_usd": 102794.44363432993,
+    "total_return": 0.02794443634329924,
+    "annualized_return": 0.0061159599317419655,
+    "sharpe": 0.25981457869194036,
+    "max_drawdown": -0.048831395300974655,
+    "n_years": 4.520191649555099
+  },
+  "per_symbol": [
+    {
+      "symbol": "BTCUSDT",
+      "rows_1h": 39647,
+      "rows_4h": 9912,
+      "span_start": "2022-01-01",
+      "span_end": "2026-07-10",
+      "strategy": {
+        "trades": 969,
+        "win_rate": 0.21465428276573786,
+        "profit_factor": 1.0875748297357604,
+        "avg_hold_bars": 8.262125902992777,
+        "total_return": 0.016351504016515195,
+        "sharpe": 0.2569513975245375,
+        "sortino": 0.1645237428978738,
+        "max_dd": -0.022819192881108768,
+        "turnover_per_year": 214.3714415505754,
+        "final_equity": 101635.15040165151
+      },
+      "buy_hold": {
+        "total_return": 0.37465452972441593
+      }
+    },
+    {
+      "symbol": "ETHUSDT",
+      "rows_1h": 39647,
+      "rows_4h": 9912,
+      "span_start": "2022-01-01",
+      "span_end": "2026-07-10",
+      "strategy": {
+        "trades": 949,
+        "win_rate": 0.20126448893572182,
+        "profit_factor": 1.043862792861491,
+        "avg_hold_bars": 7.948366701791359,
+        "total_return": 0.011592932326784267,
+        "sharpe": 0.14906061334839263,
+        "sortino": 0.08636112813115693,
+        "max_dd": -0.045484276950429364,
+        "turnover_per_year": 209.9468503937008,
+        "final_equity": 101159.29323267842
+      },
+      "buy_hold": {
+        "total_return": -0.5175632269007971
+      }
+    }
+  ]
+}

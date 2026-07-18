@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-07-16T22:03:22Z",
+  "idle": 25,
+  "active": 1,
+  "idle_in_tx": 0,
+  "stuck_in_tx": 0,
+  "oldest_tx_age_sec": null,
+  "slow_queries": 0,
+  "max_connections_server": 100,
+  "app_pool": 25,
+  "verdict": "no-op",
+  "thresholds": {
+    "active_gt_20": false,
+    "stuck_in_tx_gt_0": false,
+    "slow_queries_gt_5": false,
+    "oldest_tx_age_sec_gt_60": false
+  }
+}

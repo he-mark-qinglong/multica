@@ -1,0 +1,46 @@
+{
+  "strategy": "vpvr_volume_edge_3tf_v1_20260711",
+  "iteration": 81,
+  "axis": "vpvr_volume_edge_3tf",
+  "n_windows": 3,
+  "schedule": {
+    "train_bars_1m": 525600,
+    "test_bars_1m": 52560,
+    "step_bars_1m": 52560
+  },
+  "in_sample_sharpe": -0.2561967937856048,
+  "oos": {
+    "annualized_return_mean": -15.011724932728805,
+    "sharpe_mean": -164.7747010959378,
+    "profit_factor_mean": 0.5094417701465683,
+    "n_trades_total": 6789,
+    "min_sharpe": -181.16859786907838,
+    "per_window_annualized": [
+      -16.886826130602465,
+      -13.23752004217533,
+      -14.910828625408623
+    ],
+    "per_window_sharpe": [
+      -156.53879006523525,
+      -156.6167153534997,
+      -181.16859786907838
+    ],
+    "per_window_profit_factor": [
+      0.5189279992513844,
+      0.5314987403888879,
+      0.4778985707994325
+    ],
+    "per_window_n_trades": [
+      2201,
+      2007,
+      2581
+    ]
+  },
+  "gates": {
+    "in_sample_sharpe_>=1.0": false,
+    "oos_sharpe_>=1.0": false,
+    "annualized_return_>=0.15": false,
+    "profit_factor_>1.5": false
+  },
+  "all_gates_pass": false
+}

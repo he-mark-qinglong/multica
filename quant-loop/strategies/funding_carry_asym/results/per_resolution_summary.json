@@ -1,0 +1,45 @@
+{
+  "variant_key": "funding_carry_asym",
+  "iteration": 2,
+  "source_spec": "SMA-34793",
+  "sharpe_method": "daily_resampled_per_SMA-34787",
+  "sharpe_method_audit_ref": "SMA-34787",
+  "per_resolution": [
+    {
+      "tf": "15m",
+      "rows": 8640,
+      "span_start": "2024-02-01 00:00:00",
+      "span_end": "2024-04-30 23:45:00",
+      "diagnostics": {
+        "n_long_signals": 332,
+        "signal_bars_with_positive_signal": 332,
+        "signal_bars_funding_above_threshold": 1824,
+        "signal_bars_near_support": 1517
+      },
+      "metrics": {
+        "n_bars": 8640,
+        "n_trades": 63,
+        "win_rate": 0.4286,
+        "profit_factor": 0.59,
+        "sharpe_daily": -1.5216,
+        "total_return": -0.000228,
+        "annualized_return": -0.000936,
+        "max_drawdown_pct": -0.0272,
+        "avg_bars_held": 4.78,
+        "tf": "15m",
+        "variant": "funding_carry_asym",
+        "diagnostics": {
+          "n_long_signals": 332,
+          "signal_bars_with_positive_signal": 332,
+          "signal_bars_funding_above_threshold": 1824,
+          "signal_bars_near_support": 1517
+        },
+        "span_start": "2024-02-01 00:00:00+00:00",
+        "span_end": "2024-04-30 23:45:00+00:00",
+        "symbol": "BTCUSDT",
+        "sharpe_method": "daily_resampled_per_SMA-34787",
+        "sharpe_method_audit_ref": "SMA-34787"
+      }
+    }
+  ]
+}

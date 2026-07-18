@@ -1,0 +1,37 @@
+{
+  "variant": "A",
+  "strategy_key": "vpvr_tod_session_filter_15m_20260715",
+  "iteration": 1,
+  "date": "2026-07-15",
+  "timeframe": "15m",
+  "regime_timeframe": "15m",
+  "instruments": ["BTCUSDT", "ETHUSDT"],
+  "axis": "session_of_day_filter_on_vpvr_poc_reversion",
+  "starting_capital_usd": 100000.0,
+  "params": {
+    "vpvr_window_bars": 96,
+    "vpvr_bins": 24,
+    "atr_period": 14,
+    "poc_atr_buffer": 0.6,
+    "session_filter_names": ["london", "us"],
+    "take_profit_atr_k": 1.5,
+    "hard_stop_atr_k": 1.0,
+    "max_hold_bars": 32,
+    "risk_target_pct": 0.005,
+    "cooldown_bars": 8,
+    "fee_bps_per_fill": 4.0,
+    "slippage_bps_per_fill": 2.0
+  },
+  "walk_forward": {
+    "folds": [
+      {"name": "F1", "train": ["2022-01-01", "2023-12-31"], "test": ["2024-01-01", "2024-12-31"]},
+      {"name": "F2", "train": ["2023-01-01", "2024-12-31"], "test": ["2025-01-01", "2025-12-31"]},
+      {"name": "F3", "train": ["2024-01-01", "2025-12-31"], "test": ["2026-01-01", "2026-07-15"]}
+    ]
+  },
+  "notes": [
+    "B3 backtest for vpvr_tod_session_filter_15m_20260715 variant A; manifest is SESSION-OF-DAY-EMBEDDED with 158587 15m bars per symbol.",
+    "Session filter: signals only emitted during london (08-16 UTC) and us (16-24 UTC) sessions; asia (00-08 UTC) is muted to remove low-volume overnight signals.",
+    "Primary timeframe 15m matches campaign 1m/15m/4h focus; bars are synthesised from the canonical 30m perp parquet by splitting each 30m bar into two 15m sub-bars."
+  ]
+}

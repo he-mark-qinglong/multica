@@ -73,3 +73,4 @@ func parseIssueCommand(body string) (*IssueCommand, bool) {
 
 	return &IssueCommand{Title: title, Description: description}, true
 }
+

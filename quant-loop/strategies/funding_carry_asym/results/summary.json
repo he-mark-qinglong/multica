@@ -1,0 +1,114 @@
+{
+  "variant_key": "funding_carry_asym",
+  "iteration": 2,
+  "issue": "SMA-34858",
+  "date": "2026-07-18",
+  "source_spec": "SMA-34793",
+  "window": "2024-02-01 \u2192 2024-04-30 (Q1 2024 hot-funding regime)",
+  "symbol": "BTCUSDT",
+  "timeframe": "15m",
+  "sharpe_method": "daily_resampled_per_SMA-34787",
+  "metrics_15m": {
+    "trades": 63,
+    "win_rate": 0.4286,
+    "profit_factor": 0.59,
+    "sharpe_daily": -1.5216,
+    "annualized_return": -0.000936,
+    "max_drawdown_pct": -0.0272,
+    "avg_bars_held": 4.78,
+    "total_return": -0.000228
+  },
+  "gates": {
+    "G1_sharpe_daily": {
+      "value": -1.5216,
+      "gate": ">= 1.0",
+      "pass": false
+    },
+    "G2_annualized_return": {
+      "value": -0.0009355786655622644,
+      "gate": ">= 0.15",
+      "pass": false
+    },
+    "G3_max_drawdown_pct": {
+      "value": -0.0272,
+      "gate": "> -25.0",
+      "pass": true
+    },
+    "G4_profit_factor": {
+      "value": 0.59,
+      "gate": "> 1.5",
+      "pass": false
+    },
+    "G5_walk_forward_oos_sharpe_mean": {
+      "value": -0.5667,
+      "gate": ">= 1.0",
+      "pass": false,
+      "fold_sharpes": [
+        -2.3479,
+        0.6477,
+        0.0
+      ],
+      "folds": 3
+    },
+    "G6_bootstrap_ci_low_sharpe": {
+      "value": -4.8584,
+      "gate": ">= 0.5",
+      "pass": false,
+      "ci_high": 2.9047,
+      "resamples": 10000
+    },
+    "G7_bonferroni_alpha": {
+      "value": null,
+      "gate": "p <= 0.0125",
+      "pass": null,
+      "note": "N/A (single strategy; Bonferroni applies across a strategy universe)"
+    }
+  },
+  "verdict": {
+    "all_gates_pass": false,
+    "gates_pass": 1,
+    "gates_fail": 5,
+    "gates_na": 1,
+    "verdict": "FAIL"
+  },
+  "trades_summary_by_exit_reason": [
+    {
+      "exit_reason": "hard_stop",
+      "count": 28,
+      "avg_pnl": -0.007485148481885083,
+      "sum_pnl": -0.2095841574927823
+    },
+    {
+      "exit_reason": "take_profit",
+      "count": 17,
+      "avg_pnl": 0.0067692354655957175,
+      "sum_pnl": 0.1150770029151272
+    },
+    {
+      "exit_reason": "time_stop",
+      "count": 18,
+      "avg_pnl": 3.805363175280132e-05,
+      "sum_pnl": 0.0006849653715504237
+    }
+  ],
+  "context_vs_sibling": {
+    "sibling": "SMA-34854",
+    "sibling_window": "2026-06-10 \u2192 2026-07-10 (last 30d)",
+    "sibling_result": "0 trades \u2014 funding > 0.0003 never fired in 30d window",
+    "this_window": "2024-02-01 \u2192 2024-04-30 (89d, Q1 2024 hot-funding regime)",
+    "why_changed": "The 30d baseline window has 0 funding events crossing the spec threshold (per SMA-34854 diagnostics). The signal literally cannot fire there. The Q1 2024 window is the regime the signal was designed for (57 funding events > 0.0003 across 89 days)."
+  },
+  "diagnostics": {
+    "signal_bars_with_positive_signal": 332,
+    "signal_bars_funding_above_threshold": 1824,
+    "signal_bars_near_support": 1517,
+    "n_long_signals": 332
+  },
+  "artifacts": {
+    "metrics_json": "/home/smark/multica/quant-loop/strategies/funding_carry_asym/results/metrics.json",
+    "gates_json": "/home/smark/multica/quant-loop/strategies/funding_carry_asym/results/gates.json",
+    "equity_csv": "/home/smark/multica/quant-loop/strategies/funding_carry_asym/results/equity_15m.csv",
+    "trades_csv": "/home/smark/multica/quant-loop/strategies/funding_carry_asym/results/trades_15m.csv"
+  },
+  "verdict_one_line": "FAIL: 5 of 6 applicable gates fail (G1/G2/G4/G5/G6). G3 max-DD passes by default (no equity drawdown). G7 Bonferroni N/A for a single-strategy run."
+}

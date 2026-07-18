@@ -1,0 +1,3 @@
+variant,symbol,direction,entry_event_ts,entry_bar_ts,entry_price,exit_event_ts,exit_bar_ts,exit_price,price_pnl_pct,funding_pnl_pct,pnl_pct,z_at_entry,funding_at_entry,funding_at_exit,bars_held,exit_reason
+funding_oscillator_z_mr_u5_rebuild,SOLUSDT,long,2026-05-24 00:00:00+00:00,2026-05-24 00:00:00+00:00,85.81,2026-05-25 00:00:00+00:00,2026-05-25 00:00:00+00:00,85.3,-0.0059433632443771645,4.636e-05,-0.0069433632443771645,-3.6573637360287123,-4.389e-05,-4.636e-05,1440,hold_horizon
+funding_oscillator_z_mr_u5_rebuild,SOLUSDT,long,2026-06-08 00:00:00+00:00,2026-06-08 00:00:00+00:00,66.41,2026-06-09 00:00:00+00:00,2026-06-09 00:00:00+00:00,66.81,0.006023189278723251,6.393e-05,0.005023189278723251,-3.496079688445153,-0.00025513,-6.393e-05,1440,hold_horizon

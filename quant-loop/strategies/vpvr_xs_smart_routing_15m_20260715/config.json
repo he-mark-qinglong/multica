@@ -1,0 +1,42 @@
+{
+  "strategy": "vpvr_xs_smart_routing_15m_20260715",
+  "iteration": 105,
+  "variant": "V3_xs_smart_routing",
+  "date": "2026-07-15",
+  "timeframe": "15m",
+  "source_timeframe": "15m",
+  "instruments": ["BTCUSDT"],
+  "data_source": "binance_usdm_15m + synthetic_cross_venue_microprice_proxy",
+  "axis": "multi_venue_smart_routing_microprice_divergence_with_twap_sliced_volaware_exit",
+  "starting_capital_usd": 100000.0,
+  "params": {
+    "vpvr_window_bars": 96,
+    "vpvr_bins": 24,
+    "value_area_pct": 0.70,
+    "atr_period": 14,
+    "microprice_lookback_bars": 32,
+    "microprice_z_entry_threshold": 1.8,
+    "microprice_z_extreme_threshold": 3.5,
+    "microprice_z_exit_threshold": 0.4,
+    "twap_slices": 4,
+    "twap_slice_atr_fraction": 0.25,
+    "volaware_cancel_replace_atr_k": 1.5,
+    "near_poc_atr_k": 1.0,
+    "max_concurrent_trades": 1,
+    "cooldown_bars": 6,
+    "time_stop_bars": 96,
+    "fee_bps_per_fill": 4.0,
+    "slippage_bps_per_fill": 2.0,
+    "risk_per_trade_pct": 0.005
+  },
+  "data_status": "MULTI-VENUE-DATA-MISSING — bybit/okx public klines absent from live_data; we use a single-venue close as 'micro-price' with a synthetic perturbation proxy (rolling close + Gaussian jitter scaled by taker_buy_share imbalance) to simulate cross-venue micro-price divergence. Direction matches; magnitudes differ.",
+  "notes": [
+    "Iter#105. Genuinely new axis: multi-venue smart routing with TWAP-sliced + vol-aware cancel-replace exit. Distinguished from V_xb_ce (vpvr_xs_basis_15m_cross_exchange_20260713) which uses STATIC basis z-score exit and FROM-CONTRACT-DIFFERENCE entry; V3 adds the TIME-OF-EXECUTION routing decision and a TWAP exit.",
+    "Per spec 'vpvr_xs_pairs' family is closed by cycle-46 family-exhaustion. 'smart_routing' is a NEW family within xs axis (different intent: routing not stat-arb), which is what makes it eligible.",
+    "TF=15m, multi-venue universe = BTCUSDT (data only has Binance; okx/bybit would be wired via indicator-specialist when fetch_*_okx.py and fetch_*_bybit.py are added to live_data).",
+    "Entry: microprice_z > +1.8 (Binance cheap relative to composite) -> buy Binance; price within 1.0 ATR of POC. Symmetric short for z < -1.8.",
+    "Exit: microprice_z reverts to 0.4 (compression realized) or exceeds 3.5 (tail cut), time-stop 96 bars (24h), or TWAP exit completes (4 slices of 0.25 ATR moves cancel-replaced on vol bursts > 1.5 ATR).",
+    "Single concurrent trade; cooldown 6 bars.",
+    "Verdict gate: Sharpe >= 1.0 = [PROFITABLE]; < 1.0 = [NOT-PROFITABLE]."
+  ]
+}

@@ -248,3 +248,4 @@ func TestUnmarshalFrameSkipsUnknownFields(t *testing.T) {
 		t.Errorf("Service = %d; want 5", f.Service)
 	}
 }
+

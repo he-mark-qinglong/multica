@@ -1,0 +1,9 @@
+variant,symbol,direction,entry_ts,entry_price,exit_ts,exit_price,pnl_pct,bars_held,exit_reason,iceberg_evidence,vpvr_level,vpvr_distance_atr
+iceberg_only,BTCUSDT,long,2025-07-20 12:30:00+00:00,117839.58,2025-07-20 12:45:00+00:00,118085.43,0.0010863108982567269,1,take_profit,iceberg=1 side=unknown vz=4.79 rr=0.62,HVN_mid=117939.56,-0.6914963516270366
+iceberg_only,BTCUSDT,long,2025-08-29 06:45:00+00:00,111279.45,2025-08-29 07:00:00+00:00,110545.0,-0.007600050593348561,1,hard_stop,iceberg=1 side=unknown vz=5.70 rr=0.71,HVN_mid=112995.85,-9.107929571076367
+iceberg_only,BTCUSDT,long,2025-09-05 04:45:00+00:00,111445.0,2025-09-05 06:30:00+00:00,111656.47,0.0008975279285746715,7,take_profit,iceberg=1 side=unknown vz=3.54 rr=0.58,HVN_mid=110750.23,3.541037010609631
+iceberg_only,BTCUSDT,long,2026-01-25 04:15:00+00:00,88958.39,2026-01-25 06:00:00+00:00,88710.28,-0.0037890567713736436,7,hard_stop,iceberg=1 side=unknown vz=3.23 rr=0.67,HVN_mid=89636.84,-7.47822843510844
+iceberg_only,BTCUSDT,long,2026-03-21 22:45:00+00:00,70277.22,2026-03-21 23:00:00+00:00,70153.13,-0.0027657215239873514,1,hard_stop,iceberg=1 side=unknown vz=3.67 rr=0.48,HVN_mid=70729.71,-5.471192793664125
+iceberg_only,BTCUSDT,long,2026-03-31 07:45:00+00:00,67367.69,2026-03-31 08:30:00+00:00,66842.82,-0.00879112360836476,3,hard_stop,iceberg=1 side=unknown vz=3.43 rr=0.67,HVN_mid=67773.93,-2.2356226955038774
+iceberg_only,BTCUSDT,long,2026-05-21 02:30:00+00:00,78031.86,2026-05-21 04:30:00+00:00,77982.13,-0.0016373037884781496,8,time_stop,iceberg=1 side=unknown vz=4.66 rr=0.66,HVN_mid=77495.86,3.35772758798136
+iceberg_only,BTCUSDT,long,2026-06-17 02:45:00+00:00,65904.0,2026-06-17 04:45:00+00:00,65892.0,-0.0011820830298616683,8,time_stop,iceberg=1 side=unknown vz=3.11 rr=0.51,HVN_mid=65802.67,0.5809920683676458

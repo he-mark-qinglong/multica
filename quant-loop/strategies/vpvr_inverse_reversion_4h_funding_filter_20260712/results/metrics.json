@@ -1,0 +1,14 @@
+[
+  {
+    "symbol": "BTCUSD",
+    "iteration": 71,
+    "timeframe": "4h",
+    "contract_type": "inverse_coinm",
+    "n_trades": 388,
+    "win_rate": 0.45618556701030927,
+    "profit_factor": 0.6608905971182153,
+    "sharpe": 0.117,
+    "max_drawdown": -0.18851227890299815,
+    "buy_hold_return": 0.3695229425240196
+  }
+]

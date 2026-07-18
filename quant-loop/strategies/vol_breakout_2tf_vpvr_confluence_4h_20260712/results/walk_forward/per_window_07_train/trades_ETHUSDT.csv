@@ -1,0 +1,2 @@
+symbol,entry_signal_date,entry_fill_date,entry_price,exit_signal_date,exit_fill_date,exit_price,reason,pnl_usd,pnl_pct,bars_held,atr_4h_at_entry,vpvr_dist_atr_4h_at_entry
+ETHUSDT,2022-08-31 00:00:00+00:00,2022-08-31 04:00:00+00:00,1606.87131,2022-09-05 04:00:00+00:00,2022-09-05 08:00:00+00:00,1562.1875,time_stop>=30bars,-263.180038569191,-0.027807958062304294,31,49.99844636516538,0.7805213382022653

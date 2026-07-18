@@ -1,0 +1,113 @@
+{
+  "spec_30d": {
+    "BTCUSDT": {
+      "n_bars": 44380,
+      "n_loid_events": 1183,
+      "n_vpvr_proximity_bars": 28826,
+      "n_funding_pass_bars": 0,
+      "n_alerts": 0,
+      "latency_ms_p50": 0.092,
+      "latency_ms_p95": 0.114
+    },
+    "ETHUSDT": {
+      "n_bars": 44380,
+      "n_loid_events": 1178,
+      "n_vpvr_proximity_bars": 25573,
+      "n_funding_pass_bars": 0,
+      "n_alerts": 0,
+      "latency_ms_p50": 0.093,
+      "latency_ms_p95": 0.118
+    },
+    "SOLUSDT": {
+      "n_bars": 34560,
+      "n_loid_events": 915,
+      "n_vpvr_proximity_bars": 16006,
+      "n_funding_pass_bars": 0,
+      "n_alerts": 0,
+      "latency_ms_p50": 0.095,
+      "latency_ms_p95": 0.123
+    },
+    "_meta": {
+      "window_name": "spec_30d",
+      "start": "2026-06-17T00:00:00+00:00",
+      "end": "2026-07-17T23:59:00+00:00",
+      "funding_threshold": 0.0003,
+      "vpvr_distance_pct": 0.002,
+      "elapsed_s": 27.1
+    }
+  },
+  "extended_30d_dec24": {
+    "BTCUSDT": {
+      "n_bars": 44640,
+      "n_loid_events": 1325,
+      "n_vpvr_proximity_bars": 25741,
+      "n_funding_pass_bars": 1920,
+      "n_alerts": 13,
+      "latency_ms_p50": 0.09,
+      "latency_ms_p95": 0.115
+    },
+    "ETHUSDT": {
+      "n_bars": 44640,
+      "n_loid_events": 1344,
+      "n_vpvr_proximity_bars": 21218,
+      "n_funding_pass_bars": 2400,
+      "n_alerts": 16,
+      "latency_ms_p50": 0.09,
+      "latency_ms_p95": 0.11
+    },
+    "SOLUSDT": {
+      "n_bars": 44640,
+      "n_loid_events": 1196,
+      "n_vpvr_proximity_bars": 16815,
+      "n_funding_pass_bars": 6721,
+      "n_alerts": 22,
+      "latency_ms_p50": 0.088,
+      "latency_ms_p95": 0.113
+    },
+    "_meta": {
+      "window_name": "extended_30d_dec24",
+      "start": "2024-12-02T00:00:00+00:00",
+      "end": "2025-01-01T23:59:00+00:00",
+      "funding_threshold": 0.0003,
+      "vpvr_distance_pct": 0.002,
+      "elapsed_s": 27.57
+    }
+  },
+  "cap_30d": {
+    "BTCUSDT": {
+      "n_bars": 44380,
+      "n_loid_events": 1183,
+      "n_vpvr_proximity_bars": 28826,
+      "n_funding_pass_bars": 0,
+      "n_alerts": 0,
+      "latency_ms_p50": 0.1,
+      "latency_ms_p95": 0.122
+    },
+    "ETHUSDT": {
+      "n_bars": 44380,
+      "n_loid_events": 1178,
+      "n_vpvr_proximity_bars": 25573,
+      "n_funding_pass_bars": 0,
+      "n_alerts": 0,
+      "latency_ms_p50": 0.091,
+      "latency_ms_p95": 0.115
+    },
+    "SOLUSDT": {
+      "n_bars": 34560,
+      "n_loid_events": 915,
+      "n_vpvr_proximity_bars": 16006,
+      "n_funding_pass_bars": 0,
+      "n_alerts": 0,
+      "latency_ms_p50": 0.09,
+      "latency_ms_p95": 0.111
+    },
+    "_meta": {
+      "window_name": "cap_30d",
+      "start": "2026-06-17T00:00:00+00:00",
+      "end": "2026-07-17T23:59:00+00:00",
+      "funding_threshold": 0.0001,
+      "vpvr_distance_pct": 0.002,
+      "elapsed_s": 25.56
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "run_id": "451fd59a-99d4-4a02-b4bf-91f099210baf",
+  "ts_local": "2026-07-16T22:52:32+08:00",
+  "ts_utc": "2026-07-16T14:52:32Z",
+  "ts_epoch": 1784213552,
+  "host": "127.0.0.1:5432 (multica DB)",
+  "verdict": "HEALTHY_NOOP",
+  "metrics": {
+    "idle": 25,
+    "active": 1,
+    "idle_in_tx": 0,
+    "idle_in_tx_aborted": 0,
+    "stuck_in_tx": 0,
+    "oldest_tx_age_sec": 0,
+    "fastpath": 0,
+    "slow_queries": 0,
+    "total_conns": 26,
+    "server_pool_max": 100,
+    "active_pct_vs_server": 1,
+    "active_pct_vs_app_pool": 4
+  },
+  "thresholds": {
+    "active_conns_escalate": 20,
+    "acquired_pct_warn": 80,
+    "stuck_in_tx_escalate": 0,
+    "slow_queries_warn": 5,
+    "oldest_tx_age_sec_escalate": 60
+  },
+  "judgment": {
+    "active_conns": "OK (1 <= 20)",
+    "pool_capacity": "OK (1/25 = 4%)",
+    "stuck_transactions": "OK (0)",
+    "slow_query_storm": "OK (0)",
+    "long_transaction": "OK (0s)"
+  },
+  "skip_guards": {
+    "daemon_alive": true,
+    "daemon_pid": 614431,
+    "last_run_gap_sec": 595
+  },
+  "autopilot": {
+    "id": "c8ec222b-1f58-429a-b58d-7014da99f395",
+    "title": "DB-POOL-MONITOR (*/2 * * * *)",
+    "trigger": "schedule"
+  }
+}

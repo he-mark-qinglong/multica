@@ -1,0 +1,17 @@
+{
+  "run_id": "c2027d25-0abb-472e-a7b6-ab0dbddb3699",
+  "ts_utc": "2026-07-15T20:08:56.092554+00:00",
+  "autopilot_id": "c8ec222b-1f58-429a-b58d-7014da99f395",
+  "daemon_alive": true,
+  "daemon_pid": 614431,
+  "skip_guard": {
+    "prior_run_id": "094ded9f-493a-4100-9fbe-db4e3f22e3f1",
+    "prior_run_created": "2026-07-16T04:08:26+08:00",
+    "prior_run_age_sec": 30.092554,
+    "min_gap_sec": 100,
+    "passed": false,
+    "reason": "prior run < 100s ago - skipping to avoid duplicate work"
+  },
+  "verdict": "no-op",
+  "reason": "prior run 30.1s ago (< 100s guard)"
+}

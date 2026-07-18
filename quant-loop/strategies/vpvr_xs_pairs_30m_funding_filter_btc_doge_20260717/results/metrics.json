@@ -1,0 +1,50 @@
+{
+  "strategy": "vpvr_xs_pairs_30m_funding_filter_btc_doge_20260717",
+  "iteration": 86,
+  "date": "2026-07-17",
+  "timeframe": "30m",
+  "instruments": [
+    "BTCUSDT",
+    "DOGEUSDT"
+  ],
+  "pairs": [
+    "BTCUSDT/DOGEUSDT"
+  ],
+  "variant": "A",
+  "n_trades": 2790,
+  "win_rate": 0.45268817204301076,
+  "profit_factor": 0.755668588433716,
+  "total_return_pct": -0.14548404535052017,
+  "sharpe": -0.19508946880143738,
+  "max_drawdown_pct": -0.26742193130207015,
+  "tag": "NOT-PROFITABLE",
+  "evidence_gate_sharpe_threshold": 0.5,
+  "per_pair": {
+    "BTCUSDT/DOGEUSDT": {
+      "n_trades": 2790,
+      "win_rate": 0.45268817204301076,
+      "profit_factor": 0.755668588433716,
+      "avg_hold_bars": 2.372043010752688,
+      "total_return_pct": -0.14548404535052017,
+      "sharpe": -0.19508946880143738,
+      "sortino": -0.04490352228921144,
+      "max_drawdown_pct": -0.26742193130207015,
+      "trades_per_year": 616.8568401937047,
+      "pair": "BTCUSDT/DOGEUSDT",
+      "span_start": "2022-01-01",
+      "span_end": "2026-07-10",
+      "n_bars": 79296
+    }
+  },
+  "sharpe_method": "bar_freq_annualized",
+  "sharpe_method_evidence": "run_backtest.py: [run_backtest.py] L43:sharpe = (mu / sigma) * ann if sigma > 0 else 0.0 ds = bar_r[bar_r < 0] dsigma = float(np.std(ds, ddof=0)) if ds.size else 0.0; L104:avg_sharpe = float(np.mean([m[\"sharpe\"] for m",
+  "sharpe_method_audit_date": "2026-07-17T06:30:53+00:00",
+  "sharpe_daily_resampled": -0.2426888171400717,
+  "sharpe_daily_resampled_n_days": 1651,
+  "sharpe_daily_resampled_span": [
+    "2022-01-01",
+    "2026-07-10"
+  ],
+  "sharpe_daily_resampled_source": "aggregate(symbol equity_*.csv)",
+  "sharpe_daily_resampled_audit_date": "2026-07-17T06:32:00Z"
+}

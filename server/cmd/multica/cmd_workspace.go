@@ -15,6 +15,7 @@ import (
 
 var workspaceCmd = &cobra.Command{
 	Use:   "workspace",
+	RunE:  groupRunE,
 	Short: "Work with workspaces",
 }
 

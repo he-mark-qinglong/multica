@@ -1,0 +1,45 @@
+{
+  "strategy": "vpvr_xs_basis_zscore_15m_funding_filter_20260712",
+  "iteration": 72,
+  "date": "2026-07-12",
+  "timeframe": "15m",
+  "source_timeframe": "15m_native",
+  "instruments": ["BTCUSDT", "ETHUSDT"],
+  "pairs": ["BTCUSDT/ETHUSDT"],
+  "data_source": "binance_usdm_15m_canonical_with_funding_rate",
+  "axis": "xs_basis_zscore_with_vpvr_confluence_and_funding_filter",
+  "indicators": {
+    "vpvr_window_bars": 96,
+    "vpvr_n_bins": 24,
+    "zscore_lookback_bars": 96,
+    "zscore_entry_threshold": 2.0,
+    "zscore_exit_threshold": 0.5,
+    "vpvr_proximity_atr_k": 0.75,
+    "atr_period": 14,
+    "funding_filter_threshold": 0.0005
+  },
+  "entry": {
+    "zscore_side_when_positive": "short_a_long_b",
+    "require_vpvr_confluence": true,
+    "require_funding_filter": true
+  },
+  "exit": {
+    "zscore_exit_threshold": 0.5,
+    "regime_switch_zscore_threshold": 3.5,
+    "max_holding_bars": 64
+  },
+  "sizing": {
+    "per_pair_notional_pct": 0.01,
+    "max_pairs_active": 1
+  },
+  "fees_bps_per_side": 4.0,
+  "slippage_bps_per_side": 2.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "Iteration #72 (Campaign VPVR): xs-basis z-score (BTC/ETH log-price) + VPVR confluence + funding-blowoff filter.",
+    "New axis: cross-asset basis z-score reversion with 15m funding-rate regime filter, distinct from existing xs_pairs_* (z-score) and xs_basis_15m_cross_exchange_* (cross-venue).",
+    "Funding filter: abs(funding_rate) < 0.0005 to enter — skips blowoffs that destabilise mean-reversion.",
+    "VPVR confluence: BTC close within 0.75*ATR of BTC's rolling 96-bar POC.",
+    "Sharpe >= 0.5 AND walk_forward_ratio >= 0.5 = [PROFITABLE]; otherwise archive."
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "strategy": "vpvr_oi_divergence_4h_20260713",
+  "iteration": 90,
+  "n_resamples": 10000,
+  "block_size": 5,
+  "seed": 42,
+  "bars_per_year": 2190,
+  "n_bars": 9911,
+  "sharpe_point": -1.880645183373453,
+  "sharpe_bootstrap_mean": -1.8763728291038317,
+  "ci_lower": -2.710079699603284,
+  "ci_upper": -0.9705486582309574,
+  "g6_pass": false,
+  "g6_threshold_ci_lower": 0.5,
+  "provenance": {
+    "n_bars_total": 9911,
+    "n_files": 1,
+    "files_used": [
+      "equity_4h_BTCUSDT.csv"
+    ],
+    "first_return": 0.0,
+    "last_return": 0.0
+  }
+}

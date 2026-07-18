@@ -1,0 +1,174 @@
+{
+  "run_id": "dbpool-2026-07-15T02-55-43Z",
+  "ts_epoch": 1784084143,
+  "ts_utc": "2026-07-15T02:55:43Z",
+  "ts_cn": "2026-07-15T10:55:43+0800",
+  "autopilot_id": "c8ec222b-1f58-429a-b58d-7014da99f395",
+  "autopilot_run_id": "e221c434-42b8-432c-9ba5-d4a6b5a6cab9",
+  "host_used": "127.0.0.1:5432",
+  "host_spec_note": "spec says 192.168.0.105:5432 but unreachable from workdir; fallback to localhost per established pattern",
+  "skip_guard": {
+    "applies": false,
+    "prior_run_age_sec": 3911,
+    "min_gap_sec": 100,
+    "reason": "prior_run_age_sec=3911 > min_gap_sec=100; daemon alive (pid=2188693 on :8080); proceed",
+    "daemon_alive": true,
+    "daemon_pid": 2188693,
+    "server_listen": "0.0.0.0:8080"
+  },
+  "metrics": {
+    "idle": 10,
+    "active": 1,
+    "idle_in_tx": 0,
+    "idle_in_tx_aborted": 0,
+    "stuck_in_tx": 0,
+    "oldest_tx_age_sec": null,
+    "fastpath": 0,
+    "slow_queries": 0,
+    "total_db_conns": 11,
+    "active_app_only": 0,
+    "acquired_app_estimate": 0,
+    "app_pool_max": 25,
+    "monitoring_probe_pid": 158656,
+    "pg_max_connections": 100,
+    "total_pg_conns_at_probe": 11
+  },
+  "pool_util_pct": 0.0,
+  "pg_util_pct": 11.0,
+  "top_activity_sample": [
+    {
+      "pid": 158656,
+      "state": "active",
+      "app": "psql",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": 0,
+      "query_age_sec": 0,
+      "state_age_sec": 0,
+      "query_head": "SELECT COALESCE(json_agg(row_to_json(x))::text, '[]') FROM (SELECT pid, state, COALESCE(application_name,'') AS app, COALESCE(client_addr::text,'') AS client_ad"
+    },
+    {
+      "pid": 158010,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 0,
+      "state_age_sec": 0,
+      "query_head": "-- name: GetAgentRuntime :one SELECT id, workspace_id, daemon_id, name, runtime_mode, provider, status, device_info, metadata, last_seen_at, created_at, updated"
+    },
+    {
+      "pid": 158011,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 2,
+      "state_age_sec": 2,
+      "query_head": "-- name: UpdatePersonalAccessTokenLastUsed :exec UPDATE personal_access_token SET last_used_at = now() WHERE id = $1 "
+    },
+    {
+      "pid": 158012,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 27,
+      "state_age_sec": 27,
+      "query_head": "-- name: CreateTaskMessage :one INSERT INTO task_message (task_id, seq, type, tool, content, input, output) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, ta"
+    },
+    {
+      "pid": 158064,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 2,
+      "state_age_sec": 2,
+      "query_head": "-- name: UpdatePersonalAccessTokenLastUsed :exec UPDATE personal_access_token SET last_used_at = now() WHERE id = $1 "
+    },
+    {
+      "pid": 158065,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 0,
+      "state_age_sec": 0,
+      "query_head": "-- name: UpdatePersonalAccessTokenLastUsed :exec UPDATE personal_access_token SET last_used_at = now() WHERE id = $1 "
+    },
+    {
+      "pid": 158096,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 0,
+      "state_age_sec": 0,
+      "query_head": "-- name: UpdatePersonalAccessTokenLastUsed :exec UPDATE personal_access_token SET last_used_at = now() WHERE id = $1 "
+    },
+    {
+      "pid": 158222,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 2,
+      "state_age_sec": 2,
+      "query_head": "-- name: GetMemberByUserAndWorkspace :one SELECT id, workspace_id, user_id, role, created_at FROM member WHERE user_id = $1 AND workspace_id = $2 "
+    },
+    {
+      "pid": 158223,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 27,
+      "state_age_sec": 27,
+      "query_head": "-- name: UpdatePersonalAccessTokenLastUsed :exec UPDATE personal_access_token SET last_used_at = now() WHERE id = $1 "
+    },
+    {
+      "pid": 158478,
+      "state": "idle",
+      "app": "",
+      "client_addr": "172.18.0.1/32",
+      "tx_age_sec": -1,
+      "query_age_sec": 0,
+      "state_age_sec": 0,
+      "query_head": "-- name: GetWorkspace :one SELECT id, name, slug, description, settings, created_at, updated_at, context, repos, issue_prefix, issue_counter, avatar_url FROM wo"
+    }
+  ],
+  "thresholds": {
+    "pool_util_warn_pct": 80,
+    "stuck_in_tx_escalate_gt": 0,
+    "slow_queries_warn_gt": 5,
+    "oldest_tx_age_escalate_sec_gt": 60
+  },
+  "checks": {
+    "pool_capacity_warn": {
+      "triggered": false,
+      "value": 0.0
+    },
+    "stuck_in_tx_escalate": {
+      "triggered": false,
+      "value": 0
+    },
+    "slow_query_storm_warn": {
+      "triggered": false,
+      "value": 0
+    },
+    "long_tx_escalate": {
+      "triggered": false,
+      "value": null
+    }
+  },
+  "any_escalate": false,
+  "any_warn": false,
+  "verdict": "no-op",
+  "actions": {
+    "escalate": false,
+    "warn": false,
+    "issue_created": false,
+    "issue_id": null
+  },
+  "note": "All thresholds clear. acquired=0/25 (this monitoring probe is the only active; all daemon connections idle). idle_in_tx=0; stuck_in_tx=0; slow_queries=0; oldest_tx_age_sec=null. No escalation needed; dedup window moot (no triggers)."
+}

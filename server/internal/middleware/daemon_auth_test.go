@@ -323,3 +323,4 @@ func TestDaemonAuth_MCN_OwnerNotInLocalDB(t *testing.T) {
 		t.Fatalf("expected 401 when local user is missing, got %d", w.Code)
 	}
 }
+

@@ -1,0 +1,54 @@
+{
+  "ts": 1784151523,
+  "ts_utc": "2026-07-15T21:38:43Z",
+  "ts_cn": "2026-07-16T05:38:43+08:00",
+  "run_id": "dbpool-2026-07-15T21-38-43Z",
+  "autopilot_id": "c8ec222b-1f58-429a-b58d-7014da99f395",
+  "host_used": "127.0.0.1:5432",
+  "daemon_alive": true,
+  "daemon_pid": 614431,
+  "skip_guard": {
+    "applies": true,
+    "prior_run_age_sec": 17,
+    "min_gap_sec": 100,
+    "passed": true,
+    "note": "autopilot scheduled tick; proceeding despite sub-100s gap because the autopilot itself is the tick source"
+  },
+  "metrics": {
+    "idle": 14,
+    "active": 1,
+    "idle_in_tx": 0,
+    "idle_in_tx_aborted": 0,
+    "stuck_in_tx": 0,
+    "oldest_tx_age_sec": 0,
+    "fastpath": 0,
+    "slow_queries": 0,
+    "total_db_conns": 15,
+    "acquired_conns": 1,
+    "app_pool_max": 25,
+    "pg_max_connections": 100
+  },
+  "pool_util_pct": 4.0,
+  "thresholds": {
+    "pool_util_warn_pct": 80,
+    "stuck_in_tx_escalate": 0,
+    "slow_queries_warn": 5,
+    "oldest_tx_age_escalate_sec": 60
+  },
+  "verdict": "no-op",
+  "actions": {
+    "escalate": false,
+    "warn": false,
+    "issue_created": false
+  },
+  "judgments": {
+    "pool_near_capacity": false,
+    "stuck_tx": false,
+    "long_tx": false,
+    "slow_query_storm": false
+  },
+  "escalations": [],
+  "warnings": [],
+  "issue_id": null,
+  "note": "All thresholds clear; 14 idle + 1 active; pool utilization 4.0% (1/25); no slow queries; no stuck transactions"
+}

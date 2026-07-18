@@ -971,3 +971,4 @@ func TestGetAutopilotRun_ReturnsFullPayload(t *testing.T) {
 // Queries interface to drive deterministically. We pin the behaviour
 // via code review rather than a brittle race test. See PR #2348 review
 // item under "Test coverage gaps."
+

@@ -1,0 +1,24 @@
+{
+  "n_bars": 181,
+  "n_trades": 0,
+  "win_rate": 0.0,
+  "profit_factor": null,
+  "sharpe_daily": 0.0,
+  "total_return": 0.0,
+  "annualized_return": 0.0,
+  "max_drawdown_pct": 0.0,
+  "avg_bars_held": 0.0,
+  "tf": "4h",
+  "variant": "funding_carry_asym",
+  "diagnostics": {
+    "n_long_signals": 0,
+    "signal_bars_with_positive_signal": 0,
+    "signal_bars_funding_above_threshold": 0,
+    "signal_bars_near_support": 24
+  },
+  "span_start": "2026-06-10 20:00:00+00:00",
+  "span_end": "2026-07-10 20:00:00+00:00",
+  "symbol": "BTCUSDT",
+  "sharpe_method": "daily_resampled_per_SMA-34787",
+  "sharpe_method_audit_ref": "SMA-34787"
+}

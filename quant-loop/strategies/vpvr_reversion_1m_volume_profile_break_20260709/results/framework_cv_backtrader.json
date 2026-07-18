@@ -1,0 +1,79 @@
+{
+  "engine": "backtrader",
+  "engine_version": "1.9.78.123",
+  "engine_sha": "b853d7c9",
+  "iteration": 69,
+  "variant": "V_volume_profile_break_v5_btc",
+  "strategy_key": "vpvr_reversion_1m_volume_profile_break_20260709",
+  "inhouse": {
+    "sharpe": -24.39995323972323,
+    "ann_total_return": -0.003156066251607618,
+    "max_dd": -0.0036518760958298424,
+    "n_trades": 2350,
+    "timeframe": "1m",
+    "status": "NOT-PROFITABLE"
+  },
+  "framework": {
+    "sharpe": -46.17771831240682,
+    "ann_total_return": -0.04025331369004884,
+    "total_return": -0.010220643034198193,
+    "max_dd": -0.0106155900466548,
+    "n_trades": 2351
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": -46.17771831240682,
+    "oos_total_return_mean": -0.010220643034198193,
+    "oos_ann_return_mean": -0.04025331369004884,
+    "oos_max_dd_min": -0.0106155900466548,
+    "oos_n_trades_sum": 2351,
+    "n_folds": 3,
+    "folds": {
+      "2024-Q3": {
+        "sharpe": -39.499290356347,
+        "total_return": -0.009891908250443504,
+        "ann_total_return": -0.03869907016403773,
+        "max_dd": -0.009891908250443504,
+        "n_bars": 130971,
+        "n_trades": 755,
+        "n_fills": 754,
+        "span_years": 0.25188037113088446
+      },
+      "2025-Q1": {
+        "sharpe": -42.310257269574834,
+        "total_return": -0.010158871650240209,
+        "ann_total_return": -0.04059238413972632,
+        "max_dd": -0.010158871650240209,
+        "n_bars": 128140,
+        "n_trades": 730,
+        "n_fills": 730,
+        "span_years": 0.24640466955662027
+      },
+      "2025-Q3": {
+        "sharpe": -56.723607311298636,
+        "total_return": -0.010611149201910863,
+        "ann_total_return": -0.041468486766382484,
+        "max_dd": -0.0106155900466548,
+        "n_bars": 130748,
+        "n_trades": 866,
+        "n_fills": 866,
+        "span_years": 0.25188037113088446
+      }
+    }
+  },
+  "divergence_pct": {
+    "sharpe": 89.25330658924906,
+    "total_return": 223.8412067234667,
+    "max_dd": 190.68866982581844
+  },
+  "max_abs_rel_divergence_pct": 223.8412067234667,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_tipping_metrics": [
+    "sharpe 89.25%",
+    "total_return 223.84%",
+    "max_dd 190.69%"
+  ],
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "backtrader 1.9.78.123 replay: applied the in-house entry/exit schedule from trades_long.csv + trades_short.csv (2350 fills) to the BTCUSDT 1m bar stream with next-bar entry fill, slip_open + slip_match at 0.02% per side and commission 0.05% per side round-trip, 1% fractional sizing per signal. OOS walk-forward over the 3 folds from config.json; Sharpe/ann_return/max_dd computed via bar-by-bar NAV.",
+  "framework_metrics_file": "/tmp/framework-validate-vpvr_reversion_1m_volume_profile_break_20260709-backtrader/results.json"
+}

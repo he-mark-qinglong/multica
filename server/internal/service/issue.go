@@ -471,3 +471,4 @@ func (s *IssueService) enqueueSquadLeaderTask(ctx context.Context, issue db.Issu
 			"error", err)
 	}
 }
+

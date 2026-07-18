@@ -288,3 +288,4 @@ func buildGeminiEnv(extra map[string]string) []string {
 	merged[trustKey] = "true"
 	return buildEnv(merged)
 }
+

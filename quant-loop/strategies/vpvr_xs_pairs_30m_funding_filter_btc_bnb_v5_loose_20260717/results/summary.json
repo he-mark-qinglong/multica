@@ -1,0 +1,56 @@
+{
+  "strategy": "vpvr_xs_pairs_30m_funding_filter_btc_bnb_v5_loose_20260717",
+  "iteration": 87,
+  "date": "2026-07-17",
+  "timeframe": "30m",
+  "instruments": [
+    "BTCUSDT",
+    "BNBUSDT"
+  ],
+  "pairs": [
+    "BTCUSDT/BNBUSDT"
+  ],
+  "axis": "xs_pair_zscore_with_vpvr_confluence_and_funding_blowoff_filter_loose_btc_bnb",
+  "tag": "NOT-PROFITABLE",
+  "variant": "A",
+  "n_trades": 5731,
+  "win_rate": 0.3877159309021113,
+  "profit_factor": 0.5883370371308795,
+  "total_return_pct": -0.04416538882422205,
+  "sharpe": -0.06638029906846288,
+  "max_drawdown_pct": -0.29120360028546666,
+  "evidence_gate": {
+    "sharpe_threshold": 0.5,
+    "sharpe_observed": -0.06638029906846288,
+    "passed": false
+  },
+  "params": {
+    "vpvr_window_bars": 60,
+    "vpvr_n_bins": 24,
+    "zscore_lookback_bars": 96,
+    "zscore_entry_threshold": 2.0,
+    "zscore_exit_threshold": 0.5,
+    "vpvr_proximity_atr_k": 0.7,
+    "atr_period": 14,
+    "resample_tf": "30m",
+    "funding_8h_ema_window": 8,
+    "funding_filter_threshold": 0.0005
+  },
+  "per_pair": {
+    "BTCUSDT/BNBUSDT": {
+      "n_trades": 5731,
+      "win_rate": 0.3877159309021113,
+      "profit_factor": 0.5883370371308795,
+      "avg_hold_bars": 2.5276566044320363,
+      "total_return_pct": -0.04416538882422205,
+      "sharpe": -0.06638029906846288,
+      "sortino": -0.026851592942102,
+      "max_drawdown_pct": -0.29120360028546666,
+      "trades_per_year": 1267.099122276029,
+      "pair": "BTCUSDT/BNBUSDT",
+      "span_start": "2022-01-01",
+      "span_end": "2026-07-10",
+      "n_bars": 79296
+    }
+  }
+}

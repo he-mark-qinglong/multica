@@ -24,6 +24,7 @@ import (
 
 var daemonCmd = &cobra.Command{
 	Use:   "daemon",
+	RunE:  groupRunE,
 	Short: "Control the local agent runtime daemon",
 }
 

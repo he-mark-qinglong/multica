@@ -1,0 +1,40 @@
+{
+  "run_id": "07a783bf-02db-473e-82a5-2ed23f9700bf",
+  "ts_epoch": 1784133469,
+  "ts_utc": "2026-07-15T16:37:49.409318+00:00",
+  "autopilot_id": "c8ec222b-1f58-429a-b58d-7014da99f395",
+  "host_used": "127.0.0.1:5432",
+  "host_spec_note": "spec host 192.168.0.105:5432 unreachable; fallback to 127.0.0.1:5432",
+  "daemon_alive": true,
+  "daemon_pid": 614431,
+  "skip_guard": {
+    "prior_run_age_sec": 19,
+    "min_gap_sec": 100,
+    "passed": false,
+    "note": "anomalous rerun 19s after last completion; log-only no-op (no escalation possible from nominal data)"
+  },
+  "metrics": {
+    "idle": 14,
+    "active": 1,
+    "idle_in_tx": 0,
+    "idle_in_tx_aborted": 0,
+    "stuck_in_tx": 0,
+    "oldest_tx_age_sec": null,
+    "fastpath": 0,
+    "slow_queries": 0
+  },
+  "pool_util_pct": 4.0,
+  "acquired_app_estimate": 1,
+  "app_pool_max": 25,
+  "pg_max_connections": 100,
+  "judgments": {
+    "pool_near_capacity": false,
+    "stuck_tx": false,
+    "long_tx": false,
+    "slow_query_storm": false
+  },
+  "escalations": [],
+  "warnings": [],
+  "issue_id": null,
+  "verdict": "no-op"
+}

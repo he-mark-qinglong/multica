@@ -1,0 +1,1 @@
+"""Make the tests directory importable as a package (lets pytest collect cleanly)."""

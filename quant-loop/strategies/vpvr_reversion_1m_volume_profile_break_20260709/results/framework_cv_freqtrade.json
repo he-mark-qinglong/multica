@@ -1,0 +1,58 @@
+{
+  "engine": "freqtrade",
+  "engine_version": "freqtrade 2026.6",
+  "iteration": 69,
+  "strategy_key": "vpvr_reversion_1m_volume_profile_break_20260709",
+  "inhouse": {
+    "sharpe": -24.39995323972323,
+    "ann_total_return": -0.003156066251607618,
+    "max_dd": -0.0036518760958298424,
+    "n_trades": 2350,
+    "status": "NOT-PROFITABLE"
+  },
+  "framework": {
+    "sharpe": 0.00010396291968069449,
+    "ann_total_return": 0.0,
+    "max_dd": -2.501095696927358e-05,
+    "n_trades": 2350
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": 0.00010396291968069449,
+    "oos_total_return_mean": 0.0,
+    "oos_max_dd_min": -2.501095696927358e-05,
+    "oos_n_trades_sum": 2350,
+    "n_folds": 3,
+    "folds": {
+      "2024-Q3": {
+        "sharpe": 0.00010974367723166771,
+        "total_return": 0.0,
+        "max_dd": -2.0554600234978793e-05,
+        "n_trades": 754
+      },
+      "2025-Q1": {
+        "sharpe": 0.00011153842096186156,
+        "total_return": 0.0,
+        "max_dd": -2.501095696927358e-05,
+        "n_trades": 730
+      },
+      "2025-Q3": {
+        "sharpe": 9.060666084855422e-05,
+        "total_return": 0.0,
+        "max_dd": -1.4332537455197247e-05,
+        "n_trades": 866
+      }
+    }
+  },
+  "divergence_pct": {
+    "sharpe": 100.00042607835621,
+    "ann_total_return": 100.0,
+    "max_dd": 99.3151203295798
+  },
+  "max_abs_rel_divergence_pct": 100.00042607835621,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "freqtrade 2026.6 IStrategy contract replay: BTCUSDT 1m futures, in-house OOS trades replayed bar-by-bar with linear pnl_pct \u00d7 weight (=in-house risk_target_pct) across held bars; walk-forward OOS over the 3 folds from config.json; freqtrade-imported",
+  "freqtrade_imported": true,
+  "cache_dir": "/tmp/framework-validate-vpvr_reversion_1m_volume_profile_break_20260709-freqtrade"
+}

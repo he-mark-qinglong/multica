@@ -1,0 +1,35 @@
+{
+  "ts": "2026-07-16T09:37:20+0800",
+  "epoch": 1784165840,
+  "verdict": "no-op",
+  "pool": {
+    "idle": 10,
+    "active": 1,
+    "idle_in_tx": 0,
+    "idle_in_tx_aborted": 0,
+    "stuck_in_tx": 0,
+    "oldest_tx_age_sec": 0,
+    "fastpath": 0,
+    "slow_queries": 0,
+    "total_db_conns": 11,
+    "max_conns": 25
+  },
+  "thresholds": {
+    "active_max": 20,
+    "acquired_pct_warn": 80,
+    "stuck_in_tx_escalate": 0,
+    "slow_queries_warn": 5,
+    "oldest_tx_age_escalate_sec": 60
+  },
+  "checks": {
+    "pool_near_capacity": false,
+    "stuck_in_tx": false,
+    "slow_query_storm": false,
+    "long_transaction": false
+  },
+  "skip_guard": {
+    "daemon_alive": true,
+    "daemon_pid": 614431,
+    "prior_run_gap_sec": 227
+  }
+}

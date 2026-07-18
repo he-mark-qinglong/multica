@@ -1,0 +1,58 @@
+{
+  "engine": "backtrader",
+  "engine_version": "1.9.78.123",
+  "engine_sha": "b853d7c9",
+  "iteration": 88,
+  "variant": "V_atr_v3_btc_only",
+  "strategy_key": "momentum_trend_multi_tf_atr_scaled_v3_1h_20260712",
+  "inhouse": {
+    "sharpe": 0.2569513975245375,
+    "total_return": 0.016351504016515195,
+    "ann_total_return": 0.0035946244628968227,
+    "max_dd": -0.022819192881108768,
+    "n_trades": 969,
+    "timeframe": "1h"
+  },
+  "framework": {
+    "sharpe": -0.15862048096884884,
+    "total_return": -0.0053840695319775644,
+    "ann_total_return": -0.0011929284402475426,
+    "max_dd": -0.02620420462784767,
+    "n_bars": 39646,
+    "span_years": 4.522815423226101
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": -0.15862048096884884,
+    "oos_total_return_ann_mean": -0.0011929284402475426,
+    "oos_max_dd_max": -0.02620420462784767,
+    "n_folds": 1,
+    "folds": [
+      {
+        "fold": 1,
+        "bars": 39646,
+        "metrics": {
+          "sharpe": -0.15862048096884884,
+          "ann_total_return": -0.0011929284402475426,
+          "max_dd": -0.02620420462784767
+        }
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 161.73170587784074,
+    "total_return": 132.92705996059811,
+    "ann_total_return": 133.1864552906923,
+    "max_dd": 14.834055544274923
+  },
+  "max_abs_rel_divergence_pct": 161.73170587784074,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_tipping_metrics": [
+    "sharpe 161.73%",
+    "total_return 132.93%",
+    "ann_return 133.19%"
+  ],
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "backtrader 1.9.78.123 replay: applied the in-house entry/exit schedule from trades_BTCUSDT.csv (1h BTCUSDT, 969 trades) to the BTCUSDT 1h bar stream with next-bar entry fill, slip_open + slip_match at 0.02% per side and commission 0.05% per side round-trip, 1% fractional sizing per signal. Equity tracked bar-by-bar via broker.getvalue(); Sharpe/ann_return/max_dd computed via the in-house formula.",
+  "framework_metrics_file": "/tmp/framework-validate-momentum_trend_multi_tf_atr_scaled_v3_1h_20260712-backtrader/results.json"
+}

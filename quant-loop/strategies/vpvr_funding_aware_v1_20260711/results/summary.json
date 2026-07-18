@@ -1,0 +1,75 @@
+{
+  "strategy": "vpvr_funding_aware_v1_20260711",
+  "strategy_key": "vpvr_funding_aware_v1_20260711",
+  "variant": "V8_funding_aware_rev2",
+  "iteration": 82,
+  "date": "2026-07-11",
+  "timeframe": "4h",
+  "bars_per_year": 2190,
+  "sqrt_bars_per_year": 46.79743582719036,
+  "fill_convention": "bar[t+1].open + cost_per_side",
+  "funding_carry_model": "8h_event_applied_to_held_position_via_CarryLedger",
+  "direction": "long_only",
+  "max_concurrent_positions": 2,
+  "per_symbol": [
+    {
+      "n_trades": 79,
+      "win_rate": 0.4430379746835443,
+      "profit_factor": 1.4329392843172843,
+      "avg_hold_bars": 44.31645569620253,
+      "total_return_pct": 0.8181788141132937,
+      "sharpe": 6.334113141487163,
+      "sortino": 17.447274734497643,
+      "max_drawdown_pct": -0.49200209898793645,
+      "trades_per_year": 17.4546004842615,
+      "annualised_return_pct": 0.14120910472502857,
+      "tag": "PROFITABLE",
+      "exit_reasons": {
+        "hard_stop": 36,
+        "time_stop": 43
+      },
+      "symbol": "BTCUSDT",
+      "span_start": "2022-01-01T00:00:00+00:00",
+      "span_end": "2026-07-10T20:00:00+00:00",
+      "n_bars": 9912,
+      "pnl_usd_sum": 40548.823591117936,
+      "pnl_usd_price_sum": 44470.060485354996,
+      "pnl_usd_carry_sum": -3921.236894237062,
+      "final_equity": 90908.94070566469
+    },
+    {
+      "n_trades": 86,
+      "win_rate": 0.46511627906976744,
+      "profit_factor": 1.6073148915793392,
+      "avg_hold_bars": 45.883720930232556,
+      "total_return_pct": 2.0684031255106117,
+      "sharpe": 7.995609855643364,
+      "sortino": 22.781877891020464,
+      "max_drawdown_pct": -0.5707685344212701,
+      "trades_per_year": 19.001210653753027,
+      "annualised_return_pct": 0.2810926155544464,
+      "tag": "PROFITABLE",
+      "exit_reasons": {
+        "time_stop": 52,
+        "hard_stop": 34
+      },
+      "symbol": "ETHUSDT",
+      "span_start": "2022-01-01T00:00:00+00:00",
+      "span_end": "2026-07-10T20:00:00+00:00",
+      "n_bars": 9912,
+      "pnl_usd_sum": 79331.87783594322,
+      "pnl_usd_price_sum": 81392.27009601565,
+      "pnl_usd_carry_sum": -2060.3922600724363,
+      "final_equity": 153420.15627553058
+    }
+  ],
+  "portfolio": {
+    "starting_capital_usd": 100000.0,
+    "final_equity_usd": 219880.70142706117,
+    "total_return": 1.1988070142706115,
+    "n_trades_total": 165
+  },
+  "archived": false,
+  "archive_reason": null,
+  "tag": "PROFITABLE"
+}
