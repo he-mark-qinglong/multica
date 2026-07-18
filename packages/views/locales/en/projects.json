@@ -128,6 +128,7 @@
     "toast_delete_failed": "Failed to remove link",
     "legend_parent": "parent → child",
     "hide_run_logs": "Hide run logs",
-    "show_run_logs": "Show run logs"
+    "show_run_logs": "Show run logs",
+    "legend_external": "external (cross-project)"
   }
 }

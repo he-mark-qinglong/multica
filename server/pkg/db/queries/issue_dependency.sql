@@ -43,3 +43,20 @@ FROM issue_dependency d
 JOIN issue c ON c.id = CASE WHEN d.issue_id = $1 THEN d.depends_on_issue_id ELSE d.issue_id END
 WHERE d.issue_id = $1 OR d.depends_on_issue_id = $1
 ORDER BY d.id;
+
+-- Cross-project edges: exactly one endpoint lives in this project. The
+-- counterpart (external) issue's display fields are joined in so the map
+-- can render the dashed external node without a second lookup. Edges to
+-- issues with NULL project_id count as cross too (IS NOT DISTINCT FROM).
+-- name: ListProjectCrossDependencies :many
+SELECT d.id, d.issue_id, d.depends_on_issue_id, d.type,
+       e.id AS ext_id, e.number AS ext_number, e.title AS ext_title,
+       e.status AS ext_status, e.priority AS ext_priority,
+       e.parent_issue_id AS ext_parent_issue_id, e.project_id AS ext_project_id
+FROM issue_dependency d
+JOIN issue a ON a.id = d.issue_id
+JOIN issue b ON b.id = d.depends_on_issue_id
+JOIN issue e ON e.id = CASE WHEN a.project_id IS NOT DISTINCT FROM $1 THEN d.depends_on_issue_id ELSE d.issue_id END
+WHERE (a.project_id IS NOT DISTINCT FROM $1) <> (b.project_id IS NOT DISTINCT FROM $1)
+  AND a.workspace_id = $2 AND b.workspace_id = $2
+ORDER BY d.id;

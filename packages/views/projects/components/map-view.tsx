@@ -6,6 +6,8 @@
  *
  *   - parent → child  (issue.parent_issue_id, goal decomposition)
  *   - blocks / related / supersedes  (issue_dependency rows)
+ *   - cross-project dependency edges → dashed edges ending at dashed
+ *     "external" ghost nodes (issues that live in other projects)
  *
  * Interactions:
  *   - click a node → navigate to the issue detail page
@@ -15,7 +17,8 @@
  *     link cleared via PUT parent_issue_id=null)
  *
  * Isolated issues (no edges at all) are laid out in a grid below the
- * connected graph so no issue ever falls off the map.
+ * connected graph so no issue ever falls off the map. External nodes are
+ * never isolated — they exist only as cross-edge endpoints.
  */
 
 import * as dagre from "@dagrejs/dagre";
@@ -85,14 +88,16 @@ type IssueFlowNode = Node<{ issue: ProjectGraphNode }, "issue">;
 function IssueNode({ data, selected }: NodeProps<IssueFlowNode>) {
   const { issue } = data;
   const cfg = STATUS_CONFIG[issue.status];
+  const external = issue.external === true;
   return (
     <div
       className={cn(
         "flex h-[72px] w-[240px] flex-col justify-center gap-1 rounded-md border bg-card px-3 py-2 shadow-sm",
+        external && "border-dashed opacity-80",
         selected && "border-primary ring-1 ring-primary",
       )}
     >
-      <Handle type="target" position={Position.Left} className="!bg-muted-foreground" />
+      <Handle type="target" position={Position.Left} className="!bg-muted-foreground" isConnectable={!external} />
       <div className="flex items-center gap-1.5">
         <span className={cn("size-2 shrink-0 rounded-full", cfg?.dividerColor ?? "bg-muted-foreground/40")} />
         <span className="font-mono text-[10px] text-muted-foreground">
@@ -101,9 +106,9 @@ function IssueNode({ data, selected }: NodeProps<IssueFlowNode>) {
         <PriorityIcon priority={issue.priority} className="ml-auto" />
       </div>
       <div className="truncate text-xs font-medium" title={issue.title}>
-        {issue.title}
+        {external ? `↗ ${issue.title}` : issue.title}
       </div>
-      <Handle type="source" position={Position.Right} className="!bg-muted-foreground" />
+      <Handle type="source" position={Position.Right} className="!bg-muted-foreground" isConnectable={!external} />
     </div>
   );
 }
@@ -130,14 +135,19 @@ const DEP_EDGE_PREFIX = "dep:";
  * Dagre layered layout, rankdir LR. Connected nodes go through dagre;
  * isolated nodes (no parent link, no dependency edge in either direction)
  * are placed in a grid below the main graph's bounding box so they stay
- * visible instead of being scattered through rank 0.
+ * visible instead of being scattered through rank 0. External (cross-project
+ * counterpart) nodes join the dagre layout via their cross edges and never
+ * land in the isolated grid.
  */
 function layoutGraph(
   graphNodes: ProjectGraphNode[],
   graphEdges: ProjectGraphEdge[],
+  externalNodes: ProjectGraphNode[],
+  crossEdges: ProjectGraphEdge[],
 ): Map<string, { x: number; y: number }> {
   const positions = new Map<string, { x: number; y: number }>();
-  if (graphNodes.length === 0) return positions;
+  const allNodes = [...graphNodes, ...externalNodes];
+  if (allNodes.length === 0) return positions;
 
   const hasParent = new Set<string>();
   for (const n of graphNodes) {
@@ -147,13 +157,14 @@ function layoutGraph(
     }
   }
   const inDep = new Set<string>();
-  for (const e of graphEdges) {
+  for (const e of [...graphEdges, ...crossEdges]) {
     inDep.add(e.issue_id);
     inDep.add(e.depends_on_issue_id);
   }
-  const isIsolated = (id: string) => !hasParent.has(id) && !inDep.has(id);
+  const externalIds = new Set(externalNodes.map((n) => n.id));
+  const isIsolated = (id: string) => !externalIds.has(id) && !hasParent.has(id) && !inDep.has(id);
 
-  const connected = graphNodes.filter((n) => !isIsolated(n.id));
+  const connected = allNodes.filter((n) => !isIsolated(n.id));
   const isolated = graphNodes.filter((n) => isIsolated(n.id));
 
   let maxY = 0;
@@ -166,11 +177,11 @@ function layoutGraph(
     }
     const ids = new Set(connected.map((n) => n.id));
     for (const n of connected) {
-      if (n.parent_issue_id && ids.has(n.parent_issue_id)) {
+      if (n.parent_issue_id && ids.has(n.parent_issue_id) && !externalIds.has(n.id)) {
         g.setEdge(n.parent_issue_id, n.id);
       }
     }
-    for (const e of graphEdges) {
+    for (const e of [...graphEdges, ...crossEdges]) {
       if (ids.has(e.issue_id) && ids.has(e.depends_on_issue_id)) {
         g.setEdge(e.issue_id, e.depends_on_issue_id);
       }
@@ -201,10 +212,13 @@ function layoutGraph(
 function buildElements(
   graphNodes: ProjectGraphNode[],
   graphEdges: ProjectGraphEdge[],
+  externalNodes: ProjectGraphNode[],
+  crossEdges: ProjectGraphEdge[],
 ): { nodes: IssueFlowNode[]; edges: Edge[] } {
-  const positions = layoutGraph(graphNodes, graphEdges);
-  const ids = new Set(graphNodes.map((n) => n.id));
-  const nodes: IssueFlowNode[] = graphNodes.map((n) => ({
+  const positions = layoutGraph(graphNodes, graphEdges, externalNodes, crossEdges);
+  const allNodes = [...graphNodes, ...externalNodes];
+  const ids = new Set(allNodes.map((n) => n.id));
+  const nodes: IssueFlowNode[] = allNodes.map((n) => ({
     id: n.id,
     type: "issue",
     position: positions.get(n.id) ?? { x: 0, y: 0 },
@@ -235,6 +249,24 @@ function buildElements(
       labelStyle: { fontSize: 10, fill: style.stroke },
       style,
       markerEnd: { type: MarkerType.ArrowClosed, color: style.stroke },
+    });
+  }
+  // Cross-project edges: same per-type color, dashed + dimmed so they're
+  // visually distinct from intra-project links.
+  for (const e of crossEdges) {
+    if (!ids.has(e.issue_id) || !ids.has(e.depends_on_issue_id)) continue;
+    const base = EDGE_STYLE[e.type] ?? EDGE_STYLE.related;
+    const style = { ...base, strokeDasharray: "4 3", opacity: 0.7 };
+    edges.push({
+      id: `${DEP_EDGE_PREFIX}${e.id}`,
+      source: e.issue_id,
+      target: e.depends_on_issue_id,
+      type: "smoothstep",
+      animated: false,
+      label: e.type,
+      labelStyle: { fontSize: 10, fill: base.stroke },
+      style,
+      markerEnd: { type: MarkerType.ArrowClosed, color: base.stroke },
     });
   }
   return { nodes, edges };
@@ -289,28 +321,43 @@ function ProjectMapCanvas({ projectId }: { projectId: string }) {
   const graphQuery = useQuery(projectGraphOptions(wsId, projectId));
   const graphNodes = useMemo(() => graphQuery.data?.nodes ?? [], [graphQuery.data]);
   const graphEdges = useMemo(() => graphQuery.data?.edges ?? [], [graphQuery.data]);
+  const externalNodes = useMemo(() => graphQuery.data?.external_nodes ?? [], [graphQuery.data]);
+  const crossEdges = useMemo(() => graphQuery.data?.cross_edges ?? [], [graphQuery.data]);
 
   // Run-log filter (default on): drop operational-log issues from the map,
-  // plus any edge that touches a hidden node.
+  // plus any edge that touches a hidden node. External (cross-project)
+  // nodes follow the same rule — a filtered external node takes its cross
+  // edges down with it.
   const [hideRunLogs, setHideRunLogs] = useState(true);
-  const { visibleNodes, visibleEdges, hiddenLogCount } = useMemo(() => {
+  const { visibleNodes, visibleEdges, visibleExternal, visibleCrossEdges, hiddenLogCount } = useMemo(() => {
     if (!hideRunLogs) {
-      return { visibleNodes: graphNodes, visibleEdges: graphEdges, hiddenLogCount: 0 };
+      return {
+        visibleNodes: graphNodes,
+        visibleEdges: graphEdges,
+        visibleExternal: externalNodes,
+        visibleCrossEdges: crossEdges,
+        hiddenLogCount: 0,
+      };
     }
     const kept = graphNodes.filter((n) => !isRunLogTitle(n.title));
-    const ids = new Set(kept.map((n) => n.id));
+    const keptExt = externalNodes.filter((n) => !isRunLogTitle(n.title));
+    const ids = new Set([...kept, ...keptExt].map((n) => n.id));
     return {
       visibleNodes: kept,
       visibleEdges: graphEdges.filter(
         (e) => ids.has(e.issue_id) && ids.has(e.depends_on_issue_id),
       ),
-      hiddenLogCount: graphNodes.length - kept.length,
+      visibleExternal: keptExt,
+      visibleCrossEdges: crossEdges.filter(
+        (e) => ids.has(e.issue_id) && ids.has(e.depends_on_issue_id),
+      ),
+      hiddenLogCount: graphNodes.length + externalNodes.length - kept.length - keptExt.length,
     };
-  }, [hideRunLogs, graphNodes, graphEdges]);
+  }, [hideRunLogs, graphNodes, graphEdges, externalNodes, crossEdges]);
 
   const initial = useMemo(
-    () => buildElements(visibleNodes, visibleEdges),
-    [visibleNodes, visibleEdges],
+    () => buildElements(visibleNodes, visibleEdges, visibleExternal, visibleCrossEdges),
+    [visibleNodes, visibleEdges, visibleExternal, visibleCrossEdges],
   );
   const [nodes, setNodes, onNodesChange] = useNodesState<IssueFlowNode>(initial.nodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(initial.edges);
@@ -361,11 +408,12 @@ function ProjectMapCanvas({ projectId }: { projectId: string }) {
         setPendingDelete({ kind: "parent", childId: edge.id.slice(PARENT_EDGE_PREFIX.length) });
       } else if (edge.id.startsWith(DEP_EDGE_PREFIX)) {
         const depId = edge.id.slice(DEP_EDGE_PREFIX.length);
-        const dep = graphEdges.find((e) => e.id === depId);
+        // Cross edges carry real dependency ids too — same DELETE endpoint.
+        const dep = graphEdges.find((e) => e.id === depId) ?? crossEdges.find((e) => e.id === depId);
         if (dep) setPendingDelete({ kind: "dep", edge: dep });
       }
     },
-    [graphEdges],
+    [graphEdges, crossEdges],
   );
 
   // "Make sub-issue" would set target.parent = source. That's a cycle when
@@ -470,6 +518,10 @@ function ProjectMapCanvas({ projectId }: { projectId: string }) {
         <span className="flex items-center gap-1.5">
           <span className="h-0 w-4 border-t-2 border-dashed" style={{ borderColor: EDGE_STYLE.supersedes.stroke }} />
           supersedes
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="h-0 w-4 border-t border-dashed opacity-70" style={{ borderColor: EDGE_STYLE.parent.stroke }} />
+          {t(($) => $.map.legend_external)}
         </span>
       </div>
 

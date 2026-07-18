@@ -24,6 +24,10 @@ type ProjectGraphNode struct {
 	Status        string  `json:"status"`
 	Priority      string  `json:"priority"`
 	ParentIssueID *string `json:"parent_issue_id"`
+	// Set only for external nodes (cross-project edge counterparts) — kept
+	// omitempty so the original internal-node payload shape is unchanged.
+	ProjectID *string `json:"project_id,omitempty"`
+	External  bool    `json:"external,omitempty"`
 }
 
 type ProjectGraphEdge struct {
@@ -36,11 +40,18 @@ type ProjectGraphEdge struct {
 type ProjectGraphResponse struct {
 	Nodes []ProjectGraphNode `json:"nodes"`
 	Edges []ProjectGraphEdge `json:"edges"`
+	// ExternalNodes are the deduplicated other-end issues of CrossEdges —
+	// issues outside this project the map renders as dashed ghost nodes.
+	ExternalNodes []ProjectGraphNode `json:"external_nodes"`
+	// CrossEdges are dependency edges with exactly one endpoint in this
+	// project (the other end appears in ExternalNodes).
+	CrossEdges []ProjectGraphEdge `json:"cross_edges"`
 }
 
 // GetProjectGraph returns every issue of the project as a node (isolated
-// issues included) plus every intra-project dependency edge, for the
-// project map view.
+// issues included), every intra-project dependency edge, plus cross-project
+// edges (exactly one endpoint in this project) with their external
+// counterpart nodes, for the project map view.
 func (h *Handler) GetProjectGraph(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	idUUID, ok := parseUUIDOrBadRequest(w, chi.URLParam(r, "id"), "project id")
@@ -74,6 +85,14 @@ func (h *Handler) GetProjectGraph(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusInternalServerError, "failed to list project dependencies")
 		return
 	}
+	crossDeps, err := h.Queries.ListProjectCrossDependencies(ctx, db.ListProjectCrossDependenciesParams{
+		ProjectID:   idUUID,
+		WorkspaceID: wsUUID,
+	})
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, "failed to list cross-project dependencies")
+		return
+	}
 
 	prefix := h.getIssuePrefix(ctx, wsUUID)
 	nodes := make([]ProjectGraphNode, len(issues))
@@ -96,7 +115,39 @@ func (h *Handler) GetProjectGraph(w http.ResponseWriter, r *http.Request) {
 			Type:             dep.Type,
 		}
 	}
-	writeJSON(w, http.StatusOK, ProjectGraphResponse{Nodes: nodes, Edges: edges})
+	// Deduplicate external nodes by issue id — one issue can be the
+	// counterpart of several cross edges but appears on the map once.
+	externalNodes := make([]ProjectGraphNode, 0, len(crossDeps))
+	seenExternal := make(map[string]bool, len(crossDeps))
+	crossEdges := make([]ProjectGraphEdge, len(crossDeps))
+	for i, dep := range crossDeps {
+		crossEdges[i] = ProjectGraphEdge{
+			ID:               uuidToString(dep.ID),
+			IssueID:          uuidToString(dep.IssueID),
+			DependsOnIssueID: uuidToString(dep.DependsOnIssueID),
+			Type:             dep.Type,
+		}
+		extID := uuidToString(dep.ExtID)
+		if !seenExternal[extID] {
+			seenExternal[extID] = true
+			externalNodes = append(externalNodes, ProjectGraphNode{
+				ID:            extID,
+				Identifier:    fmt.Sprintf("%s-%d", prefix, dep.ExtNumber),
+				Title:         dep.ExtTitle,
+				Status:        dep.ExtStatus,
+				Priority:      dep.ExtPriority,
+				ParentIssueID: uuidToPtr(dep.ExtParentIssueID),
+				ProjectID:     uuidToPtr(dep.ExtProjectID),
+				External:      true,
+			})
+		}
+	}
+	writeJSON(w, http.StatusOK, ProjectGraphResponse{
+		Nodes:         nodes,
+		Edges:         edges,
+		ExternalNodes: externalNodes,
+		CrossEdges:    crossEdges,
+	})
 }
 
 type CreateIssueDependencyRequest struct {

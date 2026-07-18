@@ -120,6 +120,10 @@ export interface ProjectGraphNode {
   status: IssueStatus;
   priority: IssuePriority;
   parent_issue_id: string | null;
+  /** Set only on external nodes (cross-project edge counterparts). */
+  project_id?: string | null;
+  /** True for ghost nodes outside this project — rendered dashed. */
+  external?: boolean;
 }
 
 export interface ProjectGraphEdge {
@@ -132,6 +136,10 @@ export interface ProjectGraphEdge {
 export interface ProjectGraphResponse {
   nodes: ProjectGraphNode[];
   edges: ProjectGraphEdge[];
+  /** Deduplicated other-end issues of cross_edges (external: true). */
+  external_nodes: ProjectGraphNode[];
+  /** Dependency edges with exactly one endpoint inside this project. */
+  cross_edges: ProjectGraphEdge[];
 }
 
 export interface CreateIssueDependencyRequest {

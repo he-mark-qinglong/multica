@@ -135,6 +135,75 @@ func (q *Queries) ListIssueDependencies(ctx context.Context, issueID pgtype.UUID
 	return items, nil
 }
 
+const listProjectCrossDependencies = `-- name: ListProjectCrossDependencies :many
+SELECT d.id, d.issue_id, d.depends_on_issue_id, d.type,
+       e.id AS ext_id, e.number AS ext_number, e.title AS ext_title,
+       e.status AS ext_status, e.priority AS ext_priority,
+       e.parent_issue_id AS ext_parent_issue_id, e.project_id AS ext_project_id
+FROM issue_dependency d
+JOIN issue a ON a.id = d.issue_id
+JOIN issue b ON b.id = d.depends_on_issue_id
+JOIN issue e ON e.id = CASE WHEN a.project_id IS NOT DISTINCT FROM $1 THEN d.depends_on_issue_id ELSE d.issue_id END
+WHERE (a.project_id IS NOT DISTINCT FROM $1) <> (b.project_id IS NOT DISTINCT FROM $1)
+  AND a.workspace_id = $2 AND b.workspace_id = $2
+ORDER BY d.id
+`
+
+type ListProjectCrossDependenciesParams struct {
+	ProjectID   pgtype.UUID `json:"project_id"`
+	WorkspaceID pgtype.UUID `json:"workspace_id"`
+}
+
+type ListProjectCrossDependenciesRow struct {
+	ID               pgtype.UUID `json:"id"`
+	IssueID          pgtype.UUID `json:"issue_id"`
+	DependsOnIssueID pgtype.UUID `json:"depends_on_issue_id"`
+	Type             string      `json:"type"`
+	ExtID            pgtype.UUID `json:"ext_id"`
+	ExtNumber        int32       `json:"ext_number"`
+	ExtTitle         string      `json:"ext_title"`
+	ExtStatus        string      `json:"ext_status"`
+	ExtPriority      string      `json:"ext_priority"`
+	ExtParentIssueID pgtype.UUID `json:"ext_parent_issue_id"`
+	ExtProjectID     pgtype.UUID `json:"ext_project_id"`
+}
+
+// Cross-project edges: exactly one endpoint lives in this project. The
+// counterpart (external) issue's display fields are joined in so the map
+// can render the dashed external node without a second lookup. Edges to
+// issues with NULL project_id count as cross too (IS NOT DISTINCT FROM).
+func (q *Queries) ListProjectCrossDependencies(ctx context.Context, arg ListProjectCrossDependenciesParams) ([]ListProjectCrossDependenciesRow, error) {
+	rows, err := q.db.Query(ctx, listProjectCrossDependencies, arg.ProjectID, arg.WorkspaceID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []ListProjectCrossDependenciesRow{}
+	for rows.Next() {
+		var i ListProjectCrossDependenciesRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.IssueID,
+			&i.DependsOnIssueID,
+			&i.Type,
+			&i.ExtID,
+			&i.ExtNumber,
+			&i.ExtTitle,
+			&i.ExtStatus,
+			&i.ExtPriority,
+			&i.ExtParentIssueID,
+			&i.ExtProjectID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listProjectGraphDependencies = `-- name: ListProjectGraphDependencies :many
 SELECT d.id, d.issue_id, d.depends_on_issue_id, d.type
 FROM issue_dependency d

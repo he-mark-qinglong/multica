@@ -128,6 +128,7 @@
     "toast_delete_failed": "删除连接失败",
     "legend_parent": "父 → 子",
     "hide_run_logs": "隐藏运行日志",
-    "show_run_logs": "显示运行日志"
+    "show_run_logs": "显示运行日志",
+    "legend_external": "外部（跨项目）"
   }
 }
