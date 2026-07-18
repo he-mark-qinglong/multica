@@ -1,4 +1,4 @@
-.PHONY: help makehelp dev server daemon cli multica build test migrate-up migrate-down sqlc seed clean setup start stop check worktree-env setup-main start-main stop-main check-main setup-worktree start-worktree stop-worktree check-worktree db-up db-down db-reset selfhost selfhost-build selfhost-stop
+.PHONY: help makehelp dev server daemon cli multica build test migrate-up migrate-down sqlc seed clean setup start stop check worktree-env setup-main start-main stop-main check-main setup-worktree start-worktree stop-worktree check-worktree db-up db-down db-reset selfhost selfhost-build selfhost-stop validate-strategy validate-strategy-dryrun
 
 MAIN_ENV_FILE ?= .env
 WORKTREE_ENV_FILE ?= .env.worktree
@@ -316,6 +316,18 @@ sqlc: ## Regenerate sqlc code
 
 # Cleanup
 ##@ Cleanup
+
+# Quant-loop validation (CI hook for strategy variants, see SMA-34962)
+##@ Quant-loop validation
+
+VALIDATE_STRATEGY_BASE ?= origin/main
+VALIDATE_STRATEGY_HEAD ?= HEAD
+
+validate-strategy: ## Run G1-G7 OOS harness on every variant touched by HEAD vs VALIDATE_STRATEGY_BASE (default: origin/main)
+	bash scripts/run_validation.sh "$(VALIDATE_STRATEGY_BASE)" "$(VALIDATE_STRATEGY_HEAD)"
+
+validate-strategy-dryrun: ## Smoke-test the CI hook against the bundled dry-run fixtures (PASS + FAIL)
+	bash quant-loop/validation/tests/test_ci_dryrun.sh
 
 clean: ## Remove generated server binaries and temp files
 	rm -rf server/bin server/tmp

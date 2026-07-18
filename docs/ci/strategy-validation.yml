@@ -1,0 +1,92 @@
+name: strategy-validation
+
+# OOS validation gate for quant-loop strategy variants. Runs the G1-G7
+# harness on every variant touched by a PR and blocks merge on failure.
+#
+# Runs on a self-hosted runner labeled [self-hosted, quant-loop] that has:
+#   - the canonical market-data path mounted at
+#     /home/smark/services/strategy_display_engine_data/...
+#     (see quant-loop/validation/README.md "Data" section)
+#   - freqtrade and backtrader installed (see
+#     quant-loop/validation/requirements.txt)
+#
+# Required runner env (no GitHub Actions secrets involved):
+#   QUANT_LOOP_DATA_ROOT  default /home/smark/services/strategy_display_engine_data
+#                         (only override if the canonical path moved)
+#
+# Why a self-hosted runner: the harness needs both the on-disk market data
+# and freqtrade's own userdir layout; spinning that up in an ephemeral
+# GitHub-hosted runner would add minutes of cold start and burn budget
+# for every PR. The runner label `quant-loop` lets ops pin this workflow
+# to a specific host (see deploy/runner/README.md).
+#
+# Blocking semantics: this workflow exits non-zero whenever
+# `validate_changed_variants.sh` exits 1 (at least one G1-G7 gate fails).
+# GitHub Actions then marks the required check as failed, which the branch
+# protection rule consumes to block merge. The script also prints a
+# human-readable verdict.md for every changed variant, which shows up in
+# the workflow run log.
+
+on:
+  pull_request:
+    paths:
+      - "quant-loop/strategies/**"
+      - "quant-loop/validation/**"
+      - "quant-loop/validation/ci/validate_changed_variants.sh"
+      - ".github/workflows/strategy-validation.yml"
+  workflow_dispatch:
+    inputs:
+      base_ref:
+        description: "Base ref to diff against (default: origin/main)"
+        required: false
+        default: "origin/main"
+
+concurrency:
+  group: strategy-validation-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  validate-variants:
+    name: Validate changed variants (G1-G7)
+    runs-on: [self-hosted, quant-loop]
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # Required so `git diff origin/${{ github.base_ref }}...HEAD`
+          # inside the entrypoint script can see the full PR commit list.
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install harness dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r quant-loop/validation/requirements.txt
+
+      - name: Validate changed variants (G1-G7)
+        id: validate
+        env:
+          QUANT_LOOP_DATA_ROOT: ${{ vars.QUANT_LOOP_DATA_ROOT || '/home/smark/services/strategy_display_engine_data' }}
+        run: |
+          set -euo pipefail
+          BASE_REF="${{ github.event.inputs.base_ref || format('origin/{0}', github.base_ref) }}"
+          bash quant-loop/validation/ci/validate_changed_variants.sh "$BASE_REF" "HEAD"
+
+      - name: Upload verdict artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verdicts-${{ github.event.pull_request.number || github.run_id }}
+          path: |
+            quant-loop/strategies/**/results/validation/verdict.json
+            quant-loop/strategies/**/results/validation/verdict.md
+          if-no-files-found: ignore
+          retention-days: 30

@@ -1,0 +1,23 @@
+{
+  "strategy": "_dryrun_pass",
+  "iteration": 0,
+  "timeframe": "1d",
+  "source_timeframe": "1d",
+  "instruments": ["BTCUSDT"],
+  "data_source": "synthetic_dryrun_pass",
+  "indicators": {},
+  "sizing": {
+    "per_signal_weight_pct": 0.05,
+    "max_gross_exposure_pct": 0.5
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "Dry-run fixture used by quant-loop/validation/tests/test_ci_dryrun.sh to",
+    "exercise the CI hook's PASS path. harness_adapter.py emits a deterministic",
+    "profitable equity curve and 12 long trades; data_loader.py returns a",
+    "synthetic 60-day 1d series with the matching positive drift so the",
+    "backtrader/freqtrade replays reproduce the same Sharpe."
+  ]
+}
