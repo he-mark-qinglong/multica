@@ -20,6 +20,24 @@ type claudeBackend struct {
 	cfg Config
 }
 
+// Execute spawns the `claude` CLI in stream-json mode, streams its output
+// into a Session, and returns when the subprocess exits. It implements
+// Backend.Execute and adds three Claude-specific behaviours on top of the
+// interface contract:
+//
+//  1. If cfg.ExecutablePath is empty the literal name "claude" is used
+//     (PATH lookup via exec.LookPath); an unresolved binary fails fast
+//     with a typed error before any subprocess is started.
+//  2. opts.McpConfig is materialised to a temp file and passed via
+//     --mcp-config so the agent runs against an explicit MCP server set
+//     rather than inheriting one from the outer Claude Code session.
+//     The temp file is cleaned up when the Session is closed.
+//  3. opts.ResumeSessionID maps to --resume so the agent continues the
+//     prior conversation instead of starting a fresh one.
+//
+// Like all Backend implementations, Execute honours opts.Timeout via
+// runContext and the per-backend stderr tail is attached on failure so
+// "exit status N" errors carry the trailing CLI stderr for diagnosis.
 func (b *claudeBackend) Execute(ctx context.Context, prompt string, opts ExecOptions) (*Session, error) {
 	execPath := b.cfg.ExecutablePath
 	if execPath == "" {

@@ -1,0 +1,62 @@
+[
+  {
+    "symbol": "BTCUSDT",
+    "rows": 792,
+    "span_start": "2024-04-23",
+    "span_end": "2026-06-23",
+    "strategy": {
+      "trades": 14,
+      "win_rate": 0.42857142857142855,
+      "profit_factor": 1.2562327676353584,
+      "avg_hold_bars": 23.0,
+      "total_return": 0.0017226379421908522,
+      "sharpe": 0.1964268264073372,
+      "sortino": 0.08383146994312679,
+      "max_dd": -0.0025550169534826104,
+      "turnover_per_year": 6.4646017699115035
+    },
+    "buy_hold": {
+      "total_return": -0.06016545352927449
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "rows": 792,
+    "span_start": "2024-04-23",
+    "span_end": "2026-06-23",
+    "strategy": {
+      "trades": 16,
+      "win_rate": 0.5625,
+      "profit_factor": 1.3606455656546061,
+      "avg_hold_bars": 27.25,
+      "total_return": 0.0035366763469928397,
+      "sharpe": 0.3047109963636971,
+      "sortino": 0.14230611164667764,
+      "max_dd": -0.0032096868569750255,
+      "turnover_per_year": 7.38811630847029
+    },
+    "buy_hold": {
+      "total_return": -0.48412206783140266
+    }
+  },
+  {
+    "symbol": "SOLUSDT",
+    "rows": 792,
+    "span_start": "2024-04-23",
+    "span_end": "2026-06-23",
+    "strategy": {
+      "trades": 10,
+      "win_rate": 0.5,
+      "profit_factor": 1.4915525413579254,
+      "avg_hold_bars": 42.2,
+      "total_return": 0.0031292656214882975,
+      "sharpe": 0.29628778456214616,
+      "sortino": 0.06674427676379946,
+      "max_dd": -0.004645897753633561,
+      "turnover_per_year": 4.617572692793932
+    },
+    "buy_hold": {
+      "total_return": -0.5536386346820138
+    }
+  }
+]

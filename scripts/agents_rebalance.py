@@ -109,7 +109,7 @@ def build_pools(issues, agents, runtimes):
 
 
 def make_plan(idle_pool, candidates, load, max_per_agent, max_moves,
-              min_kimi_working, current_kimi_working):
+              min_kimi_working, current_kimi_working, enable_kimi=False):
     """For each candidate, find a target on the preferred provider first,
     then fall back.  Stop when ``max_moves`` is reached or pool is empty."""
     # group pool by provider; sort each group by free capacity desc
@@ -130,10 +130,14 @@ def make_plan(idle_pool, candidates, load, max_per_agent, max_moves,
         # Decide provider order: preferred first, then a kimi-fallback if we
         # still need to satisfy the floor, then everything else.
         below_floor = kimi_picks + current_kimi_working < min_kimi_working
+        # When kimi is disabled, reroute kimi-preferred issues to claude
+        if not enable_kimi and preferred == "kimi":
+            preferred = "claude"
         order = [preferred]
-        if below_floor and "kimi" not in order:
+        if enable_kimi and below_floor and "kimi" not in order:
             order.append("kimi")
-        for p in ("claude", "codex", "kimi"):
+        fallback = ("claude", "codex", "kimi") if enable_kimi else ("claude", "codex")
+        for p in fallback:
             if p not in order:
                 order.append(p)
         for prov in order:
@@ -189,8 +193,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--max-moves", type=int, default=40)
     ap.add_argument("--max-per-agent", type=int, default=1)
-    ap.add_argument("--min-kimi-working", type=int, default=3)
+    ap.add_argument("--min-kimi-working", type=int, default=0)
     ap.add_argument("--apply", action="store_true")
+    ap.add_argument("--enable-kimi", action="store_true", help="Include kimi targets (default off; kimi runtime shims tasks to instant completion).")
     ap.add_argument("--sleep", type=float, default=0.15)
     args = ap.parse_args()
 
@@ -213,7 +218,8 @@ def main():
     print("   by status            : " + ", ".join(f"{k}={v}" for k, v in status_n.most_common()))
 
     plan = make_plan(idle_pool, candidates, load, args.max_per_agent, args.max_moves,
-                     args.min_kimi_working, working_by_prov.get("kimi", 0))
+                     args.min_kimi_working, working_by_prov.get("kimi", 0),
+                     enable_kimi=args.enable_kimi)
     kimi_n = sum(1 for (_, tgt, *_) in plan if tgt["_provider"] == "kimi")
     codex_n = sum(1 for (_, tgt, *_) in plan if tgt["_provider"] == "codex")
     claude_n = sum(1 for (_, tgt, *_) in plan if tgt["_provider"] == "claude")

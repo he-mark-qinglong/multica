@@ -34,7 +34,17 @@ WHERE id = $1
 RETURNING *;
 
 -- name: IncrementIssueCounter :one
-UPDATE workspace SET issue_counter = issue_counter + 1
+-- Atomically allocate the next issue number for a workspace, healing any
+-- drift between workspace.issue_counter and MAX(issue.number).
+--
+-- The +1 alone is unsafe: under concurrent INSERTs the workspace row lock
+-- serializes counter increments, but if the counter was ever set lower than
+-- the actual MAX(number) (e.g. manual SQL, partial restore, missed write),
+-- the next create can collide on uq_issue_workspace_number (23505).
+-- GREATEST(counter, MAX(number)) + 1 jumps forward to the next unused
+-- number, never backward, never rewriting existing issue rows.
+UPDATE workspace
+SET issue_counter = GREATEST(issue_counter, COALESCE((SELECT MAX(number) FROM issue WHERE workspace_id = $1), 0)) + 1
 WHERE id = $1
 RETURNING issue_counter;
 

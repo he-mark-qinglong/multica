@@ -1,0 +1,58 @@
+{
+  "strategy": "pairs_cointegration_1d_20260709",
+  "iteration": 1,
+  "parent_strategy": null,
+  "timeframe": "1d",
+  "instruments": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "data_source": "local parquet cache (to be wired in B2)",
+  "universe_selection": {
+    "method": "rolling_engle_granger",
+    "selection_window_days": 90,
+    "p_value_threshold": 0.05,
+    "max_active_pairs": 3,
+    "recompute_cadence_days": 7
+  },
+  "cointegration": {
+    "hedge_window_days": 90,
+    "hedge_recompute_cadence_days": 7,
+    "adf_maxlag": 1,
+    "adf_regression": "c"
+  },
+  "signal": {
+    "zscore_window_days": 30,
+    "entry_threshold": 2.0,
+    "exit_threshold": 0.5,
+    "stop_sigma_threshold": 4.0
+  },
+  "position_sizing": {
+    "leg_pct_per_pair": 0.05,
+    "max_active_pairs": 3,
+    "max_gross_per_pair": 0.20
+  },
+  "risk": {
+    "pair_monthly_max_loss_pct": -0.03,
+    "pair_pause_days": 30,
+    "portfolio_monthly_max_loss_pct": -0.05,
+    "portfolio_pause_days": 30
+  },
+  "walk_forward": {
+    "train_days": 252,
+    "test_days": 63,
+    "step_days": 63
+  },
+  "fees_bps_per_side": 2.0,
+  "slippage_bps_per_side": 2.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "B1 scaffold — cointegration.py and tests/ are the only production-quality pieces.",
+    "B2 fills strategy.py (build_signals, run_backtest) and portfolio.py (multi-pair logic).",
+    "B3 wires run_backtest.py against the live data adapter.",
+    "B4 (performance-analyst) will verify market-neutrality (beta to BTC ≈ 0).",
+    "Universe constrained to BTC/ETH/SOL — canonical 1m source lacks BNB/ADA/AVAX. 3 symbols give 3 candidate pairs which is enough to validate the framework; B2/B3 owner can extend the universe once the ETL adds the missing symbols.",
+    "Future iterations to spawn under the umbrella issue: pairs_kalman, pairs_distance, triplets, statarb_crypto_funding."
+  ]
+}

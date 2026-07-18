@@ -15,7 +15,7 @@ import sys
 import time
 from collections import Counter
 
-TARGET_STATUSES = ("in_review", "todo")
+TARGET_STATUSES = ("in_review", "todo", "backlog")
 
 # Sometimes an autopilot task hides without the leading bracket.  We do NOT
 # treat those as autopilot by default; they need manual review.  Pass

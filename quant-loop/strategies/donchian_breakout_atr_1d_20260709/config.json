@@ -1,0 +1,36 @@
+{
+  "strategy": "donchian_breakout_atr_1d_20260709",
+  "iteration": 1,
+  "timeframe": "1d",
+  "source_timeframe": "1m",
+  "instruments": ["BTCUSDT", "ETHUSDT", "SOLUSDT"],
+  "data_source": "binance_usdm_1m_canonical",
+  "indicators": {
+    "donchian_n": 20,
+    "atr_period": 14,
+    "atr_ma_period": 100,
+    "atr_ma_ratio_min": 0.7,
+    "volume_ma_period": 20,
+    "volume_ratio_min": 1.2,
+    "adx_period": 14,
+    "adx_min": 20
+  },
+  "exit": {
+    "atr_trailing_k": 3.0,
+    "time_stop_bars": 30,
+    "time_stop_min_pnl_atr": 1.5,
+    "use_opposite_donchian": true
+  },
+  "sizing": {
+    "per_signal_weight_pct": 0.01,
+    "max_gross_exposure_pct": 0.05
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "Iteration #1: trend-following bootstrap to balance the vpvr_reversion portfolio.",
+    "Universe mirrors vpvr_reversion_1m_20260624 (BTCUSDT, ETHUSDT, SOLUSDT).",
+    "1m klines are resampled to 1d in data_loader.py; SHA256 manifest is computed against the source 1m files."
+  ]
+}

@@ -567,7 +567,3 @@ func ensurePiSessionFile(path string) error {
 	return f.Close()
 }
 
-// PiSessionDir exposes piSessionDir to other packages in this module.
-func PiSessionDir() (string, error) {
-	return piSessionDir()
-}
