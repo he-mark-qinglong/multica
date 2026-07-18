@@ -126,6 +126,8 @@
     "delete_edge_child_hint": "This clears the child issue's parent link. The issues themselves are kept.",
     "toast_create_failed": "Failed to create link",
     "toast_delete_failed": "Failed to remove link",
-    "legend_parent": "parent → child"
+    "legend_parent": "parent → child",
+    "hide_run_logs": "Hide run logs",
+    "show_run_logs": "Show run logs"
   }
 }

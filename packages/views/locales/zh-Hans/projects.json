@@ -126,6 +126,8 @@
     "delete_edge_child_hint": "将清除子 issue 的父子关系，issue 本身保留。",
     "toast_create_failed": "创建连接失败",
     "toast_delete_failed": "删除连接失败",
-    "legend_parent": "父 → 子"
+    "legend_parent": "父 → 子",
+    "hide_run_logs": "隐藏运行日志",
+    "show_run_logs": "显示运行日志"
   }
 }

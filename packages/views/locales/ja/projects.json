@@ -126,6 +126,8 @@
     "delete_edge_child_hint": "子イシューの親リンクを解除します。イシュー自体は残ります。",
     "toast_create_failed": "リンクの作成に失敗しました",
     "toast_delete_failed": "リンクの削除に失敗しました",
-    "legend_parent": "親 → 子"
+    "legend_parent": "親 → 子",
+    "hide_run_logs": "実行ログを隠す",
+    "show_run_logs": "実行ログを表示"
   }
 }

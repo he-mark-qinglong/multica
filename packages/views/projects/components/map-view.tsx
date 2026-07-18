@@ -38,6 +38,7 @@ import {
   type NodeMouseHandler,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
+import { Eye, EyeOff } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -108,6 +109,19 @@ function IssueNode({ data, selected }: NodeProps<IssueFlowNode>) {
 }
 
 const NODE_TYPES = { issue: IssueNode };
+
+/** Run-log issues (decision cycles, router sweeps, CV runs, cron logs, and
+ *  bare dispatch records with no task title) are operational noise rather
+ *  than work breakdown. Hidden from the map by default; toggle shows them.
+ *  Dispatch issues WITH a task title (e.g. "[dispatch 2026-07-18] U2 audit…")
+ *  are real work and stay visible. */
+const RUN_LOG_PATTERN =
+  /^\s*\[(smark-decision-cycle|escalation-router|weekly-cron|framework-validate)\b/i;
+const BARE_DISPATCH_PATTERN = /^\s*\[(idle-)?dispatch[^\]]*\]\s*$/i;
+
+function isRunLogTitle(title: string): boolean {
+  return RUN_LOG_PATTERN.test(title) || BARE_DISPATCH_PATTERN.test(title);
+}
 
 const PARENT_EDGE_PREFIX = "parent:";
 const DEP_EDGE_PREFIX = "dep:";
@@ -276,9 +290,27 @@ function ProjectMapCanvas({ projectId }: { projectId: string }) {
   const graphNodes = useMemo(() => graphQuery.data?.nodes ?? [], [graphQuery.data]);
   const graphEdges = useMemo(() => graphQuery.data?.edges ?? [], [graphQuery.data]);
 
+  // Run-log filter (default on): drop operational-log issues from the map,
+  // plus any edge that touches a hidden node.
+  const [hideRunLogs, setHideRunLogs] = useState(true);
+  const { visibleNodes, visibleEdges, hiddenLogCount } = useMemo(() => {
+    if (!hideRunLogs) {
+      return { visibleNodes: graphNodes, visibleEdges: graphEdges, hiddenLogCount: 0 };
+    }
+    const kept = graphNodes.filter((n) => !isRunLogTitle(n.title));
+    const ids = new Set(kept.map((n) => n.id));
+    return {
+      visibleNodes: kept,
+      visibleEdges: graphEdges.filter(
+        (e) => ids.has(e.issue_id) && ids.has(e.depends_on_issue_id),
+      ),
+      hiddenLogCount: graphNodes.length - kept.length,
+    };
+  }, [hideRunLogs, graphNodes, graphEdges]);
+
   const initial = useMemo(
-    () => buildElements(graphNodes, graphEdges),
-    [graphNodes, graphEdges],
+    () => buildElements(visibleNodes, visibleEdges),
+    [visibleNodes, visibleEdges],
   );
   const [nodes, setNodes, onNodesChange] = useNodesState<IssueFlowNode>(initial.nodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(initial.edges);
@@ -408,6 +440,18 @@ function ProjectMapCanvas({ projectId }: { projectId: string }) {
         <Controls />
         <MiniMap pannable zoomable className="!bg-card" />
       </ReactFlow>
+
+      {/* Run-log visibility toggle */}
+      <button
+        type="button"
+        onClick={() => setHideRunLogs((v) => !v)}
+        className="absolute left-3 top-3 z-10 flex items-center gap-1.5 rounded-md border bg-card/90 px-2.5 py-1.5 text-[10px] text-muted-foreground shadow-sm hover:bg-accent"
+      >
+        {hideRunLogs ? <EyeOff className="size-3" /> : <Eye className="size-3" />}
+        {hideRunLogs
+          ? `${t(($) => $.map.hide_run_logs)} (${hiddenLogCount})`
+          : t(($) => $.map.show_run_logs)}
+      </button>
 
       {/* Edge-type legend */}
       <div className="absolute right-3 top-3 z-10 flex flex-col gap-1 rounded-md border bg-card/90 px-3 py-2 text-[10px] text-muted-foreground shadow-sm">

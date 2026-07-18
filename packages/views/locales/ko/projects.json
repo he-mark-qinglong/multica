@@ -126,6 +126,8 @@
     "delete_edge_child_hint": "자식 이슈의 부모 연결을 해제합니다. 이슈 자체는 유지됩니다.",
     "toast_create_failed": "연결 만들기 실패",
     "toast_delete_failed": "연결 삭제 실패",
-    "legend_parent": "부모 → 자식"
+    "legend_parent": "부모 → 자식",
+    "hide_run_logs": "실행 로그 숨기기",
+    "show_run_logs": "실행 로그 표시"
   }
 }
