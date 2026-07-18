@@ -85,6 +85,56 @@ func (q *Queries) GetIssueDependencyByEndpoints(ctx context.Context, arg GetIssu
 	return i, err
 }
 
+const listIssueDependencies = `-- name: ListIssueDependencies :many
+SELECT d.id, d.issue_id, d.depends_on_issue_id, d.type,
+       c.id AS counterpart_id, c.number AS counterpart_number, c.title AS counterpart_title
+FROM issue_dependency d
+JOIN issue c ON c.id = CASE WHEN d.issue_id = $1 THEN d.depends_on_issue_id ELSE d.issue_id END
+WHERE d.issue_id = $1 OR d.depends_on_issue_id = $1
+ORDER BY d.id
+`
+
+type ListIssueDependenciesRow struct {
+	ID                pgtype.UUID `json:"id"`
+	IssueID           pgtype.UUID `json:"issue_id"`
+	DependsOnIssueID  pgtype.UUID `json:"depends_on_issue_id"`
+	Type              string      `json:"type"`
+	CounterpartID     pgtype.UUID `json:"counterpart_id"`
+	CounterpartNumber int32       `json:"counterpart_number"`
+	CounterpartTitle  string      `json:"counterpart_title"`
+}
+
+// Every edge touching a given issue, in either direction, with the
+// counterpart (other-end) issue's number/title joined in so callers can
+// render identifiers without a second lookup.
+func (q *Queries) ListIssueDependencies(ctx context.Context, issueID pgtype.UUID) ([]ListIssueDependenciesRow, error) {
+	rows, err := q.db.Query(ctx, listIssueDependencies, issueID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []ListIssueDependenciesRow{}
+	for rows.Next() {
+		var i ListIssueDependenciesRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.IssueID,
+			&i.DependsOnIssueID,
+			&i.Type,
+			&i.CounterpartID,
+			&i.CounterpartNumber,
+			&i.CounterpartTitle,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listProjectGraphDependencies = `-- name: ListProjectGraphDependencies :many
 SELECT d.id, d.issue_id, d.depends_on_issue_id, d.type
 FROM issue_dependency d

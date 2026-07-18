@@ -221,3 +221,51 @@ func (h *Handler) DeleteIssueDependency(w http.ResponseWriter, r *http.Request) 
 	}
 	w.WriteHeader(http.StatusNoContent)
 }
+
+type IssueDependencyEntry struct {
+	ID                    string `json:"id"`
+	IssueID               string `json:"issue_id"`
+	DependsOnIssueID      string `json:"depends_on_issue_id"`
+	Type                  string `json:"type"`
+	CounterpartID         string `json:"counterpart_id"`
+	CounterpartIdentifier string `json:"counterpart_identifier"`
+	CounterpartTitle      string `json:"counterpart_title"`
+}
+
+// ListIssueDependencies returns every dependency edge touching the issue in
+// either direction, with the other-end issue's identifier/title inlined so
+// callers don't need a second lookup per edge.
+func (h *Handler) ListIssueDependencies(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	issueUUID, ok := parseUUIDOrBadRequest(w, chi.URLParam(r, "id"), "issue id")
+	if !ok {
+		return
+	}
+	wsUUID, ok := parseUUIDOrBadRequest(w, h.resolveWorkspaceID(r), "workspace id")
+	if !ok {
+		return
+	}
+	if _, err := h.Queries.GetIssueInWorkspace(ctx, db.GetIssueInWorkspaceParams{ID: issueUUID, WorkspaceID: wsUUID}); err != nil {
+		writeError(w, http.StatusNotFound, "issue not found")
+		return
+	}
+	rows, err := h.Queries.ListIssueDependencies(ctx, issueUUID)
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, "failed to list dependencies")
+		return
+	}
+	prefix := h.getIssuePrefix(ctx, wsUUID)
+	resp := make([]IssueDependencyEntry, len(rows))
+	for i, row := range rows {
+		resp[i] = IssueDependencyEntry{
+			ID:                    uuidToString(row.ID),
+			IssueID:               uuidToString(row.IssueID),
+			DependsOnIssueID:      uuidToString(row.DependsOnIssueID),
+			Type:                  row.Type,
+			CounterpartID:         uuidToString(row.CounterpartID),
+			CounterpartIdentifier: fmt.Sprintf("%s-%d", prefix, row.CounterpartNumber),
+			CounterpartTitle:      row.CounterpartTitle,
+		}
+	}
+	writeJSON(w, http.StatusOK, map[string]any{"dependencies": resp})
+}
