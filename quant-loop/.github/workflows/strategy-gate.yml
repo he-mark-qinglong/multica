@@ -1,0 +1,28 @@
+name: strategy-gate
+on:
+  pull_request:
+    paths:
+      - "strategies/**/metrics.json"
+jobs:
+  enforce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pandas numpy
+      - name: Find changed metrics.json
+        id: find
+        run: |
+          changed=$(git diff --name-only origin/$GITHUB_BASE_REF...$GITHUB_HEAD_REF -- 'strategies/**/metrics.json')
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          echo "$changed" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      - name: Enforce gates
+        if: steps.find.outputs.files != ''
+        run: |
+          for f in ${{ steps.find.outputs.files }}; do
+            echo "=== $f ==="
+            python _shared/gates/enforce.py "$f" || exit 1
+          done
