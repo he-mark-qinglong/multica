@@ -1,0 +1,163 @@
+{
+  "variant": "vpvr_reversion_15m_donchian_regime_20260709",
+  "timeframe": "15m",
+  "windows": [
+    "W1[2024-04-23..2025-01-11]",
+    "W2[2025-01-11..2025-10-02]",
+    "W3[2025-10-02..2026-06-23]"
+  ],
+  "symbols": {
+    "BTCUSDT": {
+      "W1[2024-04-23..2025-01-11]": {
+        "native": {
+          "sharpe": 0.9445797206560037,
+          "annualized_return": 0.0032077300406669895,
+          "max_drawdown": 0.0017690452852751394,
+          "profit_factor": 1.1421590209402215,
+          "win_rate": 0.38782051282051283,
+          "n_trades": 312,
+          "total_return": 0.0023102887613069
+        },
+        "backtrader": {
+          "sharpe": 0.3871882825785401,
+          "annualized_return": 0.0013039753804149345,
+          "max_drawdown": 0.0020850648009976148,
+          "profit_factor": 1.054896949110599,
+          "win_rate": 0.3717948717948718,
+          "n_trades": 312,
+          "total_return": 0.0009394056858571531
+        },
+        "freqtrade": {
+          "sharpe": 0.4960765273502222,
+          "annualized_return": 0.0016279476175204977,
+          "max_drawdown": 0.0018742772851014823,
+          "profit_factor": 1.0548985420326122,
+          "win_rate": 0.3717948717948718,
+          "n_trades": 312,
+          "total_return": 0.0011593625726680212
+        }
+      },
+      "W2[2025-01-11..2025-10-02]": {
+        "native": {
+          "sharpe": -0.627576210403335,
+          "annualized_return": -0.001547612777309082,
+          "max_drawdown": 0.0029035537102462938,
+          "profit_factor": 0.9192144065676847,
+          "win_rate": 0.36585365853658536,
+          "n_trades": 328,
+          "total_return": -0.0011196090809897363
+        },
+        "backtrader": {
+          "sharpe": -1.3739642519131439,
+          "annualized_return": -0.003578630188961096,
+          "max_drawdown": 0.003829247559086485,
+          "profit_factor": 0.816775124718579,
+          "win_rate": 0.3333333333333333,
+          "n_trades": 327,
+          "total_return": -0.0025896626239606535
+        },
+        "freqtrade": {
+          "sharpe": -1.376980446712521,
+          "annualized_return": -0.0032848462646540844,
+          "max_drawdown": 0.003256608288391022,
+          "profit_factor": 0.8274238319006,
+          "win_rate": 0.3353658536585366,
+          "n_trades": 328,
+          "total_return": -0.0023320042678517394
+        }
+      },
+      "W3[2025-10-02..2026-06-23]": {
+        "native": {
+          "sharpe": -0.08722497230057762,
+          "annualized_return": -0.0003040012440035378,
+          "max_drawdown": 0.002486675515333947,
+          "profit_factor": 0.9874313309116661,
+          "win_rate": 0.3503184713375796,
+          "n_trades": 314,
+          "total_return": -0.00021988960128904722
+        },
+        "backtrader": {
+          "sharpe": -0.7419665262211862,
+          "annualized_return": -0.002525045804559589,
+          "max_drawdown": 0.0033872242152931786,
+          "profit_factor": 0.9000491953862559,
+          "win_rate": 0.3184713375796178,
+          "n_trades": 314,
+          "total_return": -0.001826973226632722
+        },
+        "freqtrade": {
+          "sharpe": -0.765112979454785,
+          "annualized_return": -0.002555291354721212,
+          "max_drawdown": 0.003219381676261414,
+          "profit_factor": 0.9000548643298799,
+          "win_rate": 0.3184713375796178,
+          "n_trades": 314,
+          "total_return": -0.0018278742473363252
+        }
+      }
+    }
+  },
+  "full_native": {
+    "BTCUSDT": {
+      "sharpe": 0.11475812642331246,
+      "annualized_return": 0.0003529945807871915,
+      "max_drawdown": 0.003217229617268278,
+      "profit_factor": 1.0163217227688532,
+      "win_rate": 0.36770833333333336,
+      "n_trades": 960,
+      "total_return": 0.0007651403614807872
+    }
+  },
+  "gates": [
+    {
+      "gate": "G1",
+      "passed": false,
+      "observed": 0.11475812642331246,
+      "threshold": 1.0,
+      "detail": "full-period mean Sharpe across symbols"
+    },
+    {
+      "gate": "G2",
+      "passed": false,
+      "observed": 0.0003529945807871915,
+      "threshold": 0.15,
+      "detail": "min(full=0.0004, mean_oos=0.0005)"
+    },
+    {
+      "gate": "G3",
+      "passed": false,
+      "observed": 1.0163217227688532,
+      "threshold": 1.5,
+      "detail": "mean full-period profit factor across symbols"
+    },
+    {
+      "gate": "G4",
+      "passed": true,
+      "observed": 0.003217229617268278,
+      "threshold": 0.25,
+      "detail": "worst symbol max drawdown (full period)"
+    },
+    {
+      "gate": "G5",
+      "passed": false,
+      "observed": -0.5762474985185967,
+      "threshold": 1.0,
+      "detail": "min(backtrader=-0.5762, freqtrade=-0.5487) mean OOS Sharpe"
+    },
+    {
+      "gate": "G6",
+      "passed": false,
+      "observed": -1.2594494203597755,
+      "threshold": 0.5,
+      "detail": "bootstrap CI lower (10000 resamples, seed=42)"
+    },
+    {
+      "gate": "G7",
+      "passed": false,
+      "observed": 0.41465337795064483,
+      "threshold": 0.0125,
+      "detail": "one-sided t-test p on 954 pooled OOS trades"
+    }
+  ],
+  "verdict": "FAIL"
+}

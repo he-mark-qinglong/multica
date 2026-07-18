@@ -1,0 +1,22 @@
+name: strategy-validation
+
+# OOS validation gate for quant-loop strategy variants. Runs the G1-G7
+# harness on every variant touched by a PR and blocks merge on failure.
+# Requires a self-hosted runner with the canonical market-data path mounted
+# and freqtrade/backtrader installed (see quant-loop/validation/requirements.txt).
+
+on:
+  pull_request:
+    paths:
+      - "quant-loop/strategies/**"
+      - "quant-loop/validation/**"
+
+jobs:
+  validate-variants:
+    runs-on: [self-hosted, quant-loop]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate changed variants (G1-G7)
+        run: quant-loop/validation/ci/validate_changed_variants.sh "origin/${{ github.base_ref }}" "HEAD"

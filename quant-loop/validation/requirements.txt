@@ -1,0 +1,7 @@
+# Harness runtime dependencies (host python >= 3.10)
+pandas>=2.0
+numpy>=1.26
+pyarrow>=14.0      # parquet + feather I/O
+scipy>=1.11        # G7 t-test
+backtrader>=1.9.78 # framework CV engine 1
+freqtrade>=2024.9  # framework CV engine 2 (CLI on PATH)
