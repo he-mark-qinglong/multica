@@ -241,13 +241,24 @@ def run_freqtrade_replay(
         equity_vals = [starting_wallet + v for v in pd.Series(profits).cumsum()]
         equity = pd.Series(equity_vals, index=pd.DatetimeIndex(dates)) if dates else pd.Series(dtype=float)
 
-        trade_pnls = [float(t["profit_ratio"]) for t in strat.get("trades", [])]
+        trade_dicts = [
+            {
+                "symbol": symbol,
+                "direction": "short" if t.get("is_short") else "long",
+                "entry_date": pd.Timestamp(t["open_date"]),
+                "entry_price": float(t["open_rate"]),
+                "exit_date": pd.Timestamp(t["close_date"]),
+                "exit_price": float(t["close_rate"]),
+                "pnl_pct": float(t["profit_ratio"]),
+            }
+            for t in strat.get("trades", [])
+        ]
         return FrameworkRun(
             framework="freqtrade",
             symbol=symbol,
             equity=equity,
-            trade_pnls=trade_pnls,
-            trades=[],
+            trade_pnls=[t["pnl_pct"] for t in trade_dicts],
+            trades=trade_dicts,
         )
     finally:
         if not keep_dir:

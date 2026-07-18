@@ -28,7 +28,8 @@ class FrameworkRun:
     symbol: str
     equity: pd.Series
     trade_pnls: list[float]  # per-trade pnl as fraction of stake
-    trades: list[dict]       # normalized trade dicts (native only; [] for replays)
+    trades: list[dict]       # normalized trade dicts (symbol/direction/entry_date/
+                             # entry_price/exit_date/exit_price/pnl_pct)
 
 
 class UnsupportedVariantError(RuntimeError):
