@@ -1,413 +1,326 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { ChevronRight, GitCompareArrows } from "lucide-react";
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
-import { useCurrentWorkspace } from "@multica/core/paths";
-import type { GateDetailEntry, RunMetric } from "@multica/core/types";
-import { useTimeAgo } from "../../i18n";
-import { useCampaigns } from "@multica/core/hooks/use-campaigns";
-import { useEquitySeries, useMetrics } from "@multica/core/hooks/use-metrics";
+import { useCallback, useMemo, useState, useEffect } from "react";
+import {
+  ReactFlow,
+  Background,
+  Controls,
+  type Node,
+  type Edge,
+  type NodeProps,
+  Handle,
+  Position,
+  BackgroundVariant,
+} from "@xyflow/react";
+import "@xyflow/react/dist/style.css";
+import { GitCompareArrows, CheckCircle2, XCircle, HelpCircle } from "lucide-react";
+import {
+  CartesianGrid, Line, LineChart, XAxis, YAxis, ResponsiveContainer, Tooltip,
+} from "recharts";
+import { useEquitySeries, type EquityCsvResult } from "@multica/core/hooks/use-metrics";
 import { Skeleton } from "@multica/ui/components/ui/skeleton";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@multica/ui/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@multica/ui/components/ui/table";
-import { Button } from "@multica/ui/components/ui/button";
-import { Input } from "@multica/ui/components/ui/input";
-import { Checkbox } from "@multica/ui/components/ui/checkbox";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@multica/ui/components/ui/popover";
-import {
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from "@multica/ui/components/ui/chart";
-import { PageHeader } from "../../layout/page-header";
-import { WorkspaceAvatar } from "../../workspace/workspace-avatar";
-import { useT } from "../../i18n";
-import { downsample, parseEquityCsv } from "../utils/equity-csv";
+import { api } from "@multica/core/api";
+import type { RunMetric } from "@multica/core/types";
 
-// Hard cap on overlayed equity curves — past five lines the chart stops
-// being a comparison and becomes spaghetti, and we run out of chart-*
-// color tokens anyway.
-const MAX_SELECTED = 5;
+// ─── manual tree layout (campaign → strategy, 2-level) ─────────────────────
+const NODE_W = 220;
+const NODE_H = 64;
+const COL_GAP = 30;
+const ROW_GAP = 12;
+const CAMP_ROW = 0;
 
-function fmt(v: number | null | undefined, digits = 2): string {
-  return typeof v === "number" && Number.isFinite(v) ? v.toFixed(digits) : "—";
-}
-
-function iterationLabel(m: RunMetric): string {
-  return m.iteration || m.id.slice(0, 8);
-}
-
-function GateBadge({ metric }: { metric: RunMetric }) {
-  const { t } = useT("compare");
-  const status = metric.gate_status;
-  if (status !== "pass" && status !== "fail") {
-    return <span className="text-sm text-muted-foreground">{t(($) => $.gate.none)}</span>;
+function layout(nodes: Node[], edges: Edge[]): { nodes: Node[]; edges: Edge[] } {
+  // Group campaign nodes and their children to compute columns
+  const campNodes = nodes.filter((n) => n.id.startsWith("camp-"));
+  const childOf: Record<string, Node[]> = {};
+  for (const e of edges) {
+    const child = nodes.find((n) => n.id === e.target);
+    if (child) (childOf[e.source] ??= []).push(child);
   }
-  const detail = metric.gate_detail ?? [];
-  const badge =
-    status === "pass" ? (
-      <span className="inline-flex items-center rounded-full bg-success/15 px-2 py-0.5 text-xs font-medium text-success">
-        {t(($) => $.gate.pass)}
-      </span>
-    ) : (
-      <span className="inline-flex items-center rounded-full bg-destructive/15 px-2 py-0.5 text-xs font-medium text-destructive">
-        {t(($) => $.gate.fail)}
-      </span>
-    );
-  if (detail.length === 0) return badge;
-  return (
-    <Popover>
-      <PopoverTrigger render={<button type="button" className="cursor-pointer" />}>
-        {badge}
-      </PopoverTrigger>
-      <PopoverContent className="w-80">
-        <p className="mb-2 text-xs font-medium">{t(($) => $.gate.details_title)}</p>
-        <ul className="space-y-1">
-          {detail.map((g: GateDetailEntry, i: number) => (
-            <li key={i} className="flex items-center justify-between gap-2 text-xs">
-              <span className="text-muted-foreground">
-                {g.rule} {g.op} {g.threshold ?? "—"}
-              </span>
-              <span className={g.pass ? "text-success" : "text-destructive"}>
-                {fmt(g.actual)} · {g.pass ? t(($) => $.gate.rule_pass) : t(($) => $.gate.rule_fail)}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </PopoverContent>
-    </Popover>
-  );
+  // Assign x by column index, y by level
+  let xCursor = 0;
+  const positions: Record<string, { x: number; y: number }> = {};
+  for (const camp of campNodes) {
+    const children = childOf[camp.id] ?? [];
+    const colW = NODE_W;
+    positions[camp.id] = { x: xCursor, y: CAMP_ROW };
+    children.forEach((ch, i) => {
+      positions[ch.id] = { x: xCursor, y: NODE_H + ROW_GAP + i * (NODE_H + ROW_GAP) };
+    });
+    xCursor += colW + COL_GAP;
+  }
+  return {
+    nodes: nodes.map((n) => ({ ...n, position: positions[n.id] ?? { x: 0, y: 0 } })),
+    edges,
+  };
 }
 
-type SeriesWarning = "no_artifact" | "unparseable" | "fetch_failed";
-
-interface EquitySeriesData {
-  key: string;
+// ─── custom node ───────────────────────────────────────────────────────────
+type StratNodeData = {
   label: string;
-  points: number[];
-}
+  campaign: string;
+  sharpe: number | null;
+  gate: string | null;
+  isSelected: boolean;
+};
 
-export function ComparePage() {
-  const { t } = useT("compare");
-  const timeAgo = useTimeAgo();
-  const workspace = useCurrentWorkspace();
+const GATE_STYLE: Record<string, { bg: string; icon: typeof CheckCircle2 }> = {
+  pass: { bg: "#16a34a20", icon: CheckCircle2 },
+  fail: { bg: "#dc262620", icon: XCircle },
+};
 
-  const [campaign, setCampaign] = useState<string | null>(null);
-  const [draft, setDraft] = useState("");
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
-
-  const campaignsQuery = useCampaigns();
-  const campaigns = campaignsQuery.data?.campaigns ?? [];
-  const { data, isLoading } = useMetrics(campaign);
-  const metrics = data?.metrics ?? [];
-
-  // Selected rows that still exist in the current result set — switching
-  // campaigns drops stale ids automatically instead of needing an effect.
-  const selectedMetrics = useMemo(
-    () => metrics.filter((m) => selectedIds.includes(m.id)),
-    [metrics, selectedIds],
-  );
-
-  const toggleSelected = (id: string, checked: boolean) => {
-    setSelectedIds((prev) =>
-      checked ? [...prev, id].slice(0, MAX_SELECTED) : prev.filter((x) => x !== id),
-    );
-  };
-
-  // --- Equity overlay -----------------------------------------------------
-  const equityQueries = useEquitySeries(selectedMetrics);
-
-  const { series, warnings, equityLoading } = useMemo(() => {
-    const series: EquitySeriesData[] = [];
-    const warnings: { label: string; kind: SeriesWarning }[] = [];
-    let equityLoading = false;
-    selectedMetrics.forEach((m, i) => {
-      const label = iterationLabel(m);
-      const q = equityQueries[i];
-      if (!m.task_id) {
-        warnings.push({ label, kind: "no_artifact" });
-        return;
-      }
-      if (!q || q.isPending) {
-        equityLoading = true;
-        return;
-      }
-      if (q.isError) {
-        warnings.push({ label, kind: "fetch_failed" });
-        return;
-      }
-      if (!q.data?.csv) {
-        warnings.push({ label, kind: "no_artifact" });
-        return;
-      }
-      const parsed = parseEquityCsv(q.data.csv);
-      if (!parsed) {
-        warnings.push({ label, kind: "unparseable" });
-        return;
-      }
-      series.push({ key: `s${i}`, label, points: downsample(parsed) });
-    });
-    return { series, warnings, equityLoading };
-  }, [selectedMetrics, equityQueries]);
-
-  const chartConfig = useMemo(
-    () =>
-      Object.fromEntries(
-        series.map((s, i) => [
-          s.key,
-          { label: s.label, color: `var(--chart-${(i % 5) + 1})` },
-        ]),
-      ) satisfies ChartConfig,
-    [series],
-  );
-
-  // Common-index merge: row i holds every series' i-th point (series may
-  // have different lengths — missing points stay undefined and recharts
-  // just ends that line early).
-  const chartData = useMemo(() => {
-    const maxLen = Math.max(0, ...series.map((s) => s.points.length));
-    return Array.from({ length: maxLen }, (_, i) => {
-      const row: Record<string, number> = { step: i };
-      for (const s of series) {
-        const v = s.points[i];
-        if (v !== undefined) row[s.key] = v;
-      }
-      return row;
-    });
-  }, [series]);
-
-  const warningText = (kind: SeriesWarning, label: string): string => {
-    switch (kind) {
-      case "no_artifact":
-        return t(($) => $.chart.series_missing, { label });
-      case "unparseable":
-        return t(($) => $.chart.series_unparseable, { label });
-      case "fetch_failed":
-        return t(($) => $.chart.series_error, { label });
-    }
-  };
+function StrategyNode({ data, selected }: NodeProps) {
+  const d = data as StratNodeData;
+  const gs = d.gate ? GATE_STYLE[d.gate] : null;
+  const GateIcon = gs?.icon ?? HelpCircle;
+  const sharpeStr = d.sharpe != null ? d.sharpe.toFixed(2) : "—";
+  const sharpeColor = d.sharpe == null ? "#888" : d.sharpe >= 1 ? "#16a34a" : d.sharpe >= 0 ? "#ca8a04" : "#dc2626";
 
   return (
-    <div className="flex flex-1 min-h-0 flex-col">
-      {/* Header 1: Workspace breadcrumb — same shape as the runs page */}
-      <PageHeader className="gap-1.5">
-        <WorkspaceAvatar name={workspace?.name ?? "W"} size="sm" />
-        <span className="text-sm text-muted-foreground">{workspace?.name ?? "Workspace"}</span>
-        <ChevronRight className="h-3 w-3 text-muted-foreground" />
-        <span className="text-sm font-medium">{t(($) => $.page.breadcrumb_title)}</span>
-      </PageHeader>
-
-      {/* Header 2: campaign picker + row count */}
-      <div className="flex h-12 shrink-0 items-center justify-between px-4">
-        {campaigns.length > 0 ? (
-          <Select
-            value={campaign ?? ""}
-            onValueChange={(value: string | null) => {
-              if (value) setCampaign(value);
-            }}
-          >
-            <SelectTrigger size="sm" className="w-56">
-              <SelectValue placeholder={t(($) => $.filter.campaign_placeholder)} />
-            </SelectTrigger>
-            <SelectContent>
-              {campaigns.map((c) => (
-                <SelectItem key={c} value={c}>
-                  {c}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        ) : (
-          // Free-text fallback: when the campaigns endpoint is empty (or
-          // not deployed yet) the user can still type a campaign name.
-          <form
-            className="flex items-center gap-2"
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (draft.trim()) setCampaign(draft.trim());
-            }}
-          >
-            <Input
-              value={draft}
-              onChange={(e) => setDraft(e.target.value)}
-              placeholder={t(($) => $.filter.campaign_free_placeholder)}
-              className="h-8 w-56"
-            />
-            <Button type="submit" variant="outline" size="sm">
-              {t(($) => $.filter.campaign_apply)}
-            </Button>
-          </form>
-        )}
-        {campaign && metrics.length > 0 && (
-          <span className="text-xs text-muted-foreground">
-            {t(($) => $.page.total_iterations, { total: metrics.length })}
+    <div
+      style={{
+        width: NODE_W, height: NODE_H, borderRadius: 8, padding: "8px 10px",
+        background: "#1a1a2e", border: selected ? "2px solid #6366f1" : "1px solid #333355",
+        display: "flex", flexDirection: "column", justifyContent: "space-between", cursor: "pointer",
+        boxShadow: selected ? "0 0 12px #6366f140" : "none",
+      }}
+    >
+      <Handle type="target" position={Position.Top} style={{ opacity: 0 }} />
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <span style={{ fontSize: 10, color: "#7c7c9e", textTransform: "uppercase", letterSpacing: 0.5 }}>
+          {d.campaign}
+        </span>
+        {gs && (
+          <span style={{
+            fontSize: 9, padding: "1px 6px", borderRadius: 4, background: gs.bg,
+            color: d.gate === "pass" ? "#16a34a" : "#dc2626", fontWeight: 600,
+          }}>
+            {d.gate?.toUpperCase()}
           </span>
         )}
       </div>
+      <div style={{ fontSize: 12, fontWeight: 600, color: "#e0e0f0", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+        {d.label}
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <span style={{ fontSize: 11, color: sharpeColor, fontFamily: "monospace", fontWeight: 700 }}>
+          Sharpe {sharpeStr}
+        </span>
+        <GateIcon size={14} style={{ color: gs ? (d.gate === "pass" ? "#16a34a" : "#dc2626") : "#666" }} />
+      </div>
+      <Handle type="source" position={Position.Bottom} style={{ opacity: 0 }} />
+    </div>
+  );
+}
 
-      {/* Content */}
-      {!campaign ? (
-        <div className="flex flex-1 min-h-0 flex-col items-center justify-center gap-2 text-muted-foreground">
-          <GitCompareArrows className="h-10 w-10 text-muted-foreground/40" />
-          <p className="text-sm">{t(($) => $.page.no_campaign_title)}</p>
-          <p className="text-xs">{t(($) => $.page.no_campaign_hint)}</p>
-        </div>
-      ) : isLoading ? (
-        <div className="flex-1 min-h-0 overflow-y-auto p-2 space-y-1">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <Skeleton key={i} className="h-10 w-full rounded-lg" />
-          ))}
-        </div>
-      ) : metrics.length === 0 ? (
-        <div className="flex flex-1 min-h-0 flex-col items-center justify-center gap-2 text-muted-foreground">
-          <GitCompareArrows className="h-10 w-10 text-muted-foreground/40" />
-          <p className="text-sm">{t(($) => $.page.empty_title)}</p>
-          <p className="text-xs">{t(($) => $.page.empty_hint)}</p>
-        </div>
-      ) : (
-        <div className="flex-1 min-h-0 overflow-y-auto px-4 pb-2">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-8" />
-                <TableHead>{t(($) => $.col.iteration)}</TableHead>
-                <TableHead>{t(($) => $.col.timeframe)}</TableHead>
-                <TableHead>{t(($) => $.col.sharpe)}</TableHead>
-                <TableHead>{t(($) => $.col.ann_return)}</TableHead>
-                <TableHead>{t(($) => $.col.max_drawdown)}</TableHead>
-                <TableHead>{t(($) => $.col.profit_factor)}</TableHead>
-                <TableHead>{t(($) => $.col.oos_sharpe)}</TableHead>
-                <TableHead>{t(($) => $.col.oos_windows)}</TableHead>
-                <TableHead>{t(($) => $.col.gate)}</TableHead>
-                <TableHead>{t(($) => $.col.created)}</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {metrics.map((m) => {
-                const checked = selectedIds.includes(m.id);
-                return (
-                  <TableRow key={m.id}>
-                    <TableCell>
-                      <Checkbox
-                        checked={checked}
-                        disabled={!checked && selectedIds.length >= MAX_SELECTED}
-                        onCheckedChange={(v) => toggleSelected(m.id, v === true)}
-                        aria-label={iterationLabel(m)}
-                      />
-                    </TableCell>
-                    <TableCell className="text-sm font-medium">{iterationLabel(m)}</TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
-                      {m.timeframe || "—"}
-                    </TableCell>
-                    <TableCell className="text-sm">{fmt(m.sharpe)}</TableCell>
-                    <TableCell className="text-sm">{fmt(m.ann_return)}</TableCell>
-                    <TableCell className="text-sm">{fmt(m.max_drawdown)}</TableCell>
-                    <TableCell className="text-sm">{fmt(m.profit_factor)}</TableCell>
-                    <TableCell className="text-sm">{fmt(m.oos_sharpe)}</TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
-                      {m.oos_windows ?? "—"}
-                    </TableCell>
-                    <TableCell>
-                      <GateBadge metric={m} />
-                    </TableCell>
-                    <TableCell className="whitespace-nowrap text-sm text-muted-foreground">
-                      {m.created_at ? timeAgo(m.created_at) : "—"}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+const nodeTypes = { strategy: StrategyNode };
 
-          {/* Equity overlay */}
-          <div className="mt-4 rounded-lg border p-4">
-            <div className="mb-2 flex items-center justify-between">
-              <h2 className="text-sm font-medium">{t(($) => $.chart.title)}</h2>
-              <span className="text-xs text-muted-foreground">
-                {t(($) => $.chart.select_hint, { max: MAX_SELECTED })}
-              </span>
-            </div>
+// ─── helpers ───────────────────────────────────────────────────────────────
+function shortName(s: string): string {
+  return s.replace(/^vpvr_reversion_/, "vr_").replace(/^vpvr_/, "v_").replace(/_\d{8}$/, "").slice(0, 28);
+}
 
-            {warnings.map((w) => (
-              <p key={w.label} className="text-xs text-warning">
-                {warningText(w.kind, w.label)}
-              </p>
-            ))}
+// ─── detail panel ──────────────────────────────────────────────────────────
+function DetailPanel({ metric, equity }: { metric: RunMetric | null; equity: EquityCsvResult | null }) {
+  if (!metric) {
+    return (
+      <div style={{ padding: 24, color: "#666", textAlign: "center", fontSize: 13 }}>
+        <GitCompareArrows size={32} style={{ opacity: 0.3, marginBottom: 8 }} />
+        <p>Select a strategy node to see details.</p>
+      </div>
+    );
+  }
+  const m = metric;
+  const rows: [string, string][] = [
+    ["Sharpe", m.sharpe != null ? m.sharpe.toFixed(3) : "—"],
+    ["Ann Return", m.ann_return != null ? `${(m.ann_return * 100).toFixed(2)}%` : "—"],
+    ["Max DD", m.max_drawdown != null ? `${(m.max_drawdown * 100).toFixed(2)}%` : "—"],
+    ["Profit Factor", m.profit_factor != null ? m.profit_factor.toFixed(2) : "—"],
+    ["OOS Sharpe", m.oos_sharpe != null ? m.oos_sharpe.toFixed(3) : "—"],
+    ["OOS Windows", m.oos_windows != null ? String(m.oos_windows) : "—"],
+    ["Timeframe", m.timeframe ?? "—"],
+    ["Symbols", m.symbols?.join(", ") ?? "—"],
+  ];
+  const chartData = equity?.csv ? parseEquity(equity.csv) : [];
 
-            {series.length > 0 ? (
-              <ChartContainer config={chartConfig} className="aspect-[3/1] w-full">
-                <LineChart data={chartData} margin={{ left: 0, right: 0, top: 4, bottom: 0 }}>
-                  <CartesianGrid vertical={false} />
-                  <XAxis
-                    dataKey="step"
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                    interval="preserveStartEnd"
-                  />
-                  <YAxis
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                    width={70}
-                    tickFormatter={(v: number) =>
-                      Math.abs(v) >= 1000 ? `${(v / 1000).toFixed(1)}k` : `${v}`
-                    }
-                  />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <ChartLegend content={<ChartLegendContent />} />
-                  {series.map((s) => (
-                    <Line
-                      key={s.key}
-                      dataKey={s.key}
-                      name={s.label}
-                      stroke={`var(--color-${s.key})`}
-                      strokeWidth={1.5}
-                      dot={false}
-                      connectNulls
-                      isAnimationActive={false}
-                    />
-                  ))}
-                </LineChart>
-              </ChartContainer>
-            ) : selectedMetrics.length === 0 ? (
-              <p className="py-8 text-center text-xs text-muted-foreground">
-                {t(($) => $.chart.select_hint, { max: MAX_SELECTED })}
-              </p>
-            ) : equityLoading ? (
-              <Skeleton className="aspect-[3/1] w-full rounded-lg" />
-            ) : (
-              // Missing equity artifacts are a normal state (older runs
-              // didn't upload one), so this is a hint, not an error.
-              <div className="flex flex-col items-center justify-center gap-1 py-8 text-muted-foreground">
-                <p className="text-sm">{t(($) => $.chart.no_equity_title)}</p>
-                <p className="text-xs">{t(($) => $.chart.no_equity_hint)}</p>
-              </div>
-            )}
+  return (
+    <div style={{ padding: 16, overflowY: "auto", height: "100%" }}>
+      <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 4, color: "#e0e0f0" }}>
+        {shortName(m.iteration ?? m.id.slice(0, 8))}
+      </h3>
+      <div style={{ fontSize: 10, color: "#7c7c9e", marginBottom: 12 }}>{m.campaign}</div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4px 12px", marginBottom: 16 }}>
+        {rows.map(([k, v]) => (
+          <div key={k} style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #222240", padding: "3px 0" }}>
+            <span style={{ fontSize: 11, color: "#8888aa" }}>{k}</span>
+            <span style={{ fontSize: 11, fontFamily: "monospace", color: v === "—" ? "#555" : "#c0c0e0" }}>{v}</span>
           </div>
+        ))}
+      </div>
+
+      <div style={{
+        padding: "4px 10px", borderRadius: 6, marginBottom: 16, display: "inline-block",
+        background: m.gate_status === "pass" ? "#16a34a20" : m.gate_status === "fail" ? "#dc262620" : "#333",
+        color: m.gate_status === "pass" ? "#16a34a" : m.gate_status === "fail" ? "#dc2626" : "#888",
+        fontSize: 12, fontWeight: 700,
+      }}>
+        GATE: {m.gate_status?.toUpperCase() ?? "NO DATA"}
+      </div>
+
+      {chartData.length > 0 ? (
+        <div>
+          <div style={{ fontSize: 11, color: "#8888aa", marginBottom: 4 }}>Equity Curve</div>
+          <ResponsiveContainer width="100%" height={180}>
+            <LineChart data={chartData}>
+              <CartesianGrid stroke="#222240" strokeDasharray="3 3" />
+              <XAxis dataKey="i" tick={{ fontSize: 9, fill: "#666" }} />
+              <YAxis tick={{ fontSize: 9, fill: "#666" }} domain={["auto", "auto"]} />
+              <Tooltip contentStyle={{ background: "#1a1a2e", border: "1px solid #444", fontSize: 11 }} />
+              <Line type="monotone" dataKey="v" stroke="#6366f1" strokeWidth={1.5} dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
-      )}
+      ) : equity ? (
+        <div style={{ fontSize: 11, color: "#888" }}>Equity curve unavailable.</div>
+      ) : null}
+    </div>
+  );
+}
+
+function parseEquity(csv: string): { i: number; v: number }[] {
+  const lines = csv.trim().split("\n");
+  if (lines.length < 2) return [];
+  const header = (lines[0] ?? "").toLowerCase().split(",");
+  const valCol = header.findIndex((h) => /equity|balance|value/.test(h));
+  if (valCol < 0) return [];
+  const out: { i: number; v: number }[] = [];
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line) continue;
+    const parts = line.split(",");
+    const raw = parts[valCol];
+    const v = raw != null ? parseFloat(raw) : NaN;
+    if (Number.isFinite(v)) out.push({ i: out.length, v });
+  }
+  return out.length > 500
+    ? out.filter((_, idx) => idx % Math.ceil(out.length / 500) === 0)
+    : out;
+}
+
+// ─── main page ─────────────────────────────────────────────────────────────
+export function ComparePage() {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [allMetrics, setAllMetrics] = useState<RunMetric[]>([]);
+
+  // Fetch all metrics across all campaigns — API returns all when no campaign filter
+  useEffect(() => {
+    api.queryMetrics({ campaign: "", limit: 500 }).then((r) => setAllMetrics(r.metrics ?? [])).catch(() => {});
+  }, []);
+
+  const gateSummary = useMemo(() => {
+    const pass = allMetrics.filter((m) => m.gate_status === "pass").length;
+    const fail = allMetrics.filter((m) => m.gate_status === "fail").length;
+    const nodata = allMetrics.length - pass - fail;
+    return { pass, fail, nodata, total: allMetrics.length };
+  }, [allMetrics]);
+
+  // Build campaign → strategy tree for DAG
+  const { nodes, edges } = useMemo(() => {
+    const byCampaign: Record<string, RunMetric[]> = {};
+    for (const m of allMetrics) {
+      const c = m.campaign || "uncategorized";
+      (byCampaign[c] ??= []).push(m);
+    }
+
+    const rfNodes: Node[] = [];
+    const rfEdges: Edge[] = [];
+
+    for (const [campaign, metrics] of Object.entries(byCampaign)) {
+      const campId = `camp-${campaign}`;
+      rfNodes.push({
+        id: campId, type: "strategy", position: { x: 0, y: 0 },
+        data: {
+          label: campaign, campaign, sharpe: null, gate: null,
+          isSelected: false,
+        } as StratNodeData,
+        draggable: true,
+      });
+      for (const m of metrics) {
+        rfNodes.push({
+          id: m.id, type: "strategy", position: { x: 0, y: 0 },
+          data: {
+            label: shortName(m.iteration ?? m.id.slice(0, 8)),
+            campaign, sharpe: m.sharpe, gate: m.gate_status,
+            isSelected: selectedId === m.id,
+          } as StratNodeData,
+          draggable: true,
+        });
+        rfEdges.push({ id: `e-${campId}-${m.id}`, source: campId, target: m.id });
+      }
+    }
+    return layout(rfNodes, rfEdges);
+  }, [allMetrics, selectedId]);
+
+  const selected = allMetrics.find((m) => m.id === selectedId) ?? null;
+  const equity = useEquitySeries(selected ? [selected] : []);
+  const eqResult = equity[0]?.data ?? null;
+
+  const onNodeClick = useCallback((_: React.MouseEvent, node: Node) => {
+    if (node.id.startsWith("camp-")) return;
+    setSelectedId(node.id);
+  }, []);
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", height: "100%", minHeight: 0 }}>
+      {/* header */}
+      <div style={{ padding: "8px 16px", borderBottom: "1px solid #222240", display: "flex", alignItems: "center", gap: 16, flexShrink: 0 }}>
+        <GitCompareArrows size={18} className="text-muted-foreground" />
+        <span style={{ fontWeight: 600, fontSize: 14 }}>Strategy Development Map</span>
+        <div style={{ display: "flex", gap: 12, fontSize: 11, marginLeft: "auto" }}>
+          <span style={{ color: "#16a34a" }}>✓ {gateSummary.pass} pass</span>
+          <span style={{ color: "#dc2626" }}>✗ {gateSummary.fail} fail</span>
+          <span style={{ color: "#666" }}>? {gateSummary.nodata} no-data</span>
+          <span style={{ color: "#888" }}>/ {gateSummary.total} total</span>
+        </div>
+      </div>
+
+      {/* body */}
+      <div style={{ flex: 1, display: "flex", minHeight: 0 }}>
+        {/* DAG */}
+        <div style={{ flex: 1, position: "relative" }}>
+          {allMetrics.length === 0 ? (
+            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div style={{ textAlign: "center" }}>
+                <Skeleton className="h-8 w-48 mb-2" />
+                <p className="text-sm text-muted-foreground">Loading strategy metrics…</p>
+              </div>
+            </div>
+          ) : (
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              nodeTypes={nodeTypes}
+              onNodeClick={onNodeClick}
+              fitView
+              fitViewOptions={{ padding: 0.15 }}
+              proOptions={{ hideAttribution: true }}
+              style={{ background: "#0d0d1a" }}
+            >
+              <Background variant={BackgroundVariant.Dots} gap={20} size={1} color="#1a1a30" />
+              <Controls showInteractive={false} />
+            </ReactFlow>
+          )}
+        </div>
+
+        {/* detail panel */}
+        <div style={{
+          width: 320, borderLeft: "1px solid #222240", flexShrink: 0,
+          overflowY: "auto", background: "#12122a",
+        }}>
+          <DetailPanel metric={selected} equity={eqResult ?? null} />
+        </div>
+      </div>
     </div>
   );
 }
