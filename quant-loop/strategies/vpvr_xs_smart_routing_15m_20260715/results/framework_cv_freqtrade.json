@@ -1,0 +1,154 @@
+{
+  "engine": "freqtrade",
+  "engine_version": "2026.6",
+  "engine_sha": "freqtrade-2026.6",
+  "iteration": 105,
+  "strategy_key": "vpvr_xs_smart_routing_15m_20260715",
+  "methodology": "post-SMA-34922 fixed schedule-replay: in-house entry/exit schedule replayed on real 15m closes with risk_per_trade-scaled MTM equity; freqtrade cost (12bp rt) EQUALS in-house cost here, so this is a reproduction check; validation mode reproduces the in-house equity CSV before the framework run is trusted; OOS folds use the same NAV-bar formula on framework and in-house equity (like-for-like).",
+  "cost_model": {
+    "fee_bps_per_side": 4.0,
+    "slippage_bps_per_side": 2.0,
+    "round_trip": 0.0012,
+    "inhouse_round_trip": 0.0012,
+    "note": "identical costs -> reproduction check"
+  },
+  "walk_forward_json_available": false,
+  "replay_validation": {
+    "BTCUSDT": {
+      "n_bars_compared": 158587,
+      "max_abs_rel_err": 3.004769508385986e-06,
+      "final_rel_err": 4.452930927092824e-09,
+      "replayed_max_dd": -0.02210904103152722,
+      "inhouse_max_dd": -0.022109291727885005,
+      "max_dd_abs_diff": 2.5069635778418586e-07
+    }
+  },
+  "inhouse": {
+    "sharpe": -4.4331553511737605,
+    "sharpe_method": "bar_freq_annualized",
+    "total_return": -0.02091414629888899,
+    "max_dd": -0.022109291733624414,
+    "n_trades": 2772,
+    "timeframe": "15m",
+    "status": "NOT-PROFITABLE"
+  },
+  "framework": {
+    "sharpe_trade_formula": -4.434628967464244,
+    "sharpe_nav_bar": -4.295706040973917,
+    "ann_total_return": -0.004662193847695173,
+    "total_return": -0.020914150659801622,
+    "max_dd": -0.02210904103152722,
+    "n_bars": 158587,
+    "n_fills": 2772,
+    "span_years": 4.522900981063199
+  },
+  "oos_folds": {
+    "windows": [
+      "2023-01-01 -> 2023-07-01",
+      "2023-07-01 -> 2024-01-01",
+      "2024-01-01 -> 2024-07-01"
+    ],
+    "metric_formula": "NAV-bar (15m bars/yr = 35064), identical on both sides",
+    "framework": {
+      "n_folds": 3,
+      "folds": [
+        {
+          "span_start": "2023-01-01 00:00:00+00:00",
+          "span_end": "2023-06-30 23:45:00+00:00",
+          "bars": 17371,
+          "sharpe": -6.1805769816942595,
+          "ann_total_return": -0.00534191793934502,
+          "total_return": -0.0026506167008432113,
+          "max_dd": -0.0027142354927367496,
+          "n_bars": 17371,
+          "span_years": 0.4955224731918777
+        },
+        {
+          "span_start": "2023-07-01 00:00:00+00:00",
+          "span_end": "2023-12-31 23:45:00+00:00",
+          "bars": 17664,
+          "sharpe": -7.550494253213484,
+          "ann_total_return": -0.005663675299916848,
+          "total_return": -0.0028570180799382117,
+          "max_dd": -0.0028885280956665316,
+          "n_bars": 17664,
+          "span_years": 0.503736025553274
+        },
+        {
+          "span_start": "2024-01-01 00:00:00+00:00",
+          "span_end": "2024-06-30 23:45:00+00:00",
+          "bars": 17472,
+          "sharpe": -5.646916011117829,
+          "ann_total_return": -0.0067655805777138145,
+          "total_return": -0.003376761396050365,
+          "max_dd": -0.0034895971496045064,
+          "n_bars": 17472,
+          "span_years": 0.4982603239790098
+        }
+      ],
+      "oos_sharpe_mean": -6.459329082008526,
+      "oos_ann_total_return_mean": -0.005923724605658561,
+      "oos_total_return_mean": -0.0029614653922772627,
+      "oos_max_dd_worst": -0.0034895971496045064
+    },
+    "inhouse": {
+      "n_folds": 3,
+      "folds": [
+        {
+          "span_start": "2023-01-01 00:00:00+00:00",
+          "span_end": "2023-06-30 23:45:00+00:00",
+          "bars": 17371,
+          "sharpe": -6.194666214896183,
+          "ann_total_return": -0.005342120076896606,
+          "total_return": -0.002650717135566305,
+          "max_dd": -0.002713964447744077,
+          "n_bars": 17371,
+          "span_years": 0.4955224731918777
+        },
+        {
+          "span_start": "2023-07-01 00:00:00+00:00",
+          "span_end": "2023-12-31 23:45:00+00:00",
+          "bars": 17664,
+          "sharpe": -7.560189546056886,
+          "ann_total_return": -0.0056636745869996785,
+          "total_return": -0.0028570177198025126,
+          "max_dd": -0.0028887699048972815,
+          "n_bars": 17664,
+          "span_years": 0.503736025553274
+        },
+        {
+          "span_start": "2024-01-01 00:00:00+00:00",
+          "span_end": "2024-06-30 23:45:00+00:00",
+          "bars": 17472,
+          "sharpe": -5.6486369089581006,
+          "ann_total_return": -0.006765580143607286,
+          "total_return": -0.0033767611790143093,
+          "max_dd": -0.0034897248303357165,
+          "n_bars": 17472,
+          "span_years": 0.4982603239790098
+        }
+      ],
+      "oos_sharpe_mean": -6.46783088997039,
+      "oos_ann_total_return_mean": -0.00592379160250119,
+      "oos_total_return_mean": -0.002961498678127709,
+      "oos_max_dd_worst": -0.0034897248303357165
+    }
+  },
+  "divergence_pct": {
+    "full_span": {
+      "sharpe": 0.033240799695711164,
+      "total_return": 2.08514972052147e-05,
+      "max_dd": 0.001133921883222787
+    },
+    "oos_folds": {
+      "sharpe": 0.13144759203658332,
+      "total_return": 0.0011239529057361962,
+      "max_dd": 0.0036587621493862246
+    }
+  },
+  "max_abs_rel_divergence_pct": 0.13144759203658332,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": false,
+  "w5_tipping_metrics": [],
+  "w5_verdict": "WITHIN_TOLERANCE"
+}

@@ -1,0 +1,75 @@
+{
+  "generated_at": "2026-07-19T16:47:48.977697+08:00",
+  "active_count": 28,
+  "total_count": 180,
+  "leverage_top": [
+    {
+      "id": "b3c7dc1d-5d7a-4797-a15b-6aeaeaaeffa4",
+      "identifier": "SMA-30054",
+      "children_direct": 11,
+      "descendants": 37,
+      "children_active": 8
+    },
+    {
+      "id": "628ec02e-2ba6-49b8-b7ac-a006a2a1bb1a",
+      "identifier": "SMA-30199",
+      "children_direct": 11,
+      "descendants": 16,
+      "children_active": 8
+    },
+    {
+      "id": "50ca497c-b144-4128-96ef-713b69fac947",
+      "identifier": "SMA-32265",
+      "children_direct": 7,
+      "descendants": 7,
+      "children_active": 0
+    },
+    {
+      "id": "61804ebc-0987-42a2-b0c4-3c07aa1ceec8",
+      "identifier": "SMA-34980",
+      "children_direct": 5,
+      "descendants": 5,
+      "children_active": 0
+    },
+    {
+      "id": "225ab017-ce1c-4521-9008-13f43ee1db59",
+      "identifier": "SMA-34915",
+      "children_direct": 4,
+      "descendants": 4,
+      "children_active": 0
+    }
+  ],
+  "critical_path": [
+    "SMA-30054",
+    "SMA-35036",
+    "SMA-35038"
+  ],
+  "critical_depth": 3,
+  "in_project_orphans": [
+    "SMA-32071"
+  ],
+  "no_project_orphans": [
+    "SMA-34979",
+    "SMA-35015",
+    "SMA-35032",
+    "SMA-35050"
+  ],
+  "roots": [
+    "SMA-30054",
+    "SMA-32071",
+    "SMA-34979",
+    "SMA-34981",
+    "SMA-35015",
+    "SMA-35032",
+    "SMA-35050"
+  ],
+  "blocked_chains": [
+    {
+      "parent": "SMA-2167",
+      "idle_children": [
+        "SMA-2951",
+        "SMA-2952"
+      ]
+    }
+  ]
+}
