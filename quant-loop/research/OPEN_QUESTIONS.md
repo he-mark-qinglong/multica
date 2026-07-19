@@ -57,3 +57,17 @@
 - Bayesian Regime Posterior (SMA-35002): 5/7 pre-SPEC gates FAIL, Aumann-falsifier FAIL. Prior content sub-gate.
 - funding-carry-asym V1/V2 (SMA-34990): NOT-PROFITABLE on canonical window.
 - sizing axis (SMA-34955): 0/42 variants pass G3, structurally exhausted.
+
+
+## Strategic Decision 2026-07-19
+- VPVR 单资产回归族 KILLED（14/14 fail, avg Sharpe -2.04）
+- 主力：跨品种配对 walk-forward OOS（EPIC SMA-35036）
+- 探索：OFI on aggTrades（SMA-35037）
+- defer：MFG / Schelling / Bandit / Causal Gate
+
+
+## Strategic Decision 2026-07-19
+- VPVR reversion KILLED (14/14 fail, avg Sharpe -2.04)
+- PRIMARY: pairs walk-forward OOS (EPIC SMA-35036)
+- EXPLORE: OFI on aggTrades (SMA-35037)
+- DEFER: MFG / Schelling / Bandit / Causal
