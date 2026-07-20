@@ -46,6 +46,51 @@ make check            # Full verification pipeline
 
 See CLAUDE.md for the complete command reference.
 
+## Comment Schema Convention (mandatory 2026-07-19)
+
+Every comment posted by an agent on a multica issue MUST start with a type tag on the first line:
+
+`[type=<TYPE>] <iso8601 timestamp+tz> <one-line summary>`
+
+where `<TYPE>` ∈:
+
+- `STATUS` — progress update (what was done, what's next)
+- `DECISION` — chose X over Y, with reason
+- `EVIDENCE` — factual data (metrics, test results, CV numbers)
+- `KILL` — strategy/issue killed, with reason + evidence pointer
+- `ESCALATE` — requesting human (smark) decision; must include the actual question
+- `SIGNOFF` — agent or smark-proxy approving/rejecting deliverable
+- `NUDGE` — re-dispatch prompt to another agent/runtime
+- `NOOP` — explicit "nothing to do" with reason (cron sweeps especially)
+
+The body that follows is free-form markdown, but the first line MUST match the schema. Validator (TBD `comment-janitor` cron) will flag violations with `OFFSPEC` label.
+
+### Examples
+
+- `[STATUS] 2026-07-19T22:45+08 run 3c4ddf23 started on SMA-30199 — Claude picking up SPEC v1 work`
+- `[KILL] 2026-07-19T23:25+08 vpvr_xs_pairs_30m_funding_filter_20260712 — framework CV sharpe -4.86 vs in-house +0.46, walk_forward_ratio 0.127`
+- `[ESCALATE] 2026-07-19T20:00+08 question: should we top up token-plan quota to resume vpvr-funding-carry-asym, or pause? (decision B taken by smark-proxy)`
+
+### What this enables
+
+- Long-term searchability (find all DECISION comments in a date range)
+- Automated extraction of KILL/ESCALATE history
+- comment-janitor cron can flag drift / missing schema
+- downstream analytics (decision provenance, escalation latency)
+
+## Knowledge snapshots (workspace-level, 2026-07-18 onward)
+
+Daily workspace snapshots live under `~/multica/knowledge/curator/<date>-<slug>.md`. Each one is the evidence-backed summary of the day's workspace events; this section is the terse pointer so anyone working in this repo can locate today's facts without re-deriving them.
+
+### 2026-07-18 — framework fixes, H3 ship, runtime split, cron self-tune
+
+- **max_dd sentinel fix (landed 2026-07-18 19:19)** — fractional-replay NAV produced `max_dd ≈ 0` for any profitable strategy (methodology artefact). U2 audit chain ([SMA-34926](https://multica/issue/61804ebc-0987-42a2-b0c4-3c07aa1ceec8) → [SMA-34927](https://multica/issue/e511d7c9-2258-479b-b9a3-22b8f4583595)) fixed daily-resampled portfolio-NAV path so framework max_dd agrees with in-house per-symbol-worst within W5 tolerance. Bug fix itself under [SMA-34922](https://multica/issue/3c857ceb-0729-4315-8af3-d563b5f6b405). Commit SHA not in ledger (unverified).
+- **H3 PROFITABLE ship (PR#6)** — `mtf_xs_pairs` H3 BTC+SOL pair passed all gates: OOS walk-forward Sharpe 2.773 (mean of 7 windows), ann 59.8%, bootstrap CI lower 1.914. Commit `26440acd`. ETH/SOL leg (U7) accepted via [SMA-34951](https://multica/issue/0c74f1c0-...). LIVE candidacy still gated on G5 cross-framework CV ([SMA-34966](https://multica/issue/...)). Family `mtf_xs_pairs` not yet exhausted.
+- **Agent / runtime split** — 14 agents across 3 runtimes. Kimi `a148b4d2` (5 agents: quant-researcher, quant-analyst, multica-orchestrator, multica-strategy, quant-research-agent). Codex `c3791fa0` (4: knowledge-curator, persona-advisor, multica-ops, ops-worker-1). Codex `07dd8587` (5: multica-code `00589faa`, strategy-worker-1/2, smark-decision-maker, smark-signoff-proxy). `00589faa` k3 403 first seen 2026-07-18T19:24:26; resolved for sign-off chain via M3 swap.
+- **Cron self-tune pattern (2026-07-18)** — 4 heavy crons converted to wrapper-style subagent dispatches: `pool` (Idle Agent Dispatcher `0fc298fa`, `*/3 * * * *`, since 2026-07-15T23:11:19), `orchestrator` (multica-dispatch, since 2026-07-10T06:47:12), `decision-triage` (Human Escalation Router, since 2026-07-05T05:32:02), `signoff` (Evidence gatekeeper, since 2026-06-30T18:33:04). Mechanism: each heavy cron now wakes an idle-dispatcher subagent that does the work in-foreground and posts results, instead of running inline in the cron tick.
+
+→ Full evidence + accepted/unverified status: `~/multica/knowledge/curator/2026-07-18-knowledge-snapshot.md`
+
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence
 

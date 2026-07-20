@@ -6,11 +6,13 @@
 ## P0 — PRIMARY axis (tape-reading / large-order / microstructure)
 
 ### T01 — OFI on real aggTrades (revivable)
-- **Status**: exploring (v1 KILL on kline-proxy; real aggTrades now available 24GB)
+- **Status**: killed (2026-07-20) — gross signal real (+3.41bp top-bot quintile spread, corr +0.21) but cost-cap fails (17.83bp SPOT round-trip ≫ 3.41bp edge). 0/90 cells pass G1 post-cost.
 - **Question**: Does Cont-Kukanov-Stoikov OFI predict next-horizon drift on BTC/ETH/SOL perp with REAL trade-level data (not kline proxy)?
 - **Prior**: SMA-34997 v1 KILL — kline proxy can't capture same-ms trade bursts. v1 had no chance.
-- **New info**: SMA-35007 done, 7-symbol × 3-month aggTrades staged.
-- **Next**: replicate OFI signal on BTC 1m canonical window, pre-register Sharpe≥1.0 + cost-cap gate.
+- **v2 result** (SMA-35037): 1m BTC bars 2026-04-19 → 2026-06-30 (105k bars). Mechanism confirmed (corr +0.21, top-bot spread +3.41bp/trade) but trading it as a taker loses money. CPCV mean OOS Sharpe = −34 ± 5.
+- **Kill reason**: taker round-trip cost (17.83bp SPOT, 10.83bp FUTURES) exceeds per-trade edge by 3-5x. Net of cost the signal is structurally negative at 1m horizon.
+- **Revival conditions**: (a) sub-taker execution (maker+queue, eff cost <1bp); (b) T04/SMA-34992 iceberg-confluence pushing per-trade edge >20bp; (c) liquidation-cascade sub-regime only; (d) fundamentally stronger signal at higher horizon.
+- **Threads**: see `THREADS/T01-ofi-aggtrades.md` for full sweep + verdict.
 - **Links**: T04 (iceberg), T05 (regime-conditional flow).
 
 ### T04 — Iceberg detection efficacy
@@ -39,12 +41,13 @@
 ## P2 — structural / portfolio
 
 ### T06 — Why did funding-carry-asym prior content fail?
-- **Status**: killed (5/6 gate FAIL, Bayesian wrapper also failed)
+- **Status**: killed (5/6 gate FAIL, Bayesian wrapper also failed; re-confirmed KILL post max_dd fix 2026-07-18)
 - **Question**: Is there a TRANSFORM of funding+VPVR that recovers alpha, or is the content fundamentally sub-gate on crypto perp?
 - **Prior**: SMA-34990 V2 NOT-PROFITABLE, SMA-35002 Bayesian 5/7 gates FAIL.
-- **Kill reason**: prior content sub-gate; Bayesian framing can't compensate.
-- **Revival condition**: only if a NEW prior source is identified (not funding/VPVR).
-- **Links**: T02 (MFG needs different prior too).
+- **2026-07-18 max_dd fix verification**: SMA-34922 (multica-code) shipped daily-resampled portfolio-NAV path; framework max_dd no longer emits the `-4.0e-06` sizing artefact. [SMA-34927](https://multica/issue/e511d7c9-2258-479b-b9a3-22b8f4583595) re-judged iter#82 (`vpvr_funding_aware_v1`) under corrected max_dd. smark-proxy verdict at 2026-07-18T17:09:08+08: **KILL** (Sharpe 0.74 daily-resamp < G1; maxDD -43.07% > G3; ann passes). iter#82 ledger row stays KILLED; U2 cleared.
+- **Kill reason**: prior content sub-gate; Bayesian framing can't compensate. The methodology artefact (max_dd near-zero) was hiding real G1/G3 gate failures under single-metric W5 archive — corrected methodology confirms the prior-content kill, does not invalidate it.
+- **Revival condition**: only if a NEW prior source is identified (not funding/VPVR). Methodology fix (SMA-34922) does NOT count as new prior content.
+- **Links**: T02 (MFG needs different prior too), execution-microstructure skill.
 
 ### T07 — Are our 5 strategy lines actually diversified?
 - **Status**: exploring
@@ -62,7 +65,7 @@
 ## Strategic Decision 2026-07-19
 - VPVR 单资产回归族 KILLED（14/14 fail, avg Sharpe -2.04）
 - 主力：跨品种配对 walk-forward OOS（EPIC SMA-35036）
-- 探索：OFI on aggTrades（SMA-35037）
+- 探索：OFI on aggTrades（SMA-35037）→ **KILLED 2026-07-20 (cost-cap, not signal-noise)**
 - defer：MFG / Schelling / Bandit / Causal Gate
 
 
