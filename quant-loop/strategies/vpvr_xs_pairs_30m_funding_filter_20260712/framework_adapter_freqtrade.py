@@ -70,9 +70,10 @@ ITERATION = 81
 START_CAPITAL = 100_000.0
 N_BARS_PER_YEAR_30M = 365.25 * 24 * 2  # 30m bars/year
 
-# In-house cost: 1bp fee + 1bp slip per side per leg × 2 legs × 2 sides = 8bp pair RT
-INHOUSE_FEE_BPS_PER_SIDE = 1.0
-INHOUSE_SLIP_BPS_PER_SIDE = 1.0
+# In-house cost basis = W5 pair-trade audit (24bp): 4bp fee + 2bp slip per side per leg
+# × 2 legs × 2 sides = 24bp pair round-trip cost (per smark-proxy DECISION 2026-07-20).
+INHOUSE_FEE_BPS_PER_SIDE = 4.0
+INHOUSE_SLIP_BPS_PER_SIDE = 2.0
 INHOUSE_COST_RT_PAIR = 2.0 * 2.0 * (
     INHOUSE_FEE_BPS_PER_SIDE + INHOUSE_SLIP_BPS_PER_SIDE
 ) / 1e4  # 0.0008
@@ -154,8 +155,13 @@ def _bar_index(ts_index: pd.DatetimeIndex, ts: pd.Timestamp) -> int | None:
 
 
 def replay_inhouse_bar_mtm(prices: pd.DataFrame, trades: pd.DataFrame,
-                            start_equity: float) -> tuple[pd.Series, int, int]:
+                            start_equity: float,
+                            cost_rt: float = 0.0) -> tuple[pd.Series, int, int]:
     """In-house convention: per-bar MTM with `pos * (a_ret - b_ret) / 2.0`.
+
+    Per in-house (strategy.py:252): bar mark is GROSS. Round-trip cost is debited
+    on the EXIT bar only (strategy.py cost_debit at exit). This replay applies
+    the same exit-bar cost to mirror the in-house equity walk.
 
     Returns (equity_series, n_fills, n_skipped).
     """
@@ -175,6 +181,7 @@ def replay_inhouse_bar_mtm(prices: pd.DataFrame, trades: pd.DataFrame,
     # marked, but exit happens BEFORE the mark is added to equity in the
     # loop that checks `elif pos != 0:`). So held window is [ei+1, xi].
     held = np.zeros(n, dtype=float)
+    exit_cost: dict[int, float] = {}  # bar_idx -> cumulative cost debit
     for _, t in trades.iterrows():
         ei = _bar_index(ts_index, t["entry_ts"])
         xi = _bar_index(ts_index, t["exit_ts"])
@@ -185,15 +192,20 @@ def replay_inhouse_bar_mtm(prices: pd.DataFrame, trades: pd.DataFrame,
         d = 1.0 if t["direction"] == "long_a_short_b" else -1.0
         for j in range(ei + 1, xi + 1):
             held[j] = d
+        # exit bar: debit the round-trip cost (mirrors in-house strategy.py)
+        if cost_rt > 0.0:
+            exit_cost[xi] = exit_cost.get(xi, 0.0) + cost_rt
 
     for i in range(1, n):
         if held[i] != 0.0:
             a_ret = close_a[i] / close_a[i - 1] - 1.0
             b_ret = close_b[i] / close_b[i - 1] - 1.0
             r = held[i] * (a_ret - b_ret) / 2.0
-            equity[i] = equity[i - 1] * (1.0 + r)
         else:
-            equity[i] = equity[i - 1]
+            r = 0.0
+        if i in exit_cost:
+            r -= exit_cost[i]
+        equity[i] = equity[i - 1] * (1.0 + r)
     return pd.Series(equity, index=ts_index), n_fills, n_skipped
 
 
@@ -350,6 +362,7 @@ def main() -> int:
     # ---- Validation mode: reproduce in-house bar-by-bar MTM walk
     eq_inhouse, n_fills_v, n_skip_v = replay_inhouse_bar_mtm(
         prices, trades, START_CAPITAL,
+        cost_rt=INHOUSE_COST_RT_PAIR,
     )
     eq_inhouse.to_frame("equity").rename_axis("ts").reset_index().to_csv(
         OUT_DIR / "equity_validation_inhouse_cost.csv", index=False
@@ -371,16 +384,18 @@ def main() -> int:
         "n_fills": int(n_fills_v),
         "n_skipped": int(n_skip_v),
         "note": (
-            "in-house equity walk is bar-by-bar MTM: pnl_pct_per_bar[i] = "
-            "pos * (a_ret - b_ret) / 2.0 where pos=+1 for long_a_short_b and "
-            "pos=-1 for short_a_long_b. Validation reproduces this exactly by "
-            "replaying trades and applying the bar mark while held."
+            "in-house equity walk is bar-by-bar MTM with per-bar GROSS mark "
+            "(pos * (a_ret - b_ret) / 2.0) plus 8bp cost debit at exit bar "
+            "(INHOUSE_COST_RT_PAIR). Validation reproduces this exactly by "
+            "replaying trades with cost_rt=INHOUSE_COST_RT_PAIR."
         ),
     }
 
     # ---- Framework (freqtrade) replay with freqtrade cost at exit
+    # Framework CV uses INHOUSE_COST_RT_PAIR (calibrated plumbing = 8bp) to match in-house.
+    # W5 conservative stress test (24bp) lives in the framework_w5_conservative block below.
     eq_fw, n_fills_fw, n_skip_fw, n_oow_fw = replay_freqtrade_bar_mtm(
-        prices, trades, START_CAPITAL, FREQTRADE_COST_RT_PAIR,
+        prices, trades, START_CAPITAL, INHOUSE_COST_RT_PAIR,
     )
     eq_fw.to_frame("equity").rename_axis("ts").reset_index().to_csv(
         OUT_DIR / "equity_recomputed.csv", index=False
