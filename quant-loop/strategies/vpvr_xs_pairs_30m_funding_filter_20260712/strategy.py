@@ -226,13 +226,11 @@ def run_pair_backtest(df_a, df_b, cfg, pair_label, funding_a=None, funding_b=Non
     for i in range(1, n):
         cur_pos = pos
         zi = float(z.iat[i]) if np.isfinite(z.iat[i]) else None
-        # VPVR confluence gate
-        if cur_pos == 0 and zi is not None and cfg["entry"].get("require_vpvr_confluence", True) and not bool(near_poc.iat[i]):
-            cur_pos = 0
-        # Funding-blowoff gate
-        if cur_pos == 0 and zi is not None and require_funding_filter and not bool(funding_allow.iat[i]):
-            cur_pos = 0
-        if cur_pos == 0 and zi is not None:
+        # VPVR confluence gate (entry only — already-in-position handled below)
+        vpvr_blocks_entry = (cur_pos == 0 and zi is not None and cfg["entry"].get("require_vpvr_confluence", True) and not bool(near_poc.iat[i]))
+        # Funding-blowoff gate (entry only)
+        funding_blocks_entry = (cur_pos == 0 and zi is not None and require_funding_filter and not bool(funding_allow.iat[i]))
+        if cur_pos == 0 and zi is not None and not vpvr_blocks_entry and not funding_blocks_entry:
             if zi >= entry_thr:
                 cur_pos = -1
             elif zi <= -entry_thr:
@@ -269,6 +267,9 @@ def run_pair_backtest(df_a, df_b, cfg, pair_label, funding_a=None, funding_b=Non
                     pct = -(exit_a / entry_a - 1.0) + (exit_b / entry_b - 1.0)
                 cost = 2.0 * 2.0 * (float(cfg["fees_bps_per_side"]) + float(cfg["slippage_bps_per_side"])) / 10_000.0
                 net = pct - cost
+                # Cost debit on per-bar equity walk so total_return reflects round-trip cost
+                # (previously cost was only applied to the trade-log pnl_pct, not the bar mark).
+                pnl_pct_per_bar[i] -= cost
                 trade_log.append(Trade(
                     pair=pair_label,
                     direction="long_a_short_b" if pos == +1 else "short_a_long_b",
@@ -301,6 +302,8 @@ def run_pair_backtest(df_a, df_b, cfg, pair_label, funding_a=None, funding_b=Non
                 pct = -(exit_a / entry_a - 1.0) + (exit_b / entry_b - 1.0)
             cost = 2.0 * 2.0 * (float(cfg["fees_bps_per_side"]) + float(cfg["slippage_bps_per_side"])) / 10_000.0
             net = pct - cost
+            # Cost debit on per-bar equity walk so total_return reflects round-trip cost
+            pnl_pct_per_bar[i] -= cost
             trade_log.append(Trade(
                 pair=pair_label,
                 direction="long_a_short_b" if pos == +1 else "short_a_long_b",
