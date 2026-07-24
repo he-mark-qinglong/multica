@@ -63,7 +63,10 @@ def compute_metrics(
 
     # Annualized return (geometric): (end/start)^(freq/start_bars) - 1
     if n_bars > 1 and start > 0:
-        annualized_return = (end / start) ** (freq_per_year / (n_bars - 1)) - 1.0
+        if end <= 0:
+            annualized_return = -1.0
+        else:
+            annualized_return = (end / start) ** (freq_per_year / (n_bars - 1)) - 1.0
     else:
         annualized_return = 0.0
 
