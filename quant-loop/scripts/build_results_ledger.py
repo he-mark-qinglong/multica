@@ -103,6 +103,12 @@ def scan_strategy_dir(path: Path) -> dict[str, Any]:
     config = _load_json(path / "config.json") or {}
     metrics = _load_json(path / "results" / "metrics.json")
 
+    # Special case: loid_iceberg_v4 results live in results/sma-34992/
+    if name == "loid_iceberg_v4_1m_20260720":
+        special = _load_json(REPO / "results" / "sma-34992" / "loid_iceberg_v4_btc_90d_metrics.json")
+        if special:
+            metrics = special
+
     row = {
         "strategy_key": name,
         "path": str(path.relative_to(REPO)),
