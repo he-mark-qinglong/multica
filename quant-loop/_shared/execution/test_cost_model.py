@@ -16,6 +16,7 @@ from cost_model import (
     BINANCE_FUTURES,
     apply_cost,
     cost_as_pct,
+    futures_cost_model,
     slippage_bps,
 )
 from backtest.factor_backtester import (
@@ -104,6 +105,41 @@ def test_futures_cheaper_than_spot_at_size():
     assert fut < spot, f"futures ({fut:.4f}) should be cheaper than spot ({spot:.4f})"
 
 
+def test_futures_cost_model_matches_ratified_baseline():
+    # The extended CostModel built from the venue must total the ratified
+    # 11 bps/side = 22 bps RT on the taker path.
+    m = futures_cost_model()
+    baseline = CostModel.sma34900_baseline()
+    assert m.commission_bps_per_side == baseline.commission_bps_per_side == 4.0
+    assert m.slippage_bps_per_side == baseline.slippage_bps_per_side == 7.0
+    assert m.round_trip_bps == 22.0
+    assert m.maker_fee_bps_per_side == BINANCE_FUTURES.maker_fee_bps == 2.0
+    assert m.taker_fee_bps_per_side == BINANCE_FUTURES.taker_fee_bps == 4.0
+
+
+def test_futures_cost_model_maker_taker_agrees_with_apply_cost():
+    # maker_taker_cost is the fee leg only; apply_cost adds the ratified
+    # pure slippage on top. Round trip = 2 * (fee + slippage).
+    m = futures_cost_model()
+    notional = 50_000.0
+    slip = SMA34900_PURE_SLIPPAGE_BPS_PER_SIDE / 10000.0 * notional
+    for side in ("taker", "maker"):
+        fee = m.maker_taker_cost(notional, side)
+        expected_rt = 2 * (fee + slip)
+        actual_rt = apply_cost(notional, 1e9, venue=BINANCE_FUTURES, side=side)
+        assert abs(actual_rt - expected_rt) < 1e-9, (
+            f"{side}: apply_cost RT {actual_rt} != 2*(fee {fee} + slip {slip})"
+        )
+
+
+def test_futures_cost_model_rejects_spot_venue():
+    try:
+        futures_cost_model(BINANCE_SPOT)
+    except ValueError:
+        return
+    raise AssertionError("spot venue must be rejected (no ratified fixed slippage)")
+
+
 if __name__ == "__main__":
     tests = [
         test_btc_liquid_round_trip,
@@ -114,6 +150,9 @@ if __name__ == "__main__":
         test_futures_matches_ratified_baseline,
         test_futures_constants_sourced_from_factor_backtester,
         test_futures_cheaper_than_spot_at_size,
+        test_futures_cost_model_matches_ratified_baseline,
+        test_futures_cost_model_maker_taker_agrees_with_apply_cost,
+        test_futures_cost_model_rejects_spot_venue,
     ]
     failed = 0
     for t in tests:

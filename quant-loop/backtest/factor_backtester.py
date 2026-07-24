@@ -39,7 +39,10 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
-from typing import Mapping, Optional, Tuple
+from typing import Literal, Mapping, Optional, Tuple
+
+import numpy as np
+import pandas as pd
 
 # --- Ratified constants (SMA-34900 / SMA-34913, adopted by smark 2026-07-18) ---
 
@@ -91,11 +94,25 @@ class CostModel:
     hazard_flags:
         Audit trail of any rewiring applied (empty = config was already
         consistent). Surfaced in :meth:`ledger_note` for run ledgers.
+    funding_rate_series:
+        Optional 8h funding-rate series (indexed by settlement timestamp)
+        injected for funding-aware backtests (Phase D / T10). Excluded from
+        equality/repr so two models with the same fee wiring stay equal.
+        ``None`` = zero funding.
+    maker_fee_bps_per_side / taker_fee_bps_per_side:
+        Optional execution-side fee split (Phase D sub-taker research).
+        When unset, :meth:`maker_taker_cost` falls back to
+        ``commission_bps_per_side`` so uniform-fee models are unchanged.
     """
 
     commission_bps_per_side: float
     slippage_bps_per_side: float
     hazard_flags: Tuple[str, ...] = field(default_factory=tuple)
+    funding_rate_series: Optional[pd.Series] = field(
+        default=None, compare=False, repr=False
+    )
+    maker_fee_bps_per_side: Optional[float] = None
+    taker_fee_bps_per_side: Optional[float] = None
 
     # -- totals ------------------------------------------------------------
     @property
@@ -121,9 +138,96 @@ class CostModel:
             f"slip={self.slippage_bps_per_side:g}bps/side = "
             f"{self.per_side_bps:g}bps/side ({self.round_trip_bps:g}bps RT)"
         )
+        if (
+            self.maker_fee_bps_per_side is not None
+            or self.taker_fee_bps_per_side is not None
+        ):
+            maker = self.maker_fee_bps_per_side
+            taker = self.taker_fee_bps_per_side
+            note += (
+                f"; maker/taker fee="
+                f"{maker if maker is not None else self.commission_bps_per_side:g}/"
+                f"{taker if taker is not None else self.commission_bps_per_side:g}bps/side"
+            )
+        if self.funding_rate_series is not None:
+            note += f"; funding n={len(self.funding_rate_series)}"
         if self.hazard_flags:
             note += f" [{', '.join(self.hazard_flags)}]"
         return note
+
+    # -- maker/taker fees --------------------------------------------------
+    def maker_taker_cost(
+        self, notional: float, side: Literal["maker", "taker"]
+    ) -> float:
+        """Single-leg dollar fee for ``notional`` at the given execution side.
+
+        Uses the side-specific fee when configured; otherwise falls back to
+        ``commission_bps_per_side`` so uniform-fee models are backward
+        compatible. Slippage is NOT included — this is the fee leg only.
+        """
+        if side == "maker":
+            bps = self.maker_fee_bps_per_side
+        elif side == "taker":
+            bps = self.taker_fee_bps_per_side
+        else:
+            raise ValueError(f"side must be 'maker' or 'taker', got {side!r}")
+        if bps is None:
+            bps = self.commission_bps_per_side
+        return float(notional) * float(bps) / 10000.0
+
+    # -- funding -----------------------------------------------------------
+    def apply_funding_cost(
+        self,
+        equity: pd.Series,
+        position: pd.Series,
+        funding_series: Optional[pd.Series] = None,
+    ) -> pd.Series:
+        """Apply 8h funding settlements to an equity curve.
+
+        Parameters
+        ----------
+        equity:
+            Equity curve indexed by bar timestamp (sorted ascending).
+        position:
+            Signed position as a fraction of equity (positive = long),
+            aligned on the same bar index.
+        funding_series:
+            Funding rate per settlement, indexed by settlement timestamp
+            (8h cadence for USDT-M perps). Defaults to
+            ``self.funding_rate_series``; if neither is set the curve is
+            returned unchanged (zero funding).
+
+        Returns
+        -------
+        pd.Series
+            Adjusted equity curve. At each settlement ``t`` the payment
+            ``position(t) * equity(t) * rate(t)`` is deducted (positive rate
+            → longs pay, shorts receive), using the last bar at or before
+            ``t``. Costs accumulate as a drag on all subsequent bars.
+        """
+        fs = funding_series if funding_series is not None else self.funding_rate_series
+        if fs is None or len(fs) == 0:
+            return equity.copy()
+        if not equity.index.equals(position.index):
+            position = position.reindex(equity.index)
+
+        fs = fs.sort_index()
+        idx = equity.index
+        # Last bar at or before each settlement; settlements before the
+        # first bar are ignored.
+        locs = idx.searchsorted(fs.index, side="right") - 1
+        valid = locs >= 0
+        if not valid.any():
+            return equity.copy()
+        locs = locs[valid]
+        rates = fs.to_numpy(dtype=float)[valid]
+
+        eq = equity.to_numpy(dtype=float)
+        pos = position.to_numpy(dtype=float)
+        costs = np.zeros(len(eq))
+        np.add.at(costs, locs, pos[locs] * eq[locs] * rates)
+        adjusted = eq - np.cumsum(costs)
+        return pd.Series(adjusted, index=idx, name=equity.name)
 
     # -- constructors --------------------------------------------------------
     @classmethod
@@ -173,6 +277,15 @@ class CostModel:
         slip_key, slip = _first_key(cfg, _SLIPPAGE_KEYS)
         includes_fee = bool(cfg.get("slippage_includes_fee", False))
 
+        # Optional Phase-D extensions (pass-through, no rewiring).
+        extras = {}
+        if cfg.get("maker_fee_bps_per_side") is not None:
+            extras["maker_fee_bps_per_side"] = float(cfg["maker_fee_bps_per_side"])
+        if cfg.get("taker_fee_bps_per_side") is not None:
+            extras["taker_fee_bps_per_side"] = float(cfg["taker_fee_bps_per_side"])
+        if cfg.get("funding_rate_series") is not None:
+            extras["funding_rate_series"] = cfg["funding_rate_series"]
+
         is_plugin = math.isclose(
             slip, SMA34900_PLUGIN_BPS_PER_SIDE, abs_tol=_PLUGIN_ATOL
         )
@@ -188,12 +301,14 @@ class CostModel:
                 commission_bps_per_side=model.commission_bps_per_side,
                 slippage_bps_per_side=model.slippage_bps_per_side,
                 hazard_flags=tuple(flags),
+                **extras,
             )
 
         # Plain wiring: slippage is already pure (e.g. cycle-46 4+1 bps).
         return cls(
             commission_bps_per_side=fee,
             slippage_bps_per_side=slip,
+            **extras,
         )
 
 

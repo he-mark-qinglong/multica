@@ -2,9 +2,9 @@
 
 Automated out-of-sample validation for quant-loop strategy variants. On a new
 variant commit, the harness runs the variant's native engine **and** replays
-its trade decisions in two independent frameworks (backtrader, freqtrade)
-across 3 contiguous OOS windows, then emits a pass/fail verdict against the
-G1–G7 hard gates. A failing verdict blocks the merge.
+its trade decisions in independent frameworks (backtrader, freqtrade;
+optionally vectorbt) across 3 contiguous OOS windows, then emits a pass/fail
+verdict against the G1–G7 hard gates. A failing verdict blocks the merge.
 
 ## Usage
 
@@ -56,15 +56,32 @@ engine-assumption difference G5 exists to expose. Fees = `fees_bps_per_side`
 
 A variant is harness-runnable if either:
 
-1. **VPVR-family convention**: `data_loader.py` with
+1. **Strategy contract v2 (generic pipeline, Phase D 2026-07-24 — preferred
+   for new HF strategies)**: the variant ships `signals.py` exposing
+   `generate_signals(df, cfg) -> iterable of Trade | dict` (trades carry
+   `entry_ts`/`exit_ts` on-bar timestamps, `direction`, optional
+   `size_fraction`) plus `data_loader.py` with
+   `load_all(symbols, timeframe) -> {sym: df}`. No per-strategy framework
+   adapters, no inline equity walk: the native leg runs through
+   `_shared.run_backtest.run_backtest(cost_mode="fill")` and the same trade
+   schedule is replayed by the backtrader / freqtrade / vectorbt adapters.
+   A framework whose engine is not installed is recorded in
+   `report["framework_skips"]` and skipped instead of crashing the harness.
+   Programmatic equivalent: `validation.generic_harness.run_generic_validation(
+   generate_signals, config, data, frameworks=[...])`.
+2. **VPVR-family convention (legacy)**: `data_loader.py` with
    `load_all(symbols, timeframe) -> {sym: df}` and `strategy.py` with
    `run_backtest(df, cfg) -> result` exposing `.equity_curve` and `.trades`
    (Trade with `entry_date/exit_date/direction/entry_price/exit_price/pnl_pct`), or
-2. **escape hatch**: a `harness_adapter.py` in the variant dir exposing
+3. **escape hatch (legacy)**: a `harness_adapter.py` in the variant dir exposing
    `run(df, cfg, symbol) -> (equity: pd.Series, trades: list[dict])`.
 
-Variants without either contract exit 2 (UNSUPPORTED) — add
-`harness_adapter.py` to onboard a new engine family.
+Variants without any contract exit 2 (UNSUPPORTED) — for new engine families,
+prefer contract v2 over adding `harness_adapter.py`.
+
+Note: the vectorbt leg's metrics are recorded in the report but do not feed
+gate G5 (G5 evaluates backtrader/freqtrade only); vectorbt is an
+informational third replay.
 
 ## Data
 

@@ -5,6 +5,12 @@ Usage (from the quant-loop directory):
     python3 -m validation.oos_harness --variant vpvr_reversion_1m_kama_reversal_20260709
     python3 -m validation.oos_harness --variant strategies/<name> --windows 3
 
+Variants shipping a ``signals.py`` (strategy contract v2, Phase D) are routed
+to the generic pipeline in ``validation/generic_harness.py`` — native equity
+walk via ``_shared.run_backtest`` plus backtrader/freqtrade/vectorbt replays,
+with no per-strategy framework adapters. All other variants use the legacy
+``strategy.py`` / ``harness_adapter.py`` contract unchanged.
+
 Exit codes: 0 = all G1-G7 gates PASS (merge allowed)
             1 = at least one gate FAIL (merge blocked)
             2 = harness error (variant unsupported, data missing, framework crash)
@@ -23,10 +29,9 @@ from pathlib import Path
 import pandas as pd
 
 from . import metrics as M
-from .adapters.backtrader_replay import run_backtrader_replay
-from .adapters.freqtrade_replay import run_freqtrade_replay
 from .adapters.native_engine import NativeEngineAdapter, UnsupportedVariantError
 from .gates import evaluate_gates
+from .generic_harness import FRAMEWORKS, is_generic_variant, run_generic_from_variant
 from .windows import compute_oos_windows
 
 QUANT_LOOP_ROOT = Path(__file__).resolve().parent.parent
@@ -86,7 +91,7 @@ def run_validation(variant_dir: Path, n_windows: int, frameworks: list[str],
                   f"pf={m['profit_factor']:.3f} trades={m['n_trades']}")
 
     # ---- per-window runs (native + framework CV) ----------------------------
-    window_native, window_bt, window_ft = [], [], []
+    window_native, window_bt, window_ft, window_vbt = [], [], [], []
     pooled_oos_daily: dict[str, list[pd.Series]] = {s: [] for s in data}
     pooled_oos_pnls: list[float] = []
 
@@ -105,6 +110,7 @@ def run_validation(variant_dir: Path, n_windows: int, frameworks: list[str],
                   f"trades={m_nat['n_trades']}")
 
             if "backtrader" in frameworks:
+                from .adapters.backtrader_replay import run_backtrader_replay
                 bt_run = run_backtrader_replay(
                     dfs, native.trades, symbol=sym,
                     starting_cash=starting_capital, commission=commission, weight=weight)
@@ -114,6 +120,7 @@ def run_validation(variant_dir: Path, n_windows: int, frameworks: list[str],
                       f"trades={m_bt['n_trades']}")
 
             if "freqtrade" in frameworks:
+                from .adapters.freqtrade_replay import run_freqtrade_replay
                 ft_run = run_freqtrade_replay(
                     dfs, native.trades, symbol=sym, timeframe=adapter.timeframe,
                     starting_wallet=starting_capital,
@@ -124,10 +131,21 @@ def run_validation(variant_dir: Path, n_windows: int, frameworks: list[str],
                 print(f"[harness] {w.label} {sym} freqtrade: sharpe={m_ft['sharpe']:.3f} "
                       f"trades={m_ft['n_trades']}")
 
+            if "vectorbt" in frameworks:
+                from .adapters.vectorbt_replay import run_vectorbt_replay
+                vbt_run = run_vectorbt_replay(
+                    dfs, native.trades, symbol=sym,
+                    starting_cash=starting_capital, fees=commission, size=weight)
+                m_vbt = M.metrics_from_run(vbt_run.equity, vbt_run.trade_pnls)
+                window_vbt.append(m_vbt)
+                print(f"[harness] {w.label} {sym} vectorbt: sharpe={m_vbt['sharpe']:.3f} "
+                      f"trades={m_vbt['n_trades']}")
+
             report["symbols"].setdefault(sym, {}).setdefault(w.label, {
                 "native": M.public_metrics(m_nat),
                 **({"backtrader": M.public_metrics(m_bt)} if "backtrader" in frameworks else {}),
                 **({"freqtrade": M.public_metrics(m_ft)} if "freqtrade" in frameworks else {}),
+                **({"vectorbt": M.public_metrics(m_vbt)} if "vectorbt" in frameworks else {}),
             })
 
     # ---- pooled OOS series for G6/G7 ----------------------------------------
@@ -175,23 +193,28 @@ def main() -> int:
     ap.add_argument("--variant", required=True, help="variant name or directory")
     ap.add_argument("--windows", type=int, default=3, help="number of OOS windows")
     ap.add_argument("--frameworks", default="native,backtrader,freqtrade",
-                    help="comma-separated subset of native,backtrader,freqtrade")
+                    help="comma-separated subset of native,backtrader,freqtrade,vectorbt")
     ap.add_argument("--output", default=None, help="override output directory")
     ap.add_argument("--keep-ft-dir", action="store_true",
                     help="keep freqtrade temp userdirs for debugging")
     args = ap.parse_args()
 
     frameworks = [f.strip() for f in args.frameworks.split(",") if f.strip()]
-    unknown = set(frameworks) - {"native", "backtrader", "freqtrade"}
+    unknown = set(frameworks) - set(FRAMEWORKS)
     if unknown:
         print(f"[harness] unknown frameworks: {sorted(unknown)}", file=sys.stderr)
         return 2
 
     variant_dir = _resolve_variant(args.variant)
+    out_dir = Path(args.output) if args.output else None
     try:
-        passed, _ = run_validation(
-            variant_dir, args.windows, frameworks,
-            Path(args.output) if args.output else None, args.keep_ft_dir)
+        if is_generic_variant(variant_dir):
+            # contract v2: signals.py + data_loader.py, no per-strategy adapters
+            passed, _ = run_generic_from_variant(
+                variant_dir, args.windows, frameworks, out_dir, args.keep_ft_dir)
+        else:
+            passed, _ = run_validation(
+                variant_dir, args.windows, frameworks, out_dir, args.keep_ft_dir)
         return 0 if passed else 1
     except UnsupportedVariantError as e:
         print(f"[harness] UNSUPPORTED: {e}", file=sys.stderr)

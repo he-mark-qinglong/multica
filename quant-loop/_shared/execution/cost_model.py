@@ -11,6 +11,8 @@ Two cost paths:
   size. The constants are imported from ``backtest.factor_backtester`` (single
   source of truth); ``CostModel.sma34900_baseline()`` and
   ``apply_cost(..., venue=BINANCE_FUTURES, side="taker")`` are equivalent.
+  ``futures_cost_model()`` builds the extended Phase-D CostModel (maker/taker
+  fee split, optional funding series) wired to the same ratified constants.
 
 - **Spot (BINANCE_SPOT / BYBIT_SPOT)** — legacy size-dependent path kept for
   spot strategies: venue taker/maker fee (with optional BNB discount) plus a
@@ -31,8 +33,8 @@ from pathlib import Path
 from typing import Literal, Optional
 
 
-def _load_ratified_constants():
-    """Import the ratified SMA-34900 constants from backtest.factor_backtester.
+def _import_factor_backtester():
+    """Import backtest.factor_backtester in both import modes.
 
     cost_model.py is imported both as a package module
     (``_shared.execution.cost_model``) and as a bare top-level module
@@ -41,19 +43,19 @@ def _load_ratified_constants():
     work in both modes without duplicating the constants.
     """
     try:
-        from backtest.factor_backtester import (
-            SMA34900_FEE_BPS_PER_SIDE,
-            SMA34900_PURE_SLIPPAGE_BPS_PER_SIDE,
-        )
+        from backtest import factor_backtester as fb
     except ImportError:
         repo_root = str(Path(__file__).resolve().parents[2])
         if repo_root not in sys.path:
             sys.path.insert(0, repo_root)
-        from backtest.factor_backtester import (
-            SMA34900_FEE_BPS_PER_SIDE,
-            SMA34900_PURE_SLIPPAGE_BPS_PER_SIDE,
-        )
-    return SMA34900_FEE_BPS_PER_SIDE, SMA34900_PURE_SLIPPAGE_BPS_PER_SIDE
+        from backtest import factor_backtester as fb
+    return fb
+
+
+def _load_ratified_constants():
+    """Import the ratified SMA-34900 constants from backtest.factor_backtester."""
+    fb = _import_factor_backtester()
+    return fb.SMA34900_FEE_BPS_PER_SIDE, fb.SMA34900_PURE_SLIPPAGE_BPS_PER_SIDE
 
 
 SMA34900_FEE_BPS_PER_SIDE, SMA34900_PURE_SLIPPAGE_BPS_PER_SIDE = (
@@ -139,3 +141,30 @@ def apply_cost(
 def cost_as_pct(notional_usd: float, adv_usd: float, **kwargs) -> float:
     """Round-trip cost as a fraction of notional (e.g. 0.0016 = 16bp)."""
     return apply_cost(notional_usd, adv_usd, **kwargs) / notional_usd
+
+
+def futures_cost_model(venue: Venue = BINANCE_FUTURES):
+    """Build the extended ``factor_backtester.CostModel`` for a futures venue.
+
+    Wires the venue's maker/taker fees into the Phase-D CostModel fields so
+    ``CostModel.maker_taker_cost()`` agrees with the fee leg of
+    ``apply_cost(..., venue=venue)``. The returned model totals the ratified
+    standard on the taker path (11 bps/side = 22 bps round trip).
+
+    Requires ``venue.fixed_pure_slippage_bps`` to be set (i.e. a unified
+    futures venue); spot venues keep the legacy sqrt-impact path and are
+    rejected.
+    """
+    if venue.fixed_pure_slippage_bps is None:
+        raise ValueError(
+            f"venue {venue.name!r} has no ratified fixed slippage — "
+            "futures_cost_model is only for unified futures venues "
+            "(e.g. BINANCE_FUTURES)"
+        )
+    CostModel = _import_factor_backtester().CostModel
+    return CostModel(
+        commission_bps_per_side=venue.taker_fee_bps,
+        slippage_bps_per_side=venue.fixed_pure_slippage_bps,
+        maker_fee_bps_per_side=venue.maker_fee_bps,
+        taker_fee_bps_per_side=venue.taker_fee_bps,
+    )
