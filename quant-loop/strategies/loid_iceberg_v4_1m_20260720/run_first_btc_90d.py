@@ -14,7 +14,7 @@ import numpy as np
 import pandas as pd
 import pyarrow.dataset as ds
 
-REPO = Path("/home/smark/multica/quant-loop")
+REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO))
 
 from _shared.validation.compute_metrics import compute_metrics  # noqa: E402
