@@ -1,0 +1,479 @@
+{
+  "variant_key": "vpvr_edge_zscore_15m_only_v1_20260720",
+  "iteration": 1,
+  "date": "2026-07-20",
+  "source_spec": "SMA-34991",
+  "implementation_issue": "SMA-34991",
+  "partial_progress_note": "single-TF simplification per smark-proxy DECISION 2026-07-20T21:48",
+  "instruments": [
+    "BTCUSDT"
+  ],
+  "timeframes": [
+    "15m"
+  ],
+  "sharpe_method": "daily_resampled_per_SMA-34787",
+  "sharpe_method_audit_ref": "SMA-34787",
+  "generated_at_utc": "2026-07-20T14:16:01+00:00",
+  "aggregate": {
+    "n_folds_total": 8,
+    "n_trades_total": 865,
+    "mean_sharpe_daily_wf": -6.957,
+    "worst_max_drawdown_pct": -1.0307,
+    "min_profit_factor_wf": 0.0955
+  },
+  "gates": {
+    "G1_cpcv_mean_oos_sharpe_min": 1.5,
+    "G1_pass": false,
+    "G3_pf_min": 1.5,
+    "G3_pass": false,
+    "G4_max_drawdown_pct_min": -20.0,
+    "G4_pass": true,
+    "G5_n_trades_per_fold_min": 30,
+    "G5_pass": true,
+    "mean_sharpe_daily": -6.957,
+    "worst_max_drawdown_pct": -1.0307,
+    "min_profit_factor": 0.0955,
+    "n_trades_total": 865,
+    "n_folds_total": 8,
+    "n_folds_with_min_trades": 8,
+    "verdict": "FAIL_GATES (G1 sharpe -6.957 < 1.5; G2 dsr -7.5447 < 0.5; G3 pf 0.096 < 1.5)",
+    "G2_dsr_value": -7.5447,
+    "G2_pass": false,
+    "G1_cpcv_mean_oos_sharpe": -7.516
+  },
+  "cpcv_per_symbol": {
+    "BTCUSDT": {
+      "symbol": "BTCUSDT",
+      "n_groups": 6,
+      "k_test": 2,
+      "purge_bars_15m": 24,
+      "embargo_bars_15m": 12,
+      "n_paths_total": 15,
+      "n_paths_valid": 15,
+      "mean_oos_sharpe": -7.516,
+      "std_oos_sharpe": 0.7982,
+      "dsr": -7.5447,
+      "fold_records": [
+        {
+          "path_id": 0,
+          "test_groups": [
+            0,
+            1
+          ],
+          "n_test_bars": 53082,
+          "n_trades": 322,
+          "oos_sharpe": -7.9803
+        },
+        {
+          "path_id": 1,
+          "test_groups": [
+            0,
+            2
+          ],
+          "n_test_bars": 53082,
+          "n_trades": 309,
+          "oos_sharpe": -6.871
+        },
+        {
+          "path_id": 2,
+          "test_groups": [
+            0,
+            3
+          ],
+          "n_test_bars": 53082,
+          "n_trades": 357,
+          "oos_sharpe": -8.4048
+        },
+        {
+          "path_id": 3,
+          "test_groups": [
+            0,
+            4
+          ],
+          "n_test_bars": 53082,
+          "n_trades": 330,
+          "oos_sharpe": -8.4178
+        },
+        {
+          "path_id": 4,
+          "test_groups": [
+            0,
+            5
+          ],
+          "n_test_bars": 53082,
+          "n_trades": 333,
+          "oos_sharpe": -7.1058
+        },
+        {
+          "path_id": 5,
+          "test_groups": [
+            1,
+            2
+          ],
+          "n_test_bars": 53082,
+          "n_trades": 292,
+          "oos_sharpe": -6.2433
+        },
+        {
+          "path_id": 6,
+          "test_groups": [
+            1,
+            3
+          ],
+          "n_test_bars": 53082,
+          "n_trades": 338,
+          "oos_sharpe": -7.8822
+        },
+        {
+          "path_id": 7,
+          "test_groups": [
+            1,
+            4
+          ],
+          "n_test_bars": 53082,
+          "n_trades": 310,
+          "oos_sharpe": -7.9309
+        },
+        {
+          "path_id": 8,
+          "test_groups": [
+            1,
+            5
+          ],
+          "n_test_bars": 53082,
+          "n_trades": 314,
+          "oos_sharpe": -6.2273
+        },
+        {
+          "path_id": 9,
+          "test_groups": [
+            2,
+            3
+          ],
+          "n_test_bars": 53082,
+          "n_trades": 354,
+          "oos_sharpe": -8.1737
+        },
+        {
+          "path_id": 10,
+          "test_groups": [
+            2,
+            4
+          ],
+          "n_test_bars": 53082,
+          "n_trades": 324,
+          "oos_sharpe": -8.0565
+        },
+        {
+          "path_id": 11,
+          "test_groups": [
+            2,
+            5
+          ],
+          "n_test_bars": 53082,
+          "n_trades": 327,
+          "oos_sharpe": -6.7508
+        },
+        {
+          "path_id": 12,
+          "test_groups": [
+            3,
+            4
+          ],
+          "n_test_bars": 53082,
+          "n_trades": 354,
+          "oos_sharpe": -8.5909
+        },
+        {
+          "path_id": 13,
+          "test_groups": [
+            3,
+            5
+          ],
+          "n_test_bars": 53082,
+          "n_trades": 357,
+          "oos_sharpe": -6.9198
+        },
+        {
+          "path_id": 14,
+          "test_groups": [
+            4,
+            5
+          ],
+          "n_test_bars": 53082,
+          "n_trades": 353,
+          "oos_sharpe": -7.1845
+        }
+      ]
+    }
+  },
+  "wf_per_symbol": {
+    "BTCUSDT": [
+      {
+        "fold": "2022-H2",
+        "symbol": "BTCUSDT",
+        "test_window": [
+          "2022-07-01",
+          "2022-12-31"
+        ],
+        "n_bars": 17569,
+        "metrics": {
+          "n_bars": 17569,
+          "n_trades": 99,
+          "win_rate": 0.2626,
+          "profit_factor": 0.1412,
+          "sharpe_daily": -6.2907,
+          "total_return": -0.010307,
+          "annualized_return": -0.020465,
+          "max_drawdown_pct": -1.0307,
+          "avg_bars_held": 3.59
+        },
+        "diagnostics": {
+          "n_long_entries": 41,
+          "n_short_entries": 58,
+          "exit_reasons": {
+            "trailing_stop": 38,
+            "hard_stop": 49,
+            "time_stop": 10,
+            "take_profit": 2,
+            "z_exit_15m": 0
+          },
+          "vol_target_weights_mean": 1.7158062496442599,
+          "vol_target_weights_max": 3.0
+        }
+      },
+      {
+        "fold": "2023-H1",
+        "symbol": "BTCUSDT",
+        "test_window": [
+          "2023-01-01",
+          "2023-06-30"
+        ],
+        "n_bars": 17276,
+        "metrics": {
+          "n_bars": 17276,
+          "n_trades": 95,
+          "win_rate": 0.0842,
+          "profit_factor": 0.0955,
+          "sharpe_daily": -7.397,
+          "total_return": -0.008707,
+          "annualized_return": -0.017589,
+          "max_drawdown_pct": -0.8788,
+          "avg_bars_held": 4.19
+        },
+        "diagnostics": {
+          "n_long_entries": 37,
+          "n_short_entries": 58,
+          "exit_reasons": {
+            "trailing_stop": 26,
+            "hard_stop": 49,
+            "time_stop": 18,
+            "take_profit": 2,
+            "z_exit_15m": 0
+          },
+          "vol_target_weights_mean": 1.6271127575827737,
+          "vol_target_weights_max": 3.0
+        }
+      },
+      {
+        "fold": "2023-H2",
+        "symbol": "BTCUSDT",
+        "test_window": [
+          "2023-07-01",
+          "2023-12-31"
+        ],
+        "n_bars": 17569,
+        "metrics": {
+          "n_bars": 17569,
+          "n_trades": 98,
+          "win_rate": 0.2041,
+          "profit_factor": 0.1114,
+          "sharpe_daily": -6.7039,
+          "total_return": -0.007724,
+          "annualized_return": -0.015357,
+          "max_drawdown_pct": -0.7765,
+          "avg_bars_held": 3.07
+        },
+        "diagnostics": {
+          "n_long_entries": 40,
+          "n_short_entries": 58,
+          "exit_reasons": {
+            "trailing_stop": 42,
+            "hard_stop": 50,
+            "time_stop": 4,
+            "take_profit": 2,
+            "z_exit_15m": 0
+          },
+          "vol_target_weights_mean": 1.6040184415732255,
+          "vol_target_weights_max": 3.0
+        }
+      },
+      {
+        "fold": "2024-H1",
+        "symbol": "BTCUSDT",
+        "test_window": [
+          "2024-01-01",
+          "2024-06-30"
+        ],
+        "n_bars": 17377,
+        "metrics": {
+          "n_bars": 17377,
+          "n_trades": 119,
+          "win_rate": 0.2689,
+          "profit_factor": 0.2045,
+          "sharpe_daily": -6.7615,
+          "total_return": -0.008638,
+          "annualized_return": -0.017355,
+          "max_drawdown_pct": -0.8824,
+          "avg_bars_held": 3.87
+        },
+        "diagnostics": {
+          "n_long_entries": 49,
+          "n_short_entries": 70,
+          "exit_reasons": {
+            "trailing_stop": 40,
+            "hard_stop": 53,
+            "time_stop": 19,
+            "take_profit": 7,
+            "z_exit_15m": 0
+          },
+          "vol_target_weights_mean": 1.760545548713817,
+          "vol_target_weights_max": 3.0
+        }
+      },
+      {
+        "fold": "2024-H2",
+        "symbol": "BTCUSDT",
+        "test_window": [
+          "2024-07-01",
+          "2024-12-31"
+        ],
+        "n_bars": 17569,
+        "metrics": {
+          "n_bars": 17569,
+          "n_trades": 117,
+          "win_rate": 0.2393,
+          "profit_factor": 0.1856,
+          "sharpe_daily": -6.6057,
+          "total_return": -0.009316,
+          "annualized_return": -0.018508,
+          "max_drawdown_pct": -0.958,
+          "avg_bars_held": 3.72
+        },
+        "diagnostics": {
+          "n_long_entries": 60,
+          "n_short_entries": 57,
+          "exit_reasons": {
+            "trailing_stop": 38,
+            "hard_stop": 59,
+            "time_stop": 14,
+            "take_profit": 6,
+            "z_exit_15m": 0
+          },
+          "vol_target_weights_mean": 1.7500711480448516,
+          "vol_target_weights_max": 3.0
+        }
+      },
+      {
+        "fold": "2025-H1",
+        "symbol": "BTCUSDT",
+        "test_window": [
+          "2025-01-01",
+          "2025-06-30"
+        ],
+        "n_bars": 17281,
+        "metrics": {
+          "n_bars": 17281,
+          "n_trades": 112,
+          "win_rate": 0.2143,
+          "profit_factor": 0.1778,
+          "sharpe_daily": -7.6199,
+          "total_return": -0.010114,
+          "annualized_return": -0.020416,
+          "max_drawdown_pct": -1.0114,
+          "avg_bars_held": 3.6
+        },
+        "diagnostics": {
+          "n_long_entries": 49,
+          "n_short_entries": 63,
+          "exit_reasons": {
+            "trailing_stop": 37,
+            "hard_stop": 62,
+            "time_stop": 5,
+            "take_profit": 8,
+            "z_exit_15m": 0
+          },
+          "vol_target_weights_mean": 1.7168566633875355,
+          "vol_target_weights_max": 3.0
+        }
+      },
+      {
+        "fold": "2025-H2",
+        "symbol": "BTCUSDT",
+        "test_window": [
+          "2025-07-01",
+          "2025-12-31"
+        ],
+        "n_bars": 17569,
+        "metrics": {
+          "n_bars": 17569,
+          "n_trades": 115,
+          "win_rate": 0.1913,
+          "profit_factor": 0.0975,
+          "sharpe_daily": -8.742,
+          "total_return": -0.008846,
+          "annualized_return": -0.017578,
+          "max_drawdown_pct": -0.8878,
+          "avg_bars_held": 3.86
+        },
+        "diagnostics": {
+          "n_long_entries": 47,
+          "n_short_entries": 68,
+          "exit_reasons": {
+            "trailing_stop": 47,
+            "hard_stop": 57,
+            "time_stop": 9,
+            "take_profit": 2,
+            "z_exit_15m": 0
+          },
+          "vol_target_weights_mean": 1.6974785132904548,
+          "vol_target_weights_max": 3.0
+        }
+      },
+      {
+        "fold": "2026-H1",
+        "symbol": "BTCUSDT",
+        "test_window": [
+          "2026-01-01",
+          "2026-06-30"
+        ],
+        "n_bars": 17281,
+        "metrics": {
+          "n_bars": 17281,
+          "n_trades": 110,
+          "win_rate": 0.2909,
+          "profit_factor": 0.1786,
+          "sharpe_daily": -5.5353,
+          "total_return": -0.006229,
+          "annualized_return": -0.012599,
+          "max_drawdown_pct": -0.6229,
+          "avg_bars_held": 3.76
+        },
+        "diagnostics": {
+          "n_long_entries": 39,
+          "n_short_entries": 71,
+          "exit_reasons": {
+            "trailing_stop": 44,
+            "hard_stop": 46,
+            "time_stop": 14,
+            "take_profit": 5,
+            "z_exit_15m": 1
+          },
+          "vol_target_weights_mean": 1.676465482321625,
+          "vol_target_weights_max": 3.0
+        }
+      }
+    ]
+  },
+  "verdict": "FAIL_GATES (G1 sharpe -6.957 < 1.5; G2 dsr -7.5447 < 0.5; G3 pf 0.096 < 1.5)"
+}

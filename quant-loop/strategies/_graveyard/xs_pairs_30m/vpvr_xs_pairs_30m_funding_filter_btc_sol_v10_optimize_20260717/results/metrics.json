@@ -1,0 +1,39 @@
+{
+  "strategy": "vpvr_xs_pairs_30m_funding_filter_v10_optimize",
+  "iteration": 83,
+  "date": "2026-07-12",
+  "timeframe": "30m",
+  "instruments": [
+    "BTCUSDT",
+    "SOLUSDT"
+  ],
+  "pairs": [
+    "BTCUSDT/SOLUSDT"
+  ],
+  "variant": "A",
+  "n_trades": 3761,
+  "win_rate": 0.530444030842861,
+  "profit_factor": 1.2576005210739685,
+  "total_return_pct": -0.9383832150679235,
+  "sharpe": -2.898611186687595,
+  "max_drawdown_pct": -0.9476820706837077,
+  "tag": "NOT-PROFITABLE",
+  "evidence_gate_sharpe_threshold": 0.5,
+  "per_pair": {
+    "BTCUSDT/SOLUSDT": {
+      "n_trades": 3761,
+      "win_rate": 0.530444030842861,
+      "profit_factor": 1.2576005210739685,
+      "avg_hold_bars": 2.4190374900292477,
+      "total_return_pct": -0.9383832150679235,
+      "sharpe": -2.898611186687595,
+      "sortino": -1.0133194846544964,
+      "max_drawdown_pct": -0.9476820706837077,
+      "trades_per_year": 831.5616818422579,
+      "pair": "BTCUSDT/SOLUSDT",
+      "span_start": "2022-01-01",
+      "span_end": "2026-07-10",
+      "n_bars": 79294
+    }
+  }
+}

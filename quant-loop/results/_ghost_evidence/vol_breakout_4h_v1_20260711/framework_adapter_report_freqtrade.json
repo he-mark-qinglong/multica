@@ -1,0 +1,105 @@
+{
+  "strategy": "vol_breakout_4h_v1_20260711",
+  "framework_name": "freqtrade",
+  "framework_version": "2026.7-dev",
+  "framework_sha_pinned": "15b94ce7fe19efada0e1ede582d01b2be89875e6",
+  "framework_cache_path": "/tmp/framework-cache/freqtrade-15b94ce7",
+  "run_at_utc": "2026-07-14T06:59:55.612465+00:00",
+  "fill_convention": "metric-derivation cross-check (in-house bar[t] close + 4-leg fee; freqtrade daily pct_change on equity curve)",
+  "cost_bps_per_side": 2.0,
+  "direction": "long_only",
+  "timeframe": "4h",
+  "instruments": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "inhouse_full": {
+    "inhouse_total_return": 0.13992679973660693,
+    "inhouse_final_equity_usd": 113992.67997366069,
+    "inhouse_n_trades_total": 195,
+    "inhouse_per_symbol": {
+      "BTCUSDT": {
+        "n_trades": 63,
+        "total_return": 0.047416946853216846,
+        "final_equity": 104741.69468532168
+      },
+      "ETHUSDT": {
+        "n_trades": 65,
+        "total_return": 0.07275530143470288,
+        "final_equity": 107275.53014347029
+      },
+      "SOLUSDT": {
+        "n_trades": 67,
+        "total_return": 0.01975455144868743,
+        "final_equity": 101975.45514486874
+      }
+    }
+  },
+  "framework_full": {
+    "framework_sharpe_portfolio": 3.3848445332457175,
+    "framework_sortino_portfolio": 7.503406958754584,
+    "framework_max_dd_portfolio": -0.053235431154645185,
+    "framework_total_return_portfolio": 0.1378799255376902,
+    "framework_n_trades_portfolio": 195,
+    "framework_win_rate_portfolio": 0.49743589743589745,
+    "framework_final_equity_portfolio": 113992.67997366069,
+    "framework_per_symbol": {
+      "BTCUSDT": {
+        "framework_sharpe_daily": 0.7950192257821617,
+        "framework_sortino_daily": 0.5580768713374008,
+        "framework_max_dd_relative": -0.016772542806002884,
+        "framework_total_return": 0.0474169468532168,
+        "framework_n_trades": 63,
+        "framework_win_rate": 0.5555555555555556,
+        "framework_final_equity": 104741.69468532168
+      },
+      "ETHUSDT": {
+        "framework_sharpe_daily": 0.8669573458253638,
+        "framework_sortino_daily": 0.44695520841147013,
+        "framework_max_dd_relative": -0.02166773781749557,
+        "framework_total_return": 0.07275530143470285,
+        "framework_n_trades": 65,
+        "framework_win_rate": 0.5076923076923077,
+        "framework_final_equity": 107275.53014347029
+      },
+      "SOLUSDT": {
+        "framework_sharpe_daily": 0.22496053003072922,
+        "framework_sortino_daily": 0.13396328606781277,
+        "framework_max_dd_relative": -0.04026326826187971,
+        "framework_total_return": 0.019754551448687416,
+        "framework_n_trades": 67,
+        "framework_win_rate": 0.43283582089552236,
+        "framework_final_equity": 101975.45514486874
+      }
+    }
+  },
+  "delta_full": {
+    "total_return_abs": -0.0020468741989167205,
+    "n_trades_abs": 0
+  },
+  "tolerance_table": {
+    "sharpe_abs": 0.2,
+    "max_dd_rel_low_mag": 0.15,
+    "max_dd_rel_normal": 0.05,
+    "total_return_rel_low_mag": 0.15,
+    "total_return_rel_normal": 0.05,
+    "n_trades_abs": 1,
+    "win_rate_abs": 0.05
+  },
+  "verdict_flags": {
+    "BTCUSDT_n_trades_within": true,
+    "BTCUSDT_total_return_within": true,
+    "ETHUSDT_n_trades_within": true,
+    "ETHUSDT_total_return_within": true,
+    "SOLUSDT_n_trades_within": true,
+    "SOLUSDT_total_return_within": true,
+    "portfolio_n_trades_within": true,
+    "portfolio_total_return_within": true,
+    "w5_divergence_50pct_triggered": false
+  },
+  "max_per_symbol_rel_divergence": 1.0243649275376188e-15,
+  "portfolio_total_return_rel_divergence": 0.014628178467382097,
+  "w5_max_rel": 0.014628178467382097,
+  "all_within_tolerance": true
+}

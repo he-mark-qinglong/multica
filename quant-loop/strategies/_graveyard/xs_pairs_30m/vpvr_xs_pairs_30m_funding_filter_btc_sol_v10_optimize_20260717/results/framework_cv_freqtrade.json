@@ -1,0 +1,132 @@
+{
+  "engine": "freqtrade",
+  "engine_version": "freqtrade 2026.6",
+  "iteration": 83,
+  "strategy_key": "vpvr_xs_pairs_30m_funding_filter_btc_sol_v10_optimize_20260717",
+  "timeframe": "30m",
+  "symbol_pair": "BTCUSDT/SOLUSDT",
+  "data_source": {
+    "btc_30m_path": "/home/smark/multica/quant-loop/strategies/vpvr_xs_pairs_30m_funding_filter_btc_sol_v10_optimize_20260717/data/BTCUSDT__30m.parquet",
+    "sol_15m_path": "/home/smark/multica/quant-loop/strategies/vpvr_xs_pairs_30m_funding_filter_btc_sol_v10_optimize_20260717/data/SOLUSDT__15m.parquet",
+    "sol_resample_rule": "30min (open=first, high=max, low=min, close=last, volume=sum)",
+    "resampled_to": "30m (BTC native, SOL resampled from 15m)",
+    "n_30m_bars": 79294,
+    "span_start": "2022-01-01 00:00:00",
+    "span_end": "2026-07-10 23:30:00",
+    "trades_total": 3761,
+    "trades_replayed": 3761,
+    "trades_skipped_out_of_window": 0,
+    "trades_skipped_other": 0
+  },
+  "inhouse": {
+    "sharpe": -2.898611186687595,
+    "total_return": -0.9383832150679235,
+    "ann_total_return": -0.9383832150679235,
+    "max_dd": -0.9476820706837077,
+    "n_trades": 3761,
+    "status": "NOT-PROFITABLE",
+    "per_pair_sharpe": -2.898611186687595
+  },
+  "inhouse_oos_walkforward": {
+    "n_windows": 3,
+    "mean_oos_sharpe": 0.8950475803223,
+    "mean_oos_total_return": 0.7084988974727683,
+    "worst_oos_max_dd": -0.2715255835218962,
+    "walk_forward_json_available": true,
+    "note": "from walk_forward.json (iter#83 v10_optimize grid-search parameter set)"
+  },
+  "framework": {
+    "sharpe": -2.899585407664509,
+    "ann_total_return": -0.45998682379755007,
+    "total_return": -0.9383832150679235,
+    "max_dd": -0.9476820706837077,
+    "n_bars": 79294,
+    "span_years": 4.522872461784166
+  },
+  "framework_oos": {
+    "n_folds": 3,
+    "folds": [
+      {
+        "fold": 1,
+        "lo": 17520,
+        "hi": 26206,
+        "span_start": "2023-01-01 00:00:00",
+        "span_end": "2023-06-30 23:30:00",
+        "bars": 8686,
+        "sharpe": -5.345472807620738,
+        "ann_total_return": -0.6970404972955565,
+        "total_return": -0.44661269164398076,
+        "max_dd": -0.45380335458570353,
+        "n_bars": 8686,
+        "span_years": 0.49549395391284506
+      },
+      {
+        "fold": 2,
+        "lo": 26206,
+        "hi": 35038,
+        "span_start": "2023-07-01 00:00:00",
+        "span_end": "2023-12-31 23:30:00",
+        "bars": 8832,
+        "sharpe": -4.420711919738979,
+        "ann_total_return": -0.5881154666679429,
+        "total_return": -0.3603247909533601,
+        "max_dd": -0.3814235363730796,
+        "n_bars": 8832,
+        "span_years": 0.5037075062742414
+      },
+      {
+        "fold": 3,
+        "lo": 35038,
+        "hi": 43774,
+        "span_start": "2024-01-01 00:00:00",
+        "span_end": "2024-06-30 23:30:00",
+        "bars": 8736,
+        "sharpe": -3.72603477211582,
+        "ann_total_return": -0.5462975957306677,
+        "total_return": -0.3254837201185984,
+        "max_dd": -0.371020520681838,
+        "n_bars": 8736,
+        "span_years": 0.4982318046999772
+      }
+    ],
+    "oos_sharpe_mean": -4.497406499825179,
+    "oos_ann_total_return_mean": -0.6104845198980556,
+    "oos_total_return_mean": -0.37747373423864644,
+    "oos_max_dd_max": -0.45380335458570353
+  },
+  "divergence_pct": {
+    "oos_sharpe": 602.476806674981,
+    "oos_ann_total_return": 186.16590965429413,
+    "oos_max_dd": 67.13097480521874,
+    "max_abs_rel": 602.476806674981,
+    "w5_threshold_pct": 50.0
+  },
+  "validation": {
+    "n_bars_compared": 79294,
+    "max_abs_rel_err": 7.798395906522592e-11,
+    "mean_abs_rel_err": 1.2346910119414101e-11,
+    "final_abs_rel_err": 3.3700145842043455e-11,
+    "replayed_terminal_equity": 6161.67849320765,
+    "inhouse_terminal_equity": 6161.678493,
+    "n_fills": 3761,
+    "n_skipped": 0,
+    "note": "in-house equity walk is bar-by-bar MTM: pnl_pct_per_bar[i] = pos * (a_ret - b_ret) / 2.0 where pos=+1 for long_a_short_b and pos=-1 for short_a_long_b. Validation reproduces this exactly by replaying trades and applying the bar mark while held. SOL close series is the in-house resample of SOLUSDT 15m parquet to 30m (open=first, high=max, low=min, close=last, volume=sum)."
+  },
+  "w5_action": {
+    "auto_archive": true,
+    "rule": "max_abs_rel_div_pct=602.4768% > W5_THRESHOLD=50.0% \u2192 AUTO-ARCHIVE NOT-PROFITABLE (no ESCALATE)"
+  },
+  "freqtrade_imported": true,
+  "notes": [
+    "Pair strategy (BTCUSDT/SOLUSDT 30m): bar-by-bar MTM with `pos * (a_ret - b_ret) / 2.0`.",
+    "BTC loaded as native 30m parquet; SOL loaded as native 15m parquet and resampled to 30m on the fly.",
+    "In-house cost = 8bp pair round-trip; freqtrade cost = 24bp pair round-trip.",
+    "Validation: replay trades with cost_rt = INHOUSE_COST_RT_PAIR (matches in-house exit-bar cost debit).",
+    "FREQTRADE_COST_RT_PAIR=0.0024 (24bps freqtrade pair round-trip).",
+    "Framework: per-bar gross mark + freqtrade cost debit at exit bar.",
+    "iter#83 v10 grid-optimized BTC/SOL pair variant, in-house tag=PROFITABLE (sharpe 4.75 / total_return 70.66% / max_dd -15.39% aggregated).",
+    "v10 grid-search parameter set: entry_z=2.5, lookback=144, max_hold=96, fund_thr=0.0001.",
+    "Note: in-house aggregated metrics.json equals the regularized variant by coincidence of grid-search outcome; walk_forward.json OOS windows differ.",
+    "W5 verdict: divergence > 50.0% \u2192 auto-archive NOT-PROFITABLE if any of sharpe/ann/max_dd diverges > 50%."
+  ]
+}

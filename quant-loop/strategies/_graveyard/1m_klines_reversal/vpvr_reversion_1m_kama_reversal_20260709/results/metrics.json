@@ -1,0 +1,20 @@
+{
+  "iteration": 67,
+  "timeframe": "1m",
+  "instruments": [
+    "SOLUSDT"
+  ],
+  "by_symbol": {
+    "SOLUSDT": {
+      "sharpe": 0.6267535423623,
+      "mdd": 0.0,
+      "n_trades": 2,
+      "win_rate": 1.0,
+      "profit_factor": Infinity,
+      "total_return": 3.5738572420562775e-05
+    }
+  },
+  "agg_sharpe_mean": 0.6267535423623,
+  "agg_mdd_worst": 0.0,
+  "agg_n_trades_total": 2
+}

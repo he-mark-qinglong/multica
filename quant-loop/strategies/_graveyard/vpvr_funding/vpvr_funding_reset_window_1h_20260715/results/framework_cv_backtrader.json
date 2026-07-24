@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "autopilot_id": "51e7cb03-f866-47ae-95f2-86d94f23ffa3",
+  "engine": "backtrader",
+  "engine_version": "1.9.78.123",
+  "engine_sha": "backtrader-1.9.78.123",
+  "iteration": 108,
+  "strategy_key": "vpvr_funding_reset_window_1h_20260715",
+  "fix_revision": "post-SMA-34922 max_dd accounting fix 2026-07-18",
+  "fix_note": "mirrors the in-house risk_per_trade-scaled equity construction (risk_per_trade_pct=0.01) for vpvr_funding_reset_window_1h: held bars (entry_bar, exit_bar] earn price_ret * direction with round-trip cost amortised over held bars. Only the cost model differs: backtrader broker convention here is 4bp commission per side (setcommission=0.0004) + 3bp set_slippage_perc (perc=0.0003) per fill -> 14bp round trip, vs in-house and freqtrade both at 12bp rt (4bp fee + 2bp slip). Validated first by replaying at in-house cost and matching the equity CSV.",
+  "cost_model": {
+    "fee_bps_per_side": 4.0,
+    "slippage_bps_per_side": 3.0,
+    "round_trip": 0.0014,
+    "inhouse_round_trip": 0.0012
+  },
+  "replay_validation": {
+    "BTCUSDT": {
+      "n_bars_compared": 39647,
+      "max_abs_rel_err": 6.043149320502798e-06,
+      "final_rel_err": 4.345768692088733e-08,
+      "replayed_max_dd": -0.010209232020501058,
+      "inhouse_max_dd": -0.010210576921291348,
+      "max_dd_abs_diff": 1.3449007902899268e-06
+    }
+  },
+  "inhouse": {
+    "sharpe": -1.392367688833999,
+    "ann_total_return": null,
+    "total_return": -0.00797773207952579,
+    "max_dd": -0.010210576923736392,
+    "n_trades": 626,
+    "timeframe": "1h",
+    "status": "NOT-PROFITABLE"
+  },
+  "framework": {
+    "sharpe": -1.6105767902911343,
+    "sharpe_nav_bar": -1.5782248351771535,
+    "ann_total_return": -0.0020456966853312775,
+    "total_return": -0.009219026930039842,
+    "max_dd": -0.011316798648960624,
+    "n_bars": 39647,
+    "n_fills": 626,
+    "span_years": 4.522815423226101
+  },
+  "divergence_pct": {
+    "sharpe": 15.671801579930985,
+    "total_return": 15.559495332009654,
+    "max_dd": 10.83407660004611
+  },
+  "max_abs_rel_divergence_pct": 15.671801579930985,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": false,
+  "w5_tipping_metrics": [],
+  "w5_verdict": "WITHIN_TOLERANCE",
+  "approach": "backtrader 1.9.78.123 broker convention (setcommission=0.0004 + set_slippage_perc=0.0003 -> 14bp rt) applied to the in-house entry/exit schedule; equity walk is risk_per_trade-scaled bar MTM (equity *= (1 + scale * bar_ret)) on real 1h closes, cost amortised over held bars; validated by reproducing the in-house equity CSV at in-house cost. Sharpe uses the in-house formula (mean/std of per-trade pnl x sqrt(trades/yr))."
+}

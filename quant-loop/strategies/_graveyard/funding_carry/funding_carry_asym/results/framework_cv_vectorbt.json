@@ -1,0 +1,90 @@
+{
+  "engine": "vectorbt",
+  "engine_version": "1.1.0",
+  "engine_available": true,
+  "strategy_key": "funding_carry_asym",
+  "iteration": 2,
+  "source_spec": "SMA-34793",
+  "timeframe": "15m",
+  "n_trades": 63,
+  "n_bars": 8640,
+  "inhouse": {
+    "sharpe": -1.5216,
+    "total_return": -0.000228,
+    "max_dd": -0.0272,
+    "n_trades": 63,
+    "timeframe": "15m"
+  },
+  "inhouse_oos_sharpe_mean": 0.0,
+  "inhouse_oos_return_mean": 0.0,
+  "inhouse_oos_mdd_worst": 0.0,
+  "framework": {
+    "sharpe": -0.08239423266396775,
+    "total_return": -0.0002280519572297468,
+    "max_dd": -0.0002715549893573916,
+    "n_bars": 8640
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": -0.07033951793697168,
+    "oos_total_return_mean": -5.7015799551557445e-05,
+    "oos_max_dd_max": -0.0002715549893573916,
+    "n_folds": 4,
+    "folds": [
+      {
+        "fold": 1,
+        "lo": 0,
+        "hi": 2160,
+        "bars": 2160,
+        "sharpe": 0.0,
+        "total_return": 0.0,
+        "max_dd": 0.0
+      },
+      {
+        "fold": 2,
+        "lo": 2160,
+        "hi": 4320,
+        "bars": 2160,
+        "sharpe": -0.11900543883550328,
+        "total_return": -0.00015601051106650665,
+        "max_dd": -0.0002715549893573916
+      },
+      {
+        "fold": 3,
+        "lo": 4320,
+        "hi": 6480,
+        "bars": 2160,
+        "sharpe": -0.16235263291238344,
+        "total_return": -7.205268713972313e-05,
+        "max_dd": -0.00018740882026168745
+      },
+      {
+        "fold": 4,
+        "lo": 6480,
+        "hi": 8640,
+        "bars": 2160,
+        "sharpe": 0.0,
+        "total_return": 0.0,
+        "max_dd": 0.0
+      }
+    ]
+  },
+  "divergence_pct_oos": {
+    "sharpe": 7033951793.697168,
+    "total_return": 5701579.955155744,
+    "max_dd": 27155498.93573916
+  },
+  "max_abs_rel_divergence_pct_oos": 7033951793.697168,
+  "divergence_pct_full_period": {
+    "sharpe": 94.58502677024397,
+    "total_return": 0.02278825866087366,
+    "max_dd": 99.001636068539
+  },
+  "max_abs_rel_divergence_pct_full_period": 99.001636068539,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "g5_threshold": 1.0,
+  "g5_passed": false,
+  "generated_at_utc": "2026-07-18T11:43:29.195854+00:00",
+  "approach": "vectorbt numpy-only replay: take in-house closed-trade pnl_pct from trades_15m.csv and apply linearly across 15m bars in equity_15m.csv; compute Sharpe (ann sqrt 365.25*24*4), total_return, max_drawdown over 4 chronologically-ordered walk-forward folds."
+}

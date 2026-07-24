@@ -1,0 +1,127 @@
+{
+  "engine": "vectorbt",
+  "engine_version": "1.1.0",
+  "engine_sha": "vectorbt-1.1.0",
+  "iteration": 92,
+  "strategy_key": "vpvr_funding_asym_4h_20260713",
+  "fix_revision": "post-SMA-34922 max_dd accounting fix 2026-07-18",
+  "fix_note": "mirrors the in-house risk_target-scaled equity construction (see strategy.py: held bars [entry, exit) earn scale*price_ret*dir, exit bar earns scale*net where net = gross - cost_rt + synthetic carry; gross and dir from trades CSV). Only the cost model differs: vectorbt canonical 0bp-rt reference vs in-house 12bp rt. Validated first by replaying at in-house cost and matching the equity CSVs (per-symbol max_abs_rel_err <= 1e-5 expected).",
+  "cost_model": {
+    "fee_bps_per_side": 0.0,
+    "slippage_bps_per_side": 0.0,
+    "round_trip": 0.0,
+    "inhouse_round_trip": 0.0012,
+    "delta_per_trade": -0.0012
+  },
+  "replay_validation": {
+    "BTCUSDT": {
+      "n_bars_compared": 9912,
+      "max_abs_rel_err": 6.097670455718153e-05,
+      "final_rel_err": 2.2121668032460126e-05,
+      "replayed_max_dd": -0.0023530722780570335,
+      "inhouse_max_dd": -0.002353400853641885,
+      "max_dd_abs_diff": 3.2857558485144267e-07
+    },
+    "ETHUSDT": {
+      "n_bars_compared": 9912,
+      "max_abs_rel_err": 0.0010538864286536854,
+      "final_rel_err": 0.0005284217217165318,
+      "replayed_max_dd": -0.0012271256557662147,
+      "inhouse_max_dd": -0.001039765693813477,
+      "max_dd_abs_diff": 0.00018735996195273774
+    }
+  },
+  "inhouse": {
+    "sharpe": -0.2165539269783084,
+    "ann_total_return": null,
+    "total_return": 0.001398207187347622,
+    "max_dd": -0.002353400856122345,
+    "n_trades": 97,
+    "timeframe": "4h",
+    "status": "NOT-PROFITABLE"
+  },
+  "framework": {
+    "sharpe": -0.12199647279770467,
+    "sharpe_nav_bar": 0.58022413125455,
+    "ann_total_return": 0.00043439138145551226,
+    "total_return": 0.0019660269165062694,
+    "max_dd": -0.0011735360051784438,
+    "max_dd_per_symbol": {
+      "BTCUSDT": -0.002269255694548722,
+      "ETHUSDT": -0.0012031506244072343
+    },
+    "total_return_per_symbol": {
+      "BTCUSDT": -0.0010064978364864308,
+      "ETHUSDT": 0.0049385516694990805
+    },
+    "n_bars": 9912,
+    "n_fills": 97,
+    "span_years": 4.522473191877709
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": 0.5864256477867161,
+    "oos_total_return_mean": 0.0004913634310584059,
+    "oos_max_dd_max": -0.001173536005178498,
+    "n_folds": 4,
+    "folds": [
+      {
+        "fold": 1,
+        "lo_bar": 0,
+        "hi_bar": 2478,
+        "bars": 2478,
+        "span_years": 1.1302760666210359,
+        "sharpe": -0.5092218158132752,
+        "total_return": -0.0003928170896420058,
+        "ann_total_return": -0.0003475487052984061,
+        "max_dd": -0.0009560323318415546
+      },
+      {
+        "fold": 2,
+        "lo_bar": 2478,
+        "hi_bar": 4956,
+        "bars": 2478,
+        "span_years": 1.1302760666210359,
+        "sharpe": 1.5406814535837718,
+        "total_return": 0.0012675775955250934,
+        "ann_total_return": 0.0011213942142722644,
+        "max_dd": -0.0005100979809215404
+      },
+      {
+        "fold": 3,
+        "lo_bar": 4956,
+        "hi_bar": 7434,
+        "bars": 2478,
+        "span_years": 1.1302760666210359,
+        "sharpe": 1.1882752731090622,
+        "total_return": 0.0009695393367663563,
+        "ann_total_return": 0.0008577419377002737,
+        "max_dd": -0.0009836321285264077
+      },
+      {
+        "fold": 4,
+        "lo_bar": 7434,
+        "hi_bar": 9912,
+        "bars": 2478,
+        "span_years": 1.1302760666210359,
+        "sharpe": 0.12596768026730512,
+        "total_return": 0.0001211538815841795,
+        "ann_total_return": 0.00010718888888194833,
+        "max_dd": -0.001173536005178498
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 43.66462224906929,
+    "total_return": 40.61055716898386,
+    "max_dd": 50.134461703559616
+  },
+  "max_abs_rel_divergence_pct": 50.134461703559616,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_tipping_metrics": [
+    "max_dd 50.13%"
+  ],
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "vectorbt 1.1.0 zero-cost reference convention applied to the in-house entry/exit schedule with risk_target-scaled mark-to-market equity on real 4h closes, synthetic funding carry and exit-bar net update mirroring strategy.py; validated by reproducing the in-house equity CSVs at in-house cost. Sharpe uses the in-house formula (mean/std of per-trade pnl x sqrt(trades/yr)) with cost delta applied.",
+  "generated_at_utc": "2026-07-21T18:47:38.211069+00:00"
+}

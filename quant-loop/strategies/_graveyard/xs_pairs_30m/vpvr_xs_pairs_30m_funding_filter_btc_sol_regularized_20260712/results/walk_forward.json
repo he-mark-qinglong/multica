@@ -1,0 +1,70 @@
+{
+  "strategy": "vpvr_xs_pairs_30m_funding_filter_btc_sol_regularized_20260712",
+  "iteration": 83,
+  "timeframe": "30m",
+  "variant": "A",
+  "n_windows": 3,
+  "windows": [
+    {
+      "window_id": 1,
+      "train_start": "2022-01-01",
+      "train_end": "2023-01-01",
+      "test_start": "2023-01-01",
+      "test_end": "2023-07-01",
+      "n_test_bars": 8686,
+      "n_test_trades": 289,
+      "test_sharpe": 1.3269449613750994,
+      "test_return": 0.7666241713397546,
+      "test_mdd": -0.1813923119413678,
+      "test_win_rate": 0.6262975778546713
+    },
+    {
+      "window_id": 2,
+      "train_start": "2022-01-01",
+      "train_end": "2023-07-01",
+      "test_start": "2023-07-01",
+      "test_end": "2024-01-01",
+      "n_test_bars": 8832,
+      "n_test_trades": 368,
+      "test_sharpe": 0.3864828637566713,
+      "test_return": 0.26219246742334323,
+      "test_mdd": -0.2121389689384229,
+      "test_win_rate": 0.5434782608695652
+    },
+    {
+      "window_id": 3,
+      "train_start": "2022-01-01",
+      "train_end": "2024-01-01",
+      "test_start": "2024-01-01",
+      "test_end": "2024-07-01",
+      "n_test_bars": 8736,
+      "n_test_trades": 285,
+      "test_sharpe": 1.8967424476375707,
+      "test_return": 1.1325267706784041,
+      "test_mdd": -0.10681967881542354,
+      "test_win_rate": 0.6140350877192983
+    }
+  ],
+  "aggregate": {
+    "mean_test_sharpe": 1.2033900909231139,
+    "std_test_sharpe": 0.7626731653764489,
+    "min_test_sharpe": 0.3864828637566713,
+    "mean_test_return": 0.7204478031471674,
+    "worst_test_mdd": -0.2121389689384229,
+    "in_sample_sharpe": 5.101859792928082,
+    "walk_forward_ratio": 0.23587282672706672,
+    "deflated_sharpe_z": 0.20461150381425122,
+    "ship_gate": {
+      "wf_ratio_threshold": 0.5,
+      "wf_ratio_pass": false,
+      "min_oos_sharpe_threshold": 0.0,
+      "min_oos_sharpe_pass": true,
+      "overall_pass": false
+    }
+  },
+  "evidence_gate": {
+    "sharpe_threshold": 0.5,
+    "wf_ratio_threshold": 0.5,
+    "passed": false
+  }
+}

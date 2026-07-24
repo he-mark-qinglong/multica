@@ -1,0 +1,39 @@
+{
+  "strategy": "vpvr_xs_pairs_30m_funding_filter_btc_doge_20260717",
+  "iteration": 86,
+  "date": "2026-07-17",
+  "timeframe": "30m",
+  "instruments": [
+    "BTCUSDT",
+    "DOGEUSDT"
+  ],
+  "pairs": [
+    "BTCUSDT/DOGEUSDT"
+  ],
+  "variant": "A",
+  "n_trades": 2790,
+  "win_rate": 0.45268817204301076,
+  "profit_factor": 0.755668588433716,
+  "total_return_pct": -0.9084401416916559,
+  "sharpe": -3.845221814490479,
+  "max_drawdown_pct": -0.9116244189908643,
+  "tag": "NOT-PROFITABLE",
+  "evidence_gate_sharpe_threshold": 0.5,
+  "per_pair": {
+    "BTCUSDT/DOGEUSDT": {
+      "n_trades": 2790,
+      "win_rate": 0.45268817204301076,
+      "profit_factor": 0.755668588433716,
+      "avg_hold_bars": 2.372043010752688,
+      "total_return_pct": -0.9084401416916559,
+      "sharpe": -3.845221814490479,
+      "sortino": -0.9384550379873494,
+      "max_drawdown_pct": -0.9116244189908643,
+      "trades_per_year": 616.8568401937047,
+      "pair": "BTCUSDT/DOGEUSDT",
+      "span_start": "2022-01-01",
+      "span_end": "2026-07-10",
+      "n_bars": 79296
+    }
+  }
+}

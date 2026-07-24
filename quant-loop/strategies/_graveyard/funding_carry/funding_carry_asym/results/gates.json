@@ -1,0 +1,67 @@
+{
+  "variant_key": "funding_carry_asym",
+  "iteration": 2,
+  "date": "2026-07-18",
+  "source_spec": "SMA-34793",
+  "issue": "SMA-34858",
+  "window": "2024-02-01 \u2192 2024-04-30 (Q1 2024 hot-funding regime)",
+  "timeframes_evaluated": [
+    "15m"
+  ],
+  "symbol": "BTCUSDT",
+  "sharpe_method": "daily_resampled_per_SMA-34787",
+  "gates": {
+    "G1_sharpe_daily": {
+      "value": -1.5216,
+      "gate": ">= 1.0",
+      "pass": false
+    },
+    "G2_annualized_return": {
+      "value": -0.0009355786655622644,
+      "gate": ">= 0.15",
+      "pass": false
+    },
+    "G3_max_drawdown_pct": {
+      "value": -0.0272,
+      "gate": "> -25.0",
+      "pass": true
+    },
+    "G4_profit_factor": {
+      "value": 0.59,
+      "gate": "> 1.5",
+      "pass": false
+    },
+    "G5_walk_forward_oos_sharpe_mean": {
+      "value": -0.5667,
+      "gate": ">= 1.0",
+      "pass": false,
+      "fold_sharpes": [
+        -2.3479,
+        0.6477,
+        0.0
+      ],
+      "folds": 3
+    },
+    "G6_bootstrap_ci_low_sharpe": {
+      "value": -4.8584,
+      "gate": ">= 0.5",
+      "pass": false,
+      "ci_high": 2.9047,
+      "resamples": 10000
+    },
+    "G7_bonferroni_alpha": {
+      "value": null,
+      "gate": "p <= 0.0125",
+      "pass": null,
+      "note": "N/A (single strategy; Bonferroni applies across a strategy universe)"
+    }
+  },
+  "verdict": {
+    "all_gates_pass": false,
+    "gates_pass": 1,
+    "gates_fail": 5,
+    "gates_na": 1,
+    "verdict": "FAIL"
+  },
+  "n_trades": 63
+}

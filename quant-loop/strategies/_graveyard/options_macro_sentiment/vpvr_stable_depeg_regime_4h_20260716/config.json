@@ -1,0 +1,39 @@
+{
+  "variant": "A",
+  "strategy_key": "vpvr_stable_depeg_regime_4h_20260716",
+  "iteration": 72,
+  "date": "2026-07-16",
+  "timeframe": "4h",
+  "regime_timeframe": "1h",
+  "instruments": ["BTCUSDT"],
+  "axis": "stablecoin_depeg_premium_usdt_usdc_curve_as_risk_on_off_gate",
+  "starting_capital_usd": 100000.0,
+  "params": {
+    "vpvr_window_bars": 180,
+    "vpvr_bins": 24,
+    "atr_period": 14,
+    "depeg_premium_threshold": 0.0015,
+    "poc_atr_buffer": 1.0,
+    "take_profit_atr_k": 3.0,
+    "hard_stop_atr_k": 1.5,
+    "max_hold_bars": 60,
+    "risk_target_pct": 0.005,
+    "cooldown_bars": 8,
+    "fee_bps_per_fill": 4.0,
+    "slippage_bps_per_fill": 2.0,
+    "walk_forward_folds": 3
+  },
+  "walk_forward": {
+    "folds": [
+      {"name": "2024-Q1", "train": ["2023-01-01", "2023-12-31"], "test": ["2024-01-01", "2024-03-31"]},
+      {"name": "2024-Q3", "train": ["2023-07-01", "2024-06-30"], "test": ["2024-07-01", "2024-09-30"]},
+      {"name": "2025-Q2", "train": ["2024-04-01", "2025-03-31"], "test": ["2025-04-01", "2025-06-30"]}
+    ]
+  },
+  "notes": [
+    "Iter#72 NEW AXIS: stablecoin depeg premium (USDT/USDC on Curve) as risk-on/off regime gate.",
+    "Uses 4h VPVR POC reversion gated by 1h stable depeg premium; trades disabled above 15 bps premium.",
+    "Distinct from vpvr_reversion_4h_stablecoin_netflow_20260713 which uses stablecoin netflow, not depeg premium.",
+    "Primary timeframe 4h matches campaign 1m/15m/4h focus directive."
+  ]
+}

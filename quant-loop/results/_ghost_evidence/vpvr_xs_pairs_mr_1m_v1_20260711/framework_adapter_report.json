@@ -1,0 +1,32 @@
+{
+  "strategy": "vpvr_xs_pairs_mr_1m_v1_20260711",
+  "iteration": 83,
+  "framework": "freqtrade",
+  "framework_version": "2026.6",
+  "framework_sha": "15b94ce7fe19efada0e1ede582d01b2be89875e6",
+  "framework_cache": "/tmp/framework-cache/freqtrade-15b94ce7",
+  "approach": "metric-derivation cross-check via freqtrade.data.metrics (calculate_sharpe, calculate_max_drawdown, calculate_sortino) against the in-house ETHSOL pair trades CSV. No replay of the weekly cointegration refresh / \u03b2 refit / whipsaw filter \u2014 that would require an entire pairs-trading adapter and is out of scope for one cron run.",
+  "trade_window_etHsol": {
+    "first_trade_utc": "2026-03-16 19:10:00+00:00",
+    "last_trade_utc": "2026-03-22 12:15:00+00:00",
+    "n_trades_csv": 7
+  },
+  "inhouse": {
+    "n_trades": 7,
+    "win_rate": 0.4286,
+    "profit_factor": 1.3739,
+    "sharpe": 85.136,
+    "max_drawdown": -0.008325,
+    "total_return_pct": 0.00019740000000000003,
+    "sortino": null
+  },
+  "framework_metrics": {
+    "n_trades": 7,
+    "win_rate": 0.42857142857142855,
+    "profit_factor": 1.3739005156202608,
+    "total_return_pct": 0.00019723999999999998,
+    "sharpe": 3.3909183770000073,
+    "max_drawdown": 0.0003329256333864563,
+    "sortino": 13.926688393306684
+  }
+}

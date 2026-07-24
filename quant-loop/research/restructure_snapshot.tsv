@@ -1,0 +1,204 @@
+identifier	project_id	status	title
+SMA-35060	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[graph-janitor 2026-07-19] run 1f2b81e8 — orphan scan + edge audit
+SMA-35047		done	[Dispatch-Balance] 2026-07-19
+SMA-35043	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[graph-janitor 2026-07-19] run 99bada33 — orphan scan + edge audit
+SMA-35041	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[graph-janitor 2026-07-19] run 79657e0e — orphan scan + edge audit
+SMA-35033	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[graph-janitor 2026-07-19] run 343928c6 — orphan scan + edge audit
+SMA-35026		done	[framework-validate 2026-07-19 07:37+08] vpvr_xs_pairs_30m_funding_filter_btc_sol_v3_20260712 × freqtrade 2026.6 — W5 AUTO-ARCHIVE (NOT-PROFITABLE, sharpe div 690%)
+SMA-35023		done	[graph-janitor 2026-07-19 07]
+SMA-34996		done	[framework-validate 2026-07-19 01:37+08] vpvr_funding_hvn_lvn_confluence_20260718 × backtrader 1.9.78.123 (SHA b853d7c9) — W5 AUTO-ARCHIVE (NOT-PROFITABLE, ann_ret div 92.02%)
+SMA-34980	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[EPIC] framework-validate 可靠性治理 — max_dd sentinel 事故与其平反
+SMA-34969		done	[framework-validate 2026-07-18 17:37+08] vpvr_stable_depeg_regime_4h_20260716 × freqtrade 2026.6 — W5 AUTO-ARCHIVE (NOT-PROFITABLE, sharpe div 100%)
+SMA-34963		done	[framework-validate 2026-07-18 16:37+08] vpvr_sentiment_attention_1m_20260716 × freqtrade 2026.6 — W5 AUTO-ARCHIVE (NOT-PROFITABLE, sharpe div 100%)
+SMA-34331	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[framework-validate 2026-07-15 05:37] vol_breakout_2tf_vpvr_confluence_4h_20260712 × vectorbt 1.1.0 (SHA bf7aff6d) — WITHIN_TOLERANCE
+SMA-34206	d1f4d321-98ed-459d-b3d4-ceacbde591ab	done	[Campaign 2026-07-15] VPVR iter#103+ — options intraday term-structure + multi-venue smart routing (3 variants)
+SMA-33955	915627d9-d97a-440d-9e50-47c46dcb0eb6	cancelled	test
+SMA-33881	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	cancelled	[ESCALATE-TO-SMARK] vol_breakout_4h_v1_20260711 × backtrader divergence (max_dd: BTC +5.46%, ETH +16.29%, SOL +7.99%; n_trades: SOL -2, portfolio -3)
+SMA-33688	915627d9-d97a-440d-9e50-47c46dcb0eb6	cancelled	test
+SMA-33541	915627d9-d97a-440d-9e50-47c46dcb0eb6	cancelled	test-via-user-uuid
+SMA-33540	915627d9-d97a-440d-9e50-47c46dcb0eb6	cancelled	test-resolve-smark-member-v3
+SMA-32681	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[framework-validate 2026-07-12 13:37] vpvr_funding_aware_v1_20260711 × freqtrade 2026.7-dev (pin 15b94ce7) — AUTO_ARCHIVE_W5
+SMA-32281	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	[ARCHIVE] V8 vpvr_funding_aware_v1_20260711 (iter#82, rev2) — NOT-PROFITABLE; funding-aware family CLOSED
+SMA-32271	d1f4d321-98ed-459d-b3d4-ceacbde591ab	done	[REVIEW] V8 spec — architecture + family-classification vs cycle-46 rule
+SMA-32270	d1f4d321-98ed-459d-b3d4-ceacbde591ab	done	[REVIEW] V8 spec — statistical rigor vs cycle-56 archive pattern
+SMA-32267	d1f4d321-98ed-459d-b3d4-ceacbde591ab	cancelled	[ADAPTER] framework CV walk-forward modification for V8 — freqtrade + backtrader runners must walk-forward (cycle-56 lesson)
+SMA-32269	d1f4d321-98ed-459d-b3d4-ceacbde591ab	done	[REVIEW] V8 spec — funding-edge robustness
+SMA-32266	d1f4d321-98ed-459d-b3d4-ceacbde591ab	done	[BUILD] V8 vpvr_funding_aware_v1_20260711 B1+B2 (iter#82) — funding-rate long-bias
+SMA-32268	d1f4d321-98ed-459d-b3d4-ceacbde591ab	done	[REVIEW] V8 spec — implementation feasibility
+SMA-32265	d1f4d321-98ed-459d-b3d4-ceacbde591ab	done	[SPEC] V8 vpvr_funding_aware_v1_20260711 (iter#82) — funding-rate-aware long-bias trend, framework CV walk-forward OOS as hard gate
+SMA-34940	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[dispatch 2026-07-18]
+SMA-35055		backlog	[github-watch 2026-07-19]
+SMA-35006	915627d9-d97a-440d-9e50-47c46dcb0eb6	backlog	[STRATEGY-EXPLORATION] 10 Adversarial Bandit Allocator — EXP3.S / D-UCB non-stationary strategy allocation (Auer 2002)
+SMA-35005	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	[STRATEGY-EXPLORATION] 09 Mean-Field Crowding & Capacity — LQ-MFG crowding/capacity estimator (Lasry-Lions 2007)
+SMA-35035	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[graph-janitor 2026-07-19] run c150a0fc — orphan scan + edge audit
+SMA-35022		done	[data-audit] Verify aggTrades 24GB: row counts, timestamp continuity, per-symbol coverage
+SMA-35004	915627d9-d97a-440d-9e50-47c46dcb0eb6	backlog	[STRATEGY-EXPLORATION] 08 Causal Attribution Gate — do-calculus + IPW de-confounding of strategy alpha (Pearl 2009)
+SMA-35072	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[graph-janitor 2026-07-20 01:09+08] run — orphan scan + edge audit
+SMA-35021		in_progress	[ROOT RESEARCH] Persistent quant research journal + open-questions
+SMA-35003	915627d9-d97a-440d-9e50-47c46dcb0eb6	backlog	[STRATEGY-EXPLORATION] 07 Common-Knowledge Cascade — Schelling focal liquidation attacks on publicly legible crowding
+SMA-34854	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	Backtest vpvr-funding-carry-asym on 15m bars (gate Sharpe>=1.0, ann>=15%)
+SMA-35069	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	in_review	[framework-validate 2026-07-19 23:37+08] vpvr_funding_regime_15m_20260711 × backtrader 1.9.78.123 — WITHIN_TOLERANCE
+SMA-35020		done	[escalation-router 2026-07-19]
+SMA-35002	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	[STRATEGY-EXPLORATION] 06 Bayesian Regime Posterior — subjective-probability model averaging across regimes (Hamilton/Kim)
+SMA-34945	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[framework-validate 2026-07-18 14:37+08] no-op — freqtrade adapter max_dd sentinel bug blocks clean CV (SMA-34922 in_review)
+SMA-35062	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	in_review	[framework-validate 2026-07-19 20:37+08] vpvr_funding_aware_v1_20260711 × backtrader 1.9.78.123 (SHA backtrader-1.9.78.123) — WITHIN_TOLERANCE
+SMA-35001	915627d9-d97a-440d-9e50-47c46dcb0eb6	in_progress	[STRATEGY-EXPLORATION] 05 Shannon Transfer Entropy — directed information flow between venues and instruments
+SMA-34992		in_progress	[STRATEGY-PIVOT] large-order + iceberg detection (smark PRIMARY) — tape-reading on perp futures
+SMA-34991		in_progress	[STRATEGY-PIVOT] multi-TF VPVR-edge + zscore (1m / 15m / 2h) — borrow from old ann150%/mDD16% strategy
+SMA-32071	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	in_progress	[weekly-cron] Issue-compressor: auto-close stale DEPLOY-FAIL + heartbeat no-op (weekly L3)
+SMA-35054	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[framework-validate 2026-07-19 17:37+08] vpvr_funding_asym_4h_20260713 × backtrader 1.9.78.123 (SHA backtrader-1.9.78.123) — WITHIN_TOLERANCE
+SMA-35000	915627d9-d97a-440d-9e50-47c46dcb0eb6	in_review	[STRATEGY-EXPLORATION] 04 Volatility Spillover Network — trade directed lead-lag vol transmission across the crypto universe
+SMA-34990		done	[STRATEGY-PIVOT] vpvr-funding-carry-asym V2 — VPVR confluence + funding carry asymmetry (1m / 15m / 4h)
+SMA-29220	399861eb-fd1d-4a4a-a165-aacacad3ab14	cancelled	[INCONCLUSIVE] [FE-CMP-5] VPVR overlay shipped — Plotly-adapted, blocked on FE-CMP-4 backend + FE-CMP-2 chart baseline
+SMA-34999	915627d9-d97a-440d-9e50-47c46dcb0eb6	in_review	[STRATEGY-EXPLORATION] 03 Betting Against Beta (BAB) — harvest the leverage-constraint anomaly, long low-beta / short high-beta
+SMA-34962	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	[SMA-34915.D] Wire CI hook to block merges on G1-G7 fail
+SMA-29219	d1f4d321-98ed-459d-b3d4-ceacbde591ab	done	[BE-CMP-4] Backend GET /vpvr 端点 (POC + VAH/VAL + bins)
+SMA-34998	915627d9-d97a-440d-9e50-47c46dcb0eb6	in_progress	[STRATEGY-EXPLORATION] 02 Variance Risk Premium (VRP) — trade the systematic implied-vs-realized variance gap in crypto
+SMA-34961	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	[SMA-34915.C] Implement G1-G7 gate enforcement module + unit tests
+SMA-34997	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	[STRATEGY-EXPLORATION] 01 Order Flow Imbalance (OFI) — signed net taker/maker pressure at top of book predicts next-horizon drift
+SMA-34960	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	[SMA-34915.B] Run full 3-window × 3-framework harness + emit verdict
+SMA-2952	70760f01-5240-4f36-ad07-18d32ca4ca5c	backlog	[M8-followup] Add JWT_ISSUER/JWT_AUDIENCE claims to issueJWT + force-reissue at cutover (deferred with HTTPS)
+SMA-2951	70760f01-5240-4f36-ad07-18d32ca4ca5c	backlog	[M7] Enumerate GOOGLE_REDIRECT_URI under HTTPS origin in .env.https.template (deferred with HTTPS)
+SMA-2167	70760f01-5240-4f36-ad07-18d32ca4ca5c	done	[DAG] Multica HTTPS 改造主控
+SMA-34878	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	[H3] mtf 2h funding regime + 1m/15m BTC/SOL pair entry
+SMA-34876	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	[H1] mtf z-score pair 1m entry / 15m confirm / 2h regime
+SMA-34725	d1f4d321-98ed-459d-b3d4-ceacbde591ab	done	[B3-backtest] vpvr_options_putcall_oi_pressure_8h_20260715
+SMA-34717	70760f01-5240-4f36-ad07-18d32ca4ca5c	done	[need-smark-decision: external-dependency] [M7] Enumerate GOOGLE_REDIRECT_URI under HTTPS origin in .env.https.template
+SMA-34928	3bfac0d2-f958-4cba-91d6-c3c7902b1b6c	done	[U3] vpvr_funding_carry_asym — funding threshold ≤0.01% on BTC 15m
+SMA-34714	d1f4d321-98ed-459d-b3d4-ceacbde591ab	done	[VPVR] 2026-07-17 — scheduled iter#70+ campaign + 5 B3 backfills
+SMA-34927	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[ledger-U2] Re-run framework CV on vpvr_funding_aware_v1 iter#82 after max_dd sentinel fix
+SMA-34926	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[dispatch 2026-07-18] U2: maxDD audit of iter#82 (vpvr_funding_aware, BTC+ETH 4h)
+SMA-34925	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[dispatch 2026-07-18] U1 BTC-only cross-exchange funding delta 4h
+SMA-34924	d1f4d321-98ed-459d-b3d4-ceacbde591ab	done	[CONVENTION] verdict block + results ledger (PINNED)
+SMA-34923		cancelled	[dispatch 2026-07-18] Attribution report: decompose PnL of best OOS vpvr_funding variant
+SMA-34742	d1f4d321-98ed-459d-b3d4-ceacbde591ab	done	[B3-backtest] trend_multi_tf_momentum_cascade_4h_1h_15m_20260714
+SMA-35025		cancelled	[escalation-router 2026-07-19]
+SMA-34917	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[dispatch 2026-07-18] Drawdown-control overlay: 1% daily stop + 30d-vol sizing for profitable vpvr_funding variants
+SMA-35029		cancelled	[smark-decision-cycle 2026-07-19]
+SMA-35028		cancelled	[escalation-router 2026-07-19 08:37+08 · no-op] sweep #178 — 0 fresh unrouted (SMA-34967 marker already resolved on-source by smark)
+SMA-35027	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[graph-janitor 2026-07-19] run b1e9f3f4 — orphan scan + edge audit
+SMA-35024		cancelled	[escalation-router 2026-07-19]
+SMA-34789	3bfac0d2-f958-4cba-91d6-c3c7902b1b6c	done	Implement funding rate fetcher: Python script to pull Binance funding history via REST API
+SMA-35038		in_progress	[PAIRS-EXPAND] Walk-forward OOS: BTC/ETH + ETH/SOL + cost sensitivity (30bps RT)
+SMA-35019		in_progress	[need-smark-decision: external-dependency] knowledge-curator AGENTS.md snapshot — k3 403 blocks (routed from SMA-34981)
+SMA-35018		done	[escalation-router 2026-07-19]
+SMA-35017		done	[dispatch 2026-07-18] Trade-level data readiness audit for SMA-34992 (large-order+iceberg)
+SMA-34987	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[graph-janitor 2026-07-18]
+SMA-35037		in_progress	[P0 RESEARCH] OFI on real aggTrades — Cont-Kukanov-Stoikov replication with 24GB tick data
+SMA-35014		cancelled	[escalation-router 2026-07-19]
+SMA-34989	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[SMA-34911.impl] Implement SPEC_vpvr_multi_tf_funding — 1m/15m/4h VPVR+funding combination strategy (B7-approved)
+SMA-34979		done	[quant-analyst] Validate OOS harness outputs against G1-G7 across 3 windows — fixture/contract gap report (read-only, work-pool line 439)
+SMA-34977		done	[ops-worker-1] Verify Kimi runtime recovery durability — 3+ consecutive health-check firings
+SMA-34967	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	[BUG] factor_backtester double-counts commission: 11bps slippage plugin already includes 4bps fee
+SMA-34875	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	[CAMPAIGN] mtf-1m-15m-2h: xs_pairs z-score inspiration, but real multi-TF (1m primary entry, 15m filter, 2h regime/direction)
+SMA-34796	3bfac0d2-f958-4cba-91d6-c3c7902b1b6c	done	Implement iceberg order detector prototype
+SMA-35042		cancelled	[escalation-router 2026-07-19]
+SMA-35040		cancelled	[smark-decision-cycle 2026-07-19 13:00 · no-op] queue clean — 0 priority=high todo > 4h
+SMA-35039		cancelled	[escalation-router 2026-07-19]
+SMA-35036		in_progress	[PRIMARY EPIC] Pairs walk-forward OOS → paper trading — the only passing family
+SMA-35034		cancelled	[escalation-router 2026-07-19 11:37+08 · no-op] sweep #179 — 0 fresh ESCALATE-TO-SMARK
+SMA-34978		done	[multica-ops] Audit token-plan quota telemetry for the last 48h — top-up vs stale-stop evidence
+SMA-34975		done	[escalation-router 2026-07-18 18:37+08 · no-op] sweep #170 — 0 fresh ESCALATE-TO-SMARK markers since 17:37+08
+SMA-34973		done	Audit factor_backtester fee double-count exposure (11bps slippage + 4bps commission); recompute gate deltas without changing strategy logic
+SMA-34972		done	[dispatch 2026-07-18 18:12] [ops] read-only preflight: agent model bindings vs caocao gateway allowlist
+SMA-34968		done	[escalation-router 2026-07-18 17:37+08] 1 routed (SMA-34652 → SMA-34970) / 0 failed / 1 already-routed skipped (SMA-2951→34717 done)
+SMA-34966	915627d9-d97a-440d-9e50-47c46dcb0eb6	in_progress	[U7-followup] G5 cross-framework CV for ETH/SOL leg of mtf_xs_pairs (blocks LIVE candidacy)
+SMA-34905	3bfac0d2-f958-4cba-91d6-c3c7902b1b6c	done	Build funding rate oscillator: normalize funding to z-score, identify >2σ extremes as signals
+SMA-34869	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[dispatch 2026-07-18]
+SMA-34652	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	[Campaign 2026-07-16] vpvr-funding-carry-asym (Sharpe>=1, ann>=15%) — smark APPROVED
+SMA-35032		done	[smark-decision-cycle 2026-07-19]
+SMA-34995		done	[escalation-router 2026-07-19 01:37+08 · no-op] sweep #176 — 0 fresh ESCALATE-TO-SMARK markers since #173 (SMA-34988, done 22:47:42+08); #174 (SMA-34993 in_review) and #175 (SMA-34994 todo) already no-op'd; 0 failed; 12 already-routed durable skipped
+SMA-34988		done	[escalation-router 2026-07-18 22:37+08 · no-op] sweep #173 — 0 fresh ESCALATE-TO-SMARK since #172 (1h cadence)
+SMA-34974		done	[ops] investigate 00589faa model binding — identify wrong model name in runtime config + caocao gateway route table (unblocks 5+ stalled in_progress + SMA-34971)
+SMA-34971		done	[BUG] agent 00589faa (multica-code) 403 model-not-allowed — fix model binding
+SMA-34965		done	[smark-decision-cycle 2026-07-18 17:00] 0 resolved / 0 escalated / 4 untouched (no high todo; 12 in_progress + 37 in_review + 1 blocked + 1 urgent backlog)
+SMA-34964		cancelled	[SMA-34958] U9 — mtf_xs_pairs H3 sizing tune on LIVE survivor (BTC+SOL pair; σ-target + Kelly + DD throttle)
+SMA-34955	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	U9 — mtf_xs_pairs H3 sizing fix (PF≥1.5 lift on LIVE survivor)
+SMA-34954	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[escalation-router 2026-07-18 15:37+08 · no-op] sweep — 0 fresh ESCALATE-TO-SMARK markers since 14:37+08
+SMA-34952	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[dispatch 2026-07-18] U5 — funding_carry backtest on ETH & SOL 1m with REAL data
+SMA-34951	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[dispatch 2026-07-18] U7: mtf_xs_pairs ETH leg — extend H3 spec to ETH pairs
+SMA-34938	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[smark-decision-cycle 2026-07-18 13:00] 0 resolved / 0 escalated / 11 untouched (5 in_progress + 6 in_review high; no fresh todo)
+SMA-34937	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[dispatch 2026-07-18] Draft live-paper trading connector spec for Binance USD-M perps
+SMA-34936	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	U9 mtf_xs_pairs H3 sizing fix (PF/capital deployment on LIVE survivor)
+SMA-34934	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	U7 mtf_xs_pairs ETH leg of mtf z-score
+SMA-34920	d1f4d321-98ed-459d-b3d4-ceacbde591ab	done	Parameter-sweep top OOS vpvr_funding variant: funding threshold (0.02-0.08) × VPVR lookback (20-60 sessions) on 15m BTC
+SMA-34895	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[smark-decision-cycle 2026-07-18]
+SMA-34872	99e0c1c1-350c-44de-9597-4bcea7517d9e	done	[quant] REAL gap: live_data/ pool sparse — backfill SOL 1h/15m/4h + ETH 15m/4h + replace BTCUSD_4h symlink
+SMA-35068		in_review	[escalation-router 2026-07-19 23:37+08 · no-op] sweep #190 — 0 fresh ESCALATE-TO-SMARK since #189
+SMA-35067		in_progress	[P0] in-house backtester phantom returns for xs_pairs_30m_funding_filter family — 4 KILLed
+SMA-35052	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[graph-janitor 2026-07-19 17:09+08] run a02ed23b — orphan scan + edge audit
+SMA-35031		done	[escalation-router 2026-07-19]
+SMA-35016		cancelled	[graph-janitor 2026-07-19 04]
+SMA-35011		done	[ops] caocao gateway down: .100 unreachable, 18091 forward dead — all Claude-runtime agents blocked
+SMA-35010		done	[escalation-router 2026-07-19]
+SMA-35009		done	[data-gap] Resample perp 1m parquet to 2h (BTC/ETH/SOL) — unblocks SMA-34966 G5 CV + SMA-34991 multi-TF VPVR
+SMA-35008	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	[SMA-35002.GATES] Pre-SPEC gates A-F: prior-content falsification before any backtest
+SMA-35007		done	[data-gap] Fetch aggTrades for perp futures universe — unblocks SMA-34992 large-order+iceberg tape-reading
+SMA-34994		done	[escalation-router 2026-07-19]
+SMA-34993		done	[escalation-router 2026-07-18]
+SMA-34970	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	[need-smark-decision: token-plan-quota-block] vpvr-funding-carry-asym 配额阻断 48h+ — smark 二选一 (top-up / stale-stop)
+SMA-34959	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	[SMA-34915.A] Finalize freqtrade adapter + 1-window smoke test
+SMA-34958	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[escalation-router 2026-07-18 16:37+08 · no-op] 0 fresh ESCALATE-TO-SMARK since sweep #167 (SMA-34954); 10 already-routed inherited — sweep #168
+SMA-34957	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[dispatch 2026-07-18] U5 cycle-46 rebuild: funding_carry non-carry axis on ETH/SOL 1m
+SMA-34950	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[dispatch 2026-07-18] U7 mtf_xs_pairs ETH leg — H3 framework on BTC+ETH/ETH-solo (ledger gap; H3 BTC+SOL is LIVE, ETH leg never tested in mtf family)
+SMA-34948	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[smark-decision-cycle 2026-07-18 15:00] 0 resolved / 0 escalated / 0 untouched (no priority=high todo; 1 low already routed to smark)
+SMA-34947	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[U5] funding_carry ETH/SOL 1m with real data — backtest dispatch
+SMA-34946	3bfac0d2-f958-4cba-91d6-c3c7902b1b6c	done	U5: funding_carry ETH/SOL 1m with real data — backtest hypothesis test
+SMA-34942	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[escalation-router 2026-07-18 13:37+08 · no-op] sweep — 0 fresh ESCALATE-TO-SMARK sources since sweep #164 [SMA-34931] (12:37+08 · cutoff 04:37:20Z); 1 self-nudge on SMA-34717 already-routed (parent=SMA-2951) — sweep #165
+SMA-34921	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	Strategy correlation audit: pairwise daily-return correlation across vpvr_funding variants; flag redundant ones for merge
+SMA-34912	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[dispatch 2026-07-18] Portfolio-level backtest: combine top 2 OOS strategies
+SMA-34871	99e0c1c1-350c-44de-9597-4bcea7517d9e	done	Backfill live_data/ pool: SOL 1h/15m/4h + ETH 15m/4h + replace BTCUSD_4h symlink with BTCUSDT_4h
+SMA-34752	d1f4d321-98ed-459d-b3d4-ceacbde591ab	done	[B3-backtest] vpvr_funding_aware_v1_20260711
+SMA-30199	915627d9-d97a-440d-9e50-47c46dcb0eb6	in_review	[SPEC v1] Strategy Development Spec — anchors 11-gate pipeline
+SMA-35073		in_progress	[escalation-router 2026-07-20]
+SMA-35071		in_review	[escalation-router 2026-07-20 00:37+08 · no-op] sweep #191 — 0 fresh ESCALATE-TO-SMARK since #190
+SMA-35070	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[graph-janitor 2026-07-20 00:09+08] run — orphan scan + edge audit
+SMA-35066		cancelled	[escalation-router 2026-07-19]
+SMA-35065	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[graph-janitor 2026-07-19] run — orphan scan + cross-project parent audit
+SMA-35064		done	[escalation-router 2026-07-19 21:37+08 · no-op] sweep #189 — 0 fresh; DB reflection unavailable
+SMA-35063		done	[smark-decision-cycle 2026-07-19 21:00] done: 0 in-scope, 2 stale-cycle cleanups
+SMA-35061		done	[escalation-router 2026-07-19 20:37+08 · no-op] sweep #188 — 0 fresh unrouted; SMA-35062 W5 evidence-gate path
+SMA-35059		done	[escalation-router 2026-07-19 19:37+08 · no-op] sweep #187 — 0 fresh unrouted (SMA-35054 W5 evidence-gate path unchanged since #186)
+SMA-35058	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[graph-janitor 2026-07-19] run 8383c682 — orphan scan + edge audit
+SMA-35057		done	[smark-decision-cycle 2026-07-19 19:00] high-todo sweep
+SMA-35056		done	[escalation-router 2026-07-19]
+SMA-35053		done	[escalation-router 2026-07-19 17:37] no-op: 0 fresh ESCALATE-TO-SMARK markers (sweep #185)
+SMA-35051		done	[smark-decision-cycle 2026-07-19]
+SMA-35050		done	[escalation-router 2026-07-19 16:37] no-op: 0 fresh ESCALATE-TO-SMARK markers (sweep #184)
+SMA-35049		done	[framework-validate 2026-07-19 15:37+08] vpvr_carry_term_8h_20260711 × freqtrade 2026.6 — W5 AUTO-ARCHIVE (NOT-PROFITABLE, sharpe div 1479%)
+SMA-35048		done	[escalation-router 2026-07-19]
+SMA-35046	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[graph-janitor 2026-07-19] run dbf29bad — orphan scan + edge audit
+SMA-35045		cancelled	[smark-decision-cycle 2026-07-19 15:00] no-op: todo queue drained
+SMA-35044		done	[escalation-router 2026-07-19] sweep #182 no-op — 0 fresh ESCALATE-TO-SMARK since #181
+SMA-35030		done	[escalation-router 2026-07-19]
+SMA-35015		in_progress	[daily-ops] Standing ops digest — done-sweeper daily report
+SMA-35013		cancelled	[graph-janitor 2026-07-19]
+SMA-35012		in_progress	[PAPER-TRADING] mtf_xs_pairs ETH/SOL leg — forward shadow execution with kill criteria
+SMA-34986	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	[need-smark-decision: external-dependency] G5 cross-framework CV for ETH/SOL leg of mtf_xs_pairs — H3 trades.csv + ETH/SOL 2h parquet missing (routed from SMA-34966)
+SMA-34985		done	[escalation-router 2026-07-18 21:37+08 · routed 1] sweep #172 — 1 fresh ESCALATE-TO-SMARK routed (SMA-34966 → SMA-34986 [need-smark-decision: external-dependency]); 11 already-routed durable skipped; 0 failed
+SMA-34984		done	[smark-decision-cycle 2026-07-18 21:00] 0 resolved / 0 escalated / 0 untouched (no priority=high todo candidates >4h; idempotent vs 19:25 cycle)
+SMA-34983		cancelled	[escalation-router 2026-07-18]
+SMA-34982		done	[escalation-router 2026-07-18 19:37+08 · no-op] sweep #171 — 0 fresh ESCALATE-TO-SMARK markers since 18:37+08
+SMA-34981		in_review	[knowledge-curator] Write 2026-07-18 knowledge snapshot for AGENTS.md + session-summary (cycle-19:22 dispatch, work-pool line 454)
+SMA-34976		done	[smark-decision-cycle 2026-07-18 19:25] 0 resolved / 0 escalated / 0 untouched (no priority=high todo candidates >4h; idempotent vs 19:00 cycle)
+SMA-34944	d1f4d321-98ed-459d-b3d4-ceacbde591ab	cancelled	[need-smark-decision: external-dependency] LOID × VPVR × funding — SOL coverage gap (routed from SMA-34939)
+SMA-34943	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[escalation-router 2026-07-18 14:37+08] sweep — 1 fresh ESCALATE-TO-SMARK routed (SMA-34939 → SMA-34944 [need-smark-decision: external-dependency]); 6 already-routed durable skipped; 0 failed — sweep #166
+SMA-34939	d1f4d321-98ed-459d-b3d4-ceacbde591ab	cancelled	Build LOID × VPVR × funding combined feature matrix + labeled training set
+SMA-34935	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	U8 vpvr_options variants with REAL Deribit data
+SMA-34932	d1f4d321-98ed-459d-b3d4-ceacbde591ab	cancelled	U6 vol_breakout 1m/15m BTC TF-downshift (Donchian + VPVR confluence; from iter#84 4h Sharpe 0.38 FAIL)
+SMA-34930	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	U5 funding_carry ETH/SOL 1m with real data (ledger gap, picked after U4 dispatch; SOL 1m funding-carry never run on real data; ETH 1m solo untested; data available via SMA-34864)
+SMA-34929	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[idle-dispatch 2026-07-18T12:33] U4 LOID/iceberg signal backtest on 15m BTC
+SMA-34922	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[BUG] framework-validate max_dd metric broken (sentinel -4.0e-06) — false W5 auto-archives of vpvr_funding family
+SMA-34918	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	Set up disk quota alert for ~/multica/quant-loop/backtests at 70% + log cleanup script
+SMA-34915	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	Add automated OOS validation harness for strategy variants
+SMA-34914	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	Run OOS backtest on best 3 vpvr_funding variants from framework-validate
+SMA-34913	915627d9-d97a-440d-9e50-47c46dcb0eb6	done	Estimate per-trade slippage + commission impact on 15m BTC perp entries
+SMA-34911	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[dispatch 2026-07-18] Design multi-TF VPVR+funding SPEC
+SMA-34909	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[smark-decision-cycle 2026-07-18 11:00] 0 resolved / 0 escalated / 3 untouched (fresh dispatch + 2 in_progress high)
+SMA-34901	d1f4d321-98ed-459d-b3d4-ceacbde591ab	in_progress	Code VPVR confluence backtest: enter at HVN support + funding >0.03% → exit at next LVN
+SMA-34900	ba6b1beb-575f-4959-b19a-c5ff2c72cb0e	done	[dispatch 2026-07-18] Analyze trade execution slippage for 15m BTC perp entries
+SMA-34899	3bfac0d2-f958-4cba-91d6-c3c7902b1b6c	done	Build funding rate spread heatmap: BTC vs ETH vs SOL, 1h intervals, last 30 days
+SMA-34870	99e0c1c1-350c-44de-9597-4bcea7517d9e	done	[meta] audit-by-replication: future audits must check ALL data locations, not just ~/data/
+SMA-34734	d1f4d321-98ed-459d-b3d4-ceacbde591ab	done	[Campaign 2026-07-17] VPVR variant sweep iter#70+ — funding-carry asymmetry cross-timeframe + options filter
+SMA-34733	d1f4d321-98ed-459d-b3d4-ceacbde591ab	done	[Campaign 2026-07-17] VPVR variant sweep iter#70+ — funding-carry-asym cross-TF family
+SMA-30054	915627d9-d97a-440d-9e50-47c46dcb0eb6	in_progress	[ROOT GOAL] Financial trading profit — multica 是工具不是产品

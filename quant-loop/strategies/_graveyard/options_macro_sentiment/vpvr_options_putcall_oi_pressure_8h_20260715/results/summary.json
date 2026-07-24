@@ -1,0 +1,39 @@
+{
+  "strategy": "vpvr_options_putcall_oi_pressure_8h_20260715",
+  "iteration": 71,
+  "timeframe": "8h",
+  "symbol": "ETHUSDT",
+  "instruments": [
+    "ETHUSDT"
+  ],
+  "bars_per_year": 1095,
+  "data_source": "perp_30m_aggregated_to_8h_with_pcr_proxy_from_taker_buy_share",
+  "starting_capital_usd": 100000.0,
+  "per_symbol": [
+    {
+      "symbol": "ETHUSDT",
+      "n_trades": 104,
+      "win_rate": 0.3942,
+      "ann_return_pct": -0.2078,
+      "max_drawdown_pct": -1.2182,
+      "profit_factor": 0.8639,
+      "sharpe": -1.1722,
+      "sortino": -1.6768,
+      "final_equity": 99063.03,
+      "total_return": -0.00937,
+      "pnl_usd_sum": -936.97
+    }
+  ],
+  "portfolio": {
+    "final_equity": 99063.03,
+    "total_return": -0.00937,
+    "n_trades_total": 104,
+    "ann_return_pct": -0.2078,
+    "sharpe": -1.1722,
+    "sortino": -1.6768,
+    "max_drawdown_pct": -1.2182
+  },
+  "walk_forward": {
+    "note": "config.json holds fold definitions; fold-by-fold evaluation requires running walk_forward.py separately."
+  }
+}

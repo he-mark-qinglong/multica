@@ -1,0 +1,221 @@
+{
+  "strategy": "vpvr_xs_pairs_btc_sol_4h_20260712",
+  "timeframe": "4h",
+  "cost_model": {
+    "fee_bps_per_side": 6.0,
+    "slippage_bps_per_side": 6.0
+  },
+  "cpcv_config": {
+    "n_groups": 6,
+    "k_test": 2,
+    "purge_bars": 500,
+    "embargo_bars": 250,
+    "n_folds": 15,
+    "min_trades_per_fold_4h": 100
+  },
+  "parameter_space": {
+    "zscore_entry_threshold": [
+      1.8,
+      2.0,
+      2.2,
+      2.5,
+      3.0
+    ],
+    "zscore_exit_threshold": [
+      0.3,
+      0.5,
+      0.7,
+      1.0
+    ],
+    "vpvr_lookback_bars": [
+      240,
+      360,
+      480,
+      720
+    ],
+    "regime_threshold": [
+      0.5,
+      1.0,
+      1.5,
+      2.0
+    ],
+    "funding_filter_ema_window": "SKIPPED (not implemented in strategy.py)"
+  },
+  "chosen_params": {
+    "zscore_entry_threshold": 2.5,
+    "zscore_exit_threshold": 0.3,
+    "vpvr_lookback_bars": 240,
+    "regime_threshold": 2.0,
+    "funding_filter_ema_window": "SKIPPED \u2014 not implemented in strategy.py"
+  },
+  "verdict": "KILL",
+  "verdict_reason": "Acceptance gate requires DSR > 0.0 (deflated Sharpe, Bailey & Lopez de Prado 2014). For N=15 CPCV folds, SR_cap = sqrt(2*ln(15)) - 0.577/sqrt(2*ln(15)) = 1.43, so any cell with mean OOS Sharpe < 1.43 is mechanically negative. Best cell achieves mean OOS Sharpe = +1.0 (PASSES mean >= 0.7 gate) with all 15 folds positive (min +0.43, PASSES worst >= 0.0 gate), but DSR z = -10.3 (FAILS DSR > 0 gate by construction). No parameter combination in the 320-cell Cartesian space can clear DSR > 0 given N=15. Original walk_forward.json already had DSR z = -8.4 (pre-existing fail), confirming this is a structural gate conflict, not a parameter-tuning failure.",
+  "candidate_metrics": {
+    "mean_test_sharpe": 0.9999450897240624,
+    "min_test_sharpe": 0.4326711995341038,
+    "dsr_z": -10.323749539816678,
+    "n_trades_total": 172
+  },
+  "candidate_gate_eval": {
+    "mean_sharpe_ge_0.7": true,
+    "worst_sharpe_ge_0.0": true,
+    "dsr_gt_0.0": false,
+    "trades_ge_100": true,
+    "is_clone": false,
+    "all_pass": false
+  },
+  "alternative_candidates": [
+    {
+      "params": {
+        "z_entry": 2.5,
+        "z_exit": 0.3,
+        "vpvr_lookback": 240,
+        "regime_threshold": 2.0
+      },
+      "metrics": {
+        "mean_test_sharpe": 0.9999450897240624,
+        "min_test_sharpe": 0.4326711995341038,
+        "dsr_z": -10.323749539816678,
+        "n_trades_total": 172
+      },
+      "gate_eval": {
+        "mean_sharpe_ge_0.7": true,
+        "worst_sharpe_ge_0.0": true,
+        "dsr_gt_0.0": false,
+        "trades_ge_100": true,
+        "is_clone": false,
+        "all_pass": false
+      }
+    },
+    {
+      "params": {
+        "z_entry": 2.5,
+        "z_exit": 0.3,
+        "vpvr_lookback": 480,
+        "regime_threshold": 2.0
+      },
+      "metrics": {
+        "mean_test_sharpe": 0.9099827119078677,
+        "min_test_sharpe": 0.4326711995341038,
+        "dsr_z": -12.693991957746299,
+        "n_trades_total": 172
+      },
+      "gate_eval": {
+        "mean_sharpe_ge_0.7": true,
+        "worst_sharpe_ge_0.0": true,
+        "dsr_gt_0.0": false,
+        "trades_ge_100": true,
+        "is_clone": false,
+        "all_pass": false
+      }
+    },
+    {
+      "params": {
+        "z_entry": 2.5,
+        "z_exit": 0.3,
+        "vpvr_lookback": 240,
+        "regime_threshold": 0.5
+      },
+      "metrics": {
+        "mean_test_sharpe": 0.8607039538404793,
+        "min_test_sharpe": 0.33264416705128264,
+        "dsr_z": -12.088661844764257,
+        "n_trades_total": 172
+      },
+      "gate_eval": {
+        "mean_sharpe_ge_0.7": true,
+        "worst_sharpe_ge_0.0": true,
+        "dsr_gt_0.0": false,
+        "trades_ge_100": true,
+        "is_clone": false,
+        "all_pass": false
+      }
+    },
+    {
+      "params": {
+        "z_entry": 2.5,
+        "z_exit": 0.3,
+        "vpvr_lookback": 720,
+        "regime_threshold": 2.0
+      },
+      "metrics": {
+        "mean_test_sharpe": 0.8607039538404793,
+        "min_test_sharpe": 0.33264416705128264,
+        "dsr_z": -12.088661844764257,
+        "n_trades_total": 172
+      },
+      "gate_eval": {
+        "mean_sharpe_ge_0.7": true,
+        "worst_sharpe_ge_0.0": true,
+        "dsr_gt_0.0": false,
+        "trades_ge_100": true,
+        "is_clone": false,
+        "all_pass": false
+      }
+    },
+    {
+      "params": {
+        "z_entry": 2.5,
+        "z_exit": 0.3,
+        "vpvr_lookback": 360,
+        "regime_threshold": 2.0
+      },
+      "metrics": {
+        "mean_test_sharpe": 0.8195771421140928,
+        "min_test_sharpe": 0.4326711995341038,
+        "dsr_z": -15.221752422856907,
+        "n_trades_total": 172
+      },
+      "gate_eval": {
+        "mean_sharpe_ge_0.7": true,
+        "worst_sharpe_ge_0.0": true,
+        "dsr_gt_0.0": false,
+        "trades_ge_100": true,
+        "is_clone": false,
+        "all_pass": false
+      }
+    },
+    {
+      "params": {
+        "z_entry": 1.8,
+        "z_exit": 0.3,
+        "vpvr_lookback": 240,
+        "regime_threshold": 2.0
+      },
+      "metrics": {
+        "mean_test_sharpe": 0.08874970221329821,
+        "min_test_sharpe": -1.027722107987277,
+        "dsr_z": -15.08864887580543,
+        "n_trades_total": 483
+      },
+      "gate_eval": {
+        "mean_sharpe_ge_0.7": false,
+        "worst_sharpe_ge_0.0": false,
+        "dsr_gt_0.0": false,
+        "trades_ge_100": true,
+        "is_clone": false,
+        "all_pass": false
+      }
+    }
+  ],
+  "sweep_summary": {
+    "n_cells": 320,
+    "n_unique_equity_curves": 57,
+    "n_clones": 263,
+    "gate_pass_counts_all_cells": {
+      "mean_sharpe_ge_0.7": 64,
+      "worst_sharpe_ge_0.0": 64,
+      "dsr_gt_0.0": 0,
+      "trades_ge_100": 256,
+      "all_pass": 0
+    },
+    "gate_pass_counts_nonclone_only": {
+      "mean_sharpe_ge_0.7": 5,
+      "worst_sharpe_ge_0.0": 5,
+      "dsr_gt_0.0": 0,
+      "trades_ge_100": 56,
+      "all_pass": 0
+    }
+  },
+  "rationale": "Best cell is z_entry=2.5, z_exit=0.3, vpvr_lookback=240, regime_threshold=2.0. All 15 CPCV folds positive (Sharpe range +0.43 to +1.76), 172 trades total (above 100 minimum), equity curve differs from baseline (sha256 hash differs). Passes 4/5 acceptance gates (mean>=0.7, min>=0.0, trades>=100, no-clone). Fails 1/5 (DSR>0.0) because the gate's SR_cap formula is mechanically above the achievable Sharpe for N=15. Not promoted to PASS-OPTIMIZED per the gate's strict definition; recorded here so future work can either (a) lower DSR threshold with justification, (b) extend CPCV to N>=30 to raise SR_cap adaptively, or (c) build a different signal class entirely."
+}

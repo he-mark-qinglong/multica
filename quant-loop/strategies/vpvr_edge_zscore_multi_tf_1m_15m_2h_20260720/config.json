@@ -1,0 +1,92 @@
+{
+  "strategy_key": "vpvr_edge_zscore_multi_tf",
+  "variant_key": "vpvr_edge_zscore_multi_tf_v1_20260720",
+  "iteration": 1,
+  "date": "2026-07-20",
+  "source_spec": "SMA-34991",
+  "implementation_issue": "SMA-34991",
+  "instruments": ["BTCUSDT", "ETHUSDT"],
+  "timeframes": ["1m", "15m", "2h"],
+  "starting_capital_usd": 100000.0,
+
+  "oos_folds": [
+    {"name": "2024-Q1", "train_start": "2023-01-01", "train_end": "2023-12-31", "test_start": "2024-01-01", "test_end": "2024-03-31"},
+    {"name": "2024-Q3", "train_start": "2023-07-01", "train_end": "2024-06-30", "test_start": "2024-07-01", "test_end": "2024-09-30"},
+    {"name": "2025-Q2", "train_start": "2024-04-01", "train_end": "2025-03-31", "test_start": "2025-04-01", "test_end": "2025-06-30"}
+  ],
+
+  "sharpe_method": "daily_resampled_per_SMA-34787",
+  "sharpe_method_audit_ref": "SMA-34787",
+
+  "params": {
+    "fee_bps_per_fill": 10.0,
+    "slippage_bps_per_fill": 5.0,
+    "venue": "BINANCE_SPOT",
+
+    "zscore_window_bars": 100,
+    "zscore_entry_threshold_15m": 2.0,
+    "zscore_confirm_threshold_2h": 1.0,
+    "zscore_exit_threshold": 0.5,
+
+    "poc_slope_window_bars": 5,
+    "trend_ema_period": 20,
+    "trend_slope_min_bps_per_bar": 5.0,
+
+    "vpvr_hvn_quantile": 0.85,
+    "vpvr_lvn_quantile": 0.15,
+    "vpvr_num_hvn": 3,
+    "vpvr_num_lvn": 3,
+    "vpvr_bins": 24,
+    "vpvr_window_bars_15m": 180,
+    "vpvr_snapshot_every_bars_15m": 16,
+    "vpvr_window_bars_2h": 180,
+    "vpvr_snapshot_every_bars_2h": 6,
+
+    "atr_period_15m": 14,
+    "atr_period_2h": 14,
+    "edge_buffer_atr_15m": 1.0,
+
+    "tf": {
+      "1m": {
+        "take_profit_atr_k": 1.5,
+        "hard_stop_atr_k": 1.0,
+        "max_hold_bars": 60,
+        "cooldown_bars": 5
+      },
+      "15m": {
+        "take_profit_atr_k": 2.5,
+        "hard_stop_atr_k": 1.5,
+        "max_hold_bars": 8,
+        "cooldown_bars": 5
+      },
+      "2h": {
+        "take_profit_atr_k": 4.0,
+        "hard_stop_atr_k": 2.0,
+        "max_hold_bars": 6,
+        "cooldown_bars": 5
+      }
+    },
+
+    "risk_target_pct": 0.005,
+    "trailing_atr_k": 1.0,
+
+    "vol_target_target_vol": 0.15,
+    "vol_target_lookback": 60,
+    "vol_target_floor": 0.1,
+    "vol_target_cap": 3.0,
+
+    "cpcv_n_groups": 6,
+    "cpcv_k_test": 2,
+    "cpcv_purge_bars": 500,
+    "cpcv_embargo_bars": 250
+  },
+
+  "gates": {
+    "G1_cpcv_mean_oos_sharpe_min": 1.5,
+    "G2_dsr_min": 0.5,
+    "G3_pf_min": 1.5,
+    "G4_max_drawdown_pct_min": -20.0,
+    "G5_n_trades_per_fold_min": 50,
+    "G6_n_folds_min": 3
+  }
+}

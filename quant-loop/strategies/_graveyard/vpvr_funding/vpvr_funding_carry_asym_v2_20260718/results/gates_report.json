@@ -1,0 +1,80 @@
+{
+  "variant_key": "vpvr_funding_carry_asym_v2_20260718",
+  "gates": {
+    "pass_min_mean_oos_sharpe": false,
+    "pass_min_profit_factor": false,
+    "pass_max_drawdown": false,
+    "pass_n_trades_min": false,
+    "pass_sharpe_consistency": false,
+    "folds_meeting_trade_min": 1,
+    "per_fold": [
+      {
+        "fold": "2024-Q1",
+        "n_trades": 2099,
+        "sharpe_daily": -10.5277,
+        "annualized_return": -0.985068,
+        "max_drawdown_pct": -64.5115,
+        "profit_factor": 0.1855,
+        "bootstrap_ci_lower_sharpe": -12.9699
+      },
+      {
+        "fold": "2024-Q3",
+        "n_trades": 0,
+        "sharpe_daily": 0.0,
+        "annualized_return": 0.0,
+        "max_drawdown_pct": 0.0,
+        "profit_factor": 0.0,
+        "bootstrap_ci_lower_sharpe": 0.0
+      },
+      {
+        "fold": "2025-Q2",
+        "n_trades": 0,
+        "sharpe_daily": 0.0,
+        "annualized_return": 0.0,
+        "max_drawdown_pct": 0.0,
+        "profit_factor": 0.0,
+        "bootstrap_ci_lower_sharpe": 0.0
+      }
+    ],
+    "verdict": "NOT-PROFITABLE[mean_oos_sharpe<1.2; min_pf<1.4; mdd<-25.0; trade-count-min not met; sharpe-std too high]"
+  },
+  "aggregate": {
+    "mean_sharpe_daily": -3.5092,
+    "std_sharpe_daily": 6.0782,
+    "mean_annualized_return": -0.328356,
+    "worst_max_drawdown_pct": -64.5115,
+    "min_profit_factor": 0.0,
+    "n_trades_total": 2099,
+    "n_folds_total": 3,
+    "n_folds_valid": 3
+  },
+  "per_fold_gate_results": [
+    {
+      "fold": "2024-Q1",
+      "n_trades": 2099,
+      "sharpe_daily": -10.5277,
+      "annualized_return": -0.985068,
+      "max_drawdown_pct": -64.5115,
+      "profit_factor": 0.1855,
+      "bootstrap_ci_lower_sharpe": -12.9699
+    },
+    {
+      "fold": "2024-Q3",
+      "n_trades": 0,
+      "sharpe_daily": 0.0,
+      "annualized_return": 0.0,
+      "max_drawdown_pct": 0.0,
+      "profit_factor": 0.0,
+      "bootstrap_ci_lower_sharpe": 0.0
+    },
+    {
+      "fold": "2025-Q2",
+      "n_trades": 0,
+      "sharpe_daily": 0.0,
+      "annualized_return": 0.0,
+      "max_drawdown_pct": 0.0,
+      "profit_factor": 0.0,
+      "bootstrap_ci_lower_sharpe": 0.0
+    }
+  ]
+}

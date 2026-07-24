@@ -1,0 +1,55 @@
+{
+  "engine": "cross_framework_fee_shock",
+  "strategy_key": "mtf_xs_pairs_1m_15m_2h_h3_20260718",
+  "variant_tag": "atr_mult_1_25",
+  "fee_models": {
+    "inhouse_round_trip_bps": 4.0,
+    "freqtrade_round_trip_bps": 24.0,
+    "backtrader_round_trip_bps": 60.0
+  },
+  "inhouse_metrics": {
+    "sharpe_daily_resampled": 1.3703557004864606,
+    "ann_return": 0.318607339012001,
+    "total_return": 2.490961252659636,
+    "max_dd": -0.1676046797828753,
+    "n_days": 1651
+  },
+  "freqtrade_metrics": {
+    "sharpe_daily_resampled": 0.9695685721825821,
+    "ann_return": 0.20797770915687552,
+    "total_return": 1.349211111645575,
+    "max_dd": -0.1732474336456662,
+    "n_days": 1651
+  },
+  "backtrader_metrics": {
+    "sharpe_daily_resampled": 0.2518907540825323,
+    "ann_return": 0.031643825412227766,
+    "total_return": 0.15121704978036066,
+    "max_dd": -0.22570058126623482,
+    "n_days": 1651
+  },
+  "abs_rel_divergence_pct": {
+    "freqtrade_vs_inhouse": {
+      "sharpe": 29.246941371616415,
+      "ann_return": 34.722875561557096,
+      "max_dd": 3.3667042412543853,
+      "max_abs": 34.722875561557096
+    },
+    "backtrader_vs_inhouse": {
+      "sharpe": 81.6185860362303,
+      "ann_return": 90.06808019226581,
+      "max_dd": 34.662457849399125,
+      "max_abs": 90.06808019226581
+    },
+    "freqtrade_vs_backtrader": {
+      "sharpe": 284.9163006058181,
+      "ann_return": 557.2457863343825,
+      "max_dd": 23.240147334266396,
+      "max_abs": 557.2457863343825
+    }
+  },
+  "max_abs_rel_divergence_pct": 557.2457863343825,
+  "W5_threshold_pct": 50.0,
+  "W5_passed": false,
+  "approach": "Fee-shock replay per iter#82 / SMA-34927 lesson: keep the in-house trade schedule and apply a per-trade fee delta (freqtrade and backtrader have higher RT-fee than the in-house baseline 4bps) to produce framework NAVs. W5 passes if max abs-rel divergence across {sharpe, ann_return, max_dd} is < 50%."
+}

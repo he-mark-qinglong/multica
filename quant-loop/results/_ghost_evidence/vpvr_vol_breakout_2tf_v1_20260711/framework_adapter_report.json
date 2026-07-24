@@ -1,0 +1,37 @@
+{
+  "framework": "vectorbt",
+  "framework_sha": "bf7aff6d081fda1e9cd7dc0464d68f98309875a1",
+  "framework_cache_path": "/tmp/framework-cache/vectorbt-bf7aff6d",
+  "framework_version": "1.1.0",
+  "n_symbols": 3,
+  "per_symbol": {
+    "BTCUSDT": {
+      "total_return": 0.01992076356984329,
+      "max_dd": -0.003283790955346177,
+      "sharpe": 0.7822921762315136,
+      "n_trades": 22,
+      "win_rate": 0.5454545454545454
+    },
+    "ETHUSDT": {
+      "total_return": 0.005195118265116205,
+      "max_dd": -0.007021691191226524,
+      "sharpe": 0.20363480168997217,
+      "n_trades": 21,
+      "win_rate": 0.38095238095238093
+    },
+    "SOLUSDT": {
+      "total_return": 0.020327279679650978,
+      "max_dd": -0.021339778009985724,
+      "sharpe": 0.43222784232232725,
+      "n_trades": 28,
+      "win_rate": 0.4642857142857143
+    }
+  },
+  "portfolio": {
+    "total_return": 0.015147720504870232,
+    "max_dd": -0.007778714265984299,
+    "sharpe": 0.7439165229787889,
+    "n_trades": 71,
+    "win_rate": 0.4647887323943662
+  }
+}

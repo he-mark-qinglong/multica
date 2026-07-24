@@ -1,0 +1,83 @@
+{
+  "strategy": "vol_breakout_4h_v1_20260711",
+  "framework": "backtrader",
+  "framework_version": "1.9.78.123",
+  "framework_sha": "b853d7c9",
+  "framework_cache": "/tmp/framework-cache/backtrader-b853d7c9",
+  "adapter_dir": "/tmp/backtrader-validation-volbreakout-4h-v1-2026-07-14-1237",
+  "run_at_utc": "2026-07-14T04:37:00+00:00",
+  "fill_convention": "signal-on-bar[t].close, fill@bar[t+1].open + cost (backtrader next-bar default)",
+  "cost_bps_per_side": 2.0,
+  "direction": "long_only",
+  "timeframe": "4h",
+  "instruments": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "starting_capital_usd": 100000.0,
+  "inhouse_aggregate": {
+    "n_trades_total": 195,
+    "total_return": 0.13992679973660693,
+    "final_equity_usd": 113992.67997366069,
+    "portfolio_max_dd_relative": -0.020100026199750338,
+    "portfolio_sharpe_daily_resampled": 0.9556805900948435
+  },
+  "framework_aggregate": {
+    "n_trades_total": 192,
+    "total_return": 0.13537007326505157,
+    "final_equity_aggregated": 113537.00732650515
+  },
+  "per_symbol": {
+    "BTCUSDT": {
+      "inhouse_n": 63,
+      "inhouse_return": 0.047416946853216846,
+      "framework_n": 62,
+      "framework_return": 0.04793074627910898,
+      "framework_max_dd": -0.01585620283343847,
+      "inhouse_max_dd": -0.016772542806002884,
+      "framework_win_rate": 0.5483870967741935,
+      "inhouse_win_rate": 0.5555555555555556
+    },
+    "ETHUSDT": {
+      "inhouse_n": 65,
+      "inhouse_return": 0.07275530143470288,
+      "framework_n": 65,
+      "framework_return": 0.06696069604663868,
+      "framework_max_dd": -0.02519793467092135,
+      "inhouse_max_dd": -0.02166773781749557,
+      "framework_win_rate": 0.5076923076923077,
+      "inhouse_win_rate": 0.5076923076923077
+    },
+    "SOLUSDT": {
+      "inhouse_n": 67,
+      "inhouse_return": 0.01975455144868743,
+      "framework_n": 65,
+      "framework_return": 0.020383303635819194,
+      "framework_max_dd": -0.04347995709678221,
+      "inhouse_max_dd": -0.04026326826187971,
+      "framework_win_rate": 0.4153846153846154,
+      "inhouse_win_rate": 0.43283582089552236
+    }
+  },
+  "tolerances": {
+    "sharpe_abs": 0.2,
+    "max_dd_rel": 0.05,
+    "total_return_rel": 0.05,
+    "n_trades_abs": 1,
+    "win_rate_abs": 0.05
+  },
+  "divergences": {
+    "BTCUSDT_total_return_rel_pct": 1.08,
+    "BTCUSDT_max_dd_rel_pct": 5.46,
+    "ETHUSDT_total_return_rel_pct": 7.96,
+    "ETHUSDT_max_dd_rel_pct": 16.29,
+    "SOLUSDT_total_return_rel_pct": 3.18,
+    "SOLUSDT_max_dd_rel_pct": 7.99,
+    "portfolio_total_return_rel_pct": 3.26,
+    "portfolio_n_trades_delta": -3
+  },
+  "w5_max_abs_rel_divergence_pct": 16.29,
+  "w5_auto_archive": false,
+  "verdict": "OUT_OF_TOLERANCE: ETH max_dd, ETH total_return, BTC/SOL max_dd, portfolio n_trades"
+}

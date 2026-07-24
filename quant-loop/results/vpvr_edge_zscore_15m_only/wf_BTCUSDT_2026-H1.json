@@ -1,0 +1,33 @@
+{
+  "fold": "2026-H1",
+  "symbol": "BTCUSDT",
+  "test_window": [
+    "2026-01-01",
+    "2026-06-30"
+  ],
+  "n_bars": 17281,
+  "metrics": {
+    "n_bars": 17281,
+    "n_trades": 110,
+    "win_rate": 0.2909,
+    "profit_factor": 0.1786,
+    "sharpe_daily": -5.5353,
+    "total_return": -0.006229,
+    "annualized_return": -0.012599,
+    "max_drawdown_pct": -0.6229,
+    "avg_bars_held": 3.76
+  },
+  "diagnostics": {
+    "n_long_entries": 39,
+    "n_short_entries": 71,
+    "exit_reasons": {
+      "trailing_stop": 44,
+      "hard_stop": 46,
+      "time_stop": 14,
+      "take_profit": 5,
+      "z_exit_15m": 1
+    },
+    "vol_target_weights_mean": 1.676465482321625,
+    "vol_target_weights_max": 3.0
+  }
+}

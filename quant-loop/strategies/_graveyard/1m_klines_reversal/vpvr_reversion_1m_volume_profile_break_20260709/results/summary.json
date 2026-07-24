@@ -1,0 +1,52 @@
+{
+  "variant_key": "vpvr_reversion_1m_volume_profile_break_20260709",
+  "iteration": 69,
+  "version": "V5",
+  "status": "NOT-PROFITABLE",
+  "criteria_pass": false,
+  "criteria": {
+    "sharpe": {
+      "min": 1.0,
+      "actual": -22.6541,
+      "pass": false
+    },
+    "ann_return_pct": {
+      "min": 15.0,
+      "actual": -1.2379,
+      "pass": false
+    },
+    "max_drawdown_pct": {
+      "min": -25.0,
+      "actual": -2.6685,
+      "pass": true
+    },
+    "profit_factor": {
+      "min": 1.5,
+      "actual": 0.116,
+      "pass": false
+    },
+    "n_trades": {
+      "min": 200,
+      "actual": 6751,
+      "pass": true
+    }
+  },
+  "headline": {
+    "sharpe": -22.6541,
+    "ann_return_pct": -1.2379,
+    "max_drawdown_pct": -2.6685,
+    "profit_factor": 0.116,
+    "n_trades": 6751,
+    "win_rate": 0.1855
+  },
+  "data": {
+    "source": "data/fapi_BTCUSDT__1m.parquet",
+    "n_bars": 1140075,
+    "span": [
+      "2024-04-23 00:00:00+00:00",
+      "2026-06-23 17:14:00+00:00"
+    ]
+  },
+  "campaign_align": "VPVR Campaign \u2014 Sharpe\u22651.0, ann\u226515%",
+  "spec_ref": "SMA-31410 V5 (iter#69)"
+}

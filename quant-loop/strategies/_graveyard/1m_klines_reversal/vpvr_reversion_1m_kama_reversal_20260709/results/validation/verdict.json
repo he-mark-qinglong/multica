@@ -1,0 +1,163 @@
+{
+  "variant": "vpvr_reversion_1m_kama_reversal_20260709",
+  "timeframe": "1m",
+  "windows": [
+    "W1[2024-04-23..2025-01-11]",
+    "W2[2025-01-11..2025-10-02]",
+    "W3[2025-10-02..2026-06-23]"
+  ],
+  "symbols": {
+    "SOLUSDT": {
+      "W1[2024-04-23..2025-01-11]": {
+        "native": {
+          "sharpe": 1.1780631135978121,
+          "annualized_return": 5.263952359113588e-06,
+          "max_drawdown": 0.0,
+          "profit_factor": Infinity,
+          "win_rate": 1.0,
+          "n_trades": 1,
+          "total_return": 3.7929272662662328e-06
+        },
+        "backtrader": {
+          "sharpe": 1.1780631135978121,
+          "annualized_return": 7.068090886575007e-06,
+          "max_drawdown": 1.5643043167484225e-05,
+          "profit_factor": Infinity,
+          "win_rate": 1.0,
+          "n_trades": 1,
+          "total_return": 5.092893335056914e-06
+        },
+        "freqtrade": {
+          "sharpe": 0.0,
+          "annualized_return": 0.0,
+          "max_drawdown": 0.0,
+          "profit_factor": Infinity,
+          "win_rate": 1.0,
+          "n_trades": 1,
+          "total_return": 0.0
+        }
+      },
+      "W2[2025-01-11..2025-10-02]": {
+        "native": {
+          "sharpe": 1.1758298165873147,
+          "annualized_return": 4.4167376922032986e-05,
+          "max_drawdown": 0.0,
+          "profit_factor": Infinity,
+          "win_rate": 1.0,
+          "n_trades": 1,
+          "total_return": 3.194552398722017e-05
+        },
+        "backtrader": {
+          "sharpe": 1.1758298165873142,
+          "annualized_return": 3.3130947602044714e-05,
+          "max_drawdown": 3.0749016542093e-05,
+          "profit_factor": Infinity,
+          "win_rate": 1.0,
+          "n_trades": 1,
+          "total_return": 2.396309609409286e-05
+        },
+        "freqtrade": {
+          "sharpe": 0.0,
+          "annualized_return": 0.0,
+          "max_drawdown": 0.0,
+          "profit_factor": Infinity,
+          "win_rate": 1.0,
+          "n_trades": 1,
+          "total_return": 0.0
+        }
+      },
+      "W3[2025-10-02..2026-06-23]": {
+        "native": {
+          "sharpe": 0.0,
+          "annualized_return": 0.0,
+          "max_drawdown": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0,
+          "n_trades": 0,
+          "total_return": 0.0
+        },
+        "backtrader": {
+          "sharpe": 0.0,
+          "annualized_return": 0.0,
+          "max_drawdown": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0,
+          "n_trades": 0,
+          "total_return": 0.0
+        },
+        "freqtrade": {
+          "sharpe": 0.0,
+          "annualized_return": 0.0,
+          "max_drawdown": 0.0,
+          "profit_factor": 0.0,
+          "win_rate": 0.0,
+          "n_trades": 0,
+          "total_return": 0.0
+        }
+      }
+    }
+  },
+  "full_native": {
+    "SOLUSDT": {
+      "sharpe": 0.7547593661343509,
+      "annualized_return": 1.6491091528791912e-05,
+      "max_drawdown": 0.0,
+      "profit_factor": Infinity,
+      "win_rate": 1.0,
+      "n_trades": 2,
+      "total_return": 3.5738572420562775e-05
+    }
+  },
+  "gates": [
+    {
+      "gate": "G1",
+      "passed": false,
+      "observed": 0.7547593661343509,
+      "threshold": 1.0,
+      "detail": "full-period mean Sharpe across symbols"
+    },
+    {
+      "gate": "G2",
+      "passed": false,
+      "observed": 1.647710976038219e-05,
+      "threshold": 0.15,
+      "detail": "min(full=0.0000, mean_oos=0.0000)"
+    },
+    {
+      "gate": "G3",
+      "passed": true,
+      "observed": 10.0,
+      "threshold": 1.5,
+      "detail": "mean full-period profit factor across symbols"
+    },
+    {
+      "gate": "G4",
+      "passed": true,
+      "observed": 0.0,
+      "threshold": 0.25,
+      "detail": "worst symbol max drawdown (full period)"
+    },
+    {
+      "gate": "G5",
+      "passed": false,
+      "observed": 0.0,
+      "threshold": 1.0,
+      "detail": "min(backtrader=0.7846, freqtrade=0.0000) mean OOS Sharpe"
+    },
+    {
+      "gate": "G6",
+      "passed": false,
+      "observed": 0.0,
+      "threshold": 0.5,
+      "detail": "bootstrap CI lower (10000 resamples, seed=42)"
+    },
+    {
+      "gate": "G7",
+      "passed": false,
+      "observed": 1.0,
+      "threshold": 0.0125,
+      "detail": "one-sided t-test p on 2 pooled OOS trades"
+    }
+  ],
+  "verdict": "FAIL"
+}

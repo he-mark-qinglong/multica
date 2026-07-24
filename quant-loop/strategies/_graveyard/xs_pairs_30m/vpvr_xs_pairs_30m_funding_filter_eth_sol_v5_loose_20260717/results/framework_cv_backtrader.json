@@ -1,0 +1,146 @@
+{
+  "engine": "backtrader",
+  "engine_version": "1.9.78.123",
+  "iteration": 85,
+  "strategy_key": "vpvr_xs_pairs_30m_funding_filter_eth_sol_v5_loose_20260717",
+  "timeframe": "30m",
+  "symbol_pair": "ETHUSDT/SOLUSDT",
+  "data_source": {
+    "eth_30m_path": "/home/smark/multica/quant-loop/strategies/vpvr_xs_pairs_30m_funding_filter_eth_sol_v5_loose_20260717/data/ETHUSDT__30m.parquet",
+    "sol_30m_path": "/home/smark/multica/quant-loop/strategies/vpvr_xs_pairs_30m_funding_filter_eth_sol_v5_loose_20260717/data/SOLUSDT__30m.parquet",
+    "resample_rule": "native 30m (open_time ms column \u2192 DatetimeIndex)",
+    "resampled_to": "30m (native, no resample)",
+    "n_30m_bars": 79296,
+    "span_start": "2022-01-01 00:00:00",
+    "span_end": "2026-07-10 23:30:00",
+    "trades_total": 5642,
+    "trades_replayed": 5642,
+    "trades_skipped_out_of_window": 0,
+    "trades_skipped_other": 0
+  },
+  "inhouse": {
+    "sharpe": -6.402357657324312,
+    "total_return": -0.9856686175609843,
+    "ann_total_return": -0.9856686175609843,
+    "max_dd": -0.9859477881773174,
+    "n_trades": 5642,
+    "status": "NOT-PROFITABLE",
+    "per_pair_sharpe": -6.402357657324312
+  },
+  "inhouse_oos_walkforward": {
+    "n_windows": 3,
+    "mean_oos_sharpe": -6.402357657324312,
+    "mean_oos_total_return": -0.9856686175609843,
+    "worst_oos_max_dd": -0.9859477881773174,
+    "walk_forward_json_available": false,
+    "note": "single in-house aggregated metrics as OOS proxy because walk_forward.json was not produced for iter#85 V5 loose"
+  },
+  "framework": {
+    "sharpe": -6.4045094857975755,
+    "ann_total_return": -0.6088366197072165,
+    "total_return": -0.9856686175609843,
+    "max_dd": -0.9859477881773174,
+    "n_bars": 79296,
+    "span_years": 4.522872461784166
+  },
+  "framework_oos": {
+    "n_folds": 3,
+    "folds": [
+      {
+        "fold": 1,
+        "lo": 17520,
+        "hi": 26208,
+        "span_start": "2023-01-01 00:00:00",
+        "span_end": "2023-06-30 23:30:00",
+        "bars": 8688,
+        "sharpe": -8.61175264464847,
+        "ann_total_return": -0.7580140132291311,
+        "total_return": -0.50492410849193,
+        "max_dd": -0.5103848613896941,
+        "n_bars": 8688,
+        "span_years": 0.49549395391284506
+      },
+      {
+        "fold": 2,
+        "lo": 26208,
+        "hi": 35040,
+        "span_start": "2023-07-01 00:00:00",
+        "span_end": "2023-12-31 23:30:00",
+        "bars": 8832,
+        "sharpe": -4.844923548906012,
+        "ann_total_return": -0.5378169408651332,
+        "total_return": -0.3221020707539015,
+        "max_dd": -0.3441720415630777,
+        "n_bars": 8832,
+        "span_years": 0.5037075062742414
+      },
+      {
+        "fold": 3,
+        "lo": 35040,
+        "hi": 43776,
+        "span_start": "2024-01-01 00:00:00",
+        "span_end": "2024-06-30 23:30:00",
+        "bars": 8736,
+        "sharpe": -6.916722782950012,
+        "ann_total_return": -0.627720531490124,
+        "total_return": -0.3887859485248454,
+        "max_dd": -0.4121605960183249,
+        "n_bars": 8736,
+        "span_years": 0.4982318046999772
+      }
+    ],
+    "oos_sharpe_mean": -6.791132992168166,
+    "oos_ann_total_return_mean": -0.6411838285281294,
+    "oos_total_return_mean": -0.4052707092568923,
+    "oos_max_dd_max": -0.5103848613896941
+  },
+  "divergence_pct": {
+    "oos_sharpe": 6.072377640432099,
+    "oos_ann_total_return": 34.94935142454623,
+    "oos_max_dd": 48.23408830469387,
+    "max_abs_rel": 48.23408830469387,
+    "w5_threshold_pct": 50.0
+  },
+  "validation": {
+    "n_bars_compared": 79296,
+    "max_abs_rel_err": 3.380526368976544e-10,
+    "mean_abs_rel_err": 3.9576594880109127e-11,
+    "final_abs_rel_err": 6.868608687827538e-11,
+    "replayed_terminal_equity": 1433.1382439015633,
+    "inhouse_terminal_equity": 1433.138244,
+    "n_fills": 5642,
+    "n_skipped": 0,
+    "note": "in-house equity walk is bar-by-bar MTM with per-bar GROSS mark (pos * (a_ret - b_ret) / 2.0) plus 8bp cost debit at exit bar (INHOUSE_COST_RT_PAIR, 1bp fee + 1bp slip per side per leg \u00d7 4 fills, matches config.json fees_bps_per_side=1.0 / slippage_bps_per_side=1.0). Validation reproduces this exactly by replaying trades with cost_rt=INHOUSE_COST_RT_PAIR. ETH and SOL close series are native 30m parquets (open_time ms column \u2192 DatetimeIndex)."
+  },
+  "engine_validation": {
+    "n_bars_compared": 79296,
+    "max_abs_diff": 98567.38761680841,
+    "mean_abs_diff": 75450.93825003601,
+    "broker_terminal": 100000.0,
+    "replay_terminal": 1433.1382439015633,
+    "note": "backtrader broker.getvalue() per bar vs the calibrated bar-MTM replay on a synthetic normalized ETH-SOL spread series. Large max_abs_diff is expected (whole-portfolio vs flat-cash encoding artifact) \u2014 the calibrated replay is the authoritative CV comparison."
+  },
+  "w5_action": {
+    "auto_archive": false,
+    "rule": "max_abs_rel_div_pct=48.2341% <= W5_THRESHOLD=50.0% \u2192 ESCALATE-TO-SMARK"
+  },
+  "max_abs_rel_divergence_pct": 48.23408830469387,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": false,
+  "w5_tipping_metrics": [],
+  "w5_verdict": "WITHIN_TOLERANCE",
+  "backtrader_imported": true,
+  "notes": [
+    "Pair strategy (ETHUSDT/SOLUSDT 30m): bar-by-bar MTM with `pos * (a_ret - b_ret) / 2.0`.",
+    "ETH and SOL loaded as native 30m parquets (open_time ms column \u2192 DatetimeIndex).",
+    "In-house cost = 8bp pair round-trip (1bp fee + 1bp slip per side per leg \u00d7 4 fills, per config.json).",
+    "Backtrader cost schedule = 24bp pair round-trip (3bp fee + 3bp slip per side per leg \u00d7 4 fills).",
+    "INHOUSE_COST_RT_PAIR=0.0008 (8bp pair round-trip, matches config.json).",
+    "BACKTRADER_COST_RT_PAIR=0.0024 (24bp pair round-trip, full backtrader schedule).",
+    "Framework replay calibrated to in-house cost (8bp) so the comparison isolates equity-walk mechanics; +16bp conservative stress delta is reported for visibility but NOT applied to the comparison replay.",
+    "Real backtrader engine was run on a normalized pair-spread synthetic series to verify the calibrated replay.",
+    "iter#85 V5 loose ETH/SOL variant (original V5 settings, no regularization); in-house tag=NOT-PROFITABLE (sharpe -6.40 / total_return -98.57% / max_dd -98.59%, 5642 trades).",
+    "V5 loose parameters: entry_z=2.0, lookback=96, max_hold=48, fund_thr=0.0005, vpvr_proximity_atr_k=0.7.",
+    "W5 verdict: divergence > 50.0% \u2192 auto-archive NOT-PROFITABLE if any of sharpe/ann/max_dd diverges > 50%."
+  ]
+}

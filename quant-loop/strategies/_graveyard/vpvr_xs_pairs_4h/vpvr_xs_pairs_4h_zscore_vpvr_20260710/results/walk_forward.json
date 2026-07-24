@@ -1,0 +1,82 @@
+{
+  "strategy": "vpvr_xs_pairs_4h_zscore_vpvr_20260710",
+  "iteration": 75,
+  "timeframe": "4h",
+  "variant": "A",
+  "n_windows": 4,
+  "windows": [
+    {
+      "window_id": 1,
+      "train_start": "2024-04-23",
+      "train_end": "2025-01-23",
+      "test_start": "2025-01-23",
+      "test_end": "2025-07-23",
+      "n_test_bars": 1086,
+      "n_test_trades": 309,
+      "test_sharpe": -0.41402817871163,
+      "test_return": -0.08045271064589161,
+      "test_mdd": -0.2556567778769305,
+      "test_win_rate": 0.4769202026327557
+    },
+    {
+      "window_id": 2,
+      "train_start": "2024-04-23",
+      "train_end": "2025-04-23",
+      "test_start": "2025-04-23",
+      "test_end": "2025-10-23",
+      "n_test_bars": 1098,
+      "n_test_trades": 347,
+      "test_sharpe": -0.7922675595883808,
+      "test_return": -0.1797467754836426,
+      "test_mdd": -0.35344413695455407,
+      "test_win_rate": 0.43580246913580245
+    },
+    {
+      "window_id": 3,
+      "train_start": "2024-04-23",
+      "train_end": "2025-07-23",
+      "test_start": "2025-07-23",
+      "test_end": "2026-01-23",
+      "n_test_bars": 1104,
+      "n_test_trades": 325,
+      "test_sharpe": -0.4550196232734483,
+      "test_return": -0.08523206380287478,
+      "test_mdd": -0.19820003393192975,
+      "test_win_rate": 0.4551167768559073
+    },
+    {
+      "window_id": 4,
+      "train_start": "2024-04-23",
+      "train_end": "2025-10-23",
+      "test_start": "2025-10-23",
+      "test_end": "2026-04-23",
+      "n_test_bars": 1092,
+      "n_test_trades": 264,
+      "test_sharpe": -0.001794544925785994,
+      "test_return": 0.0005384148610181541,
+      "test_mdd": -0.10599771661024654,
+      "test_win_rate": 0.4753671848422547
+    }
+  ],
+  "aggregate": {
+    "mean_test_sharpe": -0.41577747662481124,
+    "std_test_sharpe": 0.32386707994938163,
+    "min_test_sharpe": -0.7922675595883808,
+    "mean_test_return": -0.08622328376784771,
+    "worst_test_mdd": -0.35344413695455407,
+    "in_sample_sharpe": 0.3339380339750799,
+    "walk_forward_ratio": -1.2450737392070728,
+    "ship_gate": {
+      "wf_ratio_threshold": 0.5,
+      "wf_ratio_pass": false,
+      "min_oos_sharpe_threshold": 0.0,
+      "min_oos_sharpe_pass": false,
+      "overall_pass": false
+    }
+  },
+  "evidence_gate": {
+    "sharpe_threshold": 0.5,
+    "wf_ratio_threshold": 0.5,
+    "passed": false
+  }
+}

@@ -1,0 +1,28 @@
+=== CPCV param search (vpvr_xs_pairs_4h_zscore_vpvr_20260710 iter75) ===
+  n_groups=6 k_test=2 purge=500 embargo=250
+  pre-registered candidates: 12
+
+=== Per-variant OOS metrics ===
+label                                                mean    worst      dsr   trades    tpf
+tightentry_vpvr1_hvn07_exit03                     +0.1480  -1.5311  +0.1322     2047  136.5
+tighterentry_vpvr05_hvn07_exit05                  +0.1610  -1.5811  +0.1452     2041  136.1
+tighterentry_vpvr03_hvn09_exit05                  +0.1107  -1.6446  +0.0950     2034  135.6
+tightentry_vpvr07_hvn05_exit05_cost20             +0.4660  -1.0349  +0.4495     2109  140.6
+moderateentry_vpvr05_hvn07_exit03                 -0.5762  -2.5451  -0.5931     3121  208.1
+tightentry_vpvr07_hvn07_exit03_cost30             +0.1324  -1.5311  +0.1167     2039  135.9
+tightentry_vpvr1_hvn05_exit07                     +0.4883  -1.0568  +0.4717     2132  142.1
+tightestentry_vpvr07_hvn07_exit05                 -0.1617  -2.8406  -0.1774      825   55.0
+moderateentry_vpvr1_hvn07_exit07                  -0.5692  -2.5264  -0.5861     3171  211.4
+tightentry_vpvr05_hvn05_exit05_cost40             +0.5001  -1.0842  +0.4835     2101  140.1
+tightentry_vpvr1_hvn09_exit05                     +0.1185  -1.6441  +0.1028     2044  136.3
+moderateentry_vpvr07_hvn05_exit05                 -0.1851  -2.4123  -0.2009     3246  216.4
+
+=== Acceptance gates ===
+  mean_oos_sharpe >= 0.5
+  worst_fold_sharpe >= 0.0
+  deflated_sharpe > 0.0
+  total_trades >= 100
+  trades_per_fold >= 100
+
+VERDICT: KILL
+CHOSEN:  NONE

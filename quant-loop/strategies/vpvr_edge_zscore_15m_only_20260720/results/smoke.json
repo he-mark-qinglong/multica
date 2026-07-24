@@ -1,0 +1,28 @@
+{
+  "variant": "vpvr_edge_zscore_15m_only_v1_20260720",
+  "symbol": "BTCUSDT",
+  "window": [
+    "2024-01-01",
+    "2024-03-31"
+  ],
+  "n_15m_bars": 8641,
+  "n_trades": 52,
+  "win_rate": 0.2115,
+  "avg_bars_held": 4.06,
+  "total_return": -0.004862,
+  "max_drawdown_pct": -0.5048,
+  "sharpe_daily": -6.5918,
+  "diagnostics": {
+    "n_long_entries": 20,
+    "n_short_entries": 32,
+    "exit_reasons": {
+      "hard_stop": 21,
+      "trailing_stop": 18,
+      "take_profit": 1,
+      "z_exit_15m": 0,
+      "time_stop": 12
+    },
+    "vol_target_weights_mean": 1.670755699571809,
+    "vol_target_weights_max": 3.0
+  }
+}

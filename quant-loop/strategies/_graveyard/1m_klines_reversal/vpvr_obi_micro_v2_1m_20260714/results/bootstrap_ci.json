@@ -1,0 +1,21 @@
+{
+  "variant": "vpvr_obi_micro_v2_1m_20260714",
+  "iteration": 95,
+  "timeframe": "1m",
+  "n_per_bar_total": 84,
+  "n_bootstrap": 10000,
+  "seed": 42,
+  "bars_per_year": 525600,
+  "annualization_factor": 525600,
+  "sharpe_observed_annualized": -271.46298117726343,
+  "ci_95_lower_annualized": -410.6228042201786,
+  "ci_95_upper_annualized": -136.76527241069334,
+  "p_value_two_sided_against_zero": 0.5342,
+  "p_value_one_sided_positive_edge": 0.4658,
+  "g6_gate_lower_threshold": 0.5,
+  "g6_pass": false,
+  "min_sample_size_ok": false,
+  "min_sample_size_threshold": 100,
+  "note": "per-bar returns: pnl_pct / bars_held; annualized by sqrt(bars_per_year); G6 gate = bootstrap 95% CI lower >= 0.5",
+  "warning": "n_per_bar_total=84 < 100 minimum; CI is statistically thin per role spec"
+}

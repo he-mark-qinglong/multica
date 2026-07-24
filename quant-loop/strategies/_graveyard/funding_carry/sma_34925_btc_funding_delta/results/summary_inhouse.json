@@ -1,0 +1,136 @@
+{
+  "variant": "btc_funding_delta_xs",
+  "window_days": 365,
+  "thresholds": [
+    0.0005,
+    0.001,
+    0.0015
+  ],
+  "exit_threshold": 0.0002,
+  "round_trip_cost": 0.0012000000000000001,
+  "alpha_bonferroni": 0.016666666666666666,
+  "spec_alpha": 0.0125,
+  "ohlcv_rows_total": 9954,
+  "delta_rows_total": 9903,
+  "train_bars": 1095,
+  "oos_bars": 1096,
+  "thresholds_eval": {
+    "thr_0.0005": {
+      "threshold": 0.0005,
+      "train": {
+        "sharpe": 0.0,
+        "ann": 0.0,
+        "maxdd": 0.0,
+        "ci_lower": 0.0,
+        "total_return": 0.0,
+        "n_bars": 1095,
+        "n_pos_changes": 0,
+        "n_bars_in_pos": 0,
+        "pct_bars_in_pos": 0.0,
+        "n_daily_rets": 182,
+        "span_start": "2025-07-10 00:00:00+00:00",
+        "span_end": "2026-01-08 08:00:00+00:00"
+      },
+      "oos": {
+        "sharpe": 0.0,
+        "ann": 0.0,
+        "maxdd": 0.0,
+        "ci_lower": 0.0,
+        "total_return": 0.0,
+        "n_bars": 1096,
+        "n_pos_changes": 0,
+        "n_bars_in_pos": 0,
+        "pct_bars_in_pos": 0.0,
+        "n_daily_rets": 183,
+        "span_start": "2026-01-08 12:00:00+00:00",
+        "span_end": "2026-07-10 00:00:00+00:00"
+      },
+      "gates_oos": {
+        "G1_sharpe": false,
+        "G2_ann": false,
+        "G4_maxdd": true,
+        "G6_ci_lower": false
+      },
+      "all_gates_oos_pass": false
+    },
+    "thr_0.001": {
+      "threshold": 0.001,
+      "train": {
+        "sharpe": 0.0,
+        "ann": 0.0,
+        "maxdd": 0.0,
+        "ci_lower": 0.0,
+        "total_return": 0.0,
+        "n_bars": 1095,
+        "n_pos_changes": 0,
+        "n_bars_in_pos": 0,
+        "pct_bars_in_pos": 0.0,
+        "n_daily_rets": 182,
+        "span_start": "2025-07-10 00:00:00+00:00",
+        "span_end": "2026-01-08 08:00:00+00:00"
+      },
+      "oos": {
+        "sharpe": 0.0,
+        "ann": 0.0,
+        "maxdd": 0.0,
+        "ci_lower": 0.0,
+        "total_return": 0.0,
+        "n_bars": 1096,
+        "n_pos_changes": 0,
+        "n_bars_in_pos": 0,
+        "pct_bars_in_pos": 0.0,
+        "n_daily_rets": 183,
+        "span_start": "2026-01-08 12:00:00+00:00",
+        "span_end": "2026-07-10 00:00:00+00:00"
+      },
+      "gates_oos": {
+        "G1_sharpe": false,
+        "G2_ann": false,
+        "G4_maxdd": true,
+        "G6_ci_lower": false
+      },
+      "all_gates_oos_pass": false
+    },
+    "thr_0.0015": {
+      "threshold": 0.0015,
+      "train": {
+        "sharpe": 0.0,
+        "ann": 0.0,
+        "maxdd": 0.0,
+        "ci_lower": 0.0,
+        "total_return": 0.0,
+        "n_bars": 1095,
+        "n_pos_changes": 0,
+        "n_bars_in_pos": 0,
+        "pct_bars_in_pos": 0.0,
+        "n_daily_rets": 182,
+        "span_start": "2025-07-10 00:00:00+00:00",
+        "span_end": "2026-01-08 08:00:00+00:00"
+      },
+      "oos": {
+        "sharpe": 0.0,
+        "ann": 0.0,
+        "maxdd": 0.0,
+        "ci_lower": 0.0,
+        "total_return": 0.0,
+        "n_bars": 1096,
+        "n_pos_changes": 0,
+        "n_bars_in_pos": 0,
+        "pct_bars_in_pos": 0.0,
+        "n_daily_rets": 183,
+        "span_start": "2026-01-08 12:00:00+00:00",
+        "span_end": "2026-07-10 00:00:00+00:00"
+      },
+      "gates_oos": {
+        "G1_sharpe": false,
+        "G2_ann": false,
+        "G4_maxdd": true,
+        "G6_ci_lower": false
+      },
+      "all_gates_oos_pass": false
+    }
+  },
+  "best_threshold": null,
+  "best_metrics_oos": null,
+  "best_passes_all_gates": false
+}

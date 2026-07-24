@@ -1,0 +1,43 @@
+{
+  "strategy": "bb_reversion_rsi_1m_20260707_p3opt_050",
+  "iteration": 50,
+  "timeframe": "1m",
+  "source_timeframe": "1m",
+  "instruments": ["BTCUSDT"],
+  "data_source": "binance_usdm_1m_canonical",
+  "indicators": {
+    "bb_period": 20,
+    "bb_k": 2.5,
+    "rsi_period": 14,
+    "rsi_oversold": 25.0,
+    "rsi_overbought": 75.0,
+    "atr_period": 14,
+    "volume_ma_period": 30,
+    "volume_ratio_min": 0.5
+  },
+  "exit": {
+    "exit_rsi_mid": 50.0,
+    "stop_loss_atr_k": 2.0,
+    "take_profit_atr_k": 1.0,
+    "time_stop_bars": 60,
+    "bars_to_mid_max": 240
+  },
+  "entry": {
+    "cooldown_bars": 5,
+    "require_volume_floor": true
+  },
+  "sizing": {
+    "per_signal_weight_pct": 0.005,
+    "max_gross_exposure_pct": 0.05
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "P3-OPT-050: MAP-P3 parameter sweep — vary ONLY entry_threshold (= indicators.bb_k).",
+    "Baseline (P3-OPT-000): bb_k = 2.0. Variant: bb_k = 2.5.",
+    "Single variable change: bb_k 2.0 -> 2.5. All other params identical to baseline.",
+    "Mechanic: bb_k widens the Bollinger envelope from +/-2.0*std to +/-2.5*std, so entries require a more extreme deviation from the 20-period SMA before triggering. Lower-frequency, potentially higher-conviction mean-reversion signals.",
+    "Hypothesis: stricter entry threshold should reduce trade count and noise, possibly improving win-rate and Sharpe if the strategy is signal-rich but quality-poor at bb_k=2.0; conversely it may starve the strategy of signals and damage Sharpe if 2.0 was already near the optimal boundary."
+  ]
+}

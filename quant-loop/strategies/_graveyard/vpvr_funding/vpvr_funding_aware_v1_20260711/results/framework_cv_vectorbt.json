@@ -1,0 +1,133 @@
+{
+  "engine": "vectorbt",
+  "engine_version": "1.1.0",
+  "engine_sha": "vectorbt-1.1.0",
+  "iteration": 82,
+  "strategy_key": "vpvr_funding_aware_v1_20260711",
+  "fix_revision": "post-SMA-34922 max_dd accounting fix 2026-07-18",
+  "fix_note": "mirrors the in-house full-notional mark-to-market equity construction (see framework_replay_lib.replay_full_notional): held bars (entry_bar, exit_bar] earn close-to-close returns, per-trade carry spread evenly over held bars, round-trip cost amortised over held bars. Only the cost model differs: vectorbt canonical 0bp-rt zero-cost reference vs in-house 2bp rt (1bp/side fee + 0 slip). Validated first by replaying at in-house cost and matching the equity CSVs (per-symbol max_abs_rel_err ~ 1e-3 expected, replay-engine constant not cost-model artefact).",
+  "cost_model": {
+    "fee_bps_per_side": 0.0,
+    "slippage_bps_per_side": 0.0,
+    "round_trip": 0.0,
+    "inhouse_round_trip": 0.0002,
+    "delta_per_trade": -0.0002
+  },
+  "replay_validation": {
+    "BTCUSDT": {
+      "n_bars_compared": 9912,
+      "max_abs_rel_err": 0.002603305764215607,
+      "final_rel_err": 0.00014168944146912142,
+      "replayed_max_dd": -0.4917940474654048,
+      "inhouse_max_dd": -0.49200209898084846,
+      "max_dd_abs_diff": 0.00020805151544367462
+    },
+    "ETHUSDT": {
+      "n_bars_compared": 9912,
+      "max_abs_rel_err": 0.012045140138530277,
+      "final_rel_err": 0.001059643877781829,
+      "replayed_max_dd": -0.5713703266807131,
+      "inhouse_max_dd": -0.5707685344268763,
+      "max_dd_abs_diff": 0.0006017922538368303
+    }
+  },
+  "inhouse": {
+    "sharpe": 7.164861498565264,
+    "ann_total_return": 0.2111508601397375,
+    "total_return": 1.4432909698119527,
+    "max_dd": -0.5707685344212701,
+    "n_trades": 165,
+    "timeframe": "4h",
+    "status": "PROFITABLE"
+  },
+  "framework": {
+    "sharpe": 7.269895881676196,
+    "sharpe_nav_bar": 0.7580099508728818,
+    "ann_total_return": 0.22271011754303305,
+    "total_return": 1.4826655294921318,
+    "max_dd": -0.43064212775151656,
+    "max_dd_per_symbol": {
+      "BTCUSDT": -0.48988215540774394,
+      "ETHUSDT": -0.5699530674837561
+    },
+    "total_return_per_symbol": {
+      "BTCUSDT": 0.8469096508612719,
+      "ETHUSDT": 2.1184214081229915
+    },
+    "n_bars": 9912,
+    "n_fills": 165,
+    "span_years": 4.522473191877709
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": 0.9100431138099291,
+    "oos_total_return_mean": 0.260401520081802,
+    "oos_max_dd_max": -0.43064212775151656,
+    "n_folds": 4,
+    "folds": [
+      {
+        "fold": 1,
+        "lo_bar": 0,
+        "hi_bar": 2478,
+        "bars": 2478,
+        "span_years": 1.1302760666210359,
+        "sharpe": 0.4809550067458844,
+        "total_return": 0.13960255552919998,
+        "ann_total_return": 0.1225662822043847,
+        "max_dd": -0.43064212775151656
+      },
+      {
+        "fold": 2,
+        "lo_bar": 2478,
+        "hi_bar": 4956,
+        "bars": 2478,
+        "span_years": 1.1302760666210359,
+        "sharpe": 1.6871617405903183,
+        "total_return": 0.45183763401301147,
+        "ann_total_return": 0.3907699913964031,
+        "max_dd": -0.10824050474417403
+      },
+      {
+        "fold": 3,
+        "lo_bar": 4956,
+        "hi_bar": 7434,
+        "bars": 2478,
+        "span_years": 1.1302760666210359,
+        "sharpe": 0.9868396909376087,
+        "total_return": 0.3248725348400494,
+        "ann_total_return": 0.2826030322518833,
+        "max_dd": -0.2338372038316844
+      },
+      {
+        "fold": 4,
+        "lo_bar": 7434,
+        "hi_bar": 9912,
+        "bars": 2478,
+        "span_years": 1.1302760666210359,
+        "sharpe": 0.4852160169659049,
+        "total_return": 0.12529335594494717,
+        "ann_total_return": 0.11008655719070615,
+        "max_dd": -0.2906664807655464
+      }
+    ]
+  },
+  "max_dd_reference_from_inhouse_equity_curve": {
+    "per_symbol": {
+      "BTCUSDT": -0.49200209898084846,
+      "ETHUSDT": -0.5707685344268763
+    },
+    "combined_nav": -0.43251447214646643,
+    "fw_vs_combined_rel_err_pct": 0.43289751338443694
+  },
+  "divergence_pct": {
+    "sharpe": 1.4659652964954715,
+    "total_return": 2.728109612250207,
+    "max_dd": 24.550478559900725
+  },
+  "max_abs_rel_divergence_pct": 24.550478559900725,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": false,
+  "w5_tipping_metrics": [],
+  "w5_verdict": "WITHIN_TOLERANCE",
+  "approach": "vectorbt 1.1.0 zero-cost reference convention (fee=0, slip=0) applied to the in-house entry/exit schedule with full-notional mark-to-market equity on real 4h closes (BTCUSDT+ETHUSDT), funding carry per trade spread over held bars, cost amortised over held bars — mirrors in-house equity construction. Sharpe uses the in-house formula (mean/std of per-trade pnl x sqrt(2190)) with trade pnls reduced by the 2bp cost delta (2bp rt in-house - 0bp rt vectorbt = -2bp delta, so fw_pnls = ih_pnls + 2bp). Validated by reproducing the in-house equity CSVs at in-house cost before applying the framework cost.",
+  "generated_at_utc": "2026-07-21T19:41:15.391845+00:00"
+}

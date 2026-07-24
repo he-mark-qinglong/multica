@@ -1,0 +1,43 @@
+{
+  "strategy": "bb_reversion_rsi_1m_20260707_p3opt_049",
+  "iteration": 49,
+  "timeframe": "1m",
+  "source_timeframe": "1m",
+  "instruments": ["BTCUSDT"],
+  "data_source": "binance_usdm_1m_canonical",
+  "indicators": {
+    "bb_period": 20,
+    "bb_k": 1.8,
+    "rsi_period": 14,
+    "rsi_oversold": 25.0,
+    "rsi_overbought": 75.0,
+    "atr_period": 14,
+    "volume_ma_period": 30,
+    "volume_ratio_min": 0.5
+  },
+  "exit": {
+    "exit_rsi_mid": 50.0,
+    "stop_loss_atr_k": 2.0,
+    "take_profit_atr_k": 1.0,
+    "time_stop_bars": 60,
+    "bars_to_mid_max": 240
+  },
+  "entry": {
+    "cooldown_bars": 5,
+    "require_volume_floor": true
+  },
+  "sizing": {
+    "per_signal_weight_pct": 0.005,
+    "max_gross_exposure_pct": 0.05
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "P3-OPT-049: MAP-P3 parameter sweep — vary ONLY entry_threshold (= bb_k, the Bollinger band entry deviation multiple).",
+    "Baseline (P3-OPT-000): bb_k = 2.0. Variant: bb_k = 1.8.",
+    "Single variable change: entry_threshold 2.0 -> 1.8. All other params identical to baseline.",
+    "Mechanic: lowering bb_k tightens the bands (bb_upper/lower move closer to bb_mid), so more 1m bars breach the band and trigger entries. Entry threshold for both long (close < bb_lower) and short (close > bb_upper) becomes easier.",
+    "Hypothesis: tighter bands admit more frequent but less extreme reversion signals. If OOS Sharpe is unchanged or improves -> the 2.0 cutoff is too strict (we are leaving alpha on the table). If Sharpe drops materially -> the 2.0 cutoff is needed to filter noise."
+  ]
+}

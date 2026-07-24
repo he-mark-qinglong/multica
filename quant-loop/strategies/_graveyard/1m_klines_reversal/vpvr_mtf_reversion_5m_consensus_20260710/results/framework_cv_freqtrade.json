@@ -1,0 +1,52 @@
+{
+  "engine": "freqtrade",
+  "engine_version": "freqtrade 2026.6",
+  "engine_sha": "5e4cf7b1",
+  "iteration": 71,
+  "strategy_key": "vpvr_mtf_reversion_5m_consensus_20260710",
+  "inhouse": {
+    "sharpe": -0.3508183758798694,
+    "ann_total_return": -0.0024566481224703508,
+    "max_dd": -0.008069028497581466,
+    "n_trades": 6689,
+    "timeframe": "5m",
+    "status": "NOT-PROFITABLE"
+  },
+  "framework": {
+    "sharpe": -6.343640173243434,
+    "ann_total_return": -0.020586066759285537,
+    "max_dd": -0.044350975139397675,
+    "n_bars": 228018,
+    "span_years": 2.1676268157274317
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": -6.343640173243434,
+    "oos_total_return_ann_mean": -0.020586066759285537,
+    "oos_max_dd_max": -0.044350975139397675,
+    "n_folds": 1,
+    "folds": [
+      {
+        "fold": 1,
+        "bars": 228018,
+        "metrics": {
+          "sharpe": -6.343640173243434,
+          "ann_total_return": -0.020586066759285537,
+          "max_dd": -0.044350975139397675,
+          "n_bars": 228018
+        }
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 1708.2405624657713,
+    "ann_total_return": 737.9737647809587,
+    "max_dd": 449.64454708136196
+  },
+  "max_abs_rel_divergence_pct": 1708.2405624657713,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "freqtrade 2026.6 IStrategy contract replay: bar-by-bar equity reconstructed from in-house trades CSV (trades_A_5m_<SYM>.csv) applied to actual 5m price data with per_signal_weight_pct=0.01 fractional sizing, mark-to-market equity; Sharpe / ann_return / max_dd computed via in-house formula. freqtrade=imported.",
+  "cache_dir": "/tmp/framework-cache/freqtrade-5e4cf7b1",
+  "framework_metrics_file": "/tmp/framework-validate-vpvr_mtf_reversion_5m_consensus_20260710-freqtrade/results.json"
+}

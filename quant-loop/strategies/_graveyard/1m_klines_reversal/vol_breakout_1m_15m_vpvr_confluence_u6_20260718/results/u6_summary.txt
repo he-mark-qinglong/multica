@@ -1,0 +1,18 @@
+=== U6 vol_breakout TF-downshift — SMA-34932 ===
+strategy=vol_breakout_1m_15m_vpvr_confluence_u6_20260718  iter=89  parent=vol_breakout_2tf_vpvr_confluence_4h_20260712
+sharpe_method=daily_resampled sqrt(365.25) per SMA-34787
+bootstrap=block-1d n_iter=1000 seed=42
+primary_window=30d
+
+--- PRIMARY ---
+Sym     TF      Days Trades     WR     PF  Sharpe_d             CI95   AnnRet%   MaxDD%  G1  G2  G3  G4  G5  G6
+BTCUSDT 15m       30      1  1.000    inf    +3.549    [+0.00,+6.37]    +1.122   +0.000   Y   N   N   -   N   Y
+BTCUSDT 1m        30      0  0.000    inf    +0.000    [+0.00,+0.00]    +0.000   +0.000   N   N   N   -   N   Y
+ETHUSDT 15m       30      0  0.000    inf    +0.000    [+0.00,+0.00]    +0.000   +0.000   N   N   N   -   N   Y
+SOLUSDT 15m       30      0  0.000    inf    +0.000    [+0.00,+0.00]    +0.000   +0.000   N   N   N   -   N   Y
+
+--- EXTENDED WINDOWS (>=30 trades floor) ---
+BTCUSDT 15m      365      9  0.222  0.537    -0.741    [-2.59,+0.88]    -0.247   -0.492   N   N   N   -   N   Y
+BTCUSDT 1m        90      3  0.333  0.505    -1.135    [-3.55,+2.35]    -0.099   -0.049   N   N   N   -   N   Y
+
+Legend: G1 Sharpe>=1.0 | G2 AnnRet>=15% | G3 PF>=1.5 | G4 framework CV (NOT RUN, in-house only) | G5 bootstrap CI lo>=0.5 | G6 MaxDD>=-25%

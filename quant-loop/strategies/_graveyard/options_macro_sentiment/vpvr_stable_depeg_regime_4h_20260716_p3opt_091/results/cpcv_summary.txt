@@ -1,0 +1,8 @@
+=== vpvr_stable_depeg_regime_4h_20260716_p3opt_091 CPCV (P3-OPT-091) ===
+  single_param_changed: signal_blend_weight=0.5
+  n_groups=6 k_test=2 purge=50 embargo=20
+  paths=15 folds_complete=15
+  mean_oos_sharpe=6.3438  std_oos_sharpe=1.2913
+  ci95=[5.7216, 6.9235]
+  deflated_sharpe=6.2431  (n_trials=100)
+VERDICT: PROFITABLE

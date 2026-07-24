@@ -1,0 +1,69 @@
+{
+  "strategy": "mtf_xs_pairs_1m_15m_2h_h3_20260718",
+  "iteration": 112,
+  "campaign": "SMA-34875 mtf-1m-15m-2h (sizing sweep rebuild)",
+  "hypothesis": "H3",
+  "date": "2026-07-18",
+  "primary_timeframe": "1m",
+  "filter_timeframe": "15m",
+  "regime_timeframe": "2h",
+  "description": "H3: 2h funding-rate EMA(4) regime filter + 1m BTC/SOL pair z-score entry + 15m ATR sizing. SMA-34936 sweep rebuild.",
+  "instruments": [
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "pairs": [
+    "ETHUSDT/SOLUSDT"
+  ],
+  "data_source": "binance_usdm_1m_canonical",
+  "axis": "funding_regime_2h_with_1m_zscore_entry_and_15m_atr_sizing",
+  "indicators": {
+    "zscore_lookback_bars": 240,
+    "zscore_entry_threshold": 2.5,
+    "zscore_exit_threshold": 0.5,
+    "regime_break_threshold": 3.0,
+    "max_holding_bars": 240,
+    "funding_filter_threshold": 0.0005,
+    "funding_ema_window": 4,
+    "atr_normalize_window": 2016
+  },
+  "entry": {
+    "side_when_z_positive": "short_a_long_b",
+    "require_funding_regime": true
+  },
+  "exit": {
+    "zscore_exit_threshold": 0.5,
+    "regime_break_threshold": 3.0,
+    "max_holding_bars": 240
+  },
+  "sizing": {
+    "per_pair_notional_pct": 0.02,
+    "max_pairs_active": 1,
+    "starting_capital_usd": 100000.0,
+    "size_floor": 0.5,
+    "size_ceiling": 2.0
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "sharpe_method": "daily_resampled",
+  "walk_forward": {
+    "train_bars_1m": 525600,
+    "test_bars_1m": 262800,
+    "step_bars_1m": 262800,
+    "min_windows": 3
+  },
+  "hard_gates": {
+    "oos_sharpe_min": 1.0,
+    "oos_annualized_min": 0.15,
+    "profit_factor_min": 1.5,
+    "max_drawdown_max_abs_pct": 25.0,
+    "bootstrap_ci_lower_min": 0.5,
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 42
+  },
+  "notes": [
+    "H3 baseline (SMA-34878): OOS Sharpe 2.77, ann 59.75%, maxDD -12.62%, G3 PF=1.013 FAIL.",
+    "Goal (SMA-34936): sizing-only sweep \u2014 preserve entry/exit, fix PF via sizing.",
+    "Sharpe = daily-resampled only (smark directive 2026-07-18)."
+  ]
+}

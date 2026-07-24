@@ -1,0 +1,54 @@
+{
+  "iteration": 82,
+  "variant": "V8_funding_aware_rev2",
+  "strategy_key": "vpvr_funding_aware_v1_20260711",
+  "date": "2026-07-11",
+  "timeframe": "4h",
+  "instruments": [
+    "BTCUSDT",
+    "ETHUSDT"
+  ],
+  "axis": "funding_sum_24h_long_only_with_vol_regime_filter",
+  "tag": "PROFITABLE",
+  "agg_sharpe_mean": 7.164861498565264,
+  "agg_annualised_return_pct": 0.2111508601397375,
+  "agg_return_pct": 1.4432909698119527,
+  "agg_mdd_worst": -0.5707685344212701,
+  "agg_profit_factor": 1.5201270879483118,
+  "agg_n_trades_total": 165,
+  "by_symbol": {
+    "BTCUSDT": {
+      "sharpe": 0.4796,
+      "sortino": 17.447274734497643,
+      "mdd": -0.49200209898793645,
+      "n_trades": 79,
+      "win_rate": 0.4430379746835443,
+      "profit_factor": 1.4329392843172843,
+      "total_return_pct": 0.8181788141132937,
+      "annualised_return_pct": 0.14120910472502857,
+      "exit_reasons": {
+        "hard_stop": 36,
+        "time_stop": 43
+      },
+      "final_equity": 90908.94070566469
+    },
+    "ETHUSDT": {
+      "sharpe": 0.4796,
+      "sortino": 22.781877891020464,
+      "mdd": -0.5707685344212701,
+      "n_trades": 86,
+      "win_rate": 0.46511627906976744,
+      "profit_factor": 1.6073148915793392,
+      "total_return_pct": 2.0684031255106117,
+      "annualised_return_pct": 0.2810926155544464,
+      "exit_reasons": {
+        "time_stop": 52,
+        "hard_stop": 34
+      },
+      "final_equity": 153420.15627553058
+    }
+  },
+  "sharpe_method": "bar_freq_annualized",
+  "sharpe_method_evidence": "run_backtest.py: [run_backtest.py] L58:sharpe = (mu_t / sd_t) * math.sqrt(_bars_per_year(timeframe)) if sd_t > 0 else 0.0 ds = pnls[pnls < 0] dsigma = float(np.std(ds, ddof=0)) if ds.size else 0.0; L68:tag = \"PROFITAB",
+  "sharpe_method_audit_date": "2026-07-17T06:30:53+00:00"
+}

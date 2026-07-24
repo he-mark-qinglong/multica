@@ -1,0 +1,87 @@
+{
+  "strategy": "vpvr_xs_pairs_4h_zscore_vpvr_20260710",
+  "iteration": 75,
+  "date": "2026-07-10",
+  "timeframe": "4h",
+  "instruments": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "pairs": [
+    "BTCUSDT/ETHUSDT",
+    "BTCUSDT/SOLUSDT",
+    "ETHUSDT/SOLUSDT"
+  ],
+  "axis": "xs_pair_zscore_with_vpvr_confluence",
+  "tag": "NOT-PROFITABLE",
+  "variant": "A",
+  "n_trades": 1323,
+  "win_rate": 0.4672744449692961,
+  "profit_factor": 0.9052234250551389,
+  "total_return_pct": 0.06508970887894343,
+  "sharpe": 0.3339380339750799,
+  "max_drawdown_pct": -0.12628950855859564,
+  "evidence_gate": {
+    "sharpe_threshold": 0.5,
+    "sharpe_observed": 0.3339380339750799,
+    "passed": false
+  },
+  "params": {
+    "vpvr_window_bars": 60,
+    "vpvr_n_bins": 24,
+    "zscore_lookback_bars": 90,
+    "zscore_entry_threshold": 1.8,
+    "zscore_exit_threshold": 0.3,
+    "vpvr_proximity_atr_k": 0.7,
+    "atr_period": 14,
+    "resample_tf": "4h"
+  },
+  "per_pair": {
+    "BTCUSDT/ETHUSDT": {
+      "n_trades": 450,
+      "win_rate": 0.44666666666666666,
+      "profit_factor": 0.878830109965778,
+      "avg_hold_bars": 2.551111111111111,
+      "total_return_pct": 0.04705602273732867,
+      "sharpe": 0.28232374100676133,
+      "sortino": 0.1541457749565878,
+      "max_drawdown_pct": -0.13578843927590478,
+      "trades_per_year": 207.5720900862976,
+      "pair": "BTCUSDT/ETHUSDT",
+      "span_start": "2024-04-23",
+      "span_end": "2026-06-23",
+      "n_bars": 4751
+    },
+    "BTCUSDT/SOLUSDT": {
+      "n_trades": 438,
+      "win_rate": 0.502283105022831,
+      "profit_factor": 0.96122382700459,
+      "avg_hold_bars": 2.541095890410959,
+      "total_return_pct": 0.12540716570599364,
+      "sharpe": 0.5682788808139887,
+      "sortino": 0.28071406008123917,
+      "max_drawdown_pct": -0.09772968494931822,
+      "trades_per_year": 202.036834350663,
+      "pair": "BTCUSDT/SOLUSDT",
+      "span_start": "2024-04-23",
+      "span_end": "2026-06-23",
+      "n_bars": 4751
+    },
+    "ETHUSDT/SOLUSDT": {
+      "n_trades": 435,
+      "win_rate": 0.4528735632183908,
+      "profit_factor": 0.8756163381950485,
+      "avg_hold_bars": 2.547126436781609,
+      "total_return_pct": 0.022805938193507957,
+      "sharpe": 0.1512114801044894,
+      "sortino": 0.0852347265957804,
+      "max_drawdown_pct": -0.14535040145056388,
+      "trades_per_year": 200.65302041675437,
+      "pair": "ETHUSDT/SOLUSDT",
+      "span_start": "2024-04-23",
+      "span_end": "2026-06-23",
+      "n_bars": 4751
+    }
+  }
+}

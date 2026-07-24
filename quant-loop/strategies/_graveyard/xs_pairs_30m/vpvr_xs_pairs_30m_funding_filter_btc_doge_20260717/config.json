@@ -1,0 +1,49 @@
+{
+  "strategy": "vpvr_xs_pairs_30m_funding_filter_btc_doge_20260717",
+  "iteration": 86,
+  "date": "2026-07-17",
+  "timeframe": "30m",
+  "source_timeframe": "30m_native (BTC); 30m_native (DOGE)",
+  "instruments": [
+    "BTCUSDT",
+    "DOGEUSDT"
+  ],
+  "pairs": [
+    "BTCUSDT/DOGEUSDT"
+  ],
+  "data_source": "binance_usdm_30m_canonical",
+  "axis": "xs_pair_zscore_with_vpvr_confluence_and_funding_blowoff_filter_regularized_btc_doge",
+  "indicators": {
+    "vpvr_window_bars": 60,
+    "vpvr_n_bins": 24,
+    "zscore_lookback_bars": 192,
+    "zscore_entry_threshold": 2.5,
+    "zscore_exit_threshold": 0.5,
+    "vpvr_proximity_atr_k": 0.7,
+    "atr_period": 14,
+    "resample_tf": "30m",
+    "funding_8h_ema_window": 8,
+    "funding_filter_threshold": 0.0003
+  },
+  "entry": {
+    "zscore_side_when_positive": "short_a_long_b",
+    "require_vpvr_confluence": true,
+    "require_funding_filter": true
+  },
+  "exit": {
+    "zscore_exit_threshold": 0.5,
+    "regime_switch_zscore_threshold": 3.0,
+    "max_holding_bars": 96
+  },
+  "sizing": {
+    "per_pair_notional_pct": 0.01,
+    "max_pairs_active": 1
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "Iter #86: V7 variant on BTC/DOGE pair.",
+    "Both legs use native 30m. Same V7 params."
+  ]
+}

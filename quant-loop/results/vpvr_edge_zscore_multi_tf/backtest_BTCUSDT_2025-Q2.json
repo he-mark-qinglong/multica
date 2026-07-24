@@ -1,0 +1,65 @@
+{
+  "fold": "2025-Q2",
+  "symbol": "BTCUSDT",
+  "test_window": [
+    "2025-04-01",
+    "2025-06-30"
+  ],
+  "train_window": [
+    "2024-04-01",
+    "2025-03-31"
+  ],
+  "n_bars": 129601,
+  "metrics": {
+    "n_bars": 129601,
+    "n_trades": 70,
+    "win_rate": 0.0,
+    "profit_factor": 0.0,
+    "sharpe_daily": -4.6624,
+    "total_return": -0.003113,
+    "annualized_return": -0.012575,
+    "max_drawdown_pct": -0.3122,
+    "avg_bars_held": 2.87,
+    "bootstrap_ci_lower_sharpe": -6.3443,
+    "bootstrap_ci_upper_sharpe": -2.7845,
+    "bootstrap_resamples": 1000
+  },
+  "diagnostics": {
+    "n_long_entries": 31,
+    "n_short_entries": 39,
+    "n_conviction_high": 70,
+    "exit_reasons": {
+      "trend_reversal_2h": 0,
+      "trailing_stop": 9,
+      "z_exit_15m": 0,
+      "take_profit": 27,
+      "hard_stop": 34,
+      "time_stop": 0
+    },
+    "vol_target_weights_mean": 1.0157560512650365,
+    "vol_target_weights_max": 3.0,
+    "per_tf": {
+      "1m": {
+        "n_decision_long": 225,
+        "n_decision_short": 300,
+        "n_decision_flat": 129076,
+        "n_conviction_high": 525
+      },
+      "15m": {
+        "n_edge_long": 85,
+        "n_edge_short": 118,
+        "z_15m_mean": -0.005228566170489409,
+        "z_15m_std": 1.475218304753682
+      },
+      "2h": {
+        "trend_counts": {
+          "up": 330,
+          "down": 159,
+          "neutral": 592
+        },
+        "ema_slope_mean_bps": 2.2686738465438037,
+        "z_2h_mean": 0.16060620153658012
+      }
+    }
+  }
+}

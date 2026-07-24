@@ -1,0 +1,16 @@
+{
+  "variant_key": "vpvr_stable_depeg_regime_4h_20260716",
+  "iteration": 72,
+  "symbol": "BTCUSDT",
+  "n_bars": 10000,
+  "span_start": "2023-01-01 00:00:00",
+  "span_end": "2027-07-25 12:00:00",
+  "n_trades": 123,
+  "win_rate": 0.4146,
+  "sharpe": 3.8737,
+  "ann_return_pct": 0.7613,
+  "max_drawdown_pct": -0.1025,
+  "profit_factor": 1.0171,
+  "status": "NOT-PROFITABLE",
+  "note": "B1 synthetic sanity run \u2014 real validation pending B3 on live data."
+}

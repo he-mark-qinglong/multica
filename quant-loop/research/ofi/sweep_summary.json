@@ -1,0 +1,28 @@
+{
+  "bars": 105119,
+  "cost_per_entry_spot_bp": 17.82842712474619,
+  "cost_per_entry_futures_bp": 10.828427124746188,
+  "best_cell": {
+    "lookback": 1440.0,
+    "thr": 2.0,
+    "hold_bars": 240.0,
+    "is_sharpe": -38.52788743457295,
+    "oos_sharpe": -32.97461482297558,
+    "is_ann": -2.612574768537885,
+    "oos_ann": -2.221765785051267,
+    "oos_n": 0.0,
+    "n_entries_total": 335.0,
+    "cost_per_entry": 0.0017828427124746192
+  },
+  "cpcv_mean_oos_sharpe": -34.1404708435477,
+  "cpcv_std_oos_sharpe": 5.058429356514173,
+  "cpcv_fold_sharpes": [
+    -38.914,
+    -37.912,
+    -28.593,
+    -31.144
+  ],
+  "n_pass_g1_sharpe_1": 0,
+  "n_pass_g1_strong_3": 0,
+  "n_cells": 90
+}

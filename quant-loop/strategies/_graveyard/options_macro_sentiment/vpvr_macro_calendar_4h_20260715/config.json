@@ -1,0 +1,42 @@
+{
+  "variant": "A",
+  "strategy_key": "vpvr_macro_calendar_4h_20260715",
+  "iteration": 75,
+  "date": "2026-07-15",
+  "timeframe": "4h",
+  "regime_timeframe": "4h",
+  "instruments": ["BTCUSDT"],
+  "axis": "static_macro_calendar_overlay_vpvr_poc_reversion",
+  "starting_capital_usd": 100000.0,
+  "params": {
+    "vpvr_window_bars": 180,
+    "vpvr_bins": 24,
+    "atr_period": 14,
+    "macro_buffer_bars": 2,
+    "post_event_window_bars": 6,
+    "post_event_atr_min_mult": 1.2,
+    "poc_atr_buffer": 1.0,
+    "take_profit_atr_k": 3.0,
+    "hard_stop_atr_k": 1.5,
+    "max_hold_bars": 60,
+    "risk_target_pct": 0.005,
+    "cooldown_bars": 8,
+    "fee_bps_per_fill": 4.0,
+    "slippage_bps_per_fill": 2.0,
+    "walk_forward_folds": 3
+  },
+  "walk_forward": {
+    "folds": [
+      {"name": "2023-Q4", "train": ["2022-01-01", "2023-09-30"], "test": ["2023-10-01", "2023-12-31"]},
+      {"name": "2024-Q4", "train": ["2023-01-01", "2024-09-30"], "test": ["2024-10-01", "2024-12-31"]},
+      {"name": "2025-Q4", "train": ["2024-01-01", "2025-09-30"], "test": ["2025-10-01", "2025-12-31"]}
+    ]
+  },
+  "notes": [
+    "Iter#75 NEW AXIS: VPVR POC reversion (4h) with static macro calendar overlay for 2022-2026.",
+    "Static calendar embeds known FOMC / CPI / NFP / PCE release dates so the regime gate does not require a live feed.",
+    "Entries are blocked within `macro_buffer_bars` of a high-impact event and re-enabled only after the post-event volatility normalises (`atr >= post_event_atr_min_mult * atr_ma`).",
+    "Primary timeframe 4h matches the smark directive (1m / 15m / 4h, NOT 1d).",
+    "Distinct from vpvr_stable_depeg_regime_4h_20260716 (which uses stablecoin depeg premium) and vpvr_reversion_4h_stablecoin_netflow_20260713 (which uses netflow)."
+  ]
+}

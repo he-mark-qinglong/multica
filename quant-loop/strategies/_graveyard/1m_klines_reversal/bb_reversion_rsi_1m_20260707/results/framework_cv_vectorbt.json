@@ -1,0 +1,68 @@
+{
+  "engine": "vectorbt",
+  "engine_version": "1.1.0",
+  "engine_available": true,
+  "variant": "bb_reversion_rsi_1m_20260707",
+  "iteration": 1,
+  "n_folds": 4,
+  "full_period": {
+    "sharpe": -1.0277675130581017,
+    "total_return": -2.3056508779983886e-07,
+    "max_dd": -2.4162932188431796e-07,
+    "n_trades": 10429,
+    "n_bars": 3587809
+  },
+  "oos_sharpe_mean": -1.1428697594466075,
+  "oos_total_return_mean": -5.770271785388026e-08,
+  "oos_max_dd_max": -1.1594706084139261e-07,
+  "folds": [
+    {
+      "sharpe": -0.9606563862097738,
+      "total_return": -7.178796701534651e-08,
+      "max_dd": -1.1594706084139261e-07,
+      "n_trades": 2407,
+      "n_bars": 896952,
+      "fold": 1,
+      "fold_start": "2019-09-08 17:57:00+00:00",
+      "fold_end": "2021-05-23 15:09:00+00:00"
+    },
+    {
+      "sharpe": -0.473212073509116,
+      "total_return": -2.8082942193918825e-08,
+      "max_dd": -5.795436508471141e-08,
+      "n_trades": 2665,
+      "n_bars": 896952,
+      "fold": 2,
+      "fold_start": "2021-05-23 15:10:00+00:00",
+      "fold_end": "2023-02-05 12:21:00+00:00"
+    },
+    {
+      "sharpe": -1.7579555490834509,
+      "total_return": -7.470487628502553e-08,
+      "max_dd": -7.717204530965915e-08,
+      "n_trades": 2706,
+      "n_bars": 896952,
+      "fold": 3,
+      "fold_start": "2023-02-05 12:22:00+00:00",
+      "fold_end": "2024-10-20 09:33:00+00:00"
+    },
+    {
+      "sharpe": -1.3796550289840896,
+      "total_return": -5.6235085921230166e-08,
+      "max_dd": -6.813065456245937e-08,
+      "n_trades": 2653,
+      "n_bars": 896953,
+      "fold": 4,
+      "fold_start": "2024-10-20 09:34:00+00:00",
+      "fold_end": "2026-07-05 06:46:00+00:00"
+    }
+  ],
+  "config_snapshot": {
+    "fees_bps_per_side": 1.0,
+    "slippage_bps_per_side": 1.0,
+    "per_signal_weight_pct": 0.005,
+    "exit_rsi_mid": 50.0,
+    "starting_capital_usd": 100000.0,
+    "simplification": "stop-and-reverse: opposite signal closes + opens"
+  }
+}

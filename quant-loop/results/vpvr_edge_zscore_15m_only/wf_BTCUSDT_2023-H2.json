@@ -1,0 +1,33 @@
+{
+  "fold": "2023-H2",
+  "symbol": "BTCUSDT",
+  "test_window": [
+    "2023-07-01",
+    "2023-12-31"
+  ],
+  "n_bars": 17569,
+  "metrics": {
+    "n_bars": 17569,
+    "n_trades": 98,
+    "win_rate": 0.2041,
+    "profit_factor": 0.1114,
+    "sharpe_daily": -6.7039,
+    "total_return": -0.007724,
+    "annualized_return": -0.015357,
+    "max_drawdown_pct": -0.7765,
+    "avg_bars_held": 3.07
+  },
+  "diagnostics": {
+    "n_long_entries": 40,
+    "n_short_entries": 58,
+    "exit_reasons": {
+      "trailing_stop": 42,
+      "hard_stop": 50,
+      "time_stop": 4,
+      "take_profit": 2,
+      "z_exit_15m": 0
+    },
+    "vol_target_weights_mean": 1.6040184415732255,
+    "vol_target_weights_max": 3.0
+  }
+}

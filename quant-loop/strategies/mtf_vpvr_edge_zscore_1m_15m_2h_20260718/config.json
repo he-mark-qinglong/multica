@@ -1,0 +1,76 @@
+{
+  "strategy": "mtf_vpvr_edge_zscore_1m_15m_2h_20260718",
+  "iteration": 1,
+  "campaign": "SMA-34991 multi-TF VPVR-edge + zscore",
+  "hypothesis": "single-asset VPVR-edge + zscore multi-TF reversion",
+  "date": "2026-07-18",
+  "primary_timeframe": "1m",
+  "filter_timeframe": "15m",
+  "regime_timeframe": "2h",
+  "description": "Single-asset reversion (BTC/ETH/SOL): 15m VPVR edge touch (LVN/VAL/HVN/VAH) + z-score entry, 2h trend filter via EMA(20) slope, 1m execution.",
+  "instruments": ["BTCUSDT", "ETHUSDT"],
+  "data_source": "binance_usdm_1m_canonical",
+  "axis": "vpvr_edge_zscore_15m_2h_with_1m_execution",
+  "indicators": {
+    "vpvr_window_bars_15m": 96,
+    "vpvr_window_bars_2h": 60,
+    "vpvr_n_bins": 24,
+    "vpvr_hvn_quantile": 0.85,
+    "vpvr_lvn_quantile": 0.15,
+    "vpvr_num_hvn": 3,
+    "vpvr_num_lvn": 3,
+    "zscore_lookback_bars_15m": 100,
+    "zscore_lookback_bars_2h": 60,
+    "zscore_entry_threshold": 2.0,
+    "zscore_confirm_threshold": 1.0,
+    "zscore_exit_threshold": 0.5,
+    "poc_slope_lookback": 8,
+    "ema_period_2h": 20,
+    "ema_slope_lookback": 4,
+    "touch_atr_k": 1.0,
+    "atr_period": 14,
+    "tp_atr_k": 3.0,
+    "sl_atr_k": 1.0,
+    "max_holding_bars": 180
+  },
+  "exit": {
+    "zscore_exit_threshold": 0.5,
+    "tp_atr_k": 2.0,
+    "sl_atr_k": 1.5,
+    "max_holding_bars": 240
+  },
+  "sizing": {
+    "starting_capital_usd": 100000.0,
+    "per_symbol_notional_pct": 0.05,
+    "target_vol_annualized": 0.15
+  },
+  "fees_bps_per_side": 5.0,
+  "slippage_bps_per_side": 5.0,
+  "sharpe_method": "daily_resampled",
+  "walk_forward": {
+    "train_bars_1m": 525600,
+    "test_bars_1m": 262800,
+    "step_bars_1m": 262800,
+    "min_windows": 3
+  },
+  "cpcv": {
+    "n_groups": 6,
+    "k_test": 2,
+    "purge_bars": 500,
+    "embargo_bars": 250
+  },
+  "hard_gates": {
+    "oos_sharpe_min": 1.5,
+    "oos_annualized_min": 0.15,
+    "max_drawdown_worst_pct": -0.20,
+    "min_trades_per_window": 50,
+    "profit_factor_min": 1.5,
+    "deflated_sharpe_min": 0.5
+  },
+  "notes": [
+    "SMA-34991 single-asset multi-TF VPVR-edge + zscore reversion.",
+    "Per smark directive 2026-07-18: 1m/15m/2h stack, VPVR edges as primary signal, z-score confirmation.",
+    "Cost model: BINANCE_SPOT 10bp taker + 5bp slippage per side.",
+    "SOL gated on SMA-34869 backfill; first iteration uses BTC + ETH only."
+  ]
+}

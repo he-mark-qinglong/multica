@@ -1,0 +1,90 @@
+{
+  "engine": "freqtrade",
+  "engine_version": "freqtrade 2026.6",
+  "iteration": 75,
+  "strategy_key": "vpvr_macro_calendar_4h_20260715",
+  "symbol": "BTCUSDT",
+  "timeframe": "4h",
+  "data_source": {
+    "on_disk": "perp_1m/BTCUSDT_1m.parquet",
+    "resampled_to": "4h",
+    "n_4h_bars": 15025,
+    "span_start": "2019-09-08 16:00:00+00:00",
+    "span_end": "2026-07-17 16:00:00+00:00",
+    "trades_total": 212,
+    "trades_replayed": 212,
+    "trades_out_of_window": 0,
+    "trades_skipped_other": 0
+  },
+  "inhouse": {
+    "sharpe": -0.0165,
+    "ann_total_return": -2.8e-05,
+    "total_return": -0.000125,
+    "max_dd": -0.003231,
+    "n_trades": 212,
+    "status": "FAIL_NEGATIVE_ANN_RETURN"
+  },
+  "framework": {
+    "sharpe": 0.00010762411368734118,
+    "ann_total_return": 0.0,
+    "total_return": 0.0,
+    "max_dd": -0.00029864582684202556,
+    "n_bars": 15025,
+    "span_years": 6.855578370978781
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": 0.0027708610200730815,
+    "oos_total_return_ann_mean": 1.7828072351733226e-11,
+    "oos_max_dd_max": -0.00021476779422058279,
+    "n_folds": 5,
+    "folds": [
+      {
+        "fold": 1,
+        "bars": 3005,
+        "sharpe": 0.0,
+        "ann_total_return": 0.0,
+        "max_dd": 0.0
+      },
+      {
+        "fold": 2,
+        "bars": 3005,
+        "sharpe": 0.00010192628553142931,
+        "ann_total_return": 0.0,
+        "max_dd": -0.00012784964929246634
+      },
+      {
+        "fold": 3,
+        "bars": 3005,
+        "sharpe": 0.04388728077241215,
+        "ann_total_return": 9.441456273684423e-06,
+        "max_dd": -0.00014060980137420298
+      },
+      {
+        "fold": 4,
+        "bars": 3005,
+        "sharpe": -0.03024356040385072,
+        "ann_total_return": -9.441367133322665e-06,
+        "max_dd": -0.00021476779422058279
+      },
+      {
+        "fold": 5,
+        "bars": 3005,
+        "sharpe": 0.00010865844627255151,
+        "ann_total_return": 0.0,
+        "max_dd": -0.00010826432405830477
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 116.79309709135201,
+    "ann_total_return": 100.00006367168697,
+    "max_dd": 93.35290020982411
+  },
+  "max_abs_rel_divergence_pct": 116.79309709135201,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "freqtrade 2026.6 IStrategy contract replay: BTCUSDT 4h USDT-margined linear perp; 1m perp parquet resampled to 4h (open=first, close=last, high=max, low=min); pnl_pct applied linearly across held 4h bars with weight 0.005 (risk_target_pct); walk-forward OOS 5 folds; freqtrade-imported",
+  "freqtrade_imported": true,
+  "cache_dir": "/tmp/framework-validate-vpvr_macro_calendar_4h_20260715-freqtrade"
+}

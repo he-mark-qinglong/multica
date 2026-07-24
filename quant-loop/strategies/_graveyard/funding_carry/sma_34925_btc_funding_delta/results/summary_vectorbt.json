@@ -1,0 +1,70 @@
+{
+  "variant": "btc_funding_delta_xs_vbt",
+  "framework": "vectorbt",
+  "framework_version": "1.1.0",
+  "ohlcv_bars_total": 9954,
+  "delta_bars_total": 9903,
+  "oos_bars": 1096,
+  "thresholds": {
+    "thr_0.0005": {
+      "threshold": 0.0005,
+      "metrics": {
+        "sharpe": 0.0,
+        "ann": 0.0,
+        "maxdd": 0.0,
+        "ci_lower": 0.0,
+        "n_bars": 1096,
+        "n_entries": 0,
+        "n_bars_in_pos": 0,
+        "pct_bars_in_pos": 0.0
+      },
+      "gates": {
+        "G1_sharpe": false,
+        "G2_ann": false,
+        "G4_maxdd": true,
+        "G6_ci_lower": false
+      },
+      "all_gates_pass": false
+    },
+    "thr_0.001": {
+      "threshold": 0.001,
+      "metrics": {
+        "sharpe": 0.0,
+        "ann": 0.0,
+        "maxdd": 0.0,
+        "ci_lower": 0.0,
+        "n_bars": 1096,
+        "n_entries": 0,
+        "n_bars_in_pos": 0,
+        "pct_bars_in_pos": 0.0
+      },
+      "gates": {
+        "G1_sharpe": false,
+        "G2_ann": false,
+        "G4_maxdd": true,
+        "G6_ci_lower": false
+      },
+      "all_gates_pass": false
+    },
+    "thr_0.0015": {
+      "threshold": 0.0015,
+      "metrics": {
+        "sharpe": 0.0,
+        "ann": 0.0,
+        "maxdd": 0.0,
+        "ci_lower": 0.0,
+        "n_bars": 1096,
+        "n_entries": 0,
+        "n_bars_in_pos": 0,
+        "pct_bars_in_pos": 0.0
+      },
+      "gates": {
+        "G1_sharpe": false,
+        "G2_ann": false,
+        "G4_maxdd": true,
+        "G6_ci_lower": false
+      },
+      "all_gates_pass": false
+    }
+  }
+}

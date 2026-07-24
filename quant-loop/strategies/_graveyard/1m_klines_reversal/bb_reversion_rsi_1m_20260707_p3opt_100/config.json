@@ -1,0 +1,42 @@
+{
+  "strategy": "bb_reversion_rsi_1m_20260707_p3opt_100",
+  "iteration": 100,
+  "timeframe": "1m",
+  "source_timeframe": "1m",
+  "instruments": ["BTCUSDT"],
+  "data_source": "binance_usdm_1m_canonical",
+  "indicators": {
+    "bb_period": 20,
+    "bb_k": 2.0,
+    "rsi_period": 14,
+    "rsi_oversold": 25.0,
+    "rsi_overbought": 75.0,
+    "atr_period": 14,
+    "volume_ma_period": 30,
+    "volume_ratio_min": 0.5
+  },
+  "exit": {
+    "exit_rsi_mid": 1.0,
+    "stop_loss_atr_k": 2.0,
+    "take_profit_atr_k": 1.0,
+    "time_stop_bars": 60,
+    "bars_to_mid_max": 240
+  },
+  "entry": {
+    "cooldown_bars": 5,
+    "require_volume_floor": true
+  },
+  "sizing": {
+    "per_signal_weight_pct": 0.005,
+    "max_gross_exposure_pct": 0.05
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "P3-OPT-100: MAP-P3 parameter sweep — vary ONLY exit_threshold (= exit_rsi_mid).",
+    "Baseline (P3-OPT-000): exit_rsi_mid = 50.0. Variant: exit_rsi_mid = 1.0.",
+    "Single variable change: exit_threshold 50.0 -> 1.0. All other params identical to baseline.",
+    "Hypothesis: degenerate value forces immediate LONG exits (rsi>=1 trivially true); SHORT exits fall through to mean-reversion/stop/TP/time-stop. Stress-tests whether RSI mid exit adds value."
+  ]
+}

@@ -1,0 +1,7 @@
+=== vpvr_stable_depeg_regime_4h_20260716 CPCV (BASELINE for P3-OPT-091) ===
+  n_groups=6 k_test=2 purge=50 embargo=20
+  paths=15 folds_complete=15
+  mean_oos_sharpe=0.7205  std_oos_sharpe=1.1661
+  ci95=[0.1089, 1.2541]
+  deflated_sharpe=0.6960  (n_trials=100)
+VERDICT: NOT-PROFITABLE

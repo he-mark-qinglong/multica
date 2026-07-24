@@ -1,0 +1,33 @@
+{
+  "fold": "2025-H2",
+  "symbol": "BTCUSDT",
+  "test_window": [
+    "2025-07-01",
+    "2025-12-31"
+  ],
+  "n_bars": 17569,
+  "metrics": {
+    "n_bars": 17569,
+    "n_trades": 115,
+    "win_rate": 0.1913,
+    "profit_factor": 0.0975,
+    "sharpe_daily": -8.742,
+    "total_return": -0.008846,
+    "annualized_return": -0.017578,
+    "max_drawdown_pct": -0.8878,
+    "avg_bars_held": 3.86
+  },
+  "diagnostics": {
+    "n_long_entries": 47,
+    "n_short_entries": 68,
+    "exit_reasons": {
+      "trailing_stop": 47,
+      "hard_stop": 57,
+      "time_stop": 9,
+      "take_profit": 2,
+      "z_exit_15m": 0
+    },
+    "vol_target_weights_mean": 1.6974785132904548,
+    "vol_target_weights_max": 3.0
+  }
+}

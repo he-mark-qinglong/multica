@@ -1,0 +1,104 @@
+{
+  "engine": "vectorbt",
+  "engine_version": "1.1.0",
+  "engine_sha": "vectorbt-1.1.0",
+  "iteration": 75,
+  "strategy_key": "vpvr_macro_calendar_4h_20260715",
+  "inhouse": {
+    "sharpe": -0.0165,
+    "total_return": -0.000125,
+    "ann_total_return": -0.000125,
+    "max_dd": -0.003231,
+    "n_trades": 212,
+    "timeframe": "4h",
+    "status": "FAIL_NEGATIVE_ANN_RETURN"
+  },
+  "framework": {
+    "sharpe": 0.14940152678301644,
+    "total_return": 0.0010757364983797757,
+    "ann_total_return": 0.00023774107201735006,
+    "max_dd": -0.002764017202659254,
+    "n_bars": 9912,
+    "n_fills": 212,
+    "span_years": 4.522929500342231
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": 0.09839035401747381,
+    "oos_total_return_ann_mean": 0.00021478134602921363,
+    "oos_max_dd_max": -0.0021713239650297343,
+    "n_folds": 5,
+    "folds": [
+      {
+        "fold": 1,
+        "bars": 1982,
+        "sharpe": 0.7994070236438315,
+        "total_return": 0.0014876768649167982,
+        "ann_total_return": 0.0016450555355977947,
+        "max_dd": -0.0012775685524955161
+      },
+      {
+        "fold": 2,
+        "bars": 1982,
+        "sharpe": -0.4825013948619508,
+        "total_return": -0.0005520132334891903,
+        "ann_total_return": -0.0006103439466189631,
+        "max_dd": -0.002017476388319175
+      },
+      {
+        "fold": 3,
+        "bars": 1982,
+        "sharpe": -0.38732405429627415,
+        "total_return": -0.0005911788159675968,
+        "ann_total_return": -0.0006536467654264522,
+        "max_dd": -0.0021713239650297343
+      },
+      {
+        "fold": 4,
+        "bars": 1982,
+        "sharpe": 0.10583322180153949,
+        "total_return": 0.00013631912380618338,
+        "ann_total_return": 0.000150729319902565,
+        "max_dd": -0.0015974467541612224
+      },
+      {
+        "fold": 5,
+        "bars": 1984,
+        "sharpe": 0.456536973800223,
+        "total_return": 0.0005931027908798736,
+        "ann_total_return": 0.0006551537662964346,
+        "max_dd": -0.001072622377096965
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 1005.4637986849482,
+    "total_return": 960.5891987038206,
+    "max_dd": 14.453197070279971
+  },
+  "max_abs_rel_divergence_pct": 1005.4637986849482,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_tipping_metrics": [
+    "sharpe 1005.46%",
+    "total_return 960.59%"
+  ],
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "validation": {
+    "n_bars_compared": 9912,
+    "n_trades_replayed": 212,
+    "max_abs_rel_err": 0.0001253945416523165,
+    "final_abs_rel_err": 7.143226058093745e-05,
+    "replayed_max_dd": -0.003230622938541835,
+    "inhouse_max_dd": -0.003230622938541835,
+    "max_dd_abs_diff": 0.0
+  },
+  "cost_model": {
+    "inhouse_fee_bps_per_side": 4.0,
+    "inhouse_slip_bps_per_side": 2.0,
+    "inhouse_round_trip": 0.0012,
+    "framework_round_trip": 0.0,
+    "delta_per_trade": -0.0012
+  },
+  "approach": "vectorbt 1.1.0 cross-check via the canonical zero-cost reference convention (fee=0, slip=0; 0bp round-trip). Replays the in-house entry/exit schedule from trades_4h_BTCUSDT.csv onto the BTCUSDT 4h parquet. Equity construction mirrors strategy.py:run_backtest exactly: risk_target-scaled bar-by-bar MTM (entry bar + held bars apply risk_target=0.005 * (close[k+1]/close[k]-1) * dir; exit bar overrides with risk_target * ((close[x]/entry_px-1)*dir - cost_rt) -- in-house cost = 12.0bp RT). Validation step first runs at the in-house cost and must reproduce the in-house equity CSV (max_abs_rel_err < 1e-3). The framework run uses vectorbt 0bp-rt -- a -12 bp/trade cost delta vs in-house. Sharpe computed from per-bar returns \u00d7 sqrt(365.25 * 6) (4h bars), max_dd from peak/trough. Chronological 5-fold walk-forward OOS.",
+  "generated_at_utc": "2026-07-21T23:45:20.148556+00:00"
+}

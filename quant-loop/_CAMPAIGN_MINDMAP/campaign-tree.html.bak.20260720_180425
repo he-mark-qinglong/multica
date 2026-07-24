@@ -1,0 +1,1607 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Campaign Tree — iter#68 → iter#106 (auto-generated 2026-07-20)</title>
+<style>
+:root {
+  --bg:#0a0e14; --fg:#f0f0f0; --muted:#c9d1d9; --accent:#58a6ff;
+  --archived:#ef4444; --killed:#f59e0b; --live:#10b981; --stale:#6e7681;
+  --info:#58a6ff; --border:#1f242c; --depth1:#161b22;
+  /* enriched status palette (matches user spec) */
+  --st-done:#10b981;        /* green */
+  --st-in_progress:#58a6ff; /* blue */
+  --st-in_review:#f59e0b;   /* amber */
+  --st-backlog:#6e7681;     /* gray */
+  --st-todo:#6e7681;        /* gray */
+  --st-cancelled:#4a5560;   /* light gray */
+  --st-killed:#ef4444;      /* red */
+  --st-unknown:#3a4250;
+  /* priority ring colors */
+  --pr-urgent:#ef4444;
+  --pr-high:#fb923c;
+  --pr-medium:#facc15;
+  --pr-low:#6e7681;
+  --pr-none:transparent;
+}
+* { box-sizing: border-box; }
+body {
+  font: 12px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", monospace;
+  background: var(--bg); color: var(--fg); margin: 0; height: 100vh;
+  display: flex; flex-direction: column; overflow: hidden;
+}
+header {
+  padding: 8px 12px; background: var(--depth1); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px; flex-shrink: 0; flex-wrap: wrap;
+}
+header h1 { font-size: 14px; font-weight: 600; margin: 0; flex-shrink: 0; }
+header h1 .iter { color: var(--accent); }
+header .meta { font-size: 11px; color: var(--muted); }
+header .meta b { color: var(--fg); }
+
+/* ----- Rollup header (sticky) ----- */
+#rollups {
+  background: linear-gradient(180deg, #131922, #0f1320);
+  border-bottom: 1px solid var(--border);
+  padding: 6px 12px;
+  display: flex; flex-direction: column; gap: 4px;
+  flex-shrink: 0;
+  font-size: 11px;
+}
+#rollups .row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+#rollups .lbl {
+  color: var(--muted); font-weight: 600; margin-right: 4px;
+  text-transform: uppercase; letter-spacing: 0.04em; font-size: 10px;
+}
+#rollups .stat {
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 1px 7px; border-radius: 9px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: filter .12s;
+}
+#rollups .stat:hover { filter: brightness(1.25); }
+#rollups .stat.active {
+  background: rgba(88,166,255,0.18);
+  border-color: var(--accent);
+}
+#rollups .stat .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+}
+#rollups .stat[data-status="done"] .dot       { background: var(--st-done); }
+#rollups .stat[data-status="in_progress"] .dot{ background: var(--st-in_progress); }
+#rollups .stat[data-status="in_review"] .dot { background: var(--st-in_review); }
+#rollups .stat[data-status="backlog"] .dot    { background: var(--st-backlog); }
+#rollups .stat[data-status="todo"] .dot       { background: var(--st-todo); }
+#rollups .stat[data-status="cancelled"] .dot { background: var(--st-cancelled); }
+#rollups .stat[data-status="killed"] .dot     { background: var(--st-killed); }
+#rollups .stat[data-status="unknown"] .dot    { background: var(--st-unknown); }
+#rollups .stat .n { color: var(--fg); font-weight: 600; }
+#rollups .stat .label { color: var(--muted); }
+#rollups .stat.total { background: rgba(88,166,255,0.10); }
+
+/* ----- Filter row ----- */
+#filters {
+  background: #0e131c;
+  border-bottom: 1px solid var(--border);
+  padding: 4px 12px;
+  display: flex; gap: 6px; align-items: center;
+  flex-shrink: 0;
+  font-size: 11px;
+  position: relative;
+}
+#filters .group { display: inline-flex; gap: 4px; align-items: center; }
+#filters .glbl { color: var(--muted); margin-right: 2px; }
+#filters button {
+  background: rgba(255,255,255,0.04);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font: inherit;
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+#filters button:hover { background: rgba(88,166,255,0.12); border-color: var(--accent); }
+#filters button.active {
+  background: rgba(88,166,255,0.22); border-color: var(--accent);
+}
+#filters button .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+}
+#filters .clear {
+  margin-left: auto;
+  color: var(--muted);
+  border-color: var(--border);
+}
+#filters .pop {
+  position: absolute; top: 100%; left: 0;
+  background: #161b22; border: 1px solid var(--border); border-radius: 4px;
+  padding: 4px; display: none; z-index: 50;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+  min-width: 180px; max-width: 360px;
+  flex-wrap: wrap; gap: 3px;
+}
+#filters .pop.open { display: flex; }
+#filters .pop .chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 7px; border-radius: 9px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  cursor: pointer; font-size: 10.5px;
+}
+#filters .pop .chip:hover { background: rgba(88,166,255,0.18); }
+#filters .pop .chip.on {
+  background: rgba(88,166,255,0.30); border-color: var(--accent);
+}
+#filters .pop .chip .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+}
+
+/* ----- Main viz ----- */
+main { flex: 1; display: flex; overflow: hidden; min-height: 0; }
+#viz { flex: 1; position: relative; background: var(--bg); overflow: hidden; }
+#viz svg { width: 100%; height: 100%; display: block; }
+#viz .arc { stroke: var(--bg); stroke-width: 1; cursor: pointer; transition: opacity .15s; }
+#viz .arc:hover { opacity: 0.85; }
+#viz .arc.dimmed { opacity: 0.10; }
+#viz .arc.highlight { opacity: 1; stroke: #fff; stroke-width: 2; }
+#viz .arc-ring {
+  fill: none; pointer-events: none; transition: opacity .15s;
+}
+#viz .arc-ring.dimmed { opacity: 0.05; }
+#viz .arc-text { font-size: 10px; pointer-events: none; fill: rgba(255,255,255,0.92); }
+#viz .arc-text.dimmed { opacity: 0.10; }
+#viz .center-label { font: 600 14px monospace; pointer-events: none; }
+#viz .center-sub { font: 10px monospace; pointer-events: none; fill: var(--muted); }
+
+/* ----- Tooltip ----- */
+#viz .tip {
+  position: absolute; padding: 8px 10px;
+  background: rgba(20,22,28,.97);
+  border: 1px solid var(--border); border-radius: 4px; font-size: 11px;
+  pointer-events: none; opacity: 0; transition: opacity .12s;
+  max-width: 380px; z-index: 10; line-height: 1.5;
+}
+#viz .tip b { color: var(--accent); }
+#viz .tip .row { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; margin: 3px 0; }
+#viz .tip .badge {
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 1px 6px; border-radius: 8px; font-size: 10px;
+  background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+}
+#viz .tip .badge .dot { width: 7px; height: 7px; border-radius: 50%; }
+#viz .tip .badge.status-done       { border-color: var(--st-done); }
+#viz .tip .badge.status-done .dot       { background: var(--st-done); }
+#viz .tip .badge.status-in_progress{ border-color: var(--st-in_progress); }
+#viz .tip .badge.status-in_progress .dot{ background: var(--st-in_progress); }
+#viz .tip .badge.status-in_review { border-color: var(--st-in_review); }
+#viz .tip .badge.status-in_review .dot { background: var(--st-in_review); }
+#viz .tip .badge.status-backlog    { border-color: var(--st-backlog); }
+#viz .tip .badge.status-backlog .dot    { background: var(--st-backlog); }
+#viz .tip .badge.status-todo       { border-color: var(--st-todo); }
+#viz .tip .badge.status-todo .dot       { background: var(--st-todo); }
+#viz .tip .badge.status-cancelled  { border-color: var(--st-cancelled); }
+#viz .tip .badge.status-cancelled .dot  { background: var(--st-cancelled); }
+#viz .tip .badge.status-killed     { border-color: var(--st-killed); }
+#viz .tip .badge.status-killed .dot     { background: var(--st-killed); }
+#viz .tip .badge.priority-urgent { border-color: var(--pr-urgent); color: var(--pr-urgent); font-weight: 700; }
+#viz .tip .badge.priority-high   { border-color: var(--pr-high);   color: var(--pr-high); }
+#viz .tip .badge.priority-medium { border-color: var(--pr-medium); color: var(--pr-medium); }
+#viz .tip .badge.priority-low    { border-color: var(--pr-low);    color: var(--pr-low); }
+#viz .tip .badge.phase {
+  text-transform: uppercase; letter-spacing: 0.04em; font-size: 9.5px;
+}
+#viz .tip .badge.phase-proposed { color: var(--muted); }
+#viz .tip .badge.phase-active   { color: var(--st-in_progress); border-color: var(--st-in_progress); }
+#viz .tip .badge.phase-blocked  { color: var(--pr-urgent); border-color: var(--pr-urgent); }
+#viz .tip .badge.phase-done     { color: var(--st-done); border-color: var(--st-done); }
+#viz .tip .badge.phase-killed   { color: var(--st-killed); border-color: var(--st-killed); }
+#viz .tip .badge.phase-parked   { color: var(--st-todo); border-color: var(--st-todo); }
+#viz .tip .tags { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 3px; }
+#viz .tip .pill {
+  display: inline-block; padding: 1px 7px; border-radius: 9px;
+  background: rgba(88,166,255,0.12);
+  color: var(--fg); font-size: 10px;
+  border: 1px solid rgba(88,166,255,0.30);
+}
+#viz .tip .pill.kill { background: rgba(239,68,68,0.18); border-color: rgba(239,68,68,0.45); }
+#viz .tip .pill.framework { background: rgba(16,185,129,0.18); border-color: rgba(16,185,129,0.45); }
+#viz .tip .pill.ship-gate { background: rgba(245,158,11,0.18); border-color: rgba(245,158,11,0.45); }
+#viz .tip a.btn {
+  display: inline-block; margin-top: 4px; padding: 2px 8px;
+  border: 1px solid var(--accent); border-radius: 3px; font-size: 10px;
+  cursor: pointer; background: transparent; color: var(--accent); text-decoration: none;
+}
+#viz .tip a.btn:hover { background: var(--accent); color: var(--bg); }
+
+/* ----- Legend ----- */
+.legend {
+  position: absolute; bottom: 8px; left: 8px; display: flex; gap: 3px;
+  background: rgba(20,22,28,.92); padding: 4px 6px; border-radius: 5px;
+  font-size: 10px; z-index: 5; border: 1px solid var(--border);
+  flex-wrap: wrap; max-width: 60%;
+}
+.legend .chip { display: inline-flex; align-items: center; gap: 3px; padding: 1px 4px; }
+.legend .dot { width: 8px; height: 8px; border-radius: 50%; }
+.legend .ring {
+  display: inline-block; width: 10px; height: 10px;
+  border-radius: 50%; border: 2px solid var(--pr-high);
+}
+.hint {
+  position: absolute; bottom: 8px; right: 8px; padding: 4px 8px;
+  background: rgba(20,22,28,.92); border: 1px solid var(--border);
+  border-radius: 5px; font-size: 10px; color: var(--muted); z-index: 5;
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Campaign Tree <span class="iter">iter#68 → iter#106</span></h1>  <span class="meta"><b>54</b> campaign commits · <b>261</b> multica issues · updated 2026-07-20T18:02:45+08:00</span>  </header>
+<div id="rollups">
+  <div class="row" id="rollup-status">
+    <span class="lbl">Workspace</span>
+    <span class="stat total" data-key="total"><span class="n">0</span><span class="label">total</span></span>
+  </div>
+  <div class="row" id="rollup-phase">
+    <span class="lbl">Phases</span>
+  </div>
+  <div class="row" id="rollup-tag">
+    <span class="lbl">Top tags</span>
+    <span style="color:var(--muted);font-size:10px">—</span>
+  </div>
+</div>
+<div id="filters">
+  <div class="group" data-facet="status">
+    <span class="glbl">by status:</span>
+    <button data-pick="__any__" class="active">all</button>
+  </div>
+  <div class="group" data-facet="priority">
+    <span class="glbl">by priority:</span>
+    <button data-pick="__any__" class="active">all</button>
+  </div>
+  <div class="group" data-facet="project">
+    <span class="glbl">by project:</span>
+    <button data-pick="__any__" class="active">all</button>
+  </div>
+  <button class="clear" id="filter-clear" title="reset all filters">× reset</button>
+  <div class="pop" id="pop-status"></div>
+  <div class="pop" id="pop-priority"></div>
+  <div class="pop" id="pop-project"></div>
+</div>
+<main>
+  <div id="viz">
+    <svg id="main-svg"></svg>
+    <div class="legend">
+      <span class="chip"><span class="dot" style="background:var(--st-done)"></span>done</span>
+      <span class="chip"><span class="dot" style="background:var(--st-in_progress)"></span>in_progress</span>
+      <span class="chip"><span class="dot" style="background:var(--st-in_review)"></span>in_review</span>
+      <span class="chip"><span class="dot" style="background:var(--st-backlog)"></span>backlog/todo</span>
+      <span class="chip"><span class="dot" style="background:var(--st-cancelled)"></span>cancelled</span>
+      <span class="chip"><span class="dot" style="background:var(--st-killed)"></span>killed</span>
+      <span class="chip"><span class="ring"></span>priority ring</span>
+    </div>
+    <div class="hint">hover = preview · click = open multica issue · click rollup chip to filter</div>
+    <div class="tip" id="tip"></div>
+  </div>
+</main>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+const MULTICA_BASE = "http://192.168.0.105:3000/smark";
+
+// Static visual tables (do not change between regenerations).
+const STATUS_COLOR = {
+  done:        getComputedStyle(document.documentElement).getPropertyValue("--st-done").trim(),
+  in_progress: getComputedStyle(document.documentElement).getPropertyValue("--st-in_progress").trim(),
+  in_review:   getComputedStyle(document.documentElement).getPropertyValue("--st-in_review").trim(),
+  backlog:     getComputedStyle(document.documentElement).getPropertyValue("--st-backlog").trim(),
+  todo:        getComputedStyle(document.documentElement).getPropertyValue("--st-todo").trim(),
+  cancelled:   getComputedStyle(document.documentElement).getPropertyValue("--st-cancelled").trim(),
+  killed:      getComputedStyle(document.documentElement).getPropertyValue("--st-killed").trim(),
+  unknown:     getComputedStyle(document.documentElement).getPropertyValue("--st-unknown").trim(),
+};
+const STATUS_FALLBACK = "#3a4250";
+
+const PRIORITY_RING = {
+  urgent: { color: "#ef4444", width: 3.5, dasharray: null },
+  high:   { color: "#fb923c", width: 2.5, dasharray: null },
+  medium: { color: "#facc15", width: 1.8, dasharray: null },
+  low:    { color: "#6e7681", width: 1.0, dasharray: null },
+  none:   null,
+};
+const PRIORITY_FALLBACK = null;
+
+const PHASE_BADGE_COLOR = {
+  proposed: "#c9d1d9",
+  active:   "#58a6ff",
+  blocked:  "#ef4444",
+  done:     "#10b981",
+  killed:   "#ef4444",
+  parked:   "#6e7681",
+};
+
+/* =================== Data (auto-generated) */
+const DATA = {
+  "name": "multica quant-loop campaigns",
+  "status": "info",
+  "multica_id": "",
+  "description": "54 campaign commits across 261 multica issues. Generated 2026-07-20T18:02:45+08:00.",
+  "children": [
+    {
+      "name": "iter#106",
+      "status": "info",
+      "multica_id": "",
+      "description": "3 commits in iter#106",
+      "children": [
+        {
+          "name": "WIP on feat/vpvr-iter70-72-mtf-asymmetric-regime-20260714: 630733ccf feat(vpvr):",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "index on feat/vpvr-iter70-72-mtf-asymmetric-regime-20260714: 630733ccf feat(vpvr",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(vpvr): iter#106-108 calendar/TOD/funding-reset axis trio (NOT-PROFITABLE)",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#105",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#105",
+      "children": [
+        {
+          "name": "feat(vpvr): V3_xs_smart_routing_15m_20260715 (iter#105) — NOT-PROFITABLE",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#104",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#104",
+      "children": [
+        {
+          "name": "feat(vpvr): V2_options_putcall_oi_pressure_8h_20260715 (iter#104) — NOT-PROFITAB",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#103",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#103",
+      "children": [
+        {
+          "name": "feat(vpvr): V1_options_iv_termstructure_4h_20260715 (iter#103) — NOT-PROFITABLE",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#97",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#97",
+      "children": [
+        {
+          "name": "feat(vpvr): iter#97-99 variant sweep — funding-term curve, xs-corr breakdown, li",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#96",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#96",
+      "children": [
+        {
+          "name": "feat(vpvr): iter#96 V3 vpvr_mtf_consensus_v2_4h_20260714 [NOT-PROFITABLE]",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#95",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#95",
+      "children": [
+        {
+          "name": "feat(vpvr): iter#95 V2 vpvr_obi_micro_v2_1m_20260714 [NOT-PROFITABLE]",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#94",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#94",
+      "children": [
+        {
+          "name": "feat(vpvr): iter#94 V1 vpvr_regime_blend_4h_20260714 [NOT-PROFITABLE]",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#93",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#93",
+      "children": [
+        {
+          "name": "feat(stat-arb): V14 multi_pair_basket + 1d regime filter (iter#93)",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#92",
+      "status": "info",
+      "multica_id": "",
+      "description": "2 commits in iter#92",
+      "children": [
+        {
+          "name": "feat(stat-arb): V13 sector-neutral_pairs + funding alignment (iter#92)",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(vpvr): iter#92 vpvr_funding_asym_4h_20260713 [NOT-PROFITABLE]",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#92+",
+      "status": "info",
+      "multica_id": "",
+      "description": "2 commits in iter#92+",
+      "children": [
+        {
+          "name": "docs(campaign-tree): iter#92+ 2/2 NOT-PROFITABLE; 35 archived; axis exhausted",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(vpvr): iter#92+ V_ice_v2 + V_whale_v2 — cycle-46 single rebuild (NOT-PROFIT",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#91",
+      "status": "info",
+      "multica_id": "",
+      "description": "2 commits in iter#91",
+      "children": [
+        {
+          "name": "feat(stat-arb): V12 cointegration_pairs + VPVR POC confluence (iter#91)",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(vpvr): iter#91 vpvr_options_iv_skew_1d_20260713 [NOT-PROFITABLE]",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#90",
+      "status": "info",
+      "multica_id": "",
+      "description": "2 commits in iter#90",
+      "children": [
+        {
+          "name": "feat(vpvr): iter#90-92 derivatives-axis 3 variants (B2+B3 combined, all NOT-PROF",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(vpvr): iter#90 vpvr_oi_divergence_4h_20260713 [NOT-PROFITABLE]",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#89",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#89",
+      "children": [
+        {
+          "name": "feat(vpvr): V_pair iter#89 cross-asset BTC->SOL funding divergence",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#88",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#88",
+      "children": [
+        {
+          "name": "feat(vpvr): V_mtf iter#88 funding-delta + 15m multi-TF confirm (5m substituted)",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#87",
+      "status": "info",
+      "multica_id": "",
+      "description": "2 commits in iter#87",
+      "children": [
+        {
+          "name": "feat(vpvr): V_asym iter#87 backtest (vpvr_funding_delta_1h_asym_20260711)",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(vpvr): V_asym iter#87 funding-delta + asymmetric 2:1 TP:SL execution",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#86",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#86",
+      "children": [
+        {
+          "name": "feat: momentum_trend_multi_tf_atr_scaled_1h_20260712 iter#86 (cycle-46 trend piv",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#84+",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#84+",
+      "children": [
+        {
+          "name": "feat: campaign iter#84+ — V_liq/V_obi/V_fd VPVR variants (3/3 NOT-PROFITABLE, ar",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#81",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#81",
+      "children": [
+        {
+          "name": "vpvr SMA-33026 iter#81-83: 3 NEW axes (VRP / cross-exchange basis / stablecoin n",
+          "multica_id": "SMA-33026",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#72",
+      "status": "info",
+      "multica_id": "",
+      "description": "2 commits in iter#72",
+      "children": [
+        {
+          "name": "vpvr_xs_basis_zscore_15m_funding_filter_20260712: iter#72 NEW basis+funding axis",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(vpvr): V8 multi-venue carry 8h variant iter#72 (cross-venue funding spread ",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#71",
+      "status": "info",
+      "multica_id": "",
+      "description": "3 commits in iter#71",
+      "children": [
+        {
+          "name": "feat(vpvr): B3 backtest iter#71 vpvr_options_putcall_oi_pressure_8h [NOT-PROFITA",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "vpvr_inverse_reversion_4h_funding_filter_20260712: iter#71 NEW inverse axis [DEF",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(vpvr): V7 OBI microstructure 1m variant iter#71 (OBI z-score + VPVR POC, 6m",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#70",
+      "status": "info",
+      "multica_id": "",
+      "description": "7 commits in iter#70",
+      "children": [
+        {
+          "name": "feat(vpvr): B3 backtest iter#70 vpvr_micro_reversion_1h_funding_filter_20260710",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(vpvr): iter#70-72 B1 indicator specs for 3 new axes",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "docs(vpvr): add SPEC.md for V6/V7/V8 (iter#70-72) — all NOT-PROFITABLE",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(vpvr): iter#70-72 multi-TF / asymmetric / vol-regime escape hatches (V6/V7/",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "vpvr_reversion_30m_vwap_zscore_20260712: iter#70 NEW 30m TF axis [NOT-PROFITABLE",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "docs(campaign-tree): iter#70-92+; 29 archived; 0/15 shipped; iter#92+ in flight ",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(vpvr): V6 options-gamma 1d variant iter#70 (DVOL proxy + VPVR POC)",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#69",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#69",
+      "children": [
+        {
+          "name": "feat(vpvr): B3 backtest iter#69 V5 volume_profile_break [NOT-PROFITABLE]",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "iter#68",
+      "status": "info",
+      "multica_id": "",
+      "description": "1 commits in iter#68",
+      "children": [
+        {
+          "name": "feat(vpvr): B3 backtest iter#68 V4 xs_reversion_1d_momentum_filter [NOT-PROFITAB",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    },
+    {
+      "name": "other",
+      "status": "info",
+      "multica_id": "",
+      "description": "14 commits in other",
+      "children": [
+        {
+          "name": "chore(submodules): bump 3 vpvr submodule pointers",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "migrate out: vpvr_defi_basis_15m_hyperliquid_dydx_20260716 -> trading",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(vpvr): H2 single-pair VPVR edge touch 1m/15m/2h — Sharpe 5.63 OOS",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(vpvr): B3 backtest trend_multi_tf_momentum_cascade_4h_1h_15m_20260714 [NOT-",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat: add BTC 4h VPVR level detector",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat: add BTC 4h VPVR level detector",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "vpvr SMA-32633 campaign: add SPEC.md for each of V1/V2/V3",
+          "multica_id": "SMA-32633",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "docs(xs_momentum): B7 independent code review",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(xs_momentum): B3 walk-forward splits + aggregate stats",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(xs_momentum): B4 factor exposure v2 (legs / HHI / holding period)",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(quant-loop): V8 vpvr_regime_reversion_4h_vol_switch iter=72 [NOT-PROFITABLE",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(quant-loop): V7 vpvr_mtf_reversion_5m_consensus iter=71 [NOT-PROFITABLE]",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(quant-loop): V6 vpvr_micro_reversion_1h_funding_filter iter=70 [NOT-PROFITA",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        },
+        {
+          "name": "feat(quant-loop): V1 vpvr_reversion_5m_vwap_trail iter=65 [NOT-PROFITABLE]",
+          "multica_id": "",
+          "value": 1,
+          "status": "unknown",
+          "priority": "none",
+          "phase": "proposed",
+          "project_id": "",
+          "project_name": "",
+          "labels": [],
+          "tags": []
+        }
+      ]
+    }
+  ]
+};
+
+const ROLLUPS = {
+  "generated_at": "2026-07-20T18:02:45+08:00",
+  "total": 261,
+  "status_counts": {
+    "done": 185,
+    "in_progress": 17,
+    "cancelled": 33,
+    "in_review": 16,
+    "backlog": 5,
+    "todo": 5
+  },
+  "phase_counts": {
+    "done": 185,
+    "active": 33,
+    "killed": 33,
+    "proposed": 8,
+    "parked": 2
+  },
+  "priority_counts": {
+    "low": 32,
+    "medium": 69,
+    "none": 113,
+    "high": 43,
+    "urgent": 4
+  },
+  "project_counts": {
+    "no_project": 121,
+    "M-Infrastructure": 66,
+    "VPVR Campaign": 21,
+    "quant-loop-strategies": 39,
+    "Strategy Display Engine": 1,
+    "Multica HTTPS": 4,
+    "trading-engine": 6,
+    "data-pipeline": 3
+  },
+  "top_tags": [
+    [
+      "archived-noise",
+      27
+    ],
+    [
+      "infrastructure=wave-1-2",
+      10
+    ],
+    [
+      "source=frontier-research-2026-07-18",
+      10
+    ],
+    [
+      "w5_verdict=AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+      7
+    ],
+    [
+      "w5_auto_archive=true",
+      7
+    ],
+    [
+      "engine=backtrader",
+      7
+    ],
+    [
+      "framework_sha=backtrader-1.9.78.123",
+      7
+    ],
+    [
+      "routing=AUTO-ARCHIVE per W5 §W5.2 (divergence > 50%) — NO smark-decision escalation",
+      5
+    ],
+    [
+      "strategy_key=vpvr_macro_calendar_4h_20260715",
+      2
+    ],
+    [
+      "engine=freqtrade",
+      2
+    ],
+    [
+      "framework_sha=freqtrade-2026.6",
+      2
+    ],
+    [
+      "routing=AUTO-ARCHIVE per W5 §W5.2 (divergence > 50%) — NO smark-decision escal",
+      2
+    ]
+  ]
+};
+/* =================== Sunburst */
+
+// ----- helpers -----
+function statusColor(s) { return STATUS_COLOR[s] || STATUS_FALLBACK; }
+function priorityRing(p) { return (p && PRIORITY_RING[p]) || PRIORITY_FALLBACK; }
+function phaseColor(p)   { return PHASE_BADGE_COLOR[p] || "#888"; }
+function escapeHtml(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+function tagPillClass(tag) {
+  const t = tag.toLowerCase();
+  if (t.startsWith("kill") || t.includes("killed") || t.includes("cancelled")) return "kill";
+  if (t.includes("framework") || t.includes("validated")) return "framework";
+  if (t.includes("ship-gate") || t.includes("ship_gate") || t.includes("verdict")) return "ship-gate";
+  return "";
+}
+
+// ----- sunburst -----
+const root = d3.hierarchy(DATA).sum(d => d.value || 0).sort((a, b) => b.value - a.value);
+const W = document.getElementById("viz").clientWidth;
+const H = document.getElementById("viz").clientHeight;
+const R = Math.min(W, H) / 2 - 16;
+const svg = d3.select("#main-svg").attr("viewBox", [-W / 2, -H / 2, W, H]);
+const g = svg.append("g");
+const partition = d3.partition().size([2 * Math.PI, R]);
+partition(root);
+const arc = d3.arc().startAngle(d => d.x0).endAngle(d => d.x1)
+              .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
+              .padRadius(R / 2).innerRadius(d => d.y0).outerRadius(d => d.y1 - 1);
+const ringArc = d3.arc().startAngle(d => d.x0).endAngle(d => d.x1)
+              .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
+              .padRadius(R / 2).innerRadius(d => d.y1).outerRadius(d => d.y1 + 4);
+
+// Render arcs.
+const arcs = g.selectAll("path.arc").data(root.descendants()).join("path")
+              .attr("d", arc).attr("class", "arc")
+              .attr("fill", d => statusColor(d.data.status))
+              .attr("data-status",   d => d.data.status || "unknown")
+              .attr("data-priority", d => d.data.priority || "none")
+              .attr("data-phase",    d => d.data.phase || "proposed")
+              .attr("data-project",  d => d.data.project_id || "")
+              .attr("data-project-name", d => d.data.project_name || "no_project")
+              .on("mouseover", function(ev, d) {
+                 d3.select(this).classed("highlight", true);
+                 const tip = d3.select("#tip");
+                 const m = d.data.multica_id
+                   ? `<a class="btn" href="${MULTICA_BASE}/issues/${d.data.multica_id}" target="_blank">open multica ↗</a>`
+                   : "";
+                 const tags = (d.data.tags || []).slice(0, 12);
+                 const tagHtml = tags.length
+                   ? `<div class="tags">${tags.map(t => {
+                        const cls = tagPillClass(t);
+                        return `<span class="pill ${cls}">${escapeHtml(t)}</span>`;
+                      }).join("")}</div>`
+                   : "";
+                 const labelsHtml = (d.data.labels && d.data.labels.length)
+                   ? `<div class="row"><span class="badge">labels: ${d.data.labels.map(escapeHtml).join(", ")}</span></div>`
+                   : "";
+                 tip.html(
+                   `<b>${escapeHtml(d.data.name || "")}</b>` +
+                   `<div class="row">` +
+                     `<span class="badge status-${d.data.status || "unknown"}"><span class="dot"></span>${escapeHtml(d.data.status || "unknown")}</span>` +
+                     `<span class="badge priority-${d.data.priority || "none"}">priority: ${escapeHtml(d.data.priority || "none")}</span>` +
+                     `<span class="badge phase phase-${d.data.phase || "proposed"}">${escapeHtml(d.data.phase || "proposed")}</span>` +
+                   `</div>` +
+                   (d.data.project_name ? `<div class="row"><span class="badge">📁 ${escapeHtml(d.data.project_name)}</span></div>` : "") +
+                   labelsHtml +
+                   tagHtml +
+                   (d.data.description ? `<div style="margin-top:4px;color:var(--muted);max-width:340px">${escapeHtml(d.data.description).slice(0, 280)}</div>` : "") +
+                   (m ? `<div>${m}</div>` : "")
+                 ).style("left", (ev.offsetX + 12) + "px").style("top", (ev.offsetY + 12) + "px")
+                  .style("opacity", 1);
+              })
+              .on("mousemove", function(ev) {
+                 d3.select("#tip").style("left", (ev.offsetX + 12) + "px").style("top", (ev.offsetY + 12) + "px");
+              })
+              .on("mouseout", function() {
+                 d3.select(this).classed("highlight", false);
+                 d3.select("#tip").style("opacity", 0);
+              })
+              .on("click", function(ev, d) {
+                 if (d.data.multica_id) window.open(`${MULTICA_BASE}/issues/${d.data.multica_id}`, "_blank");
+              });
+
+// Priority rings (outer ring just outside the leaf arc).
+const rings = g.selectAll("path.arc-ring").data(root.descendants().filter(d => priorityRing(d.data.priority)))
+              .join("path")
+              .attr("class", "arc-ring")
+              .attr("d", ringArc)
+              .attr("stroke", d => priorityRing(d.data.priority).color)
+              .attr("stroke-width", d => priorityRing(d.data.priority).width)
+              .attr("fill", "none")
+              .attr("data-status",   d => d.data.status || "unknown")
+              .attr("data-priority", d => d.data.priority || "none")
+              .attr("data-phase",    d => d.data.phase || "proposed")
+              .attr("data-project",  d => d.data.project_id || "")
+              .attr("data-project-name", d => d.data.project_name || "no_project");
+
+// Center labels.
+g.append("text").attr("class", "center-label").attr("text-anchor", "middle")
+ .text(DATA.name);
+g.append("text").attr("class", "center-sub").attr("text-anchor", "middle").attr("dy", 18)
+ .text(`${root.value} campaign commits · ${DATA.description ? "" : ""}`);
+
+// ----- filters -----
+const state = { status: "__any__", priority: "__any__", project: "__any__" };
+
+function applyFilters() {
+  const s = state.status, p = state.priority, pr = state.project;
+  const match = (d) =>
+    (s === "__any__" || (d.data.status || "unknown") === s) &&
+    (p === "__any__" || (d.data.priority || "none") === p) &&
+    (pr === "__any__" || (d.data.project_id || "") === pr);
+  arcs.classed("dimmed", d => !match(d));
+  rings.classed("dimmed", d => !match(d));
+}
+
+document.querySelectorAll("#filters .group").forEach(group => {
+  const facet = group.dataset.facet;
+  const pop = document.getElementById("pop-" + facet);
+  const allBtn = group.querySelector('button[data-pick="__any__"]');
+  allBtn.addEventListener("click", () => {
+    state[facet] = "__any__";
+    group.querySelectorAll("button[data-pick]").forEach(b => b.classList.remove("active"));
+    allBtn.classList.add("active");
+    pop.querySelectorAll(".chip").forEach(c => c.classList.remove("on"));
+    applyFilters();
+  });
+  // Build the popover lazily after we know what values exist.
+  group._pop = pop;
+});
+
+document.getElementById("filter-clear").addEventListener("click", () => {
+  state.status = state.priority = state.project = "__any__";
+  document.querySelectorAll("#filters .group").forEach(g => {
+    g.querySelectorAll("button[data-pick]").forEach(b => b.classList.remove("active"));
+    const all = g.querySelector('button[data-pick="__any__"]');
+    if (all) all.classList.add("active");
+    if (g._pop) g._pop.querySelectorAll(".chip").forEach(c => c.classList.remove("on"));
+  });
+  document.querySelectorAll("#rollups .stat").forEach(s => s.classList.remove("active"));
+  applyFilters();
+});
+
+// Build faceted popovers from the data.
+function buildPopovers() {
+  // status
+  const statuses = Array.from(new Set(root.descendants().map(d => d.data.status || "unknown")))
+    .filter(s => s !== "info");
+  const popS = document.getElementById("pop-status");
+  statuses.sort().forEach(s => {
+    const c = document.createElement("span");
+    c.className = "chip"; c.dataset.pick = s;
+    c.innerHTML = `<span class="dot" style="background:${statusColor(s)}"></span>${s}`;
+    c.addEventListener("click", () => {
+      if (state.status === s) {
+        state.status = "__any__"; c.classList.remove("on");
+      } else {
+        state.status = s;
+        popS.querySelectorAll(".chip").forEach(x => x.classList.remove("on"));
+        c.classList.add("on");
+      }
+      // sync the inline "all" button.
+      const grp = document.querySelector('#filters .group[data-facet="status"]');
+      grp.querySelectorAll("button[data-pick]").forEach(b => b.classList.remove("active"));
+      if (state.status === "__any__") grp.querySelector('button[data-pick="__any__"]').classList.add("active");
+      applyFilters();
+    });
+    popS.appendChild(c);
+  });
+
+  // priority
+  const prios = Array.from(new Set(root.descendants().map(d => d.data.priority || "none")));
+  const popP = document.getElementById("pop-priority");
+  prios.sort().forEach(p => {
+    const c = document.createElement("span");
+    c.className = "chip"; c.dataset.pick = p;
+    const ring = priorityRing(p);
+    const ringHtml = ring ? `<span class="dot" style="background:${ring.color}"></span>` : "";
+    c.innerHTML = `${ringHtml}${p}`;
+    c.addEventListener("click", () => {
+      if (state.priority === p) {
+        state.priority = "__any__"; c.classList.remove("on");
+      } else {
+        state.priority = p;
+        popP.querySelectorAll(".chip").forEach(x => x.classList.remove("on"));
+        c.classList.add("on");
+      }
+      const grp = document.querySelector('#filters .group[data-facet="priority"]');
+      grp.querySelectorAll("button[data-pick]").forEach(b => b.classList.remove("active"));
+      if (state.priority === "__any__") grp.querySelector('button[data-pick="__any__"]').classList.add("active");
+      applyFilters();
+    });
+    popP.appendChild(c);
+  });
+
+  // project
+  const projects = new Map();
+  root.descendants().forEach(d => {
+    const k = d.data.project_name || "no_project";
+    if (!projects.has(k)) projects.set(k, d.data.project_id || "");
+  });
+  const popPr = document.getElementById("pop-project");
+  Array.from(projects.keys()).sort().forEach(name => {
+    const id = projects.get(name);
+    const c = document.createElement("span");
+    c.className = "chip"; c.dataset.pick = id;
+    c.textContent = name;
+    c.title = id;
+    c.addEventListener("click", () => {
+      const next = state.project === id ? "__any__" : id;
+      state.project = next;
+      popPr.querySelectorAll(".chip").forEach(x => x.classList.remove("on"));
+      if (next !== "__any__") c.classList.add("on");
+      const grp = document.querySelector('#filters .group[data-facet="project"]');
+      grp.querySelectorAll("button[data-pick]").forEach(b => b.classList.remove("active"));
+      if (state.project === "__any__") grp.querySelector('button[data-pick="__any__"]').classList.add("active");
+      applyFilters();
+    });
+    popPr.appendChild(c);
+  });
+}
+buildPopovers();
+
+// Click on filter group header toggles its popover.
+document.querySelectorAll("#filters .group").forEach(group => {
+  const pop = group._pop;
+  group.querySelectorAll("button[data-pick]").forEach(btn => {
+    btn.addEventListener("click", e => {
+      // For non-"all" buttons that aren't popover chips, also toggle popover.
+      if (btn.dataset.pick === "__any__") {
+        const open = pop.classList.toggle("open");
+        e.stopPropagation();
+        // Close other popovers.
+        document.querySelectorAll("#filters .pop").forEach(p => { if (p !== pop) p.classList.remove("open"); });
+      }
+    });
+  });
+});
+document.addEventListener("click", e => {
+  if (!e.target.closest("#filters")) {
+    document.querySelectorAll("#filters .pop").forEach(p => p.classList.remove("open"));
+  }
+});
+
+// ----- rollup header -----
+function renderRollups() {
+  const r = ROLLUPS || {};
+  const sc = r.status_counts || {};
+  const pc = r.phase_counts || {};
+  const prc = r.priority_counts || {};
+  const totalEl = document.querySelector('#rollup-status .stat.total .n');
+  if (totalEl) totalEl.textContent = String(r.total || 0);
+
+  // Render status row chips.
+  const statusRow = document.getElementById("rollup-status");
+  // Remove everything except the first stat.total and the lbl.
+  Array.from(statusRow.querySelectorAll('.stat:not(.total)')).forEach(n => n.remove());
+  const STATUSES = ["backlog", "todo", "in_progress", "in_review", "done", "cancelled", "killed"];
+  STATUSES.forEach(s => {
+    const n = sc[s] || 0;
+    if (!n && s !== "todo") return;       // always show "todo" even if zero
+    const span = document.createElement("span");
+    span.className = "stat";
+    span.dataset.status = s;
+    span.innerHTML = `<span class="dot"></span><span class="n">${n}</span><span class="label">${s}</span>`;
+    span.addEventListener("click", () => {
+      if (state.status === s) {
+        state.status = "__any__"; span.classList.remove("active");
+      } else {
+        state.status = s;
+        statusRow.querySelectorAll(".stat").forEach(x => x.classList.remove("active"));
+        span.classList.add("active");
+      }
+      // Sync filter row buttons.
+      const grp = document.querySelector('#filters .group[data-facet="status"]');
+      grp.querySelectorAll("button[data-pick]").forEach(b => b.classList.remove("active"));
+      if (state.status === "__any__") grp.querySelector('button[data-pick="__any__"]').classList.add("active");
+      // Sync popover chips.
+      const popS = document.getElementById("pop-status");
+      popS.querySelectorAll(".chip").forEach(c => c.classList.toggle("on", c.dataset.pick === state.status));
+      applyFilters();
+    });
+    statusRow.appendChild(span);
+  });
+
+  // Phases row.
+  const phaseRow = document.getElementById("rollup-phase");
+  phaseRow.querySelectorAll(".stat").forEach(n => n.remove());
+  ["proposed", "active", "blocked", "done", "killed", "parked"].forEach(p => {
+    const n = pc[p] || 0;
+    if (!n && p !== "proposed") return;
+    const span = document.createElement("span");
+    span.className = "stat phase-stat";
+    span.dataset.phase = p;
+    span.innerHTML = `<span class="dot" style="background:${phaseColor(p)}"></span><span class="n">${n}</span><span class="label">${p}</span>`;
+    phaseRow.appendChild(span);
+  });
+
+  // Tags row.
+  const tagRow = document.getElementById("rollup-tag");
+  Array.from(tagRow.querySelectorAll(".tag-chip")).forEach(n => n.remove());
+  const tagEmpty = tagRow.querySelector(".empty");
+  if (tagEmpty) tagEmpty.remove();
+  const tags = (r.top_tags || []).slice(0, 10);
+  if (!tags.length) {
+    const empty = document.createElement("span");
+    empty.className = "empty";
+    empty.style.color = "var(--muted)";
+    empty.style.fontSize = "10px";
+    empty.textContent = "—";
+    tagRow.appendChild(empty);
+  } else {
+    tags.forEach(([name, n]) => {
+      const span = document.createElement("span");
+      span.className = "tag-chip stat";
+      const cls = tagPillClass(name);
+      span.innerHTML = `<span class="pill ${cls}" style="background:rgba(255,255,255,0.04);border:1px solid var(--border);padding:1px 7px;border-radius:9px;font-size:10px">${escapeHtml(name)} <b>${n}</b></span>`;
+      tagRow.appendChild(span);
+    });
+  }
+
+  // Priority row is inlined elsewhere if desired; keep it under status for compactness.
+  const prioLine = Object.entries(prc).filter(([k]) => k !== "none").map(([k, n]) => `${k}=${n}`).join(" · ");
+  if (prioLine) {
+    const span = document.createElement("span");
+    span.className = "stat";
+    span.style.fontSize = "10px";
+    span.style.color = "var(--muted)";
+    span.title = "priority distribution (excluding 'none')";
+    span.textContent = "priority: " + prioLine;
+    statusRow.appendChild(span);
+  }
+}
+renderRollups();
+</script>
+</body>
+</html>

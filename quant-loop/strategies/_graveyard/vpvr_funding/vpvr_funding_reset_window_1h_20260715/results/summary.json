@@ -1,0 +1,40 @@
+{
+  "strategy": "vpvr_funding_reset_window_1h_20260715",
+  "iteration": 108,
+  "variant": "V3_funding_reset_window",
+  "date": "2026-07-15",
+  "timeframe": "1h",
+  "instruments": [
+    "BTCUSDT"
+  ],
+  "axis": "perp_funding_reset_window_with_vpvr_poc_reversion_asymmetric_exit",
+  "tag": "NOT-PROFITABLE",
+  "sharpe": -1.392367688833999,
+  "mdd": -0.010210576923736392,
+  "n_trades": 626,
+  "profit_factor": 0.7173065632838143,
+  "total_return_pct": -0.00797773207952579,
+  "per_symbol": [
+    {
+      "n_trades": 626,
+      "win_rate": 0.4440894568690096,
+      "profit_factor": 0.7173065632838143,
+      "avg_hold_bars": 5.222044728434505,
+      "total_return_pct": -0.00797773207952579,
+      "sharpe": -1.392367688833999,
+      "sortino": -2.0904949187096045,
+      "max_drawdown_pct": -0.010210576923736392,
+      "trades_per_year": 138.31462657956465,
+      "exit_reasons": {},
+      "tag": "NOT-PROFITABLE",
+      "data_status": "FUNDING-DATA-PRESENT funding_cadence=8h",
+      "tp_count": 46,
+      "sl_count": 184,
+      "tp_to_sl_ratio": 0.25,
+      "symbol": "BTCUSDT",
+      "span_start": "2022-01-01T00:00:00",
+      "span_end": "2026-07-10T23:00:00",
+      "n_bars": 39647
+    }
+  ]
+}

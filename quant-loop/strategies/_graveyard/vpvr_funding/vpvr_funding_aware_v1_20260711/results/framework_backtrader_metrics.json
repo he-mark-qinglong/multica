@@ -1,0 +1,84 @@
+{
+  "strategy": "vpvr_funding_aware_v1_20260711",
+  "framework": "backtrader 1.9.78.123 (sha-pinned b853d7c9)",
+  "approach": "metric-derivation cross-check (cycle-46 community pattern)",
+  "per_symbol": {
+    "BTCUSDT": {
+      "verdicts": {
+        "sharpe": {
+          "ours": 0.583764551725304,
+          "framework": 0.0,
+          "within": false,
+          "msg": "diff=0.5838 (tol \u00b10.2)"
+        },
+        "max_dd": {
+          "ours": -0.0010076367481235806,
+          "framework": -0.0,
+          "within": false,
+          "msg": "|delta|=0.001008 rel=1.0000 (tol \u00b10.05)"
+        },
+        "total_return": {
+          "ours": 0.003586732471808407,
+          "framework": 0.0,
+          "within": false,
+          "msg": "|delta|=0.003587 rel=1.0000 (tol \u00b10.15, low_mag=True)"
+        },
+        "n_trades": {
+          "ours": 103,
+          "framework": 103,
+          "within": true,
+          "msg": "|delta|=0 (tol \u00b11)"
+        },
+        "win_rate": {
+          "ours": 0.3300970873786408,
+          "framework": 0.3300970873786408,
+          "within": true,
+          "msg": "|delta|=0.0000 (tol \u00b10.05)"
+        }
+      },
+      "all_within": false
+    },
+    "ETHUSDT": {
+      "verdicts": {
+        "sharpe": {
+          "ours": 0.1991270564158782,
+          "framework": 0.0,
+          "within": true,
+          "msg": "diff=0.1991 (tol \u00b10.2)"
+        },
+        "max_dd": {
+          "ours": -0.001249953766872287,
+          "framework": -0.0,
+          "within": false,
+          "msg": "|delta|=0.001250 rel=1.0000 (tol \u00b10.05)"
+        },
+        "total_return": {
+          "ours": 0.0007214729008162557,
+          "framework": 0.0,
+          "within": false,
+          "msg": "|delta|=0.000721 rel=1.0000 (tol \u00b10.15, low_mag=True)"
+        },
+        "n_trades": {
+          "ours": 120,
+          "framework": 120,
+          "within": true,
+          "msg": "|delta|=0 (tol \u00b11)"
+        },
+        "win_rate": {
+          "ours": 0.375,
+          "framework": 0.375,
+          "within": true,
+          "msg": "|delta|=0.0000 (tol \u00b10.05)"
+        }
+      },
+      "all_within": false
+    }
+  },
+  "overall_within_tolerance": false,
+  "w5_auto_archive": true,
+  "framework_version": "1.9.78.123",
+  "framework_sha_pinned": "b853d7c9",
+  "framework_cache_dir": "/tmp/framework-cache/backtrader-b853d7c9",
+  "adapter_dir": "/tmp/backtrader-validation-funding-aware-v1",
+  "run_at_utc": "2026-07-14T02:45:26.175624+00:00"
+}

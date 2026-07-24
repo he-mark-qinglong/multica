@@ -1,0 +1,34 @@
+{
+  "top_combo": {
+    "funding_threshold": 0.0006,
+    "vpvr_window_bars": 30
+  },
+  "is": {
+    "n_bars": 8737,
+    "n_trades": 8,
+    "win_rate": 0.75,
+    "profit_factor": 3.2992,
+    "sharpe_daily": 3.4606,
+    "total_return": 0.000226,
+    "annualized_return": 0.000908,
+    "max_drawdown_pct": -0.0109,
+    "avg_bars_held": 6.25,
+    "span_start": "2023-12-01 00:00:00",
+    "span_end": "2024-03-01 00:00:00"
+  },
+  "oos": {
+    "n_bars": 8736,
+    "n_trades": 15,
+    "win_rate": 0.4,
+    "profit_factor": 0.6705,
+    "sharpe_daily": 0.1413,
+    "total_return": -9.8e-05,
+    "annualized_return": -0.000391,
+    "max_drawdown_pct": -0.0326,
+    "avg_bars_held": 5.93,
+    "span_start": "2024-03-01 00:15:00",
+    "span_end": "2024-05-31 00:00:00"
+  },
+  "degradation_ratio_sharpe": 0.0408310697566896,
+  "degradation_ratio_ann": -0.43061674008810574
+}

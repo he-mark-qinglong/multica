@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "autopilot_id": "51e7cb03-f866-47ae-95f2-86d94f23ffa3",
+  "engine": "backtrader",
+  "engine_version": "1.9.78.123",
+  "engine_sha": "backtrader-1.9.78.123",
+  "iteration": 72,
+  "strategy_key": "vpvr_stable_depeg_regime_4h_20260716",
+  "fix_revision": "post-SMA-34922 max_dd accounting fix 2026-07-18",
+  "fix_note": "replays the in-house 4h entry/exit schedule from trades_4h_BTCUSDT.csv against resampled 1m->4h BTCUSDT bars; weight 0.005 (risk_target_pct) applied linearly across held 4h bars; backtrader broker convention is 4bp commission + 3bp slippage per side = 14bp round trip, vs in-house 12bp rt. The +2bp cost delta plus the 1m->4h resample anchoring shifts the framework replay off the in-house synthetic-data baseline.",
+  "cost_model": {
+    "fee_bps_per_side": 4.0,
+    "slippage_bps_per_side": 3.0,
+    "round_trip": 0.0014,
+    "inhouse_round_trip": 0.0012
+  },
+  "replay_validation": {
+    "available": true,
+    "n_bars_compared": 7763,
+    "max_abs_rel_err": 0.002302100373794263,
+    "final_rel_err": 0.00221838943890267,
+    "replayed_max_dd": -0.0007187205360469351,
+    "inhouse_max_dd": -0.0006117760330373034,
+    "max_dd_abs_diff": 0.00010694450300963165
+  },
+  "inhouse": {
+    "sharpe": 3.8737,
+    "total_return": null,
+    "ann_total_return": 0.007613,
+    "max_dd": -0.0010249999999999999,
+    "n_trades": 123,
+    "timeframe": "4h",
+    "status": "NOT-PROFITABLE"
+  },
+  "framework": {
+    "sharpe": -0.20115103060759845,
+    "sharpe_full": -0.2355355709544693,
+    "total_return": -0.0003657721635937916,
+    "ann_total_return": -5.337275211876324e-05,
+    "ann_total_return_full": -5.336228304320123e-05,
+    "max_dd": -0.000560413349961153,
+    "n_bars": 15025,
+    "span_years": 6.855578370978781,
+    "n_fills": 97,
+    "n_trades_input": 123
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": -0.20115103060759845,
+    "oos_total_return_ann_mean": -5.337275211876324e-05,
+    "oos_max_dd_max": -0.000560413349961153,
+    "n_folds": 5,
+    "folds": [
+      {
+        "fold": 1,
+        "bars": 3005,
+        "sharpe": 0.0,
+        "ann_total_return": 0.0,
+        "max_dd": 0.0
+      },
+      {
+        "fold": 2,
+        "bars": 3005,
+        "sharpe": 0.0,
+        "ann_total_return": 0.0,
+        "max_dd": 0.0
+      },
+      {
+        "fold": 3,
+        "bars": 3005,
+        "sharpe": -0.5128038999463108,
+        "ann_total_return": -9.6757559814864e-05,
+        "max_dd": -0.0002619077001695391
+      },
+      {
+        "fold": 4,
+        "bars": 3005,
+        "sharpe": -0.5948686899385037,
+        "ann_total_return": -0.00020300416528529208,
+        "max_dd": -0.000560413349961153
+      },
+      {
+        "fold": 5,
+        "bars": 3005,
+        "sharpe": 0.10191743684682239,
+        "ann_total_return": 3.289796450633986e-05,
+        "max_dd": -0.00042130229851278234
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 105.19273641757488,
+    "ann_total_return": 100.70107384892634,
+    "total_return": null,
+    "max_dd": 45.32552683305824
+  },
+  "max_abs_rel_divergence_pct": 105.19273641757488,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_tipping_metrics": [
+    "sharpe 105.19%",
+    "ann_return 100.70%"
+  ],
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "backtrader 1.9.78.123 broker convention (setcommission=0.0004 + set_slippage_perc=0.0003 -> 14.0bp rt) applied to the in-house 4h entry/exit schedule; BTCUSDT 4h bars resampled from perp_1m/BTCUSDT_1m.parquet (open=first 1m open, close=last 1m close in each 4h bucket); per-trade pnl_pct applied linearly across held 4h bars with weight 0.005 (risk_target_pct); equity tracked bar-by-bar via broker.getvalue(); Sharpe/ann_return/max_dd computed from bar-frequency pct_change."
+}

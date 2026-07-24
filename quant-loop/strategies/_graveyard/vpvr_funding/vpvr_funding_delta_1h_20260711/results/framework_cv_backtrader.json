@@ -1,0 +1,84 @@
+{
+  "engine": "backtrader",
+  "engine_version": "1.9.78.123",
+  "engine_sha": "b853d7c9",
+  "iteration": 86,
+  "variant": "V_fd",
+  "strategy_key": "vpvr_funding_delta_1h_20260711",
+  "inhouse": {
+    "sharpe": 0.04733334792432238,
+    "total_return": 0.00013346204258812833,
+    "max_dd": -0.00134809098810873,
+    "n_trades": 291,
+    "timeframe": "1h"
+  },
+  "inhouse_oos_sharpe_mean": 0.0,
+  "inhouse_oos_return_mean": 0.0,
+  "inhouse_oos_mdd_worst": 0.0,
+  "framework": {
+    "sharpe": 0.0,
+    "total_return": 0.0001334620399999764,
+    "max_dd": -0.0013480909805227011,
+    "n_bars": 39647
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": 0.0,
+    "oos_total_return_mean": -0.00038123081499999434,
+    "oos_max_dd_max": -0.0001843458987716207,
+    "n_folds": 4,
+    "folds": [
+      {
+        "fold": 1,
+        "bars": 9911,
+        "metrics": {
+          "sharpe": 0.0,
+          "total_return": -0.0009266736099999839,
+          "max_dd": -0.0013480909805227011,
+          "n_bars": 9911
+        }
+      },
+      {
+        "fold": 2,
+        "bars": 9911,
+        "metrics": {
+          "sharpe": 0.0,
+          "total_return": -0.00021926030999996904,
+          "max_dd": -0.0005809069930775366,
+          "n_bars": 9911
+        }
+      },
+      {
+        "fold": 3,
+        "bars": 9911,
+        "metrics": {
+          "sharpe": 0.0,
+          "total_return": -0.0005124513800000008,
+          "max_dd": -0.0007201836776964943,
+          "n_bars": 9911
+        }
+      },
+      {
+        "fold": 4,
+        "bars": 9914,
+        "metrics": {
+          "sharpe": 0.0,
+          "total_return": 0.0001334620399999764,
+          "max_dd": -0.0001843458987716207,
+          "n_bars": 9914
+        }
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 100.0,
+    "total_return": 1.93924194835932e-06,
+    "max_dd": 5.627237981151121e-07
+  },
+  "max_abs_rel_divergence_pct": 100.0,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_verdict": "AUTO-ARCHIVE per W5 (max abs rel divergence > 50%)",
+  "approach": "metric-derivation cross-check via equity replay through backtrader broker + analyzers (SharpeRatio, DrawDown, TimeReturn); 4-fold walk-forward on equity",
+  "cache_dir": "/tmp/framework-cache/backtrader-b853d7c9",
+  "adapter_location": "/tmp/framework-validate-vpvr-funding-delta-1h-20260711-backtrader/adapter.py"
+}

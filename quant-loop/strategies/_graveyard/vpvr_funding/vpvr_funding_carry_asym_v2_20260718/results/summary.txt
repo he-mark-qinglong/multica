@@ -1,0 +1,33 @@
+=== vpvr_funding_carry_asym_v2_20260718 (SMA-34990) ===
+  Source spec:       SMA-34990
+  Implementation:    SMA-34990
+  Instruments:       ['BTCUSDT']
+  Timeframes:        ['1m', '15m', '4h']
+  Sharpe method:     daily_resampled (sqrt(365.25))
+  Cost model:        _shared/execution/cost_model.apply_cost() (BINANCE_FUTURES)
+  Sizing:            _shared/sizing/vol_target.apply_vol_target() (target_vol=0.20)
+  OOS:               walk-forward folds from config (n_groups=6 k_test=2 in CPCV)
+
+=== Per-fold ===
+  2024-Q1  test=[2024-01-01 .. 2024-03-31]
+    trades=2099  win_rate=0.203  pf=0.1855  avg_bars=3.7
+    sharpe_d=-10.5277  ann=-0.985068  mdd=-64.5115%  CI_lo=-12.9699
+  2024-Q3  test=[2024-07-01 .. 2024-09-30]
+    trades=0  win_rate=0.000  pf=0.0  avg_bars=0.0
+    sharpe_d=0.0  ann=0.0  mdd=0.0%  CI_lo=0.0
+  2025-Q2  test=[2025-04-01 .. 2025-06-30]
+    trades=0  win_rate=0.000  pf=0.0  avg_bars=0.0
+    sharpe_d=0.0  ann=0.0  mdd=0.0%  CI_lo=0.0
+
+=== Aggregate ===
+  mean_sharpe_d=-3.5092  std_sharpe_d=6.0782  mean_ann=-0.328356  worst_mdd=-64.5115%  min_pf=0.0
+  n_trades_total=2099  folds_valid=3/3
+
+=== Acceptance gates ===
+  mean_oos_sharpe >= 1.2      : pass=False
+  min_profit_factor >= 1.4        : pass=False
+  worst_max_drawdown >= -25.0%    : pass=False
+  n_trades >= 30 in >= 2 folds  : pass=False
+  std_per_fold_sharpe <= 1.5  : pass=False
+
+VERDICT: NOT-PROFITABLE[mean_oos_sharpe<1.2; min_pf<1.4; mdd<-25.0; trade-count-min not met; sharpe-std too high]

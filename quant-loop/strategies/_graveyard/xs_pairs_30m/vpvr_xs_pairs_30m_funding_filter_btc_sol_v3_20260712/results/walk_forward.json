@@ -1,0 +1,70 @@
+{
+  "strategy": "vpvr_xs_pairs_30m_funding_filter_btc_sol_v3_20260712",
+  "iteration": 85,
+  "timeframe": "30m",
+  "variant": "A",
+  "n_windows": 3,
+  "windows": [
+    {
+      "window_id": 1,
+      "train_start": "2022-01-01",
+      "train_end": "2023-01-01",
+      "test_start": "2023-01-01",
+      "test_end": "2023-07-01",
+      "n_test_bars": 8686,
+      "n_test_trades": 184,
+      "test_sharpe": -0.17997469694973978,
+      "test_return": -0.0843842414497884,
+      "test_mdd": -0.293154595015564,
+      "test_win_rate": 0.5217391304347826
+    },
+    {
+      "window_id": 2,
+      "train_start": "2022-01-01",
+      "train_end": "2023-07-01",
+      "test_start": "2023-07-01",
+      "test_end": "2024-01-01",
+      "n_test_bars": 8832,
+      "n_test_trades": 278,
+      "test_sharpe": 0.5148301320934225,
+      "test_return": 0.254606942878623,
+      "test_mdd": -0.12811468551805785,
+      "test_win_rate": 0.48201438848920863
+    },
+    {
+      "window_id": 3,
+      "train_start": "2022-01-01",
+      "train_end": "2024-01-01",
+      "test_start": "2024-01-01",
+      "test_end": "2024-07-01",
+      "n_test_bars": 8736,
+      "n_test_trades": 158,
+      "test_sharpe": 1.5530851811403947,
+      "test_return": 0.47504633667699026,
+      "test_mdd": -0.0942978406916426,
+      "test_win_rate": 0.5886075949367089
+    }
+  ],
+  "aggregate": {
+    "mean_test_sharpe": 0.6293135387613592,
+    "std_test_sharpe": 0.872183451495825,
+    "min_test_sharpe": -0.17997469694973978,
+    "mean_test_return": 0.21508967936860826,
+    "worst_test_mdd": -0.293154595015564,
+    "in_sample_sharpe": 2.6833111075765643,
+    "walk_forward_ratio": 0.2345287272073809,
+    "deflated_sharpe_z": -0.7519233958135101,
+    "ship_gate": {
+      "wf_ratio_threshold": 0.5,
+      "wf_ratio_pass": false,
+      "min_oos_sharpe_threshold": 0.0,
+      "min_oos_sharpe_pass": false,
+      "overall_pass": false
+    }
+  },
+  "evidence_gate": {
+    "sharpe_threshold": 0.5,
+    "wf_ratio_threshold": 0.5,
+    "passed": false
+  }
+}

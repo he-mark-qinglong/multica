@@ -1,0 +1,75 @@
+{
+  "engine": "freqtrade",
+  "engine_version": "freqtrade 2026.6",
+  "iteration": 97,
+  "strategy_key": "vpvr_funding_term_curve_1h_20260714",
+  "inhouse": {
+    "sharpe": -0.9797,
+    "ann_total_return": -0.8094717054410983,
+    "max_dd": -0.8464427963164732,
+    "n_trades": 1314,
+    "status": "NOT-PROFITABLE"
+  },
+  "framework": {
+    "sharpe": 0.0002792999946609336,
+    "ann_total_return": 0.0,
+    "max_dd": -0.00029952011837541814,
+    "n_bars": 39817,
+    "span_years": 4.542208532968287
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": 0.00011497801271346487,
+    "oos_total_return_ann_mean": 8.47077963328502e-13,
+    "oos_max_dd_max": -0.00026935812748640764,
+    "n_folds": 5,
+    "folds": [
+      {
+        "fold": 1,
+        "bars": 7963,
+        "sharpe": 0.003822323934774125,
+        "ann_total_return": 2.0579999999714715e-06,
+        "max_dd": -0.00026935812748640764
+      },
+      {
+        "fold": 2,
+        "bars": 7963,
+        "sharpe": -0.004052135221007058,
+        "ann_total_return": -2.057995764581655e-06,
+        "max_dd": -0.00021873085505030865
+      },
+      {
+        "fold": 3,
+        "bars": 7963,
+        "sharpe": 0.00027588453787625043,
+        "ann_total_return": 0.0,
+        "max_dd": -0.00019962551596419686
+      },
+      {
+        "fold": 4,
+        "bars": 7963,
+        "sharpe": 0.0002512557358029113,
+        "ann_total_return": 0.0,
+        "max_dd": -0.00020986789398347305
+      },
+      {
+        "fold": 5,
+        "bars": 7965,
+        "sharpe": 0.00027756107612109565,
+        "ann_total_return": 0.0,
+        "max_dd": -0.00017586874533137564
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 100.01173604294308,
+    "ann_total_return": 100.00000000010465,
+    "max_dd": 99.96817763366188
+  },
+  "max_abs_rel_divergence_pct": 100.01173604294308,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "freqtrade 2026.6 IStrategy contract replay: BTCUSDT 1h USDT-margined linear perp, pnl_pct applied linearly across held bars with weight 0.01; walk-forward OOS 5 folds; freqtrade-imported",
+  "freqtrade_imported": true,
+  "cache_dir": "/tmp/framework-validate-vpvr_funding_term_curve_1h_20260714-freqtrade"
+}

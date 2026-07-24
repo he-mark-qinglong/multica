@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "autopilot_id": "51e7cb03-f866-47ae-95f2-86d94f23ffa3",
+  "engine": "backtrader",
+  "engine_version": "1.9.78.123",
+  "engine_sha": "backtrader-1.9.78.123",
+  "iteration": 105,
+  "strategy_key": "vpvr_xs_smart_routing_15m_20260715",
+  "fix_revision": "post-SMA-34922 max_dd accounting fix 2026-07-18",
+  "methodology": "post-SMA-34922 fixed schedule-replay: in-house entry/exit schedule replayed on real 15m closes with risk_per_trade-scaled MTM equity; backtrader cost (14bp rt) differs from in-house cost (12bp rt) by +2bp per trade; validation mode reproduces the in-house equity CSV before the framework run is trusted; OOS folds use the same NAV-bar formula on framework and in-house equity (like-for-like).",
+  "cost_model": {
+    "fee_bps_per_side": 4.0,
+    "slippage_bps_per_side": 3.0,
+    "round_trip": 0.0014,
+    "inhouse_round_trip": 0.0012,
+    "delta_per_trade_bp": 2.0
+  },
+  "walk_forward_json_available": false,
+  "replay_validation": {
+    "BTCUSDT": {
+      "n_bars_compared": 158587,
+      "max_abs_rel_err": 3.004769508385986e-06,
+      "final_rel_err": 4.452930927092824e-09,
+      "replayed_max_dd": -0.02210904103152722,
+      "inhouse_max_dd": -0.022109291727885005,
+      "max_dd_abs_diff": 2.5069635778418586e-07
+    }
+  },
+  "inhouse": {
+    "sharpe": -4.4331553511737605,
+    "sharpe_method": "bar_freq_annualized",
+    "total_return": -0.02091414629888899,
+    "max_dd": -0.022109291733624414,
+    "n_trades": 2772,
+    "timeframe": "15m",
+    "status": "NOT-PROFITABLE"
+  },
+  "framework": {
+    "sharpe_trade_formula": -5.017641289887948,
+    "sharpe_nav_bar": -4.854702179237377,
+    "ann_total_return": -0.005272031731876514,
+    "total_return": -0.02362442365601969,
+    "max_dd": -0.02473654019177718,
+    "n_bars": 158587,
+    "n_fills": 2772,
+    "span_years": 4.522900981063199
+  },
+  "oos_folds": {
+    "windows": [
+      "2023-01-01 -> 2023-07-01",
+      "2023-07-01 -> 2024-01-01",
+      "2024-01-01 -> 2024-07-01"
+    ],
+    "metric_formula": "NAV-bar (15m bars/yr = 35064), identical on both sides",
+    "framework": {
+      "n_folds": 3,
+      "folds": [
+        {
+          "span_start": "2023-01-01 00:00:00+00:00",
+          "span_end": "2023-06-30 23:45:00+00:00",
+          "bars": 17371,
+          "sharpe": -6.863789576574279,
+          "ann_total_return": -0.005941035815231088,
+          "total_return": -0.0029483415880489083,
+          "max_dd": -0.002988659761072987,
+          "n_bars": 17371,
+          "span_years": 0.4955224731918777
+        },
+        {
+          "span_start": "2023-07-01 00:00:00+00:00",
+          "span_end": "2023-12-31 23:45:00+00:00",
+          "bars": 17664,
+          "sharpe": -8.41954695244777,
+          "ann_total_return": -0.00632472092457026,
+          "total_return": -0.0031910055988473296,
+          "max_dd": -0.003213704249963256,
+          "n_bars": 17664,
+          "span_years": 0.503736025553274
+        },
+        {
+          "span_start": "2024-01-01 00:00:00+00:00",
+          "span_end": "2024-06-30 23:45:00+00:00",
+          "bars": 17472,
+          "sharpe": -6.176879317617907,
+          "ann_total_return": -0.007403266387828067,
+          "total_return": -0.0036956303774439148,
+          "max_dd": -0.0037873145572174804,
+          "n_bars": 17472,
+          "span_years": 0.4982603239790098
+        }
+      ],
+      "oos_sharpe_mean": -7.153405282213318,
+      "oos_ann_total_return_mean": -0.0065563410425431385,
+      "oos_total_return_mean": -0.003278325854780051,
+      "oos_max_dd_worst": -0.0037873145572174804
+    },
+    "inhouse": {
+      "n_folds": 3,
+      "folds": [
+        {
+          "span_start": "2023-01-01 00:00:00+00:00",
+          "span_end": "2023-06-30 23:45:00+00:00",
+          "bars": 17371,
+          "sharpe": -6.194666214896183,
+          "ann_total_return": -0.005342120076896606,
+          "total_return": -0.002650717135566305,
+          "max_dd": -0.002713964447744077,
+          "n_bars": 17371,
+          "span_years": 0.4955224731918777
+        },
+        {
+          "span_start": "2023-07-01 00:00:00+00:00",
+          "span_end": "2023-12-31 23:45:00+00:00",
+          "bars": 17664,
+          "sharpe": -7.560189546056886,
+          "ann_total_return": -0.0056636745869996785,
+          "total_return": -0.0028570177198025126,
+          "max_dd": -0.0028887699048972815,
+          "n_bars": 17664,
+          "span_years": 0.503736025553274
+        },
+        {
+          "span_start": "2024-01-01 00:00:00+00:00",
+          "span_end": "2024-06-30 23:45:00+00:00",
+          "bars": 17472,
+          "sharpe": -5.6486369089581006,
+          "ann_total_return": -0.006765580143607286,
+          "total_return": -0.0033767611790143093,
+          "max_dd": -0.0034897248303357165,
+          "n_bars": 17472,
+          "span_years": 0.4982603239790098
+        }
+      ],
+      "oos_sharpe_mean": -6.46783088997039,
+      "oos_ann_total_return_mean": -0.00592379160250119,
+      "oos_total_return_mean": -0.002961498678127709,
+      "oos_max_dd_worst": -0.0034897248303357165
+    }
+  },
+  "divergence_pct": {
+    "full_span": {
+      "sharpe": 13.184422660925557,
+      "total_return": 12.959062819956813,
+      "max_dd": 11.883005976881536
+    },
+    "oos_folds": {
+      "sharpe": 10.599757537044486,
+      "total_return": 10.69820422316189,
+      "max_dd": 8.527598631698863
+    }
+  },
+  "max_abs_rel_divergence_pct": 13.184422660925557,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": false,
+  "w5_tipping_metrics": [],
+  "w5_verdict": "WITHIN_TOLERANCE",
+  "approach": "backtrader 1.9.78.123 broker convention (setcommission=0.0004 + set_slippage_perc=0.0003 -> 14bp rt) applied to the in-house entry/exit schedule; equity walk is risk_per_trade-scaled bar MTM (equity *= (1 + scale * bar_ret)) on real 15m closes, cost amortised over held bars; validated by reproducing the in-house equity CSV at in-house cost. Sharpe uses the in-house formula (mean/std of per-trade pnl x sqrt(trades/yr)). IStrategy class VPVRXsSmartRouting15mBacktraderStrategy is defined; backtrader 1.9.78.123 imported via _HAS_BACKTRADER=True."
+}

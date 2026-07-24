@@ -1,0 +1,79 @@
+{
+  "strategy_key": "vpvr_edge_zscore_15m_only",
+  "variant_key": "vpvr_edge_zscore_15m_only_v1_20260720",
+  "iteration": 1,
+  "date": "2026-07-20",
+  "source_spec": "SMA-34991",
+  "implementation_issue": "SMA-34991",
+  "partial_progress_note": "single-TF simplification per smark-proxy DECISION 2026-07-20T21:48",
+  "instruments": ["BTCUSDT"],
+  "timeframes": ["15m"],
+  "starting_capital_usd": 100000.0,
+
+  "oos_folds": [
+    {"name": "2022-H2", "test_start": "2022-07-01", "test_end": "2022-12-31"},
+    {"name": "2023-H1", "test_start": "2023-01-01", "test_end": "2023-06-30"},
+    {"name": "2023-H2", "test_start": "2023-07-01", "test_end": "2023-12-31"},
+    {"name": "2024-H1", "test_start": "2024-01-01", "test_end": "2024-06-30"},
+    {"name": "2024-H2", "test_start": "2024-07-01", "test_end": "2024-12-31"},
+    {"name": "2025-H1", "test_start": "2025-01-01", "test_end": "2025-06-30"},
+    {"name": "2025-H2", "test_start": "2025-07-01", "test_end": "2025-12-31"},
+    {"name": "2026-H1", "test_start": "2026-01-01", "test_end": "2026-06-30"}
+  ],
+
+  "sharpe_method": "daily_resampled_per_SMA-34787",
+  "sharpe_method_audit_ref": "SMA-34787",
+
+  "params": {
+    "fee_bps_per_fill": 10.0,
+    "slippage_bps_per_fill": 5.0,
+    "venue": "BINANCE_SPOT",
+
+    "zscore_window_bars": 100,
+    "zscore_entry_threshold_15m": 2.0,
+    "zscore_exit_threshold": 0.5,
+
+    "poc_slope_window_bars": 5,
+    "atr_period_15m": 14,
+    "edge_buffer_atr_15m": 1.0,
+
+    "vpvr_hvn_quantile": 0.85,
+    "vpvr_lvn_quantile": 0.15,
+    "vpvr_num_hvn": 3,
+    "vpvr_num_lvn": 3,
+    "vpvr_bins": 24,
+    "vpvr_window_bars_15m": 180,
+    "vpvr_snapshot_every_bars_15m": 16,
+
+    "tf": {
+      "15m": {
+        "take_profit_atr_k": 2.5,
+        "hard_stop_atr_k": 1.5,
+        "max_hold_bars": 8,
+        "cooldown_bars": 5
+      }
+    },
+
+    "risk_target_pct": 0.005,
+    "trailing_atr_k": 1.0,
+
+    "vol_target_target_vol": 0.15,
+    "vol_target_lookback": 60,
+    "vol_target_floor": 0.1,
+    "vol_target_cap": 3.0,
+
+    "cpcv_n_groups": 6,
+    "cpcv_k_test": 2,
+    "cpcv_purge_bars_15m": 24,
+    "cpcv_embargo_bars_15m": 12
+  },
+
+  "gates": {
+    "G1_cpcv_mean_oos_sharpe_min": 1.5,
+    "G2_dsr_min": 0.5,
+    "G3_pf_min": 1.5,
+    "G4_max_drawdown_pct_min": -20.0,
+    "G5_n_trades_per_fold_min": 30,
+    "G6_n_folds_min": 3
+  }
+}

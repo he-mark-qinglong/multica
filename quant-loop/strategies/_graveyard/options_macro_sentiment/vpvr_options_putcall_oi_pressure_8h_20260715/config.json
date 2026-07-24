@@ -1,0 +1,43 @@
+{
+  "variant": "A",
+  "strategy_key": "vpvr_options_putcall_oi_pressure_8h_20260715",
+  "iteration": 71,
+  "date": "2026-07-15",
+  "timeframe": "8h",
+  "filter_timeframe": "8h",
+  "instruments": ["ETHUSDT"],
+  "axis": "vpvr_poc_reversion_gated_by_putcall_oi_pressure_proxy",
+  "starting_capital_usd": 100000.0,
+  "params": {
+    "vpvr_window_bars": 90,
+    "vpvr_bins": 24,
+    "atr_period": 14,
+    "pcr_z_lookback_bars": 90,
+    "pcr_z_threshold": 1.5,
+    "poc_atr_buffer": 0.75,
+    "take_profit_atr_k": 2.5,
+    "hard_stop_atr_k": 1.5,
+    "max_hold_bars": 12,
+    "risk_target_pct": 0.005,
+    "cooldown_bars": 1,
+    "fee_bps_per_fill": 4.0,
+    "slippage_bps_per_fill": 2.0,
+    "walk_forward_folds": 3
+  },
+  "data_source": "perp_30m_aggregated_to_8h_with_pcr_proxy_from_taker_buy_share",
+  "walk_forward": {
+    "folds": [
+      {"name": "2024-Q1", "train": ["2023-01-01", "2023-12-31"], "test": ["2024-01-01", "2024-03-31"]},
+      {"name": "2024-Q3", "train": ["2023-07-01", "2024-06-30"], "test": ["2024-07-01", "2024-09-30"]},
+      {"name": "2025-Q2", "train": ["2024-04-01", "2025-03-31"], "test": ["2025-04-01", "2025-06-30"]}
+    ]
+  },
+  "notes": [
+    "Iter#71 NEW AXIS: VPVR POC reversion gated by put-call OI pressure proxy.",
+    "OPTIONS-DATA-MISSING per data/manifest.txt — PCR proxy = taker_buy_share (buy-aggressive volume fraction) computed from Binance USD-M 30m klines and aggregated to 8h.",
+    "taker_buy_share ↑ → call-side pressure (contrarian short bias); taker_buy_share ↓ → put-side pressure (contrarian long bias).",
+    "Distinct from existing vpvr_options_iv_termstructure_4h_20260715 and vpvr_options_iv_skew_1d_20260713 by (a) 8h timeframe, (b) PCR-pressure proxy vs IV-term / skew, (c) POC-anchored entry zone.",
+    "Primary timeframe 8h matches campaign 1m/15m/4h focus; 8h aligns naturally with funding cadence.",
+    "Universe: ETHUSDT (4956 bars 2022-01 → 2026-07)."
+  ]
+}

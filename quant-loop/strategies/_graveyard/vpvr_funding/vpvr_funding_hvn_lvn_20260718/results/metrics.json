@@ -1,0 +1,69 @@
+{
+  "variant": "vpvr_funding_hvn_lvn",
+  "strategy_key": "vpvr_funding_hvn_lvn",
+  "iteration": 1,
+  "date": "2026-07-18",
+  "source_spec": "SMA-34890",
+  "sharpe_method": "daily_resampled_per_SMA-34787",
+  "sharpe_method_audit_ref": "SMA-34787",
+  "generated_at_utc": "2026-07-18T00:21:46.107675+00:00",
+  "starting_capital_usd": 100000.0,
+  "params": {
+    "funding_threshold": 0.0003,
+    "vpvr_window_4h_bars": 180,
+    "vpvr_num_bins": 24,
+    "vpvr_num_hvn": 3,
+    "vpvr_num_lvn": 5,
+    "vpvr_hvn_quantile": 0.85,
+    "vpvr_lvn_quantile": 0.15,
+    "atr_period": 14,
+    "proximity_atr": 1.0,
+    "cooldown_bars": 16,
+    "max_hold_bars": 96,
+    "funding_flip_threshold": -0.0003,
+    "fee_bps_per_fill": 4.0,
+    "slippage_bps_per_fill": 1.0
+  },
+  "windows": {
+    "last_30d": {
+      "n_trades": 0,
+      "win_rate": null,
+      "profit_factor": null,
+      "avg_pnl_pct": null,
+      "median_pnl_pct": null,
+      "sharpe_daily": null,
+      "annualized_return": null,
+      "max_drawdown_pct": null,
+      "total_return": null,
+      "diagnostics": {
+        "n_long_signals": 0,
+        "signal_bars_funding_above_threshold": 0,
+        "signal_bars_near_hvn": 0
+      },
+      "window": "last_30d",
+      "window_start": "2026-06-10 23:45:00",
+      "window_end": "2026-07-10 23:45:00",
+      "n_bars": 2881
+    },
+    "q1_2024_hot_funding": {
+      "n_trades": 11,
+      "win_rate": 0.6363636363636364,
+      "profit_factor": 1.4628964465318706,
+      "avg_pnl_pct": 0.0054333487351537054,
+      "median_pnl_pct": 0.016274065449564,
+      "sharpe_daily": 1.1319413279144177,
+      "annualized_return": 0.24299201133266246,
+      "max_drawdown_pct": -0.10878434113890911,
+      "total_return": 0.054432974601796635,
+      "diagnostics": {
+        "n_long_signals": 11,
+        "signal_bars_funding_above_threshold": 1826,
+        "signal_bars_near_hvn": 11
+      },
+      "window": "q1_2024_hot_funding",
+      "window_start": "2024-02-01 00:00:00",
+      "window_end": "2024-04-30 23:45:00",
+      "n_bars": 8640
+    }
+  }
+}

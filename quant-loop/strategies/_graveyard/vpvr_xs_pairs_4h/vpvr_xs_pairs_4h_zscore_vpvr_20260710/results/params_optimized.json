@@ -1,0 +1,112 @@
+{
+  "variant_label": null,
+  "source_strategy": "vpvr_xs_pairs_4h_zscore_vpvr_20260710",
+  "iteration": 75,
+  "verdict": "KILL",
+  "reason": "no pre-registered variant cleared the acceptance gates; see cpcv_summary.txt",
+  "per_variant": [
+    {
+      "label": "tightentry_vpvr1_hvn07_exit03",
+      "mean_oos_sharpe": 0.14799024730276802,
+      "worst_oos_sharpe": -1.5310691200067497,
+      "deflated_sharpe": 0.13224889718426475,
+      "total_oos_trades": 2047,
+      "trades_per_fold": 136.46666666666667
+    },
+    {
+      "label": "tighterentry_vpvr05_hvn07_exit05",
+      "mean_oos_sharpe": 0.16095983752363374,
+      "worst_oos_sharpe": -1.5811318201279365,
+      "deflated_sharpe": 0.14520289720694665,
+      "total_oos_trades": 2041,
+      "trades_per_fold": 136.06666666666666
+    },
+    {
+      "label": "tighterentry_vpvr03_hvn09_exit05",
+      "mean_oos_sharpe": 0.110699792899189,
+      "worst_oos_sharpe": -1.6445993857332384,
+      "deflated_sharpe": 0.09499603936571982,
+      "total_oos_trades": 2034,
+      "trades_per_fold": 135.6
+    },
+    {
+      "label": "tightentry_vpvr07_hvn05_exit05_cost20",
+      "mean_oos_sharpe": 0.46599296132804296,
+      "worst_oos_sharpe": -1.0348978734682766,
+      "deflated_sharpe": 0.4495090789824147,
+      "total_oos_trades": 2109,
+      "trades_per_fold": 140.6
+    },
+    {
+      "label": "moderateentry_vpvr05_hvn07_exit03",
+      "mean_oos_sharpe": -0.5762099514693788,
+      "worst_oos_sharpe": -2.5450704774233714,
+      "deflated_sharpe": -0.5931154492665047,
+      "total_oos_trades": 3121,
+      "trades_per_fold": 208.06666666666666
+    },
+    {
+      "label": "tightentry_vpvr07_hvn07_exit03_cost30",
+      "mean_oos_sharpe": 0.13242340417696594,
+      "worst_oos_sharpe": -1.5310691200067597,
+      "deflated_sharpe": 0.11669905552428031,
+      "total_oos_trades": 2039,
+      "trades_per_fold": 135.93333333333334
+    },
+    {
+      "label": "tightentry_vpvr1_hvn05_exit07",
+      "mean_oos_sharpe": 0.48829330855766456,
+      "worst_oos_sharpe": -1.0567918784872619,
+      "deflated_sharpe": 0.47173050632568314,
+      "total_oos_trades": 2132,
+      "trades_per_fold": 142.13333333333333
+    },
+    {
+      "label": "tightestentry_vpvr07_hvn07_exit05",
+      "mean_oos_sharpe": -0.1616676128884878,
+      "worst_oos_sharpe": -2.8406297698137015,
+      "deflated_sharpe": -0.17742544119232512,
+      "total_oos_trades": 825,
+      "trades_per_fold": 55.0
+    },
+    {
+      "label": "moderateentry_vpvr1_hvn07_exit07",
+      "mean_oos_sharpe": -0.5692387447313678,
+      "worst_oos_sharpe": -2.5264454174552204,
+      "deflated_sharpe": -0.5861152742997628,
+      "total_oos_trades": 3171,
+      "trades_per_fold": 211.4
+    },
+    {
+      "label": "tightentry_vpvr05_hvn05_exit05_cost40",
+      "mean_oos_sharpe": 0.5001211868269291,
+      "worst_oos_sharpe": -1.084191551811845,
+      "deflated_sharpe": 0.4835151889227882,
+      "total_oos_trades": 2101,
+      "trades_per_fold": 140.06666666666666
+    },
+    {
+      "label": "tightentry_vpvr1_hvn09_exit05",
+      "mean_oos_sharpe": 0.11848443866228478,
+      "worst_oos_sharpe": -1.644119416363573,
+      "deflated_sharpe": 0.10277372498944387,
+      "total_oos_trades": 2044,
+      "trades_per_fold": 136.26666666666668
+    },
+    {
+      "label": "moderateentry_vpvr07_hvn05_exit05",
+      "mean_oos_sharpe": -0.18511084193876687,
+      "worst_oos_sharpe": -2.412283616535508,
+      "deflated_sharpe": -0.20090025170530407,
+      "total_oos_trades": 3246,
+      "trades_per_fold": 216.4
+    }
+  ],
+  "anti_overfit_notes": [
+    "Pre-registered candidate set was chosen a priori on economic reasoning;",
+    "no variant parameters were tuned based on OOS Sharpe readings.",
+    "All variants differ from baseline on \u22653 of 5 axes \u2192 unique equity curves.",
+    "DSR penalty applied with n_trials = len(pre_registered_candidates).",
+    "The full 720-cell Cartesian space was NOT searched."
+  ]
+}

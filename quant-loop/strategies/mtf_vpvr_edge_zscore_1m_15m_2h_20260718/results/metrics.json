@@ -1,0 +1,65 @@
+{
+  "strategy": "mtf_vpvr_edge_zscore_1m_15m_2h_20260718",
+  "iteration": 1,
+  "campaign": "SMA-34991 multi-TF VPVR-edge + zscore",
+  "hypothesis": "single-asset VPVR-edge + zscore multi-TF reversion",
+  "primary_timeframe": "1m",
+  "filter_timeframe": "15m",
+  "regime_timeframe": "2h",
+  "instruments": [
+    "BTCUSDT",
+    "ETHUSDT"
+  ],
+  "n_trades_total": 442,
+  "avg_pair_sharpe_daily_resampled": 0.7861675150059371,
+  "portfolio_sharpe_daily_resampled": 1.1062422210564797,
+  "portfolio_annualized_return_daily": 0.03408723210943321,
+  "portfolio_max_drawdown_pct": -0.041079080747696395,
+  "profit_factor_avg": 1.059260599842891,
+  "avg_pair_max_drawdown_pct": -0.058139784993087584,
+  "per_symbol": [
+    {
+      "symbol": "BTCUSDT",
+      "n_trades": 255,
+      "sharpe_daily_resampled": 0.7298014922559928,
+      "annualized_return_daily": 0.025742844139730936,
+      "profit_factor": 1.0454797442173702,
+      "max_drawdown_pct": -0.060855737288164735,
+      "span_start": "2022-01-02",
+      "span_end": "2028-11-09"
+    },
+    {
+      "symbol": "ETHUSDT",
+      "n_trades": 187,
+      "sharpe_daily_resampled": 0.8425335377558812,
+      "annualized_return_daily": 0.041487546979542156,
+      "profit_factor": 1.0730414554684116,
+      "max_drawdown_pct": -0.05542383269801043,
+      "span_start": "2022-01-02",
+      "span_end": "2028-08-21"
+    }
+  ],
+  "sharpe_method": "daily_resampled",
+  "params": {
+    "vpvr_window_bars_15m": 96,
+    "vpvr_window_bars_2h": 60,
+    "vpvr_n_bins": 24,
+    "vpvr_hvn_quantile": 0.85,
+    "vpvr_lvn_quantile": 0.15,
+    "vpvr_num_hvn": 3,
+    "vpvr_num_lvn": 3,
+    "zscore_lookback_bars_15m": 100,
+    "zscore_lookback_bars_2h": 60,
+    "zscore_entry_threshold": 2.0,
+    "zscore_confirm_threshold": 1.0,
+    "zscore_exit_threshold": 0.5,
+    "poc_slope_lookback": 8,
+    "ema_period_2h": 20,
+    "ema_slope_lookback": 4,
+    "touch_atr_k": 1.0,
+    "atr_period": 14,
+    "tp_atr_k": 3.0,
+    "sl_atr_k": 1.0,
+    "max_holding_bars": 180
+  }
+}

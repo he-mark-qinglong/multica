@@ -1,0 +1,12 @@
+=== vpvr_funding_carry_asym_v2_20260718 CPCV (SMA-34990) ===
+  n_groups=6 k_test=2 purge=200 embargo=100
+  paths=15 folds_complete=15
+  mean_oos_sharpe=-16.0786  std_oos_sharpe=9.6359
+  ci95=[-20.4506, -11.2907]
+  deflated_sharpe=-16.0899  (n_trials=50, sample_len=3605862)
+
+=== Acceptance gates (CPCV) ===
+  mean_oos_sharpe >= 1.2     : pass=False
+  deflated_sharpe > 0.5      : pass=False
+
+VERDICT: NOT-PROFITABLE

@@ -1,0 +1,79 @@
+{
+  "engine": "freqtrade",
+  "engine_version": "freqtrade 2026.6",
+  "iteration": 71,
+  "strategy_key": "vpvr_options_putcall_oi_pressure_8h_20260715",
+  "symbol": "ETHUSDT",
+  "timeframe": "8h",
+  "inhouse": {
+    "sharpe": -1.1722,
+    "ann_total_return": -0.002078,
+    "total_return": -0.00937,
+    "max_dd": -0.012182,
+    "n_trades": 104,
+    "status": "FAIL_NEGATIVE_ANN_RETURN"
+  },
+  "framework": {
+    "sharpe": 0.00014537914928014747,
+    "ann_total_return": 0.0,
+    "total_return": 0.0,
+    "max_dd": -0.00022838775015665558,
+    "n_bars": 4977,
+    "span_years": 4.541181838923112
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": 0.00014453482898372618,
+    "oos_total_return_ann_mean": 0.0,
+    "oos_max_dd_max": -0.00022838775015665558,
+    "n_folds": 5,
+    "folds": [
+      {
+        "fold": 1,
+        "bars": 995,
+        "sharpe": 0.00016411871601563875,
+        "ann_total_return": 0.0,
+        "max_dd": -0.00022838775015665558
+      },
+      {
+        "fold": 2,
+        "bars": 995,
+        "sharpe": 0.00011700874025170506,
+        "ann_total_return": 0.0,
+        "max_dd": -0.0001253428815085611
+      },
+      {
+        "fold": 3,
+        "bars": 995,
+        "sharpe": 0.00014120414449455694,
+        "ann_total_return": 0.0,
+        "max_dd": -0.00016502838031673406
+      },
+      {
+        "fold": 4,
+        "bars": 995,
+        "sharpe": 0.00015192602380817606,
+        "ann_total_return": 0.0,
+        "max_dd": -0.0001382907968078273
+      },
+      {
+        "fold": 5,
+        "bars": 997,
+        "sharpe": 0.00014841652034855397,
+        "ann_total_return": 0.0,
+        "max_dd": -0.00020360329854351988
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 100.01233021915917,
+    "ann_total_return": 100.0,
+    "max_dd": 98.12520316732346
+  },
+  "max_abs_rel_divergence_pct": 100.01233021915917,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "freqtrade 2026.6 IStrategy contract replay: ETHUSDT 8h USDT-margined linear perp (8h bars aggregated from 4h parquet); pnl_pct applied linearly across held bars with weight 0.005 (risk_target_pct); walk-forward OOS 5 folds; freqtrade-imported",
+  "freqtrade_imported": true,
+  "cache_dir": "/tmp/framework-validate-vpvr_options_putcall_oi_pressure_8h_20260715-freqtrade"
+}

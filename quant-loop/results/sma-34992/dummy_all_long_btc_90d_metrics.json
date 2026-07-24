@@ -1,0 +1,11 @@
+{
+  "sharpe_daily": -111.46029120703571,
+  "annualized_return": -1.0,
+  "max_drawdown_pct": -1.0,
+  "profit_factor": 0.994041905854341,
+  "n_trades": 129340,
+  "n_bars": 129340,
+  "win_rate": 0.4923689500541209,
+  "calmar": -1.0,
+  "sortino": -111.46029120703571
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "autopilot_id": "51e7cb03-f866-47ae-95f2-86d94f23ffa3",
+  "engine": "backtrader",
+  "engine_version": "1.9.78.123",
+  "engine_sha": "backtrader-1.9.78.123",
+  "iteration": 71,
+  "strategy_key": "vpvr_sentiment_attention_1m_20260716",
+  "fix_revision": "post-SMA-34922 max_dd accounting fix 2026-07-18",
+  "fix_note": "mirrors the in-house equity construction in strategy.py for vpvr_sentiment_attention_1m: held-bar MTM (equity *= (1 + risk_target * bar_pnl) on bars entry+1..exit-1 with bar_pnl = (close/prev_close - 1) * direction) plus exit-bar override (equity *= (1 + risk_target * (pnl_pct + cost_delta))) for the round-trip net; flat bars unchanged. Single-symbol BTCUSDT 1m USDT-margined linear perp. Backtrader broker convention here is 4bp commission per side (setcommission=0.0004) + 3bp set_slippage_perc (perc=0.0003) per fill = 14bp round trip, vs in-house 10bp rt (4bp fee + 1bp slip). Validated first by replaying at in-house cost and matching the equity CSV.",
+  "cost_model": {
+    "fee_bps_per_side": 4.0,
+    "slippage_bps_per_side": 3.0,
+    "round_trip": 0.0014,
+    "inhouse_round_trip": 0.001,
+    "cost_delta_per_trade": -0.00039999999999999996
+  },
+  "replay_validation": {
+    "BTCUSDT": {
+      "n_bars_compared": 25000,
+      "max_abs_rel_err": 0.0002182362103623258,
+      "final_rel_err": 0.00014230868652272732,
+      "replayed_max_dd": -0.0003757882771456833,
+      "inhouse_max_dd": -0.00030796156557133525,
+      "max_dd_abs_diff": 6.782671157434805e-05,
+      "matched_fills": 78,
+      "missed_oow": 1,
+      "missed_oos": 0
+    }
+  },
+  "inhouse": {
+    "sharpe": -7.8126,
+    "ann_total_return": -0.003317,
+    "total_return": -0.000158,
+    "max_dd": -0.000308,
+    "n_trades": 79,
+    "timeframe": "1m",
+    "status": "NOT-PROFITABLE",
+    "symbol": "BTCUSDT"
+  },
+  "framework": {
+    "sharpe": -27.091227892552187,
+    "sharpe_nav_bar": -13.68921483642581,
+    "ann_total_return": -0.009756914369925318,
+    "total_return": -0.00045624639911623355,
+    "max_dd": -0.0005061985858813012,
+    "n_bars": 24481,
+    "n_fills": 78,
+    "span_years": 0.04654346338124572,
+    "cost_delta_per_trade": -0.00039999999999999996
+  },
+  "divergence_pct": {
+    "sharpe": 246.76327845470377,
+    "total_return": 188.76354374445162,
+    "max_dd": 64.35019022120167
+  },
+  "max_abs_rel_divergence_pct": 246.76327845470377,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_tipping_metrics": [
+    "sharpe 246.76%",
+    "total_return 188.76%",
+    "max_dd 64.35%"
+  ],
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "backtrader 1.9.78.123 broker convention (setcommission=0.0004 + set_slippage_perc=0.0003 -> 14bp rt) applied to the in-house entry/exit schedule; equity walk is held-bar MTM (entry+1..exit-1 earn risk_target*bar_pnl) with exit-bar override (equity *= (1 + risk_target * (pnl_pct + cost_delta))). Single-symbol BTCUSDT 1m USDT-margined linear perp, constant risk_target = 0.005. Validated by reproducing the in-house equity CSV at in-house cost. Sharpe uses in-house formula (mean/std of per-trade pnl x sqrt(trades/yr))."
+}

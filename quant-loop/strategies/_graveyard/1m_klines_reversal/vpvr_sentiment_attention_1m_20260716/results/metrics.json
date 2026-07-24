@@ -1,0 +1,16 @@
+{
+  "variant_key": "vpvr_sentiment_attention_1m_20260716",
+  "iteration": 71,
+  "symbol": "BTCUSDT",
+  "n_bars": 25000,
+  "span_start": "2023-01-01 00:00:00",
+  "span_end": "2023-01-18 08:39:00",
+  "n_trades": 79,
+  "win_rate": 0.2025,
+  "sharpe": -7.8126,
+  "ann_return_pct": -0.3317,
+  "max_drawdown_pct": -0.0308,
+  "profit_factor": 0.3857,
+  "status": "NOT-PROFITABLE",
+  "note": "B1 synthetic sanity run \u2014 real validation pending B3 on live data."
+}

@@ -1,0 +1,118 @@
+{
+  "engine": "vectorbt",
+  "engine_version": "1.1.0",
+  "engine_sha": "vectorbt-1.1.0",
+  "iteration": 72,
+  "strategy_key": "vpvr_carry_term_8h_20260711",
+  "inhouse": {
+    "sharpe": -0.2636387910052974,
+    "ann_total_return": -0.12522352507663376,
+    "total_return": -0.12522352507663376,
+    "max_dd": -0.37488516017917806,
+    "n_trades": 42,
+    "timeframe": "8h",
+    "status": "NOT-PROFITABLE"
+  },
+  "framework": {
+    "sharpe": -0.35544253244272556,
+    "ann_total_return": -0.03369658515046725,
+    "total_return": -0.14361416608162503,
+    "max_dd": -0.26448807613075886,
+    "n_bars": 4956,
+    "n_fills": 42,
+    "span_years": 4.522929500342231,
+    "max_dd_per_symbol": {
+      "BTCUSDT": -0.3711016471641956,
+      "ETHUSDT": -0.18526921387794712
+    },
+    "total_return_per_symbol": {
+      "BTCUSDT": -0.30786333242942043,
+      "ETHUSDT": 0.020635000266170378
+    }
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": -0.28055828498997143,
+    "oos_total_return_ann_mean": -0.0349876329796614,
+    "oos_max_dd_max": -0.18774239457218184,
+    "n_folds": 4,
+    "folds": [
+      {
+        "fold": 1,
+        "lo_bar": 0,
+        "hi_bar": 1239,
+        "bars": 1239,
+        "sharpe": -1.308611615793815,
+        "total_return": -0.14601892470718625,
+        "max_dd": -0.18774239457218184
+      },
+      {
+        "fold": 2,
+        "lo_bar": 1239,
+        "hi_bar": 2478,
+        "bars": 1239,
+        "sharpe": -0.5802546122228998,
+        "total_return": -0.058849277207899786,
+        "max_dd": -0.12657743872186053
+      },
+      {
+        "fold": 3,
+        "lo_bar": 2478,
+        "hi_bar": 3717,
+        "bars": 1239,
+        "sharpe": 0.5828556572116634,
+        "total_return": 0.053675839253521485,
+        "max_dd": -0.04617666013631445
+      },
+      {
+        "fold": 4,
+        "lo_bar": 3717,
+        "hi_bar": 4956,
+        "bars": 1239,
+        "sharpe": 0.18377743084516565,
+        "total_return": 0.011241830742918957,
+        "max_dd": -0.061058368963235125
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 34.82178820778445,
+    "ann_total_return": 73.09085083665728,
+    "max_dd": 29.44824062805111
+  },
+  "max_abs_rel_divergence_pct": 73.09085083665728,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "w5_tipping_metrics": [
+    "ann_total_return 73.09%"
+  ],
+  "validation_per_symbol": {
+    "BTCUSDT": {
+      "n_bars_compared": 4956,
+      "n_trades_replayed": 24,
+      "max_abs_rel_err": 0.037256562399370426,
+      "final_abs_rel_err": 0.01117712194435219,
+      "replayed_max_dd": -0.3711016471641956,
+      "inhouse_max_dd": -0.37488516017850015,
+      "max_dd_abs_diff": 0.0037835130143045737
+    },
+    "ETHUSDT": {
+      "n_bars_compared": 4956,
+      "n_trades_replayed": 18,
+      "max_abs_rel_err": 0.05962481595399733,
+      "final_abs_rel_err": 0.04171744312307558,
+      "replayed_max_dd": -0.18526921387794712,
+      "inhouse_max_dd": -0.13821805811625182,
+      "max_dd_abs_diff": 0.0470511557616953
+    }
+  },
+  "approach": "vectorbt 1.1.0 cross-check: reconstruct in-house bar-by-bar MTM equity (per-symbol: full-notional price ret \u00d7 direction + per-bar funding carry (-fundingRate_binance \u00d7 direction) + per-trade round-trip cost amortised over held bars; in-house cost = 4.0bp RT). Portfolio NAV = sum of per-symbol equities re-anchored at starting_capital_usd. Sharpe computed from per-bar returns \u00d7 sqrt(365.25*3) (8h bars). 4-fold chronological walk-forward OOS. Validation reproduces in-house equity CSVs (per-symbol max_abs_rel_err < 1e-3 required).",
+  "cost_model": {
+    "inhouse_fee_bps_per_side": 1.0,
+    "inhouse_slip_bps_per_side": 1.0,
+    "inhouse_round_trip": 0.0004,
+    "framework_round_trip": 0.0,
+    "delta_per_trade": -0.0004
+  },
+  "generated_at_utc": "2026-07-21T00:17:56.663194+00:00"
+}

@@ -1,0 +1,308 @@
+{
+  "strategy": "mtf_xs_pairs_1m_15m_2h_h2_20260718",
+  "iteration": 106,
+  "hypothesis": "H2",
+  "campaign": "SMA-34875 mtf-1m-15m-2h",
+  "n_windows": 7,
+  "train_bars_1m": 525600,
+  "test_bars_1m": 262800,
+  "step_bars_1m": 262800,
+  "oos_sharpe_mean_daily_resampled": 0.6237180579511774,
+  "oos_annualized_mean_daily": 0.015591115448404731,
+  "oos_max_drawdown_worst": -0.07197826117634298,
+  "bootstrap_ci_lower": -0.5135685705234289,
+  "bootstrap_ci_upper": 2.009094461469115,
+  "bootstrap_resamples": 10000,
+  "bootstrap_seed": 42,
+  "sharpe_method": "daily_resampled",
+  "per_window": [
+    {
+      "window_id": 0,
+      "train_bars": [
+        0,
+        525600
+      ],
+      "test_bars": [
+        525600,
+        788400
+      ],
+      "test_start_iso": "2023-01-01 00:00:00+00:00",
+      "test_end_iso": "2023-07-02 13:19:00+00:00",
+      "n_test_bars": 262800,
+      "portfolio": {
+        "sharpe_daily_resampled": 0.34875859059292935,
+        "annualized_return_daily": 0.01502568670414517,
+        "max_drawdown_pct": -0.02999745947494048,
+        "n_days": 182
+      },
+      "per_pair": {
+        "BTCUSDT/ETHUSDT": {
+          "sharpe_daily_resampled": -1.515201345706526,
+          "annualized_return_daily": -0.06641444496218918,
+          "n_trades": 1069,
+          "max_drawdown_pct": -0.02999745947494048
+        },
+        "BTCUSDT/SOLUSDT": {
+          "sharpe_daily_resampled": 0.18681711929991454,
+          "annualized_return_daily": 0.012011646270593701,
+          "n_trades": 628,
+          "max_drawdown_pct": -0.02999745947494048
+        },
+        "ETHUSDT/SOLUSDT": {
+          "sharpe_daily_resampled": 1.2568141148758392,
+          "annualized_return_daily": 0.09996546857547872,
+          "n_trades": 572,
+          "max_drawdown_pct": -0.02999745947494048
+        }
+      }
+    },
+    {
+      "window_id": 1,
+      "train_bars": [
+        0,
+        788400
+      ],
+      "test_bars": [
+        788400,
+        1051200
+      ],
+      "test_start_iso": "2023-07-02 13:20:00+00:00",
+      "test_end_iso": "2024-01-01 01:19:00+00:00",
+      "n_test_bars": 262800,
+      "portfolio": {
+        "sharpe_daily_resampled": -0.7930637038344481,
+        "annualized_return_daily": -0.053621231208619835,
+        "max_drawdown_pct": -0.07197826117634298,
+        "n_days": 183
+      },
+      "per_pair": {
+        "BTCUSDT/ETHUSDT": {
+          "sharpe_daily_resampled": 1.8965100683596556,
+          "annualized_return_daily": 0.10875911184063303,
+          "n_trades": 982,
+          "max_drawdown_pct": -0.07197826117634298
+        },
+        "BTCUSDT/SOLUSDT": {
+          "sharpe_daily_resampled": -0.9182276163050712,
+          "annualized_return_daily": -0.09692010131263895,
+          "n_trades": 470,
+          "max_drawdown_pct": -0.07197826117634298
+        },
+        "ETHUSDT/SOLUSDT": {
+          "sharpe_daily_resampled": -1.2774035464570788,
+          "annualized_return_daily": -0.1601442039132226,
+          "n_trades": 548,
+          "max_drawdown_pct": -0.07197826117634298
+        }
+      }
+    },
+    {
+      "window_id": 2,
+      "train_bars": [
+        0,
+        1051200
+      ],
+      "test_bars": [
+        1051200,
+        1314000
+      ],
+      "test_start_iso": "2024-01-01 01:20:00+00:00",
+      "test_end_iso": "2024-07-01 13:19:00+00:00",
+      "n_test_bars": 262800,
+      "portfolio": {
+        "sharpe_daily_resampled": -0.044152944681471906,
+        "annualized_return_daily": -0.003519828531696856,
+        "max_drawdown_pct": -0.036042618989949315,
+        "n_days": 182
+      },
+      "per_pair": {
+        "BTCUSDT/ETHUSDT": {
+          "sharpe_daily_resampled": 0.8689576624205895,
+          "annualized_return_daily": 0.06974277548755725,
+          "n_trades": 1052,
+          "max_drawdown_pct": -0.036042618989949315
+        },
+        "BTCUSDT/SOLUSDT": {
+          "sharpe_daily_resampled": 0.6488639479365846,
+          "annualized_return_daily": 0.056546558268122826,
+          "n_trades": 527,
+          "max_drawdown_pct": -0.036042618989949315
+        },
+        "ETHUSDT/SOLUSDT": {
+          "sharpe_daily_resampled": -1.359342532456386,
+          "annualized_return_daily": -0.1319979694626643,
+          "n_trades": 723,
+          "max_drawdown_pct": -0.036042618989949315
+        }
+      }
+    },
+    {
+      "window_id": 3,
+      "train_bars": [
+        0,
+        1314000
+      ],
+      "test_bars": [
+        1314000,
+        1576800
+      ],
+      "test_start_iso": "2024-07-01 13:20:00+00:00",
+      "test_end_iso": "2024-12-31 01:19:00+00:00",
+      "n_test_bars": 262800,
+      "portfolio": {
+        "sharpe_daily_resampled": 0.40673243896785527,
+        "annualized_return_daily": 0.01906249665396853,
+        "max_drawdown_pct": -0.038945279852994896,
+        "n_days": 183
+      },
+      "per_pair": {
+        "BTCUSDT/ETHUSDT": {
+          "sharpe_daily_resampled": -0.256205308676357,
+          "annualized_return_daily": -0.0181997159243511,
+          "n_trades": 996,
+          "max_drawdown_pct": -0.038945279852994896
+        },
+        "BTCUSDT/SOLUSDT": {
+          "sharpe_daily_resampled": 1.3270396419815664,
+          "annualized_return_daily": 0.09622184651967092,
+          "n_trades": 650,
+          "max_drawdown_pct": -0.038945279852994896
+        },
+        "ETHUSDT/SOLUSDT": {
+          "sharpe_daily_resampled": -0.16996076698390716,
+          "annualized_return_daily": -0.02336767689180408,
+          "n_trades": 843,
+          "max_drawdown_pct": -0.038945279852994896
+        }
+      }
+    },
+    {
+      "window_id": 4,
+      "train_bars": [
+        0,
+        1576800
+      ],
+      "test_bars": [
+        1576800,
+        1839600
+      ],
+      "test_start_iso": "2024-12-31 01:20:00+00:00",
+      "test_end_iso": "2025-07-01 13:19:00+00:00",
+      "n_test_bars": 262800,
+      "portfolio": {
+        "sharpe_daily_resampled": -1.3890822596246721,
+        "annualized_return_daily": -0.081182350144694,
+        "max_drawdown_pct": -0.055081886656290546,
+        "n_days": 182
+      },
+      "per_pair": {
+        "BTCUSDT/ETHUSDT": {
+          "sharpe_daily_resampled": -1.7433729621617085,
+          "annualized_return_daily": -0.1364553548196482,
+          "n_trades": 637,
+          "max_drawdown_pct": -0.055081886656290546
+        },
+        "BTCUSDT/SOLUSDT": {
+          "sharpe_daily_resampled": 1.0755335700944137,
+          "annualized_return_daily": 0.07844536203829522,
+          "n_trades": 452,
+          "max_drawdown_pct": -0.055081886656290546
+        },
+        "ETHUSDT/SOLUSDT": {
+          "sharpe_daily_resampled": -1.4765954446218124,
+          "annualized_return_daily": -0.1737039073005292,
+          "n_trades": 879,
+          "max_drawdown_pct": -0.055081886656290546
+        }
+      }
+    },
+    {
+      "window_id": 5,
+      "train_bars": [
+        0,
+        1839600
+      ],
+      "test_bars": [
+        1839600,
+        2102400
+      ],
+      "test_start_iso": "2025-07-01 13:20:00+00:00",
+      "test_end_iso": "2025-12-31 01:19:00+00:00",
+      "n_test_bars": 262800,
+      "portfolio": {
+        "sharpe_daily_resampled": 1.6345016322469244,
+        "annualized_return_daily": 0.06997867840041372,
+        "max_drawdown_pct": -0.022149816704478353,
+        "n_days": 183
+      },
+      "per_pair": {
+        "BTCUSDT/ETHUSDT": {
+          "sharpe_daily_resampled": 1.8524115627377387,
+          "annualized_return_daily": 0.10338040778339175,
+          "n_trades": 573,
+          "max_drawdown_pct": -0.022149816704478353
+        },
+        "BTCUSDT/SOLUSDT": {
+          "sharpe_daily_resampled": -0.1412798438586091,
+          "annualized_return_daily": -0.01207111682592421,
+          "n_trades": 535,
+          "max_drawdown_pct": -0.022149816704478353
+        },
+        "ETHUSDT/SOLUSDT": {
+          "sharpe_daily_resampled": 1.533263234206984,
+          "annualized_return_daily": 0.11913965709874419,
+          "n_trades": 936,
+          "max_drawdown_pct": -0.022149816704478353
+        }
+      }
+    },
+    {
+      "window_id": 6,
+      "train_bars": [
+        0,
+        2102400
+      ],
+      "test_bars": [
+        2102400,
+        2365200
+      ],
+      "test_start_iso": "2025-12-31 01:20:00+00:00",
+      "test_end_iso": "2026-07-01 13:19:00+00:00",
+      "n_test_bars": 262800,
+      "portfolio": {
+        "sharpe_daily_resampled": 4.202332651991125,
+        "annualized_return_daily": 0.14339435626531638,
+        "max_drawdown_pct": -0.018274882026880768,
+        "n_days": 182
+      },
+      "per_pair": {
+        "BTCUSDT/ETHUSDT": {
+          "sharpe_daily_resampled": 1.817978541915722,
+          "annualized_return_daily": 0.08026171056487708,
+          "n_trades": 736,
+          "max_drawdown_pct": -0.018274882026880768
+        },
+        "BTCUSDT/SOLUSDT": {
+          "sharpe_daily_resampled": 3.5163602239068026,
+          "annualized_return_daily": 0.16549484490503974,
+          "n_trades": 615,
+          "max_drawdown_pct": -0.018274882026880768
+        },
+        "ETHUSDT/SOLUSDT": {
+          "sharpe_daily_resampled": 2.6285925766794804,
+          "annualized_return_daily": 0.18401649140069276,
+          "n_trades": 931,
+          "max_drawdown_pct": -0.018274882026880768
+        }
+      }
+    }
+  ],
+  "gates": {
+    "oos_sharpe_min_required": 1.0,
+    "oos_annualized_min_required": 0.15,
+    "bootstrap_ci_lower_min_required": 0.5,
+    "passed": false
+  },
+  "tag": "NOT-PROFITABLE",
+  "verdict": "NOT-PROFITABLE \u2014 OOS Sharpe 0.62 < 1.00 OR OOS annualized 1.56% < 15.00% OR bootstrap CI lower -0.51 < 0.50"
+}

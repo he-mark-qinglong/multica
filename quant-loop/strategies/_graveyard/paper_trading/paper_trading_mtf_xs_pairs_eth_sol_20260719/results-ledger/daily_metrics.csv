@@ -1,0 +1,2 @@
+date,total_trades,winning_trades,losing_trades,win_rate,gross_pnl_usd,net_pnl_usd,fees_usd,slippage_usd,equity_usd,daily_return_pct,rolling_20d_sharpe,rolling_20d_pf,max_drawdown_pct,max_drawdown_pct_vs_backtest,profit_factor_lifetime,bootstrap_ci_lo,action,kill_triggered,kill_reason,notes2026-07-20,13,4,9,0.307692,-882.231762,-892.940945,6.42551,4.283673,99107.059055,0.198774,0.0,0.518274,-0.892941,0.0,0.518274,1.68,RUN,False,,
+2026-07-20,13,4,9,0.307692,-881.059277,-891.756663,6.418432,4.278954,99108.243337,0.199233,0.0,0.518704,-0.891757,0.0,0.518704,1.68,RUN,False,,

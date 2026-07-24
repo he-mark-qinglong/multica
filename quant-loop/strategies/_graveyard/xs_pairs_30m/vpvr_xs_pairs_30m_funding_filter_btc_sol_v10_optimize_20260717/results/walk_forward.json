@@ -1,0 +1,70 @@
+{
+  "strategy": "vpvr_xs_pairs_30m_funding_filter_v10_optimize",
+  "iteration": 83,
+  "timeframe": "30m",
+  "variant": "A",
+  "n_windows": 3,
+  "windows": [
+    {
+      "window_id": 1,
+      "train_start": "2022-01-01",
+      "train_end": "2023-01-01",
+      "test_start": "2023-01-01",
+      "test_end": "2023-07-01",
+      "n_test_bars": 8686,
+      "n_test_trades": 413,
+      "test_sharpe": 0.6071308234585222,
+      "test_return": 0.491021035479448,
+      "test_mdd": -0.2715255835218962,
+      "test_win_rate": 0.576271186440678
+    },
+    {
+      "window_id": 2,
+      "train_start": "2022-01-01",
+      "train_end": "2023-07-01",
+      "test_start": "2023-07-01",
+      "test_end": "2024-01-01",
+      "n_test_bars": 8832,
+      "n_test_trades": 392,
+      "test_sharpe": 0.9317677202274457,
+      "test_return": 0.6933437801880646,
+      "test_mdd": -0.13333212795945829,
+      "test_win_rate": 0.5892857142857143
+    },
+    {
+      "window_id": 3,
+      "train_start": "2022-01-01",
+      "train_end": "2024-01-01",
+      "test_start": "2024-01-01",
+      "test_end": "2024-07-01",
+      "n_test_bars": 8736,
+      "n_test_trades": 426,
+      "test_sharpe": 1.1462441972809323,
+      "test_return": 0.9411318767507926,
+      "test_mdd": -0.13441938790740948,
+      "test_win_rate": 0.5539906103286385
+    }
+  ],
+  "aggregate": {
+    "mean_test_sharpe": 0.8950475803223,
+    "std_test_sharpe": 0.2714260193211689,
+    "min_test_sharpe": 0.6071308234585222,
+    "mean_test_return": 0.7084988974727683,
+    "worst_test_mdd": -0.2715255835218962,
+    "in_sample_sharpe": 5.101859792928082,
+    "walk_forward_ratio": 0.1754355502993175,
+    "deflated_sharpe_z": -1.0316271732595537,
+    "ship_gate": {
+      "wf_ratio_threshold": 0.5,
+      "wf_ratio_pass": false,
+      "min_oos_sharpe_threshold": 0.0,
+      "min_oos_sharpe_pass": true,
+      "overall_pass": false
+    }
+  },
+  "evidence_gate": {
+    "sharpe_threshold": 0.5,
+    "wf_ratio_threshold": 0.5,
+    "passed": false
+  }
+}

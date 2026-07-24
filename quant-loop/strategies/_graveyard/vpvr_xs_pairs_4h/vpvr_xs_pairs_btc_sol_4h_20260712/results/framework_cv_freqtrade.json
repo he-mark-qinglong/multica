@@ -1,0 +1,131 @@
+{
+  "engine": "freqtrade",
+  "engine_version": "freqtrade 2026.6",
+  "engine_sha": "freqtrade-2026.6",
+  "iteration": 80,
+  "strategy_key": "vpvr_xs_pairs_btc_sol_4h_20260712",
+  "timeframe": "4h",
+  "instruments": [
+    "BTCUSDT",
+    "SOLUSDT"
+  ],
+  "pairs": [
+    "BTCUSDT/SOLUSDT"
+  ],
+  "data_source": {
+    "btc_1m_parquet": "/home/smark/multica/quant-loop/data/perp_1m/BTCUSDT_1m.parquet",
+    "sol_4h_parquet": "/home/smark/multica/quant-loop/strategies/vpvr_xs_pairs_btc_sol_4h_20260712/data/fapi_SOLUSDT__4h.parquet",
+    "resample_btc": "1m \u2192 4h (open=first,close=last,high=max,low=min)",
+    "n_4h_bars": 4751,
+    "span_start": "2024-04-23 00:00:00+00:00",
+    "span_end": "2026-06-23 16:00:00+00:00",
+    "trades_total": 438,
+    "trades_replayed": 438,
+    "trades_out_of_window": 0,
+    "trades_skipped_other": 0
+  },
+  "inhouse_oos_aggregate": {
+    "sharpe": -0.22251221670181345,
+    "ann_total_return": -0.05127277631155603,
+    "max_dd": -0.2446991966018432,
+    "n_folds": 4,
+    "n_trades": 438,
+    "status": "PROFITABLE"
+  },
+  "framework_full": {
+    "sharpe": -0.3143715713327673,
+    "ann_total_return": -0.049019042491069476,
+    "total_return": -0.1032153193051153,
+    "max_dd": -0.24028473909427095,
+    "n_bars": 4751,
+    "span_years": 2.16746520647958,
+    "replay_terminal_equity": 89678.46806948847
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": -0.767928737108988,
+    "oos_ann_total_return_mean": -0.10492632088930154,
+    "oos_max_dd_min": -0.21973655367582157,
+    "n_folds": 4,
+    "folds": [
+      {
+        "fold": 1,
+        "test_start": "2025-01-23",
+        "test_end": "2025-07-23",
+        "n_bars": 1087,
+        "n_trades": 102,
+        "inhouse_sharpe": 0.019043382210037204,
+        "inhouse_total_return": 0.004975315944108834,
+        "inhouse_mdd": -0.16531302423684505,
+        "framework_sharpe": -0.4171297639507859,
+        "framework_ann_total_return": -0.07134873021202748,
+        "framework_max_dd": -0.15560968561933153
+      },
+      {
+        "fold": 2,
+        "test_start": "2025-04-23",
+        "test_end": "2025-10-23",
+        "n_bars": 1099,
+        "n_trades": 114,
+        "inhouse_sharpe": -0.34985991636312924,
+        "inhouse_total_return": -0.09017110672817202,
+        "inhouse_mdd": -0.2446991966018432,
+        "framework_sharpe": -1.2366518963902786,
+        "framework_ann_total_return": -0.17342498935431816,
+        "framework_max_dd": -0.21973655367582157
+      },
+      {
+        "fold": 3,
+        "test_start": "2025-07-23",
+        "test_end": "2026-01-23",
+        "n_bars": 1105,
+        "n_trades": 115,
+        "inhouse_sharpe": -0.6123726415301702,
+        "inhouse_total_return": -0.12742910771251834,
+        "inhouse_mdd": -0.19821235942730442,
+        "framework_sharpe": -1.4255628957309734,
+        "framework_ann_total_return": -0.17121625941486718,
+        "framework_max_dd": -0.1819246658396666
+      },
+      {
+        "fold": 4,
+        "test_start": "2025-10-23",
+        "test_end": "2026-04-23",
+        "n_bars": 1093,
+        "n_trades": 96,
+        "inhouse_sharpe": 0.05314030887600845,
+        "inhouse_total_return": 0.007533793250357405,
+        "inhouse_mdd": -0.10595232530422655,
+        "framework_sharpe": 0.007629607636085892,
+        "framework_ann_total_return": -0.003715304575993339,
+        "framework_max_dd": -0.10165968562407901
+      }
+    ]
+  },
+  "engine_validation": {
+    "matched": true,
+    "n_common_bars": 4751,
+    "max_abs_err": 23674.220741672878,
+    "final_abs_err": 22862.248501511524,
+    "max_abs_rel_err": 0.21399053993000358,
+    "final_abs_rel_err": 0.20314646288117533,
+    "replay_terminal_equity": 89678.46806948847,
+    "inhouse_terminal_equity": 112540.716571
+  },
+  "divergence_pct": {
+    "sharpe": 245.11756185417997,
+    "ann_total_return": 104.64333792210292,
+    "max_dd": 10.201358759113145
+  },
+  "max_abs_rel_divergence_pct": 245.11756185417997,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_tipping_metrics": [
+    "sharpe 245.12%",
+    "ann_total_return 104.64%"
+  ],
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "freqtrade 2026.6 IStrategy contract replay: BTCUSDT/SOLUSDT 4h pair, BTCUSDT 4h resampled from perp_1m parquet (open=first,close=last,high=max,low=min), SOLUSDT 4h native from fapi_SOLUSDT__4h.parquet; in-house pair-aggregated pnl_pct applied linearly across held 4h bars (entry \u2192 exit inclusive) with multiplicative per-bar compounding; 4 walk-forward OOS windows from walk_forward.json (2025-01-23 \u2192 2025-07-23, ..., 2025-10-23 \u2192 2026-04-23); real freqtrade IStrategy subclass imported.",
+  "freqtrade_imported": true,
+  "cache_dir": "/tmp/framework-validate-vpvr_xs_pairs_btc_sol_4h_20260712-freqtrade",
+  "run_at": "2026-07-20T14:45:12.003112+00:00"
+}

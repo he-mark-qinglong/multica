@@ -1,0 +1,25 @@
+{
+  "strategy": "vpvr_funding_asym_4h_20260713",
+  "iteration": 92,
+  "n_resamples": 10000,
+  "block_size": 5,
+  "seed": 42,
+  "bars_per_year": 2190,
+  "n_bars": 19822,
+  "sharpe_point": 0.10296268884789975,
+  "sharpe_bootstrap_mean": 0.09535712554282158,
+  "ci_lower": -0.6060234366626084,
+  "ci_upper": 0.7589362143918289,
+  "g6_pass": false,
+  "g6_threshold_ci_lower": 0.5,
+  "provenance": {
+    "n_bars_total": 19822,
+    "n_files": 2,
+    "files_used": [
+      "equity_4h_BTCUSDT.csv",
+      "equity_4h_ETHUSDT.csv"
+    ],
+    "first_return": 0.0,
+    "last_return": 0.0
+  }
+}

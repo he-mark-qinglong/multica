@@ -1,0 +1,75 @@
+{
+  "engine": "backtrader",
+  "engine_version": "1.9.78.123",
+  "engine_sha": "backtrader-1.9.78.123",
+  "iteration": 82,
+  "strategy_key": "vpvr_funding_aware_v1_20260711",
+  "fix_revision": "post-SMA-34922 max_dd accounting fix 2026-07-18",
+  "fix_note": "mirrors the in-house full-notional mark-to-market equity construction (see framework_replay_lib.replay_full_notional): held bars earn close-to-close returns, per-trade carry spread evenly over held bars, round-trip cost amortised over held bars. Only the cost model differs: backtrader broker convention here is 4bp commission per side (setcommission=0.0004) + 3bp set_slippage_perc (perc=0.0003) per fill -> 14bp round trip, vs in-house 2bp rt (1bp/side fee + 0 slip) and freqtrade 12bp rt. Validated first by replaying at in-house cost and matching the equity CSVs (max_rel_err ~ 1e-3 — replay-engine constant, not cost-model artefact).",
+  "cost_model": {
+    "fee_bps_per_side": 4.0,
+    "slippage_bps_per_side": 3.0,
+    "round_trip": 0.0014,
+    "inhouse_round_trip": 0.0002
+  },
+  "replay_validation": {
+    "BTCUSDT": {
+      "n_bars_compared": 9912,
+      "max_abs_rel_err": 0.002603305764215607,
+      "final_rel_err": 0.00014168944146912142,
+      "replayed_max_dd": -0.4917940474654048,
+      "inhouse_max_dd": -0.49200209898084846,
+      "max_dd_abs_diff": 0.00020805151544367462
+    },
+    "ETHUSDT": {
+      "n_bars_compared": 9912,
+      "max_abs_rel_err": 0.012045140138530277,
+      "final_rel_err": 0.001059643877781829,
+      "replayed_max_dd": -0.5713703266807131,
+      "inhouse_max_dd": -0.5707685344268763,
+      "max_dd_abs_diff": 0.0006017922538368303
+    }
+  },
+  "inhouse": {
+    "sharpe": 7.164861498565264,
+    "ann_total_return": 0.2111508601397375,
+    "total_return": 1.4432909698119527,
+    "max_dd": -0.5707685344212701,
+    "n_trades": 165,
+    "timeframe": "4h",
+    "status": "PROFITABLE"
+  },
+  "framework": {
+    "sharpe": 6.5346082917620425,
+    "sharpe_nav_bar": 0.6827983256379336,
+    "ann_total_return": 0.1915017956734828,
+    "total_return": 1.2086975335187904,
+    "max_dd": -0.44012201589893396,
+    "max_dd_per_symbol": {
+      "BTCUSDT": -0.5031162572372185,
+      "ETHUSDT": -0.5797768103271534
+    },
+    "n_bars": 9912,
+    "n_fills": 165,
+    "span_years": 4.522473191877709
+  },
+  "max_dd_reference_from_inhouse_equity_curve": {
+    "per_symbol": {
+      "BTCUSDT": -0.49200209898084846,
+      "ETHUSDT": -0.5707685344268763
+    },
+    "combined_nav": -0.43251447214646643,
+    "fw_vs_combined_rel_err_pct": 1.7589107977620027
+  },
+  "divergence_pct": {
+    "sharpe": 8.796446476033447,
+    "total_return": 16.254063885934773,
+    "max_dd": 22.88957968834161
+  },
+  "max_abs_rel_divergence_pct": 22.88957968834161,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": false,
+  "w5_tipping_metrics": [],
+  "w5_verdict": "WITHIN_TOLERANCE",
+  "approach": "backtrader 1.9.78 broker convention (setcommission=0.0004 + set_slippage_perc=0.0003 -> 14bp rt) applied to the in-house entry/exit schedule with full-notional mark-to-market equity on real 4h closes (BTCUSDT+ETHUSDT), funding carry per trade spread over held bars, cost amortised over held bars — mirrors in-house equity construction; validated by reproducing the in-house equity CSVs at in-house cost before switching to backtrader cost. Sharpe uses the in-house formula (mean/std of per-trade pnl x sqrt(2190)) with trade pnls reduced by the 12bp cost delta (14bp rt - 2bp ih)."
+}

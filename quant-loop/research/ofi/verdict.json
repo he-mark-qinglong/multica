@@ -1,0 +1,27 @@
+{
+  "bars_count": 105119,
+  "bars_window": "2026-04-19 00:01:00+00:00 to 2026-06-30 23:59:00+00:00",
+  "signal_lookback_L_240": {
+    "corr_z_ofi_mid_ret_t+1": 0.20592608249157415,
+    "top_bot_quintile_spread_bp": 3.4084382387782335,
+    "gross_LS_sharpe_no_cost": 498.26544347265735
+  },
+  "cost_cap": {
+    "spot_round_trip_bp": 17.82842712474619,
+    "futures_round_trip_bp": 10.828427124746188
+  },
+  "net_edge_per_trade_bp": {
+    "spot": -14.419988885967959,
+    "futures": -7.419988885967955
+  },
+  "gate_G1_OOS_sharpe_after_cost": "KILL \u2014 0/90 cells pass Sharpe \u2265 1.0",
+  "gate_G5_cost_cap_5x": "KILL \u2014 gross edge 3.4bp << 5x cost (89.15bp SPOT)",
+  "verdict": "KILL",
+  "reason": "C-K-S OFI signal is statistically real (~3.4bp top-bot quintile spread per 1-bar forward) but taker round-trip cost (17.83bp SPOT, 10.83bp FUTURES) exceeds gross edge by 3-5x. Naive always-on L/S spread net is negative under both venues.",
+  "revival_condition": "Requires (a) sub-taker execution (maker rebates + queue priority logic) where effective cost < 1bp, or (b) aggregation to a multi-bar horizon where signal-spread compounds to >50bp per entry, or (c) pairing with iceberg detection (T04/SMA-34992) for confluence where cumulative alpha exceeds cost.",
+  "related_skills": "execution-microstructure, paper-replication",
+  "links_to_threads": [
+    "T04 (iceberg/SMA-34992)",
+    "T07 (portfolio diversification)"
+  ]
+}

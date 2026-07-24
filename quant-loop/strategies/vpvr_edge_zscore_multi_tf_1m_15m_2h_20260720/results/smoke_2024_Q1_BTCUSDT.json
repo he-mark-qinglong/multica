@@ -1,0 +1,55 @@
+{
+  "variant": "vpvr_edge_zscore_multi_tf_v1_20260720",
+  "symbol": "BTCUSDT",
+  "window": [
+    "2024-01-01",
+    "2024-03-31"
+  ],
+  "n_1m_bars": 129601,
+  "n_15m_bars": 8641,
+  "n_2h_bars": 1081,
+  "n_trades": 94,
+  "win_rate": 0.0426,
+  "avg_bars_held": 3.04,
+  "total_return": -0.004888,
+  "max_drawdown_pct": -0.4896,
+  "sharpe_daily": -6.3537,
+  "diagnostics": {
+    "n_long_entries": 58,
+    "n_short_entries": 36,
+    "n_conviction_high": 94,
+    "exit_reasons": {
+      "trailing_stop": 11,
+      "time_stop": 0,
+      "hard_stop": 54,
+      "take_profit": 29,
+      "trend_reversal_2h": 0,
+      "z_exit_15m": 0
+    },
+    "vol_target_weights_mean": 1.0219597071010253,
+    "vol_target_weights_max": 3.0,
+    "per_tf": {
+      "1m": {
+        "n_decision_long": 435,
+        "n_decision_short": 270,
+        "n_decision_flat": 128896,
+        "n_conviction_high": 705
+      },
+      "15m": {
+        "n_edge_long": 72,
+        "n_edge_short": 119,
+        "z_15m_mean": -0.015623395906642483,
+        "z_15m_std": 1.5303086982629897
+      },
+      "2h": {
+        "trend_counts": {
+          "up": 384,
+          "down": 144,
+          "neutral": 553
+        },
+        "ema_slope_mean_bps": 4.381361363411194,
+        "z_2h_mean": 0.09027773462775135
+      }
+    }
+  }
+}

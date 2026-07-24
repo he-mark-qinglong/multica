@@ -1,0 +1,39 @@
+{
+  "strategy": "vpvr_xs_pairs_30m_funding_filter_eth_sol_20260717",
+  "iteration": 84,
+  "date": "2026-07-17",
+  "timeframe": "30m",
+  "instruments": [
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "pairs": [
+    "ETHUSDT/SOLUSDT"
+  ],
+  "variant": "A",
+  "n_trades": 2588,
+  "win_rate": 0.4431993817619784,
+  "profit_factor": 0.7423512200417439,
+  "total_return_pct": -0.8762569385215149,
+  "sharpe": -3.7594100102417656,
+  "max_drawdown_pct": -0.8802661958342137,
+  "tag": "NOT-PROFITABLE",
+  "evidence_gate_sharpe_threshold": 0.5,
+  "per_pair": {
+    "ETHUSDT/SOLUSDT": {
+      "n_trades": 2588,
+      "win_rate": 0.4431993817619784,
+      "profit_factor": 0.7423512200417439,
+      "avg_hold_bars": 2.447449768160742,
+      "total_return_pct": -0.8762569385215149,
+      "sharpe": -3.7594100102417656,
+      "sortino": -0.883578573842928,
+      "max_drawdown_pct": -0.8802661958342137,
+      "trades_per_year": 572.1955205811138,
+      "pair": "ETHUSDT/SOLUSDT",
+      "span_start": "2022-01-01",
+      "span_end": "2026-07-10",
+      "n_bars": 79296
+    }
+  }
+}

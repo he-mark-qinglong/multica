@@ -1,0 +1,62 @@
+{
+  "strategy": "mtf_xs_pairs_1m_15m_2h_h2_20260718",
+  "iteration": 106,
+  "campaign": "SMA-34875 mtf-1m-15m-2h",
+  "hypothesis": "H2",
+  "date": "2026-07-18",
+  "primary_timeframe": "1m",
+  "filter_timeframe": "15m",
+  "regime_timeframe": "2h",
+  "description": "H2: VPVR edge touch on 15m/2h volume profiles (VAH/VAL) + 1m micro-reversion entry on BTC/ETH/SOL.",
+  "instruments": ["BTCUSDT", "ETHUSDT", "SOLUSDT"],
+  "pairs": ["BTCUSDT/ETHUSDT", "BTCUSDT/SOLUSDT", "ETHUSDT/SOLUSDT"],
+  "data_source": "binance_usdm_1m_canonical",
+  "axis": "vpvr_edge_touch_15m_2h_with_1m_micro_reversion",
+  "indicators": {
+    "vpvr_window_bars_15m": 96,
+    "vpvr_window_bars_2h": 60,
+    "vpvr_n_bins": 24,
+    "zscore_lookback_bars": 240,
+    "zscore_entry_threshold": 2.0,
+    "zscore_exit_threshold": 0.5,
+    "regime_break_threshold": 3.5,
+    "touch_atr_k": 0.7,
+    "max_holding_bars": 180
+  },
+  "entry": {
+    "require_touch_vah_or_val": true,
+    "min_touch_timeframe_count": 1,
+    "side_when_z_positive": "short_a_long_b"
+  },
+  "exit": {
+    "zscore_exit_threshold": 0.5,
+    "regime_break_threshold": 3.5,
+    "max_holding_bars": 180
+  },
+  "sizing": {
+    "per_pair_notional_pct": 0.02,
+    "max_pairs_active": 3,
+    "starting_capital_usd": 100000.0
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "sharpe_method": "daily_resampled",
+  "walk_forward": {
+    "train_bars_1m": 525600,
+    "test_bars_1m": 262800,
+    "step_bars_1m": 262800,
+    "min_windows": 3
+  },
+  "hard_gates": {
+    "oos_sharpe_min": 1.0,
+    "oos_annualized_min": 0.15,
+    "bootstrap_ci_lower_min": 0.5,
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 42
+  },
+  "notes": [
+    "Campaign SMA-34875 H2: 1m primary, 15m/2h VPVR confluence.",
+    "Touch tolerance = 0.7 * 1m ATR proxy (15m-derived).",
+    "Daily-resampled Sharpe only."
+  ]
+}

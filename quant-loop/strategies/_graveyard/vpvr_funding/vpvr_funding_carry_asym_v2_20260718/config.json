@@ -1,0 +1,69 @@
+{
+  "strategy_key": "vpvr_funding_carry_asym_v2",
+  "variant_key": "vpvr_funding_carry_asym_v2_20260718",
+  "iteration": 2,
+  "date": "2026-07-18",
+  "source_spec": "SMA-34990",
+  "implementation_issue": "SMA-34990",
+  "instruments": ["BTCUSDT"],
+  "secondary_instruments": ["ETHUSDT"],
+  "timeframes": ["1m", "15m", "4h"],
+  "starting_capital_usd": 100000.0,
+  "adv_usd_default": 10000000000.0,
+
+  "params": {
+    "funding_ema_span_events": 21,
+    "funding_threshold": 0.0001,
+    "funding_shift_bars": 1,
+
+    "vpvr_window_bars_15m": 180,
+    "vpvr_snapshot_every_bars_15m": 16,
+    "vpvr_bins_15m": 24,
+    "vpvr_value_area_fraction": 0.70,
+
+    "ema50_period_4h": 50,
+    "trend_filter_slope_period_4h": 1,
+
+    "atr_period_1m": 14,
+    "take_profit_atr_k_1m": 1.5,
+    "hard_stop_atr_k_1m": 1.0,
+    "max_hold_bars_1m": 30,
+    "cooldown_bars_1m": 5,
+
+    "target_vol_annualized": 0.20,
+    "vol_target_lookback": 60,
+    "vol_target_floor": 0.1,
+    "vol_target_cap": 3.0,
+
+    "notional_per_trade_usd": 10000.0
+  },
+
+  "cpcv": {
+    "n_groups": 6,
+    "k_test": 2,
+    "purge_bars": 200,
+    "embargo_bars": 100,
+    "periods_per_year": 525600
+  },
+
+  "oos_folds": [
+    {"name": "2024-Q1", "test_start": "2024-01-01", "test_end": "2024-03-31"},
+    {"name": "2024-Q3", "test_start": "2024-07-01", "test_end": "2024-09-30"},
+    {"name": "2025-Q2", "test_start": "2025-04-01", "test_end": "2025-06-30"}
+  ],
+
+  "acceptance_gates": {
+    "min_mean_oos_sharpe": 1.2,
+    "min_deflated_sharpe": 0.5,
+    "min_profit_factor": 1.4,
+    "max_drawdown_min_pct": -25.0,
+    "min_n_trades_per_fold": 30,
+    "max_per_fold_sharpe_std": 1.5
+  },
+
+  "notes": [
+    "V2 (SMA-34990): uses shared cost_model + vol_target + cpcv per Wave 1/2.",
+    "V1 (SMA-34652) failed on cost fragility (W5 divergence). V2 adopts the new infrastructure.",
+    "Funding threshold = 0.0001 per 8h (1 bp), per SMA-34990 SPEC. The V1 0.0003 was too strict."
+  ]
+}

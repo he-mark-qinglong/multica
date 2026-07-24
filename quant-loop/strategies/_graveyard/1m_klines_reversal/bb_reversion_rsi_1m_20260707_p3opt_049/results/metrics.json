@@ -1,0 +1,35 @@
+{
+  "strategy": "bb_reversion_rsi_1m_20260707_p3opt_049",
+  "iteration": 49,
+  "timeframe": "1m",
+  "instruments": [
+    "BTCUSDT"
+  ],
+  "sharpe": 2.1588553239377584,
+  "sortino": 0.18062211870670414,
+  "mdd": -0.0014428443311191863,
+  "total_return": 0.017751213920544906,
+  "annualized_return": 0.0025833217244375373,
+  "n_trades": 29768,
+  "by_symbol": {
+    "BTCUSDT": {
+      "sharpe": 2.1588553239377584,
+      "mdd": -0.0014428443311191573,
+      "n_trades": 29768,
+      "win_rate": 0.6884574039236764,
+      "profit_factor": 1.112247216743269,
+      "total_return": 0.017751213920544906
+    }
+  },
+  "agg_sharpe_mean": 2.1588553239377584,
+  "agg_mdd_worst": -0.0014428443311191863,
+  "agg_n_trades_total": 29768,
+  "equity_curve_start": "2019-09-08",
+  "equity_curve_end": "2026-07-05",
+  "active_universe": [
+    "BTCUSDT"
+  ],
+  "target_universe_size": 1,
+  "data_source": "binance_usdm_1m_canonical",
+  "generated_at": "2026-07-22T00:43:49.927516+00:00"
+}

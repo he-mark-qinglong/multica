@@ -1,0 +1,46 @@
+{
+  "strategy": "vpvr_mtf_reversion_5m_consensus_20260710",
+  "iteration": 71,
+  "timeframe": "5m",
+  "source_timeframe": "1m",
+  "axis": "mtf_consensus",
+  "instruments": ["BTCUSDT", "ETHUSDT"],
+  "data_source": "binance_usdm_1m_canonical",
+  "vpvr": {
+    "window_bars": 144,
+    "n_bins": 24,
+    "value_area_pct": 0.70,
+    "touch_band_atr": 1.0
+  },
+  "mtf": {
+    "higher_timeframe": "1h",
+    "alignment_z": 1.5,
+    "lookback_bars": 12
+  },
+  "atr": {
+    "period": 14
+  },
+  "entry": {
+    "vpvr_z_dist_min": 0.6,
+    "higher_tf_alignment_required": true
+  },
+  "exit": {
+    "atr_trailing_k": 2.0,
+    "max_holding_bars": 48
+  },
+  "sizing": {
+    "per_signal_weight_pct": 0.01,
+    "max_gross_exposure_pct": 0.05
+  },
+  "fees_bps_per_side": 1.0,
+  "slippage_bps_per_side": 1.0,
+  "starting_capital_usd": 100000.0,
+  "notes": [
+    "Iteration #71 (Campaign 2026-07-10). NEW axis: multi-timeframe consensus.",
+    "Entry requires BOTH a 5m VPVR-touch AND a 1h alignment in the same direction.",
+    "1h alignment is computed as the slope of close over 12 bars: positive => long bias, negative => short bias.",
+    "Only when the 1h trend agrees with the 5m VPVR-touch do we enter — this filters out counter-trend mean reversion.",
+    "Exit is 2x ATR trailing (different from V6 — different axis implies different exit family).",
+    "Direction: long+short (bidirectional). Universe: BTCUSDT + ETHUSDT (multi-symbol required)."
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "framework_summary": {
+    "framework": "backtrader",
+    "version": "1.9.78.123",
+    "sha": "b853d7c9",
+    "run_at": "2026-07-14T01:07:13.639986+00:00",
+    "strategy": "vpvr_xs_pairs_mr_1m_v1_20260711",
+    "per_pair": {
+      "BTCETH": {
+        "sharpe": 0.0,
+        "max_dd": 0.0,
+        "total_return": 0.0,
+        "n_trades": 0,
+        "win_rate": 0.0,
+        "note": "in-house reported 0 trades; framework N/A"
+      },
+      "BTCSOL": {
+        "sharpe": 0.0,
+        "max_dd": 0.0,
+        "total_return": 0.0,
+        "n_trades": 0,
+        "win_rate": 0.0,
+        "note": "in-house reported 0 trades; framework N/A"
+      },
+      "ETHSOL": {
+        "sharpe": 15.79193571629721,
+        "max_dd": -0.004346522365609147,
+        "total_return": 0.02118070743113025,
+        "n_trades": 10,
+        "win_rate": 0.7
+      }
+    },
+    "aggregate": {
+      "sharpe": 15.791935716297212,
+      "max_dd": -0.004346522365609147,
+      "total_return": 0.02118070743113025,
+      "n_trades": 10,
+      "win_rate": 0.7
+    }
+  },
+  "inhouse_reference": {
+    "sharpe": 85.1228,
+    "max_dd": -0.008325,
+    "total_return": 0.00109,
+    "n_trades": 7,
+    "win_rate": 0.4286
+  },
+  "divergence": {
+    "sharpe": {
+      "ours": 85.1228,
+      "framework": 15.791935716297212,
+      "abs_delta": 69.33086428370278,
+      "rel_delta": 0.8144805420369488,
+      "tolerance": "abs<=0.2",
+      "ok": false
+    },
+    "max_dd": {
+      "ours": -0.008325,
+      "framework": -0.004346522365609147,
+      "abs_delta": 0.0039784776343908534,
+      "rel_delta": 0.4778952113382406,
+      "tolerance": "rel<=15% (Bucket A)",
+      "ok": false
+    },
+    "total_return": {
+      "ours": 0.00109,
+      "framework": 0.02118070743113025,
+      "abs_delta": 0.02009070743113025,
+      "rel_delta": 18.431841679936007,
+      "tolerance": "rel<=15% (Bucket A)",
+      "ok": false
+    },
+    "n_trades": {
+      "ours": 7,
+      "framework": 10,
+      "abs_delta": 3,
+      "rel_delta": 0.42857142857142855,
+      "tolerance": "abs<=1",
+      "ok": false
+    },
+    "win_rate": {
+      "ours": 0.4286,
+      "framework": 0.7,
+      "abs_delta": 0.2714,
+      "rel_delta": 0.6332244517032197,
+      "tolerance": "abs<=0.05",
+      "ok": false
+    }
+  },
+  "verdict": "OUT_OF_TOLERANCE: sharpe,max_dd,total_return,n_trades,win_rate",
+  "w5_failures": [
+    "sharpe",
+    "total_return"
+  ],
+  "w5_auto_archive": true,
+  "methodology": {
+    "window": "2026-03-16 to 2026-03-22 UTC (in-house qualifying week for ETHSOL)",
+    "pairs_evaluated": [
+      "ETHSOL"
+    ],
+    "pairs_skipped": [
+      "BTCETH",
+      "BTCSOL"
+    ],
+    "skip_reason": "1m walk-forward via bt.Cerebro on full 2.4M-bar dataset is impractical under hourly cron; framework CV reproduces the in-house qualifying-week subset where trades actually exist."
+  }
+}

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Campaign Tree — auto-generated 2026-07-20T00:05:25+08:00</title>
+<style>
+:root { --bg:#0a0e14; --fg:#f0f0f0; --muted:#c9d1d9; --accent:#58a6ff;
+        --archived:#ef4444; --killed:#f59e0b; --live:#10b981; --stale:#6e7681;
+        --info:#58a6ff; --border:#1f242c; --depth1:#161b22; }
+* { box-sizing: border-box; }
+body { font: 12px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", monospace;
+       background: var(--bg); color: var(--fg); margin: 0; height: 100vh;
+       display: flex; flex-direction: column; overflow: hidden; }
+header { padding: 8px 12px; background: var(--depth1); border-bottom: 1px solid var(--border);
+         display: flex; align-items: center; gap: 12px; flex-shrink: 0; flex-wrap: wrap; }
+header h1 { font-size: 14px; font-weight: 600; margin: 0; flex-shrink: 0; }
+header h1 .iter { color: var(--accent); }
+header .meta { font-size: 11px; color: var(--muted); }
+header .meta b { color: var(--fg); }
+main { flex: 1; display: flex; overflow: hidden; min-height: 0; }
+#viz { flex: 1; position: relative; background: var(--bg); overflow: hidden; }
+#viz svg { width: 100%; height: 100%; display: block; }
+#viz .arc { stroke: var(--bg); stroke-width: 1; cursor: pointer; transition: opacity .15s; }
+#viz .arc:hover { opacity: 0.65; }
+#viz .arc.dimmed { opacity: 0.18; }
+#viz .arc.highlight { opacity: 1; stroke: #fff; stroke-width: 2; }
+#viz .arc-text { font-size: 10px; pointer-events: none; fill: rgba(255,255,255,0.92); }
+#viz .arc-text.dimmed { opacity: 0.18; }
+#viz .center-label { font: 600 14px monospace; pointer-events: none; }
+#viz .center-sub { font: 10px monospace; pointer-events: none; fill: var(--muted); }
+#viz .tip { position: absolute; padding: 6px 8px; background: rgba(20,22,28,.96);
+            border: 1px solid var(--border); border-radius: 4px; font-size: 11px;
+            pointer-events: none; opacity: 0; transition: opacity .12s;
+            max-width: 340px; z-index: 10; line-height: 1.5; }
+#viz .tip b { color: var(--accent); }
+#viz .tip a.btn { display: inline-block; margin-top: 4px; padding: 2px 8px;
+                  border: 1px solid var(--accent); border-radius: 3px; font-size: 10px;
+                  cursor: pointer; background: transparent; color: var(--accent); text-decoration: none; }
+#viz .tip a.btn:hover { background: var(--accent); color: var(--bg); }
+.legend { position: absolute; bottom: 8px; left: 8px; display: flex; gap: 3px;
+         background: rgba(20,22,28,.92); padding: 4px 6px; border-radius: 5px;
+         font-size: 10px; z-index: 5; border: 1px solid var(--border); }
+.legend .chip { display: inline-flex; align-items: center; gap: 3px; padding: 1px 4px; }
+.legend .dot { width: 8px; height: 8px; border-radius: 50%; }
+.hint { position: absolute; bottom: 8px; right: 8px; padding: 4px 8px;
+         background: rgba(20,22,28,.92); border: 1px solid var(--border);
+         border-radius: 5px; font-size: 10px; color: var(--muted); z-index: 5; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Campaign Tree <span class="iter">iter#68 → iter#106</span></h1>  <span class="meta"><b>43</b> campaign commits · <b>0</b> multica issues · updated 2026-07-20T00:05:25+08:00</span>  <span class="meta">SHIPPED <b>0</b> · ARCHIVED <b>24</b> · ITER# <b>iter#106</b> · REFRESH <b>2026-07-20T00:05:25+08:00</b></span>
+</header>
+<main>
+  <div id="viz">
+    <svg id="main-svg"></svg>
+    <div class="legend">
+      <span class="chip"><span class="dot" style="background:var(--info)"></span>info / root</span>
+      <span class="chip"><span class="dot" style="background:var(--archived)"></span>archived NOT-PROFIT</span>
+      <span class="chip"><span class="dot" style="background:var(--killed)"></span>superseded</span>
+      <span class="chip"><span class="dot" style="background:var(--live)"></span>in flight / live</span>
+    </div>
+    <div class="hint">hover = preview · click = open multica issue</div>
+    <div class="tip" id="tip"></div>
+  </div>
+</main>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+const MULTICA_BASE = "http://192.168.0.105:3000/smark";
+const STATUS_COLOR = { info:"#58a6ff", archived:"#ef4444", killed:"#f59e0b",
+                       live:"#10b981", stale:"#6e7681" };
+const DATA = {"name": "multica quant-loop campaigns", "status": "info", "multica_id": "", "description": "41 campaign commits. Generated 2026-07-20T00:05:25+08:00.", "children": [{"name": "iter#106", "status": "info", "multica_id": "", "description": "3 commits in iter#106", "children": [{"name": "WIP on feat/vpvr-iter70-72-mtf-asymmetric-regime-20260714: 630733ccf feat(vpvr):", "status": "archived", "multica_id": "", "description": "379f1147 · 2026-07-16 08:16:09 +0800 · WIP on feat/vpvr-iter70-72-mtf-asymmetric-regime-20260714: 630733ccf feat(vpvr): iter#106-108 calendar/TOD/funding-reset axis trio (NOT-PROFITABLE)", "value": 1}, {"name": "index on feat/vpvr-iter70-72-mtf-asymmetric-regime-20260714: 630733ccf feat(vpvr", "status": "archived", "multica_id": "", "description": "249b0186 · 2026-07-16 08:16:09 +0800 · index on feat/vpvr-iter70-72-mtf-asymmetric-regime-20260714: 630733ccf feat(vpvr): iter#106-108 calendar/TOD/funding-reset axis trio (NOT-PROFITABLE)", "value": 1}, {"name": "feat(vpvr): iter#106-108 calendar/TOD/funding-reset axis trio (NOT-PROFITABLE)", "status": "archived", "multica_id": "", "description": "630733cc · 2026-07-15 06:01:23 +0800 · feat(vpvr): iter#106-108 calendar/TOD/funding-reset axis trio (NOT-PROFITABLE)", "value": 1}]}, {"name": "iter#105", "status": "info", "multica_id": "", "description": "1 commits in iter#105", "children": [{"name": "feat(vpvr): V3_xs_smart_routing_15m_20260715 (iter#105) — NOT-PROFITABLE", "status": "archived", "multica_id": "", "description": "f0b74512 · 2026-07-15 01:00:13 +0800 · feat(vpvr): V3_xs_smart_routing_15m_20260715 (iter#105) — NOT-PROFITABLE", "value": 1}]}, {"name": "iter#104", "status": "info", "multica_id": "", "description": "1 commits in iter#104", "children": [{"name": "feat(vpvr): V2_options_putcall_oi_pressure_8h_20260715 (iter#104) — NOT-PROFITAB", "status": "archived", "multica_id": "", "description": "0de86818 · 2026-07-15 01:00:13 +0800 · feat(vpvr): V2_options_putcall_oi_pressure_8h_20260715 (iter#104) — NOT-PROFITABLE", "value": 1}]}, {"name": "iter#103", "status": "info", "multica_id": "", "description": "1 commits in iter#103", "children": [{"name": "feat(vpvr): V1_options_iv_termstructure_4h_20260715 (iter#103) — NOT-PROFITABLE", "status": "archived", "multica_id": "", "description": "463feac5 · 2026-07-15 00:59:56 +0800 · feat(vpvr): V1_options_iv_termstructure_4h_20260715 (iter#103) — NOT-PROFITABLE", "value": 1}]}, {"name": "iter#97", "status": "info", "multica_id": "", "description": "1 commits in iter#97", "children": [{"name": "feat(vpvr): iter#97-99 variant sweep — funding-term curve, xs-corr breakdown, li", "status": "live", "multica_id": "", "description": "bfd07ca8 · 2026-07-14 02:54:40 +0800 · feat(vpvr): iter#97-99 variant sweep — funding-term curve, xs-corr breakdown, liquidation heatmap", "value": 1}]}, {"name": "iter#96", "status": "info", "multica_id": "", "description": "1 commits in iter#96", "children": [{"name": "feat(vpvr): iter#96 V3 vpvr_mtf_consensus_v2_4h_20260714 [NOT-PROFITABLE]", "status": "archived", "multica_id": "", "description": "2250956f · 2026-07-14 01:06:17 +0800 · feat(vpvr): iter#96 V3 vpvr_mtf_consensus_v2_4h_20260714 [NOT-PROFITABLE]", "value": 1}]}, {"name": "iter#95", "status": "info", "multica_id": "", "description": "1 commits in iter#95", "children": [{"name": "feat(vpvr): iter#95 V2 vpvr_obi_micro_v2_1m_20260714 [NOT-PROFITABLE]", "status": "archived", "multica_id": "", "description": "a3c837c8 · 2026-07-14 01:06:16 +0800 · feat(vpvr): iter#95 V2 vpvr_obi_micro_v2_1m_20260714 [NOT-PROFITABLE]", "value": 1}]}, {"name": "iter#94", "status": "info", "multica_id": "", "description": "1 commits in iter#94", "children": [{"name": "feat(vpvr): iter#94 V1 vpvr_regime_blend_4h_20260714 [NOT-PROFITABLE]", "status": "archived", "multica_id": "", "description": "b9c0e494 · 2026-07-14 00:57:48 +0800 · feat(vpvr): iter#94 V1 vpvr_regime_blend_4h_20260714 [NOT-PROFITABLE]", "value": 1}]}, {"name": "iter#93", "status": "info", "multica_id": "", "description": "1 commits in iter#93", "children": [{"name": "feat(stat-arb): V14 multi_pair_basket + 1d regime filter (iter#93)", "status": "live", "multica_id": "", "description": "a224087f · 2026-07-14 17:33:12 +0800 · feat(stat-arb): V14 multi_pair_basket + 1d regime filter (iter#93)", "value": 1}]}, {"name": "iter#92", "status": "info", "multica_id": "", "description": "4 commits in iter#92", "children": [{"name": "feat(stat-arb): V13 sector-neutral_pairs + funding alignment (iter#92)", "status": "live", "multica_id": "", "description": "f8adedd5 · 2026-07-14 17:33:10 +0800 · feat(stat-arb): V13 sector-neutral_pairs + funding alignment (iter#92)", "value": 1}, {"name": "feat(vpvr): iter#92 vpvr_funding_asym_4h_20260713 [NOT-PROFITABLE]", "status": "archived", "multica_id": "", "description": "9689c742 · 2026-07-13 23:03:21 +0800 · feat(vpvr): iter#92 vpvr_funding_asym_4h_20260713 [NOT-PROFITABLE]", "value": 1}, {"name": "docs(campaign-tree): iter#92+ 2/2 NOT-PROFITABLE; 35 archived; axis exhausted", "status": "archived", "multica_id": "", "description": "5d3166bb · 2026-07-12 11:40:55 +0800 · docs(campaign-tree): iter#92+ 2/2 NOT-PROFITABLE; 35 archived; axis exhausted", "value": 1}, {"name": "feat(vpvr): iter#92+ V_ice_v2 + V_whale_v2 — cycle-46 single rebuild (NOT-PROFIT", "status": "archived", "multica_id": "", "description": "1fa6bd25 · 2026-07-12 11:04:30 +0800 · feat(vpvr): iter#92+ V_ice_v2 + V_whale_v2 — cycle-46 single rebuild (NOT-PROFITABLE)", "value": 1}]}, {"name": "iter#91", "status": "info", "multica_id": "", "description": "2 commits in iter#91", "children": [{"name": "feat(stat-arb): V12 cointegration_pairs + VPVR POC confluence (iter#91)", "status": "live", "multica_id": "", "description": "25e718ef · 2026-07-14 17:33:01 +0800 · feat(stat-arb): V12 cointegration_pairs + VPVR POC confluence (iter#91)", "value": 1}, {"name": "feat(vpvr): iter#91 vpvr_options_iv_skew_1d_20260713 [NOT-PROFITABLE]", "status": "archived", "multica_id": "", "description": "e556e21f · 2026-07-13 23:02:17 +0800 · feat(vpvr): iter#91 vpvr_options_iv_skew_1d_20260713 [NOT-PROFITABLE]", "value": 1}]}, {"name": "iter#90", "status": "info", "multica_id": "", "description": "2 commits in iter#90", "children": [{"name": "feat(vpvr): iter#90-92 derivatives-axis 3 variants (B2+B3 combined, all NOT-PROF", "status": "archived", "multica_id": "", "description": "ee49c362 · 2026-07-13 23:01:37 +0800 · feat(vpvr): iter#90-92 derivatives-axis 3 variants (B2+B3 combined, all NOT-PROFITABLE)", "value": 1}, {"name": "feat(vpvr): iter#90 vpvr_oi_divergence_4h_20260713 [NOT-PROFITABLE]", "status": "archived", "multica_id": "", "description": "2b02fa61 · 2026-07-13 22:59:06 +0800 · feat(vpvr): iter#90 vpvr_oi_divergence_4h_20260713 [NOT-PROFITABLE]", "value": 1}]}, {"name": "iter#89", "status": "info", "multica_id": "", "description": "1 commits in iter#89", "children": [{"name": "feat(vpvr): V_pair iter#89 cross-asset BTC->SOL funding divergence", "status": "live", "multica_id": "", "description": "4177f8e3 · 2026-07-11 22:51:23 +0800 · feat(vpvr): V_pair iter#89 cross-asset BTC->SOL funding divergence", "value": 1}]}, {"name": "iter#88", "status": "info", "multica_id": "", "description": "1 commits in iter#88", "children": [{"name": "feat(vpvr): V_mtf iter#88 funding-delta + 15m multi-TF confirm (5m substituted)", "status": "live", "multica_id": "", "description": "df92eda0 · 2026-07-11 22:48:45 +0800 · feat(vpvr): V_mtf iter#88 funding-delta + 15m multi-TF confirm (5m substituted)", "value": 1}]}, {"name": "iter#87", "status": "info", "multica_id": "", "description": "2 commits in iter#87", "children": [{"name": "feat(vpvr): V_asym iter#87 backtest (vpvr_funding_delta_1h_asym_20260711)", "status": "live", "multica_id": "", "description": "bf0d9aa2 · 2026-07-17 13:40:01 +0800 · feat(vpvr): V_asym iter#87 backtest (vpvr_funding_delta_1h_asym_20260711)", "value": 1}, {"name": "feat(vpvr): V_asym iter#87 funding-delta + asymmetric 2:1 TP:SL execution", "status": "live", "multica_id": "", "description": "b79559ff · 2026-07-11 22:46:22 +0800 · feat(vpvr): V_asym iter#87 funding-delta + asymmetric 2:1 TP:SL execution", "value": 1}]}, {"name": "iter#86", "status": "info", "multica_id": "", "description": "1 commits in iter#86", "children": [{"name": "feat: momentum_trend_multi_tf_atr_scaled_1h_20260712 iter#86 (cycle-46 trend piv", "status": "live", "multica_id": "", "description": "c4f50525 · 2026-07-13 00:36:48 +0800 · feat: momentum_trend_multi_tf_atr_scaled_1h_20260712 iter#86 (cycle-46 trend pivot)", "value": 1}]}, {"name": "iter#84", "status": "info", "multica_id": "", "description": "1 commits in iter#84", "children": [{"name": "feat: campaign iter#84+ — V_liq/V_obi/V_fd VPVR variants (3/3 NOT-PROFITABLE, ar", "status": "archived", "multica_id": "", "description": "99e3e26a · 2026-07-11 21:25:19 +0800 · feat: campaign iter#84+ — V_liq/V_obi/V_fd VPVR variants (3/3 NOT-PROFITABLE, archived per cycle-46 family exhaustion)", "value": 1}]}, {"name": "iter#81", "status": "info", "multica_id": "", "description": "1 commits in iter#81", "children": [{"name": "vpvr SMA-33026 iter#81-83: 3 NEW axes (VRP / cross-exchange basis / stablecoin n", "status": "archived", "multica_id": "", "description": "be9c5e5b · 2026-07-13 03:01:37 +0800 · vpvr SMA-33026 iter#81-83: 3 NEW axes (VRP / cross-exchange basis / stablecoin netflow) [NOT-PROFITABLE]", "value": 1}]}, {"name": "iter#72", "status": "info", "multica_id": "", "description": "2 commits in iter#72", "children": [{"name": "vpvr_xs_basis_zscore_15m_funding_filter_20260712: iter#72 NEW basis+funding axis", "status": "archived", "multica_id": "", "description": "44f509fd · 2026-07-12 11:59:04 +0800 · vpvr_xs_basis_zscore_15m_funding_filter_20260712: iter#72 NEW basis+funding axis [NOT-PROFITABLE]", "value": 1}, {"name": "feat(vpvr): V8 multi-venue carry 8h variant iter#72 (cross-venue funding spread ", "status": "live", "multica_id": "", "description": "af0cb95a · 2026-07-11 20:18:49 +0800 · feat(vpvr): V8 multi-venue carry 8h variant iter#72 (cross-venue funding spread + term basis)", "value": 1}]}, {"name": "iter#71", "status": "info", "multica_id": "", "description": "3 commits in iter#71", "children": [{"name": "feat(vpvr): B3 backtest iter#71 vpvr_options_putcall_oi_pressure_8h [NOT-PROFITA", "status": "archived", "multica_id": "", "description": "7d81a652 · 2026-07-17 06:22:46 +0800 · feat(vpvr): B3 backtest iter#71 vpvr_options_putcall_oi_pressure_8h [NOT-PROFITABLE]", "value": 1}, {"name": "vpvr_inverse_reversion_4h_funding_filter_20260712: iter#71 NEW inverse axis [DEF", "status": "archived", "multica_id": "", "description": "37c344ef · 2026-07-12 11:56:36 +0800 · vpvr_inverse_reversion_4h_funding_filter_20260712: iter#71 NEW inverse axis [DEFERRED — coinm BTCUSD 4h missing]", "value": 1}, {"name": "feat(vpvr): V7 OBI microstructure 1m variant iter#71 (OBI z-score + VPVR POC, 6m", "status": "live", "multica_id": "", "description": "12f06bdc · 2026-07-11 20:31:24 +0800 · feat(vpvr): V7 OBI microstructure 1m variant iter#71 (OBI z-score + VPVR POC, 6mo subsample)", "value": 1}]}, {"name": "iter#70", "status": "info", "multica_id": "", "description": "7 commits in iter#70", "children": [{"name": "feat(vpvr): B3 backtest iter#70 vpvr_micro_reversion_1h_funding_filter_20260710", "status": "live", "multica_id": "", "description": "a2a54dab · 2026-07-17 13:25:17 +0800 · feat(vpvr): B3 backtest iter#70 vpvr_micro_reversion_1h_funding_filter_20260710", "value": 1}, {"name": "feat(vpvr): iter#70-72 B1 indicator specs for 3 new axes", "status": "live", "multica_id": "", "description": "fa09f05e · 2026-07-16 08:21:24 +0800 · feat(vpvr): iter#70-72 B1 indicator specs for 3 new axes", "value": 1}, {"name": "docs(vpvr): add SPEC.md for V6/V7/V8 (iter#70-72) — all NOT-PROFITABLE", "status": "archived", "multica_id": "", "description": "48477fba · 2026-07-14 13:08:25 +0800 · docs(vpvr): add SPEC.md for V6/V7/V8 (iter#70-72) — all NOT-PROFITABLE", "value": 1}, {"name": "feat(vpvr): iter#70-72 multi-TF / asymmetric / vol-regime escape hatches (V6/V7/", "status": "live", "multica_id": "", "description": "5422228c · 2026-07-14 13:05:26 +0800 · feat(vpvr): iter#70-72 multi-TF / asymmetric / vol-regime escape hatches (V6/V7/V8)", "value": 1}, {"name": "vpvr_reversion_30m_vwap_zscore_20260712: iter#70 NEW 30m TF axis [NOT-PROFITABLE", "status": "archived", "multica_id": "", "description": "45af8676 · 2026-07-12 11:55:25 +0800 · vpvr_reversion_30m_vwap_zscore_20260712: iter#70 NEW 30m TF axis [NOT-PROFITABLE]", "value": 1}, {"name": "docs(campaign-tree): iter#70-92+; 29 archived; 0/15 shipped; iter#92+ in flight ", "status": "info", "multica_id": "", "description": "b800d08c · 2026-07-12 08:10:42 +0800 · docs(campaign-tree): iter#70-92+; 29 archived; 0/15 shipped; iter#92+ in flight (502-blocked)", "value": 1}, {"name": "feat(vpvr): V6 options-gamma 1d variant iter#70 (DVOL proxy + VPVR POC)", "status": "live", "multica_id": "", "description": "fbf94384 · 2026-07-11 20:18:34 +0800 · feat(vpvr): V6 options-gamma 1d variant iter#70 (DVOL proxy + VPVR POC)", "value": 1}]}, {"name": "iter#69", "status": "info", "multica_id": "", "description": "1 commits in iter#69", "children": [{"name": "feat(vpvr): B3 backtest iter#69 V5 volume_profile_break [NOT-PROFITABLE]", "status": "archived", "multica_id": "", "description": "34dcb28b · 2026-07-17 00:23:02 +0800 · feat(vpvr): B3 backtest iter#69 V5 volume_profile_break [NOT-PROFITABLE]", "value": 1}]}, {"name": "iter#68", "status": "info", "multica_id": "", "description": "1 commits in iter#68", "children": [{"name": "feat(vpvr): B3 backtest iter#68 V4 xs_reversion_1d_momentum_filter [NOT-PROFITAB", "status": "archived", "multica_id": "", "description": "9f735d66 · 2026-07-17 05:51:13 +0800 · feat(vpvr): B3 backtest iter#68 V4 xs_reversion_1d_momentum_filter [NOT-PROFITABLE]", "value": 1}]}, {"name": "docs(campaign-tree)", "status": "info", "multica_id": "", "description": "1 meta commits", "children": [{"name": "docs(campaign-tree): add visual sunburst+mindmap of all VPVR/XS/BB campaigns", "status": "info", "multica_id": "", "description": "b4690d08 · 2026-07-11 22:20:47 +0800 · docs(campaign-tree): add visual sunburst+mindmap of all VPVR/XS/BB campaigns", "value": 1}]}]};
+const root = d3.hierarchy(DATA).sum(d => d.value || 0).sort((a,b) => b.value - a.value);
+const W = document.getElementById("viz").clientWidth;
+const H = document.getElementById("viz").clientHeight;
+const R = Math.min(W, H) / 2 - 8;
+const svg = d3.select("#main-svg").attr("viewBox", [-W/2, -H/2, W, H]);
+const g = svg.append("g");
+const partition = d3.partition().size([2*Math.PI, R]);
+partition(root);
+const arc = d3.arc().startAngle(d => d.x0).endAngle(d => d.x1)
+              .padAngle(d => Math.min((d.x1-d.x0)/2, 0.005))
+              .padRadius(R/2).innerRadius(d => d.y0).outerRadius(d => d.y1-1);
+const path = g.selectAll("path").data(root.descendants()).join("path")
+              .attr("d", arc).attr("class","arc")
+              .attr("fill", d => STATUS_COLOR[d.data.status] || STATUS_COLOR.info)
+              .attr("data-status", d => d.data.status)
+              .on("mouseover", function(ev, d) {
+                 d3.select(this).classed("highlight", true);
+                 const tip = d3.select("#tip");
+                 const m = d.data.multica_id ? `<a class="btn" href="${MULTICA_BASE}/issues/${d.data.multica_id}" target="_blank">open multica ↗</a>` : "";
+                 tip.html(`<b>${d.data.name}</b><br>${d.data.description || ""}${m ? "<br>"+m : ""}`)
+                    .style("left", (ev.offsetX+12)+"px").style("top",(ev.offsetY+12)+"px")
+                    .style("opacity",1);
+              })
+              .on("mousemove", function(ev) {
+                 d3.select("#tip").style("left",(ev.offsetX+12)+"px").style("top",(ev.offsetY+12)+"px");
+              })
+              .on("mouseout", function() {
+                 d3.select(this).classed("highlight", false);
+                 d3.select("#tip").style("opacity",0);
+              })
+              .on("click", function(ev, d) {
+                 if (d.data.multica_id) window.open(`${MULTICA_BASE}/issues/${d.data.multica_id}`, "_blank");
+              });
+g.append("text").attr("class","center-label").attr("text-anchor","middle")
+ .text(DATA.name);
+g.append("text").attr("class","center-sub").attr("text-anchor","middle").attr("dy",18)
+ .text(`${root.value} campaign commits · 2026-07-20T00:05:25+08:00`);
+</script>
+</body>
+</html>

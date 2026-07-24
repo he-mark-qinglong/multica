@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "autopilot_id": "51e7cb03-f866-47ae-95f2-86d94f23ffa3",
+  "engine": "backtrader",
+  "engine_version": "1.9.78.123",
+  "engine_sha": "backtrader-1.9.78.123",
+  "iteration": 71,
+  "strategy_key": "vpvr_options_putcall_oi_pressure_8h_20260715",
+  "fix_revision": "post-SMA-34922 max_dd accounting fix 2026-07-18",
+  "fix_note": "mirrors the in-house equity construction in strategy.py for vpvr_options_putcall_oi_pressure_8h: held-bar MTM (equity *= (1 + risk_target * bar_pnl) on bars entry..exit-1 with bar_pnl = (close/prev_close - 1) * direction) plus exit-bar override (equity *= (1 + risk_target * (pnl_pct + cost_delta))) for the round-trip net; flat bars unchanged. Single-symbol ETHUSDT 8h USDT-margined linear perp. Backtrader broker convention here is 4bp commission per side (setcommission=0.0004) + 3bp set_slippage_perc (perc=0.0003) per fill = 14bp round trip, vs in-house 12bp rt (4bp fee + 2bp slip). Validated first by replaying at in-house cost and matching the equity CSV.",
+  "cost_model": {
+    "fee_bps_per_side": 4.0,
+    "slippage_bps_per_side": 3.0,
+    "round_trip": 0.0014,
+    "inhouse_round_trip": 0.0012,
+    "cost_delta_per_trade": -0.0002000000000000001
+  },
+  "replay_validation": {
+    "ETHUSDT": {
+      "n_bars_compared": 4956,
+      "max_abs_rel_err": 2.9326947411323853e-08,
+      "final_rel_err": 2.6497375238366608e-08,
+      "replayed_max_dd": -0.01218186723268666,
+      "inhouse_max_dd": -0.012181887543387782,
+      "max_dd_abs_diff": 2.031070112096245e-08,
+      "matched_fills": 104,
+      "missed_oow": 0,
+      "missed_oos": 0
+    }
+  },
+  "inhouse": {
+    "sharpe": -1.1722,
+    "ann_total_return": -0.002078,
+    "total_return": -0.00937,
+    "max_dd": -0.012182,
+    "n_trades": 104,
+    "timeframe": "8h",
+    "status": "FAIL_NEGATIVE_ANN_RETURN",
+    "symbol": "ETHUSDT"
+  },
+  "framework": {
+    "sharpe": -0.2970127482528951,
+    "sharpe_nav_bar": -1.185562567251524,
+    "ann_total_return": -0.0021034110906109627,
+    "total_return": -0.009472683491764444,
+    "max_dd": -0.012274721964207203,
+    "n_bars": 4954,
+    "n_fills": 104,
+    "span_years": 4.520191649555099,
+    "cost_delta_per_trade": -0.0002000000000000001
+  },
+  "divergence_pct": {
+    "sharpe": 74.66193923793763,
+    "total_return": 1.0958750455116797,
+    "max_dd": 0.7611390921622262
+  },
+  "max_abs_rel_divergence_pct": 74.66193923793763,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_tipping_metrics": [
+    "sharpe 74.66%"
+  ],
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "backtrader 1.9.78.123 broker convention (setcommission=0.0004 + set_slippage_perc=0.0003 -> 14bp rt) applied to the in-house entry/exit schedule; equity walk is held-bar MTM (entry..exit-1 earn risk_target*bar_pnl) with exit-bar override (equity *= (1 + risk_target * (pnl_pct + cost_delta))). Single-symbol ETHUSDT 8h USDT-margined linear perp, constant risk_target = 0.005. Validated by reproducing the in-house equity CSV at in-house cost. Sharpe uses in-house formula (mean/std of per-trade pnl x sqrt(trades/yr))."
+}

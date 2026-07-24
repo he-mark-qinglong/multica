@@ -1,0 +1,115 @@
+{
+  "variant": "btc_funding_delta_sensitivity",
+  "thresholds": {
+    "thr_0.0001": {
+      "threshold": 0.0001,
+      "metrics": {
+        "sharpe": -1.6266746740291063,
+        "ann": -0.1202971194045982,
+        "maxdd": -0.0633240039246371,
+        "ci_lower": -4.069546581685746,
+        "total_return": -0.0633240039246371,
+        "n_bars": 1096,
+        "n_pos_changes": 55,
+        "n_bars_in_pos": 40,
+        "pct_bars_in_pos": 0.0364963503649635,
+        "n_daily_rets": 183,
+        "span_start": "2026-01-08 12:00:00+00:00",
+        "span_end": "2026-07-10 00:00:00+00:00"
+      },
+      "n_pos_changes": 55
+    },
+    "thr_0.0002": {
+      "threshold": 0.0002,
+      "metrics": {
+        "sharpe": 0.0,
+        "ann": 0.0,
+        "maxdd": 0.0,
+        "ci_lower": 0.0,
+        "total_return": 0.0,
+        "n_bars": 1096,
+        "n_pos_changes": 0,
+        "n_bars_in_pos": 0,
+        "pct_bars_in_pos": 0.0,
+        "n_daily_rets": 183,
+        "span_start": "2026-01-08 12:00:00+00:00",
+        "span_end": "2026-07-10 00:00:00+00:00"
+      },
+      "n_pos_changes": 0
+    },
+    "thr_0.0003": {
+      "threshold": 0.0003,
+      "metrics": {
+        "sharpe": 0.0,
+        "ann": 0.0,
+        "maxdd": 0.0,
+        "ci_lower": 0.0,
+        "total_return": 0.0,
+        "n_bars": 1096,
+        "n_pos_changes": 0,
+        "n_bars_in_pos": 0,
+        "pct_bars_in_pos": 0.0,
+        "n_daily_rets": 183,
+        "span_start": "2026-01-08 12:00:00+00:00",
+        "span_end": "2026-07-10 00:00:00+00:00"
+      },
+      "n_pos_changes": 0
+    },
+    "thr_0.0005": {
+      "threshold": 0.0005,
+      "metrics": {
+        "sharpe": 0.0,
+        "ann": 0.0,
+        "maxdd": 0.0,
+        "ci_lower": 0.0,
+        "total_return": 0.0,
+        "n_bars": 1096,
+        "n_pos_changes": 0,
+        "n_bars_in_pos": 0,
+        "pct_bars_in_pos": 0.0,
+        "n_daily_rets": 183,
+        "span_start": "2026-01-08 12:00:00+00:00",
+        "span_end": "2026-07-10 00:00:00+00:00"
+      },
+      "n_pos_changes": 0
+    },
+    "thr_0.0007": {
+      "threshold": 0.0007,
+      "metrics": {
+        "sharpe": 0.0,
+        "ann": 0.0,
+        "maxdd": 0.0,
+        "ci_lower": 0.0,
+        "total_return": 0.0,
+        "n_bars": 1096,
+        "n_pos_changes": 0,
+        "n_bars_in_pos": 0,
+        "pct_bars_in_pos": 0.0,
+        "n_daily_rets": 183,
+        "span_start": "2026-01-08 12:00:00+00:00",
+        "span_end": "2026-07-10 00:00:00+00:00"
+      },
+      "n_pos_changes": 0
+    },
+    "thr_0.001": {
+      "threshold": 0.001,
+      "metrics": {
+        "sharpe": 0.0,
+        "ann": 0.0,
+        "maxdd": 0.0,
+        "ci_lower": 0.0,
+        "total_return": 0.0,
+        "n_bars": 1096,
+        "n_pos_changes": 0,
+        "n_bars_in_pos": 0,
+        "pct_bars_in_pos": 0.0,
+        "n_daily_rets": 183,
+        "span_start": "2026-01-08 12:00:00+00:00",
+        "span_end": "2026-07-10 00:00:00+00:00"
+      },
+      "n_pos_changes": 0
+    }
+  },
+  "max_abs_delta_full_overlap": 0.0007568500000000001,
+  "max_abs_delta_oos_window": 0.00019095
+}

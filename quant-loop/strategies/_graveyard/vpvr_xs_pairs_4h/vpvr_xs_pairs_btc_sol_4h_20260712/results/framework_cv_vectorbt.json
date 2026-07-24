@@ -1,0 +1,51 @@
+{
+  "engine": "vectorbt",
+  "engine_version": "1.1.0",
+  "engine_sha": "vectorbt-1.1.0",
+  "iteration": 80,
+  "variant": "A",
+  "strategy_key": "vpvr_xs_pairs_btc_sol_4h_20260712",
+  "inhouse": {
+    "sharpe": -0.22251221670181345,
+    "ann_total_return": -0.05127277631155603,
+    "max_dd": -0.2446991966018432,
+    "n_trades": 438,
+    "n_windows": 4,
+    "method": "OOS walk-forward mean over 4 folds"
+  },
+  "framework": {
+    "sharpe": -0.1533630361889995,
+    "total_return": -0.08999691932218204,
+    "ann_total_return": -0.02063711445101768,
+    "max_dd": -0.24028473909427092,
+    "n_trades": 438,
+    "n_bars": 9912,
+    "span_years": 4.522473191877709,
+    "method": "vectorbt 1.1.0 replay of trade schedule distributed to bars"
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": -0.1533630361889995,
+    "oos_total_return_mean": -0.08999691932218204,
+    "oos_ann_return_mean": -0.02063711445101768,
+    "oos_max_dd_min": -0.24028473909427092,
+    "oos_n_trades_sum": 438,
+    "n_folds": 4,
+    "note": "vectorbt replay is full-period, single OOS proxy. Compared against in-house 4-fold mean."
+  },
+  "divergence_pct": {
+    "sharpe": 31.076577069689677,
+    "total_return": 75.52573860116529,
+    "max_dd": 1.8040343282185587
+  },
+  "max_abs_rel_divergence_pct": 75.52573860116529,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_tipping_metrics": [
+    "sharpe 31.08%",
+    "total_return 75.53%",
+    "max_dd 1.80%"
+  ],
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "vectorbt 1.1.0 replay: applied pnl_pct distributed linearly across entry->exit bars on BTCUSDT/SOLUSDT 4h pair trade schedule; daily-resampled Sharpe/ann_return/max_dd computed from bar-by-bar NAV.",
+  "run_at": "2026-07-18T04:44:10.780151+08:00"
+}

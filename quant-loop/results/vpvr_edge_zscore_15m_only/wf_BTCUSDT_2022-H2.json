@@ -1,0 +1,33 @@
+{
+  "fold": "2022-H2",
+  "symbol": "BTCUSDT",
+  "test_window": [
+    "2022-07-01",
+    "2022-12-31"
+  ],
+  "n_bars": 17569,
+  "metrics": {
+    "n_bars": 17569,
+    "n_trades": 99,
+    "win_rate": 0.2626,
+    "profit_factor": 0.1412,
+    "sharpe_daily": -6.2907,
+    "total_return": -0.010307,
+    "annualized_return": -0.020465,
+    "max_drawdown_pct": -1.0307,
+    "avg_bars_held": 3.59
+  },
+  "diagnostics": {
+    "n_long_entries": 41,
+    "n_short_entries": 58,
+    "exit_reasons": {
+      "trailing_stop": 38,
+      "hard_stop": 49,
+      "time_stop": 10,
+      "take_profit": 2,
+      "z_exit_15m": 0
+    },
+    "vol_target_weights_mean": 1.7158062496442599,
+    "vol_target_weights_max": 3.0
+  }
+}

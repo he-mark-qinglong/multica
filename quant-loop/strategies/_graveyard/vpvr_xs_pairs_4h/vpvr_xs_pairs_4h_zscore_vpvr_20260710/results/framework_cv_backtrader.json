@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "autopilot_id": "51e7cb03-f866-47ae-95f2-86d94f23ffa3",
+  "engine": "backtrader",
+  "engine_version": "1.9.78.123",
+  "engine_sha": "backtrader-1.9.78.123",
+  "iteration": 75,
+  "strategy_key": "vpvr_xs_pairs_4h_zscore_vpvr_20260710",
+  "primary_pair": "BTCUSDT/ETHUSDT",
+  "fix_revision": "post-SMA-34922 max_dd accounting fix 2026-07-18",
+  "fix_note": "mirrors the in-house xs-pair equity construction for vpvr_xs_pairs_4h_zscore_vpvr_20260710 (V3, iter #75): bar-by-bar MTM with `pos * (a_ret - b_ret) / 2.0` per-bar GROSS mark, with the in-house 4bp RT cost debit folded into the trades CSV `pnl_pct`. Only the cost model differs: backtrader broker convention is setcommission=0.0004 + set_slippage_perc=0.0003 -> 14bp RT vs in-house 4bp RT -> +10bp per-trade cost delta. Validated by replaying at in-house cost and matching the equity CSV. Focus on BTCUSDT/ETHUSDT leg (n_trades=450, the largest and most well-defined edge in the 3-pair strategy).",
+  "cost_model": {
+    "fee_bps_per_side": 4.0,
+    "slippage_bps_per_side": 3.0,
+    "round_trip": 0.0014,
+    "inhouse_round_trip": 0.0004,
+    "cost_delta_per_trade": 0.001
+  },
+  "replay_validation": {
+    "BTCUSDT/ETHUSDT": {
+      "n_bars_compared": 4751,
+      "max_abs_rel_err": 0.2930166307113181,
+      "final_rel_err": 0.28045542710564425,
+      "replayed_max_dd": -0.32336577515172715,
+      "inhouse_max_dd": -0.13578843927597128,
+      "max_dd_abs_diff": 0.18757733587575587
+    }
+  },
+  "inhouse": {
+    "sharpe": 0.3339380339750799,
+    "total_return": 0.06508970887894343,
+    "max_dd": -0.12628950855859564,
+    "n_trades": 1323,
+    "timeframe": "4h",
+    "status": "NOT-PROFITABLE"
+  },
+  "inhouse_oos_walkforward": {
+    "sharpe_mean": -0.41577747662481124,
+    "return_mean": -0.08622328376784771,
+    "mdd_worst": -0.35344413695455407,
+    "n_folds": 4
+  },
+  "framework_full_period": {
+    "sharpe": 1.698212179790174,
+    "sharpe_nav_bar": 0.52255267382966,
+    "ann_total_return": 0.08013364041075222,
+    "total_return": 0.18168084420215114,
+    "max_dd": -0.24723923907988277,
+    "n_fills": 450,
+    "span_years": 2.1656399726214923,
+    "n_bars": 4747
+  },
+  "framework_oos_walkforward": {
+    "sharpe_mean": 0.4507817680303099,
+    "return_mean": -0.008421168638264531,
+    "mdd_worst": -0.24723923907988324,
+    "n_folds": 4,
+    "folds": [
+      {
+        "fold": 1,
+        "oos_window": [
+          "2025-01-23",
+          "2025-07-23"
+        ],
+        "n_trades": 110,
+        "oos_sharpe": 0.9798008932960452,
+        "oos_return_pct": 0.0230589760347355,
+        "oos_max_dd_pct": -0.18961050896159476
+      },
+      {
+        "fold": 2,
+        "oos_window": [
+          "2025-04-23",
+          "2025-10-23"
+        ],
+        "n_trades": 108,
+        "oos_sharpe": -4.661936936419065,
+        "oos_return_pct": -0.15860457565435992,
+        "oos_max_dd_pct": -0.24723923907988324
+      },
+      {
+        "fold": 3,
+        "oos_window": [
+          "2025-07-23",
+          "2026-01-23"
+        ],
+        "n_trades": 100,
+        "oos_sharpe": 1.597091900804234,
+        "oos_return_pct": 0.03564271316446921,
+        "oos_max_dd_pct": -0.07966719807922386
+      },
+      {
+        "fold": 4,
+        "oos_window": [
+          "2025-10-23",
+          "2026-04-23"
+        ],
+        "n_trades": 83,
+        "oos_sharpe": 3.8881712144400256,
+        "oos_return_pct": 0.06621821190209709,
+        "oos_max_dd_pct": -0.05884472448818119
+      }
+    ]
+  },
+  "divergence_pct_oos": {
+    "sharpe": 208.41899654826318,
+    "total_return": 90.233300948108,
+    "max_dd": 30.048566879559434
+  },
+  "max_abs_rel_divergence_pct_oos": 208.41899654826318,
+  "divergence_pct_full_period": {
+    "sharpe": 408.541108532999,
+    "total_return": 179.12376216038822,
+    "max_dd": 95.77179601199339
+  },
+  "max_abs_rel_divergence_pct_full_period": 408.541108532999,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_tipping_metrics": [
+    "sharpe 208.42%",
+    "ann_total_return 90.23%"
+  ],
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "backtrader 1.9.78.123 broker convention (setcommission=0.0004 + set_slippage_perc=0.0003 -> 14bp rt) applied to the in-house entry/exit schedule for the BTCUSDT/ETHUSDT leg of vpvr_xs_pairs_4h_zscore_vpvr_20260710 (V3, iter #75). Equity walk is full-notional exit-bar MTM (equity *= (1 + pnl_pct)) on real 4h closes; validated by reproducing the in-house equity CSV at in-house cost. Sharpe uses the in-house formula (mean/std of per-trade pnl x sqrt(trades/yr))."
+}

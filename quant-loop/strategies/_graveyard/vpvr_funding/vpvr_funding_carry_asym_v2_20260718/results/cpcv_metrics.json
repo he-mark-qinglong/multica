@@ -1,0 +1,178 @@
+{
+  "variant_key": "vpvr_funding_carry_asym_v2_20260718",
+  "iteration": 2,
+  "date": "2026-07-18",
+  "source_spec": "SMA-34990",
+  "implementation_issue": "SMA-34990",
+  "instruments": [
+    "BTCUSDT"
+  ],
+  "timeframes": [
+    "1m",
+    "15m",
+    "4h"
+  ],
+  "generated_at_utc": "2026-07-18T15:39:07+00:00",
+  "cpcv_config": {
+    "n_groups": 6,
+    "k_test": 2,
+    "purge_bars": 200,
+    "embargo_bars": 100
+  },
+  "aggregate": {
+    "n_paths": 15,
+    "folds_complete": 15,
+    "mean_oos_sharpe": -16.0786,
+    "std_oos_sharpe": 9.6359,
+    "ci95": [
+      -20.4506,
+      -11.2907
+    ],
+    "deflated_sharpe": -16.0899,
+    "n_trials_for_dsr": 50
+  },
+  "gates": {
+    "min_mean_oos_sharpe": 1.2,
+    "min_deflated_sharpe": 0.5,
+    "pass_min_mean_oos_sharpe": false,
+    "pass_min_deflated_sharpe": false
+  },
+  "verdict": "NOT-PROFITABLE",
+  "folds": [
+    {
+      "fold_index": 0,
+      "train_start": "2021-12-21 13:52:00",
+      "train_end": "2026-07-17 19:39:00",
+      "test_start": "2019-09-08 19:38:00",
+      "test_end": "2021-12-21 10:31:00",
+      "oos_sharpe": 0.0,
+      "n_trades": 0
+    },
+    {
+      "fold_index": 1,
+      "train_start": "2020-10-30 02:15:00",
+      "train_end": "2026-07-17 19:39:00",
+      "test_start": "2019-09-08 19:38:00",
+      "test_end": "2023-02-11 18:48:00",
+      "oos_sharpe": -15.151011193034996,
+      "n_trades": 6941
+    },
+    {
+      "fold_index": 2,
+      "train_start": "2020-10-30 02:15:00",
+      "train_end": "2026-07-17 19:39:00",
+      "test_start": "2019-09-08 19:38:00",
+      "test_end": "2024-04-04 03:05:00",
+      "oos_sharpe": -23.993854491148028,
+      "n_trades": 18736
+    },
+    {
+      "fold_index": 3,
+      "train_start": "2020-10-30 02:15:00",
+      "train_end": "2026-07-17 19:39:00",
+      "test_start": "2019-09-08 19:38:00",
+      "test_end": "2025-05-26 11:22:00",
+      "oos_sharpe": -15.184046668892467,
+      "n_trades": 8190
+    },
+    {
+      "fold_index": 4,
+      "train_start": "2020-10-30 02:15:00",
+      "train_end": "2025-05-26 11:22:00",
+      "test_start": "2019-09-08 19:38:00",
+      "test_end": "2026-07-17 19:39:00",
+      "oos_sharpe": 0.0,
+      "n_trades": 0
+    },
+    {
+      "fold_index": 5,
+      "train_start": "2019-09-08 17:57:00",
+      "train_end": "2026-07-17 19:39:00",
+      "test_start": "2020-10-30 03:55:00",
+      "test_end": "2023-02-11 18:48:00",
+      "oos_sharpe": -15.151011193034996,
+      "n_trades": 6941
+    },
+    {
+      "fold_index": 6,
+      "train_start": "2019-09-08 17:57:00",
+      "train_end": "2026-07-17 19:39:00",
+      "test_start": "2020-10-30 03:55:00",
+      "test_end": "2024-04-04 03:05:00",
+      "oos_sharpe": -23.993854491148028,
+      "n_trades": 18736
+    },
+    {
+      "fold_index": 7,
+      "train_start": "2019-09-08 17:57:00",
+      "train_end": "2026-07-17 19:39:00",
+      "test_start": "2020-10-30 03:55:00",
+      "test_end": "2025-05-26 11:22:00",
+      "oos_sharpe": -15.184046668892467,
+      "n_trades": 8190
+    },
+    {
+      "fold_index": 8,
+      "train_start": "2019-09-08 17:57:00",
+      "train_end": "2025-05-26 11:22:00",
+      "test_start": "2020-10-30 03:55:00",
+      "test_end": "2026-07-17 19:39:00",
+      "oos_sharpe": 0.0,
+      "n_trades": 0
+    },
+    {
+      "fold_index": 9,
+      "train_start": "2019-09-08 17:57:00",
+      "train_end": "2026-07-17 19:39:00",
+      "test_start": "2021-12-21 12:12:00",
+      "test_end": "2024-04-04 03:05:00",
+      "oos_sharpe": -28.383589383558096,
+      "n_trades": 25677
+    },
+    {
+      "fold_index": 10,
+      "train_start": "2019-09-08 17:57:00",
+      "train_end": "2026-07-17 19:39:00",
+      "test_start": "2021-12-21 12:12:00",
+      "test_end": "2025-05-26 11:22:00",
+      "oos_sharpe": -21.42348653420052,
+      "n_trades": 15131
+    },
+    {
+      "fold_index": 11,
+      "train_start": "2019-09-08 17:57:00",
+      "train_end": "2025-05-26 11:22:00",
+      "test_start": "2021-12-21 12:12:00",
+      "test_end": "2026-07-17 19:39:00",
+      "oos_sharpe": -15.151011193034996,
+      "n_trades": 6941
+    },
+    {
+      "fold_index": 12,
+      "train_start": "2019-09-08 17:57:00",
+      "train_end": "2026-07-17 19:39:00",
+      "test_start": "2023-02-11 20:29:00",
+      "test_end": "2025-05-26 11:22:00",
+      "oos_sharpe": -28.384583498278918,
+      "n_trades": 26926
+    },
+    {
+      "fold_index": 13,
+      "train_start": "2019-09-08 17:57:00",
+      "train_end": "2025-05-26 11:22:00",
+      "test_start": "2023-02-11 20:29:00",
+      "test_end": "2026-07-17 19:39:00",
+      "oos_sharpe": -23.99385449114802,
+      "n_trades": 18736
+    },
+    {
+      "fold_index": 14,
+      "train_start": "2019-09-08 17:57:00",
+      "train_end": "2024-04-03 23:45:00",
+      "test_start": "2024-04-04 04:46:00",
+      "test_end": "2026-07-17 19:39:00",
+      "oos_sharpe": -15.184046668892467,
+      "n_trades": 8190
+    }
+  ]
+}

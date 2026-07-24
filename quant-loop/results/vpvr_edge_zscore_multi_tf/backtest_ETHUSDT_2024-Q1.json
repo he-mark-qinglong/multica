@@ -1,0 +1,65 @@
+{
+  "fold": "2024-Q1",
+  "symbol": "ETHUSDT",
+  "test_window": [
+    "2024-01-01",
+    "2024-03-31"
+  ],
+  "train_window": [
+    "2023-01-01",
+    "2023-12-31"
+  ],
+  "n_bars": 129601,
+  "metrics": {
+    "n_bars": 129601,
+    "n_trades": 82,
+    "win_rate": 0.0122,
+    "profit_factor": 0.0002,
+    "sharpe_daily": -5.6856,
+    "total_return": -0.004192,
+    "annualized_return": -0.016903,
+    "max_drawdown_pct": -0.4213,
+    "avg_bars_held": 3.02,
+    "bootstrap_ci_lower_sharpe": -7.3799,
+    "bootstrap_ci_upper_sharpe": -4.0461,
+    "bootstrap_resamples": 1000
+  },
+  "diagnostics": {
+    "n_long_entries": 39,
+    "n_short_entries": 43,
+    "n_conviction_high": 82,
+    "exit_reasons": {
+      "trend_reversal_2h": 0,
+      "trailing_stop": 9,
+      "z_exit_15m": 0,
+      "take_profit": 26,
+      "hard_stop": 47,
+      "time_stop": 0
+    },
+    "vol_target_weights_mean": 1.0206325568475552,
+    "vol_target_weights_max": 3.0,
+    "per_tf": {
+      "1m": {
+        "n_decision_long": 255,
+        "n_decision_short": 330,
+        "n_decision_flat": 129016,
+        "n_conviction_high": 585
+      },
+      "15m": {
+        "n_edge_long": 91,
+        "n_edge_short": 145,
+        "z_15m_mean": 0.012436061065163243,
+        "z_15m_std": 1.4805887475281447
+      },
+      "2h": {
+        "trend_counts": {
+          "up": 433,
+          "down": 158,
+          "neutral": 490
+        },
+        "ema_slope_mean_bps": 3.7454031139145965,
+        "z_2h_mean": 0.2445996246892897
+      }
+    }
+  }
+}

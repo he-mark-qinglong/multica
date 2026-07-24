@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "autopilot_id": "51e7cb03-f866-47ae-95f2-86d94f23ffa3",
+  "engine": "vectorbt",
+  "engine_version": "1.1.0",
+  "engine_sha": "vectorbt-1.1.0",
+  "iteration": 97,
+  "strategy_key": "vpvr_funding_term_curve_1h_20260714",
+  "fix_revision": "post-SMA-34922 max_dd accounting fix 2026-07-18",
+  "fix_note": "mirrors the in-house full-notional equity construction (equity *= (1 + pnl_pct) at exit bar) for vpvr_funding_term_curve_1h: long+short, multi-symbol BTC+ETH, per-trade pnl_pct already includes funding_paid_running and in-house cost. Only the cost model differs: vectorbt canonical zero-cost reference convention (fee=0, slip=0 -> 0bp round trip), vs in-house 12bp rt (4bp fee + 2bp slip), backtrader 14bp rt, freqtrade 12bp rt. Validated first by replaying at in-house cost and matching the equity CSV (BTCUSDT leg focused, matches the backtrader CV precedent on this multi-symbol strategy).",
+  "cost_model": {
+    "fee_bps_per_side": 0.0,
+    "slippage_bps_per_side": 0.0,
+    "round_trip": 0.0,
+    "inhouse_round_trip": 0.0012,
+    "delta_per_trade": -0.0012
+  },
+  "replay_validation": {
+    "BTCUSDT": {
+      "n_bars_compared": 39647,
+      "max_abs_rel_err": 1.4246034727248997e-05,
+      "final_rel_err": 1.3103686850587409e-05,
+      "replayed_max_dd": -0.8464443214405738,
+      "inhouse_max_dd": -0.8464427963150282,
+      "max_dd_abs_diff": 1.525125545631667e-06
+    }
+  },
+  "inhouse": {
+    "sharpe": -0.9184309189374368,
+    "ann_total_return": null,
+    "total_return": -0.7814848720983039,
+    "max_dd": -0.8464427963164732,
+    "n_trades": 2576,
+    "timeframe": "1h",
+    "status": "NOT-PROFITABLE"
+  },
+  "framework": {
+    "sharpe": 0.07065189136214091,
+    "sharpe_nav_bar": 0.07065130451065925,
+    "ann_total_return": -0.017516569252135294,
+    "total_return": -0.07681560682348665,
+    "max_dd": -0.5261486185807608,
+    "n_bars": 39647,
+    "n_fills": 1314,
+    "span_years": 4.522815423226101
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": -6.287107316994555e-05,
+    "oos_total_return_mean": 0.004618015582827461,
+    "oos_max_dd_max": -0.3503554103215161,
+    "n_folds": 5,
+    "folds": [
+      {
+        "fold": 1,
+        "lo_bar": 0,
+        "hi_bar": 7929,
+        "bars": 7929,
+        "span_years": 0.9044033766826375,
+        "sharpe": 1.1538861108409264,
+        "total_return": 0.3937515542670642,
+        "ann_total_return": 0.44353044177124956,
+        "max_dd": -0.21942873062721005
+      },
+      {
+        "fold": 2,
+        "lo_bar": 7929,
+        "hi_bar": 15858,
+        "bars": 7929,
+        "span_years": 0.9045174537987679,
+        "sharpe": 0.47858866824521984,
+        "total_return": 0.06185348546605618,
+        "ann_total_return": 0.0686021024263348,
+        "max_dd": -0.13298949005233193
+      },
+      {
+        "fold": 3,
+        "lo_bar": 15858,
+        "hi_bar": 23787,
+        "bars": 7929,
+        "span_years": 0.9044033766826375,
+        "sharpe": -0.42912566437318694,
+        "total_return": -0.11513523063933162,
+        "ann_total_return": -0.12650238561711868,
+        "max_dd": -0.21032082495289994
+      },
+      {
+        "fold": 4,
+        "lo_bar": 23787,
+        "hi_bar": 31716,
+        "bars": 7929,
+        "span_years": 0.9044033766826375,
+        "sharpe": -0.9158114141514387,
+        "total_return": -0.21205117176777988,
+        "ann_total_return": -0.23165243667964575,
+        "max_dd": -0.3503554103215161
+      },
+      {
+        "fold": 5,
+        "lo_bar": 31716,
+        "hi_bar": 39647,
+        "bars": 7931,
+        "span_years": 0.9046315309148985,
+        "sharpe": -0.28785205592737034,
+        "total_return": -0.10532855941187158,
+        "ann_total_return": -0.11576473809288934,
+        "max_dd": -0.29551297966343526
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 107.69267343959635,
+    "total_return": 90.17055741370463,
+    "max_dd": 37.840026417563
+  },
+  "max_abs_rel_divergence_pct": 107.69267343959635,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_tipping_metrics": [
+    "sharpe 107.69%",
+    "total_return 90.17%"
+  ],
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "vectorbt 1.1.0 zero-cost reference convention (fee=0, slip=0 -> 0bp rt) applied to the in-house entry/exit schedule; equity walk is full-notional exit-bar MTM (equity *= (1 + pnl_pct)) on real 1h closes (BTCUSDT leg focused, matches backtrader CV precedent on this multi-symbol strategy); validated by reproducing the in-house equity CSV at in-house cost. Sharpe uses the in-house formula (mean/std of per-trade pnl x sqrt(trades/yr)).",
+  "generated_at_utc": "2026-07-21T22:42:05.020377+00:00"
+}

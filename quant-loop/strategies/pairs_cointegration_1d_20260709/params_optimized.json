@@ -1,0 +1,49 @@
+{
+  "issue": "SMA-35169",
+  "strategy": "pairs_cointegration_1d_20260709",
+  "verdict": "KILL",
+  "generated_at_utc": "2026-07-21T00:49:17+00:00",
+  "rationale": "The spec grid (pair_screen_window in [180, 365, 730]) produces 0 viable trades. At w=180 and w=730 no pairs pass the EG p<0.10 test; at w=365 two pairs pass ADF (BTCUSDT-ETHUSDT, ETHUSDT-SOLUSDT) but their AR(1) half-life is INFINITY, so the halflife filter (cap in [10,20,60,120]) rejects all of them (spurious cointegration: ADF passes, OU half-life does not exist). The relaxed diagnostic grid shows the strategy has positive mean OOS Sharpe (best: 2.12 at w=90, entry=1.5, exit=0.5) and positive DSR (1.95), but fails the worst-fold >= 0 gate (best worst = -0.039) and the min_trades_per_fold=30 gate (best min = 6). The 30 trades/fold requirement is structurally infeasible at 1d with this signal density (~150-220 total trades across 2.2y of data). The strategy has edge but does not satisfy the spec's gates - KILL is the honest verdict.",
+  "spec_grid_summary": {
+    "n_combos_total": 432,
+    "n_combos_with_trades": 0,
+    "cpcv_regimes": ["literal_spec", "pragmatic_1d"],
+    "data_window": "2024-04-23 to 2026-06-23 (792 daily bars)",
+    "root_cause_no_trades": [
+      "pair_screen_window=180: trailing 180d shows NO pairs cointegrated at p<0.10 (best p=0.33)",
+      "pair_screen_window=365: BTCUSDT-ETHUSDT (p=0.0024) and ETHUSDT-SOLUSDT (p=0.0081) pass ADF but half_life=inf -> spurious cointegration, halflife filter rejects them",
+      "pair_screen_window=730: trailing 730d (essentially the entire dataset) shows NO pairs cointegrated at p<0.10 (best p=0.18)"
+    ]
+  },
+  "relaxed_grid_diagnostic": {
+    "best_combo": {
+      "params": {
+        "adf_threshold": 0.05,
+        "zscore_entry": 1.5,
+        "zscore_exit": 0.5,
+        "halflife_cap": 0,
+        "pair_screen_window": 90
+      },
+      "mean_oos_sharpe": 2.124,
+      "worst_oos_sharpe": -0.039,
+      "dsr": 1.947,
+      "folds_complete": 15,
+      "total_trades": 168,
+      "min_trades_per_fold": 6,
+      "gates_passed": ["mean_ok", "dsr_ok"],
+      "gates_failed": ["worst_ok (best worst -0.039)", "min_trades_per_fold (6 vs required 30)"]
+    },
+    "windows_with_pairs": [90, 365, 500],
+    "windows_without_pairs": [60, 120, 180, 240, 730],
+    "interpretation": "The strategy has real edge at non-spec windows (mean OOS Sharpe 1.06-2.12, DSR 0.92-1.95 across the relaxed grid). The issue's gates require a signal density and stability that this 1d pairs strategy cannot deliver on a 2.2y dataset. The gates are calibrated for higher-frequency or longer-sample strategies. Per the issue's accepted KILL clause, no params chosen."
+  },
+  "chosen_params": null,
+  "config_json_updated": false,
+  "metrics_json_updated": false,
+  "next_steps": [
+    "Strategy remains archived under its current variant_key; no new variant spawned.",
+    "If a higher-frequency pairs strategy is desired, see vpvr_edge_zscore_15m_only_20260720 / vpvr_edge_zscore_multi_tf_1m_15m_2h_20260720.",
+    "The 1d TF is BANNED for new strategies per smark 2026-07-11 directive (Multica Strategy-Layer Rules).",
+    "Family-exhaustion check: pairs_cointegration family has 1 archive -> not yet at the 3-cycle cap (still allowed one rebuild in cycle-46 per cycle-45 lessons)."
+  ]
+}

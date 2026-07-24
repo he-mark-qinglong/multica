@@ -1,0 +1,52 @@
+{
+  "engine": "vectorbt",
+  "engine_version": "1.1.0",
+  "engine_sha": "bf7aff6d",
+  "iteration": 67,
+  "strategy_key": "vpvr_reversion_1m_kama_reversal_20260709",
+  "inhouse": {
+    "sharpe": 0.9257,
+    "ann_total_return": 0.000807,
+    "max_dd": -0.001773,
+    "n_trades": 4632,
+    "timeframe": "1m",
+    "status": "NOT-PROFITABLE"
+  },
+  "framework": {
+    "sharpe": 13.70024686644503,
+    "ann_total_return": 0.009788539474286484,
+    "max_dd": -0.00014261227743084248,
+    "n_bars": 1140096,
+    "span_years": 2.1676458285801203
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": 13.70024686644503,
+    "oos_total_return_ann_mean": 0.009788539474286484,
+    "oos_max_dd_max": -0.00014261227743084248,
+    "n_folds": 1,
+    "folds": [
+      {
+        "fold": 1,
+        "bars": 1140096,
+        "metrics": {
+          "sharpe": 13.70024686644503,
+          "ann_total_return": 0.009788539474286484,
+          "max_dd": -0.00014261227743084248,
+          "n_bars": 1140096
+        }
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 1379.98777859404,
+    "ann_total_return": 1112.9540860330214,
+    "max_dd": 91.95644233328582
+  },
+  "max_abs_rel_divergence_pct": 1379.98777859404,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_verdict": "AUTO-ARCHIVE per W5 (NOT-PROFITABLE)",
+  "approach": "vectorbt 1.1.0 cross-check: bar-by-bar equity reconstructed from in-house trades CSV applied to actual SOLUSDT 1m price data using the same algorithm as in-house strategy.py (risk_target_pct=0.005 fractional sizing, mark-to-market equity). Sharpe / ann_return / max_dd computed via in-house _compute_metrics() formula on minute-resolution equity.",
+  "cache_dir": "/tmp/framework-cache/vectorbt-bf7aff6d",
+  "framework_metrics_file": "/tmp/framework-validate-vpvr-reversion-1m-kama-vectorbt/results.json"
+}

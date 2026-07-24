@@ -1,0 +1,29 @@
+{
+  "strategy": "BTC buy-and-hold (calibration baseline)",
+  "data": {
+    "source": "/home/smark/multica/quant-loop/research/calibration/BTCUSDT__30m.parquet",
+    "symbol": "BTCUSDT",
+    "timeframe": "30m",
+    "range_start_utc": "2024-01-01 00:00:00+00:00",
+    "range_end_utc": "2024-12-31 23:30:00+00:00",
+    "n_bars": 17568
+  },
+  "assumptions": {
+    "fee_taker_per_side": 0.0004,
+    "slippage": 0.0,
+    "start_capital": 100000.0,
+    "entry_at": "first bar close",
+    "exit_at": "last bar close"
+  },
+  "prices": {
+    "p_start": 42298.61,
+    "p_end": 93709.11
+  },
+  "metrics": {
+    "gross_total_return_pct": 121.54181898648679,
+    "net_total_return_pct": 121.36465639633367,
+    "annualized_return_pct": 121.0144645355845,
+    "sharpe_daily": 1.7000528639320374,
+    "max_drawdown_pct": -26.300836025622328
+  }
+}

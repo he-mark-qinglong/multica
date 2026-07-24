@@ -1,0 +1,48 @@
+{
+  "variant": "vpvr_obi_micro_v2_1m_20260714",
+  "iteration": 95,
+  "timeframe": "1m",
+  "n_per_bar_total": 84,
+  "annualization_factor": 525600,
+  "folds": [
+    {
+      "name": "2024-Q1",
+      "test_window": [
+        "2024-01-01",
+        "2024-04-01"
+      ],
+      "n_trades_oos": 0,
+      "oos_sharpe_annualized": 0.0,
+      "oos_mean_per_bar_return": 0.0,
+      "oos_std_per_bar_return": 0.0
+    },
+    {
+      "name": "2024-Q3",
+      "test_window": [
+        "2024-07-01",
+        "2024-10-01"
+      ],
+      "n_trades_oos": 0,
+      "oos_sharpe_annualized": 0.0,
+      "oos_mean_per_bar_return": 0.0,
+      "oos_std_per_bar_return": 0.0
+    },
+    {
+      "name": "2025-Q2",
+      "test_window": [
+        "2025-04-01",
+        "2025-07-01"
+      ],
+      "n_trades_oos": 0,
+      "oos_sharpe_annualized": 0.0,
+      "oos_mean_per_bar_return": 0.0,
+      "oos_std_per_bar_return": 0.0
+    }
+  ],
+  "mean_oos_sharpe_3folds": 0.0,
+  "framework_cv": {
+    "freqtrade_oos_sharpe": null,
+    "backtrader_oos_sharpe": null,
+    "note": "framework CV requires freqtrade/backtrader execution runs; B6 quant-researcher does not run execution backtests. See SMA-32358 for the in-house-vs-framework Sharpe methodology divergence lesson."
+  }
+}

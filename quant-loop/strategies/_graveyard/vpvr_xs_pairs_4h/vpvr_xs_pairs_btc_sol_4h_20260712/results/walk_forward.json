@@ -1,0 +1,83 @@
+{
+  "strategy": "vpvr_xs_pairs_btc_sol_4h_20260712",
+  "iteration": 80,
+  "timeframe": "4h",
+  "variant": "A",
+  "n_windows": 4,
+  "windows": [
+    {
+      "window_id": 1,
+      "train_start": "2024-04-23",
+      "train_end": "2025-01-23",
+      "test_start": "2025-01-23",
+      "test_end": "2025-07-23",
+      "n_test_bars": 1086,
+      "n_test_trades": 102,
+      "test_sharpe": 0.019043382210037204,
+      "test_return": 0.004975315944108834,
+      "test_mdd": -0.16531302423684505,
+      "test_win_rate": 0.5196078431372549
+    },
+    {
+      "window_id": 2,
+      "train_start": "2024-04-23",
+      "train_end": "2025-04-23",
+      "test_start": "2025-04-23",
+      "test_end": "2025-10-23",
+      "n_test_bars": 1098,
+      "n_test_trades": 114,
+      "test_sharpe": -0.34985991636312924,
+      "test_return": -0.09017110672817202,
+      "test_mdd": -0.2446991966018432,
+      "test_win_rate": 0.5
+    },
+    {
+      "window_id": 3,
+      "train_start": "2024-04-23",
+      "train_end": "2025-07-23",
+      "test_start": "2025-07-23",
+      "test_end": "2026-01-23",
+      "n_test_bars": 1104,
+      "n_test_trades": 115,
+      "test_sharpe": -0.6123726415301702,
+      "test_return": -0.12742910771251834,
+      "test_mdd": -0.19821235942730442,
+      "test_win_rate": 0.5130434782608696
+    },
+    {
+      "window_id": 4,
+      "train_start": "2024-04-23",
+      "train_end": "2025-10-23",
+      "test_start": "2025-10-23",
+      "test_end": "2026-04-23",
+      "n_test_bars": 1092,
+      "n_test_trades": 96,
+      "test_sharpe": 0.05314030887600845,
+      "test_return": 0.007533793250357405,
+      "test_mdd": -0.10595232530422655,
+      "test_win_rate": 0.5104166666666666
+    }
+  ],
+  "aggregate": {
+    "mean_test_sharpe": -0.22251221670181345,
+    "std_test_sharpe": 0.3175646966522308,
+    "min_test_sharpe": -0.6123726415301702,
+    "mean_test_return": -0.05127277631155603,
+    "worst_test_mdd": -0.2446991966018432,
+    "in_sample_sharpe": 0.5682788808139887,
+    "walk_forward_ratio": -0.3915546120297352,
+    "deflated_sharpe_z": -8.405403410623434,
+    "ship_gate": {
+      "wf_ratio_threshold": 0.5,
+      "wf_ratio_pass": false,
+      "min_oos_sharpe_threshold": 0.0,
+      "min_oos_sharpe_pass": false,
+      "overall_pass": false
+    }
+  },
+  "evidence_gate": {
+    "sharpe_threshold": 0.5,
+    "wf_ratio_threshold": 0.5,
+    "passed": false
+  }
+}

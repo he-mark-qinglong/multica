@@ -1,0 +1,24 @@
+{
+  "strategy": "vpvr_options_iv_skew_1d_20260713",
+  "iteration": 91,
+  "n_resamples": 10000,
+  "block_size": 5,
+  "seed": 42,
+  "bars_per_year": 2190,
+  "n_bars": 9911,
+  "sharpe_point": 0.38459214570091355,
+  "sharpe_bootstrap_mean": 0.3745190186617929,
+  "ci_lower": -0.6095681506845928,
+  "ci_upper": 1.357677801863407,
+  "g6_pass": false,
+  "g6_threshold_ci_lower": 0.5,
+  "provenance": {
+    "n_bars_total": 9911,
+    "n_files": 1,
+    "files_used": [
+      "equity_4h_BTCUSDT.csv"
+    ],
+    "first_return": 0.0,
+    "last_return": 0.0
+  }
+}

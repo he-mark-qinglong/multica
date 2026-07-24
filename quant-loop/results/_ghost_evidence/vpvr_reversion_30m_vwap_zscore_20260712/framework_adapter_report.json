@@ -1,0 +1,85 @@
+{
+  "strategy": "vpvr_reversion_30m_vwap_zscore_20260712",
+  "framework": "freqtrade 2026.6 (SHA 15b94ce7fe19efada0e1ede582d01b2be89875e6)",
+  "run_at_utc": "2026-07-14T07:53:35Z",
+  "framework_cache": "/tmp/framework-cache/freqtrade-15b94ce7",
+  "adapter_dir": "/tmp/freqtrade-validation-30m-vwap",
+  "window_utc": "2022-01-05T04:00:00Z..2026-07-11T00:00:00Z (1652 days)",
+  "timeframe": "30m",
+  "instruments": ["BTCUSDT", "ETHUSDT"],
+  "starting_capital_usd": 100000.0,
+  "cost_bps_per_side": 1.0,
+  "simplifications": [
+    "VPVR POC distance filter OMITTED (in-house requires |vpvr_distance_z| > 0.4 alongside VWAP |Z| > 2.0; freqtrade adapter fires on VWAP signal alone).",
+    "Cooldown between trades not implemented (in-house has implicit per-direction cooldown; freqtrade processes pairs sequentially with max_open_trades=4)"
+  ],
+  "per_symbol": {
+    "BTCUSDT": {
+      "inhouse": {
+        "n_trades": 228,
+        "win_rate": 0.5307,
+        "sharpe": 0.0688,
+        "total_return": -0.000389,
+        "max_dd": -0.0768
+      },
+      "framework": {
+        "n_trades": 1574,
+        "win_rate": 0.5246,
+        "sharpe": -1.47,
+        "total_return": -0.2331,
+        "max_dd": -0.3038
+      },
+      "divergence": {
+        "n_trades_rel": 5.90,
+        "sharpe_abs": 1.54,
+        "total_return_abs": 0.2327,
+        "max_dd_rel": 2.96,
+        "within_tolerance": false
+      }
+    },
+    "ETHUSDT": {
+      "inhouse": {
+        "n_trades": 242,
+        "win_rate": 0.4917,
+        "sharpe": 0.0917,
+        "total_return": -0.00750,
+        "max_dd": -0.1282
+      },
+      "framework": {
+        "n_trades": 1557,
+        "win_rate": 0.5240,
+        "sharpe": -1.47,
+        "total_return": -0.2879,
+        "max_dd": -0.3038
+      },
+      "divergence": {
+        "n_trades_rel": 5.43,
+        "sharpe_abs": 1.56,
+        "total_return_abs": 0.2804,
+        "max_dd_rel": 1.37,
+        "within_tolerance": false
+      }
+    }
+  },
+  "aggregate": {
+    "inhouse_n_trades": 470,
+    "framework_n_trades": 3131,
+    "n_trades_rel": 5.66,
+    "inhouse_sharpe_aggregated": 0.080,
+    "framework_sharpe_aggregated": -1.47,
+    "inhouse_total_return_aggregated": -0.00395,
+    "framework_total_return_aggregated": -0.5210,
+    "total_return_abs": 0.5171,
+    "inhouse_max_dd_worst": -0.1282,
+    "framework_max_dd_worst": -0.3038,
+    "max_dd_rel": 1.37
+  },
+  "w5_threshold_check": {
+    "rule": "framework CV divergence absolute > 50% -> auto-archive NOT-PROFITABLE",
+    "any_metric_above_50pct": true,
+    "failing_metrics": ["sharpe", "total_return", "max_dd", "n_trades"],
+    "verdict": "AUTO_ARCHIVE_NOT_PROFITABLE (per W5)",
+    "rationale": "All four metrics diverge by >> 50% absolute. The strategy is already NOT-PROFITABLE per in-house. W5 mandates auto-archive (no ESCALATE) for divergences this large. The divergence is attributable to the documented VPVR POC filter simplification, not a bug in either implementation."
+  },
+  "ship_or_archive": "ARCHIVE_NOT_PROFITABLE"
+}

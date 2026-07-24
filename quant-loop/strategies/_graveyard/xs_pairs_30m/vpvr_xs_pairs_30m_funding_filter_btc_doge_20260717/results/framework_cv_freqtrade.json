@@ -1,0 +1,127 @@
+{
+  "engine": "freqtrade",
+  "engine_version": "freqtrade 2026.6",
+  "iteration": 86,
+  "strategy_key": "vpvr_xs_pairs_30m_funding_filter_btc_doge_20260717",
+  "timeframe": "30m",
+  "symbol_pair": "BTCUSDT/DOGEUSDT",
+  "data_source": {
+    "btc_30m_path": "/home/smark/multica/quant-loop/strategies/vpvr_xs_pairs_30m_funding_filter_btc_doge_20260717/data/BTCUSDT__30m.parquet",
+    "doge_30m_path": "/home/smark/multica/quant-loop/strategies/vpvr_xs_pairs_30m_funding_filter_btc_doge_20260717/data/DOGEUSDT__30m.parquet",
+    "resampled_to": "30m (native, no resample)",
+    "n_30m_bars": 79296,
+    "span_start": "2022-01-01 00:00:00",
+    "span_end": "2026-07-10 23:30:00",
+    "trades_total": 2790,
+    "trades_replayed": 2790,
+    "trades_skipped_out_of_window": 0,
+    "trades_skipped_other": 0
+  },
+  "inhouse": {
+    "sharpe": -3.845221814490479,
+    "total_return": -0.9084401416916559,
+    "ann_total_return": -0.9084401416916559,
+    "max_dd": -0.9116244189908643,
+    "n_trades": 2790,
+    "status": "NOT-PROFITABLE",
+    "per_pair_sharpe": -3.845221814490479
+  },
+  "inhouse_oos_walkforward": {
+    "n_windows": 3,
+    "mean_oos_sharpe": -3.845221814490479,
+    "mean_oos_total_return": -0.9084401416916559,
+    "worst_oos_max_dd": -0.9116244189908643,
+    "walk_forward_json_available": false,
+    "note": "single in-house aggregated metrics as OOS proxy because walk_forward.json was not produced for this NOT-PROFITABLE strategy (campaign gate skipped walk-forward)"
+  },
+  "framework": {
+    "sharpe": -3.846514191178776,
+    "ann_total_return": -0.41056675047569857,
+    "total_return": -0.9084401416916559,
+    "max_dd": -0.9116244189908643,
+    "n_bars": 79296,
+    "span_years": 4.522872461784166
+  },
+  "framework_oos": {
+    "n_folds": 3,
+    "folds": [
+      {
+        "fold": 1,
+        "lo": 17520,
+        "hi": 26208,
+        "span_start": "2023-01-01 00:00:00",
+        "span_end": "2023-06-30 23:30:00",
+        "bars": 8688,
+        "sharpe": -3.5685526637614813,
+        "ann_total_return": -0.30992002537062213,
+        "total_return": -0.16789977578437476,
+        "max_dd": -0.17946032933591627,
+        "n_bars": 8688,
+        "span_years": 0.49549395391284506
+      },
+      {
+        "fold": 2,
+        "lo": 26208,
+        "hi": 35040,
+        "span_start": "2023-07-01 00:00:00",
+        "span_end": "2023-12-31 23:30:00",
+        "bars": 8832,
+        "sharpe": -2.5565106915466607,
+        "ann_total_return": -0.22937116513859956,
+        "total_return": -0.12299290742000046,
+        "max_dd": -0.1718629674068347,
+        "n_bars": 8832,
+        "span_years": 0.5037075062742414
+      },
+      {
+        "fold": 3,
+        "lo": 35040,
+        "hi": 43776,
+        "span_start": "2024-01-01 00:00:00",
+        "span_end": "2024-06-30 23:30:00",
+        "bars": 8736,
+        "sharpe": -3.0367470916325736,
+        "ann_total_return": -0.387750245813531,
+        "total_return": -0.21685701601644158,
+        "max_dd": -0.21728779380457153,
+        "n_bars": 8736,
+        "span_years": 0.4982318046999772
+      }
+    ],
+    "oos_sharpe_mean": -3.0539368156469053,
+    "oos_ann_total_return_mean": -0.3090138121075842,
+    "oos_total_return_mean": -0.16924989974027227,
+    "oos_max_dd_max": -0.21728779380457153
+  },
+  "divergence_pct": {
+    "oos_sharpe": 20.578396696431543,
+    "oos_ann_total_return": 65.98413060742199,
+    "oos_max_dd": 76.16476815692351,
+    "max_abs_rel": 76.16476815692351,
+    "w5_threshold_pct": 50.0
+  },
+  "validation": {
+    "n_bars_compared": 79296,
+    "max_abs_rel_err": 5.4457956786240815e-11,
+    "mean_abs_rel_err": 1.1206432174267128e-11,
+    "final_abs_rel_err": 1.8085622172015903e-11,
+    "replayed_terminal_equity": 9155.985830834408,
+    "inhouse_terminal_equity": 9155.985831,
+    "n_fills": 2790,
+    "n_skipped": 0,
+    "note": "in-house equity walk is bar-by-bar MTM with per-bar GROSS mark (pos * (a_ret - b_ret) / 2.0) plus 8bp cost debit at exit bar (INHOUSE_COST_RT_PAIR). Validation reproduces this exactly by replaying trades with cost_rt=INHOUSE_COST_RT_PAIR."
+  },
+  "w5_action": {
+    "auto_archive": true,
+    "rule": "max_abs_rel_div_pct=76.1648% > W5_THRESHOLD=50.0% \u2192 AUTO-ARCHIVE NOT-PROFITABLE (no ESCALATE)"
+  },
+  "freqtrade_imported": true,
+  "notes": [
+    "Pair strategy (BTCUSDT/DOGEUSDT 30m): bar-by-bar MTM with `pos * (a_ret - b_ret) / 2.0`.",
+    "In-house cost = 8bp pair round-trip; freqtrade cost = 24bp pair round-trip.",
+    "Validation: replay trades with cost_rt = 0 (bar walk is already gross in-house).",
+    "FREQTRADE_COST_RT_PAIR=0.0024 (24bps freqtrade pair round-trip).",
+    "Framework: per-bar gross mark + freqtrade cost debit at exit bar.",
+    "iter#86 NOT-PROFITABLE BTC/DOGE pair variant."
+  ]
+}

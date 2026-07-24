@@ -1,0 +1,100 @@
+{
+  "engine": "backtrader",
+  "engine_available": true,
+  "variant": "vpvr_iceberg_fade_v2_5m_20260711",
+  "iteration": 92,
+  "n_trades_total": 13,
+  "n_folds": 16,
+  "folds": [
+    {
+      "fold": 0,
+      "n_trades": 0,
+      "oos_sharpe": 0.0
+    },
+    {
+      "fold": 1,
+      "n_trades": 1,
+      "oos_sharpe": 0.0
+    },
+    {
+      "fold": 2,
+      "n_trades": 1,
+      "oos_sharpe": 0.0
+    },
+    {
+      "fold": 3,
+      "n_trades": 1,
+      "oos_sharpe": 0.0
+    },
+    {
+      "fold": 4,
+      "n_trades": 1,
+      "oos_sharpe": 0.0
+    },
+    {
+      "fold": 5,
+      "n_trades": 0,
+      "oos_sharpe": 0.0
+    },
+    {
+      "fold": 6,
+      "n_trades": 1,
+      "oos_sharpe": 0.0
+    },
+    {
+      "fold": 7,
+      "n_trades": 1,
+      "oos_sharpe": 0.0
+    },
+    {
+      "fold": 8,
+      "n_trades": 1,
+      "oos_sharpe": 0.0
+    },
+    {
+      "fold": 9,
+      "n_trades": 1,
+      "oos_sharpe": 0.0
+    },
+    {
+      "fold": 10,
+      "n_trades": 0,
+      "oos_sharpe": 0.0
+    },
+    {
+      "fold": 11,
+      "n_trades": 1,
+      "oos_sharpe": 0.0
+    },
+    {
+      "fold": 12,
+      "n_trades": 1,
+      "oos_sharpe": 0.0
+    },
+    {
+      "fold": 13,
+      "n_trades": 1,
+      "oos_sharpe": 0.0
+    },
+    {
+      "fold": 14,
+      "n_trades": 1,
+      "oos_sharpe": 0.0
+    },
+    {
+      "fold": 15,
+      "n_trades": 1,
+      "oos_sharpe": 0.0
+    }
+  ],
+  "oos_sharpe_mean": 0.0,
+  "oos_sharpe_median": 0.0,
+  "oos_sharpe_min": 0.0,
+  "oos_sharpe_max": 0.0,
+  "oos_positive_folds": 0,
+  "inhouse_wf_mean_sharpe": -8.031924539115302,
+  "abs_sharpe_divergence_pct_vs_inhouse": 1.0,
+  "g5_threshold": 1.0,
+  "g5_passed": false,
+  "parity_signal_replay": true
+}
