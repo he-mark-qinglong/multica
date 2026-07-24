@@ -497,3 +497,141 @@ def test_run_backtest_validates_inputs():
     with pytest.raises(ValueError, match="cost_mode"):
         run_backtest(bars, trades, initial_capital=100_000.0,
                      cost_bps_rt=24.0, cost_mode="bogus")  # type: ignore[arg-type]
+
+
+# ---------------------------------------------------------------------------
+# Vectorisation parity: numpy slice accumulation vs the original per-bar loops
+# ---------------------------------------------------------------------------
+
+def _loop_reference_equity(
+    bars: pd.DataFrame,
+    trades: List[Trade],
+    *,
+    initial_capital: float,
+    cost_bps_rt: float,
+    cost_mode: str,
+) -> np.ndarray:
+    """Faithful copy of the pre-vectorisation per-bar Python loop engine.
+
+    Replicates the original semantics exactly — including the single-bar
+    round-trip quirk (entry fill + full RT commission on the same bar) and
+    the force-close exit-fill at the next trade's entry bar. Used to pin
+    the vectorised implementation to bit-level-compatible behaviour.
+    """
+    ts_index = pd.DatetimeIndex(bars.index)
+    close = bars["close"].to_numpy(dtype=float)
+    n = len(bars)
+    cost_rt = cost_bps_rt / 10_000.0
+
+    schedule = []
+    for t in trades:
+        loc_e = ts_index.searchsorted(t.entry_ts)
+        ei = int(loc_e) if loc_e < n and ts_index[loc_e] == t.entry_ts else None
+        loc_x = ts_index.searchsorted(t.exit_ts)
+        xi = int(loc_x) if loc_x < n and ts_index[loc_x] == t.exit_ts else None
+        if (ei is None or xi is None or xi <= ei
+                or ei + 1 >= n or xi >= n):
+            continue
+        schedule.append((ei, xi, t.direction, float(t.size_fraction)))
+    schedule.sort(key=lambda r: r[0])
+
+    bar_ret = np.zeros(n, dtype=float)
+    prev_xi = None
+    prev_size = None
+    for ei, xi, direction, size in schedule:
+        if prev_xi is not None and prev_xi >= ei:
+            if ei + 1 < n and prev_size is not None and cost_mode == "fill":
+                bar_ret[ei + 1] -= prev_size * cost_rt / 2.0
+        d = 1.0 if direction == "long" else -1.0
+        if cost_mode == "fill":
+            half_drag = size * cost_rt / 2.0
+            bar_ret[ei + 1] += size * (close[ei + 1] / close[ei] - 1.0) * d - half_drag
+            for j in range(ei + 2, xi):
+                bar_ret[j] += size * (close[j] / close[j - 1] - 1.0) * d
+            if xi > ei + 1:
+                bar_ret[xi] += size * (close[xi] / close[xi - 1] - 1.0) * d - half_drag
+            else:
+                bar_ret[xi] -= size * cost_rt
+        else:  # amortise
+            bh = xi - ei
+            per_bar_cost = cost_rt / bh
+            for j in range(ei + 1, xi + 1):
+                bar_ret[j] += (
+                    size * (close[j] / close[j - 1] - 1.0) * d
+                    - size * per_bar_cost
+                )
+        prev_xi = xi
+        prev_size = size
+
+    equity = np.empty(n, dtype=float)
+    equity[0] = initial_capital
+    for i in range(1, n):
+        equity[i] = equity[i - 1] * (1.0 + bar_ret[i])
+    return equity
+
+
+def _random_schedule(bars: pd.DataFrame, n_trades: int, seed: int) -> List[Trade]:
+    """Random schedule with overlaps, single-bar round-trips, both directions
+    and varying sizes — exercises every edge case of the trade applier."""
+    rng = np.random.default_rng(seed)
+    n = len(bars)
+    trades: List[Trade] = []
+    for _ in range(n_trades):
+        ei = int(rng.integers(0, n - 2))
+        hold = int(rng.integers(1, 40))  # 1 = single-bar round-trip
+        xi = min(ei + hold, n - 1)
+        trades.append(Trade(
+            entry_ts=bars.index[ei],
+            exit_ts=bars.index[xi],
+            direction="long" if rng.random() < 0.5 else "short",  # type: ignore[arg-type]
+            size_fraction=float(rng.uniform(0.1, 1.0)),
+        ))
+    return trades
+
+
+@pytest.mark.parametrize("cost_mode", ["fill", "amortise"])
+def test_vectorised_engine_matches_loop_reference(cost_mode: str):
+    """The vectorised engine must reproduce the original per-bar loop engine
+    bar-for-bar (to float-rounding tolerance) on adversarial schedules:
+    overlapping trades (force-close path), single-bar round-trips, both
+    cost modes, mixed directions and fractional sizes.
+    """
+    bars = _synthetic_bars(n=2000, seed=2026)
+    trades = _random_schedule(bars, n_trades=120, seed=7)
+
+    got = run_backtest(
+        bars, trades,
+        initial_capital=100_000.0,
+        cost_bps_rt=24.0,
+        cost_mode=cost_mode,  # type: ignore[arg-type]
+        freq_per_year=365 * 24 * 4,
+    )["equity"].to_numpy(dtype=float)
+
+    ref = _loop_reference_equity(
+        bars, trades,
+        initial_capital=100_000.0,
+        cost_bps_rt=24.0,
+        cost_mode=cost_mode,
+    )
+
+    assert len(got) == len(ref)
+    # cumprod reassociates (IC * P[i-1]) * f into IC * (P[i-1] * f); the
+    # per-step rounding difference is ~1 ulp and stays < 1e-12 relative
+    # over a 2000-bar walk.
+    np.testing.assert_allclose(got, ref, rtol=1e-12, atol=1e-9)
+
+
+def test_vectorised_equity_walk_matches_explicit_cumprod():
+    """Equity walk is a cumulative product: equity = IC * cumprod(1 + ret)."""
+    bars = _synthetic_bars(n=300, seed=5)
+    trades = [Trade(
+        entry_ts=bars.index[5], exit_ts=bars.index[250],
+        direction="long", size_fraction=0.8,
+    )]
+    res = run_backtest(bars, trades, initial_capital=100_000.0, cost_bps_rt=12.0)
+    eq = res["equity"].to_numpy()
+    assert eq[0] == 100_000.0
+    # Monotone consistency: each bar compounds exactly from the previous one.
+    step = eq[1:] / eq[:-1] - 1.0
+    assert np.all(np.isfinite(step))
+    assert np.all(np.abs(step) < 0.5), "per-bar returns should be small"

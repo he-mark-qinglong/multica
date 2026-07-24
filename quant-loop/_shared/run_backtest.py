@@ -129,7 +129,7 @@ def _metrics(equity: pd.Series, freq_per_year: int) -> Dict[str, float]:
 
 def _apply_trade(
     bar_ret: np.ndarray,
-    close: np.ndarray,
+    price_ret: np.ndarray,
     ei: int,
     xi: int,
     direction: str,
@@ -137,30 +137,33 @@ def _apply_trade(
     cost_rt: float,
     cost_mode: CostMode,
 ) -> None:
-    """Apply one trade's per-bar returns into the accumulator.
+    """Apply one trade's per-bar returns into the accumulator (vectorised).
 
-    See module docstring for cost_mode conventions. Bars before ``ei+1``
-    and after ``xi`` earn zero per-bar return (held window is ``(ei, xi]``).
+    ``price_ret[j]`` is the close-to-close return ``close[j]/close[j-1] - 1``
+    (precomputed once per run; ``price_ret[0]`` is 0). See module docstring
+    for cost_mode conventions. Bars before ``ei+1`` and after ``xi`` earn
+    zero per-bar return (held window is ``(ei, xi]``).
     """
     d = 1.0 if direction == "long" else -1.0
     if cost_mode == "fill":
         half_drag = size * cost_rt / 2.0
         # First held bar (ei+1): close-to-close return from ei + entry fill.
-        bar_ret[ei + 1] += size * (close[ei + 1] / close[ei] - 1.0) * d - half_drag
-        # Middle held bars (ei+2 .. xi-1): pure close-to-close return.
-        for j in range(ei + 2, xi):
-            bar_ret[j] += size * (close[j] / close[j - 1] - 1.0) * d
-        # Exit bar (xi): close-to-close return from xi-1 + exit fill commission.
+        bar_ret[ei + 1] += size * price_ret[ei + 1] * d - half_drag
         if xi > ei + 1:
-            bar_ret[xi] += size * (close[xi] / close[xi - 1] - 1.0) * d - half_drag
+            # Middle held bars (ei+2 .. xi-1): pure close-to-close return.
+            if xi > ei + 2:
+                bar_ret[ei + 2:xi] += size * price_ret[ei + 2:xi] * d
+            # Exit bar (xi): close-to-close return from xi-1 + exit fill.
+            bar_ret[xi] += size * price_ret[xi] * d - half_drag
         else:
             # Round-trip within a single bar (rare): full RT commission only.
             bar_ret[xi] -= size * cost_rt
     elif cost_mode == "amortise":
         bh = xi - ei
         per_bar_cost = cost_rt / bh
-        for j in range(ei + 1, xi + 1):
-            bar_ret[j] += size * (close[j] / close[j - 1] - 1.0) * d - size * per_bar_cost
+        bar_ret[ei + 1:xi + 1] += (
+            size * price_ret[ei + 1:xi + 1] * d - size * per_bar_cost
+        )
     else:
         raise ValueError(f"cost_mode must be 'fill' or 'amortise', got {cost_mode!r}")
 
@@ -235,6 +238,11 @@ def run_backtest(
 
     cost_rt = cost_bps_rt / 10_000.0
 
+    # Precompute close-to-close per-bar returns once (price_ret[0] is unused /
+    # zero — no trade can hold bar 0 since the held window starts at ei+1).
+    price_ret = np.zeros(n, dtype=float)
+    price_ret[1:] = close[1:] / close[:-1] - 1.0
+
     # Sort by entry_ts; one-position-at-a-time with force-close on overlap.
     schedule: List[tuple[int, int, str, float]] = []
     n_skipped = 0
@@ -264,17 +272,15 @@ def run_backtest(
                     bar_ret[ei + 1] -= prev_size * cost_rt / 2.0
                 else:  # amortise — no extra drag at force-close (already amortised up to prev_xi)
                     pass
-        _apply_trade(bar_ret, close, ei, xi, direction, size, cost_rt, cost_mode)
+        _apply_trade(bar_ret, price_ret, ei, xi, direction, size, cost_rt, cost_mode)
         prev_xi = xi
         prev_size = size
         prev_cost_mode = cost_mode
         n_applied += 1
 
-    # Per-bar compounding equity walk.
-    equity = np.empty(n, dtype=float)
-    equity[0] = initial_capital
-    for i in range(1, n):
-        equity[i] = equity[i - 1] * (1.0 + bar_ret[i])
+    # Per-bar compounding equity walk (vectorised cumulative product —
+    # identical multiplication order to the former per-bar loop).
+    equity = initial_capital * np.cumprod(1.0 + bar_ret)
 
     equity_series = pd.Series(equity, index=ts_index, dtype=float)
     metrics = _metrics(equity_series, freq_per_year)

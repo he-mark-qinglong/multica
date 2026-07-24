@@ -117,3 +117,38 @@ def test_compute_metrics_handles_empty_returns():
     assert math.isfinite(m["profit_factor"])
     assert math.isfinite(m["calmar"])
     assert math.isfinite(m["sortino"])
+
+
+def test_compute_metrics_win_rate_per_trade_when_pnls_given():
+    """With trade_pnls, win_rate = fraction of trades with pnl > 0.
+
+    The equity curve here is all-up (bar-based win rate would be ~1.0), so a
+    win_rate of 0.5 can only come from the per-trade path.
+    """
+    eq = _equity_with_returns([0.001] * 100)
+    m = compute_metrics(eq, n_trades=4, freq_per_year=365,
+                        trade_pnls=[0.01, -0.02, 0.03, -0.01])
+    assert m["win_rate"] == pytest.approx(0.5, rel=1e-9)
+
+
+def test_compute_metrics_win_rate_empty_trade_pnls_is_zero():
+    """trade_pnls=[] (explicitly no trades) → win_rate 0.0, not bar fallback."""
+    eq = _equity_with_returns([0.001] * 50)
+    m = compute_metrics(eq, n_trades=0, freq_per_year=365, trade_pnls=[])
+    assert m["win_rate"] == 0.0
+
+
+def test_compute_metrics_win_rate_bar_fallback_when_pnls_omitted():
+    """Without trade_pnls, keep the legacy bar-return win_rate convention."""
+    eq = _equity_with_returns([0.01, -0.01, 0.01, 0.01])
+    m = compute_metrics(eq, n_trades=3, freq_per_year=365)
+    # 4 bars, pct_change = [0, -0.01, +0.01, +0.01] → 2 positive of 4 bars
+    assert m["win_rate"] == pytest.approx(0.5, rel=1e-9)
+
+
+def test_compute_metrics_max_dd_negative_aligned_with_enforce_g3():
+    """max_drawdown_pct must be negative so enforce G3 (> -0.25) is comparable."""
+    eq = _equity_with_returns([0.10, -0.30])  # 100k → 110k → 77k = 30% dd
+    m = compute_metrics(eq, n_trades=2, freq_per_year=365)
+    assert m["max_drawdown_pct"] == pytest.approx(-0.30, abs=1e-6)
+    assert m["max_drawdown_pct"] <= 0.0

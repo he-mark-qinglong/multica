@@ -7,7 +7,7 @@ max_dd sentinel bug). Single source of truth here.
 from __future__ import annotations
 
 import math
-from typing import Any
+from typing import Any, Sequence
 
 import numpy as np
 import pandas as pd
@@ -23,6 +23,7 @@ def compute_metrics(
     equity: pd.Series,
     n_trades: int,
     freq_per_year: int = 365,
+    trade_pnls: Sequence[float] | None = None,
 ) -> dict[str, Any]:
     """Compute sharpe/ann_ret/max_dd/pf/n_trades/n_bars/win_rate/calmar/sortino.
 
@@ -30,10 +31,16 @@ def compute_metrics(
         equity: per-bar equity curve (index = timestamp), starting value > 0.
         n_trades: trade count supplied by the backtest (positions opened+closed).
         freq_per_year: bars per year (365 for daily, 365*24*60 for 1m, etc.).
+        trade_pnls: optional per-trade pnl fractions. When given, win_rate is
+            computed per trade (fraction of trades with pnl > 0). When omitted,
+            win_rate falls back to the legacy bar-return convention (fraction
+            of bars with positive return) for backward compatibility.
 
     Returns:
         Dict with the 9 metric keys. Values are floats (or int for n_trades).
         Sentinels (max_dd=-4e-6, etc.) cannot appear by construction.
+        max_drawdown_pct is a NEGATIVE fraction (-0.25 == 25% peak-to-trough
+        loss), aligned with _shared/gates/enforce.py G3 (> -0.25).
     """
     if len(equity) == 0:
         return {
@@ -71,12 +78,19 @@ def compute_metrics(
     drawdown = (equity - running_max) / running_max
     max_dd = float(drawdown.min()) if len(drawdown) else 0.0
 
-    # Profit factor + win rate (on bar returns; losers define negative)
+    # Profit factor (on bar returns; losers define negative)
     pos = rets[rets > 0].sum()
     neg = -rets[rets < 0].sum()
     pf = _safe_div(pos, neg, default=0.0)
-    n_pos = int((rets > 0).sum())
-    win_rate = n_pos / max(n_bars, 1)
+
+    # Win rate: per-trade when trade pnls are supplied, else legacy bar-based.
+    if trade_pnls is not None:
+        pnls = np.asarray(list(trade_pnls), dtype=float)
+        pnls = pnls[np.isfinite(pnls)]
+        win_rate = float((pnls > 0).mean()) if pnls.size else 0.0
+    else:
+        n_pos = int((rets > 0).sum())
+        win_rate = n_pos / max(n_bars, 1)
 
     # Calmar = annualized return / |max_dd|
     calmar = _safe_div(annualized_return, abs(max_dd), default=0.0)
