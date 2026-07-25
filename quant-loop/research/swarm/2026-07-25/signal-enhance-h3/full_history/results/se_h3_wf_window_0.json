@@ -1,0 +1,18 @@
+{
+  "window_id": 0,
+  "test_bars": [
+    525600,
+    788400
+  ],
+  "test_start_iso": "2022-11-20 16:01:00",
+  "test_end_iso": "2023-05-22 04:00:00",
+  "n_trades": 358,
+  "sharpe_daily_resampled": 7.190627657290422,
+  "annualized_return_daily_resampled": 1.0248182795282563,
+  "max_drawdown_pct": -0.0686424495606931,
+  "profit_factor": 1.0944371978274177,
+  "elapsed_sec_load": 2.5,
+  "elapsed_sec_backtest": 2.2,
+  "elapsed_sec_total": 4.7,
+  "source_script": "run_wf_window.py"
+}
