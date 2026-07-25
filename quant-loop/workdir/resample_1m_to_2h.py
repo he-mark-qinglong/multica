@@ -1,8 +1,8 @@
 """Resample perp 1m parquet -> 2h OHLCV for BTC/ETH/SOL.
 
-Pure local pandas job (no network). Reads /home/smark/multica/quant-loop/data/perp_1m/
-and writes /home/smark/multica/quant-loop/data/perp_2h/{SYMBOL}USDT_2h.parquet
-using UTC-aligned 2h bins (offset="2h", base=0).
+Pure local pandas job (no network). Reads repo-relative ``data/perp_1m/`` and
+writes repo-relative ``data/perp_2h/{SYMBOL}USDT_2h.parquet`` using
+UTC-aligned 2h bins (offset="2h", base=0).
 
 Aggregation matches Binance kline semantics:
   open  = first
@@ -30,8 +30,16 @@ from pathlib import Path
 
 import pandas as pd
 
-SRC_DIR = Path("/home/smark/multica/quant-loop/data/perp_1m")
-DST_DIR = Path("/home/smark/multica/quant-loop/data/perp_2h")
+try:
+    from _shared.paths import data_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[1])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root
+
+SRC_DIR = data_root() / "perp_1m"
+DST_DIR = data_root() / "perp_2h"
 SYMBOLS = ("BTCUSDT", "ETHUSDT", "SOLUSDT")
 BAR_MS = 2 * 60 * 60 * 1000  # 2h in ms
 

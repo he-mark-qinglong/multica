@@ -24,9 +24,15 @@ import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-STRATEGIES_ROOT = Path("/home/smark/quant-loop/strategies")
-if not STRATEGIES_ROOT.is_dir():
-    STRATEGIES_ROOT = Path("/home/smark/multica/quant-loop/strategies")
+try:
+    from _shared.paths import quant_loop_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[1])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import quant_loop_root
+
+STRATEGIES_ROOT = quant_loop_root() / "strategies"
 
 FRAMEWORK_ROTATION = [
     "freqtrade",
