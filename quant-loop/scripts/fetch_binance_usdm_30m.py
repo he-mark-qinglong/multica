@@ -15,6 +15,16 @@ from pathlib import Path
 import pandas as pd
 import requests
 
+try:
+    from _shared.paths import data_root
+except ImportError:  # 以脚本方式直接运行时补 sys.path
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[1])  # quant-loop/
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root
+
 BASE_URL = "https://fapi.binance.com"
 KLINE_PATH = "/fapi/v1/klines"
 INTERVAL = "30m"
@@ -26,7 +36,7 @@ EXPECTED_BAR_MS = 30 * 60 * 1000
 GAP_TOLERANCE_MS = 5 * 60 * 1000
 DEFAULT_START = "2022-01-01"
 DEFAULT_END = "2026-07-11"
-DEFAULT_OUT_DIR = "/home/smark/multica/quant-loop/data/perp_30m"
+DEFAULT_OUT_DIR = str(data_root() / "perp_30m")
 
 @dataclass
 class FetchReport:

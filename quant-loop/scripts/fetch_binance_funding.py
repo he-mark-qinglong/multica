@@ -10,13 +10,23 @@ from pathlib import Path
 import pandas as pd
 import requests
 
+try:
+    from _shared.paths import data_root
+except ImportError:  # 以脚本方式直接运行时补 sys.path
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[1])  # quant-loop/
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root
+
 BASE_URL = "https://fapi.binance.com"
 PATH = "/fapi/v1/fundingRate"
 PAGE_LIMIT = 1000
 MAX_RETRIES = 6
 BACKOFF_BASE_S = 1.0
 DEFAULT_START = "2022-01-01"
-DEFAULT_OUT_DIR = "/home/smark/multica/quant-loop/data/funding"
+DEFAULT_OUT_DIR = str(data_root() / "funding")
 
 def _iso(ms: int) -> str:
     return datetime.fromtimestamp(ms / 1000, tz=timezone.utc).isoformat()

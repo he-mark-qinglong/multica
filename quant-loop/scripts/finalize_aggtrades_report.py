@@ -22,7 +22,17 @@ import subprocess
 import sys
 from pathlib import Path
 
-TRADES_DIR = Path("/home/smark/multica/quant-loop/data/trades")
+try:
+    from _shared.paths import data_root
+except ImportError:  # 以脚本方式直接运行时补 sys.path
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[1])  # quant-loop/
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root
+
+TRADES_DIR = data_root() / "trades"
 REPORT_JSON = TRADES_DIR / "fetch_report_aggtrades.json"
 REPORT_MD = TRADES_DIR / "aggtrades_final_report.md"
 

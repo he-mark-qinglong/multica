@@ -30,7 +30,7 @@ Usage:
     python3 backfill_aggtrades_vision.py \
         --symbols BTCUSDT,ETHUSDT,SOLUSDT,BNBUSDT,DOGEUSDT,AVAXUSDT,LINKUSDT \
         --start 2026-04-19 --end 2026-07-18 \
-        --out-dir /home/smark/multica/quant-loop/data/trades
+        --out-dir data/trades
 """
 from __future__ import annotations
 
@@ -43,6 +43,16 @@ import tempfile
 import time
 import zipfile
 from pathlib import Path
+
+try:
+    from _shared.paths import data_root
+except ImportError:  # 以脚本方式直接运行时补 sys.path
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[1])  # quant-loop/
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root
 
 import pandas as pd
 import pyarrow as pa
@@ -256,7 +266,7 @@ def main() -> None:
     ap.add_argument("--symbols", required=True, help="comma-separated")
     ap.add_argument("--start", required=True, help="YYYY-MM-DD, inclusive")
     ap.add_argument("--end", required=True, help="YYYY-MM-DD, exclusive")
-    ap.add_argument("--out-dir", default="/home/smark/multica/quant-loop/data/trades")
+    ap.add_argument("--out-dir", default=str(data_root() / "trades"))
     ap.add_argument("--report", default=None)
     ap.add_argument("--verify-only", action="store_true")
     args = ap.parse_args()

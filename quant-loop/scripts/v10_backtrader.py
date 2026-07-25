@@ -15,8 +15,18 @@ import numpy as np
 from datetime import datetime
 from pathlib import Path
 
-DATA_DIR = Path("/home/smark/multica/quant-loop/data/perp_30m")
-RESULTS_DIR = Path("/home/smark/multica/quant-loop/strategies/vpvr_xs_pairs_30m_funding_filter_btc_sol_v10_backtrader_20260717")
+try:
+    from _shared.paths import data_root, quant_loop_root
+except ImportError:  # 以脚本方式直接运行时补 sys.path
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[1])  # quant-loop/
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root, quant_loop_root
+
+DATA_DIR = data_root() / "perp_30m"
+RESULTS_DIR = quant_loop_root() / "strategies" / "vpvr_xs_pairs_30m_funding_filter_btc_sol_v10_backtrader_20260717"
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
