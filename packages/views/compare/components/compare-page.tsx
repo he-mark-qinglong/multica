@@ -21,6 +21,7 @@ import { useEquitySeries, type EquityCsvResult } from "@multica/core/hooks/use-m
 import { Skeleton } from "@multica/ui/components/ui/skeleton";
 import { api } from "@multica/core/api";
 import type { RunMetric } from "@multica/core/types";
+import { readVerdict } from "../utils/verdict";
 
 // ─── manual tree layout (campaign → strategy, 2-level) ─────────────────────
 const NODE_W = 220;
@@ -65,6 +66,11 @@ type StratNodeData = {
   /** Fail rows are dimmed (opacity 0.45) rather than hidden — keeps fail
    *  nodes visible without dominating the visual field. */
   dimmed: boolean;
+  /** Killed strategies (extra.kill_reason or divergence_flag ∈ {KILLED,
+   *  REJECTED}) get a stronger grey-out + grayscale so the eye skips them.
+   *  Hover surfaces the kill reason (or divergence flag) for triage. */
+  killed: boolean;
+  killReason: string | null;
 };
 
 // gate_status ∈ {"pass","fail","no-data"} (see packages/core/types/metric.ts).
@@ -95,8 +101,10 @@ function StrategyNode({ data, selected }: NodeProps) {
         background: "#1a1a2e", border: selected ? "2px solid #6366f1" : "1px solid #333355",
         display: "flex", flexDirection: "column", justifyContent: "space-between", cursor: "pointer",
         boxShadow: selected ? "0 0 12px #6366f140" : "none",
-        opacity: d.dimmed ? 0.45 : 1,
+        opacity: d.killed ? 0.35 : d.dimmed ? 0.45 : 1,
+        filter: d.killed ? "grayscale(0.8)" : undefined,
       }}
+      title={d.killed ? (d.killReason ?? "killed") : undefined}
     >
       <Handle type="target" position={Position.Top} style={{ opacity: 0 }} />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
@@ -134,7 +142,15 @@ function shortName(s: string): string {
 }
 
 // ─── detail panel ──────────────────────────────────────────────────────────
-function DetailPanel({ metric, equity }: { metric: RunMetric | null; equity: EquityCsvResult | null }) {
+function DetailPanel({
+  metric,
+  equity,
+  verdict,
+}: {
+  metric: RunMetric | null;
+  equity: EquityCsvResult | null;
+  verdict: { verdict: string | null; killReason: string | null; killed: boolean } | null;
+}) {
   if (!metric) {
     return (
       <div style={{ padding: 24, color: "#666", textAlign: "center", fontSize: 13 }}>
@@ -162,6 +178,25 @@ function DetailPanel({ metric, equity }: { metric: RunMetric | null; equity: Equ
         {shortName(m.iteration ?? m.id.slice(0, 8))}
       </h3>
       <div style={{ fontSize: 10, color: "#7c7c9e", marginBottom: 12 }}>{m.campaign}</div>
+
+      {verdict?.verdict && (
+        <div style={{
+          padding: "6px 10px", borderRadius: 6, marginBottom: 12, fontSize: 11, lineHeight: 1.5,
+          background: verdict.killed ? "#dc262615" : "#6366f115",
+          border: `1px solid ${verdict.killed ? "#dc262640" : "#6366f140"}`,
+          color: "#c0c0e0",
+        }}>
+          <span style={{ fontWeight: 700, color: verdict.killed ? "#ff6b6b" : "#818cf8" }}>
+            {verdict.killed ? "KILLED — " : "Verdict — "}
+          </span>
+          {verdict.verdict}
+          {verdict.killed && verdict.killReason && (
+            <span style={{ display: "block", fontSize: 10, color: "#8888aa", marginTop: 2 }}>
+              {verdict.killReason}
+            </span>
+          )}
+        </div>
+      )}
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4px 12px", marginBottom: 16 }}>
         {rows.map(([k, v]) => (
@@ -263,6 +298,14 @@ export function ComparePage() {
     return { pass, fail, nodata, total: allMetrics.length };
   }, [allMetrics]);
 
+  // Read verdict / kill-state once per metric; used both to grey-out nodes
+  // and to drive the detail-panel verdict banner.
+  const verdictsByMetric = useMemo(() => {
+    const map: Record<string, { verdict: string | null; killReason: string | null; killed: boolean }> = {};
+    for (const m of allMetrics) map[m.id] = readVerdict(m);
+    return map;
+  }, [allMetrics]);
+
   // Build campaign → strategy tree for DAG
   const { nodes, edges } = useMemo(() => {
     const byCampaign: Record<string, RunMetric[]> = {};
@@ -281,10 +324,12 @@ export function ComparePage() {
         data: {
           label: campaign, campaign, sharpe: null, gate: null,
           isSelected: false, dimmed: false,
+          killed: false, killReason: null,
         } as StratNodeData,
         draggable: true,
       });
       for (const m of metrics) {
+        const v = verdictsByMetric[m.id];
         rfNodes.push({
           id: m.id, type: "strategy", position: { x: 0, y: 0 },
           data: {
@@ -292,6 +337,8 @@ export function ComparePage() {
             campaign, sharpe: m.sharpe, gate: m.gate_status,
             isSelected: selectedId === m.id,
             dimmed: m.gate_status === "fail",
+            killed: v?.killed ?? false,
+            killReason: v?.killReason ?? null,
           } as StratNodeData,
           draggable: true,
         });
@@ -299,7 +346,7 @@ export function ComparePage() {
       }
     }
     return layout(rfNodes, rfEdges);
-  }, [allMetrics, selectedId]);
+  }, [allMetrics, selectedId, verdictsByMetric]);
 
   const selected = allMetrics.find((m) => m.id === selectedId) ?? null;
   const equity = useEquitySeries(selected ? [selected] : []);
@@ -357,7 +404,8 @@ export function ComparePage() {
           width: 320, borderLeft: "1px solid #222240", flexShrink: 0,
           overflowY: "auto", background: "#12122a",
         }}>
-          <DetailPanel metric={selected} equity={eqResult ?? null} />
+          <DetailPanel metric={selected} equity={eqResult ?? null}
+            verdict={selected ? verdictsByMetric[selected.id] ?? null : null} />
         </div>
       </div>
     </div>
