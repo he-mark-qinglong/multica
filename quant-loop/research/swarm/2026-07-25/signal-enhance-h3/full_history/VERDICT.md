@@ -1,30 +1,7 @@
 # VERDICT — signal-enhance-h3 full-history validation (W4-T15, 2026-07-25)
 
-> ## ⚠️ FREEZE NOTICE — 2026-07-26 (orchestrator evidence review, comment 36f3e053…)
->
-> **Section 3 (Fee-shock table) and SPEC falsification condition #3 are NOT
-> currently trustworthy.** Orchestrator re-check found that the T07 fee-shock
-> replay (`se_h3_fee_shock.json`) uses a 0.5% nominal per-trade cost basis
-> while the equity curve is on the full-nominal basis, so the headline
-> "60 bps Sharpe still 10.41" is a unit-of-measurement artifact rather than a
-> real survival claim. Detailed repro and fix scope live in [SMA-36566](mention://issue/5645fc85-0d53-4c83-ac47-fd4451bcde69).
->
-> **Consume rule (until SMA-36566 lands):**
-> 1. **Do not** hand the Section 3 numbers, the SPEC condition #3 verdict, or
->    the `fee_sensitivity` block of `se_h3_metrics.json` to the decision-maker.
-> 2. The freeze is signalled in `se_h3_metrics.json` via
->    `fee_sensitivity_untrusted: true` and `pending_review: ["SMA-36566"]` —
->    machine-readable so downstream gates can refuse to consume them.
-> 3. Sections 1, 2, 5, 7 (windows, aggregate, gates, raw enforce.py reasons)
->    are unaffected by this freeze — they aggregate over the per-window
->    Sharpe / n_trades / MDD / PF fields, none of which depend on the
->    fee-shock replay path.
-> 4. When SMA-36566 lands, re-run `aggregate_verdict.py` with the corrected
->    `se_h3_fee_shock.json` and the Section 3 / condition #3 verdict will be
->    auto-refreshed (deterministic — same code path, different input).
 
-
-**Evidence summary:** 7-window OOS mean daily-resampled Sharpe **9.2073** vs H3 baseline **1.8748**; bootstrap CI95 = **[7.7901, 11.0367]** (seed 42 / 10000); 60bps pair-RT fee-shock Sharpe **10.4141** vs baseline **-0.0213**; KEEP/KILL verdict is reserved for the research main line.
+**Evidence summary:** 7-window OOS mean daily-resampled Sharpe **9.2073** vs H3 baseline **1.8748**; bootstrap CI95 = **[7.7901, 11.0367]** (seed 42 / 10000); 60bps pair-RT fee-shock Sharpe (corrected, per_trade_fraction=1.0) **-38.8004** vs baseline **-0.0213**; KEEP/KILL verdict is reserved for the research main line.
 
 > KEEP/KILL verdict intentionally omitted (per task card §T15). The research main line owns the KEEP/KILL call against the SPEC's falsification conditions; this document only supplies the evidence.
 
@@ -55,17 +32,43 @@
 | full-history MDD | -5.48% | -16.26% |
 | full-history PF | 1.0934 | 1.0097 |
 
-## 3. Fee-shock table (pair round-trip) — ⚠️ DO NOT TRUST
+## 3. Fee-shock table (pair round-trip)
 
-> **Freeze in effect.** Numbers in this table come from `se_h3_fee_shock.json` (T07 artifact), which the orchestrator re-check (2026-07-26T01:40+08) flagged as a unit-of-measurement artifact: cost drag was deducted at a 0.5% nominal basis while the equity curve is on the full nominal basis. The "60 bps Sharpe 10.41" headline is therefore not a real survival claim. **Do not propagate these values downstream.** Fix scope: [SMA-36566](mention://issue/5645fc85-0d53-4c83-ac47-fd4451bcde69).
->
-> Reproduced here only so the audit trail is complete; please mark as `untrusted` if reading programmatically.
-
-| cost tier | se_h3 Sharpe (UNTRUSTED) | H3 baseline Sharpe (UNTRUSTED) |
+| cost tier | se_h3 Sharpe | H3 baseline Sharpe |
 |:---|---:|---:|
-| inhouse 4 bps | 10.7419 | 1.3683 |
-| freqtrade 24 bps | 10.6250 | 0.8699 |
-| backtrader 60 bps | 10.4141 | -0.0213 |
+| inhouse 4 bps | 5.9821 | 1.3683 |
+| freqtrade 24 bps | -17.3291 | 0.8699 |
+| backtrader 60 bps | -38.8004 | -0.0213 |
+
+### 3a. Sizing-independent break-even table (corrected basis, from `se_h3_fee_shock.fixed.json`)
+
+- Source: `se_h3_fee_shock.fixed.json` (per_trade_fraction=1.0, full-pair pct basis matching engine cost)
+- Sizing-independent: derived from per-trade `pnl_pct` and `gross_pct` directly; no compounding assumptions
+- Gross mean per trade: **17.7797 bps** (median 29.2494, std 81.4301)
+- Engine-cost net (8 bps/leg, 1+1 bps/side): 9.7797 bps mean
+- **Break-even pair RT: 20 bps** — strategy DIE above this tier.
+
+| pair_rt_bps | mean_net_bps | pct_trades_net_positive | tier |
+|---:|---:|---:|:---:|
+| 0 | 17.7797 | 72.42% | LIVE |
+| 4 | 13.7797 | 71.19% | LIVE |
+| 8 | 9.7797 | 69.64% | LIVE |
+| 12 | 5.7797 | 67.71% | LIVE |
+| 16 | 1.7797 | 64.85% | LIVE |
+| 20 | -2.2203 | 60.90% | DIE |
+| 24 | -6.2203 | 56.77% | DIE |
+| 32 | -14.2203 | 46.89% | DIE |
+| 40 | -22.2203 | 37.12% | DIE |
+| 60 | -42.2203 | 20.57% | DIE |
+| 80 | -62.2203 | 11.70% | DIE |
+| 120 | -102.2203 | 4.54% | DIE |
+
+### 3b. Methodology fix provenance
+
+- Bug located by orchestrator re-check 2026-07-26T01:40+08 (comment 36f3e053…), fixed by [SMA-36566](mention://issue/5645fc85-0d53-4c83-ac47-fd4451bcde69) 2026-07-26T01:44+08.
+- Root cause: `fee_shock_metrics` (run_btcsol_variants_fixed.py L313) deducted cost at `per_trade_fraction=0.005` (0.5% nominal) while the engine debits cost in **full pair pct** (`cost = 2*2*(fee+slip)/10000`, basis matches trade log `pnl_pct`). 200× under-statement of drag made 60 bps appear to survive.
+- Fix: `per_trade_fraction=1.0` (full-pair pct basis, default in `fee_shock_fix.py`). Verified bit-identical by orchestrator re-run (commit `c71f7a397`).
+- Implication for the H1-H4 family: per the fix author's audit, **all four variants are dead at >=4 bps** under the corrected basis (the historical "H1 fee-robust +0.728" was the same artifact). Out of scope for T15; recorded here so future reads don't infer T15 itself extends the fee-robust claim.
 
 ## 4. SPEC falsification conditions (verbatim from `SPEC_signal_enhance_h3_fullhist.md`)
 
@@ -73,7 +76,7 @@
 |---:|:---|:---|---:|:---:|
 | 1 | 7 窗 OOS mean Sharpe（daily-resampled）< 1.0 | 1.0 | 9.2073 | FALSE |
 | 2 | bootstrap CI lower（seed=42，resamples=10000）< 0.5 | 0.5 | 7.7901 | FALSE |
-| 3 | 60 bps pair-RT fee-shock Sharpe ≤ 0 | 0 | ~~10.4141~~ (UNTRUSTED) | **PENDING** — freeze per Section 3 / [SMA-36566](mention://issue/5645fc85-0d53-4c83-ac47-fd4451bcde69) |
+| 3 | 60 bps pair-RT fee-shock Sharpe ≤ 0 | 0 | -38.8004 | TRUE (KILL 证据) |
 | 4 | parity 测试（T05/T06）不通过 | n/a | not applicable (T05/T06 already in_review per upstream) | n/a |
 
 ## 5. Gate result (G1-G7 + T1)

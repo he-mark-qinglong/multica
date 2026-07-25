@@ -27,15 +27,27 @@ import numpy as np
 
 FH = Path(__file__).resolve().parent                    # .../signal-enhance-h3/full_history
 QL = FH.parents[4]                                      # .../quant-loop
-
-# Fee-shock methodology freeze (2026-07-26 orchestrator re-check, comment 36f3e053…).
-# Set to False once SMA-36566 (issue 5645fc85-0d53-4c83-ac47-fd4451bcde69) lands and
-# `se_h3_fee_shock.json` is regenerated with the corrected replay basis.
-FEE_SHOCK_UNTRUSTED = True
-FEE_SHOCK_FREEZE_REF = "SMA-36566"
 RES = FH / "results"
 BASELINE_PATH = QL / "research/swarm/2026-07-25/H3-baseline-repro/metrics.json"
 SPEC_PATH = FH / "SPEC_signal_enhance_h3_fullhist.md"
+
+# Fee-shock methodology state.
+# 2026-07-26T01:40+08 orchestrator re-check (issue comment 36f3e053…) flagged
+# the T07 fee-shock replay as 200× understating cost (per_trade_fraction=0.005
+# vs full-pair pct basis). SMA-36566 (issue 5645fc85-0d53-4c83-ac47-fd4451bcde69)
+# was the verdict-blocker research task; it landed 2026-07-26T01:44+08 and
+# shipped corrected artifacts alongside the buggy originals.
+#
+# When False, the aggregator expects:
+#   - results/se_h3_fee_shock.fixed.json (corrected, per_trade_fraction=1.0,
+#     full-pair pct basis matching engine cost). May fall back to legacy
+#     results/se_h3_fee_shock.json (also buggy-but-original) by setting
+#     FEE_SHOCK_ALLOW_BUGGY_FALLBACK=True for historical replay only.
+FEE_SHOCK_UNTRUSTED = False
+FEE_SHOCK_FREEZE_REF = "SMA-36566"
+FEE_SHOCK_FIXED_PATH = RES / "se_h3_fee_shock.fixed.json"
+FEE_SHOCK_LEGACY_PATH = RES / "se_h3_fee_shock.json"  # original buggy T07 output
+FEE_SHOCK_ALLOW_BUGGY_FALLBACK = False
 
 sys.path.insert(0, str(QL / "_shared" / "gates"))
 from enforce import certify_metrics  # noqa: E402  (intentional path-sys.path entry above)
@@ -76,9 +88,38 @@ OOS = {
     "n_trades_total": N_TRADES_TOTAL,
 }
 
-# --- 2) full history + fee shock (T07) ------------------------------------
+# --- 2) full history + fee shock (T07 / SMA-36566 fix) ---------------------
 FULL = json.load(open(RES / "se_h3_full_history_metrics.json"))
-FEE = json.load(open(RES / "se_h3_fee_shock.json"))
+
+# Fee-shock loading: prefer the corrected `.fixed.json` (per_trade_fraction=1.0,
+# full-pair pct basis matching engine cost) once the freeze is lifted. Falls
+# back to legacy buggy T07 output only if explicitly allowed (audit replay).
+def _load_fee_shock():
+    if FEE_SHOCK_FIXED_PATH.exists():
+        return json.load(open(FEE_SHOCK_FIXED_PATH)), "fixed", str(FEE_SHOCK_FIXED_PATH.name)
+    if FEE_SHOCK_ALLOW_BUGGY_FALLBACK and FEE_SHOCK_LEGACY_PATH.exists():
+        return json.load(open(FEE_SHOCK_LEGACY_PATH)), "buggy", str(FEE_SHOCK_LEGACY_PATH.name)
+    raise SystemExit(
+        f"FEE_SHOCK_UNTRUSTED is False but neither {FEE_SHOCK_FIXED_PATH.name} "
+        f"nor {FEE_SHOCK_LEGACY_PATH.name} (with allow-buggy fallback) is present. "
+        f"Re-run fee_shock_fix.py (see {FEE_SHOCK_FREEZE_REF}) to regenerate."
+    )
+
+
+FEE_RAW, FEE_SOURCE, FEE_SOURCE_FILE = _load_fee_shock()
+
+# New schema (post-SMA-36566): top-level dict has `fee_shock` + `breakeven_table`.
+# Old schema (pre-fix): top-level dict IS the {4bps, 24bps, 60bps} map.
+if "fee_shock" in FEE_RAW:
+    FEE = FEE_RAW["fee_shock"]
+    FEE_BREAKEVEN_TABLE = FEE_RAW.get("breakeven_table")
+    FEE_PER_TRADE_FRACTION = FEE_RAW.get("per_trade_fraction")
+    FEE_RATIONALE = FEE_RAW.get("per_trade_fraction_rationale", "")
+else:
+    FEE = FEE_RAW
+    FEE_BREAKEVEN_TABLE = None
+    FEE_PER_TRADE_FRACTION = None
+    FEE_RATIONALE = "legacy buggy schema (pre-SMA-36566)"
 
 # --- 3) gate mapping; G5/G7 deliberately absent → relabel NOT_RUN ---------
 # Keys intentionally match enforce.py's .get() lookups
@@ -117,17 +158,15 @@ OUT = {
     "oos": OOS,
     "full_history": FULL,
     "fee_sensitivity": FEE,
-    "fee_sensitivity_untrusted": FEE_SHOCK_UNTRUSTED,
-    "fee_sensitivity_freeze_note": (
-        "Orchestrator re-check 2026-07-26T01:40+08 (issue comment 36f3e053…) "
-        "found T07 fee-shock replay deducts cost at 0.5% nominal basis while "
-        "the equity curve is full-nominal — the '60 bps Sharpe 10.41' headline "
-        "is a unit-of-measurement artifact. Numbers preserved here for audit "
-        "trail but flagged untrusted; do not propagate downstream until "
-        f"{FEE_SHOCK_FREEZE_REF} lands. Re-run aggregate_verdict.py after the "
-        "fix to auto-refresh."
+    "fee_sensitivity_source": FEE_SOURCE,
+    "fee_sensitivity_source_file": FEE_SOURCE_FILE,
+    "fee_sensitivity_per_trade_fraction": FEE_PER_TRADE_FRACTION,
+    "fee_sensitivity_basis_rationale": FEE_RATIONALE,
+    "fee_sensitivity_breakeven_pair_rt_bps": (
+        FEE_BREAKEVEN_TABLE.get("breakeven_pair_rt_bps") if FEE_BREAKEVEN_TABLE else None
     ),
-    "pending_review": [FEE_SHOCK_FREEZE_REF],
+    "fee_sensitivity_breakeven_table": FEE_BREAKEVEN_TABLE,
+    "fee_sensitivity_untrusted": FEE_SHOCK_UNTRUSTED,
     "gates": {
         "status": gate_status,
         "raw_reasons": res.reasons,
@@ -205,9 +244,15 @@ md.append(
     f"**{OOS['oos_sharpe_mean_daily_resampled']:.4f}** vs H3 baseline "
     f"**{baseline_oos['oos_sharpe_mean_daily_resampled']:.4f}**; "
     f"bootstrap CI95 = **[{OOS['bootstrap_ci_lower']:.4f}, {OOS['bootstrap_ci_upper']:.4f}]** "
-    f"(seed 42 / 10000); 60bps pair-RT fee-shock Sharpe "
-    f"**{FEE['backtrader_60bps_rt']['sharpe_daily_resampled']:.4f}** vs baseline "
-    f"**{baseline_fee['backtrader_60bps_rt']['sharpe_daily_resampled']:.4f}**; "
+    f"(seed 42 / 10000); " +
+    ("⚠️ 60bps pair-RT fee-shock Sharpe ~~**"
+     + f"{FEE['backtrader_60bps_rt']['sharpe_daily_resampled']:.4f}"
+     + "**~~ vs baseline **"
+     + f"{baseline_fee['backtrader_60bps_rt']['sharpe_daily_resampled']:.4f}"
+     + "** is **DO NOT TRUST** (see freeze notice); " if FEE_SHOCK_UNTRUSTED else
+     f"60bps pair-RT fee-shock Sharpe (corrected, per_trade_fraction=1.0) "
+     f"**{FEE['backtrader_60bps_rt']['sharpe_daily_resampled']:.4f}** vs baseline "
+     f"**{baseline_fee['backtrader_60bps_rt']['sharpe_daily_resampled']:.4f}**; ") +
     "KEEP/KILL verdict is reserved for the research main line."
 )
 md.append("")
@@ -303,6 +348,64 @@ for label, key in [
     b = baseline_fee[key]["sharpe_daily_resampled"]
     md.append(f"| {label} | {s:.4f} | {b:.4f} |")
 md.append("")
+if FEE_BREAKEVEN_TABLE is not None and not FEE_SHOCK_UNTRUSTED:
+    md.append("### 3a. Sizing-independent break-even table (corrected basis, from "
+              f"`{FEE_SOURCE_FILE}`)")
+    md.append("")
+    md.append(
+        f"- Source: `{FEE_SOURCE_FILE}` (per_trade_fraction={FEE_PER_TRADE_FRACTION}, "
+        f"full-pair pct basis matching engine cost)"
+    )
+    md.append(
+        f"- Sizing-independent: derived from per-trade `pnl_pct` and `gross_pct` directly; "
+        f"no compounding assumptions"
+    )
+    md.append(
+        f"- Gross mean per trade: **{FEE_BREAKEVEN_TABLE['gross_stats_bps']['mean']:.4f} bps** "
+        f"(median {FEE_BREAKEVEN_TABLE['gross_stats_bps']['median']:.4f}, std "
+        f"{FEE_BREAKEVEN_TABLE['gross_stats_bps']['std']:.4f})"
+    )
+    md.append(
+        f"- Engine-cost net (8 bps/leg, 1+1 bps/side): "
+        f"{FEE_BREAKEVEN_TABLE['pnl_stats_bps_at_engine_cost_8bps']['mean']:.4f} bps mean"
+    )
+    md.append(
+        f"- **Break-even pair RT: {FEE_BREAKEVEN_TABLE['breakeven_pair_rt_bps']:.0f} bps** — "
+        f"strategy DIE above this tier."
+    )
+    md.append("")
+    md.append("| pair_rt_bps | mean_net_bps | pct_trades_net_positive | tier |")
+    md.append("|---:|---:|---:|:---:|")
+    for t in FEE_BREAKEVEN_TABLE["per_tier"]:
+        md.append(
+            f"| {t['pair_round_trip_bps']:.0f} | {t['mean_net_bps']:.4f} | "
+            f"{t['pct_trades_net_positive']*100:.2f}% | {t['break_even_tier']} |"
+        )
+    md.append("")
+    md.append("### 3b. Methodology fix provenance")
+    md.append("")
+    md.append(
+        "- Bug located by orchestrator re-check 2026-07-26T01:40+08 "
+        "(comment 36f3e053…), fixed by [SMA-36566](mention://issue/5645fc85-0d53-4c83-ac47-fd4451bcde69) "
+        "2026-07-26T01:44+08."
+    )
+    md.append(
+        "- Root cause: `fee_shock_metrics` (run_btcsol_variants_fixed.py L313) deducted cost at "
+        "`per_trade_fraction=0.005` (0.5% nominal) while the engine debits cost in **full pair pct** "
+        "(`cost = 2*2*(fee+slip)/10000`, basis matches trade log `pnl_pct`). "
+        "200× under-statement of drag made 60 bps appear to survive."
+    )
+    md.append(
+        "- Fix: `per_trade_fraction=1.0` (full-pair pct basis, default in `fee_shock_fix.py`). "
+        "Verified bit-identical by orchestrator re-run (commit `c71f7a397`)."
+    )
+    md.append(
+        "- Implication for the H1-H4 family: per the fix author's audit, **all four variants are "
+        "dead at >=4 bps** under the corrected basis (the historical \"H1 fee-robust +0.728\" was "
+        "the same artifact). Out of scope for T15; recorded here so future reads don't infer "
+        "T15 itself extends the fee-robust claim."
+    )
+    md.append("")
 
 md.append("## 4. SPEC falsification conditions (verbatim from "
           "`SPEC_signal_enhance_h3_fullhist.md`)")
