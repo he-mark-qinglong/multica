@@ -2,7 +2,7 @@
 # multica server deploy pipeline — build → upload → backup → migrate → swap → restart → verify.
 #
 # Run from a machine with the repo working tree and SSH access to the deploy host:
-#   scripts/deploy.sh [server|cli|all]     (default: all)
+#   scripts/deploy.sh [--dry-run] [server|cli|web|all]   (default: all)
 #
 # Properties:
 #   - Cross-builds linux/amd64 binaries locally (CGO_ENABLED=0), never builds on the host.
@@ -19,7 +19,15 @@ REMOTE_DIR="${REMOTE_DIR:-/home/smark/multica}"
 DB_CONTAINER="${DB_CONTAINER:-multica-postgres-1}"
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 STAMP="$(date +%Y%m%d-%H%M%S)"
-COMPONENTS="${1:-all}"
+DRY_RUN=0
+COMPONENTS="all"
+for arg in "$@"; do
+  case "$arg" in
+    --dry-run) DRY_RUN=1 ;;
+    server|cli|web|all) COMPONENTS="$arg" ;;
+    *) echo "usage: deploy.sh [--dry-run] [server|cli|web|all]" >&2; exit 2 ;;
+  esac
+done
 DIST="$REPO_ROOT/dist/deploy-$STAMP"
 
 log() { printf '\033[1m[deploy %s]\033[0m %s\n' "$(date +%H:%M:%S)" "$*"; }
@@ -28,6 +36,10 @@ log() { printf '\033[1m[deploy %s]\033[0m %s\n' "$(date +%H:%M:%S)" "$*"; }
 # Source sync (no --delete, --update so cron-written files on the host win) →
 # pnpm install → next build → restart `pnpm start` → verify :3000.
 if [[ "$COMPONENTS" == "web" ]]; then
+  if [[ "$DRY_RUN" == "1" ]]; then
+    log "DRY-RUN: would rsync source to $DEPLOY_HOST:$REMOTE_DIR and rebuild web remotely — nothing to build locally, stopping here"
+    exit 0
+  fi
   log "syncing source tree to $DEPLOY_HOST (no --delete, --update)"
   rsync -auz --exclude='.git' --exclude='node_modules' --exclude='data' --exclude='dist' \
     --exclude='test-results' --exclude='.next' --exclude='.turbo' --exclude='.env' \
@@ -68,6 +80,15 @@ CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -o "$DIST/server"  ./cm
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -o "$DIST/migrate" ./cmd/migrate
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -o "$DIST/multica" ./cmd/multica
 log "build OK: $(ls -lh "$DIST" | awk 'NR>1{print $9" "$5}' | paste -sd', ' -)"
+
+if [[ "$DRY_RUN" == "1" ]]; then
+  log "DRY-RUN: build OK, stopping before upload. Planned next steps:"
+  log "DRY-RUN:   scp 3 binaries → $DEPLOY_HOST:$REMOTE_DIR/server/bin/.deploy-$STAMP/"
+  log "DRY-RUN:   rsync server/migrations/*.sql → $DEPLOY_HOST"
+  log "DRY-RUN:   remote: pg_dump backup → migrate up → swap binary → /healthz + route smoke → daemon restart-if-idle"
+  log "DRY-RUN:   post-deploy: SMOKE_HOST=http://${DEPLOY_HOST#*@}:8080 bash scripts/deploy_smoke.sh (+ remote DB probes via ssh)"
+  exit 0
+fi
 
 # ---------------------------------------------------------------- upload
 log "uploading to $DEPLOY_HOST:$REMOTE_DIR/server/bin/.deploy-$STAMP"
@@ -156,6 +177,19 @@ else
 fi
 say "deploy phase complete (stamp $STAMP)"
 REMOTE
+
+# ---------------------------------------------------------------- post-deploy smoke
+# Smoke tail runs after remote deploy phase. Intentionally NOT auto-rolled-back on
+# smoke FAIL: the binary-level rollback at :111-118 (above) already handled a bad
+# swap. If we reach here the new binary is in service; a business-level smoke fail
+# should leave the scene for a human to inspect, not silently undo a working build.
+if [[ "$COMPONENTS" == "server" || "$COMPONENTS" == "all" ]]; then
+  log "running post-deploy smoke (scripts/deploy_smoke.sh)"
+  SMOKE_HOST="http://${DEPLOY_HOST#*@}:8080" bash "$REPO_ROOT/scripts/deploy_smoke.sh"
+  ssh -o ConnectTimeout=5 "$DEPLOY_HOST" \
+    "SMOKE_HOST=http://localhost:8080 SMOKE_DB_CONTAINER='$DB_CONTAINER' bash -s" \
+    < "$REPO_ROOT/scripts/deploy_smoke.sh"
+fi
 
 log "deploy OK — stamp $STAMP"
 log "rollback artifacts on host: server/bin/server.bak-$STAMP, /usr/local/bin/multica.bak-$STAMP, ~/multica-backups/pre-deploy-$STAMP.sql.gz"
