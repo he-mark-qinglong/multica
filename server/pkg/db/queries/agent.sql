@@ -273,6 +273,14 @@ WHERE atq.id = $1 AND a.workspace_id = $2;
 -- "any other quick-create-shaped task" (all four FKs NULL) for the same agent —
 -- otherwise a user mashing the create button could fire concurrent quick-creates
 -- whose completion lookup would race over "most recent issue by this agent".
+--
+-- Fairness (SMA-36539 R2): the ORDER BY is
+--   (autopilot_run_id IS NOT NULL) DESC, priority DESC, created_at ASC
+-- L1 autopilot-triggered tasks sort ahead of L3 execution-class tasks of the
+-- same priority, so a wave-1 execution batch cannot starve autopilot
+-- dispatches queued behind it. Same-source tasks keep the existing
+-- determinism (priority > created_at). When no autopilot tasks are queued
+-- this collapses to the previous behaviour.
 UPDATE agent_task_queue
 SET status = 'dispatched', dispatched_at = now()
 WHERE id = (
@@ -295,7 +303,7 @@ WHERE id = (
               )
             )
       )
-    ORDER BY atq.priority DESC, atq.created_at ASC
+    ORDER BY (atq.autopilot_run_id IS NOT NULL) DESC, atq.priority DESC, atq.created_at ASC
     LIMIT 1
     FOR UPDATE SKIP LOCKED
 )
@@ -573,9 +581,25 @@ ORDER BY priority DESC, created_at ASC;
 -- ClaimAgentTask, wasting CPU and a SELECT every poll cycle when the
 -- runtime is busy on a long-running task. Backed by the partial index
 -- idx_agent_task_queue_claim_candidates so the warm path is cheap.
+--
+-- Fairness (SMA-36539 R2): autopilot-triggered rows sort ahead of
+-- non-autopilot rows at the same priority, so the daemon's per-poll
+-- candidate set bumps autopilot dispatches above the FIFO order whenever
+-- the queue is saturated. Same as the agent-side ClaimAgentTask ORDER BY.
 SELECT * FROM agent_task_queue
 WHERE runtime_id = $1 AND status = 'queued'
-ORDER BY priority DESC, created_at ASC;
+ORDER BY (autopilot_run_id IS NOT NULL) DESC, priority DESC, created_at ASC;
+
+-- name: ListQueuedClaimCandidatesByRuntimeForAgent :many
+-- Variant of ListQueuedClaimCandidatesByRuntime narrowed to a single
+-- (runtime_id, agent_id) pair. Used by the wait_reason classifier
+-- (SMA-36539 R1) to count "other queued ahead of me" without re-fetching
+-- all of the runtime's queued rows. Uses the same autopilot-first
+-- fairness ORDER BY as ListQueuedClaimCandidatesByRuntime so the count
+-- reflects "tasks that would actually beat me" instead of naive FIFO.
+SELECT * FROM agent_task_queue
+WHERE runtime_id = $1 AND agent_id = $2 AND status = 'queued'
+ORDER BY (autopilot_run_id IS NOT NULL) DESC, priority DESC, created_at ASC;
 
 -- name: ListActiveTasksByIssue :many
 -- Backs the issue-detail "agent live" banner. Includes 'queued' so the
