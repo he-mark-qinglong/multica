@@ -46,6 +46,7 @@ from typing import Callable, Iterable, Union
 import pandas as pd
 
 from _shared.run_backtest import Trade, run_backtest
+from _shared.validation.fee_shock import fee_shock_sweep
 
 from . import metrics as M
 from .adapters.native_engine import FrameworkRun, _load_module
@@ -201,16 +202,51 @@ def _run_framework_leg(
     raise ValueError(f"unknown framework leg: {name!r}")
 
 
+def _aggregate_fee_shock(
+    per_symbol_shock: dict[str, dict[str, dict]],
+    bps_levels: tuple[float, ...],
+) -> dict[str, dict]:
+    """Mean-aggregate ``fee_shock_sweep`` outputs across symbols.
+
+    ``per_symbol_shock`` maps ``sym -> {str(float(bps)): metrics_dict}``.
+    Returns ``{str(float(bps)): aggregated_metrics_dict}`` where each
+    aggregated dict carries the bps tag, the mean of each numeric metric
+    (sharpe / annualized return / total return / max-drawdown), and a
+    ``per_symbol`` sub-dict preserving the inputs verbatim for drill-down.
+    ``extra_round_trip_bps`` is forwarded from the first symbol since it is
+    identical across all symbols for a given level.
+    """
+    if not per_symbol_shock:
+        return {}
+    keys = [str(float(b)) for b in bps_levels]
+    agg: dict[str, dict] = {}
+    for k in keys:
+        per_sym = [per_symbol_shock[s][k] for s in per_symbol_shock if k in per_symbol_shock[s]]
+        if not per_sym:
+            continue
+        n = len(per_sym)
+        agg[k] = {
+            "extra_round_trip_bps": per_sym[0]["extra_round_trip_bps"],
+            "sharpe_daily_resampled": sum(m["sharpe_daily_resampled"] for m in per_sym) / n,
+            "annualized_return": sum(m["annualized_return"] for m in per_sym) / n,
+            "total_return": sum(m["total_return"] for m in per_sym) / n,
+            "max_drawdown_pct": sum(m["max_drawdown_pct"] for m in per_sym) / n,
+            "per_symbol": {s: per_symbol_shock[s][k] for s in per_symbol_shock if k in per_symbol_shock[s]},
+        }
+    return agg
+
+
 def run_generic_validation(
     generate_signals: SignalFn,
     config: dict,
     data: dict[str, pd.DataFrame],
     *,
-    n_windows: int = 3,
+    n_windows: int = 7,
     frameworks: Iterable[str] = ("native", "backtrader", "freqtrade"),
     output_dir: Path | None = None,
     variant_name: str = "generic",
     keep_ft_dir: bool = False,
+    fee_shock_bps: Iterable[float] = (60.0,),
 ) -> tuple[bool, dict]:
     """Run native + framework CV for a signal-layer strategy.
 
@@ -276,6 +312,7 @@ def run_generic_validation(
 
     # ---- full-period native runs (G1/G2/G3/G4) -----------------------------
     full_metrics_by_symbol: dict[str, dict] = {}
+    full_native_runs: dict[str, FrameworkRun] = {}
     if "native" in frameworks:
         for sym, df in data.items():
             run = _native_run(df, signals_for(df), sym,
@@ -283,9 +320,33 @@ def run_generic_validation(
                               cost_bps_rt=cost_bps_rt, fpy=fpy)
             m = M.metrics_from_run(run.equity, run.trade_pnls)
             full_metrics_by_symbol[sym] = m
+            full_native_runs[sym] = run
             print(f"[generic-harness] full native {sym}: sharpe={m['sharpe']:.3f} "
                   f"ann={m['annualized_return']:.3f} mdd={m['max_drawdown']:.3f} "
                   f"pf={m['profit_factor']:.3f} trades={m['n_trades']}")
+
+    # ---- fee-shock leg (T8, off the full-span native equity) ---------------
+    # Replays each symbol's full-period native equity through T2's
+    # fee_shock_sweep at the requested bps levels; multi-symbol strategies
+    # mean-aggregate per-bps metrics into one headline dict so that
+    # ``report["fee_shock"]["60.0"]["sharpe_daily_resampled"]`` resolves
+    # identically to the single-symbol case (locked reader contract).
+    # Per-symbol breakdowns are preserved under ``per_symbol`` for drill-down.
+    bps_levels = tuple(float(b) for b in fee_shock_bps)
+    if bps_levels and full_native_runs:
+        per_symbol_shock: dict[str, dict[str, dict]] = {}
+        for sym, run in full_native_runs.items():
+            # fee_shock_sweep aligns per-trade drag against the equity index;
+            # for tz-aware equity its internal naive-conversion of trade
+            # exit_ts collides with the tz-aware daily index. Strip tz from
+            # equity (preserves wall-clock numbers) so both sides agree.
+            eq_for_shock = run.equity
+            if eq_for_shock.index.tz is not None:
+                eq_for_shock = eq_for_shock.tz_localize(None)
+            shock_trades = [{"exit_ts": t["exit_date"]} for t in run.trades]
+            per_symbol_shock[sym] = fee_shock_sweep(
+                eq_for_shock, shock_trades, bps_levels)
+        report["fee_shock"] = _aggregate_fee_shock(per_symbol_shock, bps_levels)
 
     # ---- per-window runs (native + framework CV) ----------------------------
     window_native: list[dict] = []
@@ -349,6 +410,7 @@ def run_generic_validation(
         window_native=window_native,
         window_backtrader=window_by_framework.get("backtrader", []),
         window_freqtrade=window_by_framework.get("freqtrade", []),
+        window_vectorbt=window_by_framework.get("vectorbt", []),
         pooled_oos_daily_returns=pooled_daily,
         pooled_oos_trade_pnls=pooled_oos_pnls,
     )
@@ -417,4 +479,5 @@ __all__ = [
     "run_generic_from_variant",
     "run_generic_validation",
     "trade_dicts",
+    "_aggregate_fee_shock",
 ]

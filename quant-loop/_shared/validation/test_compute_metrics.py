@@ -106,6 +106,36 @@ def test_compute_metrics_pf_uses_bar_returns_not_dollars():
     assert m["profit_factor"] == pytest.approx(0.04 / 0.03, rel=1e-9)
 
 
+def test_compute_metrics_pf_per_trade_when_pnls_given():
+    """With trade_pnls, profit_factor uses the per-trade formula (T9a unification).
+
+    The equity curve is all-up, so the legacy bar-based PF would be 0 (sum of
+    positive bar returns divided by zero negative bar returns, then capped at
+    the 0-default). The fact that we observe 0.04/0.03 instead proves the
+    per-trade branch was taken.
+    """
+    eq = _equity_with_returns([0.001] * 100)
+    m = compute_metrics(eq, n_trades=4, freq_per_year=365,
+                        trade_pnls=[0.01, -0.02, 0.03, -0.01])
+    assert m["profit_factor"] == pytest.approx(0.04 / 0.03, rel=1e-9)
+
+
+def test_compute_metrics_pf_per_trade_inf_when_no_losers():
+    """Per-trade PF with no losing trades → +inf (no denom to divide by)."""
+    eq = _equity_with_returns([0.001] * 30)
+    m = compute_metrics(eq, n_trades=2, freq_per_year=365,
+                        trade_pnls=[0.01, 0.02])
+    assert m["profit_factor"] == float("inf")
+
+
+def test_compute_metrics_pf_per_trade_zero_on_empty_pnls():
+    """trade_pnls=[] → gains=0 losses=0 → PF collapses to the explicit 0.0
+    convention (no trades means no factor), not the legacy bar fallback."""
+    eq = _equity_with_returns([0.001] * 50)
+    m = compute_metrics(eq, n_trades=0, freq_per_year=365, trade_pnls=[])
+    assert m["profit_factor"] == 0.0
+
+
 def test_compute_metrics_handles_empty_returns():
     """Empty equity → no NaN, no inf, no crash."""
     eq = pd.Series(dtype=float)

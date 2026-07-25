@@ -31,16 +31,23 @@ def compute_metrics(
         equity: per-bar equity curve (index = timestamp), starting value > 0.
         n_trades: trade count supplied by the backtest (positions opened+closed).
         freq_per_year: bars per year (365 for daily, 365*24*60 for 1m, etc.).
-        trade_pnls: optional per-trade pnl fractions. When given, win_rate is
-            computed per trade (fraction of trades with pnl > 0). When omitted,
-            win_rate falls back to the legacy bar-return convention (fraction
-            of bars with positive return) for backward compatibility.
+        trade_pnls: optional per-trade pnl fractions. When given, profit_factor
+            is also computed per trade (gross profit / abs(gross loss), inf
+            when there are no losers), matching validation/metrics.py:84-91,
+            and win_rate is computed per trade (fraction of trades with pnl
+            > 0). When omitted, both fall back to the legacy bar-return
+            convention (sum(pos bar returns) / sum(|neg bar returns|) for PF
+            and fraction of bars with positive return for win_rate) for
+            backward compatibility.
 
     Returns:
         Dict with the 9 metric keys. Values are floats (or int for n_trades).
         Sentinels (max_dd=-4e-6, etc.) cannot appear by construction.
         max_drawdown_pct is a NEGATIVE fraction (-0.25 == 25% peak-to-trough
         loss), aligned with _shared/gates/enforce.py G3 (> -0.25).
+        When trade_pnls is omitted, profit_factor is the legacy bar-return
+        ratio; when supplied, it is the per-trade ratio above (matches
+        validation/metrics.py:84-91).
     """
     if len(equity) == 0:
         return {
@@ -81,17 +88,26 @@ def compute_metrics(
     drawdown = (equity - running_max) / running_max
     max_dd = float(drawdown.min()) if len(drawdown) else 0.0
 
-    # Profit factor (on bar returns; losers define negative)
-    pos = rets[rets > 0].sum()
-    neg = -rets[rets < 0].sum()
-    pf = _safe_div(pos, neg, default=0.0)
-
-    # Win rate: per-trade when trade pnls are supplied, else legacy bar-based.
+    # Profit factor & win rate: per-trade when trade_pnls is supplied
+    # (PF matches validation/metrics.py:84-91: gross_profit/abs(gross_loss),
+    # inf when there are no losers; win_rate = fraction of trades with
+    # pnl > 0). When trade_pnls is omitted, both fall back to the legacy
+    # bar-return convention for backward compatibility with callers that
+    # do not yet track per-trade pnl (e.g. older backends).
     if trade_pnls is not None:
         pnls = np.asarray(list(trade_pnls), dtype=float)
         pnls = pnls[np.isfinite(pnls)]
+        gains = pnls[pnls > 0].sum()
+        losses = -pnls[pnls < 0].sum()
+        if losses <= 0:
+            pf = float("inf") if gains > 0 else 0.0
+        else:
+            pf = float(gains / losses)
         win_rate = float((pnls > 0).mean()) if pnls.size else 0.0
     else:
+        pos = rets[rets > 0].sum()
+        neg = -rets[rets < 0].sum()
+        pf = _safe_div(pos, neg, default=0.0)
         n_pos = int((rets > 0).sum())
         win_rate = n_pos / max(n_bars, 1)
 
