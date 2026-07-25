@@ -1,0 +1,23 @@
+{
+  "inhouse_4bps_rt": {
+    "pair_round_trip_bps": 4.0,
+    "sharpe_daily_resampled": 10.741932254911056,
+    "annualized_return": 3.4408590189306922,
+    "total_return": 1030.6576333968517,
+    "max_drawdown_pct": -0.03279195170474991
+  },
+  "freqtrade_24bps_rt": {
+    "pair_round_trip_bps": 24.0,
+    "sharpe_daily_resampled": 10.624978368039582,
+    "annualized_return": 3.366312443092453,
+    "total_return": 952.4897306902234,
+    "max_drawdown_pct": -0.03322811286288352
+  },
+  "backtrader_60bps_rt": {
+    "pair_round_trip_bps": 60.0,
+    "sharpe_daily_resampled": 10.414062270209927,
+    "annualized_return": 3.235258384379212,
+    "total_return": 826.4013357363099,
+    "max_drawdown_pct": -0.03401275453665642
+  }
+}
