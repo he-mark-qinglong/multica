@@ -13,8 +13,18 @@ from typing import Iterable
 
 import pandas as pd
 
+try:
+    from _shared.paths import data_root
+except ImportError:  # bare-script mode
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root
+
 # Canonical shared pool — single source of truth for 1m perp bars.
-SHARED_POOL = Path("/home/smark/multica/quant-loop/data/perp_1m")
+SHARED_POOL = data_root() / "perp_1m"
 
 
 def _load_1m(symbol: str) -> pd.DataFrame:

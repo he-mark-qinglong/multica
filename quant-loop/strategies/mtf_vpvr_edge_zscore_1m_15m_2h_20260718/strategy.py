@@ -619,7 +619,7 @@ def run_backtest(d1m: dict, cfg: dict, funding: Optional[dict] = None) -> dict:
     if target_vol > 0:
         try:
             import sys as _sys
-            _shared_root = "/home/smark/multica/quant-loop"
+            _shared_root = str(_ROOT)
             if _shared_root not in _sys.path:
                 _sys.path.insert(0, _shared_root)
             from _shared.sizing.vol_target import vol_target_weights

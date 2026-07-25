@@ -1,11 +1,18 @@
 """Smoke test for strategy — 30 days."""
 import sys, time, json
 from pathlib import Path
-_HERE = Path('/home/smark/multica/quant-loop.worktrees/mtf-1m-15m-2h/quant-loop/strategies/mtf_vpvr_edge_zscore_1m_15m_2h_20260718')
+try:
+    from _shared.paths import quant_loop_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import quant_loop_root
+_HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 sys.path.insert(0, str(_HERE.parent))
 sys.path.insert(0, str(_HERE.parent / '_indicators'))
-sys.path.insert(0, '/home/smark/multica/quant-loop')
+sys.path.insert(0, str(quant_loop_root()))
 
 import data_loader
 from strategy import build_signals, run_backtest

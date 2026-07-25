@@ -21,8 +21,9 @@ Public API
 
 All three reuse the upstream modules **without modification**:
 
-- ``/home/smark/trading/factors/iceberg_detector/iceberg_detector.py``
-  (SMA-34796 / SMA-34910 LOID family)
+- ``iceberg_detector.detect_iceberg_bars`` (SMA-34796 / SMA-34910 LOID family),
+  resolved via ``$ICEBERG_FACTORS_DIR`` (or the ``trading/factors/iceberg_detector``
+  sibling repo if unset).
 - ``/_indicators/vpvr_levels.detect_vpvr_levels`` /
   ``compute_vpvr_levels`` (SMA-34790)
 
@@ -39,12 +40,27 @@ from typing import List, Optional, Tuple
 import numpy as np
 import pandas as pd
 
+try:
+    from _shared.paths import quant_loop_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import quant_loop_root
+
 # ---------------------------------------------------------------------------
 # Resolve upstream module paths (we deliberately import, not modify).
 # ---------------------------------------------------------------------------
-QUANT_LOOP = Path("/home/smark/multica/quant-loop")
+QUANT_LOOP = quant_loop_root()
 _INDICATORS_DIR = QUANT_LOOP / "strategies" / "_indicators"
-_ICEBERG_DIR = Path("/home/smark/trading/factors/iceberg_detector")
+import os as _os
+_ICEBERG_DIR_RAW = _os.environ.get("ICEBERG_FACTORS_DIR")
+if not _ICEBERG_DIR_RAW:
+    raise SystemExit(
+        "Set ICEBERG_FACTORS_DIR to the iceberg_detector module directory "
+        "(was a sibling repo path outside this repo)."
+    )
+_ICEBERG_DIR = Path(_ICEBERG_DIR_RAW)
 for _p in (str(_INDICATORS_DIR), str(_ICEBERG_DIR)):
     if _p not in sys.path:
         sys.path.insert(0, _p)
