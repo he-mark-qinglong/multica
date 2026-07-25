@@ -618,7 +618,7 @@ func (h *Handler) ReevaluateRunMetrics(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	counts := map[string]int{"pass": 0, "fail": 0, "skipped": 0, "errors": 0}
+	counts := map[string]int{"pass": 0, "fail": 0, "no-data": 0, "skipped": 0, "errors": 0}
 	for _, m := range metrics {
 		status, detail := gate.Evaluate(gateMetricsFromRow(m))
 		if status == "" {
@@ -641,9 +641,10 @@ func (h *Handler) ReevaluateRunMetrics(w http.ResponseWriter, r *http.Request) {
 	}
 
 	writeJSON(w, http.StatusOK, map[string]any{
-		"reevaluated": counts["pass"] + counts["fail"],
+		"reevaluated": counts["pass"] + counts["fail"] + counts["no-data"],
 		"pass":        counts["pass"],
 		"fail":        counts["fail"],
+		"no-data":     counts["no-data"],
 		"skipped":     counts["skipped"],
 		"errors":      counts["errors"],
 	})
