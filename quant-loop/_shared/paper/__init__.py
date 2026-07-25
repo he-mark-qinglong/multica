@@ -1,0 +1,1 @@
+"""Atomic paper-trading ledger writer (T8, infra-sprint 2026-07-25)."""
