@@ -11,7 +11,7 @@ metrics dict and maps the enforcer's verdict back to per-gate GateResults.
 | G2 | min(annualized_full, mean_OOS_annualized) >= 15% |
 | G3 | max_drawdown_pct > -0.25 across all symbols (negative convention) |
 | G4 | cumulative profit_factor > 1.5 |
-| G5 | framework CV (backtrader/freqtrade) mean OOS Sharpe >= 1.0 |
+| G5 | framework CV (backtrader/freqtrade/vectorbt — worst of whichever legs ran) mean OOS Sharpe >= 1.0 |
 | G6 | bootstrap 95% CI lower of annualized Sharpe >= 0.5 (10000 resamples, seed=42) |
 | G7 | Deflated Sharpe Ratio > 0 (Bailey-LdP 2014; replaces the retired Bonferroni t-test) |
 | T1 | pooled OOS trades >= 30 |
@@ -96,6 +96,7 @@ def evaluate_gates(
     window_native: list[dict],
     window_backtrader: list[dict],
     window_freqtrade: list[dict],
+    window_vectorbt: list[dict] | None = None,
     pooled_oos_daily_returns,
     pooled_oos_trade_pnls: list[float],
     n_trials: int = DEFAULT_N_TRIALS,
@@ -105,7 +106,9 @@ def evaluate_gates(
     full_metrics_by_symbol: {symbol: metrics dict} from the native engine over
         the full data span (G1/G2-full/G3/G4).
     window_*: lists of metrics dicts, one per (window, symbol), for each
-        framework (G2-OOS/G5/G7).
+        framework (G2-OOS/G5/G7). ``window_vectorbt`` is optional (default
+        ``None``) and only contributes to G5 when the vectorbt leg actually
+        ran; omitting it preserves the legacy two-framework behaviour.
     pooled_oos_daily_returns: native daily returns pooled across OOS windows
         (mean across symbols per day) for the G6 bootstrap and G7 sample length.
     pooled_oos_trade_pnls: native per-trade pnl fractions across OOS windows
@@ -135,6 +138,8 @@ def evaluate_gates(
         framework_means.append(_mean([m["sharpe"] for m in window_backtrader]))
     if window_freqtrade:
         framework_means.append(_mean([m["sharpe"] for m in window_freqtrade]))
+    if window_vectorbt:
+        framework_means.append(_mean([m["sharpe"] for m in window_vectorbt]))
     g5_obs = min(framework_means) if framework_means else float("nan")
 
     # G6 — bootstrap 95% CI lower bound of annualized Sharpe

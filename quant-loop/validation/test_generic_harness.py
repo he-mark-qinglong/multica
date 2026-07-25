@@ -11,6 +11,7 @@ import json
 import sys
 import types
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 import pandas as pd
@@ -314,3 +315,94 @@ def test_cli_rejects_unknown_framework(tmp_path, monkeypatch):
         "oos_harness", "--variant", str(vdir), "--frameworks", "native,nope",
     ])
     assert oos_harness.main() == 2
+
+
+# --------------------------------------------------------------------------
+# fee-shock leg (W1-S1 T8, off the full-span native equity)
+# --------------------------------------------------------------------------
+
+def test_fee_shock_default_key_shape_in_verdict(tmp_path):
+    """Default fee_shock_bps=(60.0,) lands in report["fee_shock"]["60.0"] with
+    the locked reader-contract keys, gates are unaffected.
+    """
+    _, report = gh.run_generic_validation(
+        dummy_signals, CONFIG, _synthetic_data(n_days=20),
+        n_windows=2, frameworks=["native"],
+        output_dir=tmp_path, variant_name="dummy_fee_shock_default")
+    on_disk = json.loads((tmp_path / "verdict.json").read_text())
+    assert "fee_shock" in on_disk
+    assert set(on_disk["fee_shock"].keys()) == {"60.0"}
+    headline = on_disk["fee_shock"]["60.0"]
+    expected_keys = {
+        "extra_round_trip_bps", "sharpe_daily_resampled",
+        "annualized_return", "total_return", "max_drawdown_pct",
+        "per_symbol",
+    }
+    assert set(headline.keys()) == expected_keys
+    assert headline["extra_round_trip_bps"] == 60.0
+    assert isinstance(headline["sharpe_daily_resampled"], float)
+    assert set(headline["per_symbol"].keys()) == {"BTCUSDT", "ETHUSDT"}
+    # fee shock is report-only (T8 spec); gates/verdict not affected by it.
+    assert report["verdict"] in ("PASS", "FAIL")
+    gate_ids = {g["gate"] for g in on_disk["gates"]}
+    assert {"G1", "G2", "G3", "G4", "G5", "G6", "G7", "T1"} <= gate_ids
+
+
+def test_fee_shock_sweep_keys_monotone_and_mean_aggregated(tmp_path):
+    """Custom fee_shock_bps drives the bps level set; multi-symbol headline
+    sharpe must be the mean of per-symbol sharpes (locked aggregation rule)
+    and the sweep must be monotonically non-increasing in bps.
+    """
+    bps = (0.0, 30.0, 60.0, 120.0)
+    gh.run_generic_validation(
+        dummy_signals, CONFIG, _synthetic_data(n_days=20),
+        n_windows=2, frameworks=["native"],
+        output_dir=tmp_path, variant_name="dummy_fee_shock_custom",
+        fee_shock_bps=bps)
+    on_disk = json.loads((tmp_path / "verdict.json").read_text())
+    assert set(on_disk["fee_shock"].keys()) == {str(float(b)) for b in bps}
+
+    sharpes = [on_disk["fee_shock"][str(float(b))]["sharpe_daily_resampled"] for b in bps]
+    for prev, nxt in zip(sharpes, sharpes[1:]):
+        # monotone non-increasing under rising bps: drag is per-trade additive
+        assert prev + 1e-9 >= nxt, f"sharpe not non-increasing in bps: {sharpes}"
+
+    for b in bps:
+        k = str(float(b))
+        per_sym = on_disk["fee_shock"][k]["per_symbol"]
+        n = len(per_sym)
+        assert n == 2  # BTCUSDT + ETHUSDT from _synthetic_data
+        expected_mean = sum(per_sym[s]["sharpe_daily_resampled"] for s in per_sym) / n
+        assert on_disk["fee_shock"][k]["sharpe_daily_resampled"] == pytest.approx(
+            expected_mean, abs=1e-12
+        )
+        assert on_disk["fee_shock"][k]["extra_round_trip_bps"] == pytest.approx(float(b))
+
+
+def test_window_vectorbt_kwarg_passes_through(tmp_path, monkeypatch):
+    """T9c wiring: even when frameworks=['native'] (no vectorbt leg ran), the
+    harness must still pass ``window_vectorbt=[]`` into ``evaluate_gates`` so
+    T9b's G5 leg finds the empty list (rather than raising TypeError on a
+    missing kwarg)."""
+    captured = {}
+
+    def _fake_evaluate_gates(*args, **kwargs):
+        captured.update(kwargs)
+        return SimpleNamespace(
+            passed=True,
+            gates=[],
+            summary_lines=lambda: ["OOS validation verdict for x: PASS"],
+        )
+
+    monkeypatch.setattr(gh, "evaluate_gates", _fake_evaluate_gates)
+
+    gh.run_generic_validation(
+        dummy_signals, CONFIG, _synthetic_data(),
+        n_windows=2, frameworks=["native"],
+        output_dir=tmp_path, variant_name="dummy_vbt_kwarg")
+
+    assert "window_vectorbt" in captured, (
+        "evaluate_gates kwargs missing window_vectorbt — harness did not wire T9c"
+    )
+    assert captured["window_vectorbt"] == []
+    assert isinstance(captured["window_vectorbt"], list)

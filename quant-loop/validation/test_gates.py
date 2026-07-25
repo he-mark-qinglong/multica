@@ -104,6 +104,28 @@ def test_g5_fails_when_worst_framework_below_one():
     assert g5.observed == pytest.approx(0.4)
 
 
+def test_g5_fails_when_vectorbt_worst():
+    """G5 must include the vectorbt leg (T9b); vectorbt below 1.0 pulls the
+    min downward even when bt/ft pass comfortably."""
+    kw = _passing_kwargs()
+    kw["window_vectorbt"] = _windows(sharpe=0.4)
+    v = evaluate_gates("variant_x", **kw)
+    g5 = _gate(v, "G5")
+    assert not g5.passed
+    assert g5.observed == pytest.approx(0.4)
+
+
+def test_g5_vectorbt_omitted_keeps_legacy_behavior():
+    """Without ``window_vectorbt`` the G5 min is the freqtrade mean — preserves
+    the pre-T9b two-framework contract so older callers (which don't know
+    about vectorbt) see no behaviour change."""
+    kw = _passing_kwargs()
+    v = evaluate_gates("variant_x", **kw)
+    g5 = _gate(v, "G5")
+    assert g5.passed
+    assert g5.observed == pytest.approx(1.1)
+
+
 def test_g5_fails_when_no_framework_windows():
     # No framework windows -> cpcv_mean_oos_sharpe is NaN -> enforce.py fails
     # G5 as MISSING_FIELD (missing data is never a pass).
