@@ -1,0 +1,50 @@
+{
+  "budget_us_hot_path_observer": 250.0,
+  "n_fills_pure_helper": 5000,
+  "n_fills_observer": 5000,
+  "n_fills_runner_e2e": 2000,
+  "n_fills_cold_path": 5000,
+  "n_records_cost": 50,
+  "day_utc": "2026-07-20",
+  "attribute_fill_only": {
+    "n": 5000,
+    "median_us": 10.084,
+    "p95_us": 11.416,
+    "p99_us": 11.54101,
+    "max_us": 140.167,
+    "min_us": 9.5
+  },
+  "on_fill_hook_only": {
+    "n": 5000,
+    "median_us": 153.9375,
+    "p95_us": 254.37705,
+    "p99_us": 265.58384000000007,
+    "max_us": 480.667,
+    "min_us": 40.209
+  },
+  "runner_e2e_with_classifier": {
+    "n": 2000,
+    "median_us": 121.771,
+    "p95_us": 156.12705,
+    "p99_us": 163.04184,
+    "max_us": 174.792,
+    "min_us": 78.834
+  },
+  "compute_day": {
+    "n": 5,
+    "median_us": 78838.417,
+    "p95_us": 84758.625,
+    "p99_us": 85830.325,
+    "max_us": 86098.25,
+    "min_us": 77488.667
+  },
+  "record": {
+    "n": 50,
+    "median_us": 33.0,
+    "p95_us": 35.63765,
+    "p99_us": 69.3095899999999,
+    "max_us": 93.667,
+    "min_us": 32.584
+  },
+  "verdict": "PASS \u2014 attribute_fill median 10.08us, on_fill median 153.94us, runner E2E median 121.77us (hot-path budget 250.0us for the observer)."
+}

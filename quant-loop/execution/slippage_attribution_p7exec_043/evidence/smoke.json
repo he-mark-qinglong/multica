@@ -1,0 +1,56 @@
+{
+  "n_orders": 10,
+  "day_utc": "2026-07-20",
+  "expected_price": 50000.0,
+  "fill_prices": [
+    50002.0,
+    50004.0,
+    50006.0,
+    50008.0,
+    50010.0,
+    50012.0,
+    50014.0,
+    50016.0,
+    50018.0,
+    50020.0
+  ],
+  "headline": {
+    "n_fills": 10,
+    "n_fills_with_book": 10,
+    "mean_total_slippage_bps": -2.2,
+    "mean_spread_cost_bps": -1.0,
+    "mean_impact_bps": -1.2,
+    "median_total_slippage_bps": -2.2,
+    "p05_impact_bps": -2.8200000000000003,
+    "p95_impact_bps": 0.41999999999999954,
+    "impact_share": 0.5762711864406779,
+    "spread_share": 0.423728813559322,
+    "n_spread_dominant": 5,
+    "n_impact_dominant": 5,
+    "n_mixed": 0,
+    "stable": true
+  },
+  "by_venue": [
+    {
+      "venue": "binance_usdt_futures",
+      "n_fills": 5,
+      "n_fills_with_book": 5,
+      "mean_total_slippage_bps": -1.2,
+      "mean_spread_cost_bps": -1.0,
+      "mean_impact_bps": -0.2,
+      "impact_share": 0.34210526315789475,
+      "spread_share": 0.6578947368421053
+    },
+    {
+      "venue": "coinbase",
+      "n_fills": 5,
+      "n_fills_with_book": 5,
+      "mean_total_slippage_bps": -3.1999999999999997,
+      "mean_spread_cost_bps": -1.0,
+      "mean_impact_bps": -2.2,
+      "impact_share": 0.6875,
+      "spread_share": 0.3125
+    }
+  ],
+  "verdict": "PASS \u2014 additive identity holds across 10 live fills, daily aggregator mean total = -2.2 bps / spread = -1.0 / impact = -1.2 with 5+5 venue split, WARN hysteresis fires under tight threshold, on-disk cold-start round-trip matches."
+}
