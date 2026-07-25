@@ -32,7 +32,15 @@ from typing import Dict, List, Optional
 import numpy as np
 import pandas as pd
 
-QUANT_LOOP = Path("/home/smark/multica/quant-loop")
+try:
+    from _shared.paths import quant_loop_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import quant_loop_root
+
+QUANT_LOOP = quant_loop_root()
 _SHARED_DIR = QUANT_LOOP / "_shared"
 for _p in (str(_SHARED_DIR / "execution"), str(_SHARED_DIR / "sizing")):
     if _p not in sys.path:

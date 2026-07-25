@@ -25,7 +25,7 @@ Public API
 
 All three reuse the upstream module without modification:
 
-  - ``/home/smark/multica/quant-loop/strategies/_indicators/vpvr_levels.py``
+  - ``~/multica/quant-loop/strategies/_indicators/vpvr_levels.py``
     (compute_vpvr_levels for POC / VAH / VAL / HVN / LVN per snapshot).
 
 No-look-ahead invariant: rolling baselines are shifted by 1 bar,
@@ -42,7 +42,15 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
-QUANT_LOOP = Path("/home/smark/multica/quant-loop")
+try:
+    from _shared.paths import quant_loop_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import quant_loop_root
+
+QUANT_LOOP = quant_loop_root()
 _INDICATORS_DIR = QUANT_LOOP / "strategies" / "_indicators"
 if str(_INDICATORS_DIR) not in sys.path:
     sys.path.insert(0, str(_INDICATORS_DIR))

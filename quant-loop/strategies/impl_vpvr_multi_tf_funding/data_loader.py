@@ -37,7 +37,15 @@ from typing import Dict, List
 import numpy as np
 import pandas as pd
 
-QUANT_LOOP = Path("/home/smark/multica/quant-loop")
+try:
+    from _shared.paths import quant_loop_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import quant_loop_root
+
+QUANT_LOOP = quant_loop_root()
 LIVE_DATA = QUANT_LOOP / "live_data"
 PERP_1M = QUANT_LOOP / "data" / "perp_1m"
 FUNDING_DIR = QUANT_LOOP / "data" / "funding"
