@@ -91,6 +91,19 @@ Daily workspace snapshots live under `~/multica/knowledge/curator/<date>-<slug>.
 
 → Full evidence + accepted/unverified status: `~/multica/knowledge/curator/2026-07-18-knowledge-snapshot.md`
 
+## Quant research operating model (2026-07-25 onward, authoritative)
+
+Full plan: `docs/plans/multica-quant-permanent-loop-2026-07-25.md`. Read it before doing any strategy/validation work. Terse rules:
+
+- **Model policy** — ALL agents run `caocao-m3` (MiniMax-M3 via local gateway). K3 is not used. If m3 can't decide, ESCALATE to human — never upgrade the model.
+- **Orchestration** — multica server @ `192.168.0.105:8080` is the dispatch hub. Local CLI/daemon point there, NOT localhost:8080 (stale Docker). Runtimes: Claude `940d2b93`, Codex `0e57fd85`, Kimi `2ff52f36` (MacBook-Pro-2). Old "smark" runtimes (`07dd8587`/`c3791fa0`/`a148b4d2`) are retired/offline.
+- **Epoch loop (7d)** — Mon: research-scout produces falsifiable SPECs (incl. mainstream-methodology research, cost-cap pre-check first) → Tue: pick 1-2 → Wed-Thu: implement → Fri: full validation pipeline → Sat: KEEP/KILL verdict → Sun: curator digest + archive.
+- **Validation = one authoritative path** — `_shared/run_backtest.py` + `compute_metrics.py`; pre-registered SPEC; full-history 7-window walk-forward OOS; dual-framework CV; 60bps fee shock; G gates; independent sign-off. Research agents never sign off their own strategy.
+- **Strategy state (2026-07-25)** — NO live-eligible strategy exists. H3 (`mtf_xs_pairs_1m_15m_2h_h3`) local repro: OOS Sharpe 1.875 / CI lower 0.888, fee-shock 60bps → -0.04. Best open lead: `signal-enhance-h3` (2024-subsample Sharpe 8.07, NOT yet validated on full history). Killed families (1m/5m klines reversal, funding-carry, 4h single-TF stat-arb, microstructure features) must not be parameter-swept again (cycle-46).
+- **Infra single points (manual nohup, die on reboot)** — SSH tunnel `127.0.0.1:18091` (caocao LiteLLM), model-map proxy `127.0.0.1:18092` (`~/.multica/scripts/caocao_model_proxy.py`, rewrites caocao-m3→MiniMax-M3 for Codex), multica daemon. If Codex tasks report model errors, check 18092 first. P0 plan item: launchd + infra-health-watchdog.
+- **Git** — push via HTTPS to fork `he-mark-qinglong/multica` (origin `multica-ai/multica` is read-only, 403). Never commit others' uncommitted changes in the worktree.
+- **Python** — always `/Users/mark/sdk/mamba-envs/trading/bin/python3` (default python3 lacks pyarrow).
+
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence
 
