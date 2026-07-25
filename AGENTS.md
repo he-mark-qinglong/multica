@@ -48,6 +48,8 @@ See CLAUDE.md for the complete command reference.
 
 - **Org structure (v1.0 2026-07-25)** — `docs/plans/agent-org-structure-2026-07-25.md`. Layers: L1 协调 (orchestrator/ops) → L2 研究主线 (quant-researcher/research-agent/analyst, single-threaded) → L3 执行 (strategy-worker-1/2, multica-strategy/code, ops-worker-1) → L4 判决签核 (decision-maker/signoff-proxy) → L5 知识表达 (curator/persona-advisor). Every agent's instructions carry a 协作定位 block (accept/reject/route). Rejection discipline: wrong-layer task → blocked + ESCALATE comment naming the right assignee, never force it. Sign-off isolation: L2/L3 never sign their own output.
 
+- **Dispatch landing protocol (hard-won 2026-07-25)** — multica daemon tasks run in EPHEMERAL workspaces (`~/multica_workspaces/`, GC'd ~1h after completion). ANY dispatched execution task MUST end with: `git add <only task files>` → commit → `git push https://github.com/he-mark-qinglong/multica.git HEAD:agent/<agent-name>/<task-id>` → post branch name + acceptance output in the issue comment. No push = work destroyed. Never write "no git operations" into EXECUTION task cards (that rule is for planning agents only). Harvest = parent merges agent branches to main.
+
 ## Comment Schema Convention (mandatory 2026-07-19)
 
 Every comment posted by an agent on a multica issue MUST start with a type tag on the first line:
