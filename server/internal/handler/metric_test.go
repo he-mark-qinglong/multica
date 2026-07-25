@@ -3,10 +3,13 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
+
+	"github.com/multica-ai/multica/server/internal/gate"
 )
 
 // Pure-mapping tests: parseRunMetricJSON and campaignIterationFromMeta never
@@ -167,6 +170,189 @@ func TestCampaignIterationFromMeta(t *testing.T) {
 			t.Errorf("campaignIterationFromMeta(%s) = (%q, %q), want (%q, %q)",
 				c.meta, gotC, gotI, c.wantCampaign, c.wantItr)
 		}
+	}
+}
+
+// W2-T4 — PF derivation + parse fallback + strict gate smoke. Pure-function
+// tests, no DB; safe even when TestMain skips the DB-backed cases below.
+
+func TestComputeProfitFactorFromDailyReturns(t *testing.T) {
+	// Mixed wins and losses: gross profit / |gross loss|.
+	pf, ok := computeProfitFactorFromDailyReturns([]float64{0.02, -0.01, 0.03, -0.01})
+	if !ok {
+		t.Fatalf("[0.02,-0.01,0.03,-0.01] ok=false, want true")
+	}
+	if math.Abs(pf-2.5) > 1e-9 {
+		t.Errorf("mixed pf: got %v, want 2.5", pf)
+	}
+
+	// <2 elements: not enough data to compute a ratio.
+	for _, in := range [][]float64{{0.01}, {}, nil} {
+		if _, ok := computeProfitFactorFromDailyReturns(in); ok {
+			t.Errorf("len<2 input %v: ok=true, want false", in)
+		}
+	}
+
+	// All wins, no losses → +Inf.
+	pf, ok = computeProfitFactorFromDailyReturns([]float64{0.01, 0.02})
+	if !ok || !math.IsInf(pf, 1) {
+		t.Errorf("all-wins: got pf=%v ok=%v, want +Inf true", pf, ok)
+	}
+
+	// All zeros: no profit, no loss → ok=false.
+	if _, ok := computeProfitFactorFromDailyReturns([]float64{0, 0}); ok {
+		t.Errorf("[0,0]: ok=true, want false")
+	}
+
+	// Only losses: implementation returns pf=0, ok=true (grossLoss != 0 short-
+	// circuits before the "no profit" branch). Tests reflect actual code; if
+	// T3 is amended to gate on zero-profit too, update this assertion.
+	pf, ok = computeProfitFactorFromDailyReturns([]float64{-0.01, -0.02})
+	if !ok || pf != 0 {
+		t.Errorf("loss-only: got pf=%v ok=%v, want 0 true", pf, ok)
+	}
+}
+
+func TestEquityCurveToReturns(t *testing.T) {
+	// 100 → 110 → 99 → +10% then -10% (with 110 as the base for the second step).
+	got, ok := equityCurveToReturns([]float64{100, 110, 99})
+	if !ok {
+		t.Fatalf("[100,110,99] ok=false, want true")
+	}
+	want := []float64{0.10, -0.10}
+	if len(got) != len(want) {
+		t.Fatalf("len: got %d, want %d", len(got), len(want))
+	}
+	for i := range want {
+		if math.Abs(got[i]-want[i]) > 1e-9 {
+			t.Errorf("step %d: got %v, want %v", i, got[i], want[i])
+		}
+	}
+
+	// Single point: cannot derive a return.
+	if _, ok := equityCurveToReturns([]float64{100}); ok {
+		t.Errorf("[100]: ok=true, want false")
+	}
+
+	// Zero base: division by zero → reject.
+	if _, ok := equityCurveToReturns([]float64{100, 0, 5}); ok {
+		t.Errorf("[100,0,5]: ok=true, want false")
+	}
+}
+
+func TestExtractDailyReturns(t *testing.T) {
+	// daily_returns → as-is.
+	got, ok := extractDailyReturns(map[string]any{
+		"daily_returns": []any{0.01, -0.02},
+	})
+	if !ok || len(got) != 2 || got[0] != 0.01 || got[1] != -0.02 {
+		t.Errorf("daily_returns: got %v ok=%v, want [0.01,-0.02] true", got, ok)
+	}
+
+	// equity_curve → coerced to per-step returns.
+	got, ok = extractDailyReturns(map[string]any{
+		"equity_curve": []any{100.0, 110.0, 121.0},
+	})
+	if !ok || len(got) != 2 || math.Abs(got[0]-0.10) > 1e-9 || math.Abs(got[1]-0.10) > 1e-9 {
+		t.Errorf("equity_curve→returns: got %v ok=%v, want [0.1,0.1] true", got, ok)
+	}
+
+	// Mixed-type array → reject (no silent partial accept).
+	if _, ok := extractDailyReturns(map[string]any{
+		"daily_returns": []any{0.01, "bad"},
+	}); ok {
+		t.Errorf("mixed-type daily_returns: ok=true, want false")
+	}
+
+	// Wrong shape for the key → reject.
+	if _, ok := extractDailyReturns(map[string]any{
+		"daily_returns": "not-an-array",
+	}); ok {
+		t.Errorf("string daily_returns: ok=true, want false")
+	}
+
+	// No recognized key → reject.
+	if _, ok := extractDailyReturns(map[string]any{}); ok {
+		t.Errorf("empty obj: ok=true, want false")
+	}
+
+	// Priority: daily_returns wins when both are present.
+	got, ok = extractDailyReturns(map[string]any{
+		"daily_returns": []any{0.5},
+		"equity_curve":  []any{100.0, 200.0}, // would yield [1.0]
+	})
+	if !ok || len(got) != 1 || got[0] != 0.5 {
+		t.Errorf("priority: got %v ok=%v, want [0.5] true (daily_returns precedence)", got, ok)
+	}
+}
+
+func TestParseRunMetricJSONProfitFactorFallback(t *testing.T) {
+	// Explicit PF absent, daily_returns present → fallback derives 2.5.
+	f, ok := parseRunMetricJSON([]byte(`{
+		"sharpe": 2.0,
+		"daily_returns": [0.02, -0.01, 0.03, -0.01]
+	}`))
+	if !ok {
+		t.Fatal("daily_returns blob rejected")
+	}
+	if f.Sharpe == nil || *f.Sharpe != 2.0 {
+		t.Errorf("sharpe: got %v", f.Sharpe)
+	}
+	if f.ProfitFactor == nil {
+		t.Fatal("profit_factor fallback did not fire")
+	}
+	if math.Abs(*f.ProfitFactor-2.5) > 1e-9 {
+		t.Errorf("profit_factor fallback: got %v, want 2.5", *f.ProfitFactor)
+	}
+}
+
+func TestParseRunMetricJSONProfitFactorFromEquityCurve(t *testing.T) {
+	// equity_curve [100, 110, 99, 108.9] → returns [0.1, -0.1, 0.1] → pf = 0.2/0.1 = 2.0.
+	f, ok := parseRunMetricJSON([]byte(`{
+		"sharpe": 2.0,
+		"equity_curve": [100, 110, 99, 108.9]
+	}`))
+	if !ok {
+		t.Fatal("equity_curve blob rejected")
+	}
+	if f.ProfitFactor == nil {
+		t.Fatal("profit_factor fallback did not fire from equity_curve")
+	}
+	if math.Abs(*f.ProfitFactor-2.0) > 1e-9 {
+		t.Errorf("profit_factor from equity_curve: got %v, want 2.0", *f.ProfitFactor)
+	}
+}
+
+func TestParseRunMetricJSONExplicitPFWins(t *testing.T) {
+	// Explicit profit_factor takes precedence; fallback stays dormant even
+	// when daily_returns would otherwise derive a different value.
+	f, ok := parseRunMetricJSON([]byte(`{
+		"profit_factor": 1.8,
+		"daily_returns": [0.02, -0.01]
+	}`))
+	if !ok {
+		t.Fatal("blob rejected")
+	}
+	if f.ProfitFactor == nil || math.Abs(*f.ProfitFactor-1.8) > 1e-9 {
+		t.Errorf("profit_factor: got %v, want 1.8 (explicit)", f.ProfitFactor)
+	}
+}
+
+// TestSharpeOnlyBlobGateFails exercises strict-gate semantics from W2-T1:
+// every metric except sharpe is required. With sharpe present but the other
+// five absent, Evaluate must return "fail" (not "pass" under the old lax
+// semantics, and not "no-data" which is reserved for sharpe missing).
+func TestSharpeOnlyBlobGateFails(t *testing.T) {
+	f, ok := parseRunMetricJSON([]byte(`{"sharpe": 31.7}`))
+	if !ok {
+		t.Fatal("sharpe-only blob rejected")
+	}
+	if f.Sharpe == nil || *f.Sharpe != 31.7 {
+		t.Fatalf("sharpe: got %v, want 31.7", f.Sharpe)
+	}
+	status, _ := gate.Evaluate(gateMetricsFromFields(f))
+	if status != "fail" {
+		t.Errorf("sharpe-only blob gate = %q, want fail", status)
 	}
 }
 
