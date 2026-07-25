@@ -2605,9 +2605,9 @@ func (h *Handler) shouldEnqueueAgentTask(ctx context.Context, issue db.Issue) bo
 }
 
 // shouldEnqueueOnComment returns true if a member comment on this issue should
-// trigger the assigned agent. Fires for any status — comments are
-// conversational and can happen at any stage, including after completion
-// (e.g. follow-up questions on a done issue).
+// trigger the assigned agent. Terminal issues (done/cancelled) never reach this
+// function — triggerTasksForComment short-circuits them first; to re-activate
+// work on a terminal issue the status must be changed explicitly.
 //
 // Mirrors the private-agent gate that enqueueMentionedAgentTasks applies on the
 // @mention path: once an owner/admin assigns a private agent to an issue, the

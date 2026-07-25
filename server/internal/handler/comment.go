@@ -959,6 +959,15 @@ func (h *Handler) triggerTasksForComment(ctx context.Context, issue db.Issue, co
 		return
 	}
 
+	// Terminal-status guard: a comment on a done/cancelled issue never wakes any
+	// agent (assignee, squad leader, or @mention). Signoff/status comments on
+	// completed sprint issues caused 9-16s no-op wake-ups that burn tokens for
+	// nothing (2026-07-25). To revive work on a terminal issue, change its
+	// status first — that is the explicit re-activation path.
+	if issue.Status == "done" || issue.Status == "cancelled" {
+		return
+	}
+
 	if actorType == "member" && h.shouldEnqueueOnComment(ctx, issue, actorType, actorID) &&
 		!h.commentMentionsOthersButNotAssignee(comment.Content, issue) &&
 		!h.isReplyToMemberThread(ctx, parentComment, comment.Content, issue) {

@@ -364,6 +364,25 @@ func TestTriggerTasksForComment_NoteShortCircuits(t *testing.T) {
 		Content: fmt.Sprintf("/note cc [@Other](mention://agent/%s) just an fyi", otherAgentID),
 	}
 
-	// Must not panic — the guard short-circuits before any DB access.
+// Must not panic — the guard short-circuits before any DB access.
 	h.triggerTasksForComment(context.Background(), issue, comment, nil, "member", memberID)
+}
+
+// TestTriggerTasksForComment_TerminalStatusShortCircuits proves a comment on a
+// done or cancelled issue returns before any of the three enqueue paths run
+// (nil-Queries Handler would panic otherwise). Regression test for the 2026-07-25
+// finding: signoff comments on completed sprint issues woke assignees into
+// 9-16s no-op runs with no execution data.
+func TestTriggerTasksForComment_TerminalStatusShortCircuits(t *testing.T) {
+	for _, status := range []string{"done", "cancelled"} {
+		t.Run(status, func(t *testing.T) {
+			h := &Handler{} // nil Queries / TaskService on purpose
+			issue := issueWithAgentAssignee()
+			issue.Status = status
+			comment := db.Comment{Content: "signoff: looks good"}
+
+			// Must not panic — the guard short-circuits before any DB access.
+			h.triggerTasksForComment(context.Background(), issue, comment, nil, "member", memberID)
+		})
+	}
 }
