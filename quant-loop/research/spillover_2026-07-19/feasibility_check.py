@@ -4,7 +4,9 @@ warnings.filterwarnings('ignore')
 import numpy as np, pandas as pd
 from statsmodels.tsa.api import VAR
 
-DATA_DIR = '/home/smark/services/strategy_display_engine_data/canonical/workdir/strategies/vpvr_reversion_1m_nostop_20260630/data'
+DATA_DIR = os.environ.get("SPILLOVER_DATA_DIR")
+if not DATA_DIR:
+    raise SystemExit("Set SPILLOVER_DATA_DIR to the strategy_display_engine canonical data dir (was a server-only path outside this repo).")
 SYMS = ['BTCUSDT','ETHUSDT','SOLUSDT']
 
 def load_log_rv_1h(sym):
