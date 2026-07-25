@@ -3,14 +3,14 @@
 Automated out-of-sample validation for quant-loop strategy variants. On a new
 variant commit, the harness runs the variant's native engine **and** replays
 its trade decisions in independent frameworks (backtrader, freqtrade;
-optionally vectorbt) across 3 contiguous OOS windows, then emits a pass/fail
+optionally vectorbt) across the configured contiguous OOS windows (`--windows` CLI flag), then emits a pass/fail
 verdict against the G1–G7 hard gates. A failing verdict blocks the merge.
 
 ## Usage
 
 ```bash
 cd quant-loop
-python3 -m validation.oos_harness --variant <variant_name>      # 3 windows, all frameworks
+python3 -m validation.oos_harness --variant <variant_name>      # default windows, all frameworks
 python3 -m validation.oos_harness --variant <variant_name> --frameworks native,backtrader
 ```
 
@@ -32,11 +32,18 @@ check / self-hosted runner with data + freqtrade/backtrader installed).
 |------|-----------|--------------|
 | G1 | mean Sharpe >= 1.0 | native engine, full span, mean across symbols |
 | G2 | min(annualized_full, mean_OOS_annualized) >= 15% | native, full + OOS windows |
-| G3 | profit_factor > 1.5 | native, full span |
-| G4 | max_drawdown < 25% | native, full span, worst symbol |
-| G5 | OOS walk-forward Sharpe >= 1.0 in **both** backtrader and freqtrade | framework replays, 3 windows |
+| G3 | max_drawdown_pct > -0.25 (negative convention) | native, full span, worst symbol |
+| G4 | profit_factor > 1.5 (mean across symbols, inf capped at 10) | native, full span |
+| G5 | mean OOS Sharpe >= 1.0 in **both** backtrader and freqtrade (worst of the two means) | framework replays, configured OOS windows |
 | G6 | bootstrap 95% CI lower of annualized Sharpe >= 0.5 | native pooled OOS daily returns (10000 resamples, seed=42) |
-| G7 | one-sided t-test p < 0.0125 on per-trade returns | native pooled OOS trades (Bonferroni 0.05/4) |
+| G7 | Deflated Sharpe Ratio > 0 (Bailey-LdP 2014, n_trials=100) | native mean OOS Sharpe vs multiple-testing hurdle |
+| T1 | pooled OOS trades >= 30 | native pooled OOS trades |
+
+Missing data is never a pass: if a framework engine is unavailable its
+windows are skipped (recorded in `report["framework_skips"]`), the
+corresponding gate observed value becomes NaN, and the enforcer
+(`_shared/gates/enforce.py::certify_metrics`) records a `MISSING_FIELD`
+FAIL. A skipped framework leg therefore fails G5 rather than passing it.
 
 All frameworks share `validation/metrics.py` formulas (daily-return Sharpe
 ×sqrt(365), positive-fraction drawdown, gross-profit/loss profit factor), so
