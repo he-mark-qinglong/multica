@@ -291,10 +291,51 @@ def write_ledger(rows: list[dict[str, Any]], out_path: Path) -> None:
     print(f"[write] {out_path} ({len(rows)} strategies)")
 
 
+def _kill_fields(row: dict[str, Any]) -> tuple[str | None, str | None]:
+    """(kill_reason, kill_evidence) for rows whose ledger verdict is KILL.
+
+    Mirrors the two KILL branches of _status(): graveyard archival and
+    framework-driven kill (AUTO-ARCHIVE / NOT-PROFITABLE without any
+    PASS/WITHIN_TOLERANCE). Returns (None, None) for non-KILL rows.
+    """
+    if _status(row) != "KILL":
+        return None, None
+    if row["status"] == "GRAVEYARD":
+        family = row.get("graveyard_family", "?")
+        return f"archived to strategies/_graveyard/{family}", row["path"]
+    for engine, fw in row["frameworks"].items():
+        v = fw.get("verdict") or ""
+        if "AUTO-ARCHIVE" in v or "NOT-PROFITABLE" in v:
+            return (f"framework verdict {v} ({engine})",
+                    f"{row['path']}/results/framework_cv_{engine}.json")
+    return "ledger verdict KILL", row["path"]
+
+
+def write_ledger_json(rows: list[dict[str, Any]], out_path: Path) -> None:
+    """Machine-readable sidecar for publishers merging verdict fields into
+    metrics blobs (see quant-loop/docs/metrics-blob-convention.md)."""
+    import datetime
+    payload = {
+        "generated": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "strategies": [
+            {
+                "strategy_key": row["strategy_key"],
+                "verdict": _status(row),
+                "kill_reason": _kill_fields(row)[0],
+                "kill_evidence": _kill_fields(row)[1],
+            }
+            for row in rows
+        ],
+    }
+    out_path.write_text(json.dumps(payload, indent=2) + "\n")
+    print(f"[write] {out_path} ({len(rows)} strategies)")
+
+
 def main() -> None:
     rows = scan_all()
     out = REPO / "results-ledger.md"
     write_ledger(rows, out)
+    write_ledger_json(rows, REPO / "results-ledger.json")
 
 
 if __name__ == "__main__":

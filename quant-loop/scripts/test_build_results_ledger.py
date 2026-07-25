@@ -151,3 +151,44 @@ def test_scan_records_split_when_framework_ok_but_metrics_missing(tmp_path, monk
     assert row["framework_consistent"] is True
     assert row["profitable"] is False
     assert brl._status(row) == "CV_PASS"
+
+
+# --- JSON sidecar / kill fields (w2-s5-T10b) ---------------------------------
+
+def test_kill_fields_none_for_non_kill():
+    reason, evidence = brl._kill_fields(_row())
+    assert reason is None and evidence is None
+
+
+def test_kill_fields_graveyard():
+    row = _row(status="GRAVEYARD", graveyard_family="1m_reversal",
+               path="strategies/_graveyard/1m_reversal/synthetic_1h_20260725")
+    reason, evidence = brl._kill_fields(row)
+    assert reason == "archived to strategies/_graveyard/1m_reversal"
+    assert evidence == "strategies/_graveyard/1m_reversal/synthetic_1h_20260725"
+
+
+def test_kill_fields_framework_killed():
+    row = _row(frameworks={"backtrader": {"sharpe": 0.1, "verdict": "NOT-PROFITABLE"}},
+               framework_consistent=False, profitable=True,
+               path="strategies/synthetic_1h_20260725")
+    reason, evidence = brl._kill_fields(row)
+    assert "NOT-PROFITABLE" in reason and "backtrader" in reason
+    assert evidence.endswith("framework_cv_backtrader.json")
+
+
+def test_write_ledger_json_schema(tmp_path):
+    out = tmp_path / "ledger.json"
+    brl.write_ledger_json([_row()], out)
+    import json as _json
+    payload = _json.loads(out.read_text())
+    assert set(payload) == {"generated", "strategies"}
+    entry = payload["strategies"][0]
+    assert set(entry) == {"strategy_key", "verdict", "kill_reason", "kill_evidence"}
+    # _row() default = sharpe 1.5 / PF 2.0 / mdd -0.10 / trades 100 / framework W5_PASS
+    # -> framework_consistent=True, profitable=True -> _status="PASS".
+    # Tolerate the ledger-workstream rename PASS -> PROFITABLE so this test
+    # does not couple to the verdict-split workstream.
+    assert entry["verdict"] in ("PASS", "PROFITABLE")
+    assert entry["kill_reason"] is None
+    assert entry["kill_evidence"] is None
