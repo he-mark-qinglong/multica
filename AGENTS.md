@@ -93,7 +93,7 @@ Daily workspace snapshots live under `~/multica/knowledge/curator/<date>-<slug>.
 
 ## Quant research operating model (2026-07-25 onward, authoritative)
 
-Full plan: `docs/plans/multica-quant-permanent-loop-2026-07-25.md`. Read it before doing any strategy/validation work. Terse rules:
+Full plan: `docs/plans/multica-quant-permanent-loop-2026-07-25.md`. Read it before doing any strategy/validation work. Ten-year vision (top layer, read for direction decisions): `docs/plans/vision-10y-2026-2036.md`. Terse rules:
 
 - **Model policy** — ALL agents run `caocao-m3` (MiniMax-M3 via local gateway). K3 is not used. If m3 can't decide, ESCALATE to human — never upgrade the model.
 - **Orchestration** — multica server @ `192.168.0.105:8080` is the dispatch hub. Local CLI/daemon point there, NOT localhost:8080 (stale Docker). Runtimes: Mac (MacBook-Pro-2): Claude `940d2b93`, Codex `0e57fd85`, Kimi `2ff52f36`; server-105 (`192.168.0.105`, systemd `multica-daemon.service`): Claude `07dd8587`, Codex `c3791fa0`, Kimi `a148b4d2` (names still say "(smark)" — they are the old registrations revived on .105, no rename API). **ALL 14 agents run on the two Kimi runtimes since 2026-07-25 (7+7)** — Mac Kimi: quant-researcher, knowledge-curator, persona-advisor, quant-analyst, multica-orchestrator, multica-code, multica-ops; .105 Kimi: multica-strategy, strategy-worker-1/2, ops-worker-1, quant-research-agent, smark-decision-maker, smark-signoff-proxy. Claude/Codex runtimes stay online as spare capacity with zero agents.
