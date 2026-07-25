@@ -59,6 +59,9 @@ family exhaustion（cycle-46）规则——同族参数扫荡超过阈值即强�
 
 ## 3. 角色分工（14 agent → 循环岗位）
 
+> 2026-07-25 起全部 agent 迁至两个 Kimi runtime（Mac 7 + .105 7），Claude/Codex runtime 留作备用。
+> 下表「Runtime」列为岗位所属机（Mac / .105）。
+
 | Agent | Runtime | 循环岗位 |
 |---|---|---|
 | quant-researcher | Claude | 假设生成 + 策略实现（主力研究） |
