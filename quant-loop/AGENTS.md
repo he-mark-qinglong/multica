@@ -153,3 +153,71 @@ strategies/vpvr_mtf_reversion_5m_consensus_20260710/data/fapi_{BTC,ETH,SOL}USDT_
 
 Any agent loaded with `strat-vpvr`, `strat-research`, or `strat-backtest`
 must follow the rule in §1 before producing a coverage matrix.
+
+---
+
+## 5. Missing-bar detector (`scripts/missing_bar_detector.py`)
+
+Canonical, library-first port of the original `live_data/verify_sma34898.py`
+one-off. Use this for any future data-completeness audit instead of
+copy-pasting the math into a new script.
+
+### What it checks (per `(symbol × timeframe)` series)
+
+| Check | What it means | Hard-fail? |
+|---|---|---|
+| `file_present` | path exists and is a regular file (symlink is flagged but not crashed) | yes if missing/symlink |
+| `size_ok` | `> 1 KB` floor (a stray stub is not a series) | yes |
+| `schema_ok` | columns include `open_time, open, high, low, close, volume` | yes |
+| `nan_close_total` | `NaN` close count on full file | yes if > 0 |
+| `ts_monotonic` | `open_time` non-decreasing | yes |
+| `boundary_misalign_count` | `open_time mod bar_ms` — non-zero means the file is not on the timeframe grid | reported, not hard-fail |
+| `missing_bars_in_window` | under-filled gaps in `[now - window, now]` | yes if > 0 |
+| `full_file_missing_bars` | under-filled gaps over the entire file (sample-stride configurable) | reported, not hard-fail |
+| `trailing_edge_short` | `last_open_time + bar_ms < now` — refresh lag | reported, not hard-fail (operational concern) |
+
+`ok` is `False` only on hard-fails. Trailing staleness and boundary drift
+are surfaced in the JSON report but do not crash the run.
+
+### Library API
+
+```python
+from scripts.missing_bar_detector import (
+    find_canonical_specs, detect_series, detect_path, run_grid,
+)
+
+specs = find_canonical_specs(Path("/home/smark/multica/quant-loop"))
+reports = run_grid(specs, window_ms=7 * 24 * 60 * 60_000)
+for r in reports:
+    if not r.ok:
+        log.warning("%s_%s bucket=%s reason=%s",
+                    r.symbol, r.interval, r.bucket, r.error or "hard_fail")
+```
+
+### CLI
+
+```bash
+# Default run — scan every bucket, write JSON under live_data/.
+python3 scripts/missing_bar_detector.py
+
+# Restrict to shared pool + 1h/4h for a focused check.
+python3 scripts/missing_bar_detector.py \
+    --buckets shared_pool \
+    --intervals 1h,4h \
+    --window-days 7 \
+    --out /tmp/mbd_report.json
+
+# Full-file gap audit on huge files: sample every 100th timestamp.
+python3 scripts/missing_bar_detector.py --full-file-stride 100
+```
+
+Exit code is `0` if every present file passes hard checks and no expected
+file is missing; otherwise `1`.
+
+### Tests
+
+`pytest scripts/test_missing_bar_detector.py` — 25 synthetic-fixture
+tests covering filename parsing, bucket discovery, missing/too-small
+files, clean series, internal gaps, boundary drift, trailing staleness,
+schema gaps, NaN closes, symlinks, sampled full-file audit, and the CLI
+end-to-end.
