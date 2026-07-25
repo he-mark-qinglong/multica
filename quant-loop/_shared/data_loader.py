@@ -97,10 +97,10 @@ def _to_utc_datetime(series: pd.Series) -> pd.Series:
 
 
 def _resolve_data_root() -> Path:
-    """Return the quant-loop root used to anchor ``data/``.
+    """Return the canonical ``data/`` directory for quant-loop.
 
     Prefers ``_shared.paths.data_root`` (T1) and falls back to deriving
-    the root from this file's location when T1 is not yet present.
+    it from this file's location when T1 is not yet present.
     """
     try:
         from _shared.paths import data_root as _paths_data_root  # type: ignore
@@ -113,14 +113,14 @@ def _resolve_data_root() -> Path:
 
         env = os.environ.get("QUANT_LOOP_ROOT")
         if env:
-            return Path(env)
+            return Path(env) / "data"
         here = Path(__file__).resolve()
         # ``_shared/data_loader.py`` -> parents[1] == quant-loop/
         if here.parent.name == "_shared":
-            return here.parents[1]
+            return here.parents[1] / "data"
         # Bare-module mode (strategy did ``sys.path.insert(0, '.../_shared')``):
         # ``__file__`` already lives directly in quant-loop/.
-        return here.parent
+        return here.parent / "data"
 
 
 def data_root() -> Path:
@@ -129,7 +129,7 @@ def data_root() -> Path:
     Public function so strategy code can locate other data files
     (e.g. manifests) without re-deriving the root.
     """
-    return _resolve_data_root() / "data"
+    return _resolve_data_root()
 
 
 # --- Bars (klines) ----------------------------------------------------------
