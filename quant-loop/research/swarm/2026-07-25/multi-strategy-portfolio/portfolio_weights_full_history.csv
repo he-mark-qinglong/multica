@@ -1,0 +1,16 @@
+portfolio,strategy,weight
+equal,h3_baseline,0.2
+equal,vpvr_xs_basis_zscore_15m,0.2
+equal,momentum_trend_btc_1h,0.2
+equal,pairs_cointegration_1d,0.2
+equal,donchian_breakout_1d,0.2
+risk_parity,h3_baseline,0.0116
+risk_parity,vpvr_xs_basis_zscore_15m,0.0202
+risk_parity,momentum_trend_btc_1h,0.123
+risk_parity,pairs_cointegration_1d,0.2219
+risk_parity,donchian_breakout_1d,0.6234
+correlation_off,h3_baseline,0.0115
+correlation_off,vpvr_xs_basis_zscore_15m,0.0203
+correlation_off,momentum_trend_btc_1h,0.1228
+correlation_off,pairs_cointegration_1d,0.2196
+correlation_off,donchian_breakout_1d,0.6258

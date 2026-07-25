@@ -1,0 +1,632 @@
+[
+  {
+    "case": "vpvr_stable_depeg_p3opt_091 (sharpe only)",
+    "current_status": "pass",
+    "proposed_status": "fail",
+    "current_detail": [
+      {
+        "rule": "sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 31.7,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "ann_return",
+        "op": ">=",
+        "threshold": 0.15,
+        "actual": null,
+        "pass": true,
+        "note": "skipped: no data"
+      },
+      {
+        "rule": "max_drawdown",
+        "op": "<",
+        "threshold": 0.25,
+        "actual": null,
+        "pass": true,
+        "note": "skipped: no data"
+      },
+      {
+        "rule": "profit_factor",
+        "op": ">",
+        "threshold": 1.5,
+        "actual": null,
+        "pass": true,
+        "note": "skipped: no data"
+      },
+      {
+        "rule": "oos_windows",
+        "op": ">=",
+        "threshold": 3,
+        "actual": null,
+        "pass": true,
+        "note": "skipped: no data"
+      },
+      {
+        "rule": "oos_sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": null,
+        "pass": true,
+        "note": "skipped: no data"
+      }
+    ],
+    "proposed_detail": [
+      {
+        "rule": "sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 31.7,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "ann_return",
+        "op": ">=",
+        "threshold": 0.15,
+        "actual": null,
+        "pass": false,
+        "note": "missing required metric"
+      },
+      {
+        "rule": "max_drawdown",
+        "op": "<",
+        "threshold": 0.25,
+        "actual": null,
+        "pass": false,
+        "note": "missing required metric"
+      },
+      {
+        "rule": "profit_factor",
+        "op": ">",
+        "threshold": 1.5,
+        "actual": null,
+        "pass": false,
+        "note": "missing required metric"
+      },
+      {
+        "rule": "oos_windows",
+        "op": ">=",
+        "threshold": 3,
+        "actual": null,
+        "pass": false,
+        "note": "missing required metric"
+      },
+      {
+        "rule": "oos_sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": null,
+        "pass": false,
+        "note": "missing required metric"
+      }
+    ]
+  },
+  {
+    "case": "H3 baseline as-uploaded (no PF)",
+    "current_status": "pass",
+    "proposed_status": "fail",
+    "current_detail": [
+      {
+        "rule": "sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 1.35,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "ann_return",
+        "op": ">=",
+        "threshold": 0.15,
+        "actual": 0.25,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "max_drawdown",
+        "op": "<",
+        "threshold": 0.25,
+        "actual": 0.137,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "profit_factor",
+        "op": ">",
+        "threshold": 1.5,
+        "actual": null,
+        "pass": true,
+        "note": "skipped: no data"
+      },
+      {
+        "rule": "oos_windows",
+        "op": ">=",
+        "threshold": 3,
+        "actual": 7.0,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "oos_sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 2.77,
+        "pass": true,
+        "note": null
+      }
+    ],
+    "proposed_detail": [
+      {
+        "rule": "sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 1.35,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "ann_return",
+        "op": ">=",
+        "threshold": 0.15,
+        "actual": 0.25,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "max_drawdown",
+        "op": "<",
+        "threshold": 0.25,
+        "actual": 0.137,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "profit_factor",
+        "op": ">",
+        "threshold": 1.5,
+        "actual": null,
+        "pass": false,
+        "note": "missing required metric"
+      },
+      {
+        "rule": "oos_windows",
+        "op": ">=",
+        "threshold": 3,
+        "actual": 7.0,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "oos_sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 2.77,
+        "pass": true,
+        "note": null
+      }
+    ]
+  },
+  {
+    "case": "H3 baseline with PF",
+    "current_status": "fail",
+    "proposed_status": "fail",
+    "current_detail": [
+      {
+        "rule": "sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 1.35,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "ann_return",
+        "op": ">=",
+        "threshold": 0.15,
+        "actual": 0.25,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "max_drawdown",
+        "op": "<",
+        "threshold": 0.25,
+        "actual": 0.137,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "profit_factor",
+        "op": ">",
+        "threshold": 1.5,
+        "actual": 1.22,
+        "pass": false,
+        "note": null
+      },
+      {
+        "rule": "oos_windows",
+        "op": ">=",
+        "threshold": 3,
+        "actual": 7.0,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "oos_sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 2.77,
+        "pass": true,
+        "note": null
+      }
+    ],
+    "proposed_detail": [
+      {
+        "rule": "sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 1.35,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "ann_return",
+        "op": ">=",
+        "threshold": 0.15,
+        "actual": 0.25,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "max_drawdown",
+        "op": "<",
+        "threshold": 0.25,
+        "actual": 0.137,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "profit_factor",
+        "op": ">",
+        "threshold": 1.5,
+        "actual": 1.22,
+        "pass": false,
+        "note": null
+      },
+      {
+        "rule": "oos_windows",
+        "op": ">=",
+        "threshold": 3,
+        "actual": 7.0,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "oos_sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 2.77,
+        "pass": true,
+        "note": null
+      }
+    ]
+  },
+  {
+    "case": "strong candidate",
+    "current_status": "pass",
+    "proposed_status": "pass",
+    "current_detail": [
+      {
+        "rule": "sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 1.8,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "ann_return",
+        "op": ">=",
+        "threshold": 0.15,
+        "actual": 0.42,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "max_drawdown",
+        "op": "<",
+        "threshold": 0.25,
+        "actual": 0.12,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "profit_factor",
+        "op": ">",
+        "threshold": 1.5,
+        "actual": 1.9,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "oos_windows",
+        "op": ">=",
+        "threshold": 3,
+        "actual": 4.0,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "oos_sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 1.3,
+        "pass": true,
+        "note": null
+      }
+    ],
+    "proposed_detail": [
+      {
+        "rule": "sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 1.8,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "ann_return",
+        "op": ">=",
+        "threshold": 0.15,
+        "actual": 0.42,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "max_drawdown",
+        "op": "<",
+        "threshold": 0.25,
+        "actual": 0.12,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "profit_factor",
+        "op": ">",
+        "threshold": 1.5,
+        "actual": 1.9,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "oos_windows",
+        "op": ">=",
+        "threshold": 3,
+        "actual": 4.0,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "oos_sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 1.3,
+        "pass": true,
+        "note": null
+      }
+    ]
+  },
+  {
+    "case": "overfit",
+    "current_status": "fail",
+    "proposed_status": "fail",
+    "current_detail": [
+      {
+        "rule": "sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 5.72,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "ann_return",
+        "op": ">=",
+        "threshold": 0.15,
+        "actual": 2.4,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "max_drawdown",
+        "op": "<",
+        "threshold": 0.25,
+        "actual": 0.05,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "profit_factor",
+        "op": ">",
+        "threshold": 1.5,
+        "actual": 4.1,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "oos_windows",
+        "op": ">=",
+        "threshold": 3,
+        "actual": 2.0,
+        "pass": false,
+        "note": null
+      },
+      {
+        "rule": "oos_sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 0.61,
+        "pass": false,
+        "note": null
+      }
+    ],
+    "proposed_detail": [
+      {
+        "rule": "sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 5.72,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "ann_return",
+        "op": ">=",
+        "threshold": 0.15,
+        "actual": 2.4,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "max_drawdown",
+        "op": "<",
+        "threshold": 0.25,
+        "actual": 0.05,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "profit_factor",
+        "op": ">",
+        "threshold": 1.5,
+        "actual": 4.1,
+        "pass": true,
+        "note": null
+      },
+      {
+        "rule": "oos_windows",
+        "op": ">=",
+        "threshold": 3,
+        "actual": 2.0,
+        "pass": false,
+        "note": null
+      },
+      {
+        "rule": "oos_sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": 0.61,
+        "pass": false,
+        "note": null
+      }
+    ]
+  },
+  {
+    "case": "empty",
+    "current_status": "no-data",
+    "proposed_status": "no-data",
+    "current_detail": [
+      {
+        "rule": "sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": null,
+        "pass": true,
+        "note": "skipped: no data"
+      },
+      {
+        "rule": "ann_return",
+        "op": ">=",
+        "threshold": 0.15,
+        "actual": null,
+        "pass": true,
+        "note": "skipped: no data"
+      },
+      {
+        "rule": "max_drawdown",
+        "op": "<",
+        "threshold": 0.25,
+        "actual": null,
+        "pass": true,
+        "note": "skipped: no data"
+      },
+      {
+        "rule": "profit_factor",
+        "op": ">",
+        "threshold": 1.5,
+        "actual": null,
+        "pass": true,
+        "note": "skipped: no data"
+      },
+      {
+        "rule": "oos_windows",
+        "op": ">=",
+        "threshold": 3,
+        "actual": null,
+        "pass": true,
+        "note": "skipped: no data"
+      },
+      {
+        "rule": "oos_sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": null,
+        "pass": true,
+        "note": "skipped: no data"
+      }
+    ],
+    "proposed_detail": [
+      {
+        "rule": "sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": null,
+        "pass": false,
+        "note": "missing required metric"
+      },
+      {
+        "rule": "ann_return",
+        "op": ">=",
+        "threshold": 0.15,
+        "actual": null,
+        "pass": false,
+        "note": "missing required metric"
+      },
+      {
+        "rule": "max_drawdown",
+        "op": "<",
+        "threshold": 0.25,
+        "actual": null,
+        "pass": false,
+        "note": "missing required metric"
+      },
+      {
+        "rule": "profit_factor",
+        "op": ">",
+        "threshold": 1.5,
+        "actual": null,
+        "pass": false,
+        "note": "missing required metric"
+      },
+      {
+        "rule": "oos_windows",
+        "op": ">=",
+        "threshold": 3,
+        "actual": null,
+        "pass": false,
+        "note": "missing required metric"
+      },
+      {
+        "rule": "oos_sharpe",
+        "op": ">=",
+        "threshold": 1.0,
+        "actual": null,
+        "pass": false,
+        "note": "missing required metric"
+      }
+    ]
+  }
+]

@@ -1,0 +1,524 @@
+{
+  "long_history": {
+    "period": {
+      "start": "2022-01-02 00:00:00",
+      "end": "2026-07-10 00:00:00",
+      "n_days": 1651
+    },
+    "strategies": {
+      "h3_baseline": {
+        "sharpe": 1.1232662328014034,
+        "annualized_return": 0.16477685562266867,
+        "max_drawdown_pct": -0.1367274001590677,
+        "profit_factor": 1.2161044561045786,
+        "calmar": 1.2051487516837769,
+        "sortino": 1.4435516941042563,
+        "n_days": 1651,
+        "volatility": 0.14669439070710646,
+        "trades_per_year": 8707.032967032967
+      },
+      "vpvr_xs_basis_zscore_15m": {
+        "sharpe": 0.20996097873304537,
+        "annualized_return": 0.012947393788125034,
+        "max_drawdown_pct": -0.14215594969407866,
+        "profit_factor": 1.0435188773482502,
+        "calmar": 0.09107880335637013,
+        "sortino": 0.21938019262176156,
+        "n_days": 1651,
+        "volatility": 0.061665714583027276,
+        "trades_per_year": 2565.9
+      },
+      "momentum_trend_btc_1h": {
+        "sharpe": 0.21481022034478792,
+        "annualized_return": 0.0025454724605917097,
+        "max_drawdown_pct": -0.02203743889336153,
+        "profit_factor": 1.0981550372688664,
+        "calmar": 0.11550672802357709,
+        "sortino": 0.4655144708612436,
+        "n_days": 1651,
+        "volatility": 0.011849866624157917,
+        "trades_per_year": 214.4
+      }
+    },
+    "portfolios": {
+      "equal": {
+        "sharpe": 1.1160862817877775,
+        "annualized_return": 0.0600899072904618,
+        "max_drawdown_pct": -0.05500055551340225,
+        "profit_factor": 1.2135541843932702,
+        "calmar": 1.0925327340706477,
+        "sortino": 1.4561301904514952,
+        "n_days": 1651,
+        "volatility": 0.053839840405714996,
+        "label": "equal",
+        "weights": {
+          "h3_baseline": 0.3333333333333333,
+          "vpvr_xs_basis_zscore_15m": 0.3333333333333333,
+          "momentum_trend_btc_1h": 0.3333333333333333
+        },
+        "fee_shock_10bps": {
+          "sharpe": -70.00431378174095,
+          "annualized_return": -3.7690210817205267,
+          "max_drawdown_pct": -0.9999999999842599
+        },
+        "fee_shock_22bps": {
+          "sharpe": -155.34879385797544,
+          "annualized_return": -8.363954268533714,
+          "max_drawdown_pct": -1.0
+        }
+      },
+      "risk_parity": {
+        "sharpe": 0.894509546388168,
+        "annualized_return": 0.01441073796947316,
+        "max_drawdown_pct": -0.02427360066361202,
+        "profit_factor": 1.1888198956942486,
+        "calmar": 0.5936794532125577,
+        "sortino": 1.313752750706137,
+        "n_days": 1651,
+        "volatility": 0.016110211487021617,
+        "label": "risk_parity",
+        "weights": {
+          "h3_baseline": 0.06345871242478265,
+          "vpvr_xs_basis_zscore_15m": 0.15095968995343764,
+          "momentum_trend_btc_1h": 0.7855815976217797
+        },
+        "fee_shock_10bps": {
+          "sharpe": -67.90118969086514,
+          "annualized_return": -1.0939025261402093,
+          "max_drawdown_pct": -0.9992373862065455
+        },
+        "fee_shock_22bps": {
+          "sharpe": -150.45602877556905,
+          "annualized_return": -2.423878443071828,
+          "max_drawdown_pct": -0.9999998814784886
+        }
+      },
+      "correlation_off": {
+        "sharpe": 0.8948156777077608,
+        "annualized_return": 0.014209794936229914,
+        "max_drawdown_pct": -0.02352629156567132,
+        "profit_factor": 1.1897399427538273,
+        "calmar": 0.603996379818922,
+        "sortino": 1.3283077417276696,
+        "n_days": 1651,
+        "volatility": 0.01588013631212965,
+        "label": "correlation_off",
+        "weights": {
+          "h3_baseline": 0.06256060811355718,
+          "vpvr_xs_basis_zscore_15m": 0.1456489087169857,
+          "momentum_trend_btc_1h": 0.7917904831694571
+        },
+        "fee_shock_10bps": {
+          "sharpe": -67.6308991122607,
+          "annualized_return": -1.073987896814588,
+          "max_drawdown_pct": -0.9991306701515865
+        },
+        "fee_shock_22bps": {
+          "sharpe": -149.8617568602228,
+          "annualized_return": -2.379825126915569,
+          "max_drawdown_pct": -0.9999998414089273
+        }
+      }
+    },
+    "correlation_matrix": {
+      "h3_baseline": {
+        "h3_baseline": 1.0,
+        "vpvr_xs_basis_zscore_15m": 0.043,
+        "momentum_trend_btc_1h": -0.044
+      },
+      "vpvr_xs_basis_zscore_15m": {
+        "h3_baseline": 0.043,
+        "vpvr_xs_basis_zscore_15m": 1.0,
+        "momentum_trend_btc_1h": -0.002
+      },
+      "momentum_trend_btc_1h": {
+        "h3_baseline": -0.044,
+        "vpvr_xs_basis_zscore_15m": -0.002,
+        "momentum_trend_btc_1h": 1.0
+      }
+    }
+  },
+  "full_history": {
+    "period": {
+      "start": "2024-08-24 00:00:00",
+      "end": "2026-05-07 00:00:00",
+      "n_days": 622
+    },
+    "strategies": {
+      "h3_baseline": {
+        "sharpe": 1.2905400402410514,
+        "annualized_return": 0.14737168900422637,
+        "max_drawdown_pct": -0.09268688874516962,
+        "profit_factor": 1.235774107247027,
+        "calmar": 1.5899949928129038,
+        "sortino": 1.782884402524209,
+        "n_days": 622,
+        "volatility": 0.11419381375931568,
+        "trades_per_year": 8707.032967032967
+      },
+      "vpvr_xs_basis_zscore_15m": {
+        "sharpe": -0.08103014388367433,
+        "annualized_return": -0.005312182117955112,
+        "max_drawdown_pct": -0.1421559496940783,
+        "profit_factor": 0.9840501097655195,
+        "calmar": -0.03736869353260983,
+        "sortino": -0.08265758210857521,
+        "n_days": 622,
+        "volatility": 0.06555809805275925,
+        "trades_per_year": 2565.9
+      },
+      "momentum_trend_btc_1h": {
+        "sharpe": 0.4630194941526876,
+        "annualized_return": 0.004991890789911678,
+        "max_drawdown_pct": -0.009676252709158792,
+        "profit_factor": 1.1974219650220075,
+        "calmar": 0.5158909073537052,
+        "sortino": 0.821721007800608,
+        "n_days": 622,
+        "volatility": 0.01078116764618452,
+        "trades_per_year": 214.4
+      },
+      "pairs_cointegration_1d": {
+        "sharpe": 1.4907087435390274,
+        "annualized_return": 0.008907419862247605,
+        "max_drawdown_pct": -0.0034372528257431865,
+        "profit_factor": 3.848082008739737,
+        "calmar": 2.5914357522774556,
+        "sortino": 0.4103183256700109,
+        "n_days": 622,
+        "volatility": 0.00597529188773716,
+        "trades_per_year": 11.475409836065573
+      },
+      "donchian_breakout_1d": {
+        "sharpe": 0.42411729636232637,
+        "annualized_return": 0.000901923868332546,
+        "max_drawdown_pct": -0.0017694955749627847,
+        "profit_factor": 1.3109931601987908,
+        "calmar": 0.5097067667725108,
+        "sortino": 0.24909344474282002,
+        "n_days": 622,
+        "volatility": 0.0021265906296875623,
+        "trades_per_year": 18.433179723502306
+      }
+    },
+    "portfolios": {
+      "equal": {
+        "sharpe": 1.1682742693642787,
+        "annualized_return": 0.031372148281352624,
+        "max_drawdown_pct": -0.03185954526686882,
+        "profit_factor": 1.2144148761428697,
+        "calmar": 0.9847016967306483,
+        "sortino": 1.6190789421442722,
+        "n_days": 622,
+        "volatility": 0.026853410285603493,
+        "label": "equal",
+        "weights": {
+          "h3_baseline": 0.2,
+          "vpvr_xs_basis_zscore_15m": 0.2,
+          "momentum_trend_btc_1h": 0.2,
+          "pairs_cointegration_1d": 0.2,
+          "donchian_breakout_1d": 0.2
+        },
+        "fee_shock_10bps": {
+          "sharpe": -84.61033957594756,
+          "annualized_return": -2.272076163037154,
+          "max_drawdown_pct": -0.9963931974023443
+        },
+        "fee_shock_22bps": {
+          "sharpe": -187.54467619032184,
+          "annualized_return": -5.036214136619364,
+          "max_drawdown_pct": -0.9999964082546304
+        }
+      },
+      "risk_parity": {
+        "sharpe": 1.5618229652779385,
+        "annualized_return": 0.004755513519927948,
+        "max_drawdown_pct": -0.0030388222252132847,
+        "profit_factor": 1.3749984878341937,
+        "calmar": 1.5649199484165859,
+        "sortino": 2.4711580622172553,
+        "n_days": 622,
+        "volatility": 0.003044847992154903,
+        "label": "risk_parity",
+        "weights": {
+          "h3_baseline": 0.011608615724309308,
+          "vpvr_xs_basis_zscore_15m": 0.020220722403484166,
+          "momentum_trend_btc_1h": 0.12295811970741265,
+          "pairs_cointegration_1d": 0.22185227549231185,
+          "donchian_breakout_1d": 0.6233602666724821
+        },
+        "fee_shock_10bps": {
+          "sharpe": -61.9420138121716,
+          "annualized_return": -0.18860401638602198,
+          "max_drawdown_pct": -0.3719775849801013
+        },
+        "fee_shock_22bps": {
+          "sharpe": -138.14661794511105,
+          "annualized_return": -0.42063545227316185,
+          "max_drawdown_pct": -0.6457184917201703
+        }
+      },
+      "correlation_off": {
+        "sharpe": 1.5548051796846922,
+        "annualized_return": 0.004725241875935884,
+        "max_drawdown_pct": -0.0030460144954212384,
+        "profit_factor": 1.3727857630744225,
+        "calmar": 1.5512867332177362,
+        "sortino": 2.4578142196867425,
+        "n_days": 622,
+        "volatility": 0.0030391215167511493,
+        "label": "correlation_off",
+        "weights": {
+          "h3_baseline": 0.011535632250843997,
+          "vpvr_xs_basis_zscore_15m": 0.02032859844626443,
+          "momentum_trend_btc_1h": 0.12276631412710363,
+          "pairs_cointegration_1d": 0.2195879635562967,
+          "donchian_breakout_1d": 0.6257814916194913
+        },
+        "fee_shock_10bps": {
+          "sharpe": -61.943275539253825,
+          "annualized_return": -0.18825314150939143,
+          "max_drawdown_pct": -0.37143431559317125
+        },
+        "fee_shock_22bps": {
+          "sharpe": -138.14097240197998,
+          "annualized_return": -0.419827201571784,
+          "max_drawdown_pct": -0.6450111868782479
+        }
+      }
+    },
+    "correlation_matrix": {
+      "h3_baseline": {
+        "h3_baseline": 1.0,
+        "vpvr_xs_basis_zscore_15m": 0.037,
+        "momentum_trend_btc_1h": 0.007,
+        "pairs_cointegration_1d": -0.003,
+        "donchian_breakout_1d": 0.032
+      },
+      "vpvr_xs_basis_zscore_15m": {
+        "h3_baseline": 0.037,
+        "vpvr_xs_basis_zscore_15m": 1.0,
+        "momentum_trend_btc_1h": -0.057,
+        "pairs_cointegration_1d": 0.008,
+        "donchian_breakout_1d": 0.039
+      },
+      "momentum_trend_btc_1h": {
+        "h3_baseline": 0.007,
+        "vpvr_xs_basis_zscore_15m": -0.057,
+        "momentum_trend_btc_1h": 1.0,
+        "pairs_cointegration_1d": 0.113,
+        "donchian_breakout_1d": -0.009
+      },
+      "pairs_cointegration_1d": {
+        "h3_baseline": -0.003,
+        "vpvr_xs_basis_zscore_15m": 0.008,
+        "momentum_trend_btc_1h": 0.113,
+        "pairs_cointegration_1d": 1.0,
+        "donchian_breakout_1d": -0.029
+      },
+      "donchian_breakout_1d": {
+        "h3_baseline": 0.032,
+        "vpvr_xs_basis_zscore_15m": 0.039,
+        "momentum_trend_btc_1h": -0.009,
+        "pairs_cointegration_1d": -0.029,
+        "donchian_breakout_1d": 1.0
+      }
+    }
+  },
+  "2024_subsample": {
+    "period": {
+      "start": "2024-04-24 00:00:00",
+      "end": "2024-12-31 00:00:00",
+      "n_days": 252
+    },
+    "strategies": {
+      "h3_baseline": {
+        "sharpe": 2.1436518648243457,
+        "annualized_return": 0.2648720456320318,
+        "max_drawdown_pct": -0.0976871451915033,
+        "profit_factor": 1.4066349156448266,
+        "calmar": 2.711431940331388,
+        "sortino": 3.381956775795943,
+        "n_days": 252,
+        "volatility": 0.12356112948113236,
+        "trades_per_year": 8707.032967032967
+      },
+      "vpvr_xs_basis_zscore_15m": {
+        "sharpe": 0.7985907926580437,
+        "annualized_return": 0.04147050192249335,
+        "max_drawdown_pct": -0.058856678207026294,
+        "profit_factor": 1.1729432114735956,
+        "calmar": 0.704601468955185,
+        "sortino": 1.246859259532047,
+        "n_days": 252,
+        "volatility": 0.05192960187339778,
+        "trades_per_year": 2565.9
+      },
+      "momentum_trend_btc_1h": {
+        "sharpe": 1.0176458048571149,
+        "annualized_return": 0.011966691045543265,
+        "max_drawdown_pct": -0.004304937458939749,
+        "profit_factor": 1.4438297589482245,
+        "calmar": 2.7797595574107383,
+        "sortino": 1.8322271444650167,
+        "n_days": 252,
+        "volatility": 0.011759190661846712,
+        "trades_per_year": 214.4
+      },
+      "donchian_breakout_1d": {
+        "sharpe": 0.7070502603276236,
+        "annualized_return": 0.0013519368121585422,
+        "max_drawdown_pct": -0.0012151975751121063,
+        "profit_factor": 1.8427188379314494,
+        "calmar": 1.1125242839904623,
+        "sortino": 0.46883208172044283,
+        "n_days": 252,
+        "volatility": 0.0019120802127024176,
+        "trades_per_year": 18.433179723502306
+      },
+      "signal_enhance_h3_2024": {
+        "sharpe": 8.997410788194852,
+        "annualized_return": 1.2610990262193789,
+        "max_drawdown_pct": -0.03887297845499985,
+        "profit_factor": 4.2354058887593915,
+        "calmar": 32.441533330903695,
+        "sortino": 18.039260373625982,
+        "n_days": 252,
+        "volatility": 0.14016243738409911,
+        "trades_per_year": 704.0
+      }
+    },
+    "portfolios": {
+      "equal": {
+        "sharpe": 6.556630026874135,
+        "annualized_return": 0.3161520403263212,
+        "max_drawdown_pct": -0.016697502398232443,
+        "profit_factor": 2.864598075499411,
+        "calmar": 18.934091625570797,
+        "sortino": 11.109410574407308,
+        "n_days": 252,
+        "volatility": 0.04821867926518439,
+        "label": "equal",
+        "weights": {
+          "h3_baseline": 0.2,
+          "vpvr_xs_basis_zscore_15m": 0.2,
+          "momentum_trend_btc_1h": 0.2,
+          "donchian_breakout_1d": 0.2,
+          "signal_enhance_h3_2024": 0.2
+        },
+        "fee_shock_10bps": {
+          "sharpe": -44.08667390771688,
+          "annualized_return": -2.125801189024973,
+          "max_drawdown_pct": -0.8813323395540251
+        },
+        "fee_shock_22bps": {
+          "sharpe": -104.85863862922606,
+          "annualized_return": -5.056145064246525,
+          "max_drawdown_pct": -0.9938570199698045
+        }
+      },
+      "risk_parity": {
+        "sharpe": 5.120358397193625,
+        "annualized_return": 0.02126697168504855,
+        "max_drawdown_pct": -0.0015139193690721546,
+        "profit_factor": 2.543888163641034,
+        "calmar": 14.047625071395034,
+        "sortino": 10.039893471757402,
+        "n_days": 252,
+        "volatility": 0.004153414670485681,
+        "label": "risk_parity",
+        "weights": {
+          "h3_baseline": 0.012596062917692438,
+          "vpvr_xs_basis_zscore_15m": 0.029971032031400592,
+          "momentum_trend_btc_1h": 0.13235466673529248,
+          "donchian_breakout_1d": 0.8139740952215528,
+          "signal_enhance_h3_2024": 0.011104143094061596
+        },
+        "fee_shock_10bps": {
+          "sharpe": -52.127788755543264,
+          "annualized_return": -0.2165083225572519,
+          "max_drawdown_pct": -0.19423550094502703
+        },
+        "fee_shock_22bps": {
+          "sharpe": -120.82556533882752,
+          "annualized_return": -0.5018386756480124,
+          "max_drawdown_pct": -0.39381362402098785
+        }
+      },
+      "correlation_off": {
+        "sharpe": 4.888423916406635,
+        "annualized_return": 0.018801617949611514,
+        "max_drawdown_pct": -0.001459880896414523,
+        "profit_factor": 2.494167491334831,
+        "calmar": 12.87887114338465,
+        "sortino": 9.545107877438445,
+        "n_days": 252,
+        "volatility": 0.0038461512894798493,
+        "label": "correlation_off",
+        "weights": {
+          "h3_baseline": 0.011100640176385552,
+          "vpvr_xs_basis_zscore_15m": 0.027822727803084125,
+          "momentum_trend_btc_1h": 0.13155402973150584,
+          "donchian_breakout_1d": 0.81998749979085,
+          "signal_enhance_h3_2024": 0.009535102498174722
+        },
+        "fee_shock_10bps": {
+          "sharpe": -51.811594859559314,
+          "annualized_return": -0.19927523237910155,
+          "max_drawdown_pct": -0.18024873250743925
+        },
+        "fee_shock_22bps": {
+          "sharpe": -119.85161739071847,
+          "annualized_return": -0.46096745277355733,
+          "max_drawdown_pct": -0.36855864785758236
+        }
+      }
+    },
+    "correlation_matrix": {
+      "h3_baseline": {
+        "h3_baseline": 1.0,
+        "vpvr_xs_basis_zscore_15m": 0.114,
+        "momentum_trend_btc_1h": -0.052,
+        "donchian_breakout_1d": 0.086,
+        "signal_enhance_h3_2024": 0.477
+      },
+      "vpvr_xs_basis_zscore_15m": {
+        "h3_baseline": 0.114,
+        "vpvr_xs_basis_zscore_15m": 1.0,
+        "momentum_trend_btc_1h": 0.211,
+        "donchian_breakout_1d": -0.026,
+        "signal_enhance_h3_2024": 0.146
+      },
+      "momentum_trend_btc_1h": {
+        "h3_baseline": -0.052,
+        "vpvr_xs_basis_zscore_15m": 0.211,
+        "momentum_trend_btc_1h": 1.0,
+        "donchian_breakout_1d": 0.015,
+        "signal_enhance_h3_2024": 0.021
+      },
+      "donchian_breakout_1d": {
+        "h3_baseline": 0.086,
+        "vpvr_xs_basis_zscore_15m": -0.026,
+        "momentum_trend_btc_1h": 0.015,
+        "donchian_breakout_1d": 1.0,
+        "signal_enhance_h3_2024": 0.068
+      },
+      "signal_enhance_h3_2024": {
+        "h3_baseline": 0.477,
+        "vpvr_xs_basis_zscore_15m": 0.146,
+        "momentum_trend_btc_1h": 0.021,
+        "donchian_breakout_1d": 0.068,
+        "signal_enhance_h3_2024": 1.0
+      }
+    }
+  },
+  "notes": {
+    "signal_enhance_h3_2024": "Synthetic daily returns calibrated to quick_verify_2024.json (Sharpe 8.07, ann_return 111.6%, maxDD -3.15%) and target correlation 0.55 to H3 baseline 2024.",
+    "fee_shock_assumption": "Extra fee drag = sum(weight_i * trades_per_year_i) * extra_bps / 10000 per year, spread evenly over 252 trading days.",
+    "weight_schemes": {
+      "equal": "1/N",
+      "risk_parity": "inverse daily volatility",
+      "correlation_off": "inverse-vol x (1 - average pairwise correlation)"
+    }
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "period": "2024-01-01 to 2024-12-31",
+  "n_days": 365,
+  "correlation_matrix": {
+    "h3_baseline": {
+      "h3_baseline": 1.0,
+      "h3_candidate": 0.466,
+      "v72_xs_basis_zscore": 0.046
+    },
+    "h3_candidate": {
+      "h3_baseline": 0.466,
+      "h3_candidate": 1.0,
+      "v72_xs_basis_zscore": 0.011
+    },
+    "v72_xs_basis_zscore": {
+      "h3_baseline": 0.046,
+      "h3_candidate": 0.011,
+      "v72_xs_basis_zscore": 1.0
+    }
+  },
+  "component_metrics": {
+    "h3_baseline": {
+      "sharpe": 2.492067515598412,
+      "ann_return": 0.45877568211964515,
+      "max_dd": -0.09573542685637476,
+      "volatility": 0.15649746482352983
+    },
+    "h3_candidate": {
+      "sharpe": 8.0356151739368,
+      "ann_return": 1.1097923249595931,
+      "max_dd": -0.01992615223015055,
+      "volatility": 0.09354619974291678
+    },
+    "v72_xs_basis_zscore": {
+      "sharpe": 0.8561866316928713,
+      "ann_return": 0.05788500376461991,
+      "max_dd": -0.058856678207026884,
+      "volatility": 0.06845490602799777
+    }
+  },
+  "portfolio": {
+    "equal_weight": {
+      "weights": {
+        "h3_baseline": 0.3333,
+        "h3_candidate": 0.3333,
+        "v72_xs_basis_zscore": 0.3333
+      },
+      "sharpe": 5.224502063556661,
+      "ann_return": 0.4873093348433637,
+      "max_dd": -0.02738397201996559,
+      "volatility": 0.07658233399033587,
+      "turnover_annual": 0.5995192766624683,
+      "cost_sensitivity": {
+        "0bps_rt": {
+          "sharpe": 5.224502063556661,
+          "ann_return": 0.4873093348433637,
+          "max_dd": -0.02738397201996559,
+          "volatility": 0.07658233399033587
+        },
+        "8bps_rt": {
+          "sharpe": 5.218239321272156,
+          "ann_return": 0.48659693825069716,
+          "max_dd": -0.027391675886389667,
+          "volatility": 0.07658233399033616
+        },
+        "22bps_rt": {
+          "sharpe": 5.20727952227425,
+          "ann_return": 0.4853510629430404,
+          "max_dd": -0.02740515753027275,
+          "volatility": 0.07658233399033573
+        }
+      }
+    },
+    "risk_parity": {
+      "weights": {
+        "h3_baseline": 0.2014,
+        "h3_candidate": 0.3374,
+        "v72_xs_basis_zscore": 0.4612
+      },
+      "sharpe": 5.65575623039504,
+      "ann_return": 0.4290385771597669,
+      "max_dd": -0.02449663996072989,
+      "volatility": 0.0635076885136878,
+      "turnover_annual": 0.5488635479731743,
+      "cost_sensitivity": {
+        "0bps_rt": {
+          "sharpe": 5.65575623039504,
+          "ann_return": 0.4290385771597669,
+          "max_dd": -0.02449663996072989,
+          "volatility": 0.0635076885136878
+        },
+        "8bps_rt": {
+          "sharpe": 5.648842251179994,
+          "ann_return": 0.4284118464947777,
+          "max_dd": -0.02452600671964339,
+          "volatility": 0.06350768851368768
+        },
+        "22bps_rt": {
+          "sharpe": 5.636742787553681,
+          "ann_return": 0.42731572733947787,
+          "max_dd": -0.024577396505568217,
+          "volatility": 0.06350768851368785
+        }
+      }
+    },
+    "correlation_off": {
+      "weights": {
+        "h3_baseline": 0.1753,
+        "h3_candidate": 0.3005,
+        "v72_xs_basis_zscore": 0.5241
+      },
+      "sharpe": 5.366867167614749,
+      "ann_return": 0.3813160945351972,
+      "max_dd": -0.025549806797201438,
+      "volatility": 0.06055765834227445,
+      "turnover_annual": 0.5280159456923087,
+      "cost_sensitivity": {
+        "0bps_rt": {
+          "sharpe": 5.366867167614749,
+          "ann_return": 0.3813160945351972,
+          "max_dd": -0.025549806797201438,
+          "volatility": 0.06055765834227445
+        },
+        "8bps_rt": {
+          "sharpe": 5.359891786331557,
+          "ann_return": 0.3807332449261771,
+          "max_dd": -0.025576901143918505,
+          "volatility": 0.06055765834227439
+        },
+        "22bps_rt": {
+          "sharpe": 5.347684869085999,
+          "ann_return": 0.3797138482083888,
+          "max_dd": -0.025624314513460714,
+          "volatility": 0.0605576583422745
+        }
+      }
+    }
+  }
+}

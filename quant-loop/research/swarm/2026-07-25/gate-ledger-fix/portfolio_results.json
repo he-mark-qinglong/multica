@@ -1,0 +1,430 @@
+{
+  "experiment_window": {
+    "start": "2024-01-01",
+    "end": "2024-12-31",
+    "n_days": 366
+  },
+  "assumptions": {
+    "fee_model": "Per-trade for standalines = trades_per_year * fee_rt assuming full-notional round-trips. For portfolios = half sum of absolute weight changes per day * fee_rt.",
+    "simulated_variants": "Signal-enhance-h3 variants simulated as Gaussian daily returns matching reported 2024 Sharpe and annualized return; maxDD is path-dependent and approximate.",
+    "missing_data": "Pairs cointegration has no pre-August-2024 activity in the available equity file; those days are flat (0 return).",
+    "loid_iceberg_v4": "Excluded: reported maxDD of -130.830 is inconsistent with a tradable strategy and no equity file is available.",
+    "vol_floor": "Risk parity and decorrelation use a 5% annual volatility floor to avoid allocating all capital to the sparse pairs series."
+  },
+  "standalone": {
+    "h3_baseline": {
+      "sharpe_daily_resampled": 1.9317509886602238,
+      "annualized_return": 0.2468304523872476,
+      "annualized_volatility": 0.12777550203737087,
+      "max_drawdown": -0.09768714519150279,
+      "n_days": 366,
+      "n_trades": 8390,
+      "trades_per_year": 5776.72131147541,
+      "source": "equity_winner_atr_mult_1_00_1d.csv",
+      "notes": "Actual H3 daily returns for the 2024 window.",
+      "reported": {},
+      "fee_sensitivity": {
+        "gross": {
+          "sharpe_daily_resampled": 1.9317509886602238,
+          "annualized_return": 0.2468304523872476,
+          "max_drawdown": -0.09768714519150279
+        },
+        "8bps": {
+          "sharpe_daily_resampled": -34.236191813307414,
+          "annualized_return": -4.374546596793081,
+          "max_drawdown": -0.9983669200437391
+        },
+        "22bps": {
+          "sharpe_daily_resampled": -97.53009171675079,
+          "annualized_return": -12.461956432858658,
+          "max_drawdown": -0.9999999911108187
+        }
+      }
+    },
+    "signal_slope_fav_4": {
+      "sharpe_daily_resampled": 7.910302931233126,
+      "annualized_return": 0.9948982811132454,
+      "annualized_volatility": 0.12577246279468998,
+      "max_drawdown": -0.03927328427537191,
+      "n_days": 366,
+      "n_trades": 1101,
+      "trades_per_year": 758.0655737704918,
+      "source": "quick_verify_2024.json",
+      "notes": "Simulated daily returns matching reported 2024 Sharpe and annualized return.",
+      "reported": {
+        "n_trades": 1101,
+        "mean_net_bps": 6.1,
+        "mean_gross_bps": 14.1,
+        "win_rate": 0.485,
+        "sharpe_daily_resampled": 7.5301,
+        "annualized_return_daily": 1.0053,
+        "max_drawdown_pct": -0.0318,
+        "profit_factor": 1.0875
+      },
+      "fee_sensitivity": {
+        "gross": {
+          "sharpe_daily_resampled": 7.910302931233126,
+          "annualized_return": 0.9948982811132454,
+          "max_drawdown": -0.03927328427537191
+        },
+        "8bps": {
+          "sharpe_daily_resampled": 3.0884806854020828,
+          "annualized_return": 0.3884458220968521,
+          "max_drawdown": -0.06666408218245556
+        },
+        "22bps": {
+          "sharpe_daily_resampled": -5.349708244802246,
+          "annualized_return": -0.6728459811818367,
+          "max_drawdown": -0.632043910886577
+        }
+      }
+    },
+    "signal_adverse_stop_0_7": {
+      "sharpe_daily_resampled": 3.0988333682348252,
+      "annualized_return": 0.6228942753867053,
+      "annualized_volatility": 0.20100928361356898,
+      "max_drawdown": -0.08846234896629701,
+      "n_days": 366,
+      "n_trades": 2758,
+      "trades_per_year": 1898.9508196721313,
+      "source": "quick_verify_2024.json",
+      "notes": "Simulated daily returns matching reported 2024 Sharpe and annualized return.",
+      "reported": {
+        "n_trades": 2758,
+        "mean_net_bps": -4.904,
+        "mean_gross_bps": 3.096,
+        "win_rate": 0.5221,
+        "sharpe_daily_resampled": 2.6125,
+        "annualized_return_daily": 0.4943,
+        "max_drawdown_pct": -0.0895,
+        "profit_factor": 1.0153
+      },
+      "fee_sensitivity": {
+        "gross": {
+          "sharpe_daily_resampled": 3.0988333682348252,
+          "annualized_return": 0.6228942753867053,
+          "max_drawdown": -0.08846234896629701
+        },
+        "8bps": {
+          "sharpe_daily_resampled": -4.458830777557667,
+          "annualized_return": -0.8962663803509996,
+          "max_drawdown": -0.743764566943192
+        },
+        "22bps": {
+          "sharpe_daily_resampled": -17.68474303269453,
+          "annualized_return": -3.5547975278919837,
+          "max_drawdown": -0.9946597788996648
+        }
+      }
+    },
+    "signal_slope_fav_4_stop_0_7": {
+      "sharpe_daily_resampled": 8.39465596178785,
+      "annualized_return": 1.1427745032208247,
+      "annualized_volatility": 0.13613118970243573,
+      "max_drawdown": -0.03441227636757904,
+      "n_days": 366,
+      "n_trades": 704,
+      "trades_per_year": 484.72131147540983,
+      "source": "quick_verify_2024.json",
+      "notes": "Simulated daily returns matching reported 2024 Sharpe and annualized return.",
+      "reported": {
+        "n_trades": 704,
+        "mean_net_bps": 15.429,
+        "mean_gross_bps": 23.429,
+        "win_rate": 0.6889,
+        "sharpe_daily_resampled": 8.0735,
+        "annualized_return_daily": 1.1158,
+        "max_drawdown_pct": -0.0315,
+        "profit_factor": 1.0873
+      },
+      "fee_sensitivity": {
+        "gross": {
+          "sharpe_daily_resampled": 8.39465596178785,
+          "annualized_return": 1.1427745032208247,
+          "max_drawdown": -0.03441227636757904
+        },
+        "8bps": {
+          "sharpe_daily_resampled": 5.546101930724462,
+          "annualized_return": 0.7549974540404969,
+          "max_drawdown": -0.05275011911727445
+        },
+        "22bps": {
+          "sharpe_daily_resampled": 0.5611323763635363,
+          "annualized_return": 0.07638761797492312,
+          "max_drawdown": -0.17318606499579947
+        }
+      }
+    },
+    "pairs_cointegration_1d": {
+      "sharpe_daily_resampled": 0.823391861068387,
+      "annualized_return": 0.0024462401526417574,
+      "annualized_volatility": 0.002970930693276047,
+      "max_drawdown": -0.0014670658809144976,
+      "n_days": 366,
+      "n_trades": 21,
+      "trades_per_year": 14.459016393442624,
+      "source": "portfolio_equity.csv",
+      "notes": "Actual daily returns; strategy is inactive before its first trade, so pre-August 2024 returns are flat.",
+      "reported": {
+        "sharpe": 6.136489026471605,
+        "max_drawdown": -0.003437252825743188,
+        "portfolio_total_pnl_pct": 0.02218392454237231
+      },
+      "fee_sensitivity": {
+        "gross": {
+          "sharpe_daily_resampled": 0.823391861068387,
+          "annualized_return": 0.0024462401526417574,
+          "max_drawdown": -0.0014670658809144976
+        },
+        "8bps": {
+          "sharpe_daily_resampled": -3.0700726148729647,
+          "annualized_return": -0.009120972962112343,
+          "max_drawdown": -0.013121026926511958
+        },
+        "22bps": {
+          "sharpe_daily_resampled": -9.883635447770331,
+          "annualized_return": -0.029363595912932017,
+          "max_drawdown": -0.041638074378400725
+        }
+      }
+    },
+    "vpvr_xs_basis_zscore_15m": {
+      "sharpe_daily_resampled": 0.7201224167593253,
+      "annualized_return": 0.04079413046793674,
+      "annualized_volatility": 0.05664888291009929,
+      "max_drawdown": -0.05885667820702689,
+      "n_days": 366,
+      "n_trades": 11605,
+      "trades_per_year": 7990.32786885246,
+      "source": "equity_A_iter72_BTCUSDT_ETHUSDT.csv",
+      "notes": "Resampled from 15m equity to daily returns.",
+      "reported": {
+        "sharpe": 0.24961667592798473,
+        "max_drawdown_pct": -0.1451634640542535,
+        "total_return_pct": 0.07501611920857276
+      },
+      "fee_sensitivity": {
+        "gross": {
+          "sharpe_daily_resampled": 0.7201224167593253,
+          "annualized_return": 0.04079413046793674,
+          "max_drawdown": -0.05885667820702689
+        },
+        "8bps": {
+          "sharpe_daily_resampled": -112.1199190228286,
+          "annualized_return": -6.351468164614032,
+          "max_drawdown": -0.9999103637528579
+        },
+        "22bps": {
+          "sharpe_daily_resampled": -309.5899915421075,
+          "annualized_return": -17.53792718100748,
+          "max_drawdown": -0.9999999999963338
+        }
+      }
+    },
+    "vpvr_xs_smart_routing_15m": {
+      "sharpe_daily_resampled": -3.9763935232379626,
+      "annualized_return": -0.0034364723233828694,
+      "annualized_volatility": 0.0008642183685543685,
+      "max_drawdown": -0.005274444644220888,
+      "n_days": 366,
+      "n_trades": 2772,
+      "trades_per_year": 1908.5901639344263,
+      "source": "equity_15m_BTCUSDT.csv",
+      "notes": "Resampled from 15m equity to daily returns; reported ledger verdict is PASS but metrics.json Sharpe is negative.",
+      "reported": {
+        "agg_sharpe_mean": -4.4331553511737605,
+        "agg_mdd_worst": -0.022109291733624414,
+        "agg_return_pct": -0.02091414629888899
+      },
+      "fee_sensitivity": {
+        "gross": {
+          "sharpe_daily_resampled": -3.9763935232379626,
+          "annualized_return": -0.0034364723233828694,
+          "max_drawdown": -0.005274444644220888
+        },
+        "8bps": {
+          "sharpe_daily_resampled": -1770.74297324965,
+          "annualized_return": -1.5303086034709243,
+          "max_drawdown": -0.8917476417993018
+        },
+        "22bps": {
+          "sharpe_daily_resampled": -4862.58448777087,
+          "annualized_return": -4.202334832979121,
+          "max_drawdown": -0.9978408739615212
+        }
+      }
+    }
+  },
+  "portfolios": {
+    "equal_weight": {
+      "sharpe_daily_resampled": 9.520276033670452,
+      "annualized_return": 0.4353144872007455,
+      "annualized_volatility": 0.04572498587868299,
+      "max_drawdown": -0.012286211955538473,
+      "n_days": 366,
+      "avg_weights": {
+        "h3_baseline": 0.1428571428571428,
+        "signal_slope_fav_4": 0.1428571428571428,
+        "signal_adverse_stop_0_7": 0.1428571428571428,
+        "signal_slope_fav_4_stop_0_7": 0.1428571428571428,
+        "pairs_cointegration_1d": 0.1428571428571428,
+        "vpvr_xs_basis_zscore_15m": 0.1428571428571428,
+        "vpvr_xs_smart_routing_15m": 0.1428571428571428
+      },
+      "annual_turnover_proxy": 0.6401028482410203,
+      "total_turnover_proxy": 0.9296731843500532,
+      "fee_sensitivity": {
+        "gross": {
+          "sharpe_daily_resampled": 9.520276033670452,
+          "annualized_return": 0.4353144872007455,
+          "max_drawdown": -0.012286211955538473
+        },
+        "8bps": {
+          "sharpe_daily_resampled": 9.508960930797654,
+          "annualized_return": 0.43480240492215266,
+          "max_drawdown": -0.012295470262675301
+        },
+        "22bps": {
+          "sharpe_daily_resampled": 9.489158513029865,
+          "annualized_return": 0.4339062609346153,
+          "max_drawdown": -0.012311672143596852
+        }
+      }
+    },
+    "risk_parity": {
+      "sharpe_daily_resampled": 9.58949775579885,
+      "annualized_return": 0.28064350355746404,
+      "annualized_volatility": 0.0292657145039485,
+      "max_drawdown": -0.006752358111602352,
+      "n_days": 366,
+      "avg_weights": {
+        "h3_baseline": 0.09399721291648865,
+        "signal_slope_fav_4": 0.10620167784160099,
+        "signal_adverse_stop_0_7": 0.06998742437253834,
+        "signal_slope_fav_4_stop_0_7": 0.08946800643072526,
+        "pairs_cointegration_1d": 0.22890928265792682,
+        "vpvr_xs_basis_zscore_15m": 0.18252711312279316,
+        "vpvr_xs_smart_routing_15m": 0.22890928265792682
+      },
+      "annual_turnover_proxy": 0.6824704350296017,
+      "total_turnover_proxy": 0.9912070604001357,
+      "fee_sensitivity": {
+        "gross": {
+          "sharpe_daily_resampled": 9.58949775579885,
+          "annualized_return": 0.28064350355746404,
+          "max_drawdown": -0.006752358111602352
+        },
+        "8bps": {
+          "sharpe_daily_resampled": 9.573247853074598,
+          "annualized_return": 0.28009752720944037,
+          "max_drawdown": -0.006757224025740194
+        },
+        "22bps": {
+          "sharpe_daily_resampled": 9.544297079110738,
+          "annualized_return": 0.2791420686003989,
+          "max_drawdown": -0.006765739334529952
+        }
+      }
+    },
+    "decorrelation": {
+      "sharpe_daily_resampled": 9.669114606893437,
+      "annualized_return": 0.28501558143718236,
+      "annualized_volatility": 0.029476905903461435,
+      "max_drawdown": -0.007128135075627595,
+      "n_days": 366,
+      "avg_weights": {
+        "h3_baseline": 0.09626597520869884,
+        "signal_slope_fav_4": 0.10689514982406037,
+        "signal_adverse_stop_0_7": 0.07260303267063914,
+        "signal_slope_fav_4_stop_0_7": 0.09011392891430525,
+        "pairs_cointegration_1d": 0.22770423641466603,
+        "vpvr_xs_basis_zscore_15m": 0.1779709094741927,
+        "vpvr_xs_smart_routing_15m": 0.22844676749343773
+      },
+      "annual_turnover_proxy": 1.9706607240398197,
+      "total_turnover_proxy": 2.8621500992006905,
+      "fee_sensitivity": {
+        "gross": {
+          "sharpe_daily_resampled": 9.669114606893437,
+          "annualized_return": 0.28501558143718236,
+          "max_drawdown": -0.007128135075627595
+        },
+        "8bps": {
+          "sharpe_daily_resampled": 9.613201765797612,
+          "annualized_return": 0.2834390528579505,
+          "max_drawdown": -0.007194205394195685
+        },
+        "22bps": {
+          "sharpe_daily_resampled": 9.513959721428979,
+          "annualized_return": 0.28068012784429475,
+          "max_drawdown": -0.007309821435674491
+        }
+      }
+    }
+  },
+  "correlation_matrix": {
+    "h3_baseline": {
+      "h3_baseline": 1.0,
+      "signal_slope_fav_4": -0.049,
+      "signal_adverse_stop_0_7": 0.017,
+      "signal_slope_fav_4_stop_0_7": 0.088,
+      "pairs_cointegration_1d": -0.069,
+      "vpvr_xs_basis_zscore_15m": 0.049,
+      "vpvr_xs_smart_routing_15m": -0.022
+    },
+    "signal_slope_fav_4": {
+      "h3_baseline": -0.049,
+      "signal_slope_fav_4": 1.0,
+      "signal_adverse_stop_0_7": 0.042,
+      "signal_slope_fav_4_stop_0_7": -0.015,
+      "pairs_cointegration_1d": -0.064,
+      "vpvr_xs_basis_zscore_15m": 0.046,
+      "vpvr_xs_smart_routing_15m": 0.005
+    },
+    "signal_adverse_stop_0_7": {
+      "h3_baseline": 0.017,
+      "signal_slope_fav_4": 0.042,
+      "signal_adverse_stop_0_7": 1.0,
+      "signal_slope_fav_4_stop_0_7": 0.0,
+      "pairs_cointegration_1d": 0.018,
+      "vpvr_xs_basis_zscore_15m": 0.15,
+      "vpvr_xs_smart_routing_15m": 0.023
+    },
+    "signal_slope_fav_4_stop_0_7": {
+      "h3_baseline": 0.088,
+      "signal_slope_fav_4": -0.015,
+      "signal_adverse_stop_0_7": 0.0,
+      "signal_slope_fav_4_stop_0_7": 1.0,
+      "pairs_cointegration_1d": 0.01,
+      "vpvr_xs_basis_zscore_15m": -0.037,
+      "vpvr_xs_smart_routing_15m": -0.065
+    },
+    "pairs_cointegration_1d": {
+      "h3_baseline": -0.069,
+      "signal_slope_fav_4": -0.064,
+      "signal_adverse_stop_0_7": 0.018,
+      "signal_slope_fav_4_stop_0_7": 0.01,
+      "pairs_cointegration_1d": 1.0,
+      "vpvr_xs_basis_zscore_15m": -0.051,
+      "vpvr_xs_smart_routing_15m": 0.135
+    },
+    "vpvr_xs_basis_zscore_15m": {
+      "h3_baseline": 0.049,
+      "signal_slope_fav_4": 0.046,
+      "signal_adverse_stop_0_7": 0.15,
+      "signal_slope_fav_4_stop_0_7": -0.037,
+      "pairs_cointegration_1d": -0.051,
+      "vpvr_xs_basis_zscore_15m": 1.0,
+      "vpvr_xs_smart_routing_15m": 0.008
+    },
+    "vpvr_xs_smart_routing_15m": {
+      "h3_baseline": -0.022,
+      "signal_slope_fav_4": 0.005,
+      "signal_adverse_stop_0_7": 0.023,
+      "signal_slope_fav_4_stop_0_7": -0.065,
+      "pairs_cointegration_1d": 0.135,
+      "vpvr_xs_basis_zscore_15m": 0.008,
+      "vpvr_xs_smart_routing_15m": 1.0
+    }
+  }
+}

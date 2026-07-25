@@ -1,0 +1,18 @@
+{
+  "h3_baseline_2024": {
+    "csv": "equity_h3_baseline_2024.csv",
+    "n_trades": 8379,
+    "sharpe_daily_resampled": 2.4375789570348165,
+    "annualized_return_daily": 0.4464522629311445,
+    "max_drawdown_pct": -0.10731215963765124,
+    "profit_factor": 1.0149119818460768
+  },
+  "h3_slope_fav_4_stop_0_7_2024": {
+    "csv": "equity_h3_slope_fav_4_stop_0_7_2024.csv",
+    "n_trades": 704,
+    "sharpe_daily_resampled": 8.073531725477162,
+    "annualized_return_daily": 1.11584518150035,
+    "max_drawdown_pct": -0.03146892482870203,
+    "profit_factor": 1.0873399553176433
+  }
+}

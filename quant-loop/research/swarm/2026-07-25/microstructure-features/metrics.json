@@ -1,0 +1,912 @@
+{
+  "direction": "microstructure-features",
+  "period": {
+    "start": "2026-04-01 00:00:00",
+    "end": "2026-07-17 23:59:00"
+  },
+  "config": {
+    "strategy": "mtf_xs_pairs_1m_15m_2h_h3_20260718",
+    "instruments": [
+      "BTCUSDT",
+      "SOLUSDT"
+    ],
+    "pairs": [
+      "BTCUSDT/SOLUSDT"
+    ],
+    "cost_bps_rt": 4.0
+  },
+  "baseline": {
+    "sharpe_daily": 4.106458732072343,
+    "annualized_return": 0.40260551619600693,
+    "max_drawdown_pct": -0.02623872314576149,
+    "profit_factor": 1.7225065740625267,
+    "n_trades": 1943,
+    "n_bars": 108,
+    "win_rate": 0.25424601132269686,
+    "calmar": 15.3439446713718,
+    "sortino": 5.615497861526982,
+    "passed_all_gates": false,
+    "failed_gates": [
+      "G6",
+      "G7"
+    ],
+    "gate_reasons": [
+      "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+      "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+    ],
+    "n_bars_1m": 155260,
+    "span": [
+      "2026-04-01 00:00:00",
+      "2026-07-17 19:39:00"
+    ],
+    "avg_trade_pnl_bps": -7.135524355930378
+  },
+  "variants": [
+    {
+      "label": "flow_pressure_z_thr0.0",
+      "params": {
+        "flow_col": "flow_pressure_z",
+        "threshold": 0.0
+      },
+      "metrics": {
+        "sharpe_daily": 4.106458732072343,
+        "annualized_return": 0.40260551619600693,
+        "max_drawdown_pct": -0.02623872314576149,
+        "profit_factor": 1.7225065740625267,
+        "n_trades": 1943,
+        "n_bars": 108,
+        "win_rate": 0.25424601132269686,
+        "calmar": 15.3439446713718,
+        "sortino": 5.615497861526982,
+        "passed_all_gates": false,
+        "failed_gates": [
+          "G6",
+          "G7"
+        ],
+        "gate_reasons": [
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ],
+        "n_bars_1m": 155260,
+        "span": [
+          "2026-04-01 00:00:00",
+          "2026-07-17 19:39:00"
+        ],
+        "avg_trade_pnl_bps": -7.135524355930378
+      }
+    },
+    {
+      "label": "flow_pressure_z_thr0.1",
+      "params": {
+        "flow_col": "flow_pressure_z",
+        "threshold": 0.1
+      },
+      "metrics": {
+        "sharpe_daily": 3.9861060879036603,
+        "annualized_return": 0.36135914149170967,
+        "max_drawdown_pct": -0.027733502737258723,
+        "profit_factor": 1.7837099218850618,
+        "n_trades": 1484,
+        "n_bars": 108,
+        "win_rate": 0.2695417789757412,
+        "calmar": 13.029697146990372,
+        "sortino": 4.869790984933683,
+        "passed_all_gates": false,
+        "failed_gates": [
+          "G6",
+          "G7"
+        ],
+        "gate_reasons": [
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ],
+        "n_bars_1m": 155260,
+        "span": [
+          "2026-04-01 00:00:00",
+          "2026-07-17 19:39:00"
+        ],
+        "avg_trade_pnl_bps": -6.768262611744181
+      }
+    },
+    {
+      "label": "flow_pressure_z_thr0.2",
+      "params": {
+        "flow_col": "flow_pressure_z",
+        "threshold": 0.2
+      },
+      "metrics": {
+        "sharpe_daily": 3.176907819086098,
+        "annualized_return": 0.2831948170051177,
+        "max_drawdown_pct": -0.027201758640060775,
+        "profit_factor": 1.6043174852370012,
+        "n_trades": 1404,
+        "n_bars": 108,
+        "win_rate": 0.26851851851851855,
+        "calmar": 10.410901028584563,
+        "sortino": 3.772622113926888,
+        "passed_all_gates": false,
+        "failed_gates": [
+          "G6",
+          "G7"
+        ],
+        "gate_reasons": [
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ],
+        "n_bars_1m": 155260,
+        "span": [
+          "2026-04-01 00:00:00",
+          "2026-07-17 19:39:00"
+        ],
+        "avg_trade_pnl_bps": -6.918217295201469
+      }
+    },
+    {
+      "label": "flow_pressure_z_thr0.5",
+      "params": {
+        "flow_col": "flow_pressure_z",
+        "threshold": 0.5
+      },
+      "metrics": {
+        "sharpe_daily": 1.0512055228024226,
+        "annualized_return": 0.08118681410859518,
+        "max_drawdown_pct": -0.032458965155952146,
+        "profit_factor": 1.1810789083384445,
+        "n_trades": 1127,
+        "n_bars": 108,
+        "win_rate": 0.26974267968056787,
+        "calmar": 2.501213877846244,
+        "sortino": 1.1174767892157944,
+        "passed_all_gates": false,
+        "failed_gates": [
+          "G2",
+          "G4",
+          "G6",
+          "G7"
+        ],
+        "gate_reasons": [
+          "G2 annualized_return >= 0.15: got '?', expected Annualized return \u2265 15%",
+          "G4 profit_factor > 1.5: got '?', expected Profit factor > 1.5",
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ],
+        "n_bars_1m": 155260,
+        "span": [
+          "2026-04-01 00:00:00",
+          "2026-07-17 19:39:00"
+        ],
+        "avg_trade_pnl_bps": -7.534023798632886
+      }
+    },
+    {
+      "label": "flow_pressure_z_thr1.0",
+      "params": {
+        "flow_col": "flow_pressure_z",
+        "threshold": 1.0
+      },
+      "metrics": {
+        "sharpe_daily": -0.0042084207629952625,
+        "annualized_return": -0.0022787336478001796,
+        "max_drawdown_pct": -0.030502973200438523,
+        "profit_factor": 0.9993560034734192,
+        "n_trades": 675,
+        "n_bars": 108,
+        "win_rate": 0.29333333333333333,
+        "calmar": -0.0747052961960908,
+        "sortino": -0.004484077937556831,
+        "passed_all_gates": false,
+        "failed_gates": [
+          "G1",
+          "G2",
+          "G4",
+          "G6",
+          "G7"
+        ],
+        "gate_reasons": [
+          "G1 sharpe_daily >= 1.0: got '?', expected Daily Sharpe \u2265 1.0",
+          "G2 annualized_return >= 0.15: got '?', expected Annualized return \u2265 15%",
+          "G4 profit_factor > 1.5: got '?', expected Profit factor > 1.5",
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ],
+        "n_bars_1m": 155260,
+        "span": [
+          "2026-04-01 00:00:00",
+          "2026-07-17 19:39:00"
+        ],
+        "avg_trade_pnl_bps": -7.973204143399812
+      }
+    },
+    {
+      "label": "flow_cum_5m_thr0.0",
+      "params": {
+        "flow_col": "flow_cum_5m",
+        "threshold": 0.0
+      },
+      "metrics": {
+        "sharpe_daily": 2.670543840698212,
+        "annualized_return": 0.21547337430656444,
+        "max_drawdown_pct": -0.024557273071691713,
+        "profit_factor": 1.4217519701994028,
+        "n_trades": 1651,
+        "n_bars": 108,
+        "win_rate": 0.2543912780133253,
+        "calmar": 8.774320083403332,
+        "sortino": 3.4044814172972355,
+        "passed_all_gates": false,
+        "failed_gates": [
+          "G4",
+          "G6",
+          "G7"
+        ],
+        "gate_reasons": [
+          "G4 profit_factor > 1.5: got '?', expected Profit factor > 1.5",
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ],
+        "n_bars_1m": 155260,
+        "span": [
+          "2026-04-01 00:00:00",
+          "2026-07-17 19:39:00"
+        ],
+        "avg_trade_pnl_bps": -7.494998064227865
+      }
+    },
+    {
+      "label": "flow_cum_5m_thr0.1",
+      "params": {
+        "flow_col": "flow_cum_5m",
+        "threshold": 0.1
+      },
+      "metrics": {
+        "sharpe_daily": 1.587303253438012,
+        "annualized_return": 0.11808096114238853,
+        "max_drawdown_pct": -0.02174057329708877,
+        "profit_factor": 1.26793602881528,
+        "n_trades": 1150,
+        "n_bars": 108,
+        "win_rate": 0.271304347826087,
+        "calmar": 5.431363723890413,
+        "sortino": 1.8356238811784147,
+        "passed_all_gates": false,
+        "failed_gates": [
+          "G2",
+          "G4",
+          "G6",
+          "G7"
+        ],
+        "gate_reasons": [
+          "G2 annualized_return >= 0.15: got '?', expected Annualized return \u2265 15%",
+          "G4 profit_factor > 1.5: got '?', expected Profit factor > 1.5",
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ],
+        "n_bars_1m": 155260,
+        "span": [
+          "2026-04-01 00:00:00",
+          "2026-07-17 19:39:00"
+        ],
+        "avg_trade_pnl_bps": -7.371701875313032
+      }
+    },
+    {
+      "label": "flow_cum_5m_thr0.2",
+      "params": {
+        "flow_col": "flow_cum_5m",
+        "threshold": 0.2
+      },
+      "metrics": {
+        "sharpe_daily": 2.1757384818193866,
+        "annualized_return": 0.15809963295553375,
+        "max_drawdown_pct": -0.018403527465947724,
+        "profit_factor": 1.3879677318163035,
+        "n_trades": 1074,
+        "n_bars": 108,
+        "win_rate": 0.2774674115456238,
+        "calmar": 8.590724427589628,
+        "sortino": 2.6062810261411204,
+        "passed_all_gates": false,
+        "failed_gates": [
+          "G4",
+          "G6",
+          "G7"
+        ],
+        "gate_reasons": [
+          "G4 profit_factor > 1.5: got '?', expected Profit factor > 1.5",
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ],
+        "n_bars_1m": 155260,
+        "span": [
+          "2026-04-01 00:00:00",
+          "2026-07-17 19:39:00"
+        ],
+        "avg_trade_pnl_bps": -7.142740853121623
+      }
+    },
+    {
+      "label": "flow_cum_5m_thr0.5",
+      "params": {
+        "flow_col": "flow_cum_5m",
+        "threshold": 0.5
+      },
+      "metrics": {
+        "sharpe_daily": 1.1655589318972288,
+        "annualized_return": 0.07804960689627705,
+        "max_drawdown_pct": -0.02649336038587254,
+        "profit_factor": 1.1972479726837981,
+        "n_trades": 769,
+        "n_bars": 108,
+        "win_rate": 0.29128738621586475,
+        "calmar": 2.9460063109961934,
+        "sortino": 1.2975077892398246,
+        "passed_all_gates": false,
+        "failed_gates": [
+          "G2",
+          "G4",
+          "G6",
+          "G7"
+        ],
+        "gate_reasons": [
+          "G2 annualized_return >= 0.15: got '?', expected Annualized return \u2265 15%",
+          "G4 profit_factor > 1.5: got '?', expected Profit factor > 1.5",
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ],
+        "n_bars_1m": 155260,
+        "span": [
+          "2026-04-01 00:00:00",
+          "2026-07-17 19:39:00"
+        ],
+        "avg_trade_pnl_bps": -7.336492199039107
+      }
+    },
+    {
+      "label": "flow_cum_5m_thr1.0",
+      "params": {
+        "flow_col": "flow_cum_5m",
+        "threshold": 1.0
+      },
+      "metrics": {
+        "sharpe_daily": 1.54345292554257,
+        "annualized_return": 0.07277907470933664,
+        "max_drawdown_pct": -0.024060085930051416,
+        "profit_factor": 1.291713171618023,
+        "n_trades": 375,
+        "n_bars": 108,
+        "win_rate": 0.32,
+        "calmar": 3.024888394867886,
+        "sortino": 1.6240180635118606,
+        "passed_all_gates": false,
+        "failed_gates": [
+          "G2",
+          "G4",
+          "G6",
+          "G7"
+        ],
+        "gate_reasons": [
+          "G2 annualized_return >= 0.15: got '?', expected Annualized return \u2265 15%",
+          "G4 profit_factor > 1.5: got '?', expected Profit factor > 1.5",
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ],
+        "n_bars_1m": 155260,
+        "span": [
+          "2026-04-01 00:00:00",
+          "2026-07-17 19:39:00"
+        ],
+        "avg_trade_pnl_bps": -6.524880007806432
+      }
+    },
+    {
+      "label": "buy_notional_ratio_z_thr0.0",
+      "params": {
+        "flow_col": "buy_notional_ratio_z",
+        "threshold": 0.0
+      },
+      "metrics": {
+        "sharpe_daily": 4.08485893194702,
+        "annualized_return": 0.40057623818429566,
+        "max_drawdown_pct": -0.026238723145763067,
+        "profit_factor": 1.7172734235411733,
+        "n_trades": 1944,
+        "n_bars": 108,
+        "win_rate": 0.25411522633744854,
+        "calmar": 15.2666056179254,
+        "sortino": 5.59072385742046,
+        "passed_all_gates": false,
+        "failed_gates": [
+          "G6",
+          "G7"
+        ],
+        "gate_reasons": [
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ],
+        "n_bars_1m": 155260,
+        "span": [
+          "2026-04-01 00:00:00",
+          "2026-07-17 19:39:00"
+        ],
+        "avg_trade_pnl_bps": -7.139274267193555
+      }
+    },
+    {
+      "label": "buy_notional_ratio_z_thr0.1",
+      "params": {
+        "flow_col": "buy_notional_ratio_z",
+        "threshold": 0.1
+      },
+      "metrics": {
+        "sharpe_daily": 3.97108621561076,
+        "annualized_return": 0.36008734555210387,
+        "max_drawdown_pct": -0.02773350273726101,
+        "profit_factor": 1.7795444784766925,
+        "n_trades": 1485,
+        "n_bars": 108,
+        "win_rate": 0.26936026936026936,
+        "calmar": 12.983839400434368,
+        "sortino": 4.853451240289472,
+        "passed_all_gates": false,
+        "failed_gates": [
+          "G6",
+          "G7"
+        ],
+        "gate_reasons": [
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ],
+        "n_bars_1m": 155260,
+        "span": [
+          "2026-04-01 00:00:00",
+          "2026-07-17 19:39:00"
+        ],
+        "avg_trade_pnl_bps": -6.771841155983635
+      }
+    },
+    {
+      "label": "buy_notional_ratio_z_thr0.2",
+      "params": {
+        "flow_col": "buy_notional_ratio_z",
+        "threshold": 0.2
+      },
+      "metrics": {
+        "sharpe_daily": 3.25097263043578,
+        "annualized_return": 0.2894048651851997,
+        "max_drawdown_pct": -0.02720175864006519,
+        "profit_factor": 1.6229791974502947,
+        "n_trades": 1404,
+        "n_bars": 108,
+        "win_rate": 0.2692307692307692,
+        "calmar": 10.639196862769683,
+        "sortino": 3.8574778507252634,
+        "passed_all_gates": false,
+        "failed_gates": [
+          "G6",
+          "G7"
+        ],
+        "gate_reasons": [
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ],
+        "n_bars_1m": 155260,
+        "span": [
+          "2026-04-01 00:00:00",
+          "2026-07-17 19:39:00"
+        ],
+        "avg_trade_pnl_bps": -6.903599165332789
+      }
+    },
+    {
+      "label": "buy_notional_ratio_z_thr0.5",
+      "params": {
+        "flow_col": "buy_notional_ratio_z",
+        "threshold": 0.5
+      },
+      "metrics": {
+        "sharpe_daily": 1.0447389008410295,
+        "annualized_return": 0.08067635048753563,
+        "max_drawdown_pct": -0.03245896515594365,
+        "profit_factor": 1.179838210104714,
+        "n_trades": 1126,
+        "n_bars": 108,
+        "win_rate": 0.2699822380106572,
+        "calmar": 2.4854874485350855,
+        "sortino": 1.1108543001428393,
+        "passed_all_gates": false,
+        "failed_gates": [
+          "G2",
+          "G4",
+          "G6",
+          "G7"
+        ],
+        "gate_reasons": [
+          "G2 annualized_return >= 0.15: got '?', expected Annualized return \u2265 15%",
+          "G4 profit_factor > 1.5: got '?', expected Profit factor > 1.5",
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ],
+        "n_bars_1m": 155260,
+        "span": [
+          "2026-04-01 00:00:00",
+          "2026-07-17 19:39:00"
+        ],
+        "avg_trade_pnl_bps": -7.535473721964128
+      }
+    },
+    {
+      "label": "buy_notional_ratio_z_thr1.0",
+      "params": {
+        "flow_col": "buy_notional_ratio_z",
+        "threshold": 1.0
+      },
+      "metrics": {
+        "sharpe_daily": 0.03089022509248592,
+        "annualized_return": -3.4030658304429195e-05,
+        "max_drawdown_pct": -0.030502973200435997,
+        "profit_factor": 1.0047456115834292,
+        "n_trades": 673,
+        "n_bars": 108,
+        "win_rate": 0.29420505200594355,
+        "calmar": -0.0011156505328451974,
+        "sortino": 0.032828200933239335,
+        "passed_all_gates": false,
+        "failed_gates": [
+          "G1",
+          "G2",
+          "G4",
+          "G6",
+          "G7"
+        ],
+        "gate_reasons": [
+          "G1 sharpe_daily >= 1.0: got '?', expected Daily Sharpe \u2265 1.0",
+          "G2 annualized_return >= 0.15: got '?', expected Annualized return \u2265 15%",
+          "G4 profit_factor > 1.5: got '?', expected Profit factor > 1.5",
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ],
+        "n_bars_1m": 155260,
+        "span": [
+          "2026-04-01 00:00:00",
+          "2026-07-17 19:39:00"
+        ],
+        "avg_trade_pnl_bps": -7.957820501945615
+      }
+    }
+  ],
+  "best_variant": {
+    "label": "flow_pressure_z_thr0.0",
+    "params": {
+      "flow_col": "flow_pressure_z",
+      "threshold": 0.0
+    },
+    "metrics": {
+      "sharpe_daily": 4.106458732072343,
+      "annualized_return": 0.40260551619600693,
+      "max_drawdown_pct": -0.02623872314576149,
+      "profit_factor": 1.7225065740625267,
+      "n_trades": 1943,
+      "n_bars": 108,
+      "win_rate": 0.25424601132269686,
+      "calmar": 15.3439446713718,
+      "sortino": 5.615497861526982,
+      "passed_all_gates": false,
+      "failed_gates": [
+        "G6",
+        "G7"
+      ],
+      "gate_reasons": [
+        "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+        "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+      ],
+      "n_bars_1m": 155260,
+      "span": [
+        "2026-04-01 00:00:00",
+        "2026-07-17 19:39:00"
+      ],
+      "avg_trade_pnl_bps": -7.135524355930378
+    }
+  },
+  "feature_analysis": {
+    "BTCUSDT": {
+      "n_bars": 155260,
+      "correlation_csv": "/Users/mark/multica/quant-loop/research/swarm/2026-07-25/microstructure-features/feature_correlations_BTCUSDT.csv",
+      "top_correlations": [
+        {
+          "feature": "buy_count_ratio",
+          "horizon_m": 5,
+          "rho": -0.026025681943233646,
+          "pvalue": 1.1075835874463893e-24,
+          "n": 155255
+        },
+        {
+          "feature": "flow_pressure_z",
+          "horizon_m": 1,
+          "rho": -0.025572899471066116,
+          "pvalue": 3.6349259829386925e-20,
+          "n": 129338
+        },
+        {
+          "feature": "ohlcv_taker_buy_ratio",
+          "horizon_m": 5,
+          "rho": -0.024053674598872702,
+          "pvalue": 2.5667552444579134e-21,
+          "n": 155255
+        },
+        {
+          "feature": "ohlcv_taker_buy_ratio",
+          "horizon_m": 1,
+          "rho": -0.023934365120603072,
+          "pvalue": 4.019075221159636e-21,
+          "n": 155259
+        },
+        {
+          "feature": "flow_pressure_z",
+          "horizon_m": 5,
+          "rho": -0.023923921634464253,
+          "pvalue": 7.63720009423312e-18,
+          "n": 129334
+        },
+        {
+          "feature": "buy_count_ratio",
+          "horizon_m": 1,
+          "rho": -0.02325101712731523,
+          "pvalue": 5.059404734951092e-20,
+          "n": 155259
+        },
+        {
+          "feature": "flow_pressure",
+          "horizon_m": 1,
+          "rho": -0.022655414899467347,
+          "pvalue": 4.339026860986212e-19,
+          "n": 155259
+        },
+        {
+          "feature": "flow_cum_5m",
+          "horizon_m": 1,
+          "rho": -0.02263945817420631,
+          "pvalue": 4.5927243610755e-19,
+          "n": 155259
+        },
+        {
+          "feature": "buy_notional_ratio",
+          "horizon_m": 5,
+          "rho": -0.02210550699334284,
+          "pvalue": 3.009481493484651e-18,
+          "n": 155255
+        },
+        {
+          "feature": "flow_pressure",
+          "horizon_m": 5,
+          "rho": -0.021347482456273464,
+          "pvalue": 4.020013432190813e-17,
+          "n": 155255
+        }
+      ],
+      "logistic_regression": {
+        "1m": {
+          "horizon_m": 1,
+          "n_train": 90536,
+          "n_test": 38802,
+          "train_accuracy": 0.5172528055138288,
+          "test_accuracy": 0.5104891500438121,
+          "baseline_accuracy": 0.5061852481830833,
+          "coefficients": {
+            "flow_pressure": 0.007352699003928288,
+            "flow_pressure_z": 0.0012453147925659835,
+            "flow_cum_5m": -0.03148246553970819,
+            "flow_cum_15m": -0.020139202363113208,
+            "buy_notional_ratio": 0.007352699003928775,
+            "buy_count_ratio": -0.07611779481239926,
+            "whale_total_pct": -0.001533640115692346,
+            "whale_buy_pct": -0.006011823565416894,
+            "size_skew": 0.011144376118342365,
+            "volume_imbalance": -0.0034654652191414333,
+            "ohlcv_taker_buy_ratio": 0.00986935869715449,
+            "range_ratio": 0.006887049373116257,
+            "close_loc": 0.01120652840785888
+          },
+          "intercept": -5.477043293598775e-05
+        },
+        "5m": {
+          "horizon_m": 5,
+          "n_train": 90533,
+          "n_test": 38801,
+          "train_accuracy": 0.5188052975158229,
+          "test_accuracy": 0.5107342594263035,
+          "baseline_accuracy": 0.5056828432256901,
+          "coefficients": {
+            "flow_pressure": -0.0008970288197197589,
+            "flow_pressure_z": 0.018216792109583838,
+            "flow_cum_5m": -0.01154918182249257,
+            "flow_cum_15m": -0.05006355775435739,
+            "buy_notional_ratio": -0.0008970288197193714,
+            "buy_count_ratio": -0.07289497861486771,
+            "whale_total_pct": 0.00947222644737461,
+            "whale_buy_pct": -0.009923762915546972,
+            "size_skew": 0.013435687342439885,
+            "volume_imbalance": -0.007133675123558709,
+            "ohlcv_taker_buy_ratio": -0.00037395199918868283,
+            "range_ratio": -0.002223177394170503,
+            "close_loc": 0.006237624539134081
+          },
+          "intercept": -1.419246171919462e-05
+        },
+        "15m": {
+          "horizon_m": 15,
+          "n_train": 90526,
+          "n_test": 38798,
+          "train_accuracy": 0.5154872633276628,
+          "test_accuracy": 0.5048971596474046,
+          "baseline_accuracy": 0.5076034847157069,
+          "coefficients": {
+            "flow_pressure": 0.020787695985538503,
+            "flow_pressure_z": -0.011813228824879993,
+            "flow_cum_5m": -0.0065403351325743885,
+            "flow_cum_15m": -0.05565812740733315,
+            "buy_notional_ratio": 0.020787695985538358,
+            "buy_count_ratio": -0.06959201214102284,
+            "whale_total_pct": 0.041167809745037934,
+            "whale_buy_pct": -0.0462008184798891,
+            "size_skew": 0.008664475541054838,
+            "volume_imbalance": -0.008075015314574769,
+            "ohlcv_taker_buy_ratio": 0.0211798185949849,
+            "range_ratio": 0.004491086977374554,
+            "close_loc": 0.009129462309916642
+          },
+          "intercept": -3.595720901038856e-05
+        }
+      }
+    },
+    "SOLUSDT": {
+      "n_bars": 155520,
+      "correlation_csv": "/Users/mark/multica/quant-loop/research/swarm/2026-07-25/microstructure-features/feature_correlations_SOLUSDT.csv",
+      "top_correlations": [
+        {
+          "feature": "close_loc",
+          "horizon_m": 1,
+          "rho": -0.04596759781496013,
+          "pvalue": 1.621519546770916e-73,
+          "n": 155519
+        },
+        {
+          "feature": "close_loc",
+          "horizon_m": 5,
+          "rho": -0.03129520370517814,
+          "pvalue": 5.228063405465859e-35,
+          "n": 155515
+        },
+        {
+          "feature": "ohlcv_taker_buy_ratio",
+          "horizon_m": 5,
+          "rho": -0.022512050355313725,
+          "pvalue": 6.760456158476459e-19,
+          "n": 155515
+        },
+        {
+          "feature": "flow_pressure_z",
+          "horizon_m": 5,
+          "rho": -0.020112102662418082,
+          "pvalue": 4.4587531118376494e-13,
+          "n": 129594
+        },
+        {
+          "feature": "flow_pressure",
+          "horizon_m": 5,
+          "rho": -0.018710750210589558,
+          "pvalue": 1.5919089445664525e-13,
+          "n": 155515
+        },
+        {
+          "feature": "flow_cum_5m",
+          "horizon_m": 1,
+          "rho": -0.018079099555444546,
+          "pvalue": 1.0023737296656895e-12,
+          "n": 155519
+        },
+        {
+          "feature": "flow_pressure_z",
+          "horizon_m": 1,
+          "rho": -0.0179923446287662,
+          "pvalue": 9.3158496454098e-11,
+          "n": 129598
+        },
+        {
+          "feature": "flow_cum_15m",
+          "horizon_m": 5,
+          "rho": -0.0178727798489842,
+          "pvalue": 1.8058824395228938e-12,
+          "n": 155515
+        },
+        {
+          "feature": "flow_cum_5m",
+          "horizon_m": 5,
+          "rho": -0.01758794432327473,
+          "pvalue": 4.02345270153807e-12,
+          "n": 155515
+        },
+        {
+          "feature": "ohlcv_taker_buy_ratio",
+          "horizon_m": 1,
+          "rho": -0.017283240209564517,
+          "pvalue": 9.34442737764068e-12,
+          "n": 155519
+        }
+      ],
+      "logistic_regression": {
+        "1m": {
+          "horizon_m": 1,
+          "n_train": 90718,
+          "n_test": 38880,
+          "train_accuracy": 0.5252871535968606,
+          "test_accuracy": 0.5194187242798354,
+          "baseline_accuracy": 0.5452417695473251,
+          "coefficients": {
+            "flow_pressure": 0.02093283343803614,
+            "flow_pressure_z": 0.009861475068200384,
+            "flow_cum_5m": -0.0274116194105777,
+            "flow_cum_15m": -0.02314684624231099,
+            "buy_notional_ratio": 0.020932833438036105,
+            "buy_count_ratio": -0.011730641169954235,
+            "whale_total_pct": 0.056940153053178816,
+            "whale_buy_pct": -0.05211969358024785,
+            "size_skew": -0.003396584686503206,
+            "volume_imbalance": -0.01074491236455309,
+            "ohlcv_taker_buy_ratio": 0.020253143333897265,
+            "range_ratio": 0.041066490635951726,
+            "close_loc": -0.11603188204447788
+          },
+          "intercept": -0.000659928148418328
+        },
+        "5m": {
+          "horizon_m": 5,
+          "n_train": 90715,
+          "n_test": 38879,
+          "train_accuracy": 0.5202667695529957,
+          "test_accuracy": 0.5089379870881453,
+          "baseline_accuracy": 0.5217984001646132,
+          "coefficients": {
+            "flow_pressure": 0.010688438492033254,
+            "flow_pressure_z": 0.001976945901298555,
+            "flow_cum_5m": -0.012985102671230604,
+            "flow_cum_15m": -0.05102811983137183,
+            "buy_notional_ratio": 0.01068843849203305,
+            "buy_count_ratio": -0.02301569275574773,
+            "whale_total_pct": 0.04232215848534012,
+            "whale_buy_pct": -0.03407231135829153,
+            "size_skew": 0.009055306135047672,
+            "volume_imbalance": -0.008613911525340287,
+            "ohlcv_taker_buy_ratio": 0.010186951523161323,
+            "range_ratio": 0.025933453662725148,
+            "close_loc": -0.06279771238256159
+          },
+          "intercept": -0.00019131432013177113
+        },
+        "15m": {
+          "horizon_m": 15,
+          "n_train": 90708,
+          "n_test": 38876,
+          "train_accuracy": 0.5185209683820611,
+          "test_accuracy": 0.5067650992900504,
+          "baseline_accuracy": 0.5187776520218129,
+          "coefficients": {
+            "flow_pressure": 0.007835199122423992,
+            "flow_pressure_z": 0.012349349255983424,
+            "flow_cum_5m": -0.019973729354364,
+            "flow_cum_15m": -0.04339622199353617,
+            "buy_notional_ratio": 0.007835199122424004,
+            "buy_count_ratio": -0.016071778540257726,
+            "whale_total_pct": 0.05289278522851804,
+            "whale_buy_pct": -0.04888095530977466,
+            "size_skew": 0.005534123550822413,
+            "volume_imbalance": -0.017571002185203428,
+            "ohlcv_taker_buy_ratio": 0.011028978479188793,
+            "range_ratio": 0.024024617225384466,
+            "close_loc": -0.04151548815420876
+          },
+          "intercept": -7.995626139658843e-05
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,79 @@
+[
+  {
+    "variant": "baseline",
+    "n_trades": 8379,
+    "mean_net_bps": -6.959,
+    "mean_gross_bps": 1.041,
+    "win_rate": 0.2647,
+    "sharpe_daily_resampled": 2.4376,
+    "annualized_return_daily": 0.4465,
+    "max_drawdown_pct": -0.1073,
+    "profit_factor": 1.0149
+  },
+  {
+    "variant": "slope_fav_4",
+    "n_trades": 1101,
+    "mean_net_bps": 6.1,
+    "mean_gross_bps": 14.1,
+    "win_rate": 0.485,
+    "sharpe_daily_resampled": 7.5301,
+    "annualized_return_daily": 1.0053,
+    "max_drawdown_pct": -0.0318,
+    "profit_factor": 1.0875
+  },
+  {
+    "variant": "slope_adv_4",
+    "n_trades": 7856,
+    "mean_net_bps": -7.543,
+    "mean_gross_bps": 0.457,
+    "win_rate": 0.2579,
+    "sharpe_daily_resampled": 1.0135,
+    "annualized_return_daily": 0.1537,
+    "max_drawdown_pct": -0.123,
+    "profit_factor": 1.0071
+  },
+  {
+    "variant": "adverse_stop_0_7",
+    "n_trades": 2758,
+    "mean_net_bps": -4.904,
+    "mean_gross_bps": 3.096,
+    "win_rate": 0.5221,
+    "sharpe_daily_resampled": 2.6125,
+    "annualized_return_daily": 0.4943,
+    "max_drawdown_pct": -0.0895,
+    "profit_factor": 1.0153
+  },
+  {
+    "variant": "slope_fav_4_stop_0_7",
+    "n_trades": 704,
+    "mean_net_bps": 15.429,
+    "mean_gross_bps": 23.429,
+    "win_rate": 0.6889,
+    "sharpe_daily_resampled": 8.0735,
+    "annualized_return_daily": 1.1158,
+    "max_drawdown_pct": -0.0315,
+    "profit_factor": 1.0873
+  },
+  {
+    "variant": "candle_confirm",
+    "n_trades": 5314,
+    "mean_net_bps": -7.45,
+    "mean_gross_bps": 0.55,
+    "win_rate": 0.2644,
+    "sharpe_daily_resampled": 0.8064,
+    "annualized_return_daily": 0.1093,
+    "max_drawdown_pct": -0.1072,
+    "profit_factor": 1.0063
+  },
+  {
+    "variant": "funding_diff",
+    "n_trades": 3956,
+    "mean_net_bps": -7.106,
+    "mean_gross_bps": 0.894,
+    "win_rate": 0.2697,
+    "sharpe_daily_resampled": 1.4621,
+    "annualized_return_daily": 0.1773,
+    "max_drawdown_pct": -0.0875,
+    "profit_factor": 1.0134
+  }
+]

@@ -1,0 +1,6 @@
+,h3_baseline,vpvr_xs_basis_zscore_15m,momentum_trend_btc_1h,pairs_cointegration_1d,donchian_breakout_1d
+h3_baseline,1.0,0.037,0.007,-0.003,0.032
+vpvr_xs_basis_zscore_15m,0.037,1.0,-0.057,0.008,0.039
+momentum_trend_btc_1h,0.007,-0.057,1.0,0.113,-0.009
+pairs_cointegration_1d,-0.003,0.008,0.113,1.0,-0.029
+donchian_breakout_1d,0.032,0.039,-0.009,-0.029,1.0

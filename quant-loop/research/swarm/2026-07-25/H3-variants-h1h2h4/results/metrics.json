@@ -1,0 +1,265 @@
+{
+  "note": "BTC+SOL-only H1-H4 comparison at ratified 22 bps RT per symbol, 2022-01-01 onward.",
+  "cost": {
+    "fee_bps_per_side": 4.0,
+    "slippage_bps_per_side": 7.0
+  },
+  "variants": {
+    "H1": {
+      "full_history": {
+        "sharpe_daily": -21.590076237158367,
+        "annualized_return": -0.9999983276186615,
+        "max_drawdown_pct": -1.0,
+        "profit_factor": 0.0018642732759520146,
+        "n_trades": 13909,
+        "n_bars": 1659,
+        "win_rate": 0.10583075706377165,
+        "calmar": -0.9999983276186615,
+        "sortino": -21.97496983411653
+      },
+      "oos": {
+        "oos_sharpe_mean_daily_resampled": -21.647453301736615,
+        "oos_annualized_mean_daily": -0.9999976160478037,
+        "oos_max_drawdown_worst_pct": -0.999333415591698,
+        "bootstrap_ci_lower": -22.484511328334346,
+        "bootstrap_ci_upper": -20.703390324394594,
+        "n_windows": 7
+      },
+      "gate_metrics": {
+        "sharpe_daily": -21.647453301736615,
+        "annualized_return": -0.9999976160478037,
+        "max_drawdown_pct": -0.999333415591698,
+        "profit_factor": 0.0018642732759520146,
+        "n_trades": 13909,
+        "bootstrap_ci95_lower": -22.484511328334346,
+        "deflated_sharpe": -21.69456045060083
+      },
+      "gates": {
+        "passed": false,
+        "failed_gates": [
+          "G1",
+          "G2",
+          "G3",
+          "G4",
+          "G6",
+          "G7"
+        ],
+        "reasons": [
+          "G1 sharpe_daily >= 1.0: got '?', expected Daily Sharpe \u2265 1.0",
+          "G2 annualized_return >= 0.15: got '?', expected Annualized return \u2265 15%",
+          "G3 max_drawdown_pct > -0.25: got '?', expected Max drawdown > -25%",
+          "G4 profit_factor > 1.5: got '?', expected Profit factor > 1.5",
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ]
+      }
+    },
+    "H2": {
+      "full_history": {
+        "sharpe_daily": -14.800950731118585,
+        "annualized_return": -0.9931460535320105,
+        "max_drawdown_pct": -0.9999999998521454,
+        "profit_factor": 0.005211231698535703,
+        "n_trades": 5151,
+        "n_bars": 1659,
+        "win_rate": 0.13977868375072802,
+        "calmar": -0.9931460536788517,
+        "sortino": -14.425115648773016
+      },
+      "oos": {
+        "oos_sharpe_mean_daily_resampled": -14.853806659748907,
+        "oos_annualized_mean_daily": -0.9912201262414132,
+        "oos_max_drawdown_worst_pct": -0.9476551718948557,
+        "bootstrap_ci_lower": -15.513858705786555,
+        "bootstrap_ci_upper": -14.185482854271521,
+        "n_windows": 7
+      },
+      "gate_metrics": {
+        "sharpe_daily": -14.853806659748907,
+        "annualized_return": -0.9912201262414132,
+        "max_drawdown_pct": -0.9476551718948557,
+        "profit_factor": 0.005211231698535703,
+        "n_trades": 5151,
+        "bootstrap_ci95_lower": -15.513858705786555,
+        "deflated_sharpe": -14.886207217855121
+      },
+      "gates": {
+        "passed": false,
+        "failed_gates": [
+          "G1",
+          "G2",
+          "G3",
+          "G4",
+          "G6",
+          "G7"
+        ],
+        "reasons": [
+          "G1 sharpe_daily >= 1.0: got '?', expected Daily Sharpe \u2265 1.0",
+          "G2 annualized_return >= 0.15: got '?', expected Annualized return \u2265 15%",
+          "G3 max_drawdown_pct > -0.25: got '?', expected Max drawdown > -25%",
+          "G4 profit_factor > 1.5: got '?', expected Profit factor > 1.5",
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ]
+      }
+    },
+    "H3": {
+      "full_history": {
+        "sharpe_daily": -43.65408576631034,
+        "annualized_return": -1.0,
+        "max_drawdown_pct": -1.0,
+        "profit_factor": 0.0,
+        "n_trades": 40037,
+        "n_bars": 1659,
+        "win_rate": 0.10490296475759922,
+        "calmar": -1.0,
+        "sortino": -46.35742941032023
+      },
+      "oos": {
+        "oos_sharpe_mean_daily_resampled": -44.60534382474894,
+        "oos_annualized_mean_daily": -1.0,
+        "oos_max_drawdown_worst_pct": -0.9999999991859296,
+        "bootstrap_ci_lower": -46.46154672460774,
+        "bootstrap_ci_upper": -42.29282414354004,
+        "n_windows": 7
+      },
+      "gate_metrics": {
+        "sharpe_daily": -44.60534382474894,
+        "annualized_return": -1.0,
+        "max_drawdown_pct": -0.9999999991859296,
+        "profit_factor": 0.0,
+        "n_trades": 40037,
+        "bootstrap_ci95_lower": -46.46154672460774,
+        "deflated_sharpe": -44.702251968066435
+      },
+      "gates": {
+        "passed": false,
+        "failed_gates": [
+          "G1",
+          "G2",
+          "G3",
+          "G4",
+          "G6",
+          "G7"
+        ],
+        "reasons": [
+          "G1 sharpe_daily >= 1.0: got '?', expected Daily Sharpe \u2265 1.0",
+          "G2 annualized_return >= 0.15: got '?', expected Annualized return \u2265 15%",
+          "G3 max_drawdown_pct > -0.25: got '?', expected Max drawdown > -25%",
+          "G4 profit_factor > 1.5: got '?', expected Profit factor > 1.5",
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ]
+      }
+    },
+    "H4": {
+      "full_history": {
+        "sharpe_daily": -6.74586224800189,
+        "annualized_return": -0.009215172341882072,
+        "max_drawdown_pct": -0.04118168026035302,
+        "profit_factor": 0.018311296490654574,
+        "n_trades": 537,
+        "n_bars": 1659,
+        "win_rate": 0.22346368715083798,
+        "calmar": -0.22376873123250937,
+        "sortino": -4.342317205769931
+      },
+      "oos": {
+        "oos_sharpe_mean_daily_resampled": -6.736130346911879,
+        "oos_annualized_mean_daily": -0.008915154350331887,
+        "oos_max_drawdown_worst_pct": -0.005917740115736869,
+        "bootstrap_ci_lower": -7.267547913047491,
+        "bootstrap_ci_upper": -6.207531699831996,
+        "n_windows": 7
+      },
+      "gate_metrics": {
+        "sharpe_daily": -6.736130346911879,
+        "annualized_return": -0.008915154350331887,
+        "max_drawdown_pct": -0.005917740115736869,
+        "profit_factor": 0.018311296490654574,
+        "n_trades": 537,
+        "bootstrap_ci95_lower": -7.267547913047491,
+        "deflated_sharpe": -6.751076585010394
+      },
+      "gates": {
+        "passed": false,
+        "failed_gates": [
+          "G1",
+          "G2",
+          "G4",
+          "G6",
+          "G7"
+        ],
+        "reasons": [
+          "G1 sharpe_daily >= 1.0: got '?', expected Daily Sharpe \u2265 1.0",
+          "G2 annualized_return >= 0.15: got '?', expected Annualized return \u2265 15%",
+          "G4 profit_factor > 1.5: got '?', expected Profit factor > 1.5",
+          "G6 bootstrap_ci95_lower >= 0.5: got '?', expected Bootstrap CI95 lower \u2265 0.5",
+          "G7 deflated_sharpe > 0.0: got '?', expected Deflated Sharpe Ratio > 0 (Bailey-LdP 2014)"
+        ]
+      }
+    }
+  },
+  "h3_cost_sensitivity": [
+    {
+      "per_symbol_rt_bps": 4.0,
+      "pair_rt_bps": 8.0,
+      "sharpe_daily": -26.287542805808677,
+      "annualized_return": -0.9988946667925975,
+      "max_drawdown_pct": -0.9999999999999628,
+      "profit_factor": 0.01528878968614671,
+      "n_trades": 40037,
+      "win_rate": 0.27219821664959915
+    },
+    {
+      "per_symbol_rt_bps": 12.0,
+      "pair_rt_bps": 24.0,
+      "sharpe_daily": -39.651484236921064,
+      "annualized_return": -0.9999999991778811,
+      "max_drawdown_pct": -1.0,
+      "profit_factor": 0.00015332140663715902,
+      "n_trades": 40037,
+      "win_rate": 0.17718610285485925
+    },
+    {
+      "per_symbol_rt_bps": 22.0,
+      "pair_rt_bps": 44.0,
+      "sharpe_daily": -43.65408576631034,
+      "annualized_return": -1.0,
+      "max_drawdown_pct": -1.0,
+      "profit_factor": 0.0,
+      "n_trades": 40037,
+      "win_rate": 0.10490296475759922
+    },
+    {
+      "per_symbol_rt_bps": 32.0,
+      "pair_rt_bps": 64.0,
+      "sharpe_daily": -45.66405807074802,
+      "annualized_return": -1.0,
+      "max_drawdown_pct": -1.0,
+      "profit_factor": 0.0,
+      "n_trades": 40037,
+      "win_rate": 0.05974473611908984
+    },
+    {
+      "per_symbol_rt_bps": 44.0,
+      "pair_rt_bps": 88.0,
+      "sharpe_daily": -47.43290742770859,
+      "annualized_return": -1.0,
+      "max_drawdown_pct": -1.0,
+      "profit_factor": 0.0,
+      "n_trades": 40037,
+      "win_rate": 0.03172065839098834
+    },
+    {
+      "per_symbol_rt_bps": 60.0,
+      "pair_rt_bps": 120.0,
+      "sharpe_daily": -49.43573292171027,
+      "annualized_return": -1.0,
+      "max_drawdown_pct": -1.0,
+      "profit_factor": 0.0,
+      "n_trades": 40037,
+      "win_rate": 0.01428678472413018
+    }
+  ]
+}

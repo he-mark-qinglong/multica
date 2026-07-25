@@ -1,0 +1,63 @@
+{
+  "baseline_total_rt_bps": 4.0,
+  "baseline_metrics": {
+    "sharpe_daily": 1.3514401012883304,
+    "annualized_return": 0.24978306010622964,
+    "max_drawdown_pct": -0.13672740015906992,
+    "profit_factor": 1.2161044561045795,
+    "n_trades": 39617,
+    "n_bars": 1652,
+    "win_rate": 0.5599273607748184,
+    "calmar": 1.826869082682986,
+    "sortino": 1.7362630894805995
+  },
+  "failed_gates": [
+    "G4",
+    "G6",
+    "G7"
+  ],
+  "thresholds_total_rt_bps": {
+    "sharpe_1": 18.11,
+    "ann_15": 23.01,
+    "sharpe_0": 58.54,
+    "maxdd_25": null,
+    "pf_1_5": -60.34
+  },
+  "best_maker_scenario": {
+    "offset_bps": 0.0,
+    "patience_bars": 5.0,
+    "maker_fee_bps": 0.0,
+    "taker_fee_bps": 4.0,
+    "taker_slip_bps": 2.0,
+    "queue_mult": 1.0,
+    "n_sampled": 4518.0,
+    "skipped": 0.0,
+    "fill_rate": 0.665227976980965,
+    "avg_rt_bps": 0.6781428740425284,
+    "trade_win_rate": 0.40017706949977866,
+    "trade_pf": 1.0016081184529968,
+    "sharpe_daily_interp": 1.4343084760848452,
+    "annualized_return_interp": 0.2680997995499572
+  },
+  "skip_unfilled_entry": {
+    "offset_bps": 1.0,
+    "patience_bars": 2,
+    "maker_fee_bps": 1.0,
+    "taker_fee_bps": 4.0,
+    "taker_slip_bps": 2.0,
+    "queue_mult": 1.0,
+    "n_sampled": 3944,
+    "skipped": 574,
+    "fill_rate": 0.5493581230633023,
+    "avg_rt_bps": 7.849611613169795,
+    "trade_win_rate": 0.2867647058823529,
+    "trade_pf": 0.46502805534492564,
+    "sharpe_daily_interp": 1.255483486026166,
+    "annualized_return_interp": 0.22890138155968331
+  },
+  "layered_0_1_bps": {
+    "avg_rt_bps": 6.153152817673116,
+    "sharpe_daily_interp": 1.2977604499897069,
+    "annualized_return_interp": 0.23806187053871705
+  }
+}

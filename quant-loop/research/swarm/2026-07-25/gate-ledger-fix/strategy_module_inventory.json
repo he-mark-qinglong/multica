@@ -1,0 +1,3260 @@
+[
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, build_source_manifest, _read_1m, load_symbol_1m, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 146
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, _bars_per_year, _strategy_metrics, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 220
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 467
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_049/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, build_source_manifest, _read_1m, load_symbol_1m, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 146
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_049/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, _bars_per_year, _strategy_metrics, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 220
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_049/run_cpcv.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _sanitize, _equity_returns, _purge, _embargo, _run_cpcv",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 249
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_049/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 467
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_050/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, build_source_manifest, _read_1m, load_symbol_1m, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 146
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_050/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, _bars_per_year, _strategy_metrics, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 220
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_050/run_cpcv.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _sanitize, _equity_returns, _purge, _embargo, _run_cpcv",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 249
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_050/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 467
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_099/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, build_source_manifest, _read_1m, load_symbol_1m, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 146
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_099/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, _bars_per_year, _strategy_metrics, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 220
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_099/run_cpcv.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _sanitize, _equity_returns, _purge, _embargo, _run_cpcv",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 249
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_099/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 467
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_100/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, build_source_manifest, _read_1m, load_symbol_1m, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 146
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_100/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, _bars_per_year, _strategy_metrics, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 220
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_100/run_cpcv.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _build_per_bar_returns, _sanitize, main",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 209
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_100/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 467
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vol_breakout_1m_15m_vpvr_confluence_u6_20260718/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _normalize_ohlcv, _cache_path, load_symbol, _read_cfg, load_symbols",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 121
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vol_breakout_1m_15m_vpvr_confluence_u6_20260718/indicators.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: _cfg, sqrt_bars_per_year, realized_vol, vol_median, vol_regime",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 197
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vol_breakout_1m_15m_vpvr_confluence_u6_20260718/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _daily_resampled_sharpe, _bootstrap_sharpe_ci, _envelope, _diagnostics, _write_equity_csv",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 474
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vol_breakout_1m_15m_vpvr_confluence_u6_20260718/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 356
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_iceberg_fade_v2_5m_20260711/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 206
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_mtf_reversion_5m_consensus_20260710/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, build_source_manifest, _read_1m, _resample, _to_pandas_freq",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 196
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_mtf_reversion_5m_consensus_20260710/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 290
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_mtf_reversion_5m_consensus_20260710/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 132
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_mtf_reversion_5m_consensus_20260710/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 424
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_reversion_1m_kama_reversal_20260709/build_signals.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: _atr, _kama, _vpvr_poc, _kama_turn, build_signals",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 255
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_reversion_1m_kama_reversal_20260709/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, build_source_manifest, _read_1m, load_symbol, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 153
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_reversion_1m_kama_reversal_20260709/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 98
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_reversion_1m_kama_reversal_20260709/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 378
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_reversion_1m_volume_profile_break_20260709/build_signals.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: _atr, _vpvr_poc, _vpvr_value_area, _vol_ratio, _recent_failed_break",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 259
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_reversion_1m_volume_profile_break_20260709/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, build_source_manifest, _read_1m, load_symbol, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 137
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_reversion_1m_volume_profile_break_20260709/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling",
+    "lines_of_code": 362
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_reversion_1m_volume_profile_break_20260709/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 264
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_reversion_1m_volume_profile_break_20260709/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: load_data, compute_metrics, _empty_metrics, write_trades_csv, write_equity_curve",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 251
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_reversion_1m_volume_profile_break_20260709/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 180
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_sentiment_attention_1m_20260716/build_signals.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: _atr, _vpvr_poc, _z_score, build_signals",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 107
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_sentiment_attention_1m_20260716/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling",
+    "lines_of_code": 420
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_sentiment_attention_1m_20260716/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 318
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_sentiment_attention_1m_20260716/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _make_synthetic_data, _compute_metrics, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 112
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_sentiment_attention_1m_20260716/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 143
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_xs_leadlag_5m_20260711/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_1m, _resample_5m, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 74
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_xs_leadlag_5m_20260711/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 470
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_xs_leadlag_5m_20260711/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 501
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_xs_leadlag_5m_20260711/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _summarise, _write_trades, _write_equity, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 136
+  },
+  {
+    "strategy_dir": "1m_klines_reversal",
+    "file_path": "_graveyard/1m_klines_reversal/vpvr_xs_leadlag_5m_20260711/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 549
+  },
+  {
+    "strategy_dir": "_indicators",
+    "file_path": "_indicators/iter94_20260714.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: _true_range, _wilder_smooth, _wilder_atr, adx, realized_vol_bps",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 410
+  },
+  {
+    "strategy_dir": "_indicators",
+    "file_path": "_indicators/mtf_xs_pairs_base_20260718.py",
+    "module_type": "signal_generation",
+    "short_description": "classes: Trade; functions: aggregate_ohlcv, align_lower_to_upper, wilder_atr, pair_zscore, zscore_slope",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 855
+  },
+  {
+    "strategy_dir": "_indicators",
+    "file_path": "_indicators/mtf_xs_runner_20260718.py",
+    "module_type": "signal_generation",
+    "short_description": "classes: PairMetrics; functions: _summarise_pair, _portfolio_metrics, _dummy_index, write_metrics, _window_split_bounds",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 368
+  },
+  {
+    "strategy_dir": "_indicators",
+    "file_path": "_indicators/vpvr_levels.py",
+    "module_type": "signal_generation",
+    "short_description": "module-level code",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 47
+  },
+  {
+    "strategy_dir": "_oos_rank_20260718",
+    "file_path": "_oos_rank_20260718/oos_walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "functions: bars_per_year, load_equity, oos_walk_forward, gates, main",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 341
+  },
+  {
+    "strategy_dir": "donchian_breakout_atr_1d_20260709",
+    "file_path": "donchian_breakout_atr_1d_20260709/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, build_source_manifest, _read_1m, _resample_1d, load_symbol_1d",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 206
+  },
+  {
+    "strategy_dir": "donchian_breakout_atr_1d_20260709",
+    "file_path": "donchian_breakout_atr_1d_20260709/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 99
+  },
+  {
+    "strategy_dir": "donchian_breakout_atr_1d_20260709",
+    "file_path": "donchian_breakout_atr_1d_20260709/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 417
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_ohlcv_1m, _load_funding, _merge_funding, load_symbol_1m",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 149
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling",
+    "lines_of_code": 336
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 403
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry/run_framework_cv_multiwindow.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 129
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry/run_u5.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 608
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry/run_u5_multiwindow.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 256
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry/sma34946/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_ohlcv_1m, _load_funding, _merge_funding, load_symbol_1m",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 110
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry/sma34946/run_sma34946.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 384
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 399
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry_asym/build_signals.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: _atr_from_close, _atr_ohlcv, _resolve_levels_at_bar, compute_signal, _vpvr_snapshot_levels",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 565
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry_asym/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_ohlcv, _load_funding, load_symbol, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 132
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry_asym/framework_adapter_vectorbt.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific vectorbt coupling",
+    "lines_of_code": 217
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry_asym/prototype.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 620
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry_asym/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_tf, _daily_resampled_sharpe, _compute_metrics, _tf_to_freq, _write_equity_csv",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 366
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry_asym/sma34928_low_threshold.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 320
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry_asym/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 211
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry_asym/sweep_top_combo.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework-specific freqtrade coupling",
+    "lines_of_code": 367
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_carry_asym/vpvr_hvn_persistence.py",
+    "module_type": "signal_generation",
+    "short_description": "classes: RespectResult; functions: load_4h_ohlcv, generate_hvns, _atr_at, score_zone_respect, run_for_symbol",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 454
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_oscillator_mr/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_ohlcv_1m, _load_funding, _merge_funding, load_symbol_1m",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 129
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_oscillator_mr/run_u5noncarry.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 557
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/funding_oscillator_mr/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 294
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/sma_34925_btc_funding_delta/backtest_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework-specific backtrader coupling",
+    "lines_of_code": 255
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/sma_34925_btc_funding_delta/backtest_inhouse.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework-specific freqtrade coupling",
+    "lines_of_code": 363
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/sma_34925_btc_funding_delta/backtest_vectorbt.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework-specific vectorbt coupling",
+    "lines_of_code": 218
+  },
+  {
+    "strategy_dir": "funding_carry",
+    "file_path": "_graveyard/funding_carry/sma_34925_btc_funding_delta/sensitivity_sweep.py",
+    "module_type": "data_utils",
+    "short_description": "functions: main",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 81
+  },
+  {
+    "strategy_dir": "impl_vpvr_multi_tf_funding",
+    "file_path": "impl_vpvr_multi_tf_funding/build_signals.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: _atr, _vpvr_snapshot_levels, _shifted_snapshot_per_bar, build_signals_1m, build_signals_15m",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 498
+  },
+  {
+    "strategy_dir": "impl_vpvr_multi_tf_funding",
+    "file_path": "impl_vpvr_multi_tf_funding/combine_signals.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: _is_allowed, _align_to_1m, _vote_per_tf, _resolve_conflicts_and_cascade, _count_agree",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 447
+  },
+  {
+    "strategy_dir": "impl_vpvr_multi_tf_funding",
+    "file_path": "impl_vpvr_multi_tf_funding/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_ohlcv, _load_funding, _attach_funding, load_tf, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 155
+  },
+  {
+    "strategy_dir": "impl_vpvr_multi_tf_funding",
+    "file_path": "impl_vpvr_multi_tf_funding/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _daily_resampled_sharpe, _compute_metrics, _slice_window, _tf_freq, _run_fold",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 535
+  },
+  {
+    "strategy_dir": "impl_vpvr_multi_tf_funding",
+    "file_path": "impl_vpvr_multi_tf_funding/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 405
+  },
+  {
+    "strategy_dir": "loid_vpvr_confluence_20260717",
+    "file_path": "loid_vpvr_confluence_20260717/build_signals.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: _atr, _vpvr_snapshot_levels, build_signals",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 220
+  },
+  {
+    "strategy_dir": "loid_vpvr_confluence_20260717",
+    "file_path": "loid_vpvr_confluence_20260717/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _tf_params, _load_tf, _daily_resampled_sharpe, _compute_metrics, _tf_to_freq",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 349
+  },
+  {
+    "strategy_dir": "loid_vpvr_confluence_20260717",
+    "file_path": "loid_vpvr_confluence_20260717/run_g1g7_backtest.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework-specific vectorbt coupling; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 407
+  },
+  {
+    "strategy_dir": "loid_vpvr_confluence_20260717",
+    "file_path": "loid_vpvr_confluence_20260717/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 228
+  },
+  {
+    "strategy_dir": "momentum_trend_btc_only_softer_stop_1h_20260712",
+    "file_path": "momentum_trend_btc_only_softer_stop_1h_20260712/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, _source_filename, _normalize_ohlcv, _read_source, build_source_manifest",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 210
+  },
+  {
+    "strategy_dir": "momentum_trend_btc_only_softer_stop_1h_20260712",
+    "file_path": "momentum_trend_btc_only_softer_stop_1h_20260712/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling",
+    "lines_of_code": 445
+  },
+  {
+    "strategy_dir": "momentum_trend_btc_only_softer_stop_1h_20260712",
+    "file_path": "momentum_trend_btc_only_softer_stop_1h_20260712/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 172
+  },
+  {
+    "strategy_dir": "momentum_trend_btc_only_softer_stop_1h_20260712",
+    "file_path": "momentum_trend_btc_only_softer_stop_1h_20260712/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 531
+  },
+  {
+    "strategy_dir": "momentum_trend_btc_only_softer_stop_1h_20260712",
+    "file_path": "momentum_trend_btc_only_softer_stop_1h_20260712/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowSlice; functions: build_schedule, slice_1h_4h, _per_symbol_equity_curve, _metrics, _run_slice",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 429
+  },
+  {
+    "strategy_dir": "momentum_trend_multi_tf_atr_scaled_1h_20260712",
+    "file_path": "momentum_trend_multi_tf_atr_scaled_1h_20260712/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, _source_filename, _normalize_ohlcv, _read_source, build_source_manifest",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 210
+  },
+  {
+    "strategy_dir": "momentum_trend_multi_tf_atr_scaled_1h_20260712",
+    "file_path": "momentum_trend_multi_tf_atr_scaled_1h_20260712/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 172
+  },
+  {
+    "strategy_dir": "momentum_trend_multi_tf_atr_scaled_1h_20260712",
+    "file_path": "momentum_trend_multi_tf_atr_scaled_1h_20260712/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 497
+  },
+  {
+    "strategy_dir": "momentum_trend_multi_tf_atr_scaled_1h_20260712",
+    "file_path": "momentum_trend_multi_tf_atr_scaled_1h_20260712/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowSlice; functions: build_schedule, slice_1h_4h, _per_symbol_equity_curve, _metrics, _run_slice",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 429
+  },
+  {
+    "strategy_dir": "momentum_trend_multi_tf_atr_scaled_v2_1h_20260712",
+    "file_path": "momentum_trend_multi_tf_atr_scaled_v2_1h_20260712/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, _source_filename, _normalize_ohlcv, _read_source, build_source_manifest",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 210
+  },
+  {
+    "strategy_dir": "momentum_trend_multi_tf_atr_scaled_v2_1h_20260712",
+    "file_path": "momentum_trend_multi_tf_atr_scaled_v2_1h_20260712/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 172
+  },
+  {
+    "strategy_dir": "momentum_trend_multi_tf_atr_scaled_v2_1h_20260712",
+    "file_path": "momentum_trend_multi_tf_atr_scaled_v2_1h_20260712/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 539
+  },
+  {
+    "strategy_dir": "momentum_trend_multi_tf_atr_scaled_v2_1h_20260712",
+    "file_path": "momentum_trend_multi_tf_atr_scaled_v2_1h_20260712/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowSlice; functions: build_schedule, slice_1h_4h, _per_symbol_equity_curve, _metrics, _run_slice",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 429
+  },
+  {
+    "strategy_dir": "momentum_trend_multi_tf_atr_scaled_v3_1h_20260712",
+    "file_path": "momentum_trend_multi_tf_atr_scaled_v3_1h_20260712/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, _source_filename, _normalize_ohlcv, _read_source, build_source_manifest",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 210
+  },
+  {
+    "strategy_dir": "momentum_trend_multi_tf_atr_scaled_v3_1h_20260712",
+    "file_path": "momentum_trend_multi_tf_atr_scaled_v3_1h_20260712/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling",
+    "lines_of_code": 310
+  },
+  {
+    "strategy_dir": "momentum_trend_multi_tf_atr_scaled_v3_1h_20260712",
+    "file_path": "momentum_trend_multi_tf_atr_scaled_v3_1h_20260712/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 172
+  },
+  {
+    "strategy_dir": "momentum_trend_multi_tf_atr_scaled_v3_1h_20260712",
+    "file_path": "momentum_trend_multi_tf_atr_scaled_v3_1h_20260712/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 497
+  },
+  {
+    "strategy_dir": "momentum_trend_multi_tf_atr_scaled_v3_1h_20260712",
+    "file_path": "momentum_trend_multi_tf_atr_scaled_v3_1h_20260712/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowSlice; functions: build_schedule, slice_1h_4h, _per_symbol_equity_curve, _metrics, _run_slice",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 429
+  },
+  {
+    "strategy_dir": "mtf_vpvr_edge_zscore_1m_15m_2h_20260718",
+    "file_path": "mtf_vpvr_edge_zscore_1m_15m_2h_20260718/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_1m, load_all, load_funding",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 43
+  },
+  {
+    "strategy_dir": "mtf_vpvr_edge_zscore_1m_15m_2h_20260718",
+    "file_path": "mtf_vpvr_edge_zscore_1m_15m_2h_20260718/diagnose.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "one-off diagnostic/script not reusable",
+    "lines_of_code": 68
+  },
+  {
+    "strategy_dir": "mtf_vpvr_edge_zscore_1m_15m_2h_20260718",
+    "file_path": "mtf_vpvr_edge_zscore_1m_15m_2h_20260718/inspect_full.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "one-off diagnostic/script not reusable",
+    "lines_of_code": 45
+  },
+  {
+    "strategy_dir": "mtf_vpvr_edge_zscore_1m_15m_2h_20260718",
+    "file_path": "mtf_vpvr_edge_zscore_1m_15m_2h_20260718/inspect_trades.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "one-off diagnostic/script not reusable",
+    "lines_of_code": 36
+  },
+  {
+    "strategy_dir": "mtf_vpvr_edge_zscore_1m_15m_2h_20260718",
+    "file_path": "mtf_vpvr_edge_zscore_1m_15m_2h_20260718/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 128
+  },
+  {
+    "strategy_dir": "mtf_vpvr_edge_zscore_1m_15m_2h_20260718",
+    "file_path": "mtf_vpvr_edge_zscore_1m_15m_2h_20260718/smoke_test.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "one-off diagnostic/script not reusable",
+    "lines_of_code": 28
+  },
+  {
+    "strategy_dir": "mtf_vpvr_edge_zscore_1m_15m_2h_20260718",
+    "file_path": "mtf_vpvr_edge_zscore_1m_15m_2h_20260718/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 651
+  },
+  {
+    "strategy_dir": "mtf_xs_pairs_1m_15m_2h_h1_20260718",
+    "file_path": "mtf_xs_pairs_1m_15m_2h_h1_20260718/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_1m, load_all, load_funding",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 35
+  },
+  {
+    "strategy_dir": "mtf_xs_pairs_1m_15m_2h_h1_20260718",
+    "file_path": "mtf_xs_pairs_1m_15m_2h_h1_20260718/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _write_trades_csv, _write_equity_csv, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 139
+  },
+  {
+    "strategy_dir": "mtf_xs_pairs_1m_15m_2h_h1_20260718",
+    "file_path": "mtf_xs_pairs_1m_15m_2h_h1_20260718/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 32
+  },
+  {
+    "strategy_dir": "mtf_xs_pairs_1m_15m_2h_h1_20260718",
+    "file_path": "mtf_xs_pairs_1m_15m_2h_h1_20260718/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "functions: main",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 52
+  },
+  {
+    "strategy_dir": "mtf_xs_pairs_1m_15m_2h_h2_20260718",
+    "file_path": "mtf_xs_pairs_1m_15m_2h_h2_20260718/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_1m, load_all, load_funding",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 28
+  },
+  {
+    "strategy_dir": "mtf_xs_pairs_1m_15m_2h_h2_20260718",
+    "file_path": "mtf_xs_pairs_1m_15m_2h_h2_20260718/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 49
+  },
+  {
+    "strategy_dir": "mtf_xs_pairs_1m_15m_2h_h2_20260718",
+    "file_path": "mtf_xs_pairs_1m_15m_2h_h2_20260718/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 31
+  },
+  {
+    "strategy_dir": "mtf_xs_pairs_1m_15m_2h_h2_20260718",
+    "file_path": "mtf_xs_pairs_1m_15m_2h_h2_20260718/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "functions: main",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 48
+  },
+  {
+    "strategy_dir": "mtf_xs_pairs_1m_15m_2h_h3_20260718",
+    "file_path": "mtf_xs_pairs_1m_15m_2h_h3_20260718/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_1m, _load_funding_one, load_all, load_funding",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 49
+  },
+  {
+    "strategy_dir": "mtf_xs_pairs_1m_15m_2h_h3_20260718",
+    "file_path": "mtf_xs_pairs_1m_15m_2h_h3_20260718/framework_validate.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 227
+  },
+  {
+    "strategy_dir": "mtf_xs_pairs_1m_15m_2h_h3_20260718",
+    "file_path": "mtf_xs_pairs_1m_15m_2h_h3_20260718/sizing_sweep.py",
+    "module_type": "risk_sizing",
+    "short_description": "classes: VariantSpec; functions: sizing_baseline_atr, sizing_atr_multiplier, sizing_vol_target, sizing_regime_conditional, kelly_size",
+    "reusable_in_shared": "yes",
+    "reason": "position sizing primitives belong in _shared/sizing",
+    "lines_of_code": 580
+  },
+  {
+    "strategy_dir": "mtf_xs_pairs_1m_15m_2h_h3_20260718",
+    "file_path": "mtf_xs_pairs_1m_15m_2h_h3_20260718/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 32
+  },
+  {
+    "strategy_dir": "mtf_xs_pairs_1m_15m_2h_h3_20260718",
+    "file_path": "mtf_xs_pairs_1m_15m_2h_h3_20260718/write_winner_trades.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 122
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_macro_calendar_4h_20260715/build_signals.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: _atr, _vpvr_poc, _macro_proximity_bars, build_signals",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 123
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_macro_calendar_4h_20260715/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: load_btcusdt_4h",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 35
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_macro_calendar_4h_20260715/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling",
+    "lines_of_code": 310
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_macro_calendar_4h_20260715/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 348
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_macro_calendar_4h_20260715/framework_adapter_vectorbt.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific vectorbt coupling; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 492
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_macro_calendar_4h_20260715/macro_calendar.py",
+    "module_type": "data_utils",
+    "short_description": "functions: high_impact_event_dates, is_high_impact_event_date",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 134
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_macro_calendar_4h_20260715/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _ann_factor_for_tf, _compute_metrics, _write_summary, _write_trades_csv, _write_equity_csv",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 219
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_macro_calendar_4h_20260715/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 151
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_onchain_proxy_1h_20260711/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 32
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_onchain_proxy_1h_20260711/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling",
+    "lines_of_code": 370
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_onchain_proxy_1h_20260711/framework_adapter_vectorbt.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific vectorbt coupling",
+    "lines_of_code": 373
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_onchain_proxy_1h_20260711/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _summarise, _write_trades, _write_equity, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 133
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_onchain_proxy_1h_20260711/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 306
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_options_putcall_oi_pressure_8h_20260715/build_signals.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: _atr, _vpvr_poc, _z_score, build_signals",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 112
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_options_putcall_oi_pressure_8h_20260715/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling",
+    "lines_of_code": 417
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_options_putcall_oi_pressure_8h_20260715/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 329
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_options_putcall_oi_pressure_8h_20260715/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_8h_ohlcv_with_pcr_proxy, _ann_factor_for_tf, _compute_metrics, _write_summary, _write_trades_csv",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 260
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_options_putcall_oi_pressure_8h_20260715/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 147
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_stable_depeg_regime_4h_20260716/build_signals.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: _atr, _vpvr_poc, build_signals",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 100
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_stable_depeg_regime_4h_20260716/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 521
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_stable_depeg_regime_4h_20260716/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 347
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_stable_depeg_regime_4h_20260716/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _make_synthetic_data, _compute_metrics, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 115
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_stable_depeg_regime_4h_20260716/run_cpcv.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _build_strategy_returns, _sanitize, main",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 182
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_stable_depeg_regime_4h_20260716/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 152
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_stable_depeg_regime_4h_20260716_p3opt_091/build_signals.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: _atr, _vpvr_poc, build_signals",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 138
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_stable_depeg_regime_4h_20260716_p3opt_091/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 521
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_stable_depeg_regime_4h_20260716_p3opt_091/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 347
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_stable_depeg_regime_4h_20260716_p3opt_091/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _make_synthetic_data, _compute_metrics, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 115
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_stable_depeg_regime_4h_20260716_p3opt_091/run_cpcv.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _build_strategy_returns, _sanitize, main",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 192
+  },
+  {
+    "strategy_dir": "options_macro_sentiment",
+    "file_path": "_graveyard/options_macro_sentiment/vpvr_stable_depeg_regime_4h_20260716_p3opt_091/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 156
+  },
+  {
+    "strategy_dir": "pairs_cointegration_1d_20260709",
+    "file_path": "pairs_cointegration_1d_20260709/backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: load_config, _print_summary, main",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 82
+  },
+  {
+    "strategy_dir": "pairs_cointegration_1d_20260709",
+    "file_path": "pairs_cointegration_1d_20260709/cointegration.py",
+    "module_type": "signal_generation",
+    "short_description": "classes: HedgeRatio, EGTestResult; functions: _to_1d_float, _align, ols_hedge_ratio, compute_spread, engle_granger_test",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 382
+  },
+  {
+    "strategy_dir": "pairs_cointegration_1d_20260709",
+    "file_path": "pairs_cointegration_1d_20260709/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, build_source_manifest, _read_1m, _resample_1d, load_symbol_1d",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 180
+  },
+  {
+    "strategy_dir": "pairs_cointegration_1d_20260709",
+    "file_path": "pairs_cointegration_1d_20260709/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 340
+  },
+  {
+    "strategy_dir": "pairs_cointegration_1d_20260709",
+    "file_path": "pairs_cointegration_1d_20260709/optimize.py",
+    "module_type": "evaluation_metrics",
+    "short_description": "functions: _sanitize, make_cfg, select_pairs_filtered, build_returns_series, evaluate_combo",
+    "reusable_in_shared": "yes",
+    "reason": "metric implementations belong in _shared/validation or _shared/evaluation",
+    "lines_of_code": 409
+  },
+  {
+    "strategy_dir": "pairs_cointegration_1d_20260709",
+    "file_path": "pairs_cointegration_1d_20260709/portfolio.py",
+    "module_type": "data_utils",
+    "short_description": "classes: _RiskCfg, PairAllocation, _PairsDict; functions: apply_pair_constraints",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 384
+  },
+  {
+    "strategy_dir": "pairs_cointegration_1d_20260709",
+    "file_path": "pairs_cointegration_1d_20260709/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "classes: PairCandidate, MultiPairResult; functions: select_pairs, rolling_eg_timeseries, find_coint_breaks, run_multi_pair_backtest, persist_results",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 520
+  },
+  {
+    "strategy_dir": "pairs_cointegration_1d_20260709",
+    "file_path": "pairs_cointegration_1d_20260709/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 533
+  },
+  {
+    "strategy_dir": "pairs_cointegration_1d_20260709",
+    "file_path": "pairs_cointegration_1d_20260709/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "functions: main",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 77
+  },
+  {
+    "strategy_dir": "paper_trading",
+    "file_path": "_graveyard/paper_trading/paper_trading_mtf_xs_pairs_eth_sol_20260719/fill_engine.py",
+    "module_type": "execution_cost",
+    "short_description": "classes: KlineBar, PaperAccount; functions: _parse_kline_msg, _ws_url, _load_strategy_history, _load_strategy_funding, _run_strategy_for_diff",
+    "reusable_in_shared": "yes",
+    "reason": "cost models belong in _shared/execution",
+    "lines_of_code": 687
+  },
+  {
+    "strategy_dir": "paper_trading",
+    "file_path": "_graveyard/paper_trading/paper_trading_mtf_xs_pairs_eth_sol_20260719/kill_criteria.py",
+    "module_type": "risk_sizing",
+    "short_description": "classes: KillState, MetricsSnapshot; functions: evaluate",
+    "reusable_in_shared": "yes",
+    "reason": "position sizing primitives belong in _shared/sizing",
+    "lines_of_code": 116
+  },
+  {
+    "strategy_dir": "paper_trading",
+    "file_path": "_graveyard/paper_trading/paper_trading_mtf_xs_pairs_eth_sol_20260719/paper_runner.py",
+    "module_type": "data_utils",
+    "short_description": "classes: KillState; functions: _load_config, _apply_cost, _load_live_bars, _evaluate_kill_criteria, _append_daily_metrics",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 239
+  },
+  {
+    "strategy_dir": "trend_multi_tf_momentum_cascade_4h_1h_15m_20260714",
+    "file_path": "trend_multi_tf_momentum_cascade_4h_1h_15m_20260714/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, _normalize_ohlcv, _read_source, load_symbol_tf, load_symbol_multi",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 145
+  },
+  {
+    "strategy_dir": "trend_multi_tf_momentum_cascade_4h_1h_15m_20260714",
+    "file_path": "trend_multi_tf_momentum_cascade_4h_1h_15m_20260714/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 129
+  },
+  {
+    "strategy_dir": "trend_multi_tf_momentum_cascade_4h_1h_15m_20260714",
+    "file_path": "trend_multi_tf_momentum_cascade_4h_1h_15m_20260714/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 334
+  },
+  {
+    "strategy_dir": "trend_multi_tf_momentum_cascade_4h_1h_15m_20260714",
+    "file_path": "trend_multi_tf_momentum_cascade_4h_1h_15m_20260714/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowSlice; functions: build_schedule, slice_frames, _run, _equity_curve, _metrics",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 259
+  },
+  {
+    "strategy_dir": "trend_regime_gate_1d_adx_4h_1h_20260714",
+    "file_path": "trend_regime_gate_1d_adx_4h_1h_20260714/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, _normalize_ohlcv, _read_source, load_symbol_1h, load_symbol_4h",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 199
+  },
+  {
+    "strategy_dir": "trend_regime_gate_1d_adx_4h_1h_20260714",
+    "file_path": "trend_regime_gate_1d_adx_4h_1h_20260714/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 156
+  },
+  {
+    "strategy_dir": "trend_regime_gate_1d_adx_4h_1h_20260714",
+    "file_path": "trend_regime_gate_1d_adx_4h_1h_20260714/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 404
+  },
+  {
+    "strategy_dir": "trend_regime_gate_1d_adx_4h_1h_20260714",
+    "file_path": "trend_regime_gate_1d_adx_4h_1h_20260714/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowSlice; functions: build_schedule, slice_frames, _run, _equity_curve, _metrics",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 308
+  },
+  {
+    "strategy_dir": "vol_breakout_2tf_vpvr_confluence_4h_20260712",
+    "file_path": "vol_breakout_2tf_vpvr_confluence_4h_20260712/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, _source_filename, _normalize_ohlcv, _read_source, build_source_manifest",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 213
+  },
+  {
+    "strategy_dir": "vol_breakout_2tf_vpvr_confluence_4h_20260712",
+    "file_path": "vol_breakout_2tf_vpvr_confluence_4h_20260712/indicators.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: load_config, realized_vol, vol_median, vol_regime, true_range",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 274
+  },
+  {
+    "strategy_dir": "vol_breakout_2tf_vpvr_confluence_4h_20260712",
+    "file_path": "vol_breakout_2tf_vpvr_confluence_4h_20260712/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, _per_symbol_metrics, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 201
+  },
+  {
+    "strategy_dir": "vol_breakout_2tf_vpvr_confluence_4h_20260712",
+    "file_path": "vol_breakout_2tf_vpvr_confluence_4h_20260712/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 539
+  },
+  {
+    "strategy_dir": "vol_breakout_2tf_vpvr_confluence_4h_20260712",
+    "file_path": "vol_breakout_2tf_vpvr_confluence_4h_20260712/walk_forward.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework-specific backtrader coupling; framework-specific freqtrade coupling; inline metrics duplicated from _shared/evaluation",
+    "lines_of_code": 523
+  },
+  {
+    "strategy_dir": "vol_breakout_vpvr_val_fade_1h_5m_20260714",
+    "file_path": "vol_breakout_vpvr_val_fade_1h_5m_20260714/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, _normalize_5m, _normalize_1h, _read_5m, _read_1h",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 371
+  },
+  {
+    "strategy_dir": "vol_breakout_vpvr_val_fade_1h_5m_20260714",
+    "file_path": "vol_breakout_vpvr_val_fade_1h_5m_20260714/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 154
+  },
+  {
+    "strategy_dir": "vol_breakout_vpvr_val_fade_1h_5m_20260714",
+    "file_path": "vol_breakout_vpvr_val_fade_1h_5m_20260714/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 204
+  },
+  {
+    "strategy_dir": "vol_breakout_vpvr_val_fade_1h_5m_20260714",
+    "file_path": "vol_breakout_vpvr_val_fade_1h_5m_20260714/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _bars_per_year, _write_trades_csv, _write_equity_csv, _gate_row, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 216
+  },
+  {
+    "strategy_dir": "vol_breakout_vpvr_val_fade_1h_5m_20260714",
+    "file_path": "vol_breakout_vpvr_val_fade_1h_5m_20260714/scripts/b6_aggregate.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 94
+  },
+  {
+    "strategy_dir": "vol_breakout_vpvr_val_fade_1h_5m_20260714",
+    "file_path": "vol_breakout_vpvr_val_fade_1h_5m_20260714/scripts/b6_bootstrap.py",
+    "module_type": "data_utils",
+    "short_description": "functions: load_returns, bootstrap_sharpe_like, percentile, main",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 86
+  },
+  {
+    "strategy_dir": "vol_breakout_vpvr_val_fade_1h_5m_20260714",
+    "file_path": "vol_breakout_vpvr_val_fade_1h_5m_20260714/scripts/b6_fwer.py",
+    "module_type": "evaluation_metrics",
+    "short_description": "functions: load_returns, block_bootstrap, sharpe_like, one_sided_p_value, main",
+    "reusable_in_shared": "yes",
+    "reason": "metric implementations belong in _shared/validation or _shared/evaluation",
+    "lines_of_code": 120
+  },
+  {
+    "strategy_dir": "vol_breakout_vpvr_val_fade_1h_5m_20260714",
+    "file_path": "vol_breakout_vpvr_val_fade_1h_5m_20260714/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 420
+  },
+  {
+    "strategy_dir": "vol_breakout_vpvr_val_fade_1h_5m_20260714",
+    "file_path": "vol_breakout_vpvr_val_fade_1h_5m_20260714/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _max_drawdown, walk_forward",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 154
+  },
+  {
+    "strategy_dir": "vpvr_carry_term_8h_20260711",
+    "file_path": "vpvr_carry_term_8h_20260711/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _load_1h, _load_funding_8h, _aggregate_8h, load_symbol, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 140
+  },
+  {
+    "strategy_dir": "vpvr_carry_term_8h_20260711",
+    "file_path": "vpvr_carry_term_8h_20260711/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling",
+    "lines_of_code": 370
+  },
+  {
+    "strategy_dir": "vpvr_carry_term_8h_20260711",
+    "file_path": "vpvr_carry_term_8h_20260711/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific vectorbt coupling; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 399
+  },
+  {
+    "strategy_dir": "vpvr_carry_term_8h_20260711",
+    "file_path": "vpvr_carry_term_8h_20260711/framework_adapter_vectorbt.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific vectorbt coupling",
+    "lines_of_code": 449
+  },
+  {
+    "strategy_dir": "vpvr_carry_term_8h_20260711",
+    "file_path": "vpvr_carry_term_8h_20260711/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _summarise, _write_trades_csv, _write_equity_csv, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 156
+  },
+  {
+    "strategy_dir": "vpvr_carry_term_8h_20260711",
+    "file_path": "vpvr_carry_term_8h_20260711/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 303
+  },
+  {
+    "strategy_dir": "vpvr_edge_zscore_15m_only_20260720",
+    "file_path": "vpvr_edge_zscore_15m_only_20260720/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _sanitize, _daily_resampled_sharpe, _compute_metrics, _slice_window, _run_walk_forward",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 487
+  },
+  {
+    "strategy_dir": "vpvr_edge_zscore_15m_only_20260720",
+    "file_path": "vpvr_edge_zscore_15m_only_20260720/smoke_backtest.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "one-off diagnostic/script not reusable",
+    "lines_of_code": 116
+  },
+  {
+    "strategy_dir": "vpvr_edge_zscore_15m_only_20260720",
+    "file_path": "vpvr_edge_zscore_15m_only_20260720/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 318
+  },
+  {
+    "strategy_dir": "vpvr_edge_zscore_multi_tf_1m_15m_2h_20260720",
+    "file_path": "vpvr_edge_zscore_multi_tf_1m_15m_2h_20260720/build_signals.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: _atr, _ema, _vpvr_snapshot_levels, _shifted_snapshot_per_bar, _zscore",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 535
+  },
+  {
+    "strategy_dir": "vpvr_edge_zscore_multi_tf_1m_15m_2h_20260720",
+    "file_path": "vpvr_edge_zscore_multi_tf_1m_15m_2h_20260720/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_ohlcv, load_tf, load_all, default_symbols",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 146
+  },
+  {
+    "strategy_dir": "vpvr_edge_zscore_multi_tf_1m_15m_2h_20260720",
+    "file_path": "vpvr_edge_zscore_multi_tf_1m_15m_2h_20260720/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _daily_resampled_sharpe, _compute_metrics, _slice_window, _tf_freq, _sanitize",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 620
+  },
+  {
+    "strategy_dir": "vpvr_edge_zscore_multi_tf_1m_15m_2h_20260720",
+    "file_path": "vpvr_edge_zscore_multi_tf_1m_15m_2h_20260720/smoke_backtest.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "one-off diagnostic/script not reusable",
+    "lines_of_code": 137
+  },
+  {
+    "strategy_dir": "vpvr_edge_zscore_multi_tf_1m_15m_2h_20260720",
+    "file_path": "vpvr_edge_zscore_multi_tf_1m_15m_2h_20260720/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 373
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_asym_4h_20260713/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_4h, _load_funding, load_symbol, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 70
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_asym_4h_20260713/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 245
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_asym_4h_20260713/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 230
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_asym_4h_20260713/framework_adapter_vectorbt.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific vectorbt coupling; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 350
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_asym_4h_20260713/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _bars_per_year, _summarise, _write_trades_csv, _write_equity_csv, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 187
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_asym_4h_20260713/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 225
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_aware_v1_20260711/audit_maxdd.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 219
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_aware_v1_20260711/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_4h, _load_funding, load_symbol, load_all, main",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 85
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_aware_v1_20260711/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 263
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_aware_v1_20260711/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 243
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_aware_v1_20260711/framework_adapter_vectorbt.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific vectorbt coupling; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 357
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_aware_v1_20260711/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _bars_per_year, _summarise, _write_trades_csv, _write_equity_csv, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 240
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_aware_v1_20260711/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 319
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_aware_v1_20260711/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _bars_per_year, _annualised_sharpe, _bootstrap_ci, _build_folds, main",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 212
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_carry_asym_v2_20260718/build_signals.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: _atr, _align_to_1m, build_signals",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 153
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_carry_asym_v2_20260718/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_ohlcv, _load_funding_events, load_tf, load_funding, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 111
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_carry_asym_v2_20260718/funding_signal.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: compute_funding_ema_signal",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 123
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_carry_asym_v2_20260718/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _slice_window, _tf_freq, _bootstrap_ci_lower, _sanitize, _run_fold",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 358
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_carry_asym_v2_20260718/run_cpcv.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _bar_to_periods_per_year, _build_strategy_returns, _strategy_factory, _sanitize, main",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 268
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_carry_asym_v2_20260718/state_machine.py",
+    "module_type": "signal_generation",
+    "short_description": "classes: Trade; functions: _state_machine, run_backtest, compute_metrics",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 337
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_carry_asym_v2_20260718/trend_filter.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: build_trend_filter",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 53
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_carry_asym_v2_20260718/vpvr_levels_band.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: _vpvr_snapshot_band, build_vpvr_band",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 145
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_hvn_lvn_20260718/vpvr_funding_hvn_lvn_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "classes: Trade; functions: _load_ohlcv, _load_funding, _atr, _build_vpvr_table, _nearest_lvn_above",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 822
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_hvn_lvn_confluence_20260718/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling",
+    "lines_of_code": 377
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_hvn_lvn_confluence_20260718/vpvr_funding_hvn_lvn_confluence_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "classes: Trade; functions: _load_ohlcv, _load_funding, _atr, _build_vpvr_table, _nearest_lvn_above",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 820
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_regime_15m_20260711/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_15m, _load_funding, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 54
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_regime_15m_20260711/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 293
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_regime_15m_20260711/framework_adapter_vectorbt.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific vectorbt coupling; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 294
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_regime_15m_20260711/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _summarise, _write_trades, _write_equity, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 131
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_regime_15m_20260711/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 359
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_reset_window_1h_20260715/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _first_existing, _to_naive_utc, _load_1h, _load_funding, load_symbol",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 111
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_reset_window_1h_20260715/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 219
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_reset_window_1h_20260715/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 196
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_reset_window_1h_20260715/framework_adapter_vectorbt.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific vectorbt coupling; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 234
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_reset_window_1h_20260715/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _bars_per_year, _summarise, _write_trades_csv, _write_equity_csv, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 192
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_reset_window_1h_20260715/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 317
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_term_curve_1h_20260714/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_1h, _load_funding, load_symbol, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 64
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_term_curve_1h_20260714/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 312
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_term_curve_1h_20260714/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 300
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_term_curve_1h_20260714/framework_adapter_vectorbt.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific vectorbt coupling; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 403
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_term_curve_1h_20260714/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _bars_per_year, _summarise, _write_trades_csv, _write_equity_csv, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 182
+  },
+  {
+    "strategy_dir": "vpvr_funding",
+    "file_path": "_graveyard/vpvr_funding/vpvr_funding_term_curve_1h_20260714/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 305
+  },
+  {
+    "strategy_dir": "vpvr_micro_reversion_1h_funding_filter_20260710",
+    "file_path": "vpvr_micro_reversion_1h_funding_filter_20260710/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, build_source_manifest, _read_1h, load_symbol_1h, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 143
+  },
+  {
+    "strategy_dir": "vpvr_micro_reversion_1h_funding_filter_20260710",
+    "file_path": "vpvr_micro_reversion_1h_funding_filter_20260710/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, _bars_per_year, _strategy_metrics, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 206
+  },
+  {
+    "strategy_dir": "vpvr_micro_reversion_1h_funding_filter_20260710",
+    "file_path": "vpvr_micro_reversion_1h_funding_filter_20260710/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 531
+  },
+  {
+    "strategy_dir": "vpvr_regime_reversion_4h_vol_switch_20260710",
+    "file_path": "vpvr_regime_reversion_4h_vol_switch_20260710/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, build_source_manifest, _read_1m, _resample, _to_pandas_freq",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 179
+  },
+  {
+    "strategy_dir": "vpvr_regime_reversion_4h_vol_switch_20260710",
+    "file_path": "vpvr_regime_reversion_4h_vol_switch_20260710/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 125
+  },
+  {
+    "strategy_dir": "vpvr_regime_reversion_4h_vol_switch_20260710",
+    "file_path": "vpvr_regime_reversion_4h_vol_switch_20260710/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 432
+  },
+  {
+    "strategy_dir": "vpvr_reversion_15m_donchian_regime_20260709",
+    "file_path": "vpvr_reversion_15m_donchian_regime_20260709/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, build_source_manifest, _read_1m, _to_pandas_freq, _resample",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 158
+  },
+  {
+    "strategy_dir": "vpvr_reversion_15m_donchian_regime_20260709",
+    "file_path": "vpvr_reversion_15m_donchian_regime_20260709/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 98
+  },
+  {
+    "strategy_dir": "vpvr_reversion_15m_donchian_regime_20260709",
+    "file_path": "vpvr_reversion_15m_donchian_regime_20260709/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 356
+  },
+  {
+    "strategy_dir": "vpvr_reversion_5m_vwap_trail_20260709",
+    "file_path": "vpvr_reversion_5m_vwap_trail_20260709/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, build_source_manifest, _read_1m, _resample, _to_pandas_freq",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 183
+  },
+  {
+    "strategy_dir": "vpvr_reversion_5m_vwap_trail_20260709",
+    "file_path": "vpvr_reversion_5m_vwap_trail_20260709/framework_adapter_vectorbt.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific vectorbt coupling",
+    "lines_of_code": 292
+  },
+  {
+    "strategy_dir": "vpvr_reversion_5m_vwap_trail_20260709",
+    "file_path": "vpvr_reversion_5m_vwap_trail_20260709/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 127
+  },
+  {
+    "strategy_dir": "vpvr_reversion_5m_vwap_trail_20260709",
+    "file_path": "vpvr_reversion_5m_vwap_trail_20260709/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 409
+  },
+  {
+    "strategy_dir": "vpvr_tod_session_filter_15m_20260715",
+    "file_path": "vpvr_tod_session_filter_15m_20260715/build_signals.py",
+    "module_type": "signal_generation",
+    "short_description": "functions: _atr, _vpvr_poc, build_signals",
+    "reusable_in_shared": "yes",
+    "reason": "generic indicator/signal functions should migrate to _shared/indicators",
+    "lines_of_code": 89
+  },
+  {
+    "strategy_dir": "vpvr_tod_session_filter_15m_20260715",
+    "file_path": "vpvr_tod_session_filter_15m_20260715/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _synth_15m_from_30m, load_15m, load_pair_15m",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 83
+  },
+  {
+    "strategy_dir": "vpvr_tod_session_filter_15m_20260715",
+    "file_path": "vpvr_tod_session_filter_15m_20260715/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _ann_factor_for_tf, _compute_metrics, _write_trades_csv, _write_equity_csv, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 243
+  },
+  {
+    "strategy_dir": "vpvr_tod_session_filter_15m_20260715",
+    "file_path": "vpvr_tod_session_filter_15m_20260715/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 148
+  },
+  {
+    "strategy_dir": "vpvr_tod_session_filter_15m_20260715",
+    "file_path": "vpvr_tod_session_filter_15m_20260715/tod_calendar.py",
+    "module_type": "data_utils",
+    "short_description": "functions: session_for_timestamp, is_session_active, session_index_for_day, session_label, session_change_points",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 66
+  },
+  {
+    "strategy_dir": "vpvr_volume_edge_3tf_v1_20260711",
+    "file_path": "vpvr_volume_edge_3tf_v1_20260711/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _normalize_ohlcv, _read_local, load_symbol_tf, load_symbol_multi, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 96
+  },
+  {
+    "strategy_dir": "vpvr_volume_edge_3tf_v1_20260711",
+    "file_path": "vpvr_volume_edge_3tf_v1_20260711/rebuild_summary.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _sanitize, _json_default, main",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 188
+  },
+  {
+    "strategy_dir": "vpvr_volume_edge_3tf_v1_20260711",
+    "file_path": "vpvr_volume_edge_3tf_v1_20260711/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, _sanitize, _downsample_equity, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 174
+  },
+  {
+    "strategy_dir": "vpvr_volume_edge_3tf_v1_20260711",
+    "file_path": "vpvr_volume_edge_3tf_v1_20260711/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 443
+  },
+  {
+    "strategy_dir": "vpvr_volume_edge_3tf_v1_20260711",
+    "file_path": "vpvr_volume_edge_3tf_v1_20260711/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowSlice; functions: build_schedule, slice_frames, _run, _equity_curve, _metrics",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 259
+  },
+  {
+    "strategy_dir": "vpvr_xs_basis_zscore_15m_funding_filter_20260712",
+    "file_path": "vpvr_xs_basis_zscore_15m_funding_filter_20260712/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _standardize, load_all, load_funding_series",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 59
+  },
+  {
+    "strategy_dir": "vpvr_xs_basis_zscore_15m_funding_filter_20260712",
+    "file_path": "vpvr_xs_basis_zscore_15m_funding_filter_20260712/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling",
+    "lines_of_code": 399
+  },
+  {
+    "strategy_dir": "vpvr_xs_basis_zscore_15m_funding_filter_20260712",
+    "file_path": "vpvr_xs_basis_zscore_15m_funding_filter_20260712/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 367
+  },
+  {
+    "strategy_dir": "vpvr_xs_basis_zscore_15m_funding_filter_20260712",
+    "file_path": "vpvr_xs_basis_zscore_15m_funding_filter_20260712/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _summarise_pair, _write_trades, _write_equity, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 166
+  },
+  {
+    "strategy_dir": "vpvr_xs_basis_zscore_15m_funding_filter_20260712",
+    "file_path": "vpvr_xs_basis_zscore_15m_funding_filter_20260712/run_cpcv.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework-specific freqtrade coupling",
+    "lines_of_code": 728
+  },
+  {
+    "strategy_dir": "vpvr_xs_basis_zscore_15m_funding_filter_20260712",
+    "file_path": "vpvr_xs_basis_zscore_15m_funding_filter_20260712/strategy.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework-specific freqtrade coupling",
+    "lines_of_code": 422
+  },
+  {
+    "strategy_dir": "vpvr_xs_basis_zscore_15m_funding_filter_20260712",
+    "file_path": "vpvr_xs_basis_zscore_15m_funding_filter_20260712/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowResult; functions: _annualisation_factor, _summarise_trades, _dsr, build_windows, main",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 279
+  },
+  {
+    "strategy_dir": "vpvr_xs_pairs_4h",
+    "file_path": "_graveyard/vpvr_xs_pairs_4h/cointegration_pairs_vpvr_poc_4h_20260714/framework_adapter_vectorbt.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific vectorbt coupling; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 279
+  },
+  {
+    "strategy_dir": "vpvr_xs_pairs_4h",
+    "file_path": "_graveyard/vpvr_xs_pairs_4h/vpvr_xs_pairs_4h_zscore_vpvr_20260710/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_1h, _load_4h, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 52
+  },
+  {
+    "strategy_dir": "vpvr_xs_pairs_4h",
+    "file_path": "_graveyard/vpvr_xs_pairs_4h/vpvr_xs_pairs_4h_zscore_vpvr_20260710/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 468
+  },
+  {
+    "strategy_dir": "vpvr_xs_pairs_4h",
+    "file_path": "_graveyard/vpvr_xs_pairs_4h/vpvr_xs_pairs_4h_zscore_vpvr_20260710/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 332
+  },
+  {
+    "strategy_dir": "vpvr_xs_pairs_4h",
+    "file_path": "_graveyard/vpvr_xs_pairs_4h/vpvr_xs_pairs_4h_zscore_vpvr_20260710/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _summarise_pair, _write_trades, _write_equity, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 163
+  },
+  {
+    "strategy_dir": "vpvr_xs_pairs_4h",
+    "file_path": "_graveyard/vpvr_xs_pairs_4h/vpvr_xs_pairs_4h_zscore_vpvr_20260710/run_optimize_cpcv.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _build_variant_cfg, _bar_returns_for_variant, _strategy_fn_factory, _evaluate_variant, _decide_chosen",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 566
+  },
+  {
+    "strategy_dir": "vpvr_xs_pairs_4h",
+    "file_path": "_graveyard/vpvr_xs_pairs_4h/vpvr_xs_pairs_4h_zscore_vpvr_20260710/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 400
+  },
+  {
+    "strategy_dir": "vpvr_xs_pairs_4h",
+    "file_path": "_graveyard/vpvr_xs_pairs_4h/vpvr_xs_pairs_4h_zscore_vpvr_20260710/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowResult; functions: _summarise_trades, build_windows, main",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 281
+  },
+  {
+    "strategy_dir": "vpvr_xs_pairs_4h",
+    "file_path": "_graveyard/vpvr_xs_pairs_4h/vpvr_xs_pairs_btc_sol_4h_20260712/build_deliverables.py",
+    "module_type": "data_utils",
+    "short_description": "functions: main",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 182
+  },
+  {
+    "strategy_dir": "vpvr_xs_pairs_4h",
+    "file_path": "_graveyard/vpvr_xs_pairs_4h/vpvr_xs_pairs_btc_sol_4h_20260712/cpcv_optimize.py",
+    "module_type": "data_utils",
+    "short_description": "classes: FoldResult; functions: make_cfg, equity_curve_hash, annualisation_factor, sharpe_from_trades, dsr_zscore",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 419
+  },
+  {
+    "strategy_dir": "vpvr_xs_pairs_4h",
+    "file_path": "_graveyard/vpvr_xs_pairs_4h/vpvr_xs_pairs_btc_sol_4h_20260712/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_1h, _load_4h, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 52
+  },
+  {
+    "strategy_dir": "vpvr_xs_pairs_4h",
+    "file_path": "_graveyard/vpvr_xs_pairs_4h/vpvr_xs_pairs_btc_sol_4h_20260712/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific vectorbt coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 479
+  },
+  {
+    "strategy_dir": "vpvr_xs_pairs_4h",
+    "file_path": "_graveyard/vpvr_xs_pairs_4h/vpvr_xs_pairs_btc_sol_4h_20260712/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _summarise_pair, _write_trades, _write_equity, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 160
+  },
+  {
+    "strategy_dir": "vpvr_xs_pairs_4h",
+    "file_path": "_graveyard/vpvr_xs_pairs_4h/vpvr_xs_pairs_btc_sol_4h_20260712/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 350
+  },
+  {
+    "strategy_dir": "vpvr_xs_pairs_4h",
+    "file_path": "_graveyard/vpvr_xs_pairs_4h/vpvr_xs_pairs_btc_sol_4h_20260712/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowResult; functions: _annualisation_factor, _summarise_trades, _slice_data, _window_metrics, _dsr",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 387
+  },
+  {
+    "strategy_dir": "vpvr_xs_reversion_1d_momentum_filter_20260709",
+    "file_path": "vpvr_xs_reversion_1d_momentum_filter_20260709/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, build_source_manifest, _read_1m, _resample_1d, load_symbol",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 151
+  },
+  {
+    "strategy_dir": "vpvr_xs_reversion_1d_momentum_filter_20260709",
+    "file_path": "vpvr_xs_reversion_1d_momentum_filter_20260709/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _trade_rows, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 102
+  },
+  {
+    "strategy_dir": "vpvr_xs_reversion_1d_momentum_filter_20260709",
+    "file_path": "vpvr_xs_reversion_1d_momentum_filter_20260709/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 310
+  },
+  {
+    "strategy_dir": "vpvr_xs_smart_routing_15m_20260715",
+    "file_path": "vpvr_xs_smart_routing_15m_20260715/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _load_15m, load_symbol, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 51
+  },
+  {
+    "strategy_dir": "vpvr_xs_smart_routing_15m_20260715",
+    "file_path": "vpvr_xs_smart_routing_15m_20260715/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 362
+  },
+  {
+    "strategy_dir": "vpvr_xs_smart_routing_15m_20260715",
+    "file_path": "vpvr_xs_smart_routing_15m_20260715/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific vectorbt coupling; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 299
+  },
+  {
+    "strategy_dir": "vpvr_xs_smart_routing_15m_20260715",
+    "file_path": "vpvr_xs_smart_routing_15m_20260715/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _bars_per_year, _summarise, _write_trades_csv, _write_equity_csv, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 182
+  },
+  {
+    "strategy_dir": "vpvr_xs_smart_routing_15m_20260715",
+    "file_path": "vpvr_xs_smart_routing_15m_20260715/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 325
+  },
+  {
+    "strategy_dir": "xs_momentum_rank_1d_20260709",
+    "file_path": "xs_momentum_rank_1d_20260709/backtest.py",
+    "module_type": "data_utils",
+    "short_description": "classes: RebalanceEvent, BacktestResult; functions: _cost_per_side, _prior_positions, _new_positions_from_target, _realized_pnl, _delta_turnover_cost",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 388
+  },
+  {
+    "strategy_dir": "xs_momentum_rank_1d_20260709",
+    "file_path": "xs_momentum_rank_1d_20260709/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "classes: SourceManifest; functions: _sha256, build_source_manifest, _read_1m, _resample_1d, load_symbol_1d",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 225
+  },
+  {
+    "strategy_dir": "xs_momentum_rank_1d_20260709",
+    "file_path": "xs_momentum_rank_1d_20260709/portfolio.py",
+    "module_type": "data_utils",
+    "short_description": "classes: TargetPosition, PortfolioTarget; functions: equal_weight_allocation, gross_exposure, enforce_gross_cap, daily_loss_breach, monthly_pause_active",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 163
+  },
+  {
+    "strategy_dir": "xs_momentum_rank_1d_20260709",
+    "file_path": "xs_momentum_rank_1d_20260709/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _avg_weight_contribution, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 113
+  },
+  {
+    "strategy_dir": "xs_momentum_rank_1d_20260709",
+    "file_path": "xs_momentum_rank_1d_20260709/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 163
+  },
+  {
+    "strategy_dir": "xs_momentum_rank_1d_20260709",
+    "file_path": "xs_momentum_rank_1d_20260709/universe.py",
+    "module_type": "data_utils",
+    "short_description": "classes: UniverseConfig; functions: load_universe_config, daily_usd_volume, trailing_bar_count, liquidity_filter, eligible_symbols_on",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 130
+  },
+  {
+    "strategy_dir": "xs_momentum_rank_1d_20260709",
+    "file_path": "xs_momentum_rank_1d_20260709/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WalkForwardSplit, WalkForwardReport; functions: walk_forward_splits, _empty_window_metrics, _window_metrics, _is_warmup_window, _to_naive_utc",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 398
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_20260712/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _standardize_columns, _load_30m, _load_15m, _load_funding, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 103
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_20260712/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 550
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_20260712/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 559
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_20260712/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _summarise_pair, _write_trades, _write_equity, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 160
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_20260712/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 371
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_20260712/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowResult; functions: _annualisation_factor, _summarise_trades, _slice_data, _window_metrics, _dsr",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 375
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_bnb_v5_loose_20260717/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _standardize_columns, _load_30m, _load_funding, load_all, load_funding",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 63
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_bnb_v5_loose_20260717/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 653
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_bnb_v5_loose_20260717/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 531
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_bnb_v5_loose_20260717/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _summarise_pair, _write_trades, _write_equity, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 160
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_bnb_v5_loose_20260717/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 376
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_bnb_v5_loose_20260717/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowResult; functions: _annualisation_factor, _summarise_trades, _slice_data, _window_metrics, _dsr",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 375
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_doge_20260717/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _standardize_columns, _load_30m, _load_funding, load_all, load_funding",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 63
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_doge_20260717/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 643
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_doge_20260717/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 525
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_doge_20260717/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _summarise_pair, _write_trades, _write_equity, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 160
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_doge_20260717/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 375
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_doge_20260717/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowResult; functions: _annualisation_factor, _summarise_trades, _slice_data, _window_metrics, _dsr",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 375
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_regularized_20260712/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _standardize_columns, _load_30m, _load_15m, _load_funding, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 103
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_regularized_20260712/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 704
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_regularized_20260712/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 556
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_regularized_20260712/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _summarise_pair, _write_trades, _write_equity, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 160
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_regularized_20260712/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 370
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_regularized_20260712/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowResult; functions: _annualisation_factor, _summarise_trades, _slice_data, _window_metrics, _dsr",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 375
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_v10_optimize_20260717/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _standardize_columns, _load_30m, _load_15m, _load_funding, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 103
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_v10_optimize_20260717/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 707
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_v10_optimize_20260717/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 565
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_v10_optimize_20260717/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _summarise_pair, _write_trades, _write_equity, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 160
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_v10_optimize_20260717/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 371
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_v10_optimize_20260717/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowResult; functions: _annualisation_factor, _summarise_trades, _slice_data, _window_metrics, _dsr",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 375
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_v3_20260712/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _standardize_columns, _load_30m, _load_15m, _load_funding, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 103
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_v3_20260712/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 707
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_v3_20260712/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 557
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_v3_20260712/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _summarise_pair, _write_trades, _write_equity, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 160
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_v3_20260712/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 370
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_v3_20260712/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowResult; functions: _annualisation_factor, _summarise_trades, _slice_data, _window_metrics, _dsr",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 375
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_20260712/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _standardize_columns, _load_30m, _load_15m, _load_funding, load_all",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 102
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_20260712/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 756
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_20260712/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 613
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_20260712/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _summarise_pair, _write_trades, _write_equity, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 160
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_20260712/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 372
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_20260712/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowResult; functions: _annualisation_factor, _summarise_trades, _slice_data, _window_metrics, _dsr",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 375
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_20260717/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _standardize_columns, _load_30m, _load_funding, load_all, load_funding",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 63
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_20260717/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 674
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_20260717/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 606
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_20260717/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _summarise_pair, _write_trades, _write_equity, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 160
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_20260717/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 376
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_20260717/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowResult; functions: _annualisation_factor, _summarise_trades, _slice_data, _window_metrics, _dsr",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 375
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_v5_loose_20260717/data_loader.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _standardize_columns, _load_30m, _load_funding, load_all, load_funding",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 63
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_v5_loose_20260717/framework_adapter_backtrader.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific backtrader coupling; framework-specific freqtrade coupling",
+    "lines_of_code": 743
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_v5_loose_20260717/framework_adapter_freqtrade.py",
+    "module_type": "anti_pattern",
+    "short_description": "strategy-specific or duplicated code",
+    "reusable_in_shared": "no",
+    "reason": "framework adapter duplicated per strategy; framework-specific freqtrade coupling",
+    "lines_of_code": 632
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_v5_loose_20260717/run_backtest.py",
+    "module_type": "data_utils",
+    "short_description": "functions: _summarise_pair, _write_trades, _write_equity, main",
+    "reusable_in_shared": "maybe",
+    "reason": "orchestration helpers can be templated in _shared/templates",
+    "lines_of_code": 160
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_v5_loose_20260717/strategy.py",
+    "module_type": "entry",
+    "short_description": "strategy entry/run script",
+    "reusable_in_shared": "maybe",
+    "reason": "entry files are strategy-specific but can inspire templates",
+    "lines_of_code": 376
+  },
+  {
+    "strategy_dir": "xs_pairs_30m",
+    "file_path": "_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_v5_loose_20260717/walk_forward.py",
+    "module_type": "data_utils",
+    "short_description": "classes: WindowResult; functions: _annualisation_factor, _summarise_trades, _slice_data, _window_metrics, _dsr",
+    "reusable_in_shared": "yes",
+    "reason": "data loading/universe/calendar utilities belong in _shared/data",
+    "lines_of_code": 375
+  }
+]
