@@ -168,7 +168,7 @@ var defaultReadyStatuses = []string{"ready", "todo"}
 // is "every query goes through sqlc" so that schema renames are a
 // one-line sqlc diff instead of grep-and-replace across Go files.
 type DbClaimLease struct {
-	q *dbQueries
+	q dbQueries
 }
 
 // dbQueries is the slice of the sqlc-generated Queries type this
@@ -237,7 +237,7 @@ var _ ClaimLeaseClient = (*DbClaimLease)(nil)
 // NewDbClaimLease wires the production claim lease to a sqlc
 // Queries handle. The Queries type owns its own pgxpool reference;
 // the lease holds no resources of its own beyond the reference.
-func NewDbClaimLease(q *dbQueries) *DbClaimLease {
+func NewDbClaimLease(q dbQueries) *DbClaimLease {
 	return &DbClaimLease{q: q}
 }
 
