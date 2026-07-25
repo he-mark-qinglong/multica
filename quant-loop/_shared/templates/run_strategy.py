@@ -34,6 +34,7 @@ _ROOT = Path(__file__).resolve().parents[2]  # quant-loop/
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
+from _shared.execution.cost_model import BINANCE_FUTURES  # noqa: E402
 from _shared.run_backtest import Trade, run_backtest  # noqa: E402
 from _shared.templates.strategy_contract_v2 import (  # noqa: E402
     validate_module_signature,
@@ -43,6 +44,16 @@ from _shared.validation.compute_metrics import compute_metrics  # noqa: E402
 
 #: Default annualisation factors per detected bar spacing.
 _MINUTES_PER_YEAR = 365 * 24 * 60
+
+#: Ratified perp round-trip cost (SMA-34900 / SMA-34913): 2 x (taker fee +
+#: pure slippage) per side, derived from the venue constants in
+#: ``_shared.execution.cost_model.BINANCE_FUTURES``. Currently 22.0 bps for
+#: the Binance USDT-M perp path (4 bps taker fee + 7 bps fixed pure slippage
+#: per side, agreed via SMA-34913 sign-off cascade on 2026-07-18).
+DEFAULT_COST_BPS_RT: float = 2.0 * (
+    BINANCE_FUTURES.taker_fee_bps
+    + (BINANCE_FUTURES.fixed_pure_slippage_bps or 0.0)
+)
 
 
 def load_strategy_module(path: str | Path) -> ModuleType:
@@ -140,7 +151,7 @@ def run_strategy(
     bars: Dict[str, pd.DataFrame] | None = None,
     bars_dir: str | Path | None = None,
     initial_capital: float = 100_000.0,
-    cost_bps_rt: float = 24.0,
+    cost_bps_rt: float = DEFAULT_COST_BPS_RT,
     cost_mode: str = "fill",
     freq_per_year: int | None = None,
 ) -> Dict[str, Any]:
@@ -160,9 +171,14 @@ def run_strategy(
         from ``bars_dir`` for the configured symbols.
     bars_dir
         Directory with ``{SYMBOL}.parquet`` / ``{SYMBOL}.csv`` files.
-    initial_capital, cost_bps_rt, cost_mode, freq_per_year
+    initial_capital, cost_mode, freq_per_year
         Passed to ``_shared.run_backtest.run_backtest``; freq defaults to
         the inferred bar spacing of the primary symbol.
+    cost_bps_rt
+        Round-trip cost in bps. Defaults to :data:`DEFAULT_COST_BPS_RT`
+        (ratified SMA-34900 perp = 22.0 bps, derived from
+        ``_shared.execution.cost_model.BINANCE_FUTURES``); pass an explicit
+        value to override (e.g. for legacy 24 bps comparisons).
 
     Returns
     -------
@@ -223,7 +239,13 @@ def main(argv: List[str] | None = None) -> int:
                         help="symbol to load from --bars-dir (repeatable)")
     parser.add_argument("--primary-symbol", help="symbol used for the equity walk")
     parser.add_argument("--initial-capital", type=float, default=100_000.0)
-    parser.add_argument("--cost-bps-rt", type=float, default=24.0)
+    parser.add_argument(
+        "--cost-bps-rt",
+        type=float,
+        default=DEFAULT_COST_BPS_RT,
+        help="round-trip cost bps (default: ratified SMA-34900 perp = 22.0, "
+        "from _shared.execution.cost_model.BINANCE_FUTURES)",
+    )
     parser.add_argument("--cost-mode", choices=["fill", "amortise"], default="fill")
     parser.add_argument("--freq-per-year", type=int, default=None)
     args = parser.parse_args(argv)
@@ -265,4 +287,5 @@ __all__ = [
     "estimate_trade_pnls",
     "run_strategy",
     "main",
+    "DEFAULT_COST_BPS_RT",
 ]
