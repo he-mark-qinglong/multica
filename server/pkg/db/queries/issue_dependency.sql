@@ -60,3 +60,30 @@ JOIN issue e ON e.id = CASE WHEN a.project_id IS NOT DISTINCT FROM $1 THEN d.dep
 WHERE (a.project_id IS NOT DISTINCT FROM $1) <> (b.project_id IS NOT DISTINCT FROM $1)
   AND a.workspace_id = $2 AND b.workspace_id = $2
 ORDER BY d.id;
+
+-- Count unresolved blockers for an issue — drives the
+-- TaskService.ClassifyWaitReason "waiting_dependency" branch (SMA-36539).
+-- A blocker is "open" when its depends_on_issue_id status is anything other
+-- than 'done' or 'cancelled' (terminal states in treescheduler.IsTerminalStatus).
+-- Excludes 'related' / 'supersedes' edges because the treescheduler ignores
+-- those for dispatch decisions; only 'blocks' is a hard gate.
+-- name: CountOpenBlockersForIssue :one
+SELECT count(*) FROM issue_dependency d
+JOIN issue b ON b.id = d.depends_on_issue_id
+WHERE d.issue_id = $1
+  AND d.type = 'blocks'
+  AND b.status NOT IN ('done', 'cancelled');
+
+-- Bulk variant for the GET /api/tasks handler: returns one row per issue with
+-- a non-zero open blocker count. The handler can do a single scan instead of
+-- N round-trips when many queued tasks share an issue (they don't share issues
+-- in practice — the per-(issue,agent) gate in ClaimAgentTask prevents that —
+-- but the bulk form keeps the response-time flat as workspace size grows).
+-- name: ListIssuesWithOpenBlockers :many
+SELECT b.id AS issue_id, count(*)::bigint AS open_blocker_count
+FROM issue_dependency d
+JOIN issue b ON b.id = d.depends_on_issue_id
+WHERE b.status NOT IN ('done', 'cancelled')
+  AND d.type = 'blocks'
+  AND b.id = ANY($1::uuid[])
+GROUP BY b.id;

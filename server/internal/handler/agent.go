@@ -257,6 +257,13 @@ type AgentTaskResponse struct {
 	// (cloud / system runtimes that pre-date per-task tokens); in that case
 	// the daemon falls back to its own credential. See MUL-2600.
 	AuthToken string `json:"auth_token,omitempty"`
+	// WaitReason is the machine-readable, queue-state-dependent reason this
+	// task isn't dispatching. For status='queued' it carries one of the four
+	// SMA-36539 values (waiting_runtime / waiting_dependency / waiting_agent
+	// / waiting_capacity) computed on the server at request time. For
+	// status='waiting_local_directory' it carries the contested absolute path.
+	// Empty for all other statuses — see TaskService.ClassifyWaitReason.
+	WaitReason string `json:"wait_reason,omitempty"`
 }
 
 // ChatAttachmentMeta is the structured attachment metadata embedded in
@@ -332,7 +339,21 @@ func taskToResponse(t db.AgentTaskQueue, workspaceID string) AgentTaskResponse {
 		ChatSessionID:  uuidToString(t.ChatSessionID),
 		AutopilotRunID: uuidToString(t.AutopilotRunID),
 		Kind:           computeTaskKind(t),
+		WaitReason:     waitReasonFromTask(t),
 	}
+}
+
+// waitReasonFromTask returns the wait_reason value to surface in the API
+// response. For waiting_local_directory rows we expose the stored path
+// verbatim (it's the only status that puts a free-form value in the
+// column). For queued rows we surface nothing here — the handler overrides
+// the value with the live classification result so it reflects "now",
+// not "when this row was last touched".
+func waitReasonFromTask(t db.AgentTaskQueue) string {
+	if !t.WaitReason.Valid {
+		return ""
+	}
+	return t.WaitReason.String
 }
 
 // relativeWorkDir produces a privacy-safe display form of the daemon-reported
