@@ -1,0 +1,14 @@
+{
+  "title": "epoch-validation-trigger (daily 17:00)",
+  "agent": "multica-strategy",
+  "mode": "create_issue",
+  "priority": "medium",
+  "issue_title_template": "epoch validation {{date}}",
+  "description": "Read /Users/mark/multica/docs/plans/multica-quant-permanent-loop-2026-07-25.md §4.1 and §6 first.\n\nYou are the 17:00 epoch step. Each business day, take whatever the implementation lane finished today and run it through the full §6 verification pipeline; nothing to validate → NOOP.\n\nSteps:\n1. Find today's implementation output: `multica issue search <YYYY-MM-DD> --label strategy-impl --status in_review --output json` (and any sibling status your workspace uses). If the search shape does not match, fall back to listing today's issues assigned to `quant-researcher` / `strategy-worker-*` and filter to ones that closed their implementation step today.\n2. For each candidate strategy, run the §6 pipeline in order: pre-register check (was the run pre-registered? if not, flag as [type=ESCALATE]), unified engine backtest, walk-forward OOS (7 windows, report mean Sharpe + bootstrap CI lower), dual-framework CV (in-house vs freqtrade/backtesting.py — both signs must agree), 60bps fee shock (Sharpe must stay >0), G-gate (per-symbol Sharpe ≥1, sample size, DSR / Bonferroni). Stop on first hard failure and post a [type=EVIDENCE] comment with the failing gate and the artifact pointers.\n3. Hand the surviving candidate(s) to smark-signoff-proxy for signoff: `@smark-signoff-proxy` mention on the validation issue with the evidence-chain pointer list. Wait for a [type=SIGNOFF] reply before the 20:00 verdict step.\n4. Post a single [type=STATUS] summary on today's `epoch validation <YYYY-MM-DD>` issue listing PASS / FAIL / DEFER counts and the artifact IDs.\n\nIdempotency: if today's `epoch validation <YYYY-MM-DD>` issue already exists, append your [type=STATUS] / [type=EVIDENCE] comments to it — do not recreate. Use the {{date}} template; never hardcode the date.\n\nNo-op is a valid outcome. If there are no implementation candidates today, post a single [type=NOOP] comment with reason and stop. Quiet days are valid digests.\n\nHard rules:\n- First line of every comment you post must match `[type=STATUS|DECISION|EVIDENCE|KILL|ESCALATE|SIGNOFF|NUDGE|NOOP] <iso8601+tz> <one-line summary>`.\n- Do not specify any model — the runtime picks caocao-m3 by default; hardcoding a model is acceptance failure.\n- Do not modify the validation pipeline or the G-gate thresholds — Phase 1 fixes are already merged; any deviation must be a [type=ESCALATE] comment, not a silent change.",
+  "trigger": {
+    "cron": "0 17 * * *",
+    "timezone": "Asia/Shanghai",
+    "label": "daily 17:00 +08",
+    "enabled": true
+  }
+}

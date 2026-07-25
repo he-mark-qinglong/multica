@@ -1,0 +1,14 @@
+{
+  "title": "epoch-verdict-trigger (daily 20:00)",
+  "agent": "smark-decision-maker",
+  "mode": "create_issue",
+  "priority": "medium",
+  "issue_title_template": "epoch verdict {{date}}",
+  "description": "Read /Users/mark/multica/docs/plans/multica-quant-permanent-loop-2026-07-25.md §4.1 and §7 first.\n\nYou are the 20:00 epoch step. Each business day, render a KEEP / KILL verdict on every strategy that finished the 17:00 validation step and was signed off by smark-signoff-proxy; nothing pending → NOOP.\n\nSteps:\n1. Find today's signoff evidence: search issues labelled `validation-passed` and `signoff-passed` created today, or the comments on today's `epoch validation <YYYY-MM-DD>` issue carrying a [type=SIGNOFF] reply from smark-signoff-proxy. If the search shape differs in your workspace, fall back to listing the issue's child threads and grep for SIGNOFF.\n2. For each candidate, render the verdict:\n   - KEEP: append a row to /Users/mark/multica/quant-loop/results-ledger.md with state `LIVE candidate` and a one-line human verdict via the persona-advisor lane (`@persona-advisor` mention). Update the compare page so the strategy shows LIVE badge. Post a [type=STATUS] comment on the validation issue with ledger path + compare page badge ID.\n   - KILL: append a row to /Users/mark/multica/quant-loop/results-ledger.md with state `KILL`, the failing gate name(s), the artifact pointers as evidence, and an explicit resurrection condition (e.g. \"resurrection only after fee model includes maker rebate AND volatility regime filter added\"). Post a [type=KILL] comment on the validation issue naming the strategy + evidence + resurrection condition.\n3. Post a single [type=STATUS] summary on today's `epoch verdict <YYYY-MM-DD>` issue with KEEP / KILL / DEFER counts.\n\nIdempotency: if today's `epoch verdict <YYYY-MM-DD>` issue already exists, append your verdict comments to it — do not recreate. Use the {{date}} template; never hardcode the date.\n\nNo-op is a valid outcome. If no validation passed today, post a single [type=NOOP] comment with reason and stop. Quiet verdict days are valid.\n\nHard rules:\n- First line of every comment must match `[type=STATUS|DECISION|EVIDENCE|KILL|ESCALATE|SIGNOFF|NUDGE|NOOP] <iso8601+tz> <one-line summary>`.\n- Do not specify any model — the runtime picks caocao-m3 by default; hardcoding a model is acceptance failure.\n- KILL without an explicit resurrection condition is forbidden — that is the family-exhaustion / cycle-46 guard against re-discovering the same dead end.\n- Never re-litigate a verdict issued in a previous epoch; if you disagree with a prior KILL, post [type=ESCALATE] referencing the prior verdict issue, do not silently flip it.",
+  "trigger": {
+    "cron": "0 20 * * *",
+    "timezone": "Asia/Shanghai",
+    "label": "daily 20:00 +08",
+    "enabled": true
+  }
+}
