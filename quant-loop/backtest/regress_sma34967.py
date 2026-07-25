@@ -34,14 +34,20 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+try:
+    from _shared.paths import quant_loop_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[1])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import quant_loop_root
+
 BACKTEST_PKG_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(BACKTEST_PKG_DIR))
 
 from factor_backtester import CostModel  # noqa: E402
 
-DEFAULT_STRATEGY_DIR = Path(
-    "/home/smark/multica/quant-loop/strategies/funding_carry_asym"
-)
+DEFAULT_STRATEGY_DIR = quant_loop_root() / "strategies" / "funding_carry_asym"
 DEFAULT_WINDOW = ("2024-01-01", "2024-04-30")
 BARS_PER_YEAR_DAILY = 365.25
 
@@ -98,7 +104,7 @@ def _install_vpvr_compat_shim() -> None:
 def _import_strategy(strategy_dir: Path):
     """Import strategy.py + data_loader.py from a strategy dir (read-only)."""
     # The indicators package must be importable before the shim installs.
-    sys.path.insert(0, "/home/smark/multica/quant-loop/strategies/_indicators")
+    sys.path.insert(0, str(quant_loop_root() / "strategies" / "_indicators"))
     _install_vpvr_compat_shim()
     sys.path.insert(0, str(strategy_dir))
     for name in ("strategy", "data_loader", "build_signals"):

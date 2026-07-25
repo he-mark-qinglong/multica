@@ -23,13 +23,22 @@ Output: prints a tabular summary to stdout and writes JSON for the report.
 """
 
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
-DATA_DIR = Path("/home/smark/multica/quant-loop/data/funding")
-OUT_DIR = Path("/home/smark/multica/quant-loop/funding_analysis")
+try:
+    from _shared.paths import data_root, quant_loop_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[1])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root, quant_loop_root
+
+DATA_DIR = data_root() / "funding"
+OUT_DIR = quant_loop_root() / "funding_analysis"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 EXTREME_THRESH = 0.001      # 0.10%  (10 bp)
