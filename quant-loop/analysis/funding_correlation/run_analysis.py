@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -25,8 +26,16 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-DATA_DIR = Path("/home/smark/multica/quant-loop/data/funding")
-OUT_DIR = Path("/home/smark/multica/quant-loop/analysis/funding_correlation")
+try:
+    from _shared.paths import data_root, quant_loop_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root, quant_loop_root
+
+DATA_DIR = data_root() / "funding"
+OUT_DIR = quant_loop_root() / "analysis" / "funding_correlation"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 SYMS = ["BTCUSDT", "ETHUSDT", "SOLUSDT"]

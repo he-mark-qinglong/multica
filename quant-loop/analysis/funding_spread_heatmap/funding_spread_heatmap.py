@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import json
 import math
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -37,10 +38,18 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.colors import TwoSlopeNorm
 
+try:
+    from _shared.paths import data_root, quant_loop_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root, quant_loop_root
+
 # ---------- Constants -----------------------------------------------------
 
-DATA_DIR = Path("/home/smark/multica/quant-loop/data/funding")
-OUT_DIR = Path("/home/smark/multica/quant-loop/analysis/funding_spread_heatmap")
+DATA_DIR = data_root() / "funding"
+OUT_DIR = quant_loop_root() / "analysis" / "funding_spread_heatmap"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # Calendar window anchored to the issue (30d, ending at the latest funding
