@@ -1,0 +1,2 @@
+date,total_trades,winning_trades,losing_trades,win_rate,gross_pnl_usd,net_pnl_usd,fees_usd,slippage_usd,equity_usd,daily_return_pct,rolling_20d_sharpe,rolling_20d_pf,max_drawdown_pct,max_drawdown_pct_vs_backtest,profit_factor_lifetime,bootstrap_ci_lo,action,kill_triggered,kill_reason,notes
+2026-07-20,13,4,9,0.307692,-881.047478,-891.756663,6.425511,4.283674,99108.243337,-0.891757,0.0,0.0,0.0,0.0,0.0,,REBUILT,False,,rebuilt from trades.jsonl
