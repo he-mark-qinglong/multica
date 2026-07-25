@@ -27,6 +27,12 @@ import numpy as np
 
 FH = Path(__file__).resolve().parent                    # .../signal-enhance-h3/full_history
 QL = FH.parents[4]                                      # .../quant-loop
+
+# Fee-shock methodology freeze (2026-07-26 orchestrator re-check, comment 36f3e053…).
+# Set to False once SMA-36566 (issue 5645fc85-0d53-4c83-ac47-fd4451bcde69) lands and
+# `se_h3_fee_shock.json` is regenerated with the corrected replay basis.
+FEE_SHOCK_UNTRUSTED = True
+FEE_SHOCK_FREEZE_REF = "SMA-36566"
 RES = FH / "results"
 BASELINE_PATH = QL / "research/swarm/2026-07-25/H3-baseline-repro/metrics.json"
 SPEC_PATH = FH / "SPEC_signal_enhance_h3_fullhist.md"
@@ -111,6 +117,17 @@ OUT = {
     "oos": OOS,
     "full_history": FULL,
     "fee_sensitivity": FEE,
+    "fee_sensitivity_untrusted": FEE_SHOCK_UNTRUSTED,
+    "fee_sensitivity_freeze_note": (
+        "Orchestrator re-check 2026-07-26T01:40+08 (issue comment 36f3e053…) "
+        "found T07 fee-shock replay deducts cost at 0.5% nominal basis while "
+        "the equity curve is full-nominal — the '60 bps Sharpe 10.41' headline "
+        "is a unit-of-measurement artifact. Numbers preserved here for audit "
+        "trail but flagged untrusted; do not propagate downstream until "
+        f"{FEE_SHOCK_FREEZE_REF} lands. Re-run aggregate_verdict.py after the "
+        "fix to auto-refresh."
+    ),
+    "pending_review": [FEE_SHOCK_FREEZE_REF],
     "gates": {
         "status": gate_status,
         "raw_reasons": res.reasons,
@@ -157,6 +174,31 @@ baseline_fee = BASELINE["fee_sensitivity"]
 
 md = []
 md.append("# VERDICT — signal-enhance-h3 full-history validation (W4-T15, 2026-07-25)")
+md.append("")
+if FEE_SHOCK_UNTRUSTED:
+    md.append("> ## ⚠️ FREEZE NOTICE — 2026-07-26 (orchestrator evidence review, comment 36f3e053…)")
+    md.append(">")
+    md.append("> **Section 3 (Fee-shock table) and SPEC falsification condition #3 are NOT")
+    md.append("> currently trustworthy.** Orchestrator re-check found that the T07 fee-shock")
+    md.append("> replay (`se_h3_fee_shock.json`) uses a 0.5% nominal per-trade cost basis")
+    md.append("> while the equity curve is on the full-nominal basis, so the headline")
+    md.append("> \"60 bps Sharpe still 10.41\" is a unit-of-measurement artifact rather than a")
+    md.append(f"> real survival claim. Detailed repro and fix scope live in [{FEE_SHOCK_FREEZE_REF}](mention://issue/5645fc85-0d53-4c83-ac47-fd4451bcde69).")
+    md.append(">")
+    md.append("> **Consume rule (until " + FEE_SHOCK_FREEZE_REF + " lands):**")
+    md.append("> 1. **Do not** hand the Section 3 numbers, the SPEC condition #3 verdict, or")
+    md.append(">    the `fee_sensitivity` block of `se_h3_metrics.json` to the decision-maker.")
+    md.append("> 2. The freeze is signalled in `se_h3_metrics.json` via")
+    md.append(">    `fee_sensitivity_untrusted: true` and `pending_review: [\"" + FEE_SHOCK_FREEZE_REF + "\"]` —")
+    md.append(">    machine-readable so downstream gates can refuse to consume them.")
+    md.append("> 3. Sections 1, 2, 5, 7 (windows, aggregate, gates, raw enforce.py reasons)")
+    md.append(">    are unaffected by this freeze — they aggregate over the per-window")
+    md.append(">    Sharpe / n_trades / MDD / PF fields, none of which depend on the")
+    md.append(">    fee-shock replay path.")
+    md.append("> 4. When " + FEE_SHOCK_FREEZE_REF + " lands, re-run `aggregate_verdict.py` with the corrected")
+    md.append(">    `se_h3_fee_shock.json` and the Section 3 / condition #3 verdict will be")
+    md.append(">    auto-refreshed (deterministic — same code path, different input).")
+    md.append("")
 md.append("")
 md.append(
     "**Evidence summary:** 7-window OOS mean daily-resampled Sharpe "
@@ -235,9 +277,22 @@ md.append(
 )
 md.append("")
 
-md.append("## 3. Fee-shock table (pair round-trip)")
+md.append("## 3. Fee-shock table (pair round-trip)" + (" — ⚠️ DO NOT TRUST" if FEE_SHOCK_UNTRUSTED else ""))
 md.append("")
-md.append("| cost tier | se_h3 Sharpe | H3 baseline Sharpe |")
+if FEE_SHOCK_UNTRUSTED:
+    md.append("> **Freeze in effect.** Numbers in this table come from "
+              "`se_h3_fee_shock.json` (T07 artifact), which the orchestrator re-check "
+              "(2026-07-26T01:40+08) flagged as a unit-of-measurement artifact: cost drag "
+              "was deducted at a 0.5% nominal basis while the equity curve is on the full "
+              f"nominal basis. The \"60 bps Sharpe 10.41\" headline is therefore not a real "
+              f"survival claim. **Do not propagate these values downstream.** Fix scope: "
+              f"[{FEE_SHOCK_FREEZE_REF}](mention://issue/5645fc85-0d53-4c83-ac47-fd4451bcde69).")
+    md.append(">")
+    md.append("> Reproduced here only so the audit trail is complete; please mark as "
+              "`untrusted` if reading programmatically.")
+    md.append("")
+md.append("| cost tier | se_h3 Sharpe" + (" (UNTRUSTED)" if FEE_SHOCK_UNTRUSTED else "") +
+          " | H3 baseline Sharpe" + (" (UNTRUSTED)" if FEE_SHOCK_UNTRUSTED else "") + " |")
 md.append("|:---|---:|---:|")
 for label, key in [
     ("inhouse 4 bps", "inhouse_4bps_rt"),
@@ -268,8 +323,11 @@ md.append(
     f"{'TRUE (KILL 证据)' if ci_lo < 0.5 else 'FALSE'} |"
 )
 md.append(
-    f"| 3 | 60 bps pair-RT fee-shock Sharpe ≤ 0 | 0 | {fee_60:.4f} | "
-    f"{'TRUE (KILL 证据)' if fee_60 <= 0 else 'FALSE'} |"
+    f"| 3 | 60 bps pair-RT fee-shock Sharpe ≤ 0 | 0 | " +
+    (f"~~{fee_60:.4f}~~ (UNTRUSTED)" if FEE_SHOCK_UNTRUSTED else f"{fee_60:.4f}") + " | " +
+    ("**PENDING** — freeze per Section 3 / " if FEE_SHOCK_UNTRUSTED else "") +
+    (f"[{FEE_SHOCK_FREEZE_REF}](mention://issue/5645fc85-0d53-4c83-ac47-fd4451bcde69)" if FEE_SHOCK_UNTRUSTED else "") +
+    (" |" if FEE_SHOCK_UNTRUSTED else f"{'TRUE (KILL 证据)' if fee_60 <= 0 else 'FALSE'} |")
 )
 md.append(
     "| 4 | parity 测试（T05/T06）不通过 | n/a | not applicable (T05/T06 already in_review per upstream) | n/a |"

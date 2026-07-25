@@ -276,6 +276,11 @@
       "max_drawdown_pct": -0.03401275453665642
     }
   },
+  "fee_sensitivity_untrusted": true,
+  "fee_sensitivity_freeze_note": "Orchestrator re-check 2026-07-26T01:40+08 (issue comment 36f3e053\u2026) found T07 fee-shock replay deducts cost at 0.5% nominal basis while the equity curve is full-nominal \u2014 the '60 bps Sharpe 10.41' headline is a unit-of-measurement artifact. Numbers preserved here for audit trail but flagged untrusted; do not propagate downstream until SMA-36566 lands. Re-run aggregate_verdict.py after the fix to auto-refresh.",
+  "pending_review": [
+    "SMA-36566"
+  ],
   "gates": {
     "status": {
       "G1": "PASS",
