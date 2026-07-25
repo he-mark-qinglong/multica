@@ -1,0 +1,641 @@
+{
+  "note": "FIXED H1-H4 BTC+SOL comparison. Baseline cost model (1 bps fee + 1 bps slippage per side per leg = 4 bps pair RT; costs in trade log, gross equity) + baseline fee-shock replay. Data clipped to funding availability 2021-11-20, identical to H3-baseline-repro. Supersedes results/metrics.json whose cost patch double-counted costs (full-spread cost debited from half-spread bar returns).",
+  "cost": {
+    "fee_bps_per_side": 1.0,
+    "slippage_bps_per_side": 1.0
+  },
+  "data_span": [
+    "2021-11-20 16:01:00",
+    "2026-07-17 19:39:00"
+  ],
+  "n_bars": 2448219,
+  "variants": {
+    "H1": {
+      "full_history": {
+        "sharpe_daily": 1.2899324644360566,
+        "annualized_return": 0.18599912679916963,
+        "max_drawdown_pct": -0.12074512123331156,
+        "profit_factor": 1.01661896699306,
+        "n_trades": 14221,
+        "n_bars": 2448219,
+        "win_rate": 0.2804303494831587,
+        "calmar": 1.5404276785624327,
+        "sortino": 0.5466126394742586,
+        "sharpe_daily_resampled": 1.5168455781911292,
+        "annualized_return_daily_resampled": 0.1860171434899356,
+        "n_days": 1700,
+        "span": [
+          "2021-11-21",
+          "2026-07-17"
+        ],
+        "profit_factor_daily_method": 1.0166189669930594,
+        "max_drawdown_pct_daily_method": -0.1207451212333116
+      },
+      "walk_forward_oos": {
+        "n_windows": 7,
+        "per_window": [
+          {
+            "window_id": 0,
+            "test_bars": [
+              525600,
+              788400
+            ],
+            "test_start_iso": "2022-11-20 16:01:00",
+            "test_end_iso": "2023-05-22 04:00:00",
+            "n_trades": 1604,
+            "sharpe_daily_resampled": 1.6084359030984294,
+            "annualized_return_daily_resampled": 0.2018985335466641,
+            "max_drawdown_pct": -0.0803334133655853,
+            "profit_factor": 1.0183866034383842
+          },
+          {
+            "window_id": 1,
+            "test_bars": [
+              788400,
+              1051200
+            ],
+            "test_start_iso": "2023-05-22 04:01:00",
+            "test_end_iso": "2023-11-20 16:00:00",
+            "n_trades": 1581,
+            "sharpe_daily_resampled": 1.2224662757986504,
+            "annualized_return_daily_resampled": 0.15958845840755154,
+            "max_drawdown_pct": -0.09264646162028156,
+            "profit_factor": 1.0138877482510507
+          },
+          {
+            "window_id": 2,
+            "test_bars": [
+              1051200,
+              1314000
+            ],
+            "test_start_iso": "2023-11-20 16:01:00",
+            "test_end_iso": "2024-05-21 04:00:00",
+            "n_trades": 1549,
+            "sharpe_daily_resampled": 2.3607609474146307,
+            "annualized_return_daily_resampled": 0.346928240400769,
+            "max_drawdown_pct": -0.09842806384193825,
+            "profit_factor": 1.0222370261756673
+          },
+          {
+            "window_id": 3,
+            "test_bars": [
+              1314000,
+              1576800
+            ],
+            "test_start_iso": "2024-05-21 04:01:00",
+            "test_end_iso": "2024-11-19 16:00:00",
+            "n_trades": 1429,
+            "sharpe_daily_resampled": 3.1382154317211466,
+            "annualized_return_daily_resampled": 0.33527962546857326,
+            "max_drawdown_pct": -0.03705138602607294,
+            "profit_factor": 1.0342073497783386
+          },
+          {
+            "window_id": 4,
+            "test_bars": [
+              1576800,
+              1839600
+            ],
+            "test_start_iso": "2024-11-19 16:01:00",
+            "test_end_iso": "2025-05-21 04:00:00",
+            "n_trades": 1371,
+            "sharpe_daily_resampled": 1.257268555696053,
+            "annualized_return_daily_resampled": 0.14131654736693533,
+            "max_drawdown_pct": -0.06946881650910997,
+            "profit_factor": 1.0130546865910204
+          },
+          {
+            "window_id": 5,
+            "test_bars": [
+              1839600,
+              2102400
+            ],
+            "test_start_iso": "2025-05-21 04:01:00",
+            "test_end_iso": "2025-11-19 16:00:00",
+            "n_trades": 1405,
+            "sharpe_daily_resampled": -0.2871472512039074,
+            "annualized_return_daily_resampled": -0.03293618321372194,
+            "max_drawdown_pct": -0.07223618873806703,
+            "profit_factor": 0.9981519178442758
+          },
+          {
+            "window_id": 6,
+            "test_bars": [
+              2102400,
+              2365200
+            ],
+            "test_start_iso": "2025-11-19 16:01:00",
+            "test_end_iso": "2026-05-21 04:00:00",
+            "n_trades": 1583,
+            "sharpe_daily_resampled": 1.8770396449590687,
+            "annualized_return_daily_resampled": 0.1322586267019561,
+            "max_drawdown_pct": -0.04666860892825042,
+            "profit_factor": 1.0186932690148904
+          }
+        ],
+        "oos_sharpe_mean_daily_resampled": 1.5967199296405816,
+        "oos_annualized_mean_daily": 0.18347626409696102,
+        "oos_max_drawdown_worst_pct": -0.09842806384193825,
+        "oos_profit_factor_mean": 1.0169455144419468,
+        "bootstrap_ci_lower": 0.8316130557656111,
+        "bootstrap_ci_upper": 2.2952478242053096
+      },
+      "fee_sensitivity": {
+        "inhouse_4bps_rt": {
+          "pair_round_trip_bps": 4.0,
+          "sharpe_daily_resampled": 1.4639360224072449,
+          "annualized_return": 0.17892455106204785,
+          "total_return": 1.1513974919288388,
+          "max_drawdown_pct": -0.11295841645012006
+        },
+        "freqtrade_24bps_rt": {
+          "pair_round_trip_bps": 24.0,
+          "sharpe_daily_resampled": 1.2000748434288409,
+          "annualized_return": 0.14342151766152744,
+          "total_return": 0.8660039649898308,
+          "max_drawdown_pct": -0.12212073074307195
+        },
+        "backtrader_60bps_rt": {
+          "pair_round_trip_bps": 60.0,
+          "sharpe_daily_resampled": 0.7282363883748747,
+          "annualized_return": 0.08217673394129488,
+          "total_return": 0.4442276900398636,
+          "max_drawdown_pct": -0.14254778110998823
+        }
+      }
+    },
+    "H2": {
+      "full_history": {
+        "sharpe_daily": 0.20151963247841292,
+        "annualized_return": 0.01556752120656113,
+        "max_drawdown_pct": -0.20431363751445522,
+        "profit_factor": 1.0033408841282212,
+        "n_trades": 5301,
+        "n_bars": 2448219,
+        "win_rate": 0.38275797019430297,
+        "calmar": 0.07619423449136979,
+        "sortino": 0.06636070790519244,
+        "sharpe_daily_resampled": 0.21474415074256814,
+        "annualized_return_daily_resampled": 0.015568918266139375,
+        "n_days": 1700,
+        "span": [
+          "2021-11-21",
+          "2026-07-17"
+        ],
+        "profit_factor_daily_method": 1.0033408841282212,
+        "max_drawdown_pct_daily_method": -0.2043136375144552
+      },
+      "walk_forward_oos": {
+        "n_windows": 7,
+        "per_window": [
+          {
+            "window_id": 0,
+            "test_bars": [
+              525600,
+              788400
+            ],
+            "test_start_iso": "2022-11-20 16:01:00",
+            "test_end_iso": "2023-05-22 04:00:00",
+            "n_trades": 612,
+            "sharpe_daily_resampled": -1.3779940773107453,
+            "annualized_return_daily_resampled": -0.11804006912871601,
+            "max_drawdown_pct": -0.07153438781082855,
+            "profit_factor": 0.9794248610703267
+          },
+          {
+            "window_id": 1,
+            "test_bars": [
+              788400,
+              1051200
+            ],
+            "test_start_iso": "2023-05-22 04:01:00",
+            "test_end_iso": "2023-11-20 16:00:00",
+            "n_trades": 479,
+            "sharpe_daily_resampled": 0.17151585653086712,
+            "annualized_return_daily_resampled": 0.011528635569490797,
+            "max_drawdown_pct": -0.05185242101709109,
+            "profit_factor": 1.0028913042290024
+          },
+          {
+            "window_id": 2,
+            "test_bars": [
+              1051200,
+              1314000
+            ],
+            "test_start_iso": "2023-11-20 16:01:00",
+            "test_end_iso": "2024-05-21 04:00:00",
+            "n_trades": 556,
+            "sharpe_daily_resampled": -0.6279764051789646,
+            "annualized_return_daily_resampled": -0.07223342776649144,
+            "max_drawdown_pct": -0.09781302349903187,
+            "profit_factor": 0.991587233207384
+          },
+          {
+            "window_id": 3,
+            "test_bars": [
+              1314000,
+              1576800
+            ],
+            "test_start_iso": "2024-05-21 04:01:00",
+            "test_end_iso": "2024-11-19 16:00:00",
+            "n_trades": 652,
+            "sharpe_daily_resampled": 0.6406733072459528,
+            "annualized_return_daily_resampled": 0.0426449824539219,
+            "max_drawdown_pct": -0.06270954468551937,
+            "profit_factor": 1.0071716603216772
+          },
+          {
+            "window_id": 4,
+            "test_bars": [
+              1576800,
+              1839600
+            ],
+            "test_start_iso": "2024-11-19 16:01:00",
+            "test_end_iso": "2025-05-21 04:00:00",
+            "n_trades": 518,
+            "sharpe_daily_resampled": 0.6667111201305453,
+            "annualized_return_daily_resampled": 0.05860942955732784,
+            "max_drawdown_pct": -0.06281075373436529,
+            "profit_factor": 1.0098003324721032
+          },
+          {
+            "window_id": 5,
+            "test_bars": [
+              1839600,
+              2102400
+            ],
+            "test_start_iso": "2025-05-21 04:01:00",
+            "test_end_iso": "2025-11-19 16:00:00",
+            "n_trades": 495,
+            "sharpe_daily_resampled": -0.2403717296069926,
+            "annualized_return_daily_resampled": -0.021179998901807662,
+            "max_drawdown_pct": -0.05007215424721834,
+            "profit_factor": 0.9955432801028371
+          },
+          {
+            "window_id": 6,
+            "test_bars": [
+              2102400,
+              2365200
+            ],
+            "test_start_iso": "2025-11-19 16:01:00",
+            "test_end_iso": "2026-05-21 04:00:00",
+            "n_trades": 638,
+            "sharpe_daily_resampled": 3.350342039547394,
+            "annualized_return_daily_resampled": 0.1430058287273841,
+            "max_drawdown_pct": -0.02802809567790665,
+            "profit_factor": 1.0359619670137485
+          }
+        ],
+        "oos_sharpe_mean_daily_resampled": 0.36898573019400815,
+        "oos_annualized_mean_daily": 0.00633362578730136,
+        "oos_max_drawdown_worst_pct": -0.09781302349903187,
+        "oos_profit_factor_mean": 1.0031972340595827,
+        "bootstrap_ci_lower": -0.5432195039099145,
+        "bootstrap_ci_upper": 1.4832102604578594
+      },
+      "fee_sensitivity": {
+        "inhouse_4bps_rt": {
+          "pair_round_trip_bps": 4.0,
+          "sharpe_daily_resampled": 0.18984239720973792,
+          "annualized_return": 0.013266445877833766,
+          "total_return": 0.0632610432141647,
+          "max_drawdown_pct": -0.1985739299307251
+        },
+        "freqtrade_24bps_rt": {
+          "pair_round_trip_bps": 24.0,
+          "sharpe_daily_resampled": 0.06555115924138782,
+          "annualized_return": 0.0017786336699991967,
+          "total_return": 0.008305323142010046,
+          "max_drawdown_pct": -0.215614209941292
+        },
+        "backtrader_60bps_rt": {
+          "pair_round_trip_bps": 60.0,
+          "sharpe_daily_resampled": -0.15721086585118196,
+          "annualized_return": -0.018574321140667926,
+          "total_return": -0.0835651442039883,
+          "max_drawdown_pct": -0.24748714226633295
+        }
+      }
+    },
+    "H3": {
+      "full_history": {
+        "sharpe_daily": 1.3272385206860282,
+        "annualized_return": 0.27663740404847936,
+        "max_drawdown_pct": -0.16261475985988985,
+        "profit_factor": 1.0096624811274224,
+        "n_trades": 40963,
+        "n_bars": 2448219,
+        "win_rate": 0.27231892195395846,
+        "calmar": 1.701182625038664,
+        "sortino": 0.9555950789070348,
+        "sharpe_daily_resampled": 1.4682788422889905,
+        "annualized_return_daily_resampled": 0.276665170197705,
+        "n_days": 1700,
+        "span": [
+          "2021-11-21",
+          "2026-07-17"
+        ],
+        "profit_factor_daily_method": 1.0096624811274235,
+        "max_drawdown_pct_daily_method": -0.16261475985988982
+      },
+      "walk_forward_oos": {
+        "n_windows": 7,
+        "per_window": [
+          {
+            "window_id": 0,
+            "test_bars": [
+              525600,
+              788400
+            ],
+            "test_start_iso": "2022-11-20 16:01:00",
+            "test_end_iso": "2023-05-22 04:00:00",
+            "n_trades": 4434,
+            "sharpe_daily_resampled": 1.7251879304620172,
+            "annualized_return_daily_resampled": 0.33506573823666885,
+            "max_drawdown_pct": -0.09958906153703295,
+            "profit_factor": 1.0128684687781335
+          },
+          {
+            "window_id": 1,
+            "test_bars": [
+              788400,
+              1051200
+            ],
+            "test_start_iso": "2023-05-22 04:01:00",
+            "test_end_iso": "2023-11-20 16:00:00",
+            "n_trades": 4543,
+            "sharpe_daily_resampled": 1.596417353524659,
+            "annualized_return_daily_resampled": 0.3796904901769209,
+            "max_drawdown_pct": -0.13296598196012466,
+            "profit_factor": 1.011501467866772
+          },
+          {
+            "window_id": 2,
+            "test_bars": [
+              1051200,
+              1314000
+            ],
+            "test_start_iso": "2023-11-20 16:01:00",
+            "test_end_iso": "2024-05-21 04:00:00",
+            "n_trades": 4182,
+            "sharpe_daily_resampled": 1.0470961026291423,
+            "annualized_return_daily_resampled": 0.19031002351305815,
+            "max_drawdown_pct": -0.11723222956073287,
+            "profit_factor": 1.0060485172475948
+          },
+          {
+            "window_id": 3,
+            "test_bars": [
+              1314000,
+              1576800
+            ],
+            "test_start_iso": "2024-05-21 04:01:00",
+            "test_end_iso": "2024-11-19 16:00:00",
+            "n_trades": 4317,
+            "sharpe_daily_resampled": 3.077368649684193,
+            "annualized_return_daily_resampled": 0.5112190899678852,
+            "max_drawdown_pct": -0.10658959578041516,
+            "profit_factor": 1.018764237124345
+          },
+          {
+            "window_id": 4,
+            "test_bars": [
+              1576800,
+              1839600
+            ],
+            "test_start_iso": "2024-11-19 16:01:00",
+            "test_end_iso": "2025-05-21 04:00:00",
+            "n_trades": 4341,
+            "sharpe_daily_resampled": 1.687899449370634,
+            "annualized_return_daily_resampled": 0.33353440400395873,
+            "max_drawdown_pct": -0.09653120094295464,
+            "profit_factor": 1.0103590609807165
+          },
+          {
+            "window_id": 5,
+            "test_bars": [
+              1839600,
+              2102400
+            ],
+            "test_start_iso": "2025-05-21 04:01:00",
+            "test_end_iso": "2025-11-19 16:00:00",
+            "n_trades": 4194,
+            "sharpe_daily_resampled": -0.37981647537519736,
+            "annualized_return_daily_resampled": -0.061120628928224896,
+            "max_drawdown_pct": -0.09956293910563196,
+            "profit_factor": 0.9989951879549678
+          },
+          {
+            "window_id": 6,
+            "test_bars": [
+              2102400,
+              2365200
+            ],
+            "test_start_iso": "2025-11-19 16:01:00",
+            "test_end_iso": "2026-05-21 04:00:00",
+            "n_trades": 4321,
+            "sharpe_daily_resampled": 4.369234160449502,
+            "annualized_return_daily_resampled": 0.5364256959406823,
+            "max_drawdown_pct": -0.03750926442659552,
+            "profit_factor": 1.0265201097526975
+          }
+        ],
+        "oos_sharpe_mean_daily_resampled": 1.8747695958207073,
+        "oos_annualized_mean_daily": 0.31787497327299274,
+        "oos_max_drawdown_worst_pct": -0.13296598196012466,
+        "oos_profit_factor_mean": 1.0121510071007467,
+        "bootstrap_ci_lower": 0.8878990587039775,
+        "bootstrap_ci_upper": 2.9362532168069313
+      },
+      "fee_sensitivity": {
+        "inhouse_4bps_rt": {
+          "pair_round_trip_bps": 4.0,
+          "sharpe_daily_resampled": 1.3683250112831093,
+          "annualized_return": 0.25459459523131245,
+          "total_return": 1.873882423068836,
+          "max_drawdown_pct": -0.1486188976230406
+        },
+        "freqtrade_24bps_rt": {
+          "pair_round_trip_bps": 24.0,
+          "sharpe_daily_resampled": 0.8698852973146559,
+          "annualized_return": 0.1488560062448454,
+          "total_return": 0.9076424165056531,
+          "max_drawdown_pct": -0.1725879076718092
+        },
+        "backtrader_60bps_rt": {
+          "pair_round_trip_bps": 60.0,
+          "sharpe_daily_resampled": -0.02132581858355751,
+          "annualized_return": -0.01958482729770583,
+          "total_return": -0.08794868218919061,
+          "max_drawdown_pct": -0.2715894164460877
+        }
+      }
+    },
+    "H4": {
+      "full_history": {
+        "sharpe_daily": 1.5842196447756616,
+        "annualized_return": 0.0011090786552843124,
+        "max_drawdown_pct": -0.0011990485776782241,
+        "profit_factor": 1.082755506699517,
+        "n_trades": 550,
+        "n_bars": 2448219,
+        "win_rate": 0.5109090909090909,
+        "calmar": 0.9249655734814974,
+        "sortino": 0.17143699549854294,
+        "sharpe_daily_resampled": 1.9672997334461018,
+        "annualized_return_daily_resampled": 0.0011091774760332296,
+        "n_days": 1700,
+        "span": [
+          "2021-11-21",
+          "2026-07-17"
+        ],
+        "profit_factor_daily_method": 1.0827555066996133,
+        "max_drawdown_pct_daily_method": -0.0011990485776782744
+      },
+      "walk_forward_oos": {
+        "n_windows": 7,
+        "per_window": [
+          {
+            "window_id": 0,
+            "test_bars": [
+              525600,
+              788400
+            ],
+            "test_start_iso": "2022-11-20 16:01:00",
+            "test_end_iso": "2023-05-22 04:00:00",
+            "n_trades": 53,
+            "sharpe_daily_resampled": 0.17958734930495523,
+            "annualized_return_daily_resampled": 0.00011386134461099928,
+            "max_drawdown_pct": -0.0011990485776793847,
+            "profit_factor": 1.0053657087144245
+          },
+          {
+            "window_id": 1,
+            "test_bars": [
+              788400,
+              1051200
+            ],
+            "test_start_iso": "2023-05-22 04:01:00",
+            "test_end_iso": "2023-11-20 16:00:00",
+            "n_trades": 80,
+            "sharpe_daily_resampled": 3.5055990143118185,
+            "annualized_return_daily_resampled": 0.002203085364185453,
+            "max_drawdown_pct": -0.00031852491020945006,
+            "profit_factor": 1.1087968785078823
+          },
+          {
+            "window_id": 2,
+            "test_bars": [
+              1051200,
+              1314000
+            ],
+            "test_start_iso": "2023-11-20 16:01:00",
+            "test_end_iso": "2024-05-21 04:00:00",
+            "n_trades": 61,
+            "sharpe_daily_resampled": 2.2235888577661957,
+            "annualized_return_daily_resampled": 0.001472511057323489,
+            "max_drawdown_pct": -0.0004599765805990419,
+            "profit_factor": 1.0930268090493298
+          },
+          {
+            "window_id": 3,
+            "test_bars": [
+              1314000,
+              1576800
+            ],
+            "test_start_iso": "2024-05-21 04:01:00",
+            "test_end_iso": "2024-11-19 16:00:00",
+            "n_trades": 55,
+            "sharpe_daily_resampled": 1.3462109294298321,
+            "annualized_return_daily_resampled": 0.0005497117436925603,
+            "max_drawdown_pct": -0.0002558142960805698,
+            "profit_factor": 1.0883529887003889
+          },
+          {
+            "window_id": 4,
+            "test_bars": [
+              1576800,
+              1839600
+            ],
+            "test_start_iso": "2024-11-19 16:01:00",
+            "test_end_iso": "2025-05-21 04:00:00",
+            "n_trades": 51,
+            "sharpe_daily_resampled": -0.2182809434100675,
+            "annualized_return_daily_resampled": -8.23208748079729e-05,
+            "max_drawdown_pct": -0.0003487987241643786,
+            "profit_factor": 0.991620343879011
+          },
+          {
+            "window_id": 5,
+            "test_bars": [
+              1839600,
+              2102400
+            ],
+            "test_start_iso": "2025-05-21 04:01:00",
+            "test_end_iso": "2025-11-19 16:00:00",
+            "n_trades": 51,
+            "sharpe_daily_resampled": 0.6896007892248303,
+            "annualized_return_daily_resampled": 0.00032133848595172765,
+            "max_drawdown_pct": -0.0003618166989920457,
+            "profit_factor": 1.0276559645253993
+          },
+          {
+            "window_id": 6,
+            "test_bars": [
+              2102400,
+              2365200
+            ],
+            "test_start_iso": "2025-11-19 16:01:00",
+            "test_end_iso": "2026-05-21 04:00:00",
+            "n_trades": 37,
+            "sharpe_daily_resampled": 0.5836296649397499,
+            "annualized_return_daily_resampled": 0.00017736022997416612,
+            "max_drawdown_pct": -0.00031794974543397636,
+            "profit_factor": 1.0315884509945137
+          }
+        ],
+        "oos_sharpe_mean_daily_resampled": 1.1871336659381877,
+        "oos_annualized_mean_daily": 0.0006793639072757747,
+        "oos_max_drawdown_worst_pct": -0.0011990485776793847,
+        "oos_profit_factor_mean": 1.0494867349101356,
+        "bootstrap_ci_lower": 0.3782893313813241,
+        "bootstrap_ci_upper": 2.1200569131772173
+      },
+      "fee_sensitivity": {
+        "inhouse_4bps_rt": {
+          "pair_round_trip_bps": 4.0,
+          "sharpe_daily_resampled": 1.5535299939005687,
+          "annualized_return": 0.0008733667321236815,
+          "total_return": 0.004071443083672355,
+          "max_drawdown_pct": -0.0007203861124958078
+        },
+        "freqtrade_24bps_rt": {
+          "pair_round_trip_bps": 24.0,
+          "sharpe_daily_resampled": -0.5347327341287974,
+          "annualized_return": -0.0003086655687952744,
+          "total_return": -0.0014358264390238462,
+          "max_drawdown_pct": -0.002949205866860649
+        },
+        "backtrader_60bps_rt": {
+          "pair_round_trip_bps": 60.0,
+          "sharpe_daily_resampled": -3.5127521307515455,
+          "annualized_return": -0.0024328749009310258,
+          "total_return": -0.011273214714211055,
+          "max_drawdown_pct": -0.011273214714211055
+        }
+      }
+    }
+  },
+  "h3_sanity_vs_baseline": {
+    "baseline_oos_sharpe": 1.8747695958207073,
+    "fixed_h3_oos_sharpe": 1.8747695958207073,
+    "delta_oos_sharpe": 0.0,
+    "baseline_bootstrap_ci_lower": 0.8878990587039776,
+    "fixed_h3_bootstrap_ci_lower": 0.8878990587039775,
+    "delta_bootstrap_ci_lower": -1.1102230246251565e-16,
+    "baseline_n_trades_full": 40963,
+    "fixed_h3_n_trades_full": 40963
+  },
+  "source_script": "run_btcsol_variants_fixed.py"
+}

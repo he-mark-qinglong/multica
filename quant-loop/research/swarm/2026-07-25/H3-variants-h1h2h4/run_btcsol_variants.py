@@ -70,8 +70,14 @@ def _backtest_pair_with_cost(sig, pair, sizing_scale=None, fee_bps=1.0, slip_bps
     trades = res.get("trades", [])
     if not trades:
         return res
-    # Pair-RT cost in "spread return" units (same convention as the trade log).
-    pair_rt_cost = 2.0 * 2.0 * (float(fee_bps) + float(slip_bps)) / 10_000.0
+    # Pair-RT cost in *bar-return* units. bar_return uses HALF notional per
+    # leg (pnl = pos * (a_ret - b_ret) / 2), so a round trip costs
+    # 2 legs x 2 fills x 0.5 notional x (fee+slip) = 2*(fee+slip) bps here.
+    # The trade log's pnl_pct is in FULL-spread units, where 2*2*(fee+slip)
+    # is correct — using that formula here double-counted the cost and
+    # produced the impossible Sharpe ~ -43 in results/metrics.json
+    # (bug fixed 2026-07-25, SMA-35145 follow-up).
+    pair_rt_cost = 2.0 * (float(fee_bps) + float(slip_bps)) / 10_000.0
     half_cost = pair_rt_cost / 2.0
     bar_ret = np.asarray(res["bar_return"], dtype=float).copy()
     idx = sig["a"].index
