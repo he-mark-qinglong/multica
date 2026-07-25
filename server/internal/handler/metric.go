@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"log/slog"
+	"math"
 	"net/http"
 	"strconv"
 	"strings"
@@ -74,6 +75,91 @@ func jsonNumber(v any) (float64, bool) {
 	return f, ok
 }
 
+// computeProfitFactorFromDailyReturns returns gross-profit / |gross-loss| for
+// a slice of daily returns. Empty or single-value slices return ok=false.
+// This mirrors the "daily-return PF" proxy requested in gate-ledger-fix.
+func computeProfitFactorFromDailyReturns(returns []float64) (pf float64, ok bool) {
+	if len(returns) < 2 {
+		return 0, false
+	}
+	var grossProfit, grossLoss float64
+	for _, r := range returns {
+		if r > 0 {
+			grossProfit += r
+		} else if r < 0 {
+			grossLoss += -r
+		}
+	}
+	if grossLoss == 0 {
+		if grossProfit > 0 {
+			return math.Inf(1), true
+		}
+		return 0, false
+	}
+	return grossProfit / grossLoss, true
+}
+
+// equityCurveToReturns converts an equity curve (cumulative NAV) into simple
+// period returns. Requires at least two points.
+func equityCurveToReturns(curve []float64) (returns []float64, ok bool) {
+	if len(curve) < 2 {
+		return nil, false
+	}
+	returns = make([]float64, 0, len(curve)-1)
+	for i := 1; i < len(curve); i++ {
+		if curve[i-1] == 0 {
+			return nil, false
+		}
+		returns = append(returns, (curve[i]-curve[i-1])/curve[i-1])
+	}
+	return returns, true
+}
+
+// extractDailyReturns looks for known blob keys that carry a daily return or
+// equity-curve array and coerces them to []float64. This lets a metrics upload
+// satisfy the strict profit_factor gate even when the agent did not emit a
+// pre-computed PF.
+func extractDailyReturns(obj map[string]any) ([]float64, bool) {
+	for _, key := range []string{"daily_returns", "daily_pnl", "equity_curve", "nav_curve"} {
+		v, present := obj[key]
+		if !present {
+			continue
+		}
+		switch vv := v.(type) {
+		case []any:
+			out := make([]float64, 0, len(vv))
+			for _, item := range vv {
+				if f, ok := item.(float64); ok {
+					out = append(out, f)
+				} else {
+					// mixed types: bail out, do not silently accept partial data
+					return nil, false
+				}
+			}
+			if key == "equity_curve" || key == "nav_curve" {
+				if rets, ok := equityCurveToReturns(out); ok {
+					return rets, true
+				}
+				return nil, false
+			}
+			if len(out) > 0 {
+				return out, true
+			}
+		case []float64:
+			if key == "equity_curve" || key == "nav_curve" {
+				if rets, ok := equityCurveToReturns(vv); ok {
+					return rets, true
+				}
+				return nil, false
+			}
+			if len(vv) > 0 {
+				return vv, true
+			}
+		}
+	}
+	return nil, false
+}
+
 // parseRunMetricJSON parses blob bytes into runMetricFields. ok=false means
 // the blob was not a JSON object and no metric row should be created.
 func parseRunMetricJSON(data []byte) (fields *runMetricFields, ok bool) {
@@ -99,6 +185,16 @@ func parseRunMetricJSON(data []byte) (fields *runMetricFields, ok bool) {
 					*floatCols[col] = &n
 				}
 				break // first matching alias wins, even if wrong-typed
+			}
+		}
+	}
+
+	// profit_factor is a required gate metric; when absent from the blob,
+	// derive it from a daily-return / equity-curve array in the same blob.
+	if f.ProfitFactor == nil {
+		if rets, ok := extractDailyReturns(obj); ok {
+			if pf, ok := computeProfitFactorFromDailyReturns(rets); ok {
+				f.ProfitFactor = &pf
 			}
 		}
 	}
@@ -221,9 +317,10 @@ func gateMetricsFromRow(m db.RunMetric) gate.Metrics {
 }
 
 // persistGate evaluates the hard gates and stores the result on the row.
-// An empty status (insufficient data) leaves the gate columns NULL; a store
-// failure is logged but never fails the caller — gates can be recomputed via
-// POST /api/metrics/reevaluate.
+// An empty status leaves the gate columns NULL (defensive; current Evaluate
+// returns "no-data" for sharpe-less rows instead). A store failure is logged
+// but never fails the caller — gates can be recomputed via POST /api/metrics/
+// reevaluate.
 func (h *Handler) persistGate(ctx context.Context, id pgtype.UUID, gm gate.Metrics) {
 	status, detail := gate.Evaluate(gm)
 	if status == "" {
@@ -320,8 +417,9 @@ type RunMetricResponse struct {
 	Symbols      []string        `json:"symbols"`
 	Params       json.RawMessage `json:"params"`
 	Extra        json.RawMessage `json:"extra"`
-	// GateStatus is "pass" | "fail" | null (null = not evaluated /
-	// insufficient data). GateDetail is the per-rule array produced by
+	// GateStatus is "pass" | "fail" | "no-data" | null (no-data = sharpe
+	// missing, no verdict possible; null = not evaluated / insufficient
+	// data). GateDetail is the per-rule array produced by
 	// server/internal/gate, or null when GateStatus is null.
 	GateStatus *string         `json:"gate_status"`
 	GateDetail json.RawMessage `json:"gate_detail"`
