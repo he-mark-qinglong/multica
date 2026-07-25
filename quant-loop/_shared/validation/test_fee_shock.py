@@ -44,7 +44,7 @@ def test_full_notional_drag_no_fraction_scaling():
 
 
 def test_more_cost_never_helps():
-    eq = _equity([0.01] * 30)
+    eq = _equity([0.015, 0.005] * 15)  # varying returns so std > 0
     trades = [{"exit_ts": f"2026-01-{d:02d}"} for d in range(3, 28, 3)]
     out = fee_shock_sweep(eq, trades, (0.0, 24.0, 60.0))
     # total_return is strictly monotone in cost tier; sharpe mostly is but
