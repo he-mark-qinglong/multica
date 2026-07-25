@@ -1,0 +1,436 @@
+{
+  "strategy": "signal-enhance-h3 full-history validation",
+  "params": {
+    "slope_lookback": 4,
+    "slope_sign": "favorable",
+    "adverse_stop_z": 0.7,
+    "regime_break": 9.0,
+    "z_entry": 2.5,
+    "z_exit": 0.5,
+    "max_hold": 240,
+    "fee_bps_per_side": 1.0,
+    "slip_bps_per_side": 1.0
+  },
+  "oos": {
+    "n_windows": 7,
+    "per_window": [
+      {
+        "window_id": 0,
+        "test_bars": [
+          525600,
+          788400
+        ],
+        "test_start_iso": "2022-11-20 16:01:00",
+        "test_end_iso": "2023-05-22 04:00:00",
+        "n_trades": 358,
+        "sharpe_daily_resampled": 7.190627657290422,
+        "annualized_return_daily_resampled": 1.0248182795282563,
+        "max_drawdown_pct": -0.0686424495606931,
+        "profit_factor": 1.0944371978274177,
+        "elapsed_sec_load": 2.5,
+        "elapsed_sec_backtest": 2.2,
+        "elapsed_sec_total": 4.7,
+        "source_script": "run_wf_window.py"
+      },
+      {
+        "window_id": 1,
+        "test_bars": [
+          788400,
+          1051200
+        ],
+        "test_start_iso": "2023-05-22 04:01:00",
+        "test_end_iso": "2023-11-20 16:00:00",
+        "n_trades": 367,
+        "sharpe_daily_resampled": 6.991297987380691,
+        "annualized_return_daily_resampled": 1.4171836485844822,
+        "max_drawdown_pct": -0.05008185363311757,
+        "profit_factor": 1.0940024659748844,
+        "elapsed_sec_load": 9.7,
+        "elapsed_sec_backtest": 4.6,
+        "elapsed_sec_total": 14.3,
+        "source_script": "run_wf_window.py"
+      },
+      {
+        "window_id": 2,
+        "test_bars": [
+          1051200,
+          1314000
+        ],
+        "test_start_iso": "2023-11-20 16:01:00",
+        "test_end_iso": "2024-05-21 04:00:00",
+        "n_trades": 339,
+        "sharpe_daily_resampled": 8.074532257838941,
+        "annualized_return_daily_resampled": 1.5637160901672282,
+        "max_drawdown_pct": -0.04373620921892951,
+        "profit_factor": 1.0947432442611256,
+        "elapsed_sec_load": 1.1,
+        "elapsed_sec_backtest": 2.6,
+        "elapsed_sec_total": 3.7,
+        "source_script": "run_wf_window.py"
+      },
+      {
+        "window_id": 3,
+        "test_bars": [
+          1314000,
+          1576800
+        ],
+        "test_start_iso": "2024-05-21 04:01:00",
+        "test_end_iso": "2024-11-19 16:00:00",
+        "n_trades": 850,
+        "sharpe_daily_resampled": 14.102170951876433,
+        "annualized_return_daily_resampled": 3.7914149711420935,
+        "max_drawdown_pct": -0.019705232728336353,
+        "profit_factor": 1.109441535315152,
+        "elapsed_sec_load": 2.6,
+        "elapsed_sec_backtest": 3.9,
+        "elapsed_sec_total": 6.5,
+        "source_script": "run_wf_window.py"
+      },
+      {
+        "window_id": 4,
+        "test_bars": [
+          1576800,
+          1839600
+        ],
+        "test_start_iso": "2024-11-19 16:01:00",
+        "test_end_iso": "2025-05-21 04:00:00",
+        "n_trades": 379,
+        "sharpe_daily_resampled": 9.860492424087576,
+        "annualized_return_daily_resampled": 2.08104549667419,
+        "max_drawdown_pct": -0.028094282942607296,
+        "profit_factor": 1.113342171547303,
+        "elapsed_sec_load": 2.1,
+        "elapsed_sec_backtest": 2.9,
+        "elapsed_sec_total": 5.0,
+        "source_script": "run_wf_window.py"
+      },
+      {
+        "window_id": 5,
+        "test_bars": [
+          1839600,
+          2102400
+        ],
+        "test_start_iso": "2025-05-21 04:01:00",
+        "test_end_iso": "2025-11-19 16:00:00",
+        "n_trades": 373,
+        "sharpe_daily_resampled": 8.643935863195006,
+        "annualized_return_daily_resampled": 0.8740433794723785,
+        "max_drawdown_pct": -0.02021048968544381,
+        "profit_factor": 1.0764077131010124,
+        "elapsed_sec_load": 1.1,
+        "elapsed_sec_backtest": 2.7,
+        "elapsed_sec_total": 3.9,
+        "source_script": "run_wf_window.py"
+      },
+      {
+        "window_id": 6,
+        "test_bars": [
+          2102400,
+          2365200
+        ],
+        "test_start_iso": "2025-11-19 16:01:00",
+        "test_end_iso": "2026-05-21 04:00:00",
+        "n_trades": 370,
+        "sharpe_daily_resampled": 9.587936349530686,
+        "annualized_return_daily_resampled": 0.7136646291501474,
+        "max_drawdown_pct": -0.019096960084900028,
+        "profit_factor": 1.1019381359605198,
+        "elapsed_sec_load": 1.2,
+        "elapsed_sec_backtest": 2.8,
+        "elapsed_sec_total": 4.0,
+        "source_script": "run_wf_window.py"
+      }
+    ],
+    "oos_sharpe_mean_daily_resampled": 9.207284784457107,
+    "oos_annualized_mean_daily": 1.637983784959825,
+    "oos_max_drawdown_worst_pct": -0.0686424495606931,
+    "oos_profit_factor_mean": 1.0977589234267735,
+    "bootstrap_ci_lower": 7.7901459965406135,
+    "bootstrap_ci_upper": 11.036693312769847,
+    "bootstrap_seed": 42,
+    "bootstrap_resamples": 10000,
+    "n_trades_total": 3036
+  },
+  "full_history": {
+    "source_script": "run_full_history.py",
+    "n_bars": 2448219,
+    "data_span": [
+      "2021-11-20 16:01:00",
+      "2026-07-17 19:39:00"
+    ],
+    "config_snapshot": {
+      "strategy": "mtf_xs_pairs_1m_15m_2h_h3_20260718",
+      "iteration": 107,
+      "campaign": "SMA-34875 mtf-1m-15m-2h",
+      "hypothesis": "H3",
+      "date": "2026-07-18",
+      "primary_timeframe": "1m",
+      "filter_timeframe": "15m",
+      "regime_timeframe": "2h",
+      "description": "H3: 2h funding-rate EMA regime filter + 1m BTC/SOL pair entry + 15m ATR scaling.",
+      "instruments": [
+        "BTCUSDT",
+        "SOLUSDT"
+      ],
+      "pairs": [
+        "BTCUSDT/SOLUSDT"
+      ],
+      "data_source": "binance_usdm_1m_canonical",
+      "axis": "funding_regime_2h_with_1m_15m_btc_sol_pair",
+      "indicators": {
+        "zscore_lookback_bars": 240,
+        "zscore_entry_threshold": 2.0,
+        "zscore_exit_threshold": 0.5,
+        "regime_break_threshold": 9.0,
+        "max_holding_bars": 240,
+        "funding_ema_window": 4,
+        "funding_filter_threshold": 0.0005,
+        "atr_normalize_window": 1440
+      },
+      "entry": {
+        "require_funding_regime": true,
+        "side_when_z_positive": "short_a_long_b"
+      },
+      "exit": {
+        "zscore_exit_threshold": 0.5,
+        "regime_break_threshold": 9.0,
+        "max_holding_bars": 240
+      },
+      "sizing": {
+        "per_pair_notional_pct": 0.02,
+        "atr_scale_min": 0.5,
+        "atr_scale_max": 2.0,
+        "max_pairs_active": 1,
+        "starting_capital_usd": 100000.0
+      },
+      "fees_bps_per_side": 1.0,
+      "slippage_bps_per_side": 1.0,
+      "sharpe_method": "daily_resampled",
+      "walk_forward": {
+        "train_bars_1m": 525600,
+        "test_bars_1m": 262800,
+        "step_bars_1m": 262800,
+        "min_windows": 3
+      },
+      "hard_gates": {
+        "oos_sharpe_min": 1.0,
+        "oos_annualized_min": 0.15,
+        "bootstrap_ci_lower_min": 0.5,
+        "bootstrap_resamples": 10000,
+        "bootstrap_seed": 42
+      },
+      "notes": [
+        "Campaign SMA-34875 H3: BTC/SOL only (xs winner per iter#83).",
+        "Funding filter: |funding_2h_EMA(4 events)| < 0.0005.",
+        "Size scaled by 15m ATR (higher ATR -> smaller size), clipped to [0.5, 2.0].",
+        "Daily-resampled Sharpe only."
+      ],
+      "se_h3": {
+        "slope_lookback": 4,
+        "slope_sign": "favorable",
+        "adverse_stop_z": 0.7,
+        "regime_break": 9.0
+      }
+    },
+    "full_history": {
+      "sharpe_daily": 9.881122489401987,
+      "annualized_return": 3.45077312143185,
+      "max_drawdown_pct": -0.05478744231084192,
+      "profit_factor": 1.437913927334514,
+      "n_trades": 7915,
+      "n_bars": 2448219,
+      "win_rate": 0.6963992419456728,
+      "calmar": 62.98474569872327,
+      "sortino": 5.891855228244891,
+      "sharpe_daily_resampled": 10.765303824830543,
+      "annualized_return_daily_resampled": 3.451364944449849,
+      "n_days": 1700,
+      "span": [
+        "2021-11-21",
+        "2026-07-17"
+      ],
+      "profit_factor_daily_method": 1.0934411413622016,
+      "max_drawdown_pct_daily_method": -0.05478744231084187
+    }
+  },
+  "fee_sensitivity": {
+    "inhouse_4bps_rt": {
+      "pair_round_trip_bps": 4.0,
+      "sharpe_daily_resampled": 10.741932254911056,
+      "annualized_return": 3.4408590189306922,
+      "total_return": 1030.6576333968517,
+      "max_drawdown_pct": -0.03279195170474991
+    },
+    "freqtrade_24bps_rt": {
+      "pair_round_trip_bps": 24.0,
+      "sharpe_daily_resampled": 10.624978368039582,
+      "annualized_return": 3.366312443092453,
+      "total_return": 952.4897306902234,
+      "max_drawdown_pct": -0.03322811286288352
+    },
+    "backtrader_60bps_rt": {
+      "pair_round_trip_bps": 60.0,
+      "sharpe_daily_resampled": 10.414062270209927,
+      "annualized_return": 3.235258384379212,
+      "total_return": 826.4013357363099,
+      "max_drawdown_pct": -0.03401275453665642
+    }
+  },
+  "gates": {
+    "status": {
+      "G1": "PASS",
+      "G2": "PASS",
+      "G3": "PASS",
+      "G4": "FAIL",
+      "G5": "NOT_RUN",
+      "G6": "PASS",
+      "G7": "NOT_RUN",
+      "T1": "PASS"
+    },
+    "raw_reasons": [
+      "G4 profit_factor > 1.5: got '?', expected Profit factor > 1.5",
+      "G5 cpcv_mean_oos_sharpe >= 1.0: MISSING_FIELD:cpcv_mean_oos_sharpe",
+      "G7 deflated_sharpe > 0.0: MISSING_FIELD:deflated_sharpe"
+    ],
+    "gate_input": {
+      "sharpe_daily": 9.207284784457107,
+      "annualized_return": 1.637983784959825,
+      "max_drawdown_pct": -0.0686424495606931,
+      "profit_factor": 1.0977589234267735,
+      "bootstrap_ci95_lower": 7.7901459965406135,
+      "n_trades": 3036
+    },
+    "note": "G5/G7 NOT_RUN by design (CPCV + DSR live in downstream workstreams); raw enforce.py reasons preserved above for provenance."
+  },
+  "baseline_reference": {
+    "walk_forward_oos": {
+      "n_windows": 7,
+      "oos_sharpe_mean_daily_resampled": 1.8747695958207073,
+      "oos_annualized_mean_daily": 0.31787497327299274,
+      "oos_max_drawdown_worst_pct": -0.1329659819601246,
+      "oos_profit_factor_mean": 1.0121510071007467,
+      "bootstrap_ci_lower": 0.8878990587039776,
+      "bootstrap_ci_upper": 2.9362532168069313,
+      "per_window": [
+        {
+          "window_id": 0,
+          "test_start_iso": "2022-11-20 16:01:00",
+          "test_end_iso": "2023-05-22 04:00:00",
+          "n_trades": 4434,
+          "sharpe_daily_resampled": 1.7251879304620172,
+          "annualized_return_daily_resampled": 0.3350657382366688,
+          "max_drawdown_pct": -0.0995890615370329,
+          "profit_factor": 1.0128684687781335
+        },
+        {
+          "window_id": 1,
+          "test_start_iso": "2023-05-22 04:01:00",
+          "test_end_iso": "2023-11-20 16:00:00",
+          "n_trades": 4543,
+          "sharpe_daily_resampled": 1.596417353524659,
+          "annualized_return_daily_resampled": 0.3796904901769209,
+          "max_drawdown_pct": -0.1329659819601246,
+          "profit_factor": 1.011501467866772
+        },
+        {
+          "window_id": 2,
+          "test_start_iso": "2023-11-20 16:01:00",
+          "test_end_iso": "2024-05-21 04:00:00",
+          "n_trades": 4182,
+          "sharpe_daily_resampled": 1.0470961026291423,
+          "annualized_return_daily_resampled": 0.1903100235130581,
+          "max_drawdown_pct": -0.1172322295607328,
+          "profit_factor": 1.0060485172475948
+        },
+        {
+          "window_id": 3,
+          "test_start_iso": "2024-05-21 04:01:00",
+          "test_end_iso": "2024-11-19 16:00:00",
+          "n_trades": 4317,
+          "sharpe_daily_resampled": 3.077368649684193,
+          "annualized_return_daily_resampled": 0.5112190899678852,
+          "max_drawdown_pct": -0.1065895957804151,
+          "profit_factor": 1.018764237124345
+        },
+        {
+          "window_id": 4,
+          "test_start_iso": "2024-11-19 16:01:00",
+          "test_end_iso": "2025-05-21 04:00:00",
+          "n_trades": 4341,
+          "sharpe_daily_resampled": 1.687899449370634,
+          "annualized_return_daily_resampled": 0.3335344040039587,
+          "max_drawdown_pct": -0.0965312009429546,
+          "profit_factor": 1.0103590609807165
+        },
+        {
+          "window_id": 5,
+          "test_start_iso": "2025-05-21 04:01:00",
+          "test_end_iso": "2025-11-19 16:00:00",
+          "n_trades": 4194,
+          "sharpe_daily_resampled": -0.3798164753751973,
+          "annualized_return_daily_resampled": -0.0611206289282248,
+          "max_drawdown_pct": -0.0995629391056319,
+          "profit_factor": 0.9989951879549678
+        },
+        {
+          "window_id": 6,
+          "test_start_iso": "2025-11-19 16:01:00",
+          "test_end_iso": "2026-05-21 04:00:00",
+          "n_trades": 4321,
+          "sharpe_daily_resampled": 4.369234160449502,
+          "annualized_return_daily_resampled": 0.5364256959406823,
+          "max_drawdown_pct": -0.0375092644265955,
+          "profit_factor": 1.0265201097526977
+        }
+      ]
+    },
+    "full_history": {
+      "sharpe_daily": 1.3272385206860322,
+      "annualized_return": 0.27663740404847936,
+      "max_drawdown_pct": -0.16261475985988974,
+      "profit_factor": 1.009662481127422,
+      "n_trades": 40963,
+      "n_bars": 2448219,
+      "win_rate": 0.27231892195395846,
+      "calmar": 1.701182625038665,
+      "sortino": 0.9555950789070377,
+      "sharpe_daily_resampled": 1.468278842289021,
+      "annualized_return_daily_resampled": 0.2766651701977143,
+      "profit_factor_daily": 1.234881032932988,
+      "max_drawdown_pct_daily": -0.14596180978793938,
+      "total_return": 2.119301166977118,
+      "n_days": 1700,
+      "trades_per_day": 24.095882352941178,
+      "deflated_sharpe": 1.3262032056307984
+    },
+    "fee_sensitivity": {
+      "inhouse_4bps_rt": {
+        "pair_round_trip_bps": 4.0,
+        "sharpe_daily_resampled": 1.3683250112831085,
+        "annualized_return": 0.254594595231312,
+        "total_return": 1.8738824230688316,
+        "max_drawdown_pct": -0.14861889762304015
+      },
+      "freqtrade_24bps_rt": {
+        "pair_round_trip_bps": 24.0,
+        "sharpe_daily_resampled": 0.869885297314652,
+        "annualized_return": 0.14885600624484518,
+        "total_return": 0.90764241650565,
+        "max_drawdown_pct": -0.17258790767180954
+      },
+      "backtrader_60bps_rt": {
+        "pair_round_trip_bps": 60.0,
+        "sharpe_daily_resampled": -0.021325818583560842,
+        "annualized_return": -0.019584827297706164,
+        "total_return": -0.08794868218919194,
+        "max_drawdown_pct": -0.2715894164460875
+      }
+    }
+  },
+  "environment": {
+    "windows_0_3": "mac pandas 2.2.3 (Python 3.10, NumPy 2.2.6)",
+    "windows_4_6": "server-105 pandas 3.0.3 (Python 3.12, NumPy 2.4.6) \u2014 see per-window env.txt for windows 2,4,5,6",
+    "mixed_env": "7 windows were computed across two environments (Mac vs .105). All boundary assertions locked against H3-baseline-repro/metrics.json walk_forward_oos.per_window ISO timestamps PASSED on the executing host. Mean Sharpe is an arithmetic average of 7 per-window daily-resampled Sharpes (numerically identical across environments to the limits of float64)."
+  },
+  "spec_path": "research/swarm/2026-07-25/signal-enhance-h3/full_history/SPEC_signal_enhance_h3_fullhist.md"
+}
