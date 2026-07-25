@@ -126,10 +126,14 @@ def load_symbol_1d(
     sym = symbol.upper()
     cache = data_dir / f"fapi_{sym}__1d.parquet"
     src = source_root / f"fapi_{sym}__1m.parquet"
-    if not src.exists():
-        raise FileNotFoundError(f"missing 1m source for {sym}: {src}")
+    # Cache-first: the generic-harness route (validation/oos_harness -> run_generic_from_variant)
+    # calls load_all(symbols, "1d") and may be invoked on a host where the canonical 1m source
+    # path (`/Users/mark/...`) is absent — but the strategy directory ships its own per-symbol
+    # 1d cache which is the only authoritative artefact the generic pipeline needs.
     if cache.exists() and not refresh:
         return pd.read_parquet(cache)
+    if not src.exists():
+        raise FileNotFoundError(f"missing 1m source for {sym}: {src}")
     df_1m = _read_1m(src)
     df_1d = _resample_1d(df_1m)
     data_dir.mkdir(parents=True, exist_ok=True)
@@ -137,18 +141,46 @@ def load_symbol_1d(
     return df_1d
 
 
+def _load_symbol_any_timeframe(
+    symbol: str,
+    timeframe: str,
+    source_root: Path,
+    data_dir: Path,
+    refresh: bool,
+) -> pd.DataFrame:
+    """Per-timeframe routing used by load_all. Centralised so adding a new
+    timeframe requires editing exactly one place."""
+    if timeframe == "1d":
+        return load_symbol_1d(symbol, source_root=source_root, data_dir=data_dir, refresh=refresh)
+    raise ValueError(
+        f"only '1d' timeframe is supported by this strategy, got {timeframe!r}"
+    )
+
+
 def load_all(
     symbols: Optional[Iterable[str]] = None,
+    timeframe: str = "1d",
+    *,
     source_root: Path = DEFAULT_SOURCE_ROOT,
     data_dir: Path = DATA_DIR,
     refresh: bool = False,
 ) -> Dict[str, pd.DataFrame]:
+    """Per-timeframe multi-symbol loader.
+
+    Contract (W1-T12): the generic harness (validation.generic_harness) calls
+    ``load_all(symbols, timeframe)`` with timeframe as a positional argument.
+    Keyword-only kwargs (``source_root``, ``data_dir``, ``refresh``) keep the
+    legacy callers (``run_backtest.py``, ``optimize.py``, ``tests/``) working
+    because they all call ``load_all(symbols)`` positionally without the new
+    timeframe argument.
+    """
     if symbols is None:
         cfg = json.loads(CONFIG_PATH.read_text())
         symbols = cfg["instruments"]
     out: Dict[str, pd.DataFrame] = {}
     for sym in symbols:
-        out[sym] = load_symbol_1d(sym, source_root, data_dir, refresh=refresh)
+        out[sym] = _load_symbol_any_timeframe(
+            sym, timeframe, source_root, data_dir, refresh)
     return out
 
 
