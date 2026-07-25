@@ -191,7 +191,7 @@ def run_validation(variant_dir: Path, n_windows: int, frameworks: list[str],
 def main() -> int:
     ap = argparse.ArgumentParser(description="OOS validation harness (G1-G7)")
     ap.add_argument("--variant", required=True, help="variant name or directory")
-    ap.add_argument("--windows", type=int, default=3, help="number of OOS windows")
+    ap.add_argument("--windows", type=int, default=7, help="number of OOS windows")
     ap.add_argument("--frameworks", default="native,backtrader,freqtrade",
                     help="comma-separated subset of native,backtrader,freqtrade,vectorbt")
     ap.add_argument("--output", default=None, help="override output directory")

@@ -314,3 +314,80 @@ def test_cli_rejects_unknown_framework(tmp_path, monkeypatch):
         "oos_harness", "--variant", str(vdir), "--frameworks", "native,nope",
     ])
     assert oos_harness.main() == 2
+
+
+# --------------------------------------------------------------------------
+# W1-T8: fee-shock sweep — default key shape and aggregation contract
+# --------------------------------------------------------------------------
+
+FEE_SHOCK_LOCKED_KEYS = {
+    "extra_round_trip_bps",
+    "sharpe_daily_resampled",
+    "annualized_return",
+    "total_return",
+    "max_drawdown_pct",
+}
+
+
+def test_fee_shock_default_key_shape_in_verdict(tmp_path):
+    """Default fee_shock_bps=(60.0,) lands at report['fee_shock']['60.0']
+    with the full locked key set, and gates G1-G7 are unaffected."""
+    _, report = gh.run_generic_validation(
+        dummy_signals, CONFIG, _synthetic_data(n_days=60),
+        n_windows=3, frameworks=["native"],
+        output_dir=tmp_path, variant_name="dummy_fee_default")
+
+    assert "fee_shock" in report
+    fs = report["fee_shock"]
+    assert "60.0" in fs, f"default key missing: keys={sorted(fs)}"
+    per_sym_60 = fs["per_symbol"]["BTCUSDT"]["60.0"]
+    assert set(per_sym_60) == FEE_SHOCK_LOCKED_KEYS
+    for k in FEE_SHOCK_LOCKED_KEYS:
+        assert isinstance(per_sym_60[k], float)
+    # aggregate key (multi-symbol mean) carries the same locked schema
+    assert set(fs["60.0"]) == FEE_SHOCK_LOCKED_KEYS
+    # gates G1-G7/T1 must still be present and unchanged in count
+    gate_ids = {g["gate"] for g in report["gates"]}
+    assert {"G1", "G2", "G3", "G4", "G5", "G6", "G7", "T1"} <= gate_ids
+
+
+def test_fee_shock_sweep_keys_monotone_and_mean_aggregated(tmp_path):
+    """Custom bps schedule; per-symbol keys present; aggregate is the mean
+    of per-symbol values; higher bps must not raise Sharpe on any per-symbol
+    series (adding drag only subtracts from a non-negative basis)."""
+    _, report = gh.run_generic_validation(
+        dummy_signals, CONFIG, _synthetic_data(n_days=90),
+        n_windows=3, frameworks=["native"],
+        output_dir=tmp_path, variant_name="dummy_fee_custom",
+        fee_shock_bps=(10.0, 30.0, 60.0, 120.0))
+
+    fs = report["fee_shock"]
+    expected_bps = ["10.0", "30.0", "60.0", "120.0"]
+    assert sorted(fs["per_symbol"]) == ["BTCUSDT", "ETHUSDT"]
+    for sym in ("BTCUSDT", "ETHUSDT"):
+        per_sym = fs["per_symbol"][sym]
+        assert sorted(per_sym, key=float) == expected_bps
+        for k in expected_bps:
+            assert set(per_sym[k]) == FEE_SHOCK_LOCKED_KEYS
+        # monotone: as fee drag increases, per-symbol Sharpe must not rise.
+        # The implementation subtracts daily drag; the underlying daily_ret is
+        # bar-level. We only require non-increasing on the *per-symbol* mean
+        # across the two symbols here, which is the natural contract.
+        sharpes = [per_sym[k]["sharpe_daily_resampled"] for k in expected_bps]
+        for a, b in zip(sharpes, sharpes[1:]):
+            assert a >= b - 1e-12, (
+                f"Sharpe rose with higher bps on per-symbol set: {sharpes}")
+
+    # aggregate equals mean of per-symbol values at every bps level
+    for k in expected_bps:
+        agg = fs[k]
+        sym_vals = [fs["per_symbol"][s][k] for s in ("BTCUSDT", "ETHUSDT")]
+        for metric in FEE_SHOCK_LOCKED_KEYS:
+            mean = sum(sv[metric] for sv in sym_vals) / len(sym_vals)
+            assert agg[metric] == pytest.approx(mean, rel=1e-9), (
+                f"aggregate[{k}][{metric}] != mean of per-symbol: "
+                f"{agg[metric]} vs {mean}")
+        # aggregate must round-trip back via _aggregate_fee_shock helper too
+        rebuilt = gh._aggregate_fee_shock(fs["per_symbol"])
+        assert rebuilt[k] == pytest.approx(agg, rel=1e-9)
+
