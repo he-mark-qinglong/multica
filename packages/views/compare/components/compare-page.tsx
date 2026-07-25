@@ -62,12 +62,24 @@ type StratNodeData = {
   sharpe: number | null;
   gate: string | null;
   isSelected: boolean;
+  /** Fail rows are dimmed (opacity 0.45) rather than hidden — keeps fail
+   *  nodes visible without dominating the visual field. */
+  dimmed: boolean;
 };
 
+// gate_status ∈ {"pass","fail","no-data"} (see packages/core/types/metric.ts).
+// "no-data" = not enough input metrics to evaluate (e.g. missing sharpe).
 const GATE_STYLE: Record<string, { bg: string; icon: typeof CheckCircle2 }> = {
   pass: { bg: "#16a34a20", icon: CheckCircle2 },
   fail: { bg: "#dc262620", icon: XCircle },
+  "no-data": { bg: "#6b728020", icon: HelpCircle },
 };
+
+function gateColor(gate: string | null): string {
+  if (gate === "pass") return "#16a34a";
+  if (gate === "fail") return "#dc2626";
+  return "#9ca3af"; // no-data / null
+}
 
 function StrategyNode({ data, selected }: NodeProps) {
   const d = data as StratNodeData;
@@ -83,6 +95,7 @@ function StrategyNode({ data, selected }: NodeProps) {
         background: "#1a1a2e", border: selected ? "2px solid #6366f1" : "1px solid #333355",
         display: "flex", flexDirection: "column", justifyContent: "space-between", cursor: "pointer",
         boxShadow: selected ? "0 0 12px #6366f140" : "none",
+        opacity: d.dimmed ? 0.45 : 1,
       }}
     >
       <Handle type="target" position={Position.Top} style={{ opacity: 0 }} />
@@ -93,7 +106,7 @@ function StrategyNode({ data, selected }: NodeProps) {
         {gs && (
           <span style={{
             fontSize: 9, padding: "1px 6px", borderRadius: 4, background: gs.bg,
-            color: d.gate === "pass" ? "#16a34a" : "#dc2626", fontWeight: 600,
+            color: gateColor(d.gate), fontWeight: 600,
           }}>
             {d.gate?.toUpperCase()}
           </span>
@@ -106,7 +119,7 @@ function StrategyNode({ data, selected }: NodeProps) {
         <span style={{ fontSize: 11, color: sharpeColor, fontFamily: "monospace", fontWeight: 700 }}>
           Sharpe {sharpeStr}
         </span>
-        <GateIcon size={14} style={{ color: gs ? (d.gate === "pass" ? "#16a34a" : "#dc2626") : "#666" }} />
+        <GateIcon size={14} style={{ color: d.gate ? gateColor(d.gate) : "#666" }} />
       </div>
       <Handle type="source" position={Position.Bottom} style={{ opacity: 0 }} />
     </div>
@@ -161,12 +174,37 @@ function DetailPanel({ metric, equity }: { metric: RunMetric | null; equity: Equ
 
       <div style={{
         padding: "4px 10px", borderRadius: 6, marginBottom: 16, display: "inline-block",
-        background: m.gate_status === "pass" ? "#16a34a20" : m.gate_status === "fail" ? "#dc262620" : "#333",
-        color: m.gate_status === "pass" ? "#16a34a" : m.gate_status === "fail" ? "#dc2626" : "#888",
+        background: m.gate_status === "pass" ? "#16a34a20" : m.gate_status === "fail" ? "#dc262620" : "#6b728020",
+        color: gateColor(m.gate_status ?? null),
         fontSize: 12, fontWeight: 700,
       }}>
         GATE: {m.gate_status?.toUpperCase() ?? "NO DATA"}
       </div>
+
+      {m.gate_detail && m.gate_detail.length > 0 && (
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ fontSize: 10, color: "#7c7c9e", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 4 }}>
+            Gate Rules
+          </div>
+          {m.gate_detail.map((r) => (
+            <div
+              key={r.rule}
+              title={r.note ?? undefined}
+              style={{ display: "flex", justifyContent: "space-between", gap: 8, borderBottom: "1px solid #222240", padding: "3px 0" }}
+            >
+              <span style={{ fontSize: 11, color: "#8888aa" }}>
+                {r.rule}
+                {r.note && (
+                  <span style={{ display: "block", fontSize: 9, color: "#666" }}>{r.note}</span>
+                )}
+              </span>
+              <span style={{ fontSize: 11, fontFamily: "monospace", color: r.pass ? "#16a34a" : "#dc2626" }}>
+                {r.actual != null ? r.actual.toFixed(3) : "—"} {r.op} {r.threshold ?? "—"}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
 
       {chartData.length > 0 ? (
         <div>
@@ -242,7 +280,7 @@ export function ComparePage() {
         id: campId, type: "strategy", position: { x: 0, y: 0 },
         data: {
           label: campaign, campaign, sharpe: null, gate: null,
-          isSelected: false,
+          isSelected: false, dimmed: false,
         } as StratNodeData,
         draggable: true,
       });
@@ -253,6 +291,7 @@ export function ComparePage() {
             label: shortName(m.iteration ?? m.id.slice(0, 8)),
             campaign, sharpe: m.sharpe, gate: m.gate_status,
             isSelected: selectedId === m.id,
+            dimmed: m.gate_status === "fail",
           } as StratNodeData,
           draggable: true,
         });
