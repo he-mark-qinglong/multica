@@ -1,0 +1,31 @@
+=== CPCV param search (vpvr_xs_basis_zscore_15m_funding_filter_20260712 iter72) ===
+  n_groups=6 k_test=2 purge=500 embargo=250
+  pre-registered candidates: 12
+  cost: 24bp RT pair (equity_walk mode), vol_target=0.15
+
+=== Per-variant OOS metrics ===
+label                                                       mean    worst      dsr   trades    tpf   clone
+tightentry_longlookback_smoothfunding_perpindex         -23.8040 -25.8792 -23.8497    24853 1656.9        
+tighterentry_baselookback_smoothfunding_perpindex       -35.6649 -38.2353 -35.7333    53439 3562.6        
+moderateentry_longlookback_smoothfunding_twoperp        -56.5077 -60.1544 -56.6160   134239 8949.3        
+baseline_axis_smoothfunding_only                        -60.0682 -62.8446 -60.1833   142520 9501.3        
+tighterentry_midlookback_smoothfunding_perpindex        -35.3612 -37.2276 -35.4290    53093 3539.5        
+tighterentry_shortlookback_smoothfunding_perpspot       -40.5477 -42.9123 -40.6254    68315 4554.3        
+tightentry_midlookback_wideexit_smoothfunding_twoperp   -25.4489 -27.4174 -25.4977    27613 1840.9        
+tighterentry_baselookback_smoothfunding_verytightexit_perpindex -35.6381 -38.2031 -35.7064    53569 3571.3        
+tightestentry_longlookback_smoothfunding_perpindex      -23.8040 -25.8792 -23.8497    24853 1656.9        
+moderateentry_baselookback_wideexit_smoothfunding_perpindex -53.4559 -55.9801 -53.5584   113597 7573.1        
+tighterentry_baselookback_rawfunding_tightexit_perpindex     +nan     +nan     +nan        0    0.0     YES
+tightentry_midlookback_smoothfunding_perpindex          -24.0625 -26.5317 -24.1087    25327 1688.5        
+
+=== Acceptance gates (15m) ===
+  mean_oos_sharpe   >= 0.5
+  worst_fold_sharpe >= 0.0
+  deflated_sharpe   >  0.0
+  total_trades      >= 100
+  trades_per_fold   >= 300
+
+VERDICT: KILL
+CHOSEN:  NONE
+Total sweep time: 154.8s
+

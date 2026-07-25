@@ -1,0 +1,121 @@
+{
+  "verdict": "KILL",
+  "per_variant": [
+    {
+      "label": "tightentry_longlookback_smoothfunding_perpindex",
+      "mean_oos_sharpe": -23.803997017229328,
+      "worst_oos_sharpe": -25.879180909627586,
+      "deflated_sharpe": -23.849683886017576,
+      "total_oos_trades": 24853,
+      "trades_per_fold": 1656.8666666666666,
+      "is_clone": false
+    },
+    {
+      "label": "tighterentry_baselookback_smoothfunding_perpindex",
+      "mean_oos_sharpe": -35.664870927032545,
+      "worst_oos_sharpe": -38.23526426308861,
+      "deflated_sharpe": -35.733255513447276,
+      "total_oos_trades": 53439,
+      "trades_per_fold": 3562.6,
+      "is_clone": false
+    },
+    {
+      "label": "moderateentry_longlookback_smoothfunding_twoperp",
+      "mean_oos_sharpe": -56.50774842845361,
+      "worst_oos_sharpe": -60.15438662108852,
+      "deflated_sharpe": -56.61604641311142,
+      "total_oos_trades": 134239,
+      "trades_per_fold": 8949.266666666666,
+      "is_clone": false
+    },
+    {
+      "label": "baseline_axis_smoothfunding_only",
+      "mean_oos_sharpe": -60.068200616009655,
+      "worst_oos_sharpe": -62.844626729081874,
+      "deflated_sharpe": -60.18331811825175,
+      "total_oos_trades": 142520,
+      "trades_per_fold": 9501.333333333334,
+      "is_clone": false
+    },
+    {
+      "label": "tighterentry_midlookback_smoothfunding_perpindex",
+      "mean_oos_sharpe": -35.361191287412886,
+      "worst_oos_sharpe": -37.22760367258529,
+      "deflated_sharpe": -35.428994510022015,
+      "total_oos_trades": 53093,
+      "trades_per_fold": 3539.5333333333333,
+      "is_clone": false
+    },
+    {
+      "label": "tighterentry_shortlookback_smoothfunding_perpspot",
+      "mean_oos_sharpe": -40.54766161270688,
+      "worst_oos_sharpe": -42.91231180080642,
+      "deflated_sharpe": -40.62539475237336,
+      "total_oos_trades": 68315,
+      "trades_per_fold": 4554.333333333333,
+      "is_clone": false
+    },
+    {
+      "label": "tightentry_midlookback_wideexit_smoothfunding_twoperp",
+      "mean_oos_sharpe": -25.448858553669535,
+      "worst_oos_sharpe": -27.417421430990295,
+      "deflated_sharpe": -25.49769164922318,
+      "total_oos_trades": 27613,
+      "trades_per_fold": 1840.8666666666666,
+      "is_clone": false
+    },
+    {
+      "label": "tighterentry_baselookback_smoothfunding_verytightexit_perpindex",
+      "mean_oos_sharpe": -35.63806330660696,
+      "worst_oos_sharpe": -38.20305247959473,
+      "deflated_sharpe": -35.706396572241324,
+      "total_oos_trades": 53569,
+      "trades_per_fold": 3571.266666666667,
+      "is_clone": false
+    },
+    {
+      "label": "tightestentry_longlookback_smoothfunding_perpindex",
+      "mean_oos_sharpe": -23.803997017229328,
+      "worst_oos_sharpe": -25.879180909627586,
+      "deflated_sharpe": -23.849683886017576,
+      "total_oos_trades": 24853,
+      "trades_per_fold": 1656.8666666666666,
+      "is_clone": false
+    },
+    {
+      "label": "moderateentry_baselookback_wideexit_smoothfunding_perpindex",
+      "mean_oos_sharpe": -53.45590405045629,
+      "worst_oos_sharpe": -55.98013506474436,
+      "deflated_sharpe": -53.55835689316185,
+      "total_oos_trades": 113597,
+      "trades_per_fold": 7573.133333333333,
+      "is_clone": false
+    },
+    {
+      "label": "tighterentry_baselookback_rawfunding_tightexit_perpindex",
+      "mean_oos_sharpe": null,
+      "worst_oos_sharpe": null,
+      "deflated_sharpe": null,
+      "total_oos_trades": 0,
+      "trades_per_fold": 0.0,
+      "is_clone": true
+    },
+    {
+      "label": "tightentry_midlookback_smoothfunding_perpindex",
+      "mean_oos_sharpe": -24.062505804449696,
+      "worst_oos_sharpe": -26.53172177328067,
+      "deflated_sharpe": -24.108687091858993,
+      "total_oos_trades": 25327,
+      "trades_per_fold": 1688.4666666666667,
+      "is_clone": false
+    }
+  ],
+  "cpcv_config": {
+    "n_groups": 6,
+    "k_test": 2,
+    "purge_bars": 500,
+    "embargo_bars": 250,
+    "periods_per_year": 35040
+  },
+  "generated_at_utc": "2026-07-21T17:15:28+00:00"
+}

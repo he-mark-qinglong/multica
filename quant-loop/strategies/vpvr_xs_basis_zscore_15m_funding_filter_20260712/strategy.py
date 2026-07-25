@@ -93,20 +93,88 @@ def pair_zscore(close_a, close_b, lookback):
     return ((log_ratio - mu) / sd.replace(0.0, np.nan)).rename("z")
 
 
-def funding_filter_mask(bar_index, funding_series, threshold):
+def _ema(s, window):
+    """EMA with Wilder-style smoothing. window=1 returns s unchanged."""
+    if window is None or int(window) <= 1:
+        return s.copy()
+    return s.ewm(span=int(window), adjust=False, min_periods=1).mean()
+
+
+def _smooth_funding_series(funding_series, ema_window):
+    """Return funding series smoothed by EMA of `ema_window` bars.
+
+    ema_window=1 (default) returns the raw series. funding_ema_window=24
+    smooths across ~6 hours at the 15m bar frequency, reducing 8h-event
+    spikes into a regime indicator rather than a per-bar trigger.
+    """
+    if funding_series is None or len(funding_series) == 0:
+        return funding_series
+    win = int(ema_window) if ema_window is not None else 1
+    if win <= 1:
+        return funding_series
+    fs = funding_series.copy()
+    if fs.index.tz is not None:
+        fs.index = fs.index.tz_convert(None)
+    if isinstance(fs, pd.DataFrame):
+        # if a 1-col DataFrame was passed, take its column
+        fs = fs.iloc[:, 0]
+    return fs.ewm(span=win, adjust=False, min_periods=1).mean()
+
+
+def compute_spread(close_a, close_b, method, zscore_window):
+    """Compute the spread series to be z-scored for the pair-trade signal.
+
+    Three modes:
+      - 'perp_spot'        : log(close_a / close_b) — classical cross-asset
+                              log-ratio z-score (default, preserves baseline).
+      - 'perp_perp_index'  : log(close_a) - log(close_b), detrended by
+                              subtracting its own rolling mean (EMA window
+                              = zscore_window). Captures deviations from the
+                              slow fair-value rather than absolute ratio.
+      - 'two_perp'         : (close_a / close_b) - 1, the symmetric
+                              percentage spread. Symmetric to small moves and
+                              less prone to compounding-on-late-bars that
+                              log-ratios are.
+
+    Returns a 1-D pd.Series aligned to the union of `close_a`/`close_b` index.
+    """
+    method = (method or "perp_spot").strip().lower()
+    if method == "perp_spot":
+        return np.log(close_a.astype(float)) - np.log(close_b.astype(float))
+    if method == "perp_perp_index":
+        lr = np.log(close_a.astype(float)) - np.log(close_b.astype(float))
+        return lr - lr.ewm(span=int(zscore_window), adjust=False, min_periods=1).mean()
+    if method == "two_perp":
+        return (close_a.astype(float) / close_b.astype(float)) - 1.0
+    raise ValueError("unknown basis_calc_method: " + str(method))
+
+
+def pair_basis_zscore(close_a, close_b, method, zscore_window):
+    """Z-score of `compute_spread(...)` over `zscore_window` bars."""
+    spread = compute_spread(close_a, close_b, method, zscore_window)
+    mu = spread.rolling(int(zscore_window), min_periods=int(zscore_window)).mean()
+    sd = spread.rolling(int(zscore_window), min_periods=int(zscore_window)).std(ddof=0)
+    return ((spread - mu) / sd.replace(0.0, np.nan)).rename("z")
+
+
+def funding_filter_mask(bar_index, funding_series, threshold, ema_window=1):
     """Build a per-bar boolean mask that is True when |funding_rate| < threshold.
 
     funding_series: pd.Series indexed by bar ts, value = funding rate (already
     forward-filled from 8h events onto the 15m grid).
     threshold: absolute funding_rate ceiling for entry.
+    ema_window: bars over which to EMA-smooth funding_rate before the
+                threshold check. ema_window=1 (default) means no smoothing
+                (raw per-bar check). Larger values turn the filter into a
+                regime indicator — funding_ema_window=24 (≈6h at 15m)
+                prevents bursty blowoffs from blocking single trades but
+                still skips multi-hour blowoff regimes.
 
     Returns pd.Series of bool aligned to ``bar_index``.
     """
     if funding_series is None or len(funding_series) == 0:
         return pd.Series(True, index=bar_index)
-    fs = funding_series.copy()
-    if fs.index.tz is not None:
-        fs.index = fs.index.tz_convert(None)
+    fs = _smooth_funding_series(funding_series, ema_window)
     aligned = fs.reindex(bar_index, method="ffill").fillna(0.0)
     return (aligned.abs() < float(threshold)).rename("funding_allow")
 
@@ -156,7 +224,8 @@ def run_pair_backtest(df_a, df_b, cfg, pair_label, funding_a=None, funding_b=Non
     b = df_b.loc[common]
     if len(common) < int(ind["zscore_lookback_bars"]) + 10:
         raise SystemExit(pair_label + ": insufficient overlapping bars after resample (" + str(len(common)) + ")")
-    z = pair_zscore(a["close"], b["close"], int(ind["zscore_lookback_bars"]))
+    basis_method = ind.get("basis_calc_method", "perp_spot")
+    z = pair_basis_zscore(a["close"], b["close"], basis_method, int(ind["zscore_lookback_bars"]))
 
     a_atr = wilder_atr(a, int(ind["atr_period"]))
     profile = _rolling_vpvr(a["close"].to_numpy(), a["volume"].to_numpy(),
@@ -170,10 +239,20 @@ def run_pair_backtest(df_a, df_b, cfg, pair_label, funding_a=None, funding_b=Non
     regime_thr = float(cfg["exit"]["regime_switch_zscore_threshold"])
     max_holding = int(cfg["exit"]["max_holding_bars"])
     require_funding_filter = bool(cfg["entry"].get("require_funding_filter", True))
+    funding_ema_window = int(ind.get("funding_ema_window", 1))
+
+    # Cost accounting: 'trade_only' preserves the original behaviour (cost
+    # reflected only in trade_log pnl_pct, equity walk is gross — bug). The
+    # 'equity_walk' mode deducts the round-trip pair cost from the per-bar
+    # equity walk so the framework CV divergence goes away.
+    cost_mode = cfg.get("cost_application_mode", "trade_only")
+    cost_rt = float(cfg.get("cost_rt_pair_bps", 24.0)) / 10_000.0
 
     if require_funding_filter:
-        allow_a = funding_filter_mask(common, funding_a, float(ind["funding_filter_threshold"]))
-        allow_b = funding_filter_mask(common, funding_b, float(ind["funding_filter_threshold"]))
+        allow_a = funding_filter_mask(common, funding_a, float(ind["funding_filter_threshold"]),
+                                       ema_window=funding_ema_window)
+        allow_b = funding_filter_mask(common, funding_b, float(ind["funding_filter_threshold"]),
+                                       ema_window=funding_ema_window)
         funding_allow = (allow_a & allow_b).reindex(common).fillna(True)
         funding_value = allow_a.reindex(common)  # for logging
     else:
@@ -213,6 +292,11 @@ def run_pair_backtest(df_a, df_b, cfg, pair_label, funding_a=None, funding_b=Non
             entry_funding = float(fa_raw.iat[i]) if fa_raw is not None and pd.notna(fa_raw.iat[i]) else None
             bars_held = 1
             pos = cur_pos
+            # Deduct entry-cost half from the per-bar equity walk so the
+            # framework CV divergence (inhouse +7.5% vs freqtrade -100%) goes
+            # away. Only applied when cost_application_mode == 'equity_walk'.
+            if cost_mode == "equity_walk":
+                pnl_pct_per_bar[i] -= cost_rt / 2.0
         elif pos != 0:
             bars_held += 1
             a_ret = float(a["close"].iat[i]) / float(a["close"].iat[i - 1]) - 1.0
@@ -237,6 +321,11 @@ def run_pair_backtest(df_a, df_b, cfg, pair_label, funding_a=None, funding_b=Non
                     pct = -(exit_a / entry_a - 1.0) + (exit_b / entry_b - 1.0)
                 cost = 2.0 * 2.0 * (float(cfg["fees_bps_per_side"]) + float(cfg["slippage_bps_per_side"])) / 10_000.0
                 net = pct - cost
+                if cost_mode == "equity_walk":
+                    # Deduct exit-cost half from the per-bar equity walk so the
+                    # in-house equity walk matches the freqtrade pair-cost
+                    # convention (which amortises cost across held bars).
+                    pnl_pct_per_bar[i] -= cost_rt / 2.0
                 trade_log.append(Trade(
                     pair=pair_label,
                     direction="long_a_short_b" if pos == +1 else "short_a_long_b",
@@ -269,6 +358,8 @@ def run_pair_backtest(df_a, df_b, cfg, pair_label, funding_a=None, funding_b=Non
                 pct = -(exit_a / entry_a - 1.0) + (exit_b / entry_b - 1.0)
             cost = 2.0 * 2.0 * (float(cfg["fees_bps_per_side"]) + float(cfg["slippage_bps_per_side"])) / 10_000.0
             net = pct - cost
+            if cost_mode == "equity_walk":
+                pnl_pct_per_bar[i] -= cost_rt / 2.0
             trade_log.append(Trade(
                 pair=pair_label,
                 direction="long_a_short_b" if pos == +1 else "short_a_long_b",

@@ -1,4 +1,4 @@
-# KILL_SUMMARY — 1m/5m klines 价格反转家族（15 个目录）
+# KILL_SUMMARY — 1m/5m klines 价格反转家族（16 个目录）
 
 **Archived**: 2026-07-24 (Phase C of `PLAN_20260724_hf_strategy_optimization.md`)
 **Verdict**: KILL — 1m/5m klines VPVR/价格反转信号被结构性证伪（cost-cap），9 个变体 OOS FAIL + W5 + 双框架负 edge，cycle-46 family exhausted。
@@ -18,6 +18,7 @@
 | vpvr_iceberg_fade_5m_20260711 / vpvr_iceberg_fade_v2_5m_20260711 | iceberg fade v1/v2（klines 推断版，非 aggTrades 版） |
 | vpvr_microstructure_5m_volume_delta_20260710 | 5m volume-delta 微观结构 |
 | vol_breakout_1m_15m_vpvr_confluence_u6_20260718 | 1m/15m 双 TF 放量突破 + VPVR 汇合（U6） |
+| vpvr_reversion_5m_vwap_trail_20260709 | 5m 反转 + VWAP trailing；vectorbt CV Sharpe -9.621，ledger line 48 KILL（2026-07-25 补归档） |
 
 ## Kill 原因
 

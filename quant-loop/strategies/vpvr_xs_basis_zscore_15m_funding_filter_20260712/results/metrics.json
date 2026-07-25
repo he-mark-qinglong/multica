@@ -35,16 +35,5 @@
       "span_end": "2026-07-10",
       "n_bars": 158587
     }
-  },
-  "sharpe_method": "bar_freq_annualized",
-  "sharpe_method_evidence": "run_backtest.py: [run_backtest.py] L50:sharpe = (mu / sigma) * ann if sigma > 0 else 0.0 ds = bar_r[bar_r < 0] dsigma = float(np.std(ds, ddof=0)) if ds.size else 0.0; L110:avg_sharpe = float(np.mean([m[\"sharpe\"] for m",
-  "sharpe_method_audit_date": "2026-07-17T06:30:53+00:00",
-  "sharpe_daily_resampled": 0.2527646375661786,
-  "sharpe_daily_resampled_n_days": 1651,
-  "sharpe_daily_resampled_span": [
-    "2022-01-01",
-    "2026-07-10"
-  ],
-  "sharpe_daily_resampled_source": "aggregate(symbol equity_*.csv)",
-  "sharpe_daily_resampled_audit_date": "2026-07-17T06:32:00Z"
+  }
 }

@@ -1,0 +1,1819 @@
+{
+  "variant_key": "A",
+  "iteration": 72,
+  "date": "2026-07-12",
+  "source_strategy": "vpvr_xs_basis_zscore_15m_funding_filter_20260712",
+  "generated_at_utc": "2026-07-21T17:15:28+00:00",
+  "cpcv_config": {
+    "n_groups": 6,
+    "k_test": 2,
+    "purge_bars": 500,
+    "embargo_bars": 250,
+    "periods_per_year": 35040
+  },
+  "acceptance_gates": {
+    "min_mean_oos_sharpe": 0.5,
+    "min_worst_fold_sharpe": 0.0,
+    "min_deflated_sharpe": 0.0,
+    "min_total_trades": 100,
+    "min_trades_per_fold_15m": 300
+  },
+  "cost_model": {
+    "cost_application_mode": "equity_walk",
+    "cost_rt_pair_bps": 24.0,
+    "venue": "binance_usdt_futures",
+    "venue_taker_fee_bps": 4.0,
+    "notes": "24bp RT pair cost = (fee + slip) \u00d7 2 per side of pair, deducted at entry+exit bars in pnl_pct_per_bar to match freqtrade pair-cost convention. Total of 24.0bp drained from each trade's equity-walk PnL."
+  },
+  "vol_target": {
+    "target_vol": 0.15,
+    "lookback_bars": 96,
+    "periods_per_year": 35040
+  },
+  "pre_registered_candidates": [
+    {
+      "label": "tightentry_longlookback_smoothfunding_perpindex",
+      "rationale": "Tighter entry (z=3.0) + long z-window (200) + smooth funding (EMA 24 \u2248 6h) + detrended perp-index basis. Max-quality selection; expect very few trades but cleanest signal.",
+      "params": {
+        "zscore_lookback_bars": 200,
+        "zscore_entry_threshold": 3.0,
+        "zscore_exit_threshold": 0.5,
+        "funding_ema_window": 24,
+        "basis_calc_method": "perp_perp_index"
+      },
+      "n_paths": 15,
+      "folds_complete": 15,
+      "mean_oos_sharpe": -23.803997017229328,
+      "std_oos_sharpe": 1.2062811179927375,
+      "worst_oos_sharpe": -25.879180909627586,
+      "total_oos_trades": 24853,
+      "trades_per_fold": 1656.8666666666666,
+      "deflated_sharpe": -23.849683886017576,
+      "is_clone": false,
+      "inhouse_trades_for_cost_check": 2174,
+      "folds": [
+        {
+          "fold_index": 0,
+          "train_start": "2023-07-10 22:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2023-07-05 16:45:00",
+          "oos_sharpe": -23.1125565412145,
+          "n_trades": 1485
+        },
+        {
+          "fold_index": 1,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -24.12232276332007,
+          "n_trades": 1681
+        },
+        {
+          "fold_index": 2,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -22.963741281051785,
+          "n_trades": 1600
+        },
+        {
+          "fold_index": 3,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -21.616092500383797,
+          "n_trades": 1600
+        },
+        {
+          "fold_index": 4,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -22.38254671112696,
+          "n_trades": 1463
+        },
+        {
+          "fold_index": 5,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -25.879180909627586,
+          "n_trades": 1742
+        },
+        {
+          "fold_index": 6,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -24.70740600114141,
+          "n_trades": 1661
+        },
+        {
+          "fold_index": 7,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -23.360811330596373,
+          "n_trades": 1661
+        },
+        {
+          "fold_index": 8,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -24.1891619704431,
+          "n_trades": 1524
+        },
+        {
+          "fold_index": 9,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -25.607671481595506,
+          "n_trades": 1851
+        },
+        {
+          "fold_index": 10,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -24.305393923804154,
+          "n_trades": 1851
+        },
+        {
+          "fold_index": 11,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -25.106500543372213,
+          "n_trades": 1714
+        },
+        {
+          "fold_index": 12,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -23.101108284874663,
+          "n_trades": 1758
+        },
+        {
+          "fold_index": 13,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -23.856649996387066,
+          "n_trades": 1621
+        },
+        {
+          "fold_index": 14,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-01-01 03:15:00",
+          "test_start": "2025-01-08 23:00:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -22.748811019500742,
+          "n_trades": 1641
+        }
+      ],
+      "equity_hash": "0a756717b6c011953a2c0a5825dbd7116880fa8c2d41e7d97964d134cb03e031"
+    },
+    {
+      "label": "tighterentry_baselookback_smoothfunding_perpindex",
+      "rationale": "Tighter entry (z=2.5) + baseline z-window (96) + smooth funding (EMA 24) + perp-index basis. 4-axis change from baseline; tests if perpendicular-axis combination yields an edge the old single-axis walk missed.",
+      "params": {
+        "zscore_lookback_bars": 96,
+        "zscore_entry_threshold": 2.5,
+        "zscore_exit_threshold": 0.5,
+        "funding_ema_window": 24,
+        "basis_calc_method": "perp_perp_index"
+      },
+      "n_paths": 15,
+      "folds_complete": 15,
+      "mean_oos_sharpe": -35.664870927032545,
+      "std_oos_sharpe": 1.4612998345477628,
+      "worst_oos_sharpe": -38.23526426308861,
+      "total_oos_trades": 53439,
+      "trades_per_fold": 3562.6,
+      "deflated_sharpe": -35.733255513447276,
+      "is_clone": false,
+      "inhouse_trades_for_cost_check": 4423,
+      "folds": [
+        {
+          "fold_index": 0,
+          "train_start": "2023-07-10 22:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2023-07-05 16:45:00",
+          "oos_sharpe": -36.72950599531686,
+          "n_trades": 3582
+        },
+        {
+          "fold_index": 1,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -35.17701567111911,
+          "n_trades": 3476
+        },
+        {
+          "fold_index": 2,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -34.91854894739723,
+          "n_trades": 3541
+        },
+        {
+          "fold_index": 3,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -33.19920280327459,
+          "n_trades": 3456
+        },
+        {
+          "fold_index": 4,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -36.0880973799089,
+          "n_trades": 3568
+        },
+        {
+          "fold_index": 5,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -37.3357922926905,
+          "n_trades": 3583
+        },
+        {
+          "fold_index": 6,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -37.04795499996138,
+          "n_trades": 3648
+        },
+        {
+          "fold_index": 7,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -35.31179881133591,
+          "n_trades": 3563
+        },
+        {
+          "fold_index": 8,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -38.23526426308861,
+          "n_trades": 3675
+        },
+        {
+          "fold_index": 9,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -35.5472728460415,
+          "n_trades": 3559
+        },
+        {
+          "fold_index": 10,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -33.81770100295788,
+          "n_trades": 3474
+        },
+        {
+          "fold_index": 11,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -36.72603591019775,
+          "n_trades": 3586
+        },
+        {
+          "fold_index": 12,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -33.61483342872986,
+          "n_trades": 3525
+        },
+        {
+          "fold_index": 13,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -36.48144916191349,
+          "n_trades": 3637
+        },
+        {
+          "fold_index": 14,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-01-01 03:15:00",
+          "test_start": "2025-01-08 23:00:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -34.742590391554636,
+          "n_trades": 3566
+        }
+      ],
+      "equity_hash": "e90dc20b18d793e31223d3f826ab7d9a8fc539783d331b0f2009f076a300cf3b"
+    },
+    {
+      "label": "moderateentry_longlookback_smoothfunding_twoperp",
+      "rationale": "Moderate entry (z=2.0) + long z-window (200) + smooth funding (EMA 48 \u2248 12h) + two-perp basis (percentage spread). Detrended percentage spread gives a slower, lower-variance z signal.",
+      "params": {
+        "zscore_lookback_bars": 200,
+        "zscore_entry_threshold": 2.0,
+        "zscore_exit_threshold": 0.3,
+        "funding_ema_window": 48,
+        "basis_calc_method": "two_perp"
+      },
+      "n_paths": 15,
+      "folds_complete": 15,
+      "mean_oos_sharpe": -56.50774842845361,
+      "std_oos_sharpe": 2.208286917718631,
+      "worst_oos_sharpe": -60.15438662108852,
+      "total_oos_trades": 134239,
+      "trades_per_fold": 8949.266666666666,
+      "deflated_sharpe": -56.61604641311142,
+      "is_clone": false,
+      "inhouse_trades_for_cost_check": 11019,
+      "folds": [
+        {
+          "fold_index": 0,
+          "train_start": "2023-07-10 22:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2023-07-05 16:45:00",
+          "oos_sharpe": -56.43672407055607,
+          "n_trades": 9093
+        },
+        {
+          "fold_index": 1,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -57.42154977960273,
+          "n_trades": 9552
+        },
+        {
+          "fold_index": 2,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -54.841757648747766,
+          "n_trades": 9255
+        },
+        {
+          "fold_index": 3,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -52.45193042015879,
+          "n_trades": 9191
+        },
+        {
+          "fold_index": 4,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -56.09539851308806,
+          "n_trades": 9204
+        },
+        {
+          "fold_index": 5,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -60.15438662108852,
+          "n_trades": 8949
+        },
+        {
+          "fold_index": 6,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -57.52197856904667,
+          "n_trades": 8652
+        },
+        {
+          "fold_index": 7,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -55.07018617598143,
+          "n_trades": 8588
+        },
+        {
+          "fold_index": 8,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -58.80342402563901,
+          "n_trades": 8601
+        },
+        {
+          "fold_index": 9,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -58.27250732072453,
+          "n_trades": 9069
+        },
+        {
+          "fold_index": 10,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -55.84396142834756,
+          "n_trades": 9005
+        },
+        {
+          "fold_index": 11,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -59.542061708115114,
+          "n_trades": 9018
+        },
+        {
+          "fold_index": 12,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -53.48306896216913,
+          "n_trades": 8707
+        },
+        {
+          "fold_index": 13,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -57.17406104770499,
+          "n_trades": 8720
+        },
+        {
+          "fold_index": 14,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-01-01 03:15:00",
+          "test_start": "2025-01-08 23:00:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -54.50323013583388,
+          "n_trades": 8635
+        }
+      ],
+      "equity_hash": "d185643c96ce2c725bf804a50cf85f494485366324ea4114dae90fce6d710528"
+    },
+    {
+      "label": "baseline_axis_smoothfunding_only",
+      "rationale": "Baseline (z_entry=2.0, z_window=96, exit=0.5, perp_spot) + only the funding_ema_window change (48). Minimal-axis probe: tests if smoother funding alone (no other axes moved) clears the gate.",
+      "params": {
+        "zscore_lookback_bars": 96,
+        "zscore_entry_threshold": 2.0,
+        "zscore_exit_threshold": 0.5,
+        "funding_ema_window": 48,
+        "basis_calc_method": "perp_spot"
+      },
+      "n_paths": 15,
+      "folds_complete": 15,
+      "mean_oos_sharpe": -60.068200616009655,
+      "std_oos_sharpe": 1.7188012689192564,
+      "worst_oos_sharpe": -62.844626729081874,
+      "total_oos_trades": 142520,
+      "trades_per_fold": 9501.333333333334,
+      "deflated_sharpe": -60.18331811825175,
+      "is_clone": false,
+      "inhouse_trades_for_cost_check": 11605,
+      "folds": [
+        {
+          "fold_index": 0,
+          "train_start": "2023-07-10 22:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2023-07-05 16:45:00",
+          "oos_sharpe": -60.02055538396255,
+          "n_trades": 9519
+        },
+        {
+          "fold_index": 1,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -58.91217565462582,
+          "n_trades": 9502
+        },
+        {
+          "fold_index": 2,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -58.73427867757952,
+          "n_trades": 9477
+        },
+        {
+          "fold_index": 3,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -56.89054699210185,
+          "n_trades": 9563
+        },
+        {
+          "fold_index": 4,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -57.871158595147435,
+          "n_trades": 9278
+        },
+        {
+          "fold_index": 5,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -62.844626729081874,
+          "n_trades": 9613
+        },
+        {
+          "fold_index": 6,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -62.65239690165172,
+          "n_trades": 9588
+        },
+        {
+          "fold_index": 7,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -60.753123937313205,
+          "n_trades": 9674
+        },
+        {
+          "fold_index": 8,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -61.80433750963794,
+          "n_trades": 9389
+        },
+        {
+          "fold_index": 9,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -61.54906548551984,
+          "n_trades": 9571
+        },
+        {
+          "fold_index": 10,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -59.66474598378419,
+          "n_trades": 9657
+        },
+        {
+          "fold_index": 11,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -60.696809886478924,
+          "n_trades": 9372
+        },
+        {
+          "fold_index": 12,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -59.506167267536895,
+          "n_trades": 9605
+        },
+        {
+          "fold_index": 13,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -60.52775538153704,
+          "n_trades": 9320
+        },
+        {
+          "fold_index": 14,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-01-01 03:15:00",
+          "test_start": "2025-01-08 23:00:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -58.59526485418612,
+          "n_trades": 9392
+        }
+      ],
+      "equity_hash": "56771660dae4f04792b61eeb000908d94922d47843b7ccdfd18d8e8542422ae0"
+    },
+    {
+      "label": "tighterentry_midlookback_smoothfunding_perpindex",
+      "rationale": "Tight entry (z=2.5) + mid z-window (120) + smooth funding (EMA 48) + perp-index basis. Balanced 4-axis mid-corner probe.",
+      "params": {
+        "zscore_lookback_bars": 120,
+        "zscore_entry_threshold": 2.5,
+        "zscore_exit_threshold": 0.3,
+        "funding_ema_window": 48,
+        "basis_calc_method": "perp_perp_index"
+      },
+      "n_paths": 15,
+      "folds_complete": 15,
+      "mean_oos_sharpe": -35.361191287412886,
+      "std_oos_sharpe": 1.211044631742257,
+      "worst_oos_sharpe": -37.22760367258529,
+      "total_oos_trades": 53093,
+      "trades_per_fold": 3539.5333333333333,
+      "deflated_sharpe": -35.428994510022015,
+      "is_clone": false,
+      "inhouse_trades_for_cost_check": 4405,
+      "folds": [
+        {
+          "fold_index": 0,
+          "train_start": "2023-07-10 22:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2023-07-05 16:45:00",
+          "oos_sharpe": -35.92167898979782,
+          "n_trades": 3508
+        },
+        {
+          "fold_index": 1,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -35.04219664819739,
+          "n_trades": 3476
+        },
+        {
+          "fold_index": 2,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -34.92402318469412,
+          "n_trades": 3521
+        },
+        {
+          "fold_index": 3,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -33.0789528748418,
+          "n_trades": 3429
+        },
+        {
+          "fold_index": 4,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -35.48275359894394,
+          "n_trades": 3548
+        },
+        {
+          "fold_index": 5,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -36.79585174081006,
+          "n_trades": 3554
+        },
+        {
+          "fold_index": 6,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -36.64797244942831,
+          "n_trades": 3599
+        },
+        {
+          "fold_index": 7,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -34.804298367533214,
+          "n_trades": 3507
+        },
+        {
+          "fold_index": 8,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -37.22760367258529,
+          "n_trades": 3626
+        },
+        {
+          "fold_index": 9,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -35.784097468559715,
+          "n_trades": 3573
+        },
+        {
+          "fold_index": 10,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -33.93816210343577,
+          "n_trades": 3481
+        },
+        {
+          "fold_index": 11,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -36.354185625126284,
+          "n_trades": 3600
+        },
+        {
+          "fold_index": 12,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -33.82358862908215,
+          "n_trades": 3506
+        },
+        {
+          "fold_index": 13,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -36.19962370055528,
+          "n_trades": 3625
+        },
+        {
+          "fold_index": 14,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-01-01 03:15:00",
+          "test_start": "2025-01-08 23:00:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -34.392880257602144,
+          "n_trades": 3540
+        }
+      ],
+      "equity_hash": "25380c9a676bdc16d45eeb1e8990cb71a24b9907f34dea380452ae300412d550"
+    },
+    {
+      "label": "tighterentry_shortlookback_smoothfunding_perpspot",
+      "rationale": "Tight entry (z=2.5) + short z-window (60) + smooth funding (EMA 12 \u2248 3h) + perp_spot basis. Tests the high-turnover end: can the strategy survive short-window z-score if funding filter is smoother?",
+      "params": {
+        "zscore_lookback_bars": 60,
+        "zscore_entry_threshold": 2.5,
+        "zscore_exit_threshold": 0.5,
+        "funding_ema_window": 12,
+        "basis_calc_method": "perp_spot"
+      },
+      "n_paths": 15,
+      "folds_complete": 15,
+      "mean_oos_sharpe": -40.54766161270688,
+      "std_oos_sharpe": 1.4655969283099324,
+      "worst_oos_sharpe": -42.91231180080642,
+      "total_oos_trades": 68315,
+      "trades_per_fold": 4554.333333333333,
+      "deflated_sharpe": -40.62539475237336,
+      "is_clone": false,
+      "inhouse_trades_for_cost_check": 5608,
+      "folds": [
+        {
+          "fold_index": 0,
+          "train_start": "2023-07-10 22:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2023-07-05 16:45:00",
+          "oos_sharpe": -41.25606532273143,
+          "n_trades": 4601
+        },
+        {
+          "fold_index": 1,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -39.81732786138549,
+          "n_trades": 4335
+        },
+        {
+          "fold_index": 2,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -39.15670271918838,
+          "n_trades": 4377
+        },
+        {
+          "fold_index": 3,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -37.897630794482886,
+          "n_trades": 4439
+        },
+        {
+          "fold_index": 4,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -39.834156615109904,
+          "n_trades": 4461
+        },
+        {
+          "fold_index": 5,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -42.89105569315194,
+          "n_trades": 4656
+        },
+        {
+          "fold_index": 6,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -42.205810105074825,
+          "n_trades": 4698
+        },
+        {
+          "fold_index": 7,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -40.89581091095237,
+          "n_trades": 4760
+        },
+        {
+          "fold_index": 8,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -42.91231180080642,
+          "n_trades": 4782
+        },
+        {
+          "fold_index": 9,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -40.82530038564477,
+          "n_trades": 4444
+        },
+        {
+          "fold_index": 10,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -39.534204723400244,
+          "n_trades": 4506
+        },
+        {
+          "fold_index": 11,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -41.521013450433394,
+          "n_trades": 4528
+        },
+        {
+          "fold_index": 12,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -38.95061391581635,
+          "n_trades": 4538
+        },
+        {
+          "fold_index": 13,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -40.90912853577347,
+          "n_trades": 4560
+        },
+        {
+          "fold_index": 14,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-01-01 03:15:00",
+          "test_start": "2025-01-08 23:00:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -39.60779135665148,
+          "n_trades": 4630
+        }
+      ],
+      "equity_hash": "b48aff64391229974c42975498c0350f160ba626b11d0024d29e0904607775a1"
+    },
+    {
+      "label": "tightentry_midlookback_wideexit_smoothfunding_twoperp",
+      "rationale": "Tight entry (z=3.0) + mid z-window (120) + wide exit (0.8) + smooth funding (EMA 48) + two-perp basis. Captures deep mean reversion on percentage-spread basis.",
+      "params": {
+        "zscore_lookback_bars": 120,
+        "zscore_entry_threshold": 3.0,
+        "zscore_exit_threshold": 0.8,
+        "funding_ema_window": 48,
+        "basis_calc_method": "two_perp"
+      },
+      "n_paths": 15,
+      "folds_complete": 15,
+      "mean_oos_sharpe": -25.448858553669535,
+      "std_oos_sharpe": 1.1360004706202986,
+      "worst_oos_sharpe": -27.417421430990295,
+      "total_oos_trades": 27613,
+      "trades_per_fold": 1840.8666666666666,
+      "deflated_sharpe": -25.49769164922318,
+      "is_clone": false,
+      "inhouse_trades_for_cost_check": 2368,
+      "folds": [
+        {
+          "fold_index": 0,
+          "train_start": "2023-07-10 22:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2023-07-05 16:45:00",
+          "oos_sharpe": -25.235476285203724,
+          "n_trades": 1754
+        },
+        {
+          "fold_index": 1,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -25.614849614932805,
+          "n_trades": 1827
+        },
+        {
+          "fold_index": 2,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -23.992681915180025,
+          "n_trades": 1699
+        },
+        {
+          "fold_index": 3,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -23.433609331826222,
+          "n_trades": 1745
+        },
+        {
+          "fold_index": 4,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -25.067048006741835,
+          "n_trades": 1811
+        },
+        {
+          "fold_index": 5,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -27.417421430990295,
+          "n_trades": 1935
+        },
+        {
+          "fold_index": 6,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -25.82877696020536,
+          "n_trades": 1807
+        },
+        {
+          "fold_index": 7,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -25.219612281513857,
+          "n_trades": 1853
+        },
+        {
+          "fold_index": 8,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -26.904627763109165,
+          "n_trades": 1919
+        },
+        {
+          "fold_index": 9,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -26.02598037122089,
+          "n_trades": 1864
+        },
+        {
+          "fold_index": 10,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -25.449624291465792,
+          "n_trades": 1910
+        },
+        {
+          "fold_index": 11,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -27.070067147857788,
+          "n_trades": 1976
+        },
+        {
+          "fold_index": 12,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -23.959501991722462,
+          "n_trades": 1776
+        },
+        {
+          "fold_index": 13,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -25.58972394751389,
+          "n_trades": 1842
+        },
+        {
+          "fold_index": 14,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-01-01 03:15:00",
+          "test_start": "2025-01-08 23:00:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -24.92387696555894,
+          "n_trades": 1895
+        }
+      ],
+      "equity_hash": "29882e25e35e43c4e4d6178d855aa601cea79e7346c7ffa5a298abe32c4fcf15"
+    },
+    {
+      "label": "tighterentry_baselookback_smoothfunding_verytightexit_perpindex",
+      "rationale": "Tight entry (z=2.5) + baseline z-window (96) + smooth funding (EMA 48) + perp-index basis + tight exit (0.3). Captures sharp reversion early.",
+      "params": {
+        "zscore_lookback_bars": 96,
+        "zscore_entry_threshold": 2.5,
+        "zscore_exit_threshold": 0.3,
+        "funding_ema_window": 48,
+        "basis_calc_method": "perp_perp_index"
+      },
+      "n_paths": 15,
+      "folds_complete": 15,
+      "mean_oos_sharpe": -35.63806330660696,
+      "std_oos_sharpe": 1.4546546048313413,
+      "worst_oos_sharpe": -38.20305247959473,
+      "total_oos_trades": 53569,
+      "trades_per_fold": 3571.266666666667,
+      "deflated_sharpe": -35.706396572241324,
+      "is_clone": false,
+      "inhouse_trades_for_cost_check": 4423,
+      "folds": [
+        {
+          "fold_index": 0,
+          "train_start": "2023-07-10 22:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2023-07-05 16:45:00",
+          "oos_sharpe": -36.69336242709303,
+          "n_trades": 3597
+        },
+        {
+          "fold_index": 1,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -35.1646857961605,
+          "n_trades": 3486
+        },
+        {
+          "fold_index": 2,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -34.870226691745565,
+          "n_trades": 3557
+        },
+        {
+          "fold_index": 3,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -33.18825529704069,
+          "n_trades": 3466
+        },
+        {
+          "fold_index": 4,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -36.06700815122947,
+          "n_trades": 3583
+        },
+        {
+          "fold_index": 5,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -37.31223369117207,
+          "n_trades": 3588
+        },
+        {
+          "fold_index": 6,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -36.9875891146597,
+          "n_trades": 3659
+        },
+        {
+          "fold_index": 7,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -35.289351796605644,
+          "n_trades": 3568
+        },
+        {
+          "fold_index": 8,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -38.20305247959473,
+          "n_trades": 3685
+        },
+        {
+          "fold_index": 9,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -35.51038495147622,
+          "n_trades": 3565
+        },
+        {
+          "fold_index": 10,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -33.81770100295788,
+          "n_trades": 3474
+        },
+        {
+          "fold_index": 11,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -36.717426338365804,
+          "n_trades": 3591
+        },
+        {
+          "fold_index": 12,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -33.579444635191045,
+          "n_trades": 3531
+        },
+        {
+          "fold_index": 13,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -36.435999261433366,
+          "n_trades": 3648
+        },
+        {
+          "fold_index": 14,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-01-01 03:15:00",
+          "test_start": "2025-01-08 23:00:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -34.7342279643787,
+          "n_trades": 3571
+        }
+      ],
+      "equity_hash": "814d658c0a3ab938fb212274b9947977d0e76824a93ecf7e1932fadab8927d51"
+    },
+    {
+      "label": "tightestentry_longlookback_smoothfunding_perpindex",
+      "rationale": "Extreme tight entry (z=3.0) + long z-window (200) + smooth funding (EMA 48) + perp-index basis. Rarest, highest-quality setups corner; expect very few trades.",
+      "params": {
+        "zscore_lookback_bars": 200,
+        "zscore_entry_threshold": 3.0,
+        "zscore_exit_threshold": 0.3,
+        "funding_ema_window": 48,
+        "basis_calc_method": "perp_perp_index"
+      },
+      "n_paths": 15,
+      "folds_complete": 15,
+      "mean_oos_sharpe": -23.803997017229328,
+      "std_oos_sharpe": 1.2062811179927375,
+      "worst_oos_sharpe": -25.879180909627586,
+      "total_oos_trades": 24853,
+      "trades_per_fold": 1656.8666666666666,
+      "deflated_sharpe": -23.849683886017576,
+      "is_clone": false,
+      "inhouse_trades_for_cost_check": 2174,
+      "folds": [
+        {
+          "fold_index": 0,
+          "train_start": "2023-07-10 22:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2023-07-05 16:45:00",
+          "oos_sharpe": -23.1125565412145,
+          "n_trades": 1485
+        },
+        {
+          "fold_index": 1,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -24.12232276332007,
+          "n_trades": 1681
+        },
+        {
+          "fold_index": 2,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -22.963741281051785,
+          "n_trades": 1600
+        },
+        {
+          "fold_index": 3,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -21.616092500383797,
+          "n_trades": 1600
+        },
+        {
+          "fold_index": 4,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -22.38254671112696,
+          "n_trades": 1463
+        },
+        {
+          "fold_index": 5,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -25.879180909627586,
+          "n_trades": 1742
+        },
+        {
+          "fold_index": 6,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -24.70740600114141,
+          "n_trades": 1661
+        },
+        {
+          "fold_index": 7,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -23.360811330596373,
+          "n_trades": 1661
+        },
+        {
+          "fold_index": 8,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -24.1891619704431,
+          "n_trades": 1524
+        },
+        {
+          "fold_index": 9,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -25.607671481595506,
+          "n_trades": 1851
+        },
+        {
+          "fold_index": 10,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -24.305393923804154,
+          "n_trades": 1851
+        },
+        {
+          "fold_index": 11,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -25.106500543372213,
+          "n_trades": 1714
+        },
+        {
+          "fold_index": 12,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -23.101108284874663,
+          "n_trades": 1758
+        },
+        {
+          "fold_index": 13,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -23.856649996387066,
+          "n_trades": 1621
+        },
+        {
+          "fold_index": 14,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-01-01 03:15:00",
+          "test_start": "2025-01-08 23:00:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -22.748811019500742,
+          "n_trades": 1641
+        }
+      ],
+      "equity_hash": "02490469c2fd45efd8473961c2174dbe4cef8bd4c39e057be1b2723c66118920"
+    },
+    {
+      "label": "moderateentry_baselookback_wideexit_smoothfunding_perpindex",
+      "rationale": "Moderate entry (z=2.0) + baseline z-window (96) + wide exit (0.8) + smooth funding (EMA 24) + perp-index basis. Wider tradable window, captures more mean reversion on detrended signal.",
+      "params": {
+        "zscore_lookback_bars": 96,
+        "zscore_entry_threshold": 2.0,
+        "zscore_exit_threshold": 0.8,
+        "funding_ema_window": 24,
+        "basis_calc_method": "perp_perp_index"
+      },
+      "n_paths": 15,
+      "folds_complete": 15,
+      "mean_oos_sharpe": -53.45590405045629,
+      "std_oos_sharpe": 1.5558951398208332,
+      "worst_oos_sharpe": -55.98013506474436,
+      "total_oos_trades": 113597,
+      "trades_per_fold": 7573.133333333333,
+      "deflated_sharpe": -53.55835689316185,
+      "is_clone": false,
+      "inhouse_trades_for_cost_check": 9359,
+      "folds": [
+        {
+          "fold_index": 0,
+          "train_start": "2023-07-10 22:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2023-07-05 16:45:00",
+          "oos_sharpe": -53.65983127348045,
+          "n_trades": 7531
+        },
+        {
+          "fold_index": 1,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -52.48747720681212,
+          "n_trades": 7402
+        },
+        {
+          "fold_index": 2,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -52.295448632740616,
+          "n_trades": 7508
+        },
+        {
+          "fold_index": 3,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -50.344145105990954,
+          "n_trades": 7560
+        },
+        {
+          "fold_index": 4,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -53.0930282008353,
+          "n_trades": 7590
+        },
+        {
+          "fold_index": 5,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -55.38379994405554,
+          "n_trades": 7491
+        },
+        {
+          "fold_index": 6,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -55.15480582645789,
+          "n_trades": 7597
+        },
+        {
+          "fold_index": 7,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -53.19274418726187,
+          "n_trades": 7649
+        },
+        {
+          "fold_index": 8,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -55.98013506474436,
+          "n_trades": 7679
+        },
+        {
+          "fold_index": 9,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -54.05955113542828,
+          "n_trades": 7492
+        },
+        {
+          "fold_index": 10,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -52.09264552997039,
+          "n_trades": 7544
+        },
+        {
+          "fold_index": 11,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -54.880645750163644,
+          "n_trades": 7574
+        },
+        {
+          "fold_index": 12,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -51.898792875351866,
+          "n_trades": 7621
+        },
+        {
+          "fold_index": 13,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -54.644577910262456,
+          "n_trades": 7651
+        },
+        {
+          "fold_index": 14,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-01-01 03:15:00",
+          "test_start": "2025-01-08 23:00:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -52.67093211328859,
+          "n_trades": 7708
+        }
+      ],
+      "equity_hash": "9cfa514754d167041fa61f74c438957c0a6573cc3662fbd5fdf4d6a8bb72378f"
+    },
+    {
+      "label": "tighterentry_baselookback_rawfunding_tightexit_perpindex",
+      "rationale": "Tight entry (z=2.5) + baseline z-window (96) + raw funding (EMA 1) + perp-index basis + tight exit (0.3). Isolates basis_calc_method axis; everything else baseline-aligned.",
+      "params": {
+        "zscore_lookback_bars": 96,
+        "zscore_entry_threshold": 2.5,
+        "zscore_exit_threshold": 0.3,
+        "funding_ema_window": 1,
+        "basis_calc_method": "perp_perp_index"
+      },
+      "n_paths": 0,
+      "folds_complete": 0,
+      "mean_oos_sharpe": null,
+      "std_oos_sharpe": null,
+      "worst_oos_sharpe": null,
+      "total_oos_trades": 0,
+      "trades_per_fold": 0.0,
+      "deflated_sharpe": null,
+      "is_clone": true,
+      "equity_hash": "814d658c0a3ab938fb212274b9947977d0e76824a93ecf7e1932fadab8927d51",
+      "folds": []
+    },
+    {
+      "label": "tightentry_midlookback_smoothfunding_perpindex",
+      "rationale": "Tight entry (z=3.0) + mid z-window (120) + smooth funding (EMA 24) + perp-index basis. Tight-entry corner with intermediate window; 4-axis change.",
+      "params": {
+        "zscore_lookback_bars": 120,
+        "zscore_entry_threshold": 3.0,
+        "zscore_exit_threshold": 0.5,
+        "funding_ema_window": 24,
+        "basis_calc_method": "perp_perp_index"
+      },
+      "n_paths": 15,
+      "folds_complete": 15,
+      "mean_oos_sharpe": -24.062505804449696,
+      "std_oos_sharpe": 1.396609602643782,
+      "worst_oos_sharpe": -26.53172177328067,
+      "total_oos_trades": 25327,
+      "trades_per_fold": 1688.4666666666667,
+      "deflated_sharpe": -24.108687091858993,
+      "is_clone": false,
+      "inhouse_trades_for_cost_check": 2149,
+      "folds": [
+        {
+          "fold_index": 0,
+          "train_start": "2023-07-10 22:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2023-07-05 16:45:00",
+          "oos_sharpe": -23.992780347827487,
+          "n_trades": 1602
+        },
+        {
+          "fold_index": 1,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -23.157968374731556,
+          "n_trades": 1535
+        },
+        {
+          "fold_index": 2,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -22.655778130093257,
+          "n_trades": 1548
+        },
+        {
+          "fold_index": 3,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -21.38998450701308,
+          "n_trades": 1514
+        },
+        {
+          "fold_index": 4,
+          "train_start": "2022-10-03 08:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-01-03 14:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -24.28439530775068,
+          "n_trades": 1666
+        },
+        {
+          "fold_index": 5,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2024-04-06 00:30:00",
+          "oos_sharpe": -25.48532966954469,
+          "n_trades": 1737
+        },
+        {
+          "fold_index": 6,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -24.983291370157872,
+          "n_trades": 1750
+        },
+        {
+          "fold_index": 7,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -23.718094356896792,
+          "n_trades": 1716
+        },
+        {
+          "fold_index": 8,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2022-10-05 22:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -26.53172177328067,
+          "n_trades": 1868
+        },
+        {
+          "fold_index": 9,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-01-06 08:15:00",
+          "oos_sharpe": -24.196904589616377,
+          "n_trades": 1687
+        },
+        {
+          "fold_index": 10,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -22.939645327617907,
+          "n_trades": 1653
+        },
+        {
+          "fold_index": 11,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2023-07-08 07:30:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -25.767419744560513,
+          "n_trades": 1805
+        },
+        {
+          "fold_index": 12,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2026-07-10 23:45:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2025-10-08 16:00:00",
+          "oos_sharpe": -22.477635480680913,
+          "n_trades": 1656
+        },
+        {
+          "fold_index": 13,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-10-08 16:00:00",
+          "test_start": "2024-04-08 15:15:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -25.298771840623967,
+          "n_trades": 1808
+        },
+        {
+          "fold_index": 14,
+          "train_start": "2022-01-01 00:00:00",
+          "train_end": "2025-01-01 03:15:00",
+          "test_start": "2025-01-08 23:00:00",
+          "test_end": "2026-07-10 23:45:00",
+          "oos_sharpe": -24.057866246349686,
+          "n_trades": 1782
+        }
+      ],
+      "equity_hash": "751f05508373849eca9e3db9ee51e6ed204b8e053d1a9b4e1a60e284bbb89a33"
+    }
+  ],
+  "chosen_label": null,
+  "verdict": "KILL",
+  "anti_overfit_notes": [
+    "Pre-registered candidate set chosen a priori on economic reasoning;",
+    "no variant parameters were tuned based on OOS Sharpe readings.",
+    "All non-clone variants differ from baseline on \u22653 of 5 axes \u2192 unique",
+    "equity curves guaranteed by the trade-list SHA-256 anti-clone guard.",
+    "DSR penalty applied with n_trials = len(pre_registered_candidates).",
+    "The full 432-cell Cartesian product was NOT searched.",
+    "Cost model: 24bp RT pair cost applied in equity walk matches the",
+    "freqtrade validator convention; closes the in-house / freqtrade",
+    "framework-CV divergence that triggered KILL.INHOUSE_BUG."
+  ]
+}
