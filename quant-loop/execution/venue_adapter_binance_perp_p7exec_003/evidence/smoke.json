@@ -1,0 +1,306 @@
+{
+  "acceptance": {
+    "canonical_terminal_match": true,
+    "journal_acks_match": true,
+    "journal_intents_match": true,
+    "never_silent_drop": true,
+    "reopen_expired": true,
+    "reopen_full_fill": true,
+    "reopen_rejected": true,
+    "reopen_wss_filled": true,
+    "rest_expired": true,
+    "rest_full_fill": true,
+    "rest_partial_fill": true,
+    "rest_rejected": true,
+    "wss_ack_source": true,
+    "wss_promoted_partial_to_filled": true,
+    "wss_reconnect_on_listen_key_expired": true
+  },
+  "component": "venue_adapter_binance_perp",
+  "issue": "SMA-36190",
+  "mode": "paper_trading",
+  "phase1_runner": {
+    "acks": [
+      {
+        "ack": {
+          "ack": {
+            "avgPrice": "50000.0",
+            "clientOrderId": "perp-full",
+            "commission": "2.5e-05",
+            "cumQty": "0.05",
+            "executedQty": "0.05",
+            "ok": true,
+            "orderId": 1001,
+            "origQty": "0.05",
+            "price": 50000.0,
+            "side": "BUY",
+            "status": "FILLED",
+            "symbol": "BTCUSDT",
+            "timeInForce": "GTC",
+            "type": "LIMIT",
+            "venue": "binance_usdt_futures_paper"
+          },
+          "client_order_id": "perp-full",
+          "observations": {
+            "binance_perp_adapter": "ack_classified",
+            "binance_perp_filled_qty": 0.05,
+            "binance_perp_intent_id": "perp-full",
+            "binance_perp_signature": "6c2e19000c20e514cb4b4660f35ff108cc359877c99662b9e93891318d87e89c",
+            "binance_perp_status": "FILLED",
+            "venue": "binance_usdt_futures"
+          }
+        },
+        "coid": "perp-full"
+      },
+      {
+        "ack": {
+          "ack": {
+            "avgPrice": "3000.0",
+            "clientOrderId": "perp-partial",
+            "commission": "9e-06",
+            "cumQty": "0.03",
+            "executedQty": "0.03",
+            "ok": true,
+            "orderId": 1002,
+            "origQty": "0.1",
+            "price": 3000.0,
+            "side": "BUY",
+            "status": "PARTIALLY_FILLED",
+            "symbol": "ETHUSDT",
+            "timeInForce": "GTC",
+            "type": "LIMIT",
+            "venue": "binance_usdt_futures_paper"
+          },
+          "client_order_id": "perp-partial",
+          "observations": {
+            "binance_perp_adapter": "ack_classified",
+            "binance_perp_filled_qty": 0.03,
+            "binance_perp_intent_id": "perp-partial",
+            "binance_perp_signature": "0926eeb14ceb7430aab5063de72427e61ea022d78e6bc60512ea1914c9fe5d22",
+            "binance_perp_status": "PARTIALLY_FILLED",
+            "venue": "binance_usdt_futures"
+          }
+        },
+        "coid": "perp-partial"
+      },
+      {
+        "ack": {
+          "ack": {
+            "avgPrice": "0.0",
+            "clientOrderId": "perp-expired",
+            "commission": "0.0",
+            "cumQty": "0.0",
+            "executedQty": "0.0",
+            "ok": true,
+            "orderId": 1003,
+            "origQty": "0.2",
+            "price": 100.0,
+            "side": "BUY",
+            "status": "EXPIRED",
+            "symbol": "SOLUSDT",
+            "timeInForce": "GTC",
+            "type": "LIMIT",
+            "venue": "binance_usdt_futures_paper"
+          },
+          "client_order_id": "perp-expired",
+          "observations": {
+            "binance_perp_adapter": "ack_classified",
+            "binance_perp_filled_qty": 0.0,
+            "binance_perp_intent_id": "perp-expired",
+            "binance_perp_signature": "42de20d95ccf08eaffcf8a4379839642c0004ecd5af00e931e7568e4c229f2c0",
+            "binance_perp_status": "EXPIRED",
+            "venue": "binance_usdt_futures"
+          }
+        },
+        "coid": "perp-expired"
+      },
+      {
+        "ack": {
+          "ack": {
+            "clientOrderId": "perp-rejected",
+            "code": -2010,
+            "msg": "Account has insufficient balance for requested action.",
+            "price": 50000.0,
+            "qty": 0.01,
+            "side": "BUY",
+            "status": "rejected",
+            "symbol": "BTCUSDT",
+            "venue": "binance_usdt_futures_paper"
+          },
+          "client_order_id": "perp-rejected",
+          "error_code": -2010,
+          "observations": {
+            "binance_perp_adapter": "tagged",
+            "binance_perp_intent_id": "perp-rejected",
+            "binance_perp_signature": "c7526572829386df3b37a159a479fe98ac27e6da5ee0fae5f5df9068c4f06669",
+            "venue": "binance_usdt_futures"
+          },
+          "reason": "OTHER",
+          "rejected": true
+        },
+        "coid": "perp-rejected"
+      }
+    ],
+    "statuses": {
+      "perp-expired": "EXPIRED",
+      "perp-full": "FILLED",
+      "perp-partial": "PARTIALLY_FILLED",
+      "perp-rejected": "REJECTED"
+    }
+  },
+  "phase2_journal": {
+    "ack_sources": {
+      "perp-expired": "rest",
+      "perp-full": "rest",
+      "perp-partial": "rest",
+      "perp-rejected": "rest"
+    },
+    "ack_statuses": {
+      "perp-expired": "EXPIRED",
+      "perp-full": "FILLED",
+      "perp-partial": "PARTIALLY_FILLED",
+      "perp-rejected": "REJECTED"
+    },
+    "intent_statuses": {
+      "perp-expired": "EXPIRED",
+      "perp-full": "FILLED",
+      "perp-partial": "PARTIALLY_FILLED",
+      "perp-rejected": "REJECTED"
+    },
+    "n_acks": 4,
+    "n_canonical_terminal": 4,
+    "n_events": 8,
+    "n_intents": 4,
+    "terminal_keys": [
+      [
+        "perp-full",
+        "fill"
+      ],
+      [
+        "perp-partial",
+        "fill"
+      ],
+      [
+        "perp-expired",
+        "fill"
+      ],
+      [
+        "perp-rejected",
+        "reject"
+      ]
+    ]
+  },
+  "phase3_wss": {
+    "ack_after_wss": {
+      "filled_qty": 0.1,
+      "source": "wss",
+      "status": "FILLED",
+      "venue_order_id": "1002"
+    },
+    "consumer_snapshot": {
+      "last_connect_ts_ns": 1700000000100000000,
+      "last_disconnect_ts_ns": 1700000000103000000,
+      "listen_key": "paper-listen-key",
+      "n_account_updates": 1,
+      "n_connects": 1,
+      "n_disconnects": 0,
+      "n_halt_events": 0,
+      "n_listen_key_expirations": 1,
+      "n_order_updates": 1,
+      "n_reconnects": 1,
+      "state": "RECONNECTING"
+    },
+    "listen_key_observation": {
+      "binance_perp_wss": "listen_key_expired"
+    },
+    "order_update_observation": {
+      "binance_perp_wss": "order_trade_update",
+      "client_order_id": "perp-partial",
+      "filled_qty": 0.1,
+      "status": "FILLED",
+      "venue_order_id": "1002"
+    },
+    "partial_state_after_wss": "FILLED"
+  },
+  "phase4_reopen": {
+    "perp_expired": "EXPIRED",
+    "perp_full": "FILLED",
+    "perp_partial": "FILLED",
+    "perp_rejected": "REJECTED",
+    "snapshot": {
+      "intents": [
+        {
+          "binance_perp_signature": "6c2e19000c20e514cb4b4660f35ff108cc359877c99662b9e93891318d87e89c",
+          "client_order_id": "perp-full",
+          "intended_qty": 0.05,
+          "policy_fingerprint": "240b19a43154200505165f45f32f3a510fc02a592556cba551b0293484290abf",
+          "price": 50000.0,
+          "side": "BUY",
+          "status": "FILLED",
+          "symbol": "BTCUSDT",
+          "ts_ns": 1784981305233040000,
+          "updated_ts_ns": 1784981305233040000,
+          "venue": "binance_usdt_futures",
+          "venue_order_id": "1001"
+        },
+        {
+          "binance_perp_signature": "0926eeb14ceb7430aab5063de72427e61ea022d78e6bc60512ea1914c9fe5d22",
+          "client_order_id": "perp-partial",
+          "intended_qty": 0.1,
+          "policy_fingerprint": "240b19a43154200505165f45f32f3a510fc02a592556cba551b0293484290abf",
+          "price": 3000.0,
+          "side": "BUY",
+          "status": "FILLED",
+          "symbol": "ETHUSDT",
+          "ts_ns": 1784981305233637000,
+          "updated_ts_ns": 1784981305233637000,
+          "venue": "binance_usdt_futures",
+          "venue_order_id": "1002"
+        },
+        {
+          "binance_perp_signature": "42de20d95ccf08eaffcf8a4379839642c0004ecd5af00e931e7568e4c229f2c0",
+          "client_order_id": "perp-expired",
+          "intended_qty": 0.2,
+          "policy_fingerprint": "240b19a43154200505165f45f32f3a510fc02a592556cba551b0293484290abf",
+          "price": 100.0,
+          "side": "BUY",
+          "status": "EXPIRED",
+          "symbol": "SOLUSDT",
+          "ts_ns": 1784981305234034000,
+          "updated_ts_ns": 1784981305234034000,
+          "venue": "binance_usdt_futures",
+          "venue_order_id": "1003"
+        },
+        {
+          "binance_perp_signature": "c7526572829386df3b37a159a479fe98ac27e6da5ee0fae5f5df9068c4f06669",
+          "client_order_id": "perp-rejected",
+          "intended_qty": 0.01,
+          "policy_fingerprint": "240b19a43154200505165f45f32f3a510fc02a592556cba551b0293484290abf",
+          "price": 50000.0,
+          "side": "BUY",
+          "status": "REJECTED",
+          "symbol": "BTCUSDT",
+          "ts_ns": 1784981305234412000,
+          "updated_ts_ns": 1784981305234412000,
+          "venue": "binance_usdt_futures",
+          "venue_order_id": null
+        }
+      ],
+      "n_blocked": 0,
+      "n_canceled": 0,
+      "n_expired": 1,
+      "n_filled": 2,
+      "n_intents": 4,
+      "n_partially_filled": 0,
+      "n_pending": 0,
+      "n_rejected": 1,
+      "n_submitted": 0
+    }
+  },
+  "policy_fingerprint": "240b19a43154200505165f45f32f3a510fc02a592556cba551b0293484290abf",
+  "wiring": {
+    "components": 1,
+    "fill_components": 1,
+    "projection_components": 1
+  }
+}

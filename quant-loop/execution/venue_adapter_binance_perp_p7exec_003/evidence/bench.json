@@ -1,0 +1,91 @@
+{
+  "apply_wss_event": {
+    "max_us": 2104.5,
+    "median_us": 59.458,
+    "min_us": 55.958,
+    "n": 5000,
+    "p95_us": 73.209,
+    "p99_us": 95.007
+  },
+  "apply_wss_event_within_budget": true,
+  "budget_us": 250.0,
+  "component": "venue_adapter_binance_perp",
+  "hardware": "i386",
+  "issue": "SMA-36190",
+  "n_estimates": 5000,
+  "on_fill_perp": {
+    "max_us": 2245.334,
+    "median_us": 58.583,
+    "min_us": 39.208,
+    "n": 5000,
+    "p95_us": 81.416,
+    "p99_us": 178.047
+  },
+  "on_fill_perp_within_budget": true,
+  "on_request_passthrough": {
+    "max_us": 27.125,
+    "median_us": 1.167,
+    "min_us": 1.083,
+    "n": 5000,
+    "p95_us": 1.292,
+    "p99_us": 1.334
+  },
+  "on_request_passthrough_within_budget": true,
+  "on_request_perp": {
+    "max_us": 11081.125,
+    "median_us": 42.584,
+    "min_us": 41.25,
+    "n": 5000,
+    "p95_us": 55.625,
+    "p99_us": 76.668
+  },
+  "on_request_perp_within_budget": true,
+  "policy_fingerprint": "240b19a43154200505165f45f32f3a510fc02a592556cba551b0293484290abf",
+  "pure_classify": {
+    "max_us": 38.0,
+    "median_us": 4.166,
+    "min_us": 4.0,
+    "n": 5000,
+    "p95_us": 4.584,
+    "p99_us": 4.75
+  },
+  "pure_classify_within_budget": true,
+  "pure_parse_wss": {
+    "max_us": 69.291,
+    "median_us": 7.084,
+    "min_us": 6.916,
+    "n": 5000,
+    "p95_us": 7.667,
+    "p99_us": 7.792
+  },
+  "pure_parse_wss_within_budget": true,
+  "pure_sign": {
+    "max_us": 102.083,
+    "median_us": 20.792,
+    "min_us": 20.5,
+    "n": 5000,
+    "p95_us": 22.836,
+    "p99_us": 25.667
+  },
+  "pure_sign_within_budget": true,
+  "pure_validate": {
+    "max_us": 26.417,
+    "median_us": 2.5,
+    "min_us": 1.708,
+    "n": 5000,
+    "p95_us": 2.75,
+    "p99_us": 2.875
+  },
+  "pure_validate_within_budget": true,
+  "python": "3.10.20",
+  "runner_e2e": {
+    "max_us": 5923.0,
+    "median_us": 164.459,
+    "min_us": 101.958,
+    "n": 5000,
+    "p95_us": 206.544,
+    "p99_us": 338.909
+  },
+  "runner_e2e_soft_budget_us": 1500.0,
+  "runner_e2e_within_soft_budget": true
+}
