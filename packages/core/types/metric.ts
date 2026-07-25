@@ -14,6 +14,9 @@ export interface GateDetailEntry {
   threshold: number | null;
   actual: number | null;
   pass: boolean;
+  /** Backend sends this when the rule was skipped/failed for a notable
+   *  reason (e.g. "missing required metric"); omitted otherwise. */
+  note?: string;
 }
 
 export interface RunMetric {
@@ -35,9 +38,18 @@ export interface RunMetric {
   timeframe: string | null;
   symbols: string[] | null;
   params: Record<string, unknown> | null;
+  /** Free-form passthrough of unknown blob keys written by the publisher.
+   *  Conventional keys (all optional strings, absent on older rows):
+   *  - verdict: one-line human verdict, e.g. "CV_PASS", "KILL"
+   *  - kill_reason: why the strategy was killed (non-empty ⇒ killed)
+   *  - kill_evidence: pointer to evidence (issue id / file path)
+   *  Framework-gate keys also live here: divergence_flag, framework_validated,
+   *  framework_sharpe, framework_return_pct. */
   extra: Record<string, unknown> | null;
   created_at: string | null;
-  gate_status?: "pass" | "fail" | null;
+  /** Strict gate outcome. "no-data" = not enough input metrics to evaluate
+   *  (e.g. missing sharpe); distinct from null (never evaluated). */
+  gate_status?: "pass" | "fail" | "no-data" | null;
   gate_detail?: GateDetailEntry[] | null;
 }
 
