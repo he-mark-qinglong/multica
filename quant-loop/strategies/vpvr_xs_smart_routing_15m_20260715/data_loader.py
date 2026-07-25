@@ -15,7 +15,16 @@ from typing import Dict, List
 import numpy as np
 import pandas as pd
 
-LIVE_DATA = Path("/home/smark/multica/quant-loop/live_data")
+try:
+    from _shared.paths import live_data_root
+except ImportError:  # bare-script mode
+    import sys
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import live_data_root
+
+LIVE_DATA = live_data_root()
 DATA_DIR = Path(__file__).resolve().parent / "data"
 
 

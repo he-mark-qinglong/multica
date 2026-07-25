@@ -1,6 +1,6 @@
 """First BTCUSDT 90d backtest run for SMA-34992 / LOID-V4.
 
-Loads BTCUSDT aggTrades from /home/smark/multica/quant-loop/data/trades/, runs
+Loads BTCUSDT aggTrades from <data_root>/trades/, runs
 the detector, builds 1m composite, runs the backtest, computes 9-key metrics,
 writes results/sma-34992/loid_iceberg_v4_btc_90d_metrics.json + summary.
 """

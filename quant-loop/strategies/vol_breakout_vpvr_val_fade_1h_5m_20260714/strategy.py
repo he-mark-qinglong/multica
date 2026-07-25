@@ -46,6 +46,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 import sys
 import types
 import importlib.util
@@ -55,6 +56,14 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 import pandas as pd
+
+try:
+    from _shared.paths import quant_loop_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import quant_loop_root
 
 CONFIG_PATH = Path(__file__).parent / "config.json"
 
@@ -66,9 +75,14 @@ SQRT_BARS_PER_YEAR_5M: float = math.sqrt(105120.0)
 # Bootstrap the trading repo strategy class
 # ---------------------------------------------------------------------------
 
-TR_REPO = Path(
-    "/home/smark/multica_workspaces/f9a9d34e-b809-4564-b0c0-b781a70a3f25/42a03459/workdir/trading"
-)
+# Resolve the trading-repo workdir via $MULTICA_WORKSPACES_ROOT.
+# Falls back to <parent of quant_loop_root>/multica_workspaces, which
+# matches the original hardcoded layout on .105.
+_WORKSPACES_ROOT = Path(os.environ.get(
+    "MULTICA_WORKSPACES_ROOT",
+    str(quant_loop_root().resolve().parent.parent / "multica_workspaces"),
+))
+TR_REPO = _WORKSPACES_ROOT / "f9a9d34e-b809-4564-b0c0-b781a70a3f25/42a03459/workdir/trading"
 
 
 def _bootstrap_strategy_class():

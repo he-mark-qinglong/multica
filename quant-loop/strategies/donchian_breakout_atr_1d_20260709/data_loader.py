@@ -6,7 +6,7 @@ in the strategy's own ``data/`` directory. A SHA256 manifest is emitted at
 parquet is detectable.
 
 Source layout (canonical, shared with vpvr_reversion_1m_20260624):
-    /home/smark/services/strategy_display_engine_data/canonical/
+    ~/services/strategy_display_engine_data/canonical/
         workdir/strategies/vpvr_reversion_1m_20260624/data/
             fapi_BTCUSDT__1m.parquet
             fapi_ETHUSDT__1m.parquet
@@ -43,10 +43,10 @@ DATA_DIR = STRATEGY_DIR / "data"
 # Source location for the 1m klines. This is the canonical data the rest of
 # quant-loop reads from. The manifest is computed against the source files
 # (not the resampled 1d cache) so an upstream ETL swap is caught immediately.
-DEFAULT_SOURCE_ROOT = Path(
-    "/home/smark/services/strategy_display_engine_data/canonical/"
+DEFAULT_SOURCE_ROOT = Path(os.path.expanduser(
+    "~/services/strategy_display_engine_data/canonical/"
     "workdir/strategies/vpvr_reversion_1m_20260624/data"
-)
+))
 
 # Hard guardrail: paper-trade only. There is no code path here that can place
 # a real order. Set LIVE_TRADING=1 to fail loudly if someone wires this loader

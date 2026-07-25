@@ -24,6 +24,16 @@ import sys
 from collections import OrderedDict
 from datetime import datetime
 
+try:
+    from _shared.paths import quant_loop_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import quant_loop_root
+
+from pathlib import Path  # noqa: E402  (placed after the try/except path bootstrap)
+
 VARIANT_KEYS = {
     "vpvr_defi_basis_15m_hyperliquid_dydx_20260716": "iter#70_DeFi-basis",
     "vpvr_sentiment_attention_1m_20260716": "iter#71_sentiment",
@@ -357,7 +367,7 @@ def build_long_vs_published(variant_dirs, workdir, display_csv=None):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--workdir", default="/home/smark/multica/quant-loop/strategies")
+    ap.add_argument("--workdir", default=str(quant_loop_root() / "strategies"))
     ap.add_argument("--variant-dirs", nargs="+", required=True)
     ap.add_argument("--display-csv", default=None)
     ap.add_argument("--out-square", required=True)

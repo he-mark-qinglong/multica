@@ -38,10 +38,10 @@ DATA_DIR = STRATEGY_DIR / "data"
 # Canonical 1m source root. The donchian_breakout_atr_1d_20260709 and
 # vpvr_reversion_1m_20260624 strategies read from the same place; we reuse
 # the path so the SHA256 manifest comparison is meaningful.
-DEFAULT_SOURCE_ROOT = Path(
-    "/home/smark/services/strategy_display_engine_data/canonical/"
+DEFAULT_SOURCE_ROOT = Path(os.path.expanduser(
+    "~/services/strategy_display_engine_data/canonical/"
     "workdir/strategies/vpvr_reversion_1m_20260624/data"
-)
+))
 
 # Hard guardrail: paper-trade only. No order-placement code path lives here.
 if os.environ.get("LIVE_TRADING") == "1":

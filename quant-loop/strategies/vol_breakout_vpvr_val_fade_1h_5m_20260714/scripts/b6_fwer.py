@@ -7,9 +7,18 @@ import csv
 import json
 import math
 import random
+import sys
 from pathlib import Path
 
-ROOT = Path("/home/smark/multica/quant-loop/strategies/vol_breakout_vpvr_val_fade_1h_5m_20260714")
+try:
+    from _shared.paths import quant_loop_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[3])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import quant_loop_root
+
+ROOT = quant_loop_root() / "strategies" / "vol_breakout_vpvr_val_fade_1h_5m_20260714"
 TRADES = ROOT / "results/v10/trades_BTCUSDT.csv"
 OUT = ROOT / "results/v10/fwer.json"
 

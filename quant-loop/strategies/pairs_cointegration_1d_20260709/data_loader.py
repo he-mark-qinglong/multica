@@ -6,7 +6,7 @@ quant-loop and resamples them to 1d bars. A SHA256 manifest is emitted at
 parquet is detectable.
 
 Source layout (canonical):
-    /home/smark/services/strategy_display_engine_data/canonical/
+    ~/services/strategy_display_engine_data/canonical/
         workdir/strategies/vpvr_reversion_1m_20260624/data/
             fapi_BTCUSDT__1m.parquet
             fapi_ETHUSDT__1m.parquet
@@ -44,10 +44,10 @@ CONFIG_PATH = Path(__file__).parent / "config.json"
 STRATEGY_DIR = Path(__file__).parent
 DATA_DIR = STRATEGY_DIR / "data"
 
-DEFAULT_SOURCE_ROOT = Path(
-    "/home/smark/services/strategy_display_engine_data/canonical/"
+DEFAULT_SOURCE_ROOT = Path(os.path.expanduser(
+    "~/services/strategy_display_engine_data/canonical/"
     "workdir/strategies/vpvr_reversion_1m_20260624/data"
-)
+))
 
 if os.environ.get("LIVE_TRADING") == "1":
     raise SystemExit(
