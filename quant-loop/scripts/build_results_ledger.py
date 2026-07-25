@@ -59,7 +59,7 @@ def _get_pf(metrics: dict | None) -> float | None:
 def _get_maxdd(metrics: dict | None) -> float | None:
     if not metrics:
         return None
-    for key in ("max_drawdown_pct", "max_dd", "agg_mdd_worst"):
+    for key in ("max_drawdown_pct", "max_drawdown", "max_dd", "agg_mdd_worst"):
         if key in metrics and metrics[key] is not None:
             return float(metrics[key])
     return None
@@ -126,6 +126,20 @@ def scan_strategy_dir(path: Path) -> dict[str, Any]:
     for cv_path in sorted(path.glob("results/framework_cv_*.json")):
         engine = cv_path.stem.replace("framework_cv_", "")
         cv = _load_json(cv_path)
+        if cv and cv.get("engine") == "cross_framework_fee_shock":
+            # Fee-shock CV schema (e.g. mtf_xs_pairs H3): in-house equity
+            # replayed under each framework's round-trip fee model, not a
+            # real engine replay. Map per-framework sharpe onto the standard
+            # columns so the ledger shows the numbers with a W5 verdict.
+            verdict = "W5_PASS" if cv.get("W5_passed") else "W5_FAIL"
+            for fw_key, col in (("freqtrade_metrics", "freqtrade"), ("backtrader_metrics", "backtrader")):
+                fw = cv.get(fw_key) or {}
+                sharpe = fw.get("sharpe_daily_resampled")
+                # Multiple sizing variants (atr_mult_1_00 / 1_25) map onto the
+                # same column — keep the first (1_00, the shipped winner).
+                if sharpe is not None and col not in row["frameworks"]:
+                    row["frameworks"][col] = {"sharpe": float(sharpe), "verdict": verdict}
+            continue
         row["frameworks"][engine] = {
             "sharpe": _get_framework_sharpe(cv, engine),
             "verdict": _get_verdict(cv),

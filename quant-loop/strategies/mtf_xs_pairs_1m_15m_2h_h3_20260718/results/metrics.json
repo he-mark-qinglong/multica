@@ -1,0 +1,25 @@
+{
+ "sharpe": 1.3519,
+ "ann_return": 0.2498,
+ "max_drawdown": -0.1367,
+ "oos_sharpe": 2.773,
+ "oos_windows": 7,
+ "timeframe": "1m",
+ "symbols": [
+  "BTCUSDT",
+  "SOLUSDT"
+ ],
+ "n_trades": 39617,
+ "win_rate": 0.2696,
+ "bootstrap_ci_lower": 1.914,
+ "framework_validated": false,
+ "divergence_flag": "W5_FAIL_FEE_SHOCK",
+ "framework_sharpe": 0.8541,
+ "fee_sensitivity_sharpe": {
+  "inhouse_4bps_rt": 1.3519,
+  "freqtrade_24bps_rt": 0.8541,
+  "backtrader_60bps_rt": -0.0361
+ },
+ "source": "quant-loop results/framework_cv_winner_atr_mult_1_00.json + equity_winner_atr_mult_1_00_1d.csv; OOS=PR#6 walk-forward mean of 7 windows",
+ "note": "G5 LIVE candidacy gated on SMA-34966; framework numbers are fee-shock approximations, not engine replays"
+}
