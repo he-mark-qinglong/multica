@@ -1,0 +1,239 @@
+datasets:
+  features:
+    path_pattern: data/features/feature_matrix_{SYM}.parquet
+    symbols:
+      BTC:
+        first_ts: '2026-04-18T19:59:00+00:00'
+        last_ts: '2026-07-17T16:00:00+00:00'
+        path: data/features/feature_matrix_BTC.parquet
+        rows: 118562
+        time_col: timestamp
+      ETH:
+        first_ts: '2026-04-18T19:59:00+00:00'
+        last_ts: '2026-07-17T16:00:00+00:00'
+        path: data/features/feature_matrix_ETH.parquet
+        rows: 119522
+        time_col: timestamp
+  funding:
+    path_pattern: data/funding/{SYM}.parquet
+    symbols:
+      AVAXUSDT:
+        first_ts: '2022-01-01T00:00:00.006000+00:00'
+        last_ts: '2026-07-16T16:00:00.002000+00:00'
+        path: data/funding/AVAXUSDT.parquet
+        rows: 4974
+      BNBUSDT:
+        first_ts: '2022-01-01T00:00:00.006000+00:00'
+        last_ts: '2026-07-16T16:00:00.002000+00:00'
+        path: data/funding/BNBUSDT.parquet
+        rows: 4974
+      BTCUSDT:
+        first_ts: '2021-11-20T16:00:00.007000+00:00'
+        last_ts: '2026-07-17T08:00:00.010000+00:00'
+        path: data/funding/BTCUSDT.parquet
+        rows: 5100
+      DOGEUSDT:
+        first_ts: '2022-01-01T00:00:00.006000+00:00'
+        last_ts: '2026-07-16T16:00:00.002000+00:00'
+        path: data/funding/DOGEUSDT.parquet
+        rows: 4974
+      ETHUSDT:
+        first_ts: '2021-11-20T16:00:00.007000+00:00'
+        last_ts: '2026-07-17T08:00:00.010000+00:00'
+        path: data/funding/ETHUSDT.parquet
+        rows: 5100
+      LINKUSDT:
+        first_ts: '2022-01-01T00:00:00.006000+00:00'
+        last_ts: '2026-07-16T16:00:00.002000+00:00'
+        path: data/funding/LINKUSDT.parquet
+        rows: 4974
+      SOLUSDT:
+        first_ts: '2021-11-20T16:00:00.007000+00:00'
+        last_ts: '2026-07-17T08:00:00.010000+00:00'
+        path: data/funding/SOLUSDT.parquet
+        rows: 5175
+  perp_15m:
+    exists: true
+    path_pattern: data/perp_15m/{SYM}_15m.parquet
+    symbols:
+      BTCUSDT:
+        first_ts: '2019-09-08T17:45:00+00:00'
+        last_ts: '2026-07-17T19:30:00+00:00'
+        path: data/perp_15m/BTCUSDT_15m.parquet
+        rows: 240392
+      ETHUSDT:
+        first_ts: '2019-11-27T07:45:00+00:00'
+        last_ts: '2026-07-17T19:30:00+00:00'
+        path: data/perp_15m/ETHUSDT_15m.parquet
+        rows: 232752
+      SOLUSDT:
+        first_ts: '2020-09-14T07:00:00+00:00'
+        last_ts: '2026-07-18T05:45:00+00:00'
+        path: data/perp_15m/SOLUSDT_15m.parquet
+        rows: 204764
+  perp_1m:
+    exists: true
+    path_pattern: data/perp_1m/{SYM}_1m.parquet
+    symbols:
+      BTCUSDT:
+        first_ts: '2019-09-08T17:57:00+00:00'
+        last_ts: '2026-07-17T19:39:00+00:00'
+        path: data/perp_1m/BTCUSDT_1m.parquet
+        rows: 3605862
+      ETHUSDT:
+        first_ts: '2019-11-27T07:45:00+00:00'
+        last_ts: '2026-07-17T19:39:00+00:00'
+        path: data/perp_1m/ETHUSDT_1m.parquet
+        rows: 3491275
+      SOLUSDT:
+        first_ts: '2020-09-14T07:00:00+00:00'
+        last_ts: '2026-07-18T05:45:00+00:00'
+        path: data/perp_1m/SOLUSDT_1m.parquet
+        rows: 3071446
+  perp_2h:
+    exists: true
+    path_pattern: data/perp_2h/{SYM}_2h.parquet
+    symbols:
+      BTCUSDT:
+        first_ts: '2019-09-08T18:00:00+00:00'
+        last_ts: '2026-07-17T16:00:00+00:00'
+        path: data/perp_2h/BTCUSDT_2h.parquet
+        rows: 30048
+      ETHUSDT:
+        first_ts: '2019-11-27T08:00:00+00:00'
+        last_ts: '2026-07-17T16:00:00+00:00'
+        path: data/perp_2h/ETHUSDT_2h.parquet
+        rows: 29093
+      SOLUSDT:
+        first_ts: '2020-09-14T08:00:00+00:00'
+        last_ts: '2026-07-18T02:00:00+00:00'
+        path: data/perp_2h/SOLUSDT_2h.parquet
+        rows: 25594
+  perp_30m:
+    exists: true
+    path_pattern: data/perp_30m/{SYM}_30m.parquet
+    symbols:
+      AVAXUSDT:
+        first_ts: '2022-01-01T00:00:00+00:00'
+        last_ts: '2026-07-10T23:30:00+00:00'
+        path: data/perp_30m/AVAXUSDT_30m.parquet
+        rows: 79296
+      BNBUSDT:
+        first_ts: '2022-01-01T00:00:00+00:00'
+        last_ts: '2026-07-10T23:30:00+00:00'
+        path: data/perp_30m/BNBUSDT_30m.parquet
+        rows: 79296
+      BTCUSDT:
+        first_ts: '2022-01-01T00:00:00+00:00'
+        last_ts: '2026-07-10T23:30:00+00:00'
+        path: data/perp_30m/BTCUSDT_30m.parquet
+        rows: 79296
+      DOGEUSDT:
+        first_ts: '2022-01-01T00:00:00+00:00'
+        last_ts: '2026-07-10T23:30:00+00:00'
+        path: data/perp_30m/DOGEUSDT_30m.parquet
+        rows: 79296
+      ETHUSDT:
+        first_ts: '2022-01-01T00:00:00+00:00'
+        last_ts: '2026-07-10T23:30:00+00:00'
+        path: data/perp_30m/ETHUSDT_30m.parquet
+        rows: 79296
+      LINKUSDT:
+        first_ts: '2022-01-01T00:00:00+00:00'
+        last_ts: '2026-07-10T23:30:00+00:00'
+        path: data/perp_30m/LINKUSDT_30m.parquet
+        rows: 79296
+      SOLUSDT:
+        first_ts: '2022-01-01T00:00:00+00:00'
+        last_ts: '2026-07-10T23:30:00+00:00'
+        path: data/perp_30m/SOLUSDT_30m.parquet
+        rows: 79296
+  perp_5m:
+    exists: true
+    path_pattern: data/perp_5m/{SYM}_5m.parquet
+    symbols:
+      BTCUSDT:
+        first_ts: '2019-09-08T17:55:00+00:00'
+        last_ts: '2026-07-17T19:35:00+00:00'
+        path: data/perp_5m/BTCUSDT_5m.parquet
+        rows: 721173
+      ETHUSDT:
+        first_ts: '2019-11-27T07:45:00+00:00'
+        last_ts: '2026-07-17T19:35:00+00:00'
+        path: data/perp_5m/ETHUSDT_5m.parquet
+        rows: 698255
+      SOLUSDT:
+        first_ts: '2020-09-14T07:00:00+00:00'
+        last_ts: '2026-07-18T05:45:00+00:00'
+        path: data/perp_5m/SOLUSDT_5m.parquet
+        rows: 614290
+  trades:
+    path_pattern: data/trades/{SYM}_aggtrades.parquet (hive-partitioned)
+    symbols:
+      AVAXUSDT:
+        first_ts: '2026-04-19T00:00:00.188000+00:00'
+        last_ts: '2026-07-17T23:59:59.407000+00:00'
+        path: data/trades/AVAXUSDT_aggtrades.parquet
+        rows: 9061257
+        shard_count: 4
+      BNBUSDT:
+        first_ts: '2026-04-19T00:00:03.216000+00:00'
+        last_ts: '2026-07-17T23:59:59.645000+00:00'
+        path: data/trades/BNBUSDT_aggtrades.parquet
+        rows: 24574581
+        shard_count: 4
+      BTCUSDT:
+        first_ts: '2026-01-01T00:00:01.807000+00:00'
+        last_ts: '2026-07-17T23:59:59.978000+00:00'
+        path: data/trades/BTCUSDT_aggtrades.parquet
+        rows: 323913759
+        shard_count: 7
+      DOGEUSDT:
+        first_ts: '2026-04-19T00:00:00.146000+00:00'
+        last_ts: '2026-07-17T23:59:59.071000+00:00'
+        path: data/trades/DOGEUSDT_aggtrades.parquet
+        rows: 15442195
+        shard_count: 4
+      ETHUSDT:
+        first_ts: '2026-04-19T00:00:00.257000+00:00'
+        last_ts: '2026-07-17T23:59:59.255000+00:00'
+        path: data/trades/ETHUSDT_aggtrades.parquet
+        rows: 106284458
+        shard_count: 4
+      LINKUSDT:
+        first_ts: '2026-04-19T00:00:01.706000+00:00'
+        last_ts: '2026-07-17T23:59:59.092000+00:00'
+        path: data/trades/LINKUSDT_aggtrades.parquet
+        rows: 7189800
+        shard_count: 4
+      SOLUSDT:
+        first_ts: '2026-04-19T00:00:03.374000+00:00'
+        last_ts: '2026-07-17T23:59:59.738000+00:00'
+        path: data/trades/SOLUSDT_aggtrades.parquet
+        rows: 23539633
+        shard_count: 4
+  tradfi_1d:
+    path_pattern: data/tradfi_1d/{SYM}_1d.parquet
+    symbols:
+      BTC-USD_1d:
+        first_ts: '2021-06-21T00:00:00+00:00'
+        last_ts: '2026-06-21T00:00:00+00:00'
+        path: data/tradfi_1d/BTC-USD_1d.parquet
+        rows: 1827
+        time_col: date
+      QQQ_1d:
+        first_ts: '2021-06-21T00:00:00+00:00'
+        last_ts: '2026-06-18T00:00:00+00:00'
+        path: data/tradfi_1d/QQQ_1d.parquet
+        rows: 1255
+        time_col: date
+      SPY_1d:
+        first_ts: '2021-06-21T00:00:00+00:00'
+        last_ts: '2026-06-18T00:00:00+00:00'
+        path: data/tradfi_1d/SPY_1d.parquet
+        rows: 1255
+        time_col: date
+  vpvr:
+    status: empty
+generator: scripts/build_data_inventory.py
+schema_version: 1
