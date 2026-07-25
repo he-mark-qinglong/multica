@@ -14,7 +14,17 @@ from pathlib import Path
 
 import pandas as pd
 
-OUTPUT_DIR = Path("/home/smark/multica/quant-loop/live_data")
+try:
+    from _shared.paths import live_data_root
+except ImportError:
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[1])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import live_data_root
+
+OUTPUT_DIR = live_data_root()
 EXPECTED_BAR_MS = 15 * 60 * 1000
 EXPECTED_FIRST_MS = 1640995200000  # 2022-01-01T00:00:00+00:00
 EXPECTED_LAST_MS = 1783727100000   # 2026-07-10T23:45:00+00:00

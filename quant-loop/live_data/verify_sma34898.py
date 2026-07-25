@@ -26,8 +26,18 @@ from pathlib import Path
 
 import pandas as pd
 
-LIVE_DATA = Path("/home/smark/multica/quant-loop/live_data")
-PERP_1M = Path("/home/smark/multica/quant-loop/data/perp_1m")
+try:
+    from _shared.paths import data_root, live_data_root
+except ImportError:
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[1])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root, live_data_root
+
+LIVE_DATA = live_data_root()
+PERP_1M = data_root() / "perp_1m"
 OUT_REPORT = LIVE_DATA / "verify_report_sma34898.json"
 
 SCHEMA_REQUIRED = {"open_time", "open", "high", "low", "close", "volume"}
