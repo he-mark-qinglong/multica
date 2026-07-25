@@ -46,6 +46,8 @@ make check            # Full verification pipeline
 
 See CLAUDE.md for the complete command reference.
 
+- **Org structure (v1.0 2026-07-25)** — `docs/plans/agent-org-structure-2026-07-25.md`. Layers: L1 协调 (orchestrator/ops) → L2 研究主线 (quant-researcher/research-agent/analyst, single-threaded) → L3 执行 (strategy-worker-1/2, multica-strategy/code, ops-worker-1) → L4 判决签核 (decision-maker/signoff-proxy) → L5 知识表达 (curator/persona-advisor). Every agent's instructions carry a 协作定位 block (accept/reject/route). Rejection discipline: wrong-layer task → blocked + ESCALATE comment naming the right assignee, never force it. Sign-off isolation: L2/L3 never sign their own output.
+
 ## Comment Schema Convention (mandatory 2026-07-19)
 
 Every comment posted by an agent on a multica issue MUST start with a type tag on the first line:
