@@ -23,10 +23,17 @@ import pandas as pd
 
 sys.dont_write_bytecode = True
 
-DEFAULT_STRATEGY_DIR = Path(
-    "/home/smark/multica/quant-loop/strategies/"
-    "vpvr_xs_pairs_30m_funding_filter_20260712"
-)
+try:
+    from _shared.paths import quant_loop_root
+except ImportError:
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import quant_loop_root
+
+DEFAULT_STRATEGY_DIR = quant_loop_root() / "strategies" / "vpvr_xs_pairs_30m_funding_filter_20260712"
 PAIR_ROUND_TRIP_COST = 0.0024
 RELATIVE_TOLERANCE = 0.01
 

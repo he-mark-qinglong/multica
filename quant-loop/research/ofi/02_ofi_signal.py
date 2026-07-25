@@ -33,10 +33,15 @@ import numpy as np
 import pandas as pd
 
 # Allow imports from _shared
-sys.path.insert(0, '/home/smark/multica/quant-loop')
-from _shared.execution.cost_model import BINANCE_SPOT, BINANCE_FUTURES, apply_cost
+try:
+    from _shared.execution.cost_model import BINANCE_SPOT, BINANCE_FUTURES, apply_cost
+except ImportError:
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.execution.cost_model import BINANCE_SPOT, BINANCE_FUTURES, apply_cost
 
-OUT = Path('/home/smark/multica/quant-loop/research/ofi')
+OUT = Path(__file__).resolve().parent
 BARS_PATH = OUT / 'btc_1m_3mo.parquet'
 RESULTS_PATH = OUT / 'ofi_results.json'
 

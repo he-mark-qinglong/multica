@@ -2,7 +2,7 @@
 from pathlib import Path
 import pandas as pd
 
-OUT = Path('/home/smark/multica/quant-loop/research/ofi')
+OUT = Path(__file__).resolve().parent
 BARS_PATH = OUT / 'btc_1m_3mo.parquet'
 
 

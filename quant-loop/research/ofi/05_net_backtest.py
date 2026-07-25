@@ -4,13 +4,22 @@ Tests whether OFI signal can clear realistic taker costs with longer holding.
 import sys
 import json
 import time
+from pathlib import Path
 import numpy as np
 import pandas as pd
-sys.path.insert(0, '/home/smark/multica/quant-loop')
+try:
+    from _shared.paths import data_root
+except ImportError:
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root
 from ofi_sanity import load_bars, z_ofi
 from _shared.execution.cost_model import BINANCE_SPOT, BINANCE_FUTURES, apply_cost
 
-OUT = '/home/smark/multica/quant-loop/research/ofi'
+OUT = str(Path(__file__).resolve().parent)
 
 # ============================================================
 # Strategy with holding period: enter on signal, hold for H bars

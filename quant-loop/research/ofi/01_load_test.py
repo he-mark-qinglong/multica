@@ -3,10 +3,21 @@ Sanity check our pipeline before doing the full 3-month run.
 """
 import sys
 import time
+from pathlib import Path
 import pyarrow.parquet as pq
 import pandas as pd
 
-ROOT = '/home/smark/multica/quant-loop/data/trades/BTCUSDT_aggtrades.parquet/year=2026/month=4'
+try:
+    from _shared.paths import data_root
+except ImportError:
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root
+
+ROOT = str(data_root() / 'trades' / 'BTCUSDT_aggtrades.parquet' / 'year=2026' / 'month=4')
 
 t0 = time.time()
 pf = pq.ParquetFile(f'{ROOT}/data.parquet')

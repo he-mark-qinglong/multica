@@ -2,7 +2,16 @@
 Compare to expected sign (correlation +0.2 with next-bar return).
 """
 import sys, numpy as np, pandas as pd
-sys.path.insert(0, '/home/smark/multica/quant-loop')
+from pathlib import Path
+try:
+    from _shared.paths import data_root
+except ImportError:
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root
 from ofi_sanity import load_bars, z_ofi
 
 bars = load_bars()

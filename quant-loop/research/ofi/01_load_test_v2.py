@@ -5,13 +5,24 @@ import sys
 import time
 import glob
 import os
+from pathlib import Path
 import numpy as np
 import pandas as pd
 import pyarrow as pa
 import pyarrow.compute as pc
 import pyarrow.parquet as pq
 
-ROOT = '/home/smark/multica/quant-loop/data/trades/BTCUSDT_aggtrades.parquet'
+try:
+    from _shared.paths import data_root
+except ImportError:
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root
+
+ROOT = str(data_root() / 'trades' / 'BTCUSDT_aggtrades.parquet')
 MONTHS = ['2026-04', '2026-05', '2026-06']  # canonical: full 3 calendar months
 
 def open_table(year_month: str) -> pa.Table:
@@ -59,7 +70,7 @@ def main():
     print(f'\nTOTAL bars: {len(bars):,}')
     print(f'range: {bars.index.min()} → {bars.index.max()}')
     print(bars.describe())
-    bars.to_parquet('/home/smark/multica/quant-loop/research/ofi/btc_1m_3mo.parquet')
+    bars.to_parquet(Path(__file__).resolve().parent / 'btc_1m_3mo.parquet')
     print('saved → btc_1m_3mo.parquet')
 
 

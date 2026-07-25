@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-BASE = Path("/home/smark/multica/quant-loop/research/calibration")
+BASE = Path(__file__).resolve().parent
 INHOUSE_JSON = BASE / "inhouse_buyhold_2024.json"
 FRAMEWORK_JSON = BASE / "framework_buyhold_2024.json"
 REPORT = Path("/tmp/calibration_report.md")

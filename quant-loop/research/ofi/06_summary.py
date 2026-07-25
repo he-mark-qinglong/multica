@@ -1,9 +1,18 @@
 """Final summary script: net Sharpe + per-quintile analysis + cost-cap verdict."""
 import sys, json
+from pathlib import Path
 import numpy as np
 import pandas as pd
-sys.path.insert(0, '/home/smark/multica/quant-loop/research/ofi')
-sys.path.insert(0, '/home/smark/multica/quant-loop')
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+try:
+    from _shared.paths import data_root
+except ImportError:
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root
 from ofi_sanity import load_bars, z_ofi
 from _shared.execution.cost_model import BINANCE_SPOT, BINANCE_FUTURES, apply_cost
 
@@ -112,7 +121,7 @@ verdict = {
     'related_skills': 'execution-microstructure, paper-replication',
     'links_to_threads': ['T04 (iceberg/SMA-34992)', 'T07 (portfolio diversification)'],
 }
-with open('/home/smark/multica/quant-loop/research/ofi/verdict.json', 'w') as f:
+with open(Path(__file__).resolve().parent / 'verdict.json', 'w') as f:
     json.dump(verdict, f, indent=2, default=str)
 print('\n=== VERDICT ===')
 print(json.dumps(verdict, indent=2, default=str))

@@ -27,8 +27,8 @@ import pandas as pd
 
 from freqtrade.strategy.interface import IStrategy  # noqa: E402  (real import)
 
-SRC = Path("/home/smark/multica/quant-loop/research/calibration/BTCUSDT__30m.parquet")
-OUT = Path("/home/smark/multica/quant-loop/research/calibration/framework_buyhold_2024.json")
+SRC = Path(__file__).resolve().parent / 'BTCUSDT__30m.parquet'
+OUT = Path(__file__).resolve().parent / 'framework_buyhold_2024.json'
 
 FEE_TAKER = 0.0004
 SLIPPAGE = 0.0

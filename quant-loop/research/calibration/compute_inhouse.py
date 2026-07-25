@@ -18,8 +18,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-SRC = Path("/home/smark/multica/quant-loop/research/calibration/BTCUSDT__30m.parquet")
-OUT = Path("/home/smark/multica/quant-loop/research/calibration/inhouse_buyhold_2024.json")
+SRC = Path(__file__).resolve().parent / 'BTCUSDT__30m.parquet'
+OUT = Path(__file__).resolve().parent / 'inhouse_buyhold_2024.json'
 
 FEE_TAKER = 0.0004   # 0.04% per side
 SLIPPAGE = 0.0       # default

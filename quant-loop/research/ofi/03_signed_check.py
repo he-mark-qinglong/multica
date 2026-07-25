@@ -3,9 +3,18 @@ If positive, our long-when-z>thr should win; if negative, short-when-z>thr wins.
 Either way, the current implementation shows massive negative Sharpe.
 """
 import sys
+from pathlib import Path
 import numpy as np
 import pandas as pd
-sys.path.insert(0, '/home/smark/multica/quant-loop')
+try:
+    from _shared.paths import data_root
+except ImportError:
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root
 from ofi_sanity import load_bars  # type: ignore
 
 bars = load_bars()
