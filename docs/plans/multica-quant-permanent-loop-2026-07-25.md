@@ -76,22 +76,33 @@ family exhaustion（cycle-46）规则——同族参数扫荡超过阈值即强�
 
 原则：**研究 agent 不许给自己的策略签核**（现有 evidence-gate 已隔离，保持）。
 
+### 3.1 并行纪律（smark 2026-07-25 定调）
+
+- **基础设施与执行面 → 多 agent 并行（swarm）**：管线开发、批量回测、参数/窗口扇出、
+  归档清理、数据搬运。这类任务上下文可切分、结果可机械合并，用 swarm（≤128/批）抢时间。
+- **策略思路与假设推演 → 单线程**：idea 生成、假设演化、判决推理必须由**同一条研究主线**
+  （同一 agent 会话链）承载，保证上下文内聚和推理严谨。禁止把"想策略"拆给多个 agent 各自
+  发散再拼接——碎片化的思路无法证伪。swarm 在研究中只用于**已定型假设的执行验证**
+  （例：同一 SPEC 的 7 个 walk-forward 窗口并行跑），不用于产生假设本身。
+- 衔接方式：单线程主线产出 SPEC → swarm 执行验证 → 结果汇回**同一条主线**做判决。
+
 ---
 
 ## 4. 永续循环设计
 
-### 4.1 主循环（Epoch Loop，7 天一纪）
+### 4.1 主循环（Epoch Loop，1 天一纪）
 
 ```
-周一 调研    quant-research-agent 产出 3-5 个假设 SPEC（含外部调研，§5）
-周二 筛选    smark-decision-maker 从 SPEC 池选 1-2 个进入实现（其余 backlog）
-周三-四 实现  quant-researcher 写策略 + strategy-worker 跑 in-sample
-周五 验证    multica-strategy 走完整管线（§6），smark-signoff-proxy 签核
-周六 判决    KEEP → compare 上榜 + ledger LIVE 候选；KILL → 证据 + 复活条件归档
-周日 沉淀    knowledge-curator 出周报；strategy-archiver 归档；plan 自校正
+09:00 调研    research-scout 触发 quant-research-agent：外部调研（§5）+ 刷新 SPEC 池
+10:00 筛选    smark-decision-maker 从 SPEC 池选 1-2 个进入当日实现（其余 backlog）
+白天 实现     quant-researcher 写策略 + strategy-worker-1/2 并行跑 in-sample
+17:00 验证    multica-strategy 走完整管线（§6），smark-signoff-proxy 签核
+20:00 判决    KEEP → compare 上榜 + ledger LIVE 候选；KILL → 证据 + 复活条件归档
+21:00 沉淀    epoch-retro：当日对比表 + 归档 + cycle-46 检查 + 次日优先级
 ```
 
-任一环节失败 → issue 自动回退 + stalled-issue-watchdog 接管，循环不死。
+全天常开：infra-health-watchdog（10min 探活）、stalled-issue-watchdog、Evidence Review Gate。
+任一环节失败 → issue 自动回退 + watchdog 接管，循环不死；当天没产出就 NOOP 记录原因，第二天照常开新纪。
 
 ### 4.2 现有 24 个 autopilot 的映射（不重建，只归类补缺）
 
@@ -99,10 +110,10 @@ family exhaustion（cycle-46）规则——同族参数扫荡超过阈值即强�
 - **验证类**（保留+修）：framework-validate、publish-gate、Evidence Review Gate、publish-metrics-signed
 - **自愈类**（保留）：stalled-issue-watchdog、autopilot-prompt-tuner、Error-Pattern-Recorder、runtime-audit-cross-cli、REGRESSION-TEST
 - **知识/归档类**（保留）：knowledge 相关、strategy-archiver、Graph Janitor、Issue-Graph Generator、campaign-tree-builder
-- **新增 3 个**（补缺）：
-  1. `infra-health-watchdog`（10min）：检查 18091/18092/daemon 存活，断了自动拉起（§8）
-  2. `research-scout`（每周一 09:00）：触发 §5 外部调研，产出 SPEC 草案 issue
-  3. `epoch-retro`（每周日 20:00）：盘点本纪 KEEP/KILL、检查 cycle-46 族耗尽、生成下纪优先级
+- **新增 3 个**（补缺，2026-07-25 已全部创建并启用）：
+  1. `infra-health-watchdog` `c84304df`（*/10min，multica-ops）：探活 18091/18092/daemon/.105，失败先 launchctl kickstart 自愈，再 ESCALATE
+  2. `research-scout` `28d2a8c7`（每日 09:00 +08，quant-research-agent）：触发 §5 外部调研，产出/刷新 SPEC 草案 issue
+  3. `epoch-retro` `23281f8e`（每日 21:00 +08，knowledge-curator）：盘点当日 KEEP/KILL、cycle-46 检查、当日对比表、次日优先级
 
 ### 4.3 成本控制（m3 省钱纪律）
 
@@ -154,8 +165,8 @@ family exhaustion（cycle-46）规则——同族参数扫荡超过阈值即强�
 - **一句话 verdict**：每个策略由 persona-advisor 生成人类语言结论
   （例：「H3：有边际但扛不住手续费，60bps 下不赚钱」）
 - **results-ledger.md** 三态：LIVE 候选 / HOLD（附 unblock 条件）/ KILL（附证据 + 复活条件）
-- **每周 digest**：knowledge-curator 出「本纪对比表」——策略 × （OOS Sharpe、CI 下界、
-  费后 Sharpe、最大回撤、一句话 verdict），写入 `knowledge/curator/`
+- **每日 digest**：epoch-retro 出「当日对比表」——策略 × （OOS Sharpe、CI 下界、
+  费后 Sharpe、最大回撤、一句话 verdict），写入 `knowledge/curator/`；周末由 knowledge-curator 汇总周报
 - **淘汰可视化**：compare 页面对 KILL 策略灰显 + 鼠标悬停看 kill 原因（防重复试错）
 
 ---
@@ -164,10 +175,11 @@ family exhaustion（cycle-46）规则——同族参数扫荡超过阈值即强�
 
 当前三大手工进程是单点。落地：
 
-1. **launchd 化**（本机）：multica daemon、caocao_model_proxy.py、SSH 隧道（改用 autossh
-   + KeepAlive）各写一个 `~/Library/LaunchAgents/` plist，崩溃自动拉起
-2. **infra-health-watchdog** autopilot：10 分钟探活 18091/18092/daemon/.105 server，
-   失败先自愈（重启进程），自愈不了 ESCALATE 人工
+1. **launchd 化**（本机，✅ 2026-07-25 完成）：`com.smark.multica-daemon`、
+   `com.smark.caocao-model-proxy`（18092）、`com.smark.caocao-tunnel`（18091，此前已在 launchd）
+   全部 KeepAlive，崩溃自动拉起；plists 在 `~/Library/LaunchAgents/`
+2. **infra-health-watchdog** autopilot（✅ `c84304df`，10 分钟）：探活 18091/18092/daemon/.105 server，
+   失败先自愈（launchctl kickstart），自愈不了 ESCALATE 人工
 3. **断点续跑**：所有长任务 state 落盘（workdir + artifact API），重跑从断点继续
 4. **证据不丢**：所有验证产物走 artifact API 上 .105，本机磁盘清理不影响台账
 5. **git 纪律**：研究产物推 fork（he-mark-qinglong/multica），每周由 strategy-archiver
@@ -190,8 +202,8 @@ family exhaustion（cycle-46）规则——同族参数扫荡超过阈值即强�
 
 | Phase | 内容 | 验收 |
 |---|---|---|
-| P0 基础设施加固 | launchd 三个 plist + infra-health-watchdog autopilot | 杀掉三个进程能 60s 内自动恢复 |
-| P1 管线修复 + 旧内容清理 | gate/ledger 补丁落地、runner bug 修复、_graveyard 归档 | 用一个已知负策略验证 gate 不再虚过 |
+| P0 基础设施加固 ✅ 2026-07-25 | launchd 三个 plist + infra-health-watchdog autopilot | 已验收：daemon/proxy 切换 launchd 后 runtimes online、18092 冒烟 200 |
+| P1 管线修复 + 旧内容清理 ✅ 2026-07-25 | gate/ledger 补丁落地（缺失字段=FAIL、verdict 拆 framework_consistent+profitable，65 测试过）、H3-variants runner 双倍计费 bug 修复重跑、57 个策略归档 _graveyard | 已验收：ledger 重建后 0 PASS（如实）；H3 修复后与 baseline 逐位一致；修正排序 H3>H1>H4>H2，H1 唯一费后幸存。遗留：server Go 同款 skip-pass bug（`server/internal/gate/gate.go:115-117,131`）待部署窗口修复 |
 | P2 当前线索收尾 | signal-enhance-h3 全历史 7 窗 walk-forward | 复现或证伪 2024 子样本结论，出 verdict |
 | P3 常开循环启动 | research-scout + epoch-retro 上线，Epoch 1 开跑 | 第一周产出 ≥3 个 SPEC + 1 个完成全管线的策略 |
 | P4 对比机制完善 | compare 徽章/灰显/一句话 verdict 自动化 | 打开 compare 页面 30 秒看懂全部策略状态 |
