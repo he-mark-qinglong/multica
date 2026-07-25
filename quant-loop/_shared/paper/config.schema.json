@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://multica.local/schemas/quant-loop/paper-runner.config.v1.json",
+  "title": "Paper Runner Config (W5/T9)",
+  "description": "Config schema for the W5/T9 offline paper runner. Mirrors the required-key contract enforced at runtime by runner.load_config (so the schema and code cannot drift silently). Extra keys are allowed (additionalProperties=true) — the runner ignores them, but downstream code (notebooks, dashboards) may consume them. The 4 kill_criteria keys are the hard floor: the runner refuses to start without them.",
+  "type": "object",
+  "required": [
+    "strategy_id",
+    "timeframe",
+    "starting_capital_usd",
+    "cost_bps_rt",
+    "freq_per_year",
+    "backtest_expectations",
+    "kill_criteria"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "strategy_id": {
+      "type": "string",
+      "description": "Stable strategy identifier (matches results-ledger strategy_id)."
+    },
+    "timeframe": {
+      "type": "string",
+      "description": "Bar timeframe used by run_backtest (e.g. '30m', '1h', '4h')."
+    },
+    "starting_capital_usd": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "Initial NAV (USD). Must be > 0."
+    },
+    "cost_bps_rt": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Round-trip cost in basis points (e.g. 24.0 = 0.24%). 0 disables cost drag."
+    },
+    "freq_per_year": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "description": "Annualisation factor for Sharpe / annualised return (e.g. 365*24 for 1h bars)."
+    },
+    "backtest_expectations": {
+      "type": "object",
+      "required": ["backtest_max_dd_pct"],
+      "additionalProperties": true,
+      "properties": {
+        "backtest_max_dd_pct": {
+          "type": "number",
+          "description": "Backtest max drawdown in percent (positive number; the runner takes abs() before comparison with live max_dd_pct)."
+        }
+      }
+    },
+    "kill_criteria": {
+      "type": "object",
+      "required": [
+        "min_trades_before_kill_check",
+        "min_live_profit_factor",
+        "max_drawdown_multiple_vs_backtest",
+        "rolling_20d_sharpe_floor"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "min_trades_before_kill_check": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Warm-up trade count before rule 1 (PF floor) is evaluated. Below this, rule 1 is dormant."
+        },
+        "min_live_profit_factor": {
+          "type": "number",
+          "description": "Lifetime profit-factor floor. Live PF below this (after warm-up) trips kill rule 1."
+        },
+        "max_drawdown_multiple_vs_backtest": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Multiplier on backtest_max_dd_pct. Live max_dd > N * backtest_max_dd trips kill rule 2."
+        },
+        "rolling_20d_sharpe_floor": {
+          "type": "number",
+          "description": "Rolling 20-day Sharpe floor. Below this trips kill rule 3."
+        }
+      }
+    }
+  }
+}
