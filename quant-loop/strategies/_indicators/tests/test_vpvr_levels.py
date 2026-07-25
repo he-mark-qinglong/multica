@@ -17,7 +17,15 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-ROOT = Path("/home/smark/multica/quant-loop")
+try:
+    from _shared.paths import quant_loop_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[3])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import quant_loop_root
+
+ROOT = quant_loop_root()
 sys.path.insert(0, str(ROOT / "strategies"))
 
 from _indicators.vpvr_levels import (  # noqa: E402

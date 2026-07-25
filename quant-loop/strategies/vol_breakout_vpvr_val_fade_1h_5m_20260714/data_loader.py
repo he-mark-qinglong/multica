@@ -3,7 +3,7 @@
 Multi-TF 1h trend + 5m entry on BTCUSDT.
 
 Source layout (canonical):
-    /home/smark/multica/quant-loop/live_data/
+    <live_data_root>/
         BTCUSDT_5m.parquet  (canonical 5m klines)   [falls back to vpvr_iceberg cache]
         BTCUSDT_1h.parquet  (canonical 1h klines)
 
@@ -44,17 +44,25 @@ from typing import Dict, List, Optional
 import numpy as np
 import pandas as pd
 
+try:
+    from _shared.paths import live_data_root, quant_loop_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import live_data_root, quant_loop_root
+
 CONFIG_PATH = Path(__file__).parent / "config.json"
 STRATEGY_DIR = Path(__file__).parent
 DATA_DIR = STRATEGY_DIR / "data"
 RESULTS_DIR = STRATEGY_DIR / "results"
 
 # Source location for canonical Binance spot klines.
-DEFAULT_SOURCE_ROOT = Path("/home/smark/multica/quant-loop/live_data")
+DEFAULT_SOURCE_ROOT = live_data_root()
 
 # Fallback 5m source (some strategies cache a more complete 5m file).
 ALT_5M_SOURCES = (
-    Path("/home/smark/multica/quant-loop/strategies/vpvr_iceberg_fade_5m_20260711/data/BTCUSDT__5m.parquet"),
+    quant_loop_root() / "strategies" / "vpvr_iceberg_fade_5m_20260711" / "data" / "BTCUSDT__5m.parquet",
 )
 
 # Paper-trade guardrail.
@@ -230,7 +238,14 @@ def _import_vpvr_value_area():
         import sys
         import types
 
-        TR = Path("/home/smark/multica_workspaces/f9a9d34e-b809-4564-b0c0-b781a70a3f25/42a03459/workdir/trading")
+        # Resolve the trading-repo workdir via $MULTICA_WORKSPACES_ROOT.
+        # Falls back to <parent of quant_loop_root>/multica_workspaces, which
+        # matches the original hardcoded layout on .105.
+        _WORKSPACES_ROOT = Path(os.environ.get(
+            "MULTICA_WORKSPACES_ROOT",
+            str(quant_loop_root().resolve().parent.parent / "multica_workspaces"),
+        ))
+        TR = _WORKSPACES_ROOT / "f9a9d34e-b809-4564-b0c0-b781a70a3f25/42a03459/workdir/trading"
         for name in ("strategies", "strategies.team"):
             if name not in sys.modules:
                 stub = types.ModuleType(name)

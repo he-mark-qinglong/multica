@@ -14,11 +14,20 @@ from typing import Dict, Iterable, Optional, Tuple
 
 import pandas as pd
 
+try:
+    from _shared.paths import live_data_root
+except ImportError:  # bare-script mode
+    import sys
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import live_data_root
+
 CONFIG_PATH = Path(__file__).parent / "config.json"
 STRATEGY_DIR = Path(__file__).parent
 DATA_DIR = STRATEGY_DIR / "data"
 
-DEFAULT_LIVE_DATA_ROOT = Path("/home/smark/multica/quant-loop/live_data")
+DEFAULT_LIVE_DATA_ROOT = live_data_root()
 
 if os.environ.get("LIVE_TRADING") == "1":
     raise SystemExit(

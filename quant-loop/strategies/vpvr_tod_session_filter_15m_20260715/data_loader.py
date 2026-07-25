@@ -2,7 +2,7 @@
 
 The strategy manifest references a `SESSION-OF-DAY-EMBEDDED` dataset with
 158587 15m bars for both BTCUSDT and ETHUSDT. The source-of-truth on disk
-is `/home/smark/multica/quant-loop/data/perp_30m/{SYM}_30m.parquet`
+is `<data_root>/perp_30m/{SYM}_30m.parquet`
 (79296 30m bars each); we synthesize a deterministic 15m OHLCV by
 splitting each 30m bar into two sub-bars. Row count matches the manifest
 truncated to 158587 with dropna on the resampled boundary.
@@ -19,8 +19,17 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+try:
+    from _shared.paths import data_root
+except ImportError:  # bare-script mode
+    import sys
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root
 
-_SRC_30M = Path("/home/smark/multica/quant-loop/data/perp_30m")
+
+_SRC_30M = data_root() / "perp_30m"
 
 
 def _synth_15m_from_30m(raw: pd.DataFrame) -> pd.DataFrame:

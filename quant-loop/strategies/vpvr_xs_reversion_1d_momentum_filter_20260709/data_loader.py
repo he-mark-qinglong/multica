@@ -18,10 +18,10 @@ CONFIG_PATH = Path(__file__).parent / "config.json"
 STRATEGY_DIR = Path(__file__).parent
 DATA_DIR = STRATEGY_DIR / "data"
 
-DEFAULT_SOURCE_ROOT = Path(
-    "/home/smark/services/strategy_display_engine_data/canonical/workdir/"
+DEFAULT_SOURCE_ROOT = Path(os.path.expanduser(
+    "~/services/strategy_display_engine_data/canonical/workdir/"
     "strategies/vpvr_reversion_1m_entryk1.5_20260630/data"
-)
+))
 
 if os.environ.get("LIVE_TRADING") == "1":
     raise SystemExit("data_loader.py is paper-trade only; refusing LIVE_TRADING=1")

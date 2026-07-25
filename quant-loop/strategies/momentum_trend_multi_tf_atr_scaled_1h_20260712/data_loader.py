@@ -10,7 +10,7 @@ so the 4h EMA value used at 1h bar ``t`` is the most recent 4h close
 strict trailing).
 
 Source layout (canonical):
-    /home/smark/multica/quant-loop/live_data/
+    <live_data_root>/
         BTCUSDT_1h.parquet
         BTCUSDT_4h.parquet
         ETHUSDT_1h.parquet
@@ -37,12 +37,21 @@ from typing import Dict, Iterable, List, Optional, Tuple
 
 import pandas as pd
 
+try:
+    from _shared.paths import live_data_root
+except ImportError:  # bare-script mode
+    import sys
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import live_data_root
+
 CONFIG_PATH = Path(__file__).parent / "config.json"
 STRATEGY_DIR = Path(__file__).parent
 DATA_DIR = STRATEGY_DIR / "data"
 
 # Canonical live data store.
-DEFAULT_SOURCE_ROOT = Path("/home/smark/multica/quant-loop/live_data")
+DEFAULT_SOURCE_ROOT = live_data_root()
 
 # Paper-trade guardrail. Live trading is not supported by this strategy.
 if os.environ.get("LIVE_TRADING") == "1":

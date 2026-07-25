@@ -33,15 +33,15 @@ calibration assumption (e.g., the OOS split %, fold count).
 
 Inputs
 ------
-* /home/smark/multica/quant-loop/strategies/<variant>/results/equity_*.csv
-* /home/smark/multica/quant-loop/strategies/vpvr_funding_aware_v1_20260711/results/walk_forward.json
-* /home/smark/multica/quant-loop/strategies/vpvr_funding_asym_4h_20260713/results/bootstrap_ci.json
+* <quant_loop_root>/strategies/<variant>/results/equity_*.csv
+* <quant_loop_root>/strategies/vpvr_funding_aware_v1_20260711/results/walk_forward.json
+* <quant_loop_root>/strategies/vpvr_funding_asym_4h_20260713/results/bootstrap_ci.json
 
 Output
 ------
-* /home/smark/multica/quant-loop/strategies/_oos_rank_20260718/oos_rank_<variant>.json
-* /home/smark/multica/quant-loop/strategies/_oos_rank_20260718/ranking_table.md
-* /home/smark/multica/quant-loop/strategies/_oos_rank_20260718/ranking_table.json
+* <quant_loop_root>/strategies/_oos_rank_20260718/oos_rank_<variant>.json
+* <quant_loop_root>/strategies/_oos_rank_20260718/ranking_table.md
+* <quant_loop_root>/strategies/_oos_rank_20260718/ranking_table.json
 """
 
 from __future__ import annotations
@@ -55,8 +55,16 @@ from typing import Dict, List, Tuple
 import numpy as np
 import pandas as pd
 
+try:
+    from _shared.paths import quant_loop_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import quant_loop_root
+
 ROOT = Path(__file__).resolve().parent
-QUANT_LOOP = Path("/home/smark/multica/quant-loop/strategies")
+QUANT_LOOP = quant_loop_root() / "strategies"
 
 # Reference calendar range derived from the aware_v1 BTCUSDT 4h parquet:
 #   2022-01-01 00:00 UTC -> 2026-07-10 20:00 UTC  (1651.83 days)

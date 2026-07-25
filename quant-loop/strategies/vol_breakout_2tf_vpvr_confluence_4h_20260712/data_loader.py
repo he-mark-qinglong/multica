@@ -3,7 +3,7 @@
 V8 reads only 4h Binance spot klines. No 1h data, no resampling.
 
 Source layout (canonical):
-    /home/smark/multica/quant-loop/live_data/
+    <live_data_root>/
         BTCUSDT_4h.parquet
         ETHUSDT_4h.parquet
         SOLUSDT_4h.parquet
@@ -34,12 +34,21 @@ from typing import Dict, Iterable, List, Optional
 
 import pandas as pd
 
+try:
+    from _shared.paths import live_data_root
+except ImportError:  # bare-script mode
+    import sys
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import live_data_root
+
 CONFIG_PATH = Path(__file__).parent / "config.json"
 STRATEGY_DIR = Path(__file__).parent
 DATA_DIR = STRATEGY_DIR / "data"
 
 # Source location for the canonical Binance spot 4h klines.
-DEFAULT_SOURCE_ROOT = Path("/home/smark/multica/quant-loop/live_data")
+DEFAULT_SOURCE_ROOT = live_data_root()
 
 # Paper-trade guardrail.
 if os.environ.get("LIVE_TRADING") == "1":

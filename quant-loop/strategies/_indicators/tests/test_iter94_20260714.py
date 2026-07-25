@@ -11,7 +11,7 @@ iter#94 variants:
 Run from ``strategies/`` so ``from _indicators.iter94_20260714
 import ...`` resolves:
 
-    cd /home/smark/multica/quant-loop/strategies
+    cd <quant_loop_root>/strategies
     python3 -m pytest _indicators/tests/test_iter94_20260714.py -v
 """
 from __future__ import annotations

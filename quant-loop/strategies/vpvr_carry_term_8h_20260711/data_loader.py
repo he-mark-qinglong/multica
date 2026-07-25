@@ -17,9 +17,18 @@ from typing import Dict, Iterable, Optional
 import numpy as np
 import pandas as pd
 
+try:
+    from _shared.paths import live_data_root, quant_loop_root
+except ImportError:  # bare-script mode
+    import sys
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import live_data_root, quant_loop_root
+
 ROOT = Path(__file__).resolve().parent
-LIVE_DATA = Path("/home/smark/multica/quant-loop/live_data")
-FUNDING_DIR = Path("/home/smark/multica/quant-loop/funding_analysis")
+LIVE_DATA = live_data_root()
+FUNDING_DIR = quant_loop_root() / "funding_analysis"
 DATA_DIR = ROOT / "data"
 CFG_PATH = ROOT / "config.json"
 

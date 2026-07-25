@@ -25,8 +25,16 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+try:
+    from _shared.paths import quant_loop_root
+except ImportError:  # bare-script mode
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import quant_loop_root
+
 # Make the SMA-34790 VPVR detector importable.
-ROOT = Path("/home/smark/multica/quant-loop")
+ROOT = quant_loop_root()
 sys.path.insert(0, str(ROOT / "strategies" / "_indicators"))
 
 from vpvr_levels import detect_vpvr_levels  # noqa: E402

@@ -32,8 +32,17 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+try:
+    from _shared.paths import quant_loop_root
+except ImportError:  # bare-script mode
+    import sys as _sys
+    _QL = str(Path(__file__).resolve().parents[2])
+    if _QL not in _sys.path:
+        _sys.path.insert(0, _QL)
+    from _shared.paths import quant_loop_root
+
 # Add upstream module paths (we deliberately import, not modify).
-_REPO_ROOT = Path("/home/smark/multica/quant-loop")
+_REPO_ROOT = quant_loop_root()
 _ICEBERG_DIR = _REPO_ROOT / "strategies" / "iceberg-detector"
 _INDICATORS_DIR = _REPO_ROOT / "strategies" / "_indicators"
 for _p in (str(_ICEBERG_DIR), str(_INDICATORS_DIR)):

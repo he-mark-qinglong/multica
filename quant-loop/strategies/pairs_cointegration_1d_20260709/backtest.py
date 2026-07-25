@@ -2,7 +2,7 @@
 
 This module is the canonical CLI surface invoked by:
 
-    cd /home/smark/multica/quant-loop/strategies/pairs_cointegration_1d_20260709
+    cd <quant_loop_root>/strategies/pairs_cointegration_1d_20260709
     python3 -m backtest
 
 It is deliberately thin: all real work lives in `run_backtest.py` and the
