@@ -1,0 +1,42 @@
+{
+  "kernel_only": {
+    "rounds": 3,
+    "iterations_per_round": 5000,
+    "budget_us_p99": 250.0,
+    "worst_p99_us": 10.34801,
+    "within_budget": true,
+    "per_round": [
+      {
+        "round": 0,
+        "p50_us": 6.018,
+        "p95_us": 6.40805,
+        "p99_us": 10.34801,
+        "max_us": 131.05
+      },
+      {
+        "round": 1,
+        "p50_us": 5.985,
+        "p95_us": 6.2010499999999995,
+        "p99_us": 8.118540000000166,
+        "max_us": 46.894
+      },
+      {
+        "round": 2,
+        "p50_us": 5.97,
+        "p95_us": 6.189,
+        "p99_us": 6.570010000000001,
+        "max_us": 40.837
+      }
+    ]
+  },
+  "full_estimate_io_included": {
+    "iterations": 200,
+    "p50_us": 957.3205,
+    "p95_us": 1327.0781499999994,
+    "p99_us": 1473.03588,
+    "max_us": 1533.682,
+    "min_us": 719.023,
+    "note": "I/O-dominated (WAL write + os.fsync per request). The 250us budget applies to the kernel only; the parent issue explicitly accepts the I/O cost."
+  },
+  "verdict": "PASS \u2014 kernel p99 10.35us well under 250us budget; full-estimate p99 1473.04us (I/O-dominated as documented)"
+}
