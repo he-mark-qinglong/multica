@@ -1,0 +1,539 @@
+{
+  "generated": "2026-07-25T09:29:06.894148+00:00",
+  "strategies": [
+    {
+      "strategy_key": "donchian_breakout_atr_1d_20260709",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "impl_vpvr_multi_tf_funding",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "loid_iceberg_v4_1m_20260720",
+      "verdict": "HOLD",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "loid_vpvr_confluence_20260717",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "momentum_intraday_fast_15m_btc_20260712",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "momentum_trend_btc_only_softer_stop_1h_20260712",
+      "verdict": "CV_PASS",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "momentum_trend_multi_tf_atr_scaled_1h_20260712",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "momentum_trend_multi_tf_atr_scaled_v2_1h_20260712",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "mtf_h2_vpvr_edge_1m_15m_2h_20260718",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "mtf_vpvr_edge_zscore_1m_15m_2h_20260718",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "mtf_xs_pairs_1m_15m_2h_h1_20260718",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "mtf_xs_pairs_1m_15m_2h_h2_20260718",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "mtf_xs_pairs_1m_15m_2h_h3_20260718",
+      "verdict": "HOLD",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "mtf_xs_pairs_1m_15m_2h_h4_20260718",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "pairs_cointegration_1d_20260709",
+      "verdict": "CV_PASS",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "trend_multi_tf_momentum_cascade_4h_1h_15m_20260714",
+      "verdict": "HOLD",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "trend_regime_gate_1d_adx_4h_1h_20260714",
+      "verdict": "HOLD",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vol_breakout_2tf_vpvr_confluence_4h_20260712",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vol_breakout_vpvr_regime_blend_4h_20260714",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vol_breakout_vpvr_val_fade_1h_5m_20260714",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_carry_term_8h_20260711",
+      "verdict": "CV_PASS",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_edge_zscore_15m_only_20260720",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_edge_zscore_multi_tf_1m_15m_2h_20260720",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_liquidation_heatmap_15m_20260714",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_micro_reversion_1h_funding_filter_20260710",
+      "verdict": "HOLD",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_mtf_consensus_v2_4h_20260714",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_oi_divergence_4h_20260713",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_regime_blend_4h_20260714",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_regime_reversion_4h_vol_switch_20260710",
+      "verdict": "HOLD",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_reversal_check_20260717",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_reversion_15m_vrp_filter_20260713",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_reversion_4h_stablecoin_netflow_20260713",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_tod_session_filter_15m_20260715",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_volume_edge_3tf_v1_20260711",
+      "verdict": "HOLD",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_xs_basis_15m_cross_exchange_20260713",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_xs_basis_zscore_15m_funding_filter_20260712",
+      "verdict": "HOLD",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_xs_corr_breakdown_4h_20260714",
+      "verdict": "UNTESTED",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_xs_reversion_1d_momentum_filter_20260709",
+      "verdict": "HOLD",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "vpvr_xs_smart_routing_15m_20260715",
+      "verdict": "CV_PASS",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "xs_momentum_rank_1d_20260709",
+      "verdict": "HOLD",
+      "kill_reason": null,
+      "kill_evidence": null
+    },
+    {
+      "strategy_key": "bb_reversion_rsi_1m_20260707",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/1m_klines_reversal",
+      "kill_evidence": "strategies/_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707"
+    },
+    {
+      "strategy_key": "bb_reversion_rsi_1m_20260707_p3opt_049",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/1m_klines_reversal",
+      "kill_evidence": "strategies/_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_049"
+    },
+    {
+      "strategy_key": "bb_reversion_rsi_1m_20260707_p3opt_050",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/1m_klines_reversal",
+      "kill_evidence": "strategies/_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_050"
+    },
+    {
+      "strategy_key": "bb_reversion_rsi_1m_20260707_p3opt_099",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/1m_klines_reversal",
+      "kill_evidence": "strategies/_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_099"
+    },
+    {
+      "strategy_key": "bb_reversion_rsi_1m_20260707_p3opt_100",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/1m_klines_reversal",
+      "kill_evidence": "strategies/_graveyard/1m_klines_reversal/bb_reversion_rsi_1m_20260707_p3opt_100"
+    },
+    {
+      "strategy_key": "vol_breakout_1m_15m_vpvr_confluence_u6_20260718",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/1m_klines_reversal",
+      "kill_evidence": "strategies/_graveyard/1m_klines_reversal/vol_breakout_1m_15m_vpvr_confluence_u6_20260718"
+    },
+    {
+      "strategy_key": "vpvr_iceberg_fade_v2_5m_20260711",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/1m_klines_reversal",
+      "kill_evidence": "strategies/_graveyard/1m_klines_reversal/vpvr_iceberg_fade_v2_5m_20260711"
+    },
+    {
+      "strategy_key": "vpvr_mtf_reversion_5m_consensus_20260710",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/1m_klines_reversal",
+      "kill_evidence": "strategies/_graveyard/1m_klines_reversal/vpvr_mtf_reversion_5m_consensus_20260710"
+    },
+    {
+      "strategy_key": "vpvr_obi_micro_v2_1m_20260714",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/1m_klines_reversal",
+      "kill_evidence": "strategies/_graveyard/1m_klines_reversal/vpvr_obi_micro_v2_1m_20260714"
+    },
+    {
+      "strategy_key": "vpvr_reversion_1m_kama_reversal_20260709",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/1m_klines_reversal",
+      "kill_evidence": "strategies/_graveyard/1m_klines_reversal/vpvr_reversion_1m_kama_reversal_20260709"
+    },
+    {
+      "strategy_key": "vpvr_reversion_1m_volume_profile_break_20260709",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/1m_klines_reversal",
+      "kill_evidence": "strategies/_graveyard/1m_klines_reversal/vpvr_reversion_1m_volume_profile_break_20260709"
+    },
+    {
+      "strategy_key": "vpvr_reversion_5m_vwap_trail_20260709",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/1m_klines_reversal",
+      "kill_evidence": "strategies/_graveyard/1m_klines_reversal/vpvr_reversion_5m_vwap_trail_20260709"
+    },
+    {
+      "strategy_key": "vpvr_sentiment_attention_1m_20260716",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/1m_klines_reversal",
+      "kill_evidence": "strategies/_graveyard/1m_klines_reversal/vpvr_sentiment_attention_1m_20260716"
+    },
+    {
+      "strategy_key": "vpvr_xs_leadlag_5m_20260711",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/1m_klines_reversal",
+      "kill_evidence": "strategies/_graveyard/1m_klines_reversal/vpvr_xs_leadlag_5m_20260711"
+    },
+    {
+      "strategy_key": "funding_carry",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/funding_carry",
+      "kill_evidence": "strategies/_graveyard/funding_carry/funding_carry"
+    },
+    {
+      "strategy_key": "funding_carry_asym",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/funding_carry",
+      "kill_evidence": "strategies/_graveyard/funding_carry/funding_carry_asym"
+    },
+    {
+      "strategy_key": "funding_oscillator_mr",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/funding_carry",
+      "kill_evidence": "strategies/_graveyard/funding_carry/funding_oscillator_mr"
+    },
+    {
+      "strategy_key": "sma_34925_btc_funding_delta",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/funding_carry",
+      "kill_evidence": "strategies/_graveyard/funding_carry/sma_34925_btc_funding_delta"
+    },
+    {
+      "strategy_key": "momentum_trend_multi_tf_atr_scaled_v3_1h_20260712",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/momentum_trend",
+      "kill_evidence": "strategies/_graveyard/momentum_trend/momentum_trend_multi_tf_atr_scaled_v3_1h_20260712"
+    },
+    {
+      "strategy_key": "vpvr_macro_calendar_4h_20260715",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/options_macro_sentiment",
+      "kill_evidence": "strategies/_graveyard/options_macro_sentiment/vpvr_macro_calendar_4h_20260715"
+    },
+    {
+      "strategy_key": "vpvr_onchain_proxy_1h_20260711",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/options_macro_sentiment",
+      "kill_evidence": "strategies/_graveyard/options_macro_sentiment/vpvr_onchain_proxy_1h_20260711"
+    },
+    {
+      "strategy_key": "vpvr_options_iv_skew_1d_20260713",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/options_macro_sentiment",
+      "kill_evidence": "strategies/_graveyard/options_macro_sentiment/vpvr_options_iv_skew_1d_20260713"
+    },
+    {
+      "strategy_key": "vpvr_options_putcall_oi_pressure_8h_20260715",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/options_macro_sentiment",
+      "kill_evidence": "strategies/_graveyard/options_macro_sentiment/vpvr_options_putcall_oi_pressure_8h_20260715"
+    },
+    {
+      "strategy_key": "vpvr_stable_depeg_regime_4h_20260716",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/options_macro_sentiment",
+      "kill_evidence": "strategies/_graveyard/options_macro_sentiment/vpvr_stable_depeg_regime_4h_20260716"
+    },
+    {
+      "strategy_key": "vpvr_stable_depeg_regime_4h_20260716_p3opt_091",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/options_macro_sentiment",
+      "kill_evidence": "strategies/_graveyard/options_macro_sentiment/vpvr_stable_depeg_regime_4h_20260716_p3opt_091"
+    },
+    {
+      "strategy_key": "paper_trading_mtf_xs_pairs_eth_sol_20260719",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/paper_trading",
+      "kill_evidence": "strategies/_graveyard/paper_trading/paper_trading_mtf_xs_pairs_eth_sol_20260719"
+    },
+    {
+      "strategy_key": "vpvr_funding_asym_4h_20260713",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/vpvr_funding",
+      "kill_evidence": "strategies/_graveyard/vpvr_funding/vpvr_funding_asym_4h_20260713"
+    },
+    {
+      "strategy_key": "vpvr_funding_aware_v1_20260711",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/vpvr_funding",
+      "kill_evidence": "strategies/_graveyard/vpvr_funding/vpvr_funding_aware_v1_20260711"
+    },
+    {
+      "strategy_key": "vpvr_funding_carry_asym_v2_20260718",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/vpvr_funding",
+      "kill_evidence": "strategies/_graveyard/vpvr_funding/vpvr_funding_carry_asym_v2_20260718"
+    },
+    {
+      "strategy_key": "vpvr_funding_delta_1h_20260711",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/vpvr_funding",
+      "kill_evidence": "strategies/_graveyard/vpvr_funding/vpvr_funding_delta_1h_20260711"
+    },
+    {
+      "strategy_key": "vpvr_funding_hvn_lvn_20260718",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/vpvr_funding",
+      "kill_evidence": "strategies/_graveyard/vpvr_funding/vpvr_funding_hvn_lvn_20260718"
+    },
+    {
+      "strategy_key": "vpvr_funding_hvn_lvn_confluence_20260718",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/vpvr_funding",
+      "kill_evidence": "strategies/_graveyard/vpvr_funding/vpvr_funding_hvn_lvn_confluence_20260718"
+    },
+    {
+      "strategy_key": "vpvr_funding_regime_15m_20260711",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/vpvr_funding",
+      "kill_evidence": "strategies/_graveyard/vpvr_funding/vpvr_funding_regime_15m_20260711"
+    },
+    {
+      "strategy_key": "vpvr_funding_reset_window_1h_20260715",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/vpvr_funding",
+      "kill_evidence": "strategies/_graveyard/vpvr_funding/vpvr_funding_reset_window_1h_20260715"
+    },
+    {
+      "strategy_key": "vpvr_funding_term_curve_1h_20260714",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/vpvr_funding",
+      "kill_evidence": "strategies/_graveyard/vpvr_funding/vpvr_funding_term_curve_1h_20260714"
+    },
+    {
+      "strategy_key": "vpvr_inverse_reversion_4h_funding_filter_20260712",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/vpvr_reversion",
+      "kill_evidence": "strategies/_graveyard/vpvr_reversion/vpvr_inverse_reversion_4h_funding_filter_20260712"
+    },
+    {
+      "strategy_key": "vpvr_reversion_15m_donchian_regime_20260709",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/vpvr_reversion",
+      "kill_evidence": "strategies/_graveyard/vpvr_reversion/vpvr_reversion_15m_donchian_regime_20260709"
+    },
+    {
+      "strategy_key": "cointegration_pairs_vpvr_poc_4h_20260714",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/vpvr_xs_pairs_4h",
+      "kill_evidence": "strategies/_graveyard/vpvr_xs_pairs_4h/cointegration_pairs_vpvr_poc_4h_20260714"
+    },
+    {
+      "strategy_key": "vpvr_xs_pairs_4h_zscore_vpvr_20260710",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/vpvr_xs_pairs_4h",
+      "kill_evidence": "strategies/_graveyard/vpvr_xs_pairs_4h/vpvr_xs_pairs_4h_zscore_vpvr_20260710"
+    },
+    {
+      "strategy_key": "vpvr_xs_pairs_btc_sol_4h_20260712",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/vpvr_xs_pairs_4h",
+      "kill_evidence": "strategies/_graveyard/vpvr_xs_pairs_4h/vpvr_xs_pairs_btc_sol_4h_20260712"
+    },
+    {
+      "strategy_key": "vpvr_xs_pairs_30m_funding_filter_20260712",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/xs_pairs_30m",
+      "kill_evidence": "strategies/_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_20260712"
+    },
+    {
+      "strategy_key": "vpvr_xs_pairs_30m_funding_filter_btc_bnb_v5_loose_20260717",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/xs_pairs_30m",
+      "kill_evidence": "strategies/_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_bnb_v5_loose_20260717"
+    },
+    {
+      "strategy_key": "vpvr_xs_pairs_30m_funding_filter_btc_doge_20260717",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/xs_pairs_30m",
+      "kill_evidence": "strategies/_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_doge_20260717"
+    },
+    {
+      "strategy_key": "vpvr_xs_pairs_30m_funding_filter_btc_sol_regularized_20260712",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/xs_pairs_30m",
+      "kill_evidence": "strategies/_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_regularized_20260712"
+    },
+    {
+      "strategy_key": "vpvr_xs_pairs_30m_funding_filter_btc_sol_v10_optimize_20260717",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/xs_pairs_30m",
+      "kill_evidence": "strategies/_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_v10_optimize_20260717"
+    },
+    {
+      "strategy_key": "vpvr_xs_pairs_30m_funding_filter_btc_sol_v3_20260712",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/xs_pairs_30m",
+      "kill_evidence": "strategies/_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_btc_sol_v3_20260712"
+    },
+    {
+      "strategy_key": "vpvr_xs_pairs_30m_funding_filter_eth_sol_20260712",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/xs_pairs_30m",
+      "kill_evidence": "strategies/_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_20260712"
+    },
+    {
+      "strategy_key": "vpvr_xs_pairs_30m_funding_filter_eth_sol_20260717",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/xs_pairs_30m",
+      "kill_evidence": "strategies/_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_20260717"
+    },
+    {
+      "strategy_key": "vpvr_xs_pairs_30m_funding_filter_eth_sol_v5_loose_20260717",
+      "verdict": "KILL",
+      "kill_reason": "archived to strategies/_graveyard/xs_pairs_30m",
+      "kill_evidence": "strategies/_graveyard/xs_pairs_30m/vpvr_xs_pairs_30m_funding_filter_eth_sol_v5_loose_20260717"
+    }
+  ]
+}
