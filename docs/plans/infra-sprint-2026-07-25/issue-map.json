@@ -94,7 +94,7 @@
     "identifier": "SMA-36468",
     "assignee": "multica-code",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W1-T9][wave-1] profit_factor unification + vectorbt leg into G5",
     "priority": "medium"
   },
@@ -160,7 +160,7 @@
     "identifier": "SMA-36473",
     "assignee": "multica-code",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W2-T2][wave-1] gate tests rewrite+merge",
     "priority": "medium"
   },
@@ -182,7 +182,7 @@
     "identifier": "SMA-36475",
     "assignee": "multica-code",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W2-T4][wave-1] handler tests: PF derivation + parse fallback + strict gate smoke",
     "priority": "medium"
   },
@@ -193,7 +193,7 @@
     "identifier": "SMA-36476",
     "assignee": "multica-code",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W2-T5][wave-1] migration 125 gate_status CHECK + reevaluate no-data count",
     "priority": "medium"
   },
@@ -215,7 +215,7 @@
     "identifier": "SMA-36478",
     "assignee": "multica-code",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W2-T7][wave-1] readVerdict pure fn + vitest",
     "priority": "medium"
   },
@@ -226,7 +226,7 @@
     "identifier": "SMA-36479",
     "assignee": "multica-code",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W2-T8][wave-1] compare gate badge 3-state + gate_detail list",
     "priority": "medium"
   },
@@ -237,7 +237,7 @@
     "identifier": "SMA-36480",
     "assignee": null,
     "machine": "mac",
-    "status": "backlog",
+    "status": "done",
     "title": "[W2-T9][wave-2] compare KILL grey-out + verdict block",
     "priority": "low"
   },
@@ -248,7 +248,7 @@
     "identifier": "SMA-36470",
     "assignee": "strategy-worker-1",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W2-T10][wave-1] publish field conventions + ledger JSON sidecar",
     "priority": "medium"
   },
@@ -292,7 +292,7 @@
     "identifier": "SMA-36488",
     "assignee": "multica-code",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W3-T2][wave-1] _shared/data_loader.py unified loader",
     "priority": "medium"
   },
@@ -303,7 +303,7 @@
     "identifier": "SMA-36489",
     "assignee": "multica-code",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W3-T3][wave-1] data inventory generator",
     "priority": "medium"
   },
@@ -314,7 +314,7 @@
     "identifier": "SMA-36490",
     "assignee": "strategy-worker-1",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W3-T4][wave-1] /home/smark shard: scripts/",
     "priority": "medium"
   },
@@ -325,7 +325,7 @@
     "identifier": "SMA-36491",
     "assignee": "strategy-worker-1",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W3-T5][wave-1] /home/smark shard: live_data/",
     "priority": "medium"
   },
@@ -336,7 +336,7 @@
     "identifier": "SMA-36492",
     "assignee": "strategy-worker-1",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W3-T6][wave-1] /home/smark shard: research/",
     "priority": "medium"
   },
@@ -347,7 +347,7 @@
     "identifier": "SMA-36493",
     "assignee": "strategy-worker-2",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W3-T7][wave-1] /home/smark shard: mtf/vpvr active strategy families",
     "priority": "medium"
   },
@@ -358,7 +358,7 @@
     "identifier": "SMA-36494",
     "assignee": "strategy-worker-2",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W3-T8][wave-1] /home/smark shard: remaining strategy dirs",
     "priority": "medium"
   },
@@ -369,7 +369,7 @@
     "identifier": "SMA-36495",
     "assignee": "strategy-worker-2",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W3-T9][wave-1] /home/smark shard: top-level misc + funding fetcher + zero-verify",
     "priority": "medium"
   },
@@ -380,7 +380,7 @@
     "identifier": "SMA-36482",
     "assignee": null,
     "machine": "mac",
-    "status": "backlog",
+    "status": "done",
     "title": "[W3-T10][wave-2] strategy scaffold generator scaffold.py",
     "priority": "low"
   },
@@ -490,7 +490,7 @@
     "identifier": "SMA-36500",
     "assignee": "multica-code",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W4-T05][wave-1] signal parity test (2024 overlap bitwise)",
     "priority": "medium"
   },
@@ -501,7 +501,7 @@
     "identifier": "SMA-36501",
     "assignee": "multica-code",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W4-T06][wave-1] loop parity dual anchor (base engine + quick_verify)",
     "priority": "medium"
   },
@@ -633,7 +633,7 @@
     "identifier": "SMA-36517",
     "assignee": "ops-worker-1",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W5-T3][wave-1] epoch triggers: manifest + idempotent apply",
     "priority": "medium"
   },
@@ -666,7 +666,7 @@
     "identifier": "SMA-36520",
     "assignee": "multica-code",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W5-T6][wave-1] deploy.sh hardening: --dry-run + smoke tail",
     "priority": "medium"
   },
@@ -699,7 +699,7 @@
     "identifier": "SMA-36523",
     "assignee": "ops-worker-1",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W5-T9][wave-1] paper runner skeleton (config-driven + resume + kill eval)",
     "priority": "medium"
   },
@@ -710,7 +710,7 @@
     "identifier": "SMA-36512",
     "assignee": "ops-worker-1",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W5-T10][wave-1] graveyard ledger repair tool",
     "priority": "medium"
   },
@@ -732,7 +732,7 @@
     "identifier": "SMA-36514",
     "assignee": "ops-worker-1",
     "machine": "mac",
-    "status": "todo",
+    "status": "done",
     "title": "[W5-T12][wave-1] mechanical acceptance executor accept.py",
     "priority": "medium"
   },
@@ -743,7 +743,7 @@
     "identifier": "SMA-36515",
     "assignee": null,
     "machine": "mac",
-    "status": "backlog",
+    "status": "done",
     "title": "[W5-T13][wave-2] artifact upload + EVIDENCE receipt",
     "priority": "low"
   },
@@ -809,7 +809,7 @@
     "identifier": "SMA-36529",
     "assignee": null,
     "machine": "105",
-    "status": "backlog",
+    "status": "done",
     "title": "[INT-06][wave-3] .105 data-in-place precheck (gate for W4-T10/T12/T14)",
     "priority": "low"
   }
