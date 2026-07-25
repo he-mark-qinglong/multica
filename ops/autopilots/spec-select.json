@@ -1,0 +1,14 @@
+{
+  "title": "epoch-spec-select (daily 10:00)",
+  "agent": "smark-decision-maker",
+  "mode": "create_issue",
+  "priority": "medium",
+  "issue_title_template": "epoch spec-select {{date}}",
+  "description": "Read /Users/mark/multica/docs/plans/multica-quant-permanent-loop-2026-07-25.md §4.1 and §5 first.\n\nYou are the 10:00 epoch step. Each business day, pick 1-2 SPEC candidates from the backlog SPEC pool and promote them into today's implementation lane; leave the rest in backlog.\n\nSteps:\n1. Use `multica issue list --label spec --status backlog --output json` (or the equivalent search that lists SPEC issues currently in backlog) to enumerate today's SPEC pool. If you cannot reach the CLI, fall back to `multica issue search SPEC backlog --limit 50`.\n2. Read /Users/mark/multica/quant-loop/JOURNAL.md and the last 7 days of /Users/mark/multica/knowledge/curator/*-epoch-digest.md to learn what was tried, killed, or parked recently — do not pick something the loop already exhausted (cycle-46 family rule).\n3. For each candidate SPEC, check data availability + cost-cap pre-register note; if either is missing, drop it from today's selection with a one-line reason.\n4. Pick the top 1-2 by expected information value / diversity (do not pick two from the same family). Post a single [type=DECISION] comment naming the chosen SPEC(s) and the explicit reason for each pick and for each non-pick you considered.\n5. Promote each chosen SPEC: `multica issue update <spec-id> --status todo --assignee multica-code` (or the implementation agent you judge correct) so today's workers pick it up.\n\nIdempotency: search for today's existing `epoch spec-select <YYYY-MM-DD>` issue first (status already open). If present, append your [type=DECISION] comment to it — do not create a duplicate. Use the {{date}} template substitution in the issue title; do not hardcode the date.\n\nNo-op is a valid outcome. If the backlog pool is empty, or every candidate fails the cost-cap / data pre-check, post a single [type=NOOP] comment with the reason and stop — do not invent SPECs.\n\nHard rules (do not violate):\n- Every comment you post must have a first line matching `[type=STATUS|DECISION|EVIDENCE|KILL|ESCALATE|SIGNOFF|NUDGE|NOOP] <iso8601+tz> <one-line summary>` (see AGENTS.md).\n- Do not specify any model — the runtime picks caocao-m3 by default; hardcoding a model here is an acceptance failure.\n- Do not run backtests in this step — selection only; verification is the 17:00 step.",
+  "trigger": {
+    "cron": "0 10 * * *",
+    "timezone": "Asia/Shanghai",
+    "label": "daily 10:00 +08",
+    "enabled": true
+  }
+}
