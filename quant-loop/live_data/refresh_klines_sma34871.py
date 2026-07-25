@@ -28,8 +28,18 @@ from typing import Iterable
 import pandas as pd
 import requests
 
-LIVE_DATA = Path("/home/smark/multica/quant-loop/live_data")
-PERP_1M = Path("/home/smark/multica/quant-loop/data/perp_1m")
+try:
+    from _shared.paths import data_root, live_data_root
+except ImportError:
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[1])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root, live_data_root
+
+LIVE_DATA = live_data_root()
+PERP_1M = data_root() / "perp_1m"
 
 INTERVAL_MS = {"1m": 60_000, "15m": 15 * 60_000, "1h": 60 * 60_000}
 ENDPOINTS = {

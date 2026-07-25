@@ -35,6 +35,16 @@ from pathlib import Path
 import pandas as pd
 import requests
 
+try:
+    from _shared.paths import live_data_root
+except ImportError:
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[1])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import live_data_root
+
 BASE_URL = "https://fapi.binance.com"
 KLINE_PATH = "/fapi/v1/klines"
 INTERVAL = "4h"
@@ -153,7 +163,7 @@ def main() -> int:
                     help="ISO date YYYY-MM-DD (UTC)")
     ap.add_argument("--end", default=None,
                     help="ISO date YYYY-MM-DD (UTC); default = now")
-    ap.add_argument("--out-dir", default="/home/smark/multica/quant-loop/live_data",
+    ap.add_argument("--out-dir", default=str(live_data_root()),
                     help="output directory (default ~/multica/quant-loop/live_data)")
     args = ap.parse_args()
 

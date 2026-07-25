@@ -2,7 +2,7 @@
 
 Per SMA-34865 (parallel to the 4h coin-m backfill SMA-32762). We mirror the
 existing BTC 15m file layout at
-``/home/smark/multica/quant-loop/live_data/{SYMBOL}USDT_15m.parquet`` —
+``live_data/{SYMBOL}USDT_15m.parquet`` —
 columns: open_time, open, high, low, close, volume, quote_volume, trades,
 taker_buy_base, taker_buy_quote. RangeIndex 0..N-1 (no DatetimeIndex).
 
@@ -30,6 +30,16 @@ from pathlib import Path
 import pandas as pd
 import requests
 
+try:
+    from _shared.paths import live_data_root
+except ImportError:
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[1])
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import live_data_root
+
 BASE_URL = "https://api.binance.com"
 KLINE_PATH = "/api/v3/klines"
 INTERVAL = "15m"
@@ -45,7 +55,7 @@ START_MS = 1640995200000  # 2022-01-01T00:00:00+00:00
 END_MS = 1783727100000    # 2026-07-10T23:45:00+00:00 (last BTC bar)
 
 DEFAULT_SYMBOLS = ("ETHUSDT", "SOLUSDT")
-OUTPUT_DIR = Path("/home/smark/multica/quant-loop/live_data")
+OUTPUT_DIR = live_data_root()
 
 # Schema kept identical to BTCUSDT_15m.parquet (no close_time / ignore).
 KEEP_COLS = [
