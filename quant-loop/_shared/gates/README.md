@@ -13,7 +13,7 @@ Prado 2014) replaces the bogus "Bonferroni α=0.0125" family-size claim as G7.
 | G2 | `annualized_return >= 0.15` (15%) |
 | G3 | `max_drawdown_pct > -0.25` (> -25%) |
 | G4 | `profit_factor > 1.5` |
-| G5 | `cpcv_mean_oos_sharpe >= 1.0` (skipped if CPCV not yet run) |
+| G5 | `cpcv_mean_oos_sharpe >= 1.0` (missing CPCV data is an explicit FAIL: `MISSING_FIELD:cpcv_mean_oos_sharpe`) |
 | G6 | `bootstrap_ci95_lower >= 0.5` |
 | G7 | `deflated_sharpe > 0.0` (DSR; replaces Bonferroni) |
 | T1 | `n_trades >= 30` |

@@ -145,6 +145,11 @@ def scan_strategy_dir(path: Path) -> dict[str, Any]:
             "verdict": _get_verdict(cv),
         }
 
+    # Independent verdict components: framework agreement vs in-house
+    # profitability. A LIVE candidate (ledger verdict PASS) requires BOTH.
+    row["framework_consistent"] = _framework_consistent(row)
+    row["profitable"] = _profitable(row)
+
     return row
 
 
@@ -178,16 +183,55 @@ def _fmt(x: float | None, nd: int = 3) -> str:
     return f"{x:.{nd}f}"
 
 
+def _fmt_bool(b: bool) -> str:
+    return "yes" if b else "no"
+
+
+def _framework_consistent(row: dict[str, Any]) -> bool:
+    """True when any framework cross-validation verdict agrees with the
+    in-house result (W5 PASS / within tolerance). Independent of whether the
+    in-house metrics themselves are profitable."""
+    verdicts = [v["verdict"] for v in row["frameworks"].values()]
+    return any("PASS" in v or "WITHIN_TOLERANCE" in v for v in verdicts)
+
+
+def _framework_killed(row: dict[str, Any]) -> bool:
+    verdicts = [v["verdict"] for v in row["frameworks"].values()]
+    return any("AUTO-ARCHIVE" in v or "NOT-PROFITABLE" in v for v in verdicts)
+
+
+# In-house profitability bar (mirrors G1/G3/G4/T1 in _shared/gates/enforce.py).
+# A missing required field means NOT profitable — missing data is never a pass.
+_PROFITABILITY_REQUIRED = ("sharpe_inhouse", "pf_inhouse", "maxdd_inhouse", "n_trades")
+
+
+def _profitable(row: dict[str, Any]) -> bool:
+    """True only when all required in-house metrics are present AND pass the
+    profitability bar: sharpe >= 1.0, PF > 1.5, |maxDD| < 0.25, trades >= 30."""
+    if any(row.get(k) is None for k in _PROFITABILITY_REQUIRED):
+        return False
+    return (
+        row["sharpe_inhouse"] >= 1.0
+        and row["pf_inhouse"] > 1.5
+        and abs(row["maxdd_inhouse"]) < 0.25
+        and row["n_trades"] >= 30
+    )
+
+
 def _status(row: dict[str, Any]) -> str:
+    """Ledger verdict. Framework consistency and profitability are recorded
+    independently (framework_consistent / profitable); a strategy is a LIVE
+    candidate (PASS) only when BOTH hold."""
     if row["status"] == "GRAVEYARD":
         return "KILL"
-    if not row["frameworks"]:
+    has_metrics = any(row.get(k) is not None for k in _PROFITABILITY_REQUIRED)
+    if not has_metrics and not row["frameworks"]:
         return "UNTESTED"
-    verdicts = [v["verdict"] for v in row["frameworks"].values()]
-    if any("PASS" in v or "WITHIN_TOLERANCE" in v for v in verdicts):
-        return "PASS"
-    if any("AUTO-ARCHIVE" in v or "NOT-PROFITABLE" in v for v in verdicts):
+    consistent = _framework_consistent(row)
+    if _framework_killed(row) and not consistent:
         return "KILL"
+    if consistent:
+        return "PASS" if _profitable(row) else "CV_PASS"
     return "HOLD"
 
 
@@ -201,8 +245,8 @@ def write_ledger(rows: list[dict[str, Any]], out_path: Path) -> None:
         "",
         "## Active Strategies",
         "",
-        "| Strategy | TF | Family | Sharpe(in-house) | PF | maxDD | Trades | BT Sharpe | FT Sharpe | VBT Sharpe | Verdict |",
-        "|----------|----|--------|------------------|----|-------|--------|-----------|-----------|-----------|---------|",
+        "| Strategy | TF | Family | Sharpe(in-house) | PF | maxDD | Trades | BT Sharpe | FT Sharpe | VBT Sharpe | FW-Consistent | Profitable | Verdict |",
+        "|----------|----|--------|------------------|----|-------|--------|-----------|-----------|-----------|---------------|------------|---------|",
     ]
 
     for row in rows:
@@ -216,15 +260,16 @@ def write_ledger(rows: list[dict[str, Any]], out_path: Path) -> None:
             f"| `{row['strategy_key']}` | {row['timeframe']} | {row['family']} | "
             f"{_fmt(row['sharpe_inhouse'])} | {_fmt(row['pf_inhouse'], 2)} | "
             f"{_fmt(row['maxdd_inhouse'])} | {_fmt(row['n_trades'], 0)} | "
-            f"{_fmt(bt)} | {_fmt(ft)} | {_fmt(vbt)} | {verdict} |"
+            f"{_fmt(bt)} | {_fmt(ft)} | {_fmt(vbt)} | "
+            f"{_fmt_bool(row['framework_consistent'])} | {_fmt_bool(row['profitable'])} | {verdict} |"
         )
 
     lines += [
         "",
         "## Graveyard Strategies",
         "",
-        "| Strategy | Graveyard Family | TF | Sharpe(in-house) | PF | maxDD | Trades | BT Sharpe | FT Sharpe | VBT Sharpe | Verdict |",
-        "|----------|------------------|----|------------------|----|-------|--------|-----------|-----------|-----------|---------|",
+        "| Strategy | Graveyard Family | TF | Sharpe(in-house) | PF | maxDD | Trades | BT Sharpe | FT Sharpe | VBT Sharpe | FW-Consistent | Profitable | Verdict |",
+        "|----------|------------------|----|------------------|----|-------|--------|-----------|-----------|-----------|---------------|------------|---------|",
     ]
 
     for row in rows:
@@ -238,7 +283,8 @@ def write_ledger(rows: list[dict[str, Any]], out_path: Path) -> None:
             f"| `{row['strategy_key']}` | {row.get('graveyard_family', '?')} | {row['timeframe']} | "
             f"{_fmt(row['sharpe_inhouse'])} | {_fmt(row['pf_inhouse'], 2)} | "
             f"{_fmt(row['maxdd_inhouse'])} | {_fmt(row['n_trades'], 0)} | "
-            f"{_fmt(bt)} | {_fmt(ft)} | {_fmt(vbt)} | {verdict} |"
+            f"{_fmt(bt)} | {_fmt(ft)} | {_fmt(vbt)} | "
+            f"{_fmt_bool(row['framework_consistent'])} | {_fmt_bool(row['profitable'])} | {verdict} |"
         )
 
     out_path.write_text("\n".join(lines) + "\n")

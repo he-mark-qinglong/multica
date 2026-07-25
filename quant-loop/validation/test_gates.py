@@ -104,12 +104,15 @@ def test_g5_fails_when_worst_framework_below_one():
     assert g5.observed == pytest.approx(0.4)
 
 
-def test_g5_skipped_when_no_framework_windows():
+def test_g5_fails_when_no_framework_windows():
+    # No framework windows -> cpcv_mean_oos_sharpe is NaN -> enforce.py fails
+    # G5 as MISSING_FIELD (missing data is never a pass).
     kw = _passing_kwargs()
     kw["window_backtrader"] = []
     kw["window_freqtrade"] = []
     v = evaluate_gates("variant_x", **kw)
-    assert _gate(v, "G5").passed  # enforce.py skips G5 on NaN
+    assert not _gate(v, "G5").passed
+    assert not v.passed
 
 
 def test_g7_is_dsr_not_bonferroni():

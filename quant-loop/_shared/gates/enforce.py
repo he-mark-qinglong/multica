@@ -25,9 +25,8 @@ GATES = [
      "Max drawdown > -25%"),
     ("G4", "profit_factor > 1.5", lambda m: m.get("profit_factor", 0.0) > 1.5,
      "Profit factor > 1.5"),
-    # G5: CV OOS Sharpe — placeholder until CPCV run; enforced only when present
-    ("G5", "cpcv_mean_oos_sharpe >= 1.0", lambda m: m.get("cpcv_mean_oos_sharpe", float("nan")) >= 1.0
-     if not _isnan(m.get("cpcv_mean_oos_sharpe", float("nan"))) else True,
+    # G5: CV OOS Sharpe — missing/NaN is an explicit FAIL (see REQUIRED_FIELDS)
+    ("G5", "cpcv_mean_oos_sharpe >= 1.0", lambda m: m.get("cpcv_mean_oos_sharpe", float("nan")) >= 1.0,
      "CPCV mean OOS Sharpe ≥ 1.0"),
     # G6: bootstrap CI95 lower bound
     ("G6", "bootstrap_ci95_lower >= 0.5", lambda m: m.get("bootstrap_ci95_lower", 0.0) >= 0.5,
@@ -48,6 +47,25 @@ def _isnan(x):
         return False
 
 
+# Required input field per gate. A missing (absent / None / NaN) required
+# field is an explicit FAIL with reason "MISSING_FIELD:<name>" — it is NEVER
+# a silent skip. This is the single place the required-field list lives.
+REQUIRED_FIELDS = {
+    "G1": "sharpe_daily",
+    "G2": "annualized_return",
+    "G3": "max_drawdown_pct",
+    "G4": "profit_factor",
+    "G5": "cpcv_mean_oos_sharpe",
+    "G6": "bootstrap_ci95_lower",
+    "G7": "deflated_sharpe",
+    "T1": "n_trades",
+}
+
+
+def _is_missing(value) -> bool:
+    return value is None or _isnan(value)
+
+
 @dataclass
 class GateResult:
     passed: bool
@@ -66,7 +84,9 @@ def certify_metrics(metrics: dict, strict: bool = True) -> GateResult:
     
     Args:
         metrics: dict from metrics.json
-        strict: if True, fail on missing keys; if False, skip gates with missing inputs
+        strict: if True, fail on evaluation exceptions; if False, skip gates
+            that raise. Missing required fields (REQUIRED_FIELDS) ALWAYS fail
+            with reason "MISSING_FIELD:<name>", regardless of strict.
     
     Returns:
         GateResult with passed/failed/reasons.
@@ -74,6 +94,11 @@ def certify_metrics(metrics: dict, strict: bool = True) -> GateResult:
     failed = []
     reasons = []
     for gid, name, fn, desc in GATES:
+        key = REQUIRED_FIELDS.get(gid)
+        if key is not None and (key not in metrics or _is_missing(metrics.get(key))):
+            failed.append(gid)
+            reasons.append(f"{gid} {name}: MISSING_FIELD:{key}")
+            continue
         try:
             ok = bool(fn(metrics))
         except Exception as e:

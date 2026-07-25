@@ -128,7 +128,8 @@ def evaluate_gates(
     g4_obs = _mean([p if np.isfinite(p) else 10.0 for p in full_pfs])
 
     # G5 — framework cross-validation: worst framework mean OOS Sharpe >= 1.
-    # NaN when no framework windows were run -> enforce.py skips G5.
+    # NaN when no framework windows were run -> enforce.py fails G5 as
+    # MISSING_FIELD:cpcv_mean_oos_sharpe (missing data is never a pass).
     framework_means = []
     if window_backtrader:
         framework_means.append(_mean([m["sharpe"] for m in window_backtrader]))
@@ -170,7 +171,7 @@ def evaluate_gates(
         "G4": (g4_obs, G4_MIN_PROFIT_FACTOR, "mean full-period profit factor across symbols"),
         "G5": (g5_obs, G5_MIN_FRAMEWORK_SHARPE,
                "worst framework mean OOS Sharpe"
-               + ("" if framework_means else " (no framework windows, gate skipped)")),
+               + ("" if framework_means else " (no framework windows, MISSING_FIELD)")),
         "G6": (g6_obs, G6_MIN_CI_LOWER,
                f"bootstrap CI lower ({stats.BOOTSTRAP_RESAMPLES} resamples, seed={stats.BOOTSTRAP_SEED})"),
         "G7": (g7_obs, G7_MIN_DSR,
