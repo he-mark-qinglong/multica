@@ -30,6 +30,16 @@ from pathlib import Path
 import pandas as pd
 import requests
 
+try:
+    from _shared.paths import data_root
+except ImportError:  # 以脚本方式直接运行时补 sys.path
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[1])  # quant-loop/
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import data_root
+
 BASE_URL = "https://fapi.binance.com"
 KLINE_PATH = "/fapi/v1/klines"
 INTERVAL = "1m"
@@ -41,7 +51,7 @@ EXPECTED_BAR_MS = 60 * 1000
 GAP_TOLERANCE_MS = 1500   # 1.5s slack for boundary alignment
 DEFAULT_START = "auto"    # 'auto' => probe earliest available per symbol
 DEFAULT_END = None        # default = "now" UTC
-DEFAULT_OUT_DIR = "/home/smark/multica/quant-loop/data/perp_1m"
+DEFAULT_OUT_DIR = str(data_root() / "perp_1m")
 PROVENANCE_SOURCE = "binance fapi klines"
 
 @dataclass

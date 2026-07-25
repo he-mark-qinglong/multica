@@ -7,9 +7,10 @@
 # Idempotent per month-partition; aborts whole run if / free space < 15GB.
 # Final step always rewrites the canonical 7-symbol verify report.
 set -u
-LOG=/home/smark/multica/quant-loop/data/trades/backfill_run.log
-PY=/home/smark/multica/quant-loop/scripts/backfill_aggtrades_vision.py
-OUT=/home/smark/multica/quant-loop/data/trades
+QL_ROOT="${QUANT_LOOP_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+LOG="$QL_ROOT/data/trades/backfill_run.log"
+PY="$QL_ROOT/scripts/backfill_aggtrades_vision.py"
+OUT="$QL_ROOT/data/trades"
 END=2026-07-18
 ALL=BTCUSDT,ETHUSDT,SOLUSDT,BNBUSDT,DOGEUSDT,AVAXUSDT,LINKUSDT
 

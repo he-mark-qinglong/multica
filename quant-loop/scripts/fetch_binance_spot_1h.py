@@ -26,6 +26,16 @@ from pathlib import Path
 import pandas as pd
 import requests
 
+try:
+    from _shared.paths import live_data_root
+except ImportError:  # 以脚本方式直接运行时补 sys.path
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[1])  # quant-loop/
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import live_data_root
+
 BASE_URL = "https://api.binance.com"
 KLINE_PATH = "/api/v3/klines"
 INTERVAL = "1h"
@@ -40,7 +50,7 @@ GAP_TOLERANCE_MS = 0
 DEFAULT_SYMBOLS = "SOLUSDT"
 DEFAULT_START = "2022-01-01"
 DEFAULT_END = "2026-07-10T23:00:00"
-DEFAULT_OUT_DIR = "/home/smark/multica/quant-loop/live_data"
+DEFAULT_OUT_DIR = str(live_data_root())
 PROVENANCE_SOURCE = "binance spot klines"
 
 

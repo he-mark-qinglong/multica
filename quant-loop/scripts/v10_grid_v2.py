@@ -4,8 +4,18 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
-V7_DIR = Path("/home/smark/multica/quant-loop/strategies/vpvr_xs_pairs_30m_funding_filter_btc_sol_regularized_20260712")
-WORK_DIR = Path("/home/smark/multica/quant-loop/strategies/vpvr_xs_pairs_30m_funding_filter_btc_sol_v10_optimize_20260717")
+try:
+    from _shared.paths import quant_loop_root
+except ImportError:  # 以脚本方式直接运行时补 sys.path
+    import sys
+    from pathlib import Path
+    _QL = str(Path(__file__).resolve().parents[1])  # quant-loop/
+    if _QL not in sys.path:
+        sys.path.insert(0, _QL)
+    from _shared.paths import quant_loop_root
+
+V7_DIR = quant_loop_root() / "strategies" / "vpvr_xs_pairs_30m_funding_filter_btc_sol_regularized_20260712"
+WORK_DIR = quant_loop_root() / "strategies" / "vpvr_xs_pairs_30m_funding_filter_btc_sol_v10_optimize_20260717"
 if WORK_DIR.exists():
     shutil.rmtree(WORK_DIR)
 shutil.copytree(V7_DIR, WORK_DIR)

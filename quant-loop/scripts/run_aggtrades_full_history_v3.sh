@@ -8,10 +8,11 @@
 # Idempotent per month-partition; skips a leg if / free space < 15GB.
 # Safe to re-run: completed partitions are skipped, .tmp files are cleaned.
 set -u
-LOG=/home/smark/multica/quant-loop/data/trades/backfill_run.log
-PY=/home/smark/multica/quant-loop/scripts/backfill_aggtrades_vision.py
-FINALIZE=/home/smark/multica/quant-loop/scripts/finalize_aggtrades_report.py
-OUT=/home/smark/multica/quant-loop/data/trades
+QL_ROOT="${QUANT_LOOP_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+LOG="$QL_ROOT/data/trades/backfill_run.log"
+PY="$QL_ROOT/scripts/backfill_aggtrades_vision.py"
+FINALIZE="$QL_ROOT/scripts/finalize_aggtrades_report.py"
+OUT="$QL_ROOT/data/trades"
 END=2026-07-18
 ALL=BTCUSDT,ETHUSDT,SOLUSDT,BNBUSDT,DOGEUSDT,AVAXUSDT,LINKUSDT
 
