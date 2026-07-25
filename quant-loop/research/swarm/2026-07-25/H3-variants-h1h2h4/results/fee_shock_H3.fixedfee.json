@@ -1,0 +1,57 @@
+{
+  "label": "H3_full_history_fixedfee",
+  "per_trade_fraction": 1.0,
+  "trade_stats": {
+    "n_trades": 46238,
+    "mean_gross_bps": 0.5247236160330712,
+    "median_gross_bps": -1.8915450216799845,
+    "std_gross_bps": 49.19592787546915,
+    "mean_net_at_engine_8bps_bps": -7.47527638396693,
+    "win_rate": 0.3273930533327566,
+    "profit_factor_daily_method": 1.0130992917387343,
+    "gross_source": "pnl_pct + 8bps (back-out, gross_pct not stamped)"
+  },
+  "full_history": {
+    "sharpe_daily": 2.0623482909661055,
+    "annualized_return": 0.5494056695155038,
+    "max_drawdown_pct": -0.15767278803154922,
+    "profit_factor": 0.6081521540240944,
+    "n_trades": 46238,
+    "n_bars": 2448219,
+    "win_rate": 0.3273930533327566,
+    "calmar": 3.484467271585073,
+    "sortino": 1.7104980113437636,
+    "sharpe_daily_resampled": 2.299992537379946,
+    "annualized_return_daily_resampled": 0.5494660873682311,
+    "n_days": 1700,
+    "span": [
+      "2021-11-21",
+      "2026-07-17"
+    ],
+    "profit_factor_daily_method": 1.0130992917387343,
+    "max_drawdown_pct_daily_method": -0.15767278803154927
+  },
+  "fee_shock": {
+    "inhouse_4bps_rt": {
+      "pair_round_trip_bps": 4.0,
+      "sharpe_daily_resampled": -15.556513521135098,
+      "annualized_return": -0.9715197452144482,
+      "total_return": -0.9999999358920453,
+      "max_drawdown_pct": -0.9999999358920453
+    },
+    "freqtrade_24bps_rt": {
+      "pair_round_trip_bps": 24.0,
+      "sharpe_daily_resampled": -43.04050965232211,
+      "annualized_return": -1.0,
+      "total_return": -1.0,
+      "max_drawdown_pct": -1.0
+    },
+    "backtrader_60bps_rt": {
+      "pair_round_trip_bps": 60.0,
+      "sharpe_daily_resampled": -47.953432818593235,
+      "annualized_return": -1.0,
+      "total_return": -1.0,
+      "max_drawdown_pct": -1.0
+    }
+  }
+}

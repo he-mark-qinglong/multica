@@ -1,0 +1,188 @@
+{
+  "label": "se_h3_wf_window_3",
+  "source_equity_csv": "/Users/mark/multica/quant-loop/research/swarm/2026-07-25/signal-enhance-h3/full_history/results/se_h3_equity_daily.csv",
+  "source_trades_csv": "/Users/mark/multica/quant-loop/research/swarm/2026-07-25/signal-enhance-h3/full_history/results/se_h3_wf_trades_3.csv",
+  "per_trade_fraction": 1.0,
+  "per_trade_fraction_rationale": "1.0 = full-pair pct basis (default), matches trade log pnl_pct (cost = 2*2*(fee+slip)/10000 in full pair pct). 0.005 was the bug (200x too small).",
+  "fee_shock": {
+    "inhouse_4bps_rt": {
+      "pair_round_trip_bps": 4.0,
+      "sharpe_daily_resampled": 10.233678513783397,
+      "annualized_return": 3.14314510304923,
+      "total_return": 745.9100332452891,
+      "max_drawdown_pct": -0.032704698112420494,
+      "per_trade_fraction_used": 1.0,
+      "drag_per_trade_pct": 0.04,
+      "mean_daily_trades": 0.4997060552616108,
+      "mean_daily_drag_pct": 0.019988242210464434,
+      "n_trades": 850,
+      "n_days": 1701
+    },
+    "freqtrade_24bps_rt": {
+      "pair_round_trip_bps": 24.0,
+      "sharpe_daily_resampled": 6.9043664478763125,
+      "annualized_return": 1.8727715814590513,
+      "total_return": 134.86013056421655,
+      "max_drawdown_pct": -0.7165394956202779,
+      "per_trade_fraction_used": 1.0,
+      "drag_per_trade_pct": 0.24,
+      "mean_daily_trades": 0.4997060552616108,
+      "mean_daily_drag_pct": 0.11992945326278659,
+      "n_trades": 850,
+      "n_days": 1701
+    },
+    "backtrader_60bps_rt": {
+      "pair_round_trip_bps": 60.0,
+      "sharpe_daily_resampled": 1.855617187508851,
+      "annualized_return": 0.4715684761522003,
+      "total_return": 5.03821320082686,
+      "max_drawdown_pct": -0.9872792813158006,
+      "per_trade_fraction_used": 1.0,
+      "drag_per_trade_pct": 0.6,
+      "mean_daily_trades": 0.4997060552616108,
+      "mean_daily_drag_pct": 0.2998236331569666,
+      "n_trades": 850,
+      "n_days": 1701
+    }
+  },
+  "breakeven_table": {
+    "n_trades": 850,
+    "gross_stats_bps": {
+      "mean": 19.669713231159687,
+      "median": 30.368532719237002,
+      "std": 60.465191497289126,
+      "min": -344.330087094835,
+      "max": 410.80271831077204
+    },
+    "pnl_stats_bps_at_engine_cost_8bps": {
+      "mean": 11.669713231159712,
+      "median": 22.368532719237002,
+      "std": 60.46519149728912,
+      "min": -352.33008709483505,
+      "max": 402.802718310772
+    },
+    "per_tier": [
+      {
+        "pair_round_trip_bps": 0.0,
+        "mean_gross_bps": 19.669713231159687,
+        "mean_net_bps": 19.669713231159687,
+        "median_net_bps": 30.368532719237002,
+        "pct_trades_net_positive": 0.7258823529411764,
+        "pct_pnl_net_positive": 0.6952941176470588,
+        "engine_cost_included": false,
+        "break_even_tier": "LIVE"
+      },
+      {
+        "pair_round_trip_bps": 4.0,
+        "mean_gross_bps": 19.669713231159687,
+        "mean_net_bps": 15.669713231159683,
+        "median_net_bps": 26.368532719237002,
+        "pct_trades_net_positive": 0.7105882352941176,
+        "pct_pnl_net_positive": 0.6952941176470588,
+        "engine_cost_included": false,
+        "break_even_tier": "LIVE"
+      },
+      {
+        "pair_round_trip_bps": 8.0,
+        "mean_gross_bps": 19.669713231159687,
+        "mean_net_bps": 11.669713231159683,
+        "median_net_bps": 22.368532719237002,
+        "pct_trades_net_positive": 0.6952941176470588,
+        "pct_pnl_net_positive": 0.6952941176470588,
+        "engine_cost_included": true,
+        "break_even_tier": "LIVE"
+      },
+      {
+        "pair_round_trip_bps": 12.0,
+        "mean_gross_bps": 19.669713231159687,
+        "mean_net_bps": 7.669713231159683,
+        "median_net_bps": 18.368532719237002,
+        "pct_trades_net_positive": 0.6788235294117647,
+        "pct_pnl_net_positive": 0.6788235294117647,
+        "engine_cost_included": true,
+        "break_even_tier": "LIVE"
+      },
+      {
+        "pair_round_trip_bps": 16.0,
+        "mean_gross_bps": 19.669713231159687,
+        "mean_net_bps": 3.6697132311596845,
+        "median_net_bps": 14.368532719237,
+        "pct_trades_net_positive": 0.6541176470588236,
+        "pct_pnl_net_positive": 0.6541176470588236,
+        "engine_cost_included": true,
+        "break_even_tier": "LIVE"
+      },
+      {
+        "pair_round_trip_bps": 20.0,
+        "mean_gross_bps": 19.669713231159687,
+        "mean_net_bps": -0.33028676884031566,
+        "median_net_bps": 10.368532719237,
+        "pct_trades_net_positive": 0.6164705882352941,
+        "pct_pnl_net_positive": 0.6164705882352941,
+        "engine_cost_included": true,
+        "break_even_tier": "DIE"
+      },
+      {
+        "pair_round_trip_bps": 24.0,
+        "mean_gross_bps": 19.669713231159687,
+        "mean_net_bps": -4.330286768840316,
+        "median_net_bps": 6.368532719237001,
+        "pct_trades_net_positive": 0.5752941176470588,
+        "pct_pnl_net_positive": 0.5752941176470588,
+        "engine_cost_included": true,
+        "break_even_tier": "DIE"
+      },
+      {
+        "pair_round_trip_bps": 32.0,
+        "mean_gross_bps": 19.669713231159687,
+        "mean_net_bps": -12.330286768840315,
+        "median_net_bps": -1.6314672807629993,
+        "pct_trades_net_positive": 0.4788235294117647,
+        "pct_pnl_net_positive": 0.4788235294117647,
+        "engine_cost_included": true,
+        "break_even_tier": "DIE"
+      },
+      {
+        "pair_round_trip_bps": 40.0,
+        "mean_gross_bps": 19.669713231159687,
+        "mean_net_bps": -20.330286768840313,
+        "median_net_bps": -9.631467280763,
+        "pct_trades_net_positive": 0.3764705882352941,
+        "pct_pnl_net_positive": 0.3764705882352941,
+        "engine_cost_included": true,
+        "break_even_tier": "DIE"
+      },
+      {
+        "pair_round_trip_bps": 60.0,
+        "mean_gross_bps": 19.669713231159687,
+        "mean_net_bps": -40.33028676884032,
+        "median_net_bps": -29.631467280762998,
+        "pct_trades_net_positive": 0.18941176470588236,
+        "pct_pnl_net_positive": 0.18941176470588236,
+        "engine_cost_included": true,
+        "break_even_tier": "DIE"
+      },
+      {
+        "pair_round_trip_bps": 80.0,
+        "mean_gross_bps": 19.669713231159687,
+        "mean_net_bps": -60.33028676884032,
+        "median_net_bps": -49.631467280763,
+        "pct_trades_net_positive": 0.08705882352941176,
+        "pct_pnl_net_positive": 0.08705882352941176,
+        "engine_cost_included": true,
+        "break_even_tier": "DIE"
+      },
+      {
+        "pair_round_trip_bps": 120.0,
+        "mean_gross_bps": 19.669713231159687,
+        "mean_net_bps": -100.33028676884031,
+        "median_net_bps": -89.63146728076299,
+        "pct_trades_net_positive": 0.021176470588235293,
+        "pct_pnl_net_positive": 0.021176470588235293,
+        "engine_cost_included": true,
+        "break_even_tier": "DIE"
+      }
+    ],
+    "breakeven_pair_rt_bps": 20.0
+  }
+}

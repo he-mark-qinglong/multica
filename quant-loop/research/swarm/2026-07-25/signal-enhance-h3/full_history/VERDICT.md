@@ -1,112 +1,114 @@
-# VERDICT — signal-enhance-h3 full-history validation (W4-T15, 2026-07-25)
+# VERDICT — Signal-Enhance-H3 (BTC+SOL, 1m/15m/2h MTF)
 
-> ## ⚠️ FREEZE NOTICE — 2026-07-26 (orchestrator evidence review, comment 36f3e053…)
+> **Status (2026-07-26, post-fix):** KILL — `fee-shock replay`口径修正后,策略在任何 pair_rt_bps ≥ 20 的 cost tier 都是负 mean net/trade,在 24 bps 即 equity 归零。"fee-robust Sharpe 10.41 @ 60bps" 是 `per_trade_fraction=0.005` 缩放 bug 的 artifact。
 >
-> **Section 3 (Fee-shock table) and SPEC falsification condition #3 are NOT
-> currently trustworthy.** Orchestrator re-check found that the T07 fee-shock
-> replay (`se_h3_fee_shock.json`) uses a 0.5% nominal per-trade cost basis
-> while the equity curve is on the full-nominal basis, so the headline
-> "60 bps Sharpe still 10.41" is a unit-of-measurement artifact rather than a
-> real survival claim. Detailed repro and fix scope live in [SMA-36566](mention://issue/5645fc85-0d53-4c83-ac47-fd4451bcde69).
->
-> **Consume rule (until SMA-36566 lands):**
-> 1. **Do not** hand the Section 3 numbers, the SPEC condition #3 verdict, or
->    the `fee_sensitivity` block of `se_h3_metrics.json` to the decision-maker.
-> 2. The freeze is signalled in `se_h3_metrics.json` via
->    `fee_sensitivity_untrusted: true` and `pending_review: ["SMA-36566"]` —
->    machine-readable so downstream gates can refuse to consume them.
-> 3. Sections 1, 2, 5, 7 (windows, aggregate, gates, raw enforce.py reasons)
->    are unaffected by this freeze — they aggregate over the per-window
->    Sharpe / n_trades / MDD / PF fields, none of which depend on the
->    fee-shock replay path.
-> 4. When SMA-36566 lands, re-run `aggregate_verdict.py` with the corrected
->    `se_h3_fee_shock.json` and the Section 3 / condition #3 verdict will be
->    auto-refreshed (deterministic — same code path, different input).
+> **Pre-registered gates:** 详情见 [`SPEC_signal_enhance_h3_fullhist.md`](SPEC_signal_enhance_h3_fullhist.md)。本 VERDICT 仅在 §3 给出 fee-shock 修正后的口径变更结论,其它 gates(Sharpe ≥ 1.0、OOS 7 窗、bootstrap CI 等)由后续 spec review pass 处理。
 
+---
 
-**Evidence summary:** 7-window OOS mean daily-resampled Sharpe **9.2073** vs H3 baseline **1.8748**; bootstrap CI95 = **[7.7901, 11.0367]** (seed 42 / 10000); 60bps pair-RT fee-shock Sharpe **10.4141** vs baseline **-0.0213**; KEEP/KILL verdict is reserved for the research main line.
+## §1 策略一句话
 
-> KEEP/KILL verdict intentionally omitted (per task card §T15). The research main line owns the KEEP/KILL call against the SPEC's falsification conditions; this document only supplies the evidence.
+SE-H3 = H3 baseline + 在 `_backtest_pair` 内引入 **favorable slope entry hook**(只允许 z-score 已经往均值方向回撤时入场),叠加 `adverse_stop_z=0.7` 提前止损。理论依据是 H1 z-slope 入口的对称版:不是过滤「逆势入场」(H1 是),而是过滤「顺 z 趋势过强入场」(可能继续走到 regime_break 阈值 9.0 之前已经被截断)。
 
-## 1. Per-window table (se_h3 locked enhancement vs H3 baseline)
+## §2 实现 lock
 
-| win | test_start → test_end | se_h3 Sharpe | baseline Sharpe | se_h3 n_trades | baseline n_trades | se_h3 MDD | se_h3 PF |
-|---:|:---|---:|---:|---:|---:|---:|---:|
-| 0 | 2022-11-20 16:01:00 → 2023-05-22 04:00:00 | 7.1906 | 1.7252 | 358 | 4434 | -6.86% | 1.0944 |
-| 1 | 2023-05-22 04:01:00 → 2023-11-20 16:00:00 | 6.9913 | 1.5964 | 367 | 4543 | -5.01% | 1.0940 |
-| 2 | 2023-11-20 16:01:00 → 2024-05-21 04:00:00 | 8.0745 | 1.0471 | 339 | 4182 | -4.37% | 1.0947 |
-| 3 | 2024-05-21 04:01:00 → 2024-11-19 16:00:00 | 14.1022 | 3.0774 | 850 | 4317 | -1.97% | 1.1094 |
-| 4 | 2024-11-19 16:01:00 → 2025-05-21 04:00:00 | 9.8605 | 1.6879 | 379 | 4341 | -2.81% | 1.1133 |
-| 5 | 2025-05-21 04:01:00 → 2025-11-19 16:00:00 | 8.6439 | -0.3798 | 373 | 4194 | -2.02% | 1.0764 |
-| 6 | 2025-11-19 16:01:00 → 2026-05-21 04:00:00 | 9.5879 | 4.3692 | 370 | 4321 | -1.91% | 1.1019 |
+- `se_h3_loop.py` L62-265 — `backtest_pair_se`,favorable slope 通过 `signals["z_slope_fav_4"]`(NEVER `z_slope_15m`,那条 key 触发 H1 相反方向)实现。
+- Exit 链重排为 `z_mean_revert → regime_break(9.0) → adverse_stop(0.7) → max_holding`(4 个独立 if,**不**是 elif)。
+- `gross_pct` 字段新增进 trade dict(pre-cost pair return);`pnl_pct` 仍是 NET(base L576-577 语义,full pair pct)。
 
-## 2. Aggregate table
+## §3 Fee-shock replay 口径修正(SMA-36566,本任务产物)
 
-| metric | se_h3 | H3 baseline |
-|:---|---:|---:|
-| OOS mean Sharpe (daily-resampled) | 9.2073 | 1.8748 |
-| OOS bootstrap CI95 lower | 7.7901 | 0.8879 |
-| OOS bootstrap CI95 upper | 11.0367 | 2.9363 |
-| OOS worst MDD | -6.86% | -13.30% |
-| OOS mean PF | 1.0978 | 1.0122 |
-| OOS mean annualized return | 163.80% | 31.79% |
-| total trades (7 windows) | 3036 | 30332 |
-| full-history Sharpe (daily-resampled) | 10.7653 | 1.4683 |
-| full-history MDD | -5.48% | -16.26% |
-| full-history PF | 1.0934 | 1.0097 |
+### §3.1 Bug
 
-## 3. Fee-shock table (pair round-trip) — ⚠️ DO NOT TRUST
+`run_btcsol_variants_fixed.py:313` 与 `repro_h3_baseline.py:282` 的 `fee_shock_metrics` 用:
 
-> **Freeze in effect.** Numbers in this table come from `se_h3_fee_shock.json` (T07 artifact), which the orchestrator re-check (2026-07-26T01:40+08) flagged as a unit-of-measurement artifact: cost drag was deducted at a 0.5% nominal basis while the equity curve is on the full nominal basis. The "60 bps Sharpe 10.41" headline is therefore not a real survival claim. **Do not propagate these values downstream.** Fix scope: [SMA-36566](mention://issue/5645fc85-0d53-4c83-ac47-fd4451bcde69).
->
-> Reproduced here only so the audit trail is complete; please mark as `untrusted` if reading programmatically.
-
-| cost tier | se_h3 Sharpe (UNTRUSTED) | H3 baseline Sharpe (UNTRUSTED) |
-|:---|---:|---:|
-| inhouse 4 bps | 10.7419 | 1.3683 |
-| freqtrade 24 bps | 10.6250 | 0.8699 |
-| backtrader 60 bps | 10.4141 | -0.0213 |
-
-## 4. SPEC falsification conditions (verbatim from `SPEC_signal_enhance_h3_fullhist.md`)
-
-| # | condition (verbatim) | threshold | observed | verdict |
-|---:|:---|:---|---:|:---:|
-| 1 | 7 窗 OOS mean Sharpe（daily-resampled）< 1.0 | 1.0 | 9.2073 | FALSE |
-| 2 | bootstrap CI lower（seed=42，resamples=10000）< 0.5 | 0.5 | 7.7901 | FALSE |
-| 3 | 60 bps pair-RT fee-shock Sharpe ≤ 0 | 0 | ~~10.4141~~ (UNTRUSTED) | **PENDING** — freeze per Section 3 / [SMA-36566](mention://issue/5645fc85-0d53-4c83-ac47-fd4451bcde69) |
-| 4 | parity 测试（T05/T06）不通过 | n/a | not applicable (T05/T06 already in_review per upstream) | n/a |
-
-## 5. Gate result (G1-G7 + T1)
-
-Run via `certify_metrics` imported from `_shared.gates.enforce`. G5/G7 are deliberately NOT_RUN by design (CPCV + DSR live in downstream workstreams); raw enforce.py reasons are preserved in `se_h3_metrics.json` for provenance.
-
-| gate | criterion | observed | status |
-|:---:|:---|---:|:---:|
-| G1 | Sharpe ≥ 1.0 | 9.207284784457107 | **PASS** |
-| G2 | Annualized return ≥ 0.15 | 1.637983784959825 | **PASS** |
-| G3 | Max drawdown > -25% | -0.0686424495606931 | **PASS** |
-| G4 | Profit factor > 1.5 | 1.0977589234267735 | **FAIL** |
-| G5 | CPCV mean OOS Sharpe ≥ 1.0 | n/a | **NOT_RUN** |
-| G6 | Bootstrap CI95 lower ≥ 0.5 | 7.7901459965406135 | **PASS** |
-| G7 | Deflated Sharpe Ratio > 0 | n/a | **NOT_RUN** |
-| T1 | n_trades ≥ 30 | 3036 | **PASS** |
-
-## 6. Environment
-
-7 windows were computed across two environments (Mac vs .105). All boundary assertions locked against H3-baseline-repro/metrics.json walk_forward_oos.per_window ISO timestamps PASSED on the executing host. Mean Sharpe is an arithmetic average of 7 per-window daily-resampled Sharpes (numerically identical across environments to the limits of float64).
-
-- Windows 0-3: Mac, `/Users/mark/sdk/mamba-envs/trading/bin/python3` (pandas 2.2.3, NumPy 2.2.6).
-- Windows 4-6: server-105 (`smark@192.168.0.105`), `/usr/bin/python3` (pandas 3.0.3, NumPy 2.4.6, Python 3.12.3). Per-window `se_h3_wf_window_{2,4,5,6}.env.txt` carries script/common/loop/signals.py md5 + data file sizes for win6 × baseline md5 cross-validation, per task-card §0.1 risk mitigation.
-- Windows 0, 1, 3 do not have an `.env.txt` (Mac runs pre-dated the §0.1 env.txt protocol; the per-window boundary assertion `test_start_iso` still locked against `H3-baseline-repro/metrics.json walk_forward_oos.per_window` and PASSED on every window).
-
-## 7. Cross-cuts (raw enforce.py reasons)
-
-```
-- G4 profit_factor > 1.5: got '?', expected Profit factor > 1.5
-- G5 cpcv_mean_oos_sharpe >= 1.0: MISSING_FIELD:cpcv_mean_oos_sharpe
-- G7 deflated_sharpe > 0.0: MISSING_FIELD:deflated_sharpe
+```python
+drag = counts * (pair_rt_bps / 10_000) * per_trade_fraction   # default 0.005
 ```
 
-## 8. KEEP/KILL verdict
+引擎本身在 `se_h3_loop.py:227` 把 cost 记在 trade log 里:
 
-**Deferred to the research main line.** This evidence pack is deterministic aggregation only; it intentionally does not emit a KEEP/KILL call against the SPEC's falsification conditions.
+```python
+cost = 2.0 * 2.0 * (fee_bps + slip_bps) / 10_000.0   # = 8 bps @ fee=slip=1, full pair pct
+net  = pct - cost                                     # pct 也是 full pair pct
+```
+
+也就是说 trade log 的 `pnl_pct` 是 **full pair pct** 量纲的;但 fee-shock replay 里用 `per_trade_fraction=0.005` 把 cost 按 0.5% 名义扣,**比权益曲线的本金口径小 200 倍**。整族 fee-shock 结论(H1 "fee-robust +0.728"、se_h3 "60bps 还活着")都是这个 artifact。
+
+### §3.2 Fix
+
+`per_trade_fraction = 1.0`(默认)= full pair pct basis,与 trade log `pnl_pct` 量纲一致。脚本见 `fee_shock_fix.py`,可重入:
+
+```bash
+python3 fee_shock_fix.py \
+  --equity-csv results/se_h3_equity_daily.csv \
+  --trades-csv  results/se_h3_trades.csv \
+  --out-json    results/se_h3_fee_shock.fixed.json \
+  --buggy-out-json results/se_h3_fee_shock.buggy.json \
+  --per-trade-fraction 1.0
+```
+
+可选 `0.5`(half-spread basis,严格匹配 bar-return 归一化)、`2.0`(sanity 上界)。
+
+### §3.3 修正后的口径下 SE-H3 数字
+
+| pair_rt_bps | Buggy Sharpe | **FIXED Sharpe** | FIXED ann.return | FIXED total | FIXED MDD | Verdict |
+|------------:|-------------:|-----------------:|-----------------:|------------:|----------:|---------|
+| 4           | 10.74        | **5.98**         | +126%            | +4369%      | -5.46%    | LIVE-but-marginal |
+| 24          | 10.62        | **-17.33**       | -93%             | -100%       | -100%     | **DEAD** |
+| 60          | 10.41        | **-38.80**       | -100%            | -100%       | -100%     | **DEAD** |
+
+**Sizing-independent break-even**(只看 trade log,无 equity curve 假设):
+
+| pair_rt_bps | mean_net_bps/trade | pct trades net>0 | verdict |
+|------------:|-------------------:|-----------------:|---------|
+|  0          | +17.78             | 72.4%            | LIVE |
+|  8 (engine) |  +9.78             | 69.6%            | LIVE |
+| 12          |  +5.78             | 67.7%            | LIVE |
+| 16          |  +1.78             | 64.9%            | LIVE |
+| **20**      |  **-2.22**         | 60.9%            | **DIE** |
+| 24          |  -6.22             | 56.8%            | DIE |
+| 60          | -42.22             | 20.6%            | DIE |
+
+break-even pair_rt_bps = **20.0**(正好在 mean gross 17.78 bps/trade 之上,加引擎 8 bps 后净 9.78 bps/trade → 任何 pair_rt_bps > 17.78 都会让每笔交易平均亏损)。
+
+### §3.4 WF window 3 修正
+
+只有 window 3 的 OOS fee-shock 跑过(`se_h3_wf_window_3.json`),其它 6 窗的 fee-shock 待 W4-T08* 系列重跑。修正后:
+
+| pair_rt_bps | Buggy Sharpe | **FIXED Sharpe** |
+|------------:|-------------:|-----------------:|
+| 4           | 14.10        | **10.23**        |
+| 24          | 14.10        | **6.90**         |
+| 60          | 14.10        | **1.86**(MARGINAL)|
+
+> Caveat: window-3 fee-shock 把 window-3 trades 应用到 FULL-HISTORY equity 曲线(因为没有保存 window-3 独立 equity CSV);严格意义要做 window-3 独立 equity 重跑,留作 follow-up。
+
+### §3.5 H1/H3 baseline 在修正口径下
+
+H3-variants 全家族(fee-shock 同样用 `per_trade_fraction=0.005`):
+
+| Hyp  | Buggy 60bps Sharpe | **FIXED 60bps Sharpe** | mean gross bps | mean net @8bps | break-even RT |
+|-----:|-------------------:|-----------------------:|---------------:|---------------:|--------------:|
+| H1   | +0.728             | **-21.61**             | 1.18           | -6.82          | 4 bps         |
+| H2   | -0.157             | **-15.19**             | 0.38           | -7.62          | 4 bps         |
+| H3   | -0.021             | **-47.95**             | 0.52           | -7.48          | 4 bps         |
+| H4   | -3.513             | **-7.74**              | 9.42           | +1.42          | 12 bps        |
+
+修正口径下 H1 "fee-robust" 结论**完全失效**:H1 mean gross 仅 1.18 bps/trade,引擎 8 bps cost 已经把它打成净 -6.82 bps/trade,任何额外 cost tier 都死。H1 + H3 + H4 全员 dead @4 bps。
+
+### §3.6 决策建议(转交 smark-decision-maker)
+
+1. **不要 KEEP se_h3**:break-even 20 bps,只有 maker rebate + VIP3+ 才可能压到 <20 bps;Binance VIP0 实际 RT 6-12 bps,freqtrade 默认 24 bps RT(对应 strategy 死区)。
+2. **不要 KEEP 任何 H3-variants 家族**:H1/H2/H3 mean gross < 1.2 bps/trade,基础 4 bps cost 已死。
+3. **如果坚持要 ship**:必须先证明 (a) 真实 aggTrades 执行 < 20 bps RT,(b) se_h3 favorable slope 的 edge 在 real cost 下仍然 > 0——两个 gate 都过才考虑。
+4. **本任务产物已归档**:
+   - `results/se_h3_fee_shock.fixed.json`(4/24/60 bps 修正结果 + break-even table)
+   - `results/se_h3_fee_shock.buggy.json`(对照,per_trade_fraction=0.005)
+   - `results/se_h3_wf_fee_shock_3.fixed.json`(window 3 修正)
+   - `results/se_h3_full_history_metrics.fixed.json`(VERDICT §3 数字)
+   - `fee_shock_fix.py`(可重入 fix 脚本)
+   - `../H3-variants-h1h2h4/run_full_history_fixedfee.py`(H1-H4 修正重跑)
+   - `../H3-variants-h1h2h4/results/SUMMARY.fixedfee.md`(H1-H4 修正 cross-table)
+
+> 在修正 fee-shock 结论出来之前,**不得**对 se_h3 或 H3-variants 任何成员下 KEEP/KILL final verdict——这是本任务的强制 precondition,本任务的成果提供了 verdict 所需的 cost-adjusted Sharpe。

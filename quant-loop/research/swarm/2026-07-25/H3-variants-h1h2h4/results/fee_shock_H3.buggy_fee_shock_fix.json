@@ -1,0 +1,41 @@
+{
+  "inhouse_4bps_rt": {
+    "pair_round_trip_bps": 4.0,
+    "sharpe_daily_resampled": 2.199573704730576,
+    "annualized_return": 0.519453678448065,
+    "total_return": 6.008682504716429,
+    "max_drawdown_pct": -0.13378688721016296,
+    "per_trade_fraction_used": 0.005,
+    "drag_per_trade_pct": 0.00020000000000000004,
+    "mean_daily_trades": 27.18283362727807,
+    "mean_daily_drag_pct": 0.005436566725455614,
+    "n_trades": 46238,
+    "n_days": 1701
+  },
+  "freqtrade_24bps_rt": {
+    "pair_round_trip_bps": 24.0,
+    "sharpe_daily_resampled": 1.698355910912952,
+    "annualized_return": 0.37579915884505954,
+    "total_return": 3.4145164667754733,
+    "max_drawdown_pct": -0.1424377365549253,
+    "per_trade_fraction_used": 0.005,
+    "drag_per_trade_pct": 0.0012,
+    "mean_daily_trades": 27.18283362727807,
+    "mean_daily_drag_pct": 0.03261940035273368,
+    "n_trades": 46238,
+    "n_days": 1701
+  },
+  "backtrader_60bps_rt": {
+    "pair_round_trip_bps": 60.0,
+    "sharpe_daily_resampled": 0.8001862437134246,
+    "annualized_return": 0.15048982515576736,
+    "total_return": 0.9203020881699457,
+    "max_drawdown_pct": -0.18890006722452002,
+    "per_trade_fraction_used": 0.005,
+    "drag_per_trade_pct": 0.003,
+    "mean_daily_trades": 27.18283362727807,
+    "mean_daily_drag_pct": 0.08154850088183421,
+    "n_trades": 46238,
+    "n_days": 1701
+  }
+}
