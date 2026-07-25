@@ -12,7 +12,11 @@ HEAD_REF="${2:-HEAD}"
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 cd "$REPO_ROOT/quant-loop"
 
-mapfile -t VARIANTS < <(
+# bash 3.2 compatible (macOS ships bash 3.2, no mapfile)
+VARIANTS=()
+while IFS= read -r v; do
+  VARIANTS+=("$v")
+done < <(
   git diff --name-only "$BASE_REF...$HEAD_REF" -- 'quant-loop/strategies/' \
     | cut -d/ -f3 \
     | sort -u \
