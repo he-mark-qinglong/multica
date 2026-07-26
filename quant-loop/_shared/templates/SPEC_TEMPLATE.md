@@ -7,6 +7,23 @@
 > only checks the module signature + a synthetic-data smoke run; this
 > SPEC is for the human reviewer and the G1–G7 gate workflow.
 
+## Required diagrams (MANDATORY since 2026-07-26, smark rule)
+
+Every SPEC MUST ship at least two PNG diagrams (committed under
+`research/<topic>/` or the strategy dir); a SPEC without diagrams is
+returned at SIGNOFF, no exceptions:
+
+1. **Structure diagram** — the entry/TP/SL logic drawn on a price path
+   (or indicator panel) with levels annotated. One glance must answer
+   "where do I get in, get out, and get stopped".
+2. **Cost waterfall** — single round-trip gross-margin minus
+   fee/slippage breakdown, against the locked cost basis
+   (maker 0.02% / taker 0.05% per side, VIP0). The bar labeled
+   "net" must be visibly positive against taker, not just maker.
+
+Generate with matplotlib; keep the generating script next to the PNG
+so the figure is reproducible.
+
 ## Hypothesis
 
 <one sentence, falsifiable>
