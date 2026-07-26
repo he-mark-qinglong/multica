@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>契约式 Agent 协作机制</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background: #f7f8fa;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      padding: 40px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 8px;
+      color: #111827;
+    }
+    .subtitle {
+      text-align: center;
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+    .diagram {
+      width: 100%;
+      height: 760px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      background: #fafbfc;
+    }
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+      font-size: 13px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .legend-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+    }
+    .notes {
+      margin-top: 28px;
+      padding: 20px;
+      background: #f0f9ff;
+      border-radius: 10px;
+      border-left: 4px solid #0ea5e9;
+    }
+    .notes h3 {
+      margin: 0 0 12px 0;
+      font-size: 15px;
+      color: #0369a1;
+    }
+    .notes ul {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 13px;
+      color: #334155;
+    }
+    .notes li {
+      margin-bottom: 6px;
+    }
+    code {
+      background: #e2e8f0;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: "SF Mono", Monaco, monospace;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>契约式 Agent 协作机制</h1>
+    <div class="subtitle">Contract-Based Agent Collaboration · 无契约不派单 · CLAIMED_DONE ≠ DONE</div>
+
+    <svg class="diagram" viewBox="0 0 1120 760" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Arrow markers -->
+        <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L0,6 L9,3 z" fill="#6b7280"/>
+        </marker>
+        <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"/>
+        </marker>
+        <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L0,6 L9,3 z" fill="#dc2626"/>
+        </marker>
+        <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L0,6 L9,3 z" fill="#16a34a"/>
+        </marker>
+
+        <!-- Drop shadow -->
+        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.08"/>
+        </filter>
+
+        <!-- Gradients -->
+        <linearGradient id="grad-contract" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#eff6ff"/>
+          <stop offset="100%" stop-color="#dbeafe"/>
+        </linearGradient>
+        <linearGradient id="grad-state" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#f3f4f6"/>
+          <stop offset="100%" stop-color="#e5e7eb"/>
+        </linearGradient>
+        <linearGradient id="grad-breach" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#fef2f2"/>
+          <stop offset="100%" stop-color="#fee2e2"/>
+        </linearGradient>
+        <linearGradient id="grad-actor" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#f0fdf4"/>
+          <stop offset="100%" stop-color="#dcfce7"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Title labels for columns -->
+      <text x="190" y="42" text-anchor="middle" font-size="15" font-weight="600" fill="#1e40af">① 契约模板 (Task Contract)</text>
+      <text x="560" y="42" text-anchor="middle" font-size="15" font-weight="600" fill="#374151">② 状态机 (State Machine)</text>
+      <text x="930" y="42" text-anchor="middle" font-size="15" font-weight="600" fill="#991b1b">③ 违约阶梯 (Breach Ladder)</text>
+
+      <!-- ===== Column 1: Contract Template ===== -->
+      <g transform="translate(40, 64)">
+        <rect x="0" y="0" width="300" height="520" rx="12" fill="url(#grad-contract)" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+        <rect x="0" y="0" width="300" height="36" rx="12" fill="#3b82f6"/>
+        <rect x="0" y="24" width="300" height="16" fill="#3b82f6"/>
+        <text x="150" y="24" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">task-contract-template.yaml</text>
+
+        <g transform="translate(16, 52)">
+          <rect x="0" y="0" width="268" height="32" rx="6" fill="#fff" stroke="#bfdbfe"/>
+          <text x="12" y="20" font-size="12" font-weight="600" fill="#1e40af">id / title / assignee</text>
+        </g>
+        <g transform="translate(16, 92)">
+          <rect x="0" y="0" width="268" height="48" rx="6" fill="#fff" stroke="#bfdbfe"/>
+          <text x="12" y="20" font-size="12" font-weight="600" fill="#1e40af">preconditions</text>
+          <text x="12" y="38" font-size="11" fill="#64748b">前置条件：依赖 issue 已关闭、分支干净</text>
+        </g>
+        <g transform="translate(16, 150)">
+          <rect x="0" y="0" width="268" height="48" rx="6" fill="#fff" stroke="#bfdbfe"/>
+          <text x="12" y="20" font-size="12" font-weight="600" fill="#1e40af">deliverables</text>
+          <text x="12" y="38" font-size="11" fill="#64748b">可交付物：文件路径 + 功能说明</text>
+        </g>
+        <g transform="translate(16, 208)">
+          <rect x="0" y="0" width="268" height="56" rx="6" fill="#fff" stroke="#bfdbfe"/>
+          <text x="12" y="20" font-size="12" font-weight="600" fill="#1e40af">acceptance_evidence</text>
+          <text x="12" y="38" font-size="11" fill="#64748b">验收证据：测试命令 / 输出 / 截图</text>
+          <text x="12" y="52" font-size="11" fill="#64748b">必须包含 attestation_id</text>
+        </g>
+        <g transform="translate(16, 274)">
+          <rect x="0" y="0" width="268" height="48" rx="6" fill="#fff" stroke="#bfdbfe"/>
+          <text x="12" y="20" font-size="12" font-weight="600" fill="#1e40af">metric_refs</text>
+          <text x="12" y="38" font-size="11" fill="#64748b">指标引用：必须 pin SHA / data_as_of</text>
+        </g>
+        <g transform="translate(16, 332)">
+          <rect x="0" y="0" width="268" height="48" rx="6" fill="#fff" stroke="#bfdbfe"/>
+          <text x="12" y="20" font-size="12" font-weight="600" fill="#1e40af">breach_policy</text>
+          <text x="12" y="38" font-size="11" fill="#64748b">违约处理：换人 → 审卡 → 冻结</text>
+        </g>
+        <g transform="translate(16, 390)">
+          <rect x="0" y="0" width="268" height="56" rx="6" fill="#fff" stroke="#bfdbfe"/>
+          <text x="12" y="20" font-size="12" font-weight="600" fill="#1e40af">signoff_chain</text>
+          <text x="12" y="38" font-size="11" fill="#64748b">签核链：L4 decision-maker →</text>
+          <text x="12" y="52" font-size="11" fill="#64748b">L5 signoff-proxy / human smark</text>
+        </g>
+        <g transform="translate(16, 456)">
+          <rect x="0" y="0" width="268" height="44" rx="6" fill="#eff6ff" stroke="#3b82f6" stroke-dasharray="4 2"/>
+          <text x="12" y="20" font-size="12" font-weight="600" fill="#1e40af">comment schema</text>
+          <text x="12" y="36" font-size="11" fill="#64748b">[TYPE] ISO8601 摘要</text>
+        </g>
+      </g>
+
+      <!-- ===== Column 2: State Machine ===== -->
+      <g transform="translate(380, 64)">
+        <rect x="0" y="0" width="360" height="520" rx="12" fill="#fff" stroke="#d1d5db" stroke-width="1" filter="url(#shadow)"/>
+
+        <!-- States -->
+        <g transform="translate(130, 60)">
+          <rect x="0" y="0" width="100" height="40" rx="20" fill="#fff" stroke="#6b7280" stroke-width="2"/>
+          <text x="50" y="24" text-anchor="middle" font-size="12" font-weight="600" fill="#374151">DRAFTED</text>
+        </g>
+        <g transform="translate(130, 140)">
+          <rect x="0" y="0" width="100" height="40" rx="20" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+          <text x="50" y="24" text-anchor="middle" font-size="12" font-weight="600" fill="#2563eb">ISSUED</text>
+        </g>
+        <g transform="translate(130, 220)">
+          <rect x="0" y="0" width="100" height="40" rx="20" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+          <text x="50" y="24" text-anchor="middle" font-size="12" font-weight="600" fill="#2563eb">CLAIMED</text>
+        </g>
+        <g transform="translate(130, 300)">
+          <rect x="0" y="0" width="100" height="40" rx="20" fill="#fff" stroke="#7c3aed" stroke-width="2"/>
+          <text x="50" y="24" text-anchor="middle" font-size="12" font-weight="600" fill="#7c3aed">ATTESTING</text>
+        </g>
+        <g transform="translate(130, 380)">
+          <rect x="0" y="0" width="100" height="40" rx="20" fill="#ecfdf5" stroke="#16a34a" stroke-width="2"/>
+          <text x="50" y="24" text-anchor="middle" font-size="12" font-weight="600" fill="#16a34a">VERIFIED</text>
+        </g>
+        <g transform="translate(250, 380)">
+          <rect x="0" y="0" width="90" height="40" rx="20" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+          <text x="45" y="24" text-anchor="middle" font-size="12" font-weight="600" fill="#dc2626">REJECTED</text>
+        </g>
+        <g transform="translate(130, 460)">
+          <rect x="0" y="0" width="120" height="40" rx="20" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+          <text x="60" y="24" text-anchor="middle" font-size="12" font-weight="600" fill="#ea580c">SIGNOFF_PENDING</text>
+        </g>
+
+        <!-- State transitions arrows -->
+        <line x1="180" y1="100" x2="180" y2="140" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow-gray)"/>
+        <line x1="180" y1="180" x2="180" y2="220" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-blue)"/>
+        <line x1="180" y1="260" x2="180" y2="300" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-blue)"/>
+        <line x1="180" y1="340" x2="180" y2="380" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow-blue)"/>
+        <line x1="180" y1="420" x2="180" y2="460" stroke="#16a34a" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+        <!-- Reject loop -->
+        <path d="M230,320 Q300,320 295,380 L250,380" fill="none" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow-red)"/>
+        <text x="280" y="355" font-size="10" fill="#dc2626" text-anchor="middle">evidence fail</text>
+
+        <!-- Reject -> re-issue -->
+        <path d="M270,400 Q270,480 180,480 Q90,480 90,160 L130,160" fill="none" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow-red)" stroke-dasharray="4 2"/>
+        <text x="75" y="320" font-size="10" fill="#dc2626" text-anchor="middle">re-issue</text>
+
+        <!-- Labels -->
+        <text x="195" y="124" font-size="10" fill="#6b7280">orchestrator 派单</text>
+        <text x="195" y="204" font-size="10" fill="#2563eb">worker claim</text>
+        <text x="195" y="284" font-size="10" fill="#7c3aed">run + attest</text>
+        <text x="195" y="364" font-size="10" fill="#16a34a">gate verified</text>
+        <text x="195" y="444" font-size="10" fill="#ea580c">request signoff</text>
+
+        <!-- Final closed (small) -->
+        <g transform="translate(130, 540)" opacity="0.5">
+          <rect x="0" y="0" width="100" height="32" rx="16" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1"/>
+          <text x="50" y="20" text-anchor="middle" font-size="11" fill="#6b7280">CLOSED</text>
+        </g>
+      </g>
+
+      <!-- ===== Column 3: Breach Ladder ===== -->
+      <g transform="translate(760, 64)">
+        <rect x="0" y="0" width="300" height="520" rx="12" fill="url(#grad-breach)" stroke="#ef4444" stroke-width="2" filter="url(#shadow)"/>
+        <rect x="0" y="0" width="300" height="36" rx="12" fill="#ef4444"/>
+        <rect x="0" y="24" width="300" height="16" fill="#ef4444"/>
+        <text x="150" y="24" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">breach_policy.ladder</text>
+
+        <g transform="translate(20, 60)">
+          <rect x="0" y="0" width="260" height="120" rx="10" fill="#fff" stroke="#fecaca"/>
+          <text x="130" y="28" text-anchor="middle" font-size="13" font-weight="700" fill="#b91c1c">Step 1 · 换人重派</text>
+          <text x="130" y="54" text-anchor="middle" font-size="11" fill="#7f1d1d">claimed 后超时 / 无进展</text>
+          <text x="130" y="74" text-anchor="middle" font-size="11" fill="#7f1d1d">或 deliverable 明显偏离</text>
+          <text x="130" y="100" text-anchor="middle" font-size="10" fill="#991b1b" font-style="italic">unclaim → re-issue</text>
+        </g>
+
+        <g transform="translate(20, 196)">
+          <rect x="0" y="0" width="260" height="120" rx="10" fill="#fff" stroke="#fecaca"/>
+          <text x="130" y="28" text-anchor="middle" font-size="13" font-weight="700" fill="#b91c1c">Step 2 · 审卡降级</text>
+          <text x="130" y="54" text-anchor="middle" font-size="11" fill="#7f1d1d">attestation 造假 / 缺失</text>
+          <text x="130" y="74" text-anchor="middle" font-size="11" fill="#7f1d1d">metric_ref 不 pin SHA</text>
+          <text x="130" y="100" text-anchor="middle" font-size="10" fill="#991b1b" font-style="italic">agent 信任分 -1，转人工</text>
+        </g>
+
+        <g transform="translate(20, 332)">
+          <rect x="0" y="0" width="260" height="120" rx="10" fill="#fff" stroke="#fecaca"/>
+          <text x="130" y="28" text-anchor="middle" font-size="13" font-weight="700" fill="#b91c1c">Step 3 · 冻结 + 人工</text>
+          <text x="130" y="54" text-anchor="middle" font-size="11" fill="#7f1d1d">重复违约 / 破坏主分支</text>
+          <text x="130" y="74" text-anchor="middle" font-size="11" fill="#7f1d1d">未经 signoff 直接合并</text>
+          <text x="130" y="100" text-anchor="middle" font-size="10" fill="#991b1b" font-style="italic">suspend → human ESCALATE</text>
+        </g>
+
+        <!-- Vertical arrow through steps -->
+        <line x1="150" y1="180" x2="150" y2="196" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow-red)"/>
+        <line x1="150" y1="316" x2="150" y2="332" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow-red)"/>
+      </g>
+
+      <!-- ===== Bottom: Actors ===== -->
+      <g transform="translate(40, 620)">
+        <rect x="0" y="0" width="1040" height="120" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+        <text x="520" y="28" text-anchor="middle" font-size="14" font-weight="600" fill="#334155">Actor 角色与职责</text>
+
+        <g transform="translate(40, 48)">
+          <rect x="0" y="0" width="140" height="48" rx="24" fill="url(#grad-actor)" stroke="#16a34a" stroke-width="2"/>
+          <text x="70" y="20" text-anchor="middle" font-size="12" font-weight="600" fill="#166534">orchestrator</text>
+          <text x="70" y="36" text-anchor="middle" font-size="10" fill="#166534">起草 / 派单 / 路由</text>
+        </g>
+
+        <g transform="translate(220, 48)">
+          <rect x="0" y="0" width="140" height="48" rx="24" fill="url(#grad-actor)" stroke="#16a34a" stroke-width="2"/>
+          <text x="70" y="20" text-anchor="middle" font-size="12" font-weight="600" fill="#166534">research agent</text>
+          <text x="70" y="36" text-anchor="middle" font-size="10" fill="#166534">单线程策略构思</text>
+        </g>
+        <text x="360" y="74" font-size="11" fill="#64748b">→</text>
+
+        <g transform="translate(390, 48)">
+          <rect x="0" y="0" width="140" height="48" rx="24" fill="url(#grad-actor)" stroke="#16a34a" stroke-width="2"/>
+          <text x="70" y="20" text-anchor="middle" font-size="12" font-weight="600" fill="#166534">worker agent</text>
+          <text x="70" y="36" text-anchor="middle" font-size="10" fill="#166534">执行 / 提交 / 自证</text>
+        </g>
+        <text x="530" y="74" font-size="11" fill="#64748b">→</text>
+
+        <g transform="translate(560, 48)">
+          <rect x="0" y="0" width="140" height="48" rx="24" fill="#faf5ff" stroke="#9333ea" stroke-width="2"/>
+          <text x="70" y="20" text-anchor="middle" font-size="12" font-weight="600" fill="#6b21a8">evidence gate</text>
+          <text x="70" y="36" text-anchor="middle" font-size="10" fill="#6b21a8">复测 / 验证 attestation</text>
+        </g>
+        <text x="700" y="74" font-size="11" fill="#64748b">→</text>
+
+        <g transform="translate(730, 48)">
+          <rect x="0" y="0" width="130" height="48" rx="24" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+          <text x="65" y="20" text-anchor="middle" font-size="12" font-weight="600" fill="#9a3412">decision-maker</text>
+          <text x="65" y="36" text-anchor="middle" font-size="10" fill="#9a3412">KEEP / KILL 判决</text>
+        </g>
+        <text x="860" y="74" font-size="11" fill="#64748b">→</text>
+
+        <g transform="translate(890, 48)">
+          <rect x="0" y="0" width="120" height="48" rx="24" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+          <text x="60" y="20" text-anchor="middle" font-size="12" font-weight="600" fill="#1e40af">signoff-proxy</text>
+          <text x="60" y="36" text-anchor="middle" font-size="10" fill="#1e40af">最终签核 / 归档</text>
+        </g>
+      </g>
+
+      <!-- Cross-column arrows -->
+      <!-- Contract -> ISSUED -->
+      <path d="M340,180 L380,180" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+      <text x="360" y="172" font-size="10" fill="#3b82f6" text-anchor="middle">embed</text>
+
+      <!-- VERIFIED -> Breach check -->
+      <path d="M590,400 L760,400" fill="none" stroke="#16a34a" stroke-width="2" marker-end="url(#arrow-green)"/>
+      <text x="675" y="392" font-size="10" fill="#16a34a" text-anchor="middle">gate pass</text>
+
+      <!-- CLAIMED_DONE discipline callout -->
+      <g transform="translate(380, 520)">
+        <rect x="0" y="0" width="360" height="36" rx="6" fill="#fefce8" stroke="#eab308" stroke-width="1"/>
+        <text x="180" y="22" text-anchor="middle" font-size="11" font-weight="600" fill="#854d0e">⚠ CLAIMED_DONE ≠ DONE · 需 attestation_id + 可复现证据</text>
+      </g>
+    </svg>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>契约数据 Contract YAML</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#6b7280"></div>状态流转 State Flow</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>违约处理 Breach</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#16a34a"></div>Actor 角色</div>
+    </div>
+
+    <div class="notes">
+      <h3>关键纪律（P0 已落地）</h3>
+      <ul>
+        <li><strong>无契约不派单</strong>：每个 issue 顶部必须嵌入 <code>task-contract-template.yaml</code> 代码块，否则 worker 有权拒绝 claim。</li>
+        <li><strong>CLAIMED_DONE ≠ DONE</strong>：agent 自称完成仅进入 ATTESTING，必须提交可复现证据（命令、输出、attestation_id）。</li>
+        <li><strong>SIGNOFF 需 attestation_id</strong>：L4/L5 签核必须引用 evidence gate 的 attestation_id，否则 signoff 无效。</li>
+        <li><strong>引用必 pin SHA</strong>：metric_refs / 代码引用必须包含 Git SHA 或 data_as_of，防止前视偏差（look-ahead）。</li>
+        <li><strong>env_fail_check_first</strong>：失败先检查环境 / 路径 / 磁盘，再归因于策略或代码。</li>
+        <li><strong>comment schema</strong>：所有评论首行必须是 <code>[TYPE] ISO8601 摘要</code>，TYPE ∈ STATUS/DECISION/EVIDENCE/KILL/ESCALATE/SIGNOFF/NUDGE/NOOP。</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
