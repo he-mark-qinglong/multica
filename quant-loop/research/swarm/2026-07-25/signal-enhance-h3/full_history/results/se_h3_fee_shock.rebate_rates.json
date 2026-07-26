@@ -1,0 +1,9 @@
+{
+  "addendum": "2026-07-26 — 60% 返佣费率确认（smark 亲身体验，渠道为返佣商聚合账户）",
+  "rate_basis": {"maker_per_side_bps": 0.8, "taker_per_side_bps": 2.0, "note": "VIP0 名义 maker 2bp/taker 5bp × 40%"},
+  "computed_with": "fee_shock_metrics_fixed, same equity+trades as se_h3_fee_shock.fixed.json",
+  "maker_rebate_1p6bps_rt": {"sharpe_daily_resampled": 8.876, "annualized_return": 2.398, "max_drawdown_pct": -0.0401},
+  "taker_rebate_4bps_rt": {"sharpe_daily_resampled": 5.982, "annualized_return": 1.262, "max_drawdown_pct": -0.0546},
+  "taker_full_10bps_rt_reference": {"sharpe_daily_resampled": -1.4025},
+  "interpretation": "返佣后 taker 执行也可活（4bps RT, Sharpe 5.98）；maker 更优（1.6bps, 8.88）。KILL 前提（成本不可达）不成立。风险：返佣渠道依赖第三方聚合账户，持续性需纳入判决。"
+}
