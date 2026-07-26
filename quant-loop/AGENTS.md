@@ -221,3 +221,106 @@ tests covering filename parsing, bucket discovery, missing/too-small
 files, clean series, internal gaps, boundary drift, trailing staleness,
 schema gaps, NaN closes, symlinks, sampled full-file audit, and the CLI
 end-to-end.
+
+---
+
+## 6. Freshness dashboard (`scripts/freshness_dashboard.py`)
+
+Companion to `scripts/missing_bar_detector.py`. Where §5 answers the
+*structural completeness* question (gaps, schema, monotonicity),
+this script answers the *operational freshness* question:
+
+> **For every data file the workspace can prove exists, is its latest
+> bar still inside the per-timeframe staleness budget?**
+
+A file can pass §5 (no internal gaps, monotonic, on-grid) and still
+fail §6 (refresh job died a week ago, no new bars since). Both
+audits are needed; neither replaces the other.
+
+### What it checks (per `(symbol × timeframe)` cell)
+
+| Check | What it means |
+|---|---|
+| `file_present` | path exists and is a regular file (symlink flagged, not crashed) |
+| `size_ok` | `> 1 KB` floor (a stray stub is not a series) |
+| `schema_ok` | `open_time` (OHLCV) or `fundingTime` (funding) readable |
+| `symlink_target` | if file is a symlink, the link target is reported so the SMA-34855 BTCUSDT_4h → BTCUSD_4h class of bug cannot recur silently |
+| `age_ms` | `now - last_bar_ms` (uses last row of `open_time` / `fundingTime`) |
+| `budget_ms` | per-TF staleness budget — see table below |
+| `status` | one of `fresh` / `stale` / `missing` / `symlink` / `unknown` |
+
+### Staleness budgets
+
+Match `scripts/missing_bar_detector.FRESHNESS_SLACK_MS` (single source
+of truth across both scripts — keep them in sync):
+
+| Interval | Budget |
+|---|---|
+| `1m` | 5 min |
+| `5m` | 10 min |
+| `15m` | 20 min |
+| `30m` | 35 min |
+| `1h` | 65 min |
+| `2h` | 2 h 5 min |
+| `4h` | 5 h |
+| `1d` | 26 h |
+| `funding` | 9 h (8 h cadence + 1 h slack) |
+
+### Per-cell status
+
+| Status | Meaning | Hard-fail (exit 1)? |
+|---|---|---|
+| `fresh` | file present, last bar inside budget | no |
+| `stale` | file present, last bar older than budget | **yes** |
+| `missing` | expected path absent, or stub < 1 KB | **yes** |
+| `symlink` | file is a symlink (target reported) | no — flagged for review |
+| `unknown` | file present but schema unreadable | no — flagged for review |
+
+### CLI
+
+```bash
+# Default run — write JSON + HTML under data/freshness/.
+python3 scripts/freshness_dashboard.py \
+    --workspace . \
+    --json-out data/freshness/freshness-snapshot.json \
+    --html-out data/freshness/freshness-dashboard.html
+
+# Machine-only mode, emit JSON on stdout, no human summary.
+python3 scripts/freshness_dashboard.py --workspace . --quiet > snap.json
+
+# Override 'now' for tests / backfills.
+python3 scripts/freshness_dashboard.py --workspace . --now-ms 1784351400000 --quiet
+```
+
+Exit code mirrors `missing_bar_detector`'s convention: `0` if no
+present cell is past its budget and no expected cell is missing;
+otherwise `1`. Symlinks and `unknown` rows are reported but do not
+trigger a non-zero exit (the BTCUSDT_4h symlink is a known case).
+
+### Outputs
+
+* `data/freshness/freshness-snapshot.json` — machine-readable
+  snapshot. Contains: `generated_at`, `workspace`, the literal
+  `find` command used (§1 audit-by-replication), `files_seen`, a
+  per-status / per-bucket / per-interval rollup, and one
+  `FreshnessReport` per audited cell.
+* `data/freshness/freshness-dashboard.html` — self-contained HTML
+  (no external CSS/JS), opens directly from `file://`. Summary
+  chips, per-interval breakdown, and a full per-cell table.
+* The literal `find` command used is embedded in both outputs so a
+  future operator can replay it on any day and confirm the cell
+  count has not silently changed.
+
+### Tests
+
+`pytest scripts/test_freshness_dashboard.py` — 28 synthetic-fixture
+tests covering: classifier for every bucket (shared pool /
+strategy-local fapi+double-underscore / freqtrade feather /
+funding / unknown), freshness verdicts at / inside / outside the
+budget boundary, missing path handling, stub-below-floor
+detection, symlink-flagged-not-hard-failed behaviour, unknown
+schema reporting, funding-cadence budget, mixed-bucket rollup,
+zero-`find`-results fallback, classifier parity between the
+`find`-based and `os.walk`-based enumerators, HTML rendering
+(self-contained, no external assets), and CLI exit-code semantics
+(0 when every expected cell is fresh and present, 1 otherwise).
