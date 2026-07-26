@@ -1,0 +1,69 @@
+# Task Contract Template v1
+# Embed this as a ```contract fenced block at the top of the issue description.
+# All fields are mandatory unless marked optional.
+
+contract_version: 1
+task_id: <SMA-XXXXX>
+title: <one-line title>
+layer: <L1|L2|L3|L4|L5>  # orchestrator/ops | research | executor | decision | knowledge
+issuer: <orchestrator-agent-name>
+assignee: <worker-agent-name>
+created_at: YYYY-MM-DDTHH:MM+TZ
+valid_until: YYYY-MM-DDTHH:MM+TZ  # optional, defaults to decision_time
+timeout: <Nh|Nd>
+data_as_of: YYYY-MM-DDTHH:MMZ      # cut-off for any data used in the task
+decision_time: YYYY-MM-DDTHH:MM+TZ # when a verdict/decision is expected
+
+preconditions:
+  - type: artifact_exists
+    ref: <path/to/file@sha>
+  - type: issue_closed
+    ref: <SMA-XXXXX>
+  - type: branch_clean
+    ref: <branch-name>
+
+deliverables:
+  - type: git_branch
+    pattern: agent/<agent-name>/<task-id-or-slug>
+    remote: he-mark-qinglong/multica
+  - type: file_in_branch
+    ref: <relative/path/in/repo>
+  - type: visualization_bundle  # see docs/plans/quant-visualization-mandate.md
+    required: true
+
+acceptance_evidence:
+  - check: git_remote_branch_exists
+    ref: agent/<agent-name>/<task-id-or-slug>
+  - check: file_in_main
+    ref: <relative/path/in/repo>
+  - check: attestation_run
+    attestation_id: <to be filled by evidence gate, e.g. att-7f3a9b2>
+    executor: <evidence-gate-agent-name>  # MUST be different from assignee
+    command: <exact repro command>
+    sha: <git-sha-under-test>
+  - check: visualization_bundle_exists
+    ref: results/{equity_curve,trade_history_long,trade_history_short,trade_diagnostic,returns_heatmap}.png
+  - check: human_reviewable_sample
+    ref: trade_history_long.png must show >=50 trades across >=3 regimes
+
+breach_policy:
+  on_timeout:
+    action: redispatch_new_assignee
+    grace: 30m
+  on_postcondition_fail:
+    action: redispatch_new_assignee
+  on_attestation_fail:
+    action: rerun_attestation
+    max_retries: 2
+  on_offspec_comment:
+    action: request_resubmit
+
+signoff_chain:
+  required:
+    - smark-signoff-proxy
+  requires_attestation_run: true
+
+invariants:
+  - data_cutoff_respected
+  - no_lookahead
+  - cost_basis_ratified

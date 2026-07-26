@@ -82,6 +82,55 @@ The body that follows is free-form markdown, but the first line MUST match the s
 - comment-janitor cron can flag drift / missing schema
 - downstream analytics (decision provenance, escalation latency)
 
+## Contract Execution Rules (mandatory 2026-07-26)
+
+Every research/execution issue dispatched with a `task-contract-template.yaml` block MUST be executed according to the contract. The contract is not advisory text; missing any hard requirement blocks SIGNOFF.
+
+### 1. No contract, no dispatch
+
+- orchestrator MUST embed the contract block at the top of the issue description before claiming begins.
+- worker/agent MAY refuse to claim if the contract block is missing, malformed, or assigns the wrong layer.
+
+### 2. Attestation isolation
+
+- If `acceptance_evidence.requires_attestation_run: true` (or any equivalent flag), the evidence gate MUST be run by an agent **other than the assignee**.
+- The attestation agent posts an `[EVIDENCE]` comment containing:
+  - `attestation_id`: a short random id (e.g. `att-7f3a9b2`)
+  - `repro_command`: the exact command used
+  - `sha`: the Git SHA of the branch tested
+  - `result`: PASS / FAIL with key numbers
+- SIGNOFF comments MUST reference the `attestation_id`. Signoff without a valid attestation_id is invalid.
+- Self-attestation by the assignee is allowed ONLY if the contract explicitly sets `self_attestation: true`.
+
+### 3. Signoff chain discipline
+
+- `signoff_chain` lists the required approvers in order.
+- `smark-signoff-proxy` is the default L5 final approver for execution tasks.
+- smark (human member) MAY:
+  - post a `[DECISION]` comment giving the verdict, then let `smark-signoff-proxy` emit the formal `[SIGNOFF]`
+  - bypass the proxy in emergencies and post `[SIGNOFF]` directly, but MUST include the word `bypass` in the summary
+- Research-line KEEP/KILL verdicts remain with `smark-decision-maker` + human signoff; never let an L2/L3 agent sign off its own strategy output.
+
+### 4. Acceptance evidence checklist
+
+Before SIGNOFF, every required item in `acceptance_evidence` MUST be verified and referenced in the attestation or signoff comment:
+
+- `git_remote_branch_exists` — branch pushed to `he-mark-qinglong/multica`
+- `file_in_main` — file present in `main` after merge
+- `visualization_bundle_exists` — see `docs/plans/quant-visualization-mandate.md`
+- `attestation_run` — independent evidence gate run
+
+### 5. Comment schema enforcement
+
+- Agent comments missing the `[type=...]` tag are **OFFSPEC**.
+- `comment-janitor` cron SHOULD flag OFFSPEC comments and add the `OFFSPEC` label.
+- A SIGNOFF comment that is OFFSPEC does not count as valid signoff.
+
+### 6. Issue status
+
+- Use `done` to close a completed issue. `closed` is not a valid status in the database check constraint.
+- Do NOT change status to `done` until all acceptance evidence and signoff are complete.
+
 ## Knowledge snapshots (workspace-level, 2026-07-18 onward)
 
 Daily workspace snapshots live under `~/multica/knowledge/curator/<date>-<slug>.md`. Each one is the evidence-backed summary of the day's workspace events; this section is the terse pointer so anyone working in this repo can locate today's facts without re-deriving them.
