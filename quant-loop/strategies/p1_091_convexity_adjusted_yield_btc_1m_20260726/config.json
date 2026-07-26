@@ -1,0 +1,69 @@
+{
+  "strategy_key": "p1_convexity_adjusted_yield",
+  "variant_key": "p1_091_convexity_adjusted_yield_btc_1m_20260726",
+  "iteration": 1,
+  "date": "2026-07-26",
+  "source_spec": "SMA-36109",
+  "implementation_issue": "SMA-36109",
+  "instruments": ["BTCUSDT"],
+  "timeframes": ["1m"],
+  "starting_capital_usd": 100000.0,
+
+  "params": {
+    "cost_bps_rt": 24.0,
+    "vol_target": 0.15,
+    "max_size_fraction": 0.95,
+    "rv_window_bars": 240,
+    "z_window": 1440,
+    "atr_window": 60,
+    "hard_stop_atr_k": 2.0,
+    "funding_annualization": 1095.75,
+    "vol_drag_coef": 0.5
+  },
+
+  "pre_registered_candidates": [
+    {
+      "label": "tight_z2.0",
+      "rationale": "Strict entry (top 2.3% of bars); expect smaller sample, deeper reversion.",
+      "params": {
+        "z_entry": 2.0,
+        "z_exit": 0.0,
+        "hold_bars": 240
+      }
+    },
+    {
+      "label": "medium_z1.5",
+      "rationale": "Looser entry (top 6.7%); more trades, smaller alpha per trade. Pre-registered baseline.",
+      "params": {
+        "z_entry": 1.5,
+        "z_exit": 0.0,
+        "hold_bars": 240
+      }
+    },
+    {
+      "label": "wide_z1.0",
+      "rationale": "Widest entry (top 15.9%); vol-target cap limits max exposure.",
+      "params": {
+        "z_entry": 1.0,
+        "z_exit": 0.0,
+        "hold_bars": 240
+      }
+    }
+  ],
+
+  "cpcv": {
+    "n_groups": 6,
+    "k_test": 2,
+    "purge_bars": 240,
+    "embargo_bars": 120,
+    "periods_per_year": 525600,
+    "n_trials_for_dsr": 3
+  },
+
+  "acceptance_gates": {
+    "min_mean_oos_sharpe": 0.5,
+    "min_worst_oos_sharpe": 0.0,
+    "min_deflated_sharpe": 0.0,
+    "min_total_trades": 30
+  }
+}

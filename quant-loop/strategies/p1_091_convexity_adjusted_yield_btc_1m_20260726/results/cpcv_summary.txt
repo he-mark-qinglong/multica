@@ -1,0 +1,25 @@
+=== p1_091_convexity_adjusted_yield_btc_1m_20260726 CPCV (SMA-36109) ===
+  n_groups=6 k_test=2 purge=240 embargo=120
+  pre-registered candidates: 3
+  data span: 2019-09-08 17:57:00 → 2026-07-17 19:39:00 (3,605,862 bars)
+
+=== Per-candidate OOS metrics ===
+label                  mean    worst      dsr   trades    tpf  folds
+tight_z2.0          -2.7398  -4.0780  -2.7396  2007175 133811.67     15
+medium_z1.5          0.4255  -0.3929   0.4256  3355819 223721.27     15
+wide_z1.0            5.4397   1.0640   5.4402  6095087 406339.13     15
+
+=== Acceptance gates (CPCV) ===
+  mean_oos_sharpe >= 0.5  : parent_issue_best=5.4397
+  worst_oos_sharpe >= 0.0
+  deflated_sharpe > 0.0
+  total_oos_trades >= 30
+
+PARENT-ISSUE VERDICT: PASS — Sharpe ≥ 0.5
+  best candidate: wide_z1.0
+  best mean OOS Sharpe: 5.4397
+  chosen (pre-registered order): wide_z1.0
+  selection verdict: PASS-OPTIMIZED
+
+=== Aggregate OOS metrics (chosen candidate) ===
+  sharpe_daily=5.6254  annualized_return=1.7210  max_drawdown_pct=-0.1128  profit_factor=1.0640  n_trades=6095087

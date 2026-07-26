@@ -1,0 +1,66 @@
+{
+  "variant_key": "p1_091_convexity_adjusted_yield_btc_1m_20260726",
+  "iteration": 1,
+  "date": "2026-07-26",
+  "source_spec": "SMA-36109",
+  "implementation_issue": "SMA-36109",
+  "instruments": [
+    "BTCUSDT"
+  ],
+  "timeframes": [
+    "1m"
+  ],
+  "generated_at_utc": "2026-07-26T09:34:18+00:00",
+  "data_span": [
+    "2019-09-08 17:57:00",
+    "2026-07-17 19:39:00"
+  ],
+  "n_bars_total": 3605862,
+  "verdict": "PASS-OPTIMIZED",
+  "parent_issue_verdict": "PASS \u2014 Sharpe \u2265 0.5",
+  "parent_issue_best_candidate": "wide_z1.0",
+  "parent_issue_best_sharpe": 5.439697809845968,
+  "chosen_label": "wide_z1.0",
+  "cpcv_config": {
+    "n_groups": 6,
+    "k_test": 2,
+    "purge_bars": 240,
+    "embargo_bars": 120,
+    "periods_per_year": 525600,
+    "n_trials_for_dsr": 3
+  },
+  "acceptance_gates": {
+    "min_mean_oos_sharpe": 0.5,
+    "min_worst_oos_sharpe": 0.0,
+    "min_deflated_sharpe": 0.0,
+    "min_total_trades": 30
+  },
+  "sharpe": 5.625361677482899,
+  "sharpe_daily": 5.625361677482899,
+  "annualized_return": 1.7210089222017828,
+  "max_drawdown_pct": -0.11277032185627003,
+  "profit_factor": 1.0639729889517595,
+  "n_trades_total": 6095087,
+  "win_rate": 0.16870349815365515,
+  "mean_sharpe_daily_wf": 5.625361677482899,
+  "worst_max_drawdown_pct": -0.11277032185627003,
+  "min_profit_factor_wf": 1.0639729889517595,
+  "n_folds_total": 15,
+  "cpcv_per_symbol": {
+    "PORTFOLIO": {
+      "mean_oos_sharpe": 5.439697809845968,
+      "std_oos_sharpe": null,
+      "dsr": 5.44021621180213,
+      "n_paths_total": 15,
+      "n_paths_valid": 15
+    }
+  },
+  "gates": {
+    "G1_pass": true,
+    "G1_cpcv_mean_oos_sharpe": 5.439697809845968,
+    "G1_cpcv_mean_oos_sharpe_min": 0.5,
+    "G2_pass": true,
+    "G3_pass": true,
+    "G4_pass": true
+  }
+}
