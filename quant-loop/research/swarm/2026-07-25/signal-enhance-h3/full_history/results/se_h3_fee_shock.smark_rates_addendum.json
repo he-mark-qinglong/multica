@@ -1,0 +1,13 @@
+{
+  "addendum": "2026-07-26 smark-locked cost basis (SMA-36603): maker 0.02% / taker 0.05% per side",
+  "computed_with": "fee_shock_metrics_fixed on results/se_h3_equity_daily.csv + se_h3_trades.csv (same full-notional basis as se_h3_fee_shock.fixed.json)",
+  "taker_10bps_rt": {
+    "pair_round_trip_bps": 10.0,
+    "sharpe_daily_resampled": -1.4025,
+    "annualized_return": -0.1838,
+    "total_return": -0.6114,
+    "max_drawdown_pct": -0.6367
+  },
+  "maker_4bps_rt_reference": {"sharpe_daily_resampled": 5.9821},
+  "interpretation": "engine-embedded 8bps + taker 10bps = 18bps total cost vs 17.78bps mean gross -> marginally dead. KILL stands under taker execution; maker path (4bps, +5.98) not pursued (no pilot, human decision SMA-36603)."
+}
