@@ -91,3 +91,49 @@ drift source and will be flagged by
 
 Fee-shock sensitivity runs pass an explicit multiplier against the
 ratified constant (e.g. `cost_bps_rt = 60`) — never inline the literal.
+
+## Visualization & human-reviewable evidence
+
+Every strategy MUST ship the following images in `results/` before any
+KEEP/KILL verdict. Abstract metrics are not sufficient; smark and
+signoff-proxy must be able to inspect individual trades.
+
+Required artifacts (generated via `_shared.visualization.StrategyVisualizer`):
+
+| file | content |
+|---|---|
+| `equity_curve.png` | Combined + long-only + short-only NAV curves with drawdown bands |
+| `trade_history_long.png` | Representative long trades overlaid on K-line chart |
+| `trade_history_short.png` | Representative short trades overlaid on K-line chart |
+| `trade_diagnostic.png` | PnL vs hold time, distribution, hourly mean, top contributors/detractors |
+| `returns_heatmap.png` | Monthly returns heatmap |
+| `vpvr_overlay.png` | (if VPVR-based) volume profile with entry/exit clusters |
+| `indicator_overlay.png` | (if signal uses indicator) price + indicator + trades |
+
+Rules:
+
+1. `trade_history_*.png` must show ≥50 representative trades spanning at
+   least 3 distinct market regimes (trend up, trend down, chop).
+2. Each trade must be visually traceable: entry marker, exit marker,
+   hold-time connecting line, and side.
+3. The researcher comment MUST explain the 3 largest drawdown periods
+   and the 5 largest contributing trades, referencing the visual artifacts.
+4. Missing any mandatory image = attestation fails automatically.
+5. If the visual evidence contradicts the numeric summary, visual
+   evidence wins and the issue is routed back for bug investigation.
+
+Example integration in `run_backtest.py`:
+
+```python
+from quant_loop._shared.visualization import StrategyVisualizer
+
+viz = StrategyVisualizer(
+    ohlc_df=df_1m,
+    trades_df=trades,
+    equity_df=equity,
+    output_dir="results/",
+    symbol=primary_symbol,
+    cost_bps_rt=22.0,
+)
+viz.generate_all(max_trade_samples=150)
+```
