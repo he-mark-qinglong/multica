@@ -17,12 +17,16 @@ timeout: 4h
 
 # ===== 数据时点（防前视）=====
 data_as_of: <允许使用的最新数据时间戳 | n/a>
-decision_time: <结论要支持的决策时点；invariant: data_as_of ≤ decision_time>
+decision_time: "<结论要支持的决策时点；invariant: data_as_of ≤ decision_time>"
 
 # ===== Preconditions（caller 义务；派发瞬间与开工前各验一次）=====
 preconditions:
   - type: artifact_exists             # 机器可查；可变引用必须 pin SHA
     ref: <repo 内路径>@<SHA>
+  # - type: issue_closed
+  #   ref: <SMA-XXXXX>
+  # - type: branch_clean
+  #   ref: <branch-name>
   # - type: upstream_merged
   #   ref: main@<SHA>
   # - type: freshness
@@ -37,13 +41,32 @@ deliverables:
   - type: git_branch
     pattern: agent/<agent-name>/<task-id>
     remote: he-mark-qinglong/multica
-  - type: file
-    path: <repo 内路径>
+  - type: file_in_branch
+    ref: <relative/path/in/repo>
+  # - type: file
+  #   path: <repo 内路径>
+  - type: visualization_bundle        # 量化任务必须附图，见 quant-visualization-mandate
+    required: true
+    refs:
+      - results/equity_curve.png
+      - results/trade_history_long.png
+      - results/trade_history_short.png
+      - results/trade_diagnostic.png
+      - results/returns_heatmap.png
 
 # ===== Acceptance evidence（done 的充要条件，全部机器可查）=====
 acceptance_evidence:
   - check: git_remote_branch_exists
     ref: agent/<agent-name>/<task-id>
+  - check: attestation_run            # 必须由非 assignee 的 evidence gate 执行
+    attestation_id: <to be filled by evidence gate, e.g. att-7f3a9b2>
+    executor: <evidence-gate-agent-name>  # MUST be different from assignee
+    command: <exact repro command>
+    sha: <git-sha-under-test>
+  - check: visualization_bundle_exists
+    ref: results/{equity_curve,trade_history_long,trade_history_short,trade_diagnostic,returns_heatmap}.png
+  - check: human_reviewable_sample
+    ref: trade_history_long.png must show >=50 trades across >=3 regimes
   # - check: file_in_main
   #   ref: <repo 内路径>
   # - check: json_fields_present      # 缺字段=FAIL
@@ -61,21 +84,30 @@ breach_policy:
       - redispatch_new_assignee                   # 第 1 次
       - orchestrator_review                       # 第 2 次：审查任务卡可执行性
       - escalate_human                            # 第 3 次：冻结 + 人工
+  on_attestation_fail:
+    action: rerun_attestation
+    max_retries: 2
+  on_offspec_comment:
+    action: request_resubmit
   on_invariant_break: escalate_human
-  on_timeout: cancel_with_NOOP_comment
+  on_timeout:
+    action: cancel_with_NOOP_comment
+    grace: 30m
   env_fail_check_first: true                      # 归因二段判定：先查环境再算 agent 的锅
 
 # ===== Signoff chain（签核语义）=====
 signoff_chain:
   required: [smark-signoff-proxy]
   prohibited_self_sign: true          # L2/L3 不签自己产出
-  requires_attestation_run: true      # PASS 必须引用 attestation run id，无 id 作废
+  requires_attestation_run: true      # PASS 必须引用 attestation_id，无 id 作废
 
 # ===== Invariants（全程成立；soft violation 计数，重复即升级 hard）=====
 invariants:
   - comment_schema_compliant          # [type=...] 首行
   - no_layer_crossing
   - data_cutoff_respected
+  - no_lookahead
+  - cost_basis_ratified
 
 # ===== 口径引用（registry 版本引用）=====
 metric_refs: []                       # 例: [fee_shock@v2, oos_sharpe@v1]

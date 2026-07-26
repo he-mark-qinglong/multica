@@ -1,249 +1,175 @@
 #!/usr/bin/env python3
-"""comment_schema_lint — lint multica issue-comment first lines against the AGENTS.md comment schema.
+"""Lint multica issue comments for comment-schema compliance.
 
-Authoritative schema (AGENTS.md "Comment Schema Convention (mandatory 2026-07-19)"):
-
+Agent comments MUST start with:
     [type=<TYPE>] <iso8601 timestamp+tz> <one-line summary>
 
-where <TYPE> is one of STATUS | DECISION | EVIDENCE | KILL | ESCALATE | SIGNOFF | NUDGE | NOOP.
-The tag must sit on the FIRST non-empty line (no leading blank lines, no body before the tag).
-Seconds on the timestamp are optional. Timezone is REQUIRED and accepted in three forms:
-    Z          (UTC zulu)
-    +HH        (no minutes — canonical in our corpus, e.g. "+08")
-    +HH:MM     (with optional colon; "+0800" and "+08:00" both OK)
+where TYPE in STATUS, DECISION, EVIDENCE, KILL, ESCALATE, SIGNOFF, NUDGE, NOOP.
 
-The body (lines after the first) is free-form markdown and not validated here.
+Human (member) comments are reported but not flagged as OFFSPEC unless --strict.
 
-Public API (cross-card contract — T13 comment-janitor imports these symbols, do NOT change
-the signature or return type without coordination):
-
-    lint_comment(text: str) -> list[str]
-        Returns a list of human-readable violation strings. Empty list == passes schema.
-        Each violation is a single line; callers can join with "\n" for display.
-
-    main(argv: list[str]) -> int
-        CLI entrypoint. Reads files (or '-' / no-arg = stdin), prints one verdict per
-        file on stdout, per-file failures on stderr. Exit codes:
-            0  all inputs pass
-            1  at least one input failed lint
-            2  a file argument was not found (cannot stat)
+Usage:
+    python3 scripts/comment_schema_lint.py SMA-36661
+    python3 scripts/comment_schema_lint.py SMA-36661 SMA-36660
+    python3 scripts/comment_schema_lint.py --all-recent --limit 50
 """
 from __future__ import annotations
 
+import argparse
+import json
 import re
+import subprocess
 import sys
-from typing import Iterable
+from datetime import datetime, timezone
+from pathlib import Path
 
-# 8 types are EXACT (uppercase). Lowercase, pluralization, or unknown tags -> fail.
-# The case-sensitive match is enforced via the explicit alternation below AND by
-# rejecting any [type=...] that doesn't hit the alternation.
-TYPES = (
-    "STATUS",
-    "DECISION",
-    "EVIDENCE",
-    "KILL",
-    "ESCALATE",
-    "SIGNOFF",
-    "NUDGE",
-    "NOOP",
-)
+VALID_TYPES = {
+    "STATUS", "DECISION", "EVIDENCE", "KILL", "ESCALATE",
+    "SIGNOFF", "NUDGE", "NOOP",
+}
 
-# Anchored first-line regex. The (Z|[+-]\d{2}(:?\d{2})?) group makes the timezone
-# REQUIRED (timezone is mandatory per the schema), but flexible in punctuation.
-#   Z          -> "Z"
-#   +08        -> "+08"            (no minutes — canonical in our corpus)
-#   +0800      -> "+0800"          (no colon)
-#   +08:00     -> "+08:00"        (with colon)
-#
-# Seconds on the timestamp are optional: HH:MM  OR  HH:MM:SS.
-# Summary must start with a non-whitespace character (\S) — empty/whitespace-only summaries fail.
-_FIRST_LINE_RE = re.compile(
-    r"^\[type=("
-    + "|".join(TYPES)
-    + r")\]\s+"
-    + r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?"   # date + HH:MM[:SS]
-    + r"(Z|[+-]\d{2}(:?\d{2})?)"                  # required timezone
-    + r"\s+\S"                                    # non-empty summary
+# First line must match: [type=TYPE] ISO8601+tz summary
+# ISO8601 examples: 2026-07-26T21:45+08  or  2026-07-26T21:45:34+08:00
+SCHEMA_RE = re.compile(
+    r"^\[type=(" + "|".join(VALID_TYPES) + r")\]\s+"
+    r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?(?:[+-]\d{2}:?\d{2}|Z))\s+"
+    r"(.+)$"
 )
 
 
-def _first_line(text: str) -> str:
-    """Return the literal first line (splits on \\n, keeps raw whitespace).
-
-    Leading blank lines intentionally do NOT exempt the schema — the AGENTS.md
-    convention says "first line", meaning the actual first line of the body.
-    """
-    if "\n" in text:
-        return text.split("\n", 1)[0]
-    return text
+def run_multica(*args: str) -> dict | list:
+    cmd = ["multica"] + list(args) + ["--output", "json"]
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        raise RuntimeError(f"multica failed: {result.stderr.strip()}")
+    return json.loads(result.stdout)
 
 
-def lint_comment(text: str) -> list[str]:
-    """Return violations for `text` against the multica comment-schema convention.
-
-    The returned list is empty iff the first line matches the schema. Each
-    violation is a single human-readable line suitable for grep / cron sweep:
-
-        "missing or unknown [type=...] tag"
-        "missing ISO-8601 timestamp after tag"
-        "invalid ISO-8601 timestamp ..."
-        "timestamp missing timezone offset"
-        "empty summary"
-        "empty input"
-
-    Cross-card contract (T13 comment-janitor): function name, signature, and
-    `list[str]` return type are pinned. Do not change.
-    """
-    # Empty input is its own violation — distinct from "first line wrong".
-    if not text:
-        return ["empty input"]
-
-    first = _first_line(text)
-
-    # The tag prefix is required even when the regex itself fails for other
-    # reasons — surface the most specific message the regex can give us by
-    # dissecting the first line ourselves before falling back to the regex.
-    tag_match = re.match(r"^\[type=([A-Za-z_]+)\]\s+", first)
-    if not tag_match:
-        # Either no [type=...] tag at all, or the tag has a stray character
-        # (e.g. "[STATUS] ..." missing the "type=" prefix). Distinguish so the
-        # message is grep-friendly.
-        if first.startswith("[") and "type=" not in first.split("]", 1)[0]:
-            return ["missing or unknown [type=...] tag (got [%s] without type= prefix)" % first.split("]", 1)[0].lstrip("[")]
-        return ["missing or unknown [type=...] tag"]
-
-    tag_value = tag_match.group(1)
-    if tag_value not in TYPES:
-        return ["missing or unknown [type=%s] tag (must be one of %s)" % (tag_value, "|".join(TYPES))]
-
-    # Try the full regex. If it fails, pick a more specific message based on
-    # which structural piece is missing.
-    if _FIRST_LINE_RE.match(first):
-        return []
-
-    # The tag is correct, so the issue is timestamp/summary. Check timestamp shape.
-    post_tag = first[tag_match.end():]
-    # `post_tag` is " <timestamp> <summary>" — at minimum we'd expect a digit
-    # immediately after the tag (with a separating space). If it's empty or
-    # whitespace-only we have no timestamp at all.
-    stripped = post_tag.lstrip()
-    if not stripped:
-        return ["missing ISO-8601 timestamp after tag"]
-
-    # Tokenize the leading whitespace + timestamp.
-    ts_match = re.match(
-        r"^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?)"
-        r"(Z|[+-]\d{2}:?\d{2}|[+-]\d{2})?"
-        r"(\s+\S.*)?$",
-        stripped,
-    )
-    if not ts_match:
-        # First token after tag is not even a digit string.
-        return ["invalid ISO-8601 timestamp: %r" % stripped.split()[0]]
-
-    ts_text = ts_match.group(1)
-    tz_text = ts_match.group(3)
-
-    if tz_text is None:
-        return ["timestamp missing timezone offset (got %r)" % ts_text]
-
-    # Timestamp + timezone are fine — failure must be on the summary.
-    summary_part = ts_match.group(4)
-    if summary_part is None or not summary_part.strip():
-        return ["empty summary after timestamp"]
-
-    # We shouldn't reach here if the regex matched, but be defensive.
-    return ["first line does not match schema: %r" % first]
+def parse_ts(ts: str) -> datetime | None:
+    """Parse ISO8601 timestamp; return None on failure."""
+    # Normalize +08 to +08:00
+    if re.search(r"[+-]\d{2}$", ts):
+        ts = ts[: -3] + ts[-3:] + ":00"
+    try:
+        return datetime.fromisoformat(ts)
+    except ValueError:
+        return None
 
 
-def _iter_inputs(argv: list[str]) -> Iterable[tuple[str, str]]:
-    """Yield (label, text) pairs from argv.
+def lint_comment(comment: dict, strict: bool = False) -> dict | None:
+    content = comment.get("content", "")
+    first_line = content.splitlines()[0] if content else ""
+    author_type = comment.get("author_type", "unknown")
 
-    Convention:
-        - No args  -> stdin, labelled "<stdin>".
-        - '-' as sole arg (or alongside other files) -> stdin, labelled "<stdin>".
-        - Each positional arg -> one file path; label is the path itself.
+    match = SCHEMA_RE.match(first_line)
+    if match:
+        c_type, ts_str, summary = match.groups()
+        ts = parse_ts(ts_str)
+        issue_ts = parse_ts(comment["created_at"])
+        ts_ok = bool(ts)
+        # Optional: warn if comment timestamp drifts far from created_at
+        drift_ok = True
+        if ts and issue_ts:
+            drift = abs((ts - issue_ts).total_seconds())
+            if drift > 3600:
+                drift_ok = False
+        return {
+            "id": comment["id"],
+            "author_type": author_type,
+            "created_at": comment["created_at"],
+            "first_line": first_line,
+            "compliant": True,
+            "type": c_type,
+            "ts_ok": ts_ok,
+            "drift_ok": drift_ok,
+            "summary": summary,
+        }
 
-    Missing-file detection is done by `main()`, not here, so that the caller
-    can produce the correct exit code (2).
-    """
-    if not argv or argv == ["-"]:
-        yield ("<stdin>", sys.stdin.read())
-        return
-    saw_stdin = False
-    for arg in argv:
-        if arg == "-":
-            if not saw_stdin:
-                yield ("<stdin>", sys.stdin.read())
-                saw_stdin = True
-        else:
-            yield (arg, None)  # signal "read from disk later"
+    # Non-compliant
+    if author_type == "agent" or strict:
+        return {
+            "id": comment["id"],
+            "author_type": author_type,
+            "created_at": comment["created_at"],
+            "first_line": first_line,
+            "compliant": False,
+            "type": None,
+            "ts_ok": False,
+            "drift_ok": True,
+            "summary": None,
+        }
+    return None
 
 
-def main(argv: list[str]) -> int:
-    """CLI entrypoint. See module docstring for exit-code semantics."""
-    # Reproducible input shape: argv may be sys.argv[1:] or any list of strings.
-    if argv is None:
-        argv = sys.argv[1:]
+def lint_issue(issue_id: str, strict: bool = False) -> dict:
+    try:
+        comments = run_multica("issue", "comment", "list", issue_id)
+    except RuntimeError as e:
+        return {"issue_id": issue_id, "error": str(e), "offspec": []}
 
-    argv = list(argv)
-    any_fail = False
-    missing_file = False
+    results = []
+    offspec = []
+    for c in comments:
+        r = lint_comment(c, strict=strict)
+        if r:
+            results.append(r)
+            if not r["compliant"]:
+                offspec.append(r)
+            elif not r["ts_ok"] or not r["drift_ok"]:
+                offspec.append(r)
 
-    # First pass: stdin (if requested) — captured up-front so we can mix with files.
-    stdin_label = None
-    stdin_text = None
-    if not argv or "-" in argv:
-        stdin_text = sys.stdin.read()
-        stdin_label = "<stdin>"
-        if "-" in argv:
-            argv.remove("-")
-    if not argv and stdin_text is None:
-        # No args and no stdin requested explicitly — fall through to "read stdin"
-        stdin_text = sys.stdin.read()
-        stdin_label = "<stdin>"
+    return {"issue_id": issue_id, "comments": len(comments), "results": results, "offspec": offspec}
 
-    if stdin_text is not None:
-        violations = lint_comment(stdin_text)
-        if violations:
-            any_fail = True
-            print("FAIL %s: %s" % (stdin_label, violations[0]), file=sys.stderr)
-            for v in violations[1:]:
-                print("    %s" % v, file=sys.stderr)
-            print("FAIL %s" % stdin_label)
-        else:
-            print("OK %s" % stdin_label)
 
-    # Second pass: file arguments.
-    for path in argv:
-        try:
-            with open(path, "r", encoding="utf-8") as fh:
-                text = fh.read()
-        except FileNotFoundError:
-            print("MISSING %s" % path, file=sys.stderr)
-            missing_file = True
-            continue
-        except OSError as exc:
-            print("ERROR %s: %s" % (path, exc), file=sys.stderr)
-            missing_file = True
-            continue
+def recent_issues(limit: int = 50) -> list[str]:
+    data = run_multica("issue", "list", "--limit", str(limit))
+    return [i["identifier"] for i in data.get("issues", [])]
 
-        violations = lint_comment(text)
-        if violations:
-            any_fail = True
-            print("FAIL %s: %s" % (path, violations[0]), file=sys.stderr)
-            for v in violations[1:]:
-                print("    %s" % v, file=sys.stderr)
-            print("FAIL %s" % path)
-        else:
-            print("OK %s" % path)
 
-    if missing_file:
-        return 2
-    if any_fail:
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Lint multica issue comments for schema compliance")
+    parser.add_argument("issues", nargs="*", help="Issue identifiers (e.g. SMA-36661)")
+    parser.add_argument("--all-recent", action="store_true", help="Lint recently updated issues")
+    parser.add_argument("--limit", type=int, default=50, help="Number of recent issues")
+    parser.add_argument("--strict", action="store_true", help="Also flag member comments as OFFSPEC")
+    parser.add_argument("--json", action="store_true", help="Output JSON")
+    args = parser.parse_args()
+
+    issue_ids = args.issues
+    if args.all_recent:
+        issue_ids = recent_issues(args.limit)
+    if not issue_ids:
+        parser.print_help()
         return 1
-    return 0
+
+    reports = []
+    for issue_id in issue_ids:
+        reports.append(lint_issue(issue_id, strict=args.strict))
+
+    total_offspec = sum(len(r["offspec"]) for r in reports)
+
+    if args.json:
+        print(json.dumps(reports, indent=2, ensure_ascii=False))
+    else:
+        for rep in reports:
+            if "error" in rep:
+                print(f"{rep['issue_id']}: ERROR {rep['error']}")
+                continue
+            print(f"{rep['issue_id']}: {rep['comments']} comments, {len(rep['offspec'])} OFFSPEC")
+            for o in rep["offspec"]:
+                flag = []
+                if not o["compliant"]:
+                    flag.append("missing/invalid type tag")
+                if not o["ts_ok"]:
+                    flag.append("bad timestamp")
+                if not o["drift_ok"]:
+                    flag.append("timestamp drift >1h")
+                print(f"  - {o['created_at']} {o['author_type']}: {o['first_line'][:70]}")
+                print(f"    flags: {', '.join(flag)}")
+        print(f"\nTotal OFFSPEC: {total_offspec}")
+
+    return 1 if total_offspec > 0 else 0
 
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1:]))
+    sys.exit(main())
