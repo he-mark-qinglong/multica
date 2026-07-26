@@ -1,0 +1,81 @@
+# 任务契约模板 v1（contract-collab P0，2026-07-26 批准）
+# 用法：orchestrator 派单时复制本模板，填写后把整块放进 issue body 顶部的
+# ```contract 代码块。规则：无契约不派单。worker 读 issue 即见契约。
+# 默认值：valid_until = created_at+24h；timeout = 4h；纯代码任务 data_as_of 可填 n/a。
+# 设计依据：docs/plans/contract-collab/03-contract-collaboration-scheme.md §1
+
+# ===== 契约头（元数据）=====
+contract_version: 1
+task_id: SMA-XXXXX                    # issue id，兼作 conversation-id
+title: <一句话任务名>
+layer: L3                             # 目标层（对照 org 结构文档接单表）
+issuer: multica-orchestrator          # caller（precondition 责任人）
+assignee: <agent-name>                # callee（postcondition 责任人）
+created_at: <ISO8601+tz>
+valid_until: <ISO8601+tz>             # 派发时效；过期须 orchestrator 续期
+timeout: 4h
+
+# ===== 数据时点（防前视）=====
+data_as_of: <允许使用的最新数据时间戳 | n/a>
+decision_time: <结论要支持的决策时点；invariant: data_as_of ≤ decision_time>
+
+# ===== Preconditions（caller 义务；派发瞬间与开工前各验一次）=====
+preconditions:
+  - type: artifact_exists             # 机器可查；可变引用必须 pin SHA
+    ref: <repo 内路径>@<SHA>
+  # - type: upstream_merged
+  #   ref: main@<SHA>
+  # - type: freshness
+  #   subject: <镜像/数据>
+  #   pinned: <digest>
+  #   max_age: 2h
+  # - type: metric_version
+  #   ref: fee_shock@v2               # 口径版本锁定
+
+# ===== Deliverables（callee 义务：产出物清单）=====
+deliverables:
+  - type: git_branch
+    pattern: agent/<agent-name>/<task-id>
+    remote: he-mark-qinglong/multica
+  - type: file
+    path: <repo 内路径>
+
+# ===== Acceptance evidence（done 的充要条件，全部机器可查）=====
+acceptance_evidence:
+  - check: git_remote_branch_exists
+    ref: agent/<agent-name>/<task-id>
+  # - check: file_in_main
+  #   ref: <repo 内路径>
+  # - check: json_fields_present      # 缺字段=FAIL
+  #   ref: <json 文件路径>
+  #   fields: [field_a, field_b]
+  # - check: command_exit_zero        # P1 阶段人工/手动跑；P2 才自动
+  #   run: <命令>
+
+# ===== Breach policy（违约处置）=====
+breach_policy:
+  on_precondition_fail: escalate_to_issuer        # caller 的锅：退回派单方修卡
+  on_postcondition_fail:
+    action: redispatch_new_assignee               # 不原样重派同一 agent
+    escalation_ladder:                            # 同一 task_id 累计计数
+      - redispatch_new_assignee                   # 第 1 次
+      - orchestrator_review                       # 第 2 次：审查任务卡可执行性
+      - escalate_human                            # 第 3 次：冻结 + 人工
+  on_invariant_break: escalate_human
+  on_timeout: cancel_with_NOOP_comment
+  env_fail_check_first: true                      # 归因二段判定：先查环境再算 agent 的锅
+
+# ===== Signoff chain（签核语义）=====
+signoff_chain:
+  required: [smark-signoff-proxy]
+  prohibited_self_sign: true          # L2/L3 不签自己产出
+  requires_attestation_run: true      # PASS 必须引用 attestation run id，无 id 作废
+
+# ===== Invariants（全程成立；soft violation 计数，重复即升级 hard）=====
+invariants:
+  - comment_schema_compliant          # [type=...] 首行
+  - no_layer_crossing
+  - data_cutoff_respected
+
+# ===== 口径引用（registry 版本引用）=====
+metric_refs: []                       # 例: [fee_shock@v2, oos_sharpe@v1]
