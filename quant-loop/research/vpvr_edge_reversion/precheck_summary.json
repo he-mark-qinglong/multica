@@ -1,0 +1,87 @@
+{
+  "config": {
+    "lookback_days": 730,
+    "daily_buckets": 200,
+    "fourh_buckets": 120,
+    "kline_source": "/Users/mark/multica/quant-loop/data/perp_1m"
+  },
+  "daily": [
+    {
+      "label": "BTCUSDT_daily",
+      "n": 730,
+      "median_full_range_bps": 159.97360025076517,
+      "median_half_lower_bps": 74.75781010050733,
+      "median_half_upper_bps": 74.55620573263909,
+      "p25_full_bps": 111.63170807559605,
+      "p75_full_bps": 231.90521731002283,
+      "pct_above_30bp": 0.9972602739726028,
+      "median_gross_edge_bps": 74.55620573263909,
+      "kill_verdict": "PROCEED"
+    },
+    {
+      "label": "ETHUSDT_daily",
+      "n": 730,
+      "median_full_range_bps": 241.63848421077603,
+      "median_half_lower_bps": 117.98376454704146,
+      "median_half_upper_bps": 108.09404033987335,
+      "p25_full_bps": 169.23348382654098,
+      "p75_full_bps": 335.5559952841468,
+      "pct_above_30bp": 0.9986301369863013,
+      "median_gross_edge_bps": 108.09404033987335,
+      "kill_verdict": "PROCEED"
+    },
+    {
+      "label": "SOLUSDT_daily",
+      "n": 730,
+      "median_full_range_bps": 287.12030890837775,
+      "median_half_lower_bps": 140.72789973999136,
+      "median_half_upper_bps": 125.65443527416753,
+      "p25_full_bps": 206.13502572705454,
+      "p75_full_bps": 387.413647617571,
+      "pct_above_30bp": 1.0,
+      "median_gross_edge_bps": 125.65443527416753,
+      "kill_verdict": "PROCEED"
+    }
+  ],
+  "fourh": [
+    {
+      "label": "BTCUSDT_4h",
+      "n": 4378,
+      "median_full_range_bps": 58.361099557787675,
+      "median_half_lower_bps": 28.372484216973692,
+      "median_half_upper_bps": 26.927483682983848,
+      "p25_full_bps": 37.9984660368368,
+      "p75_full_bps": 90.44385153815486,
+      "pct_above_30bp": 0.847647327546825,
+      "median_gross_edge_bps": 26.927483682983848,
+      "kill_verdict": "KILL_COST_CAP",
+      "kill_reason": "median gross edge 26.9bp < 30bp floor"
+    },
+    {
+      "label": "ETHUSDT_4h",
+      "n": 4379,
+      "median_full_range_bps": 92.22704728377587,
+      "median_half_lower_bps": 44.60695804016982,
+      "median_half_upper_bps": 41.87721580638524,
+      "p25_full_bps": 61.34788676595093,
+      "p75_full_bps": 137.2242912930352,
+      "pct_above_30bp": 0.962776889700845,
+      "median_gross_edge_bps": 41.87721580638524,
+      "kill_verdict": "PROCEED"
+    },
+    {
+      "label": "SOLUSDT_4h",
+      "n": 4380,
+      "median_full_range_bps": 108.63349418754682,
+      "median_half_lower_bps": 52.2632171449131,
+      "median_half_upper_bps": 49.94938193581512,
+      "p25_full_bps": 74.21067904523923,
+      "p75_full_bps": 159.05947345400597,
+      "pct_above_30bp": 0.9865296803652968,
+      "median_gross_edge_bps": 49.94938193581512,
+      "kill_verdict": "PROCEED"
+    }
+  ],
+  "cost_cap_floor_bp": 30,
+  "vip0_pair_rt_econ_floor_bp": 9
+}

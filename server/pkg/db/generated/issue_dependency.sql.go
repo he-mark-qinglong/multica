@@ -294,3 +294,74 @@ func (q *Queries) ListProjectGraphIssues(ctx context.Context, arg ListProjectGra
 	}
 	return items, nil
 }
+
+const countOpenBlockersForIssue = `-- name: CountOpenBlockersForIssue :one
+SELECT count(*) FROM issue_dependency d
+JOIN issue b ON b.id = d.depends_on_issue_id
+WHERE d.issue_id = $1
+  AND d.type = 'blocks'
+  AND b.status NOT IN ('done', 'cancelled')
+`
+
+// CountOpenBlockersForIssue returns the number of unresolved blocker
+// dependencies (type='blocks', blocker.status NOT IN ('done','cancelled'))
+// for the given issue. Used by TaskService.ClassifyWaitReason to populate
+// the waiting_dependency branch of the wait_reason enum (SMA-36539).
+// Status values mirror treescheduler.IsTerminalStatus to keep the readiness
+// contract identical between the treescheduler and the wait_reason
+// classifier — if either drifts, dispatch ordering would disagree with the
+// queue-stuck reason shown to operators.
+func (q *Queries) CountOpenBlockersForIssue(ctx context.Context, issueID pgtype.UUID) (int64, error) {
+	row := q.db.QueryRow(ctx, countOpenBlockersForIssue, issueID)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
+const listIssuesWithOpenBlockers = `-- name: ListIssuesWithOpenBlockers :many
+SELECT b.id AS issue_id, count(*)::bigint AS open_blocker_count
+FROM issue_dependency d
+JOIN issue b ON b.id = d.depends_on_issue_id
+WHERE b.status NOT IN ('done', 'cancelled')
+  AND d.type = 'blocks'
+  AND b.id = ANY($1::uuid[])
+GROUP BY b.id
+`
+
+type ListIssuesWithOpenBlockersParams struct {
+	IssueIds []pgtype.UUID `json:"issue_ids"`
+}
+
+type ListIssuesWithOpenBlockersRow struct {
+	IssueID          pgtype.UUID `json:"issue_id"`
+	OpenBlockerCount int64       `json:"open_blocker_count"`
+}
+
+// ListIssuesWithOpenBlockers is the bulk variant of
+// CountOpenBlockersForIssue. The handler pre-collects the issue IDs from a
+// workspace task list and calls this once to build a map[issueID]count,
+// avoiding the N+1 pattern that would otherwise dominate a 100-row page.
+// Rows whose open_blocker_count is zero are not returned, so the caller
+// treats absence-as-zero (matching the count(*) semantically).
+func (q *Queries) ListIssuesWithOpenBlockers(ctx context.Context, arg ListIssuesWithOpenBlockersParams) ([]ListIssuesWithOpenBlockersRow, error) {
+	rows, err := q.db.Query(ctx, listIssuesWithOpenBlockers, arg.IssueIds)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []ListIssuesWithOpenBlockersRow{}
+	for rows.Next() {
+		var i ListIssuesWithOpenBlockersRow
+		if err := rows.Scan(
+			&i.IssueID,
+			&i.OpenBlockerCount,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

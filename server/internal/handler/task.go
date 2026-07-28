@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"log/slog"
 	"net/http"
 	"strconv"
 
@@ -112,10 +113,45 @@ func (h *Handler) ListWorkspaceTasks(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	// Recompute wait_reason for queued rows at request time so the value
+	// reflects "why is this stuck right now", not whatever was last written
+	// when the row was enqueued. A DB error here must NOT fail the list —
+	// surfacing queued tasks without wait_reason is still better than a 500.
+	if h.TaskService != nil {
+		if waitReasons, err := h.TaskService.WaitReasonInputsForBulk(ctx, queuedTasks(rows)); err == nil {
+			for i := range resp {
+				if resp[i].Status != "queued" {
+					continue
+				}
+				taskID := uuidToString(rows[i].ID)
+				if v, ok := waitReasons[taskID]; ok && v != "" {
+					resp[i].WaitReason = v
+				}
+			}
+		} else {
+			slog.Warn("compute wait_reason: bulk classification failed; returning without wait_reason",
+				"workspace_id", uuidToString(wsUUID), "error", err)
+		}
+	}
+
 	writeJSON(w, http.StatusOK, map[string]any{
 		"tasks": resp,
 		"total": total,
 	})
+}
+
+// queuedTasks returns the subset of `rows` whose status is 'queued'. Only
+// these need wait_reason recomputation — dispatched/running/completed rows
+// leave the field untouched. The returned slice shares backing memory with
+// `rows` to avoid a copy on a 100-row page.
+func queuedTasks(rows []db.ListWorkspaceTasksRow) []db.AgentTaskQueue {
+	out := make([]db.AgentTaskQueue, 0, len(rows))
+	for _, r := range rows {
+		if r.Status == "queued" {
+			out = append(out, r.AgentTaskQueue)
+		}
+	}
+	return out
 }
 
 // GetWorkspaceTask handles GET /api/tasks/{taskId} — a single task including

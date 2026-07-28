@@ -543,7 +543,7 @@ WHERE id = (
               )
             )
       )
-    ORDER BY atq.priority DESC, atq.created_at ASC
+    ORDER BY (atq.autopilot_run_id IS NOT NULL) DESC, atq.priority DESC, atq.created_at ASC
     LIMIT 1
     FOR UPDATE SKIP LOCKED
 )
@@ -2073,7 +2073,7 @@ func (q *Queries) ListPendingTasksByRuntime(ctx context.Context, runtimeID pgtyp
 const listQueuedClaimCandidatesByRuntime = `-- name: ListQueuedClaimCandidatesByRuntime :many
 SELECT id, agent_id, issue_id, status, priority, dispatched_at, started_at, completed_at, result, error, created_at, context, runtime_id, session_id, work_dir, trigger_comment_id, chat_session_id, autopilot_run_id, attempt, max_attempts, parent_task_id, failure_reason, trigger_summary, force_fresh_session, is_leader_task, wait_reason, initiator_user_id FROM agent_task_queue
 WHERE runtime_id = $1 AND status = 'queued'
-ORDER BY priority DESC, created_at ASC
+ORDER BY (autopilot_run_id IS NOT NULL) DESC, priority DESC, created_at ASC
 `
 
 // Returns rows the runtime can attempt to claim. Status is restricted to
@@ -2086,6 +2086,71 @@ ORDER BY priority DESC, created_at ASC
 // idx_agent_task_queue_claim_candidates so the warm path is cheap.
 func (q *Queries) ListQueuedClaimCandidatesByRuntime(ctx context.Context, runtimeID pgtype.UUID) ([]AgentTaskQueue, error) {
 	rows, err := q.db.Query(ctx, listQueuedClaimCandidatesByRuntime, runtimeID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []AgentTaskQueue{}
+	for rows.Next() {
+		var i AgentTaskQueue
+		if err := rows.Scan(
+			&i.ID,
+			&i.AgentID,
+			&i.IssueID,
+			&i.Status,
+			&i.Priority,
+			&i.DispatchedAt,
+			&i.StartedAt,
+			&i.CompletedAt,
+			&i.Result,
+			&i.Error,
+			&i.CreatedAt,
+			&i.Context,
+			&i.RuntimeID,
+			&i.SessionID,
+			&i.WorkDir,
+			&i.TriggerCommentID,
+			&i.ChatSessionID,
+			&i.AutopilotRunID,
+			&i.Attempt,
+			&i.MaxAttempts,
+			&i.ParentTaskID,
+			&i.FailureReason,
+			&i.TriggerSummary,
+			&i.ForceFreshSession,
+			&i.IsLeaderTask,
+			&i.WaitReason,
+			&i.InitiatorUserID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listQueuedClaimCandidatesByRuntimeForAgent = `-- name: ListQueuedClaimCandidatesByRuntimeForAgent :many
+SELECT id, agent_id, issue_id, status, priority, dispatched_at, started_at, completed_at, result, error, created_at, context, runtime_id, session_id, work_dir, trigger_comment_id, chat_session_id, autopilot_run_id, attempt, max_attempts, parent_task_id, failure_reason, trigger_summary, force_fresh_session, is_leader_task, wait_reason, initiator_user_id FROM agent_task_queue
+WHERE runtime_id = $1 AND agent_id = $2 AND status = 'queued'
+ORDER BY (autopilot_run_id IS NOT NULL) DESC, priority DESC, created_at ASC
+`
+
+type ListQueuedClaimCandidatesByRuntimeForAgentParams struct {
+	RuntimeID pgtype.UUID `json:"runtime_id"`
+	AgentID   pgtype.UUID `json:"agent_id"`
+}
+
+// ListQueuedClaimCandidatesByRuntimeForAgent is the variant of
+// ListQueuedClaimCandidatesByRuntime narrowed to a single (runtime, agent)
+// pair. The wait_reason classifier (SMA-36539 R1) uses it to count "other
+// queued tasks ahead of me" for the AnyOtherQueuedSameAgent input without
+// refetching every queued row on the runtime. Backed by the same partial
+// index as ListQueuedClaimCandidatesByRuntime.
+func (q *Queries) ListQueuedClaimCandidatesByRuntimeForAgent(ctx context.Context, arg ListQueuedClaimCandidatesByRuntimeForAgentParams) ([]AgentTaskQueue, error) {
+	rows, err := q.db.Query(ctx, listQueuedClaimCandidatesByRuntimeForAgent, arg.RuntimeID, arg.AgentID)
 	if err != nil {
 		return nil, err
 	}

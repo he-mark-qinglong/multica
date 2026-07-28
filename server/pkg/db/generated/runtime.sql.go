@@ -185,6 +185,66 @@ func (q *Queries) DeleteStaleOfflineRuntimes(ctx context.Context, staleSeconds f
 	return items, nil
 }
 
+const getAgentRuntimeFreshness = `-- name: GetAgentRuntimeFreshness :one
+SELECT last_seen_at, status FROM agent_runtime
+WHERE id = $1
+`
+
+type GetAgentRuntimeFreshnessRow struct {
+	LastSeenAt pgtype.Timestamptz `json:"last_seen_at"`
+	Status     string             `json:"status"`
+}
+
+// GetAgentRuntimeFreshness returns last_seen_at + status for one runtime.
+// Used by TaskService.ClassifyWaitReason to detect the waiting_runtime
+// branch (SMA-36539 R1). Callers should treat either a missing row (runtime
+// never registered / already deleted) OR last_seen_at older than the
+// daemon-freshness window as "offline".
+func (q *Queries) GetAgentRuntimeFreshness(ctx context.Context, id pgtype.UUID) (GetAgentRuntimeFreshnessRow, error) {
+	row := q.db.QueryRow(ctx, getAgentRuntimeFreshness, id)
+	var i GetAgentRuntimeFreshnessRow
+	err := row.Scan(&i.LastSeenAt, &i.Status)
+	return i, err
+}
+
+const listAgentRuntimeFreshness = `-- name: ListAgentRuntimeFreshness :many
+SELECT id AS runtime_id, last_seen_at, status FROM agent_runtime
+WHERE id = ANY($1::uuid[])
+`
+
+type ListAgentRuntimeFreshnessParams struct {
+	Ids []pgtype.UUID `json:"ids"`
+}
+
+type ListAgentRuntimeFreshnessRow struct {
+	RuntimeID  pgtype.UUID        `json:"runtime_id"`
+	LastSeenAt pgtype.Timestamptz `json:"last_seen_at"`
+	Status     string             `json:"status"`
+}
+
+// ListAgentRuntimeFreshness is the bulk variant of GetAgentRuntimeFreshness
+// for the workspace task list handler. Missing runtimes are absent from the
+// result set (the handler treats absence as "no runtime row / offline").
+func (q *Queries) ListAgentRuntimeFreshness(ctx context.Context, arg ListAgentRuntimeFreshnessParams) ([]ListAgentRuntimeFreshnessRow, error) {
+	rows, err := q.db.Query(ctx, listAgentRuntimeFreshness, arg.Ids)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []ListAgentRuntimeFreshnessRow{}
+	for rows.Next() {
+		var i ListAgentRuntimeFreshnessRow
+		if err := rows.Scan(&i.RuntimeID, &i.LastSeenAt, &i.Status); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const failTasksForOfflineRuntimes = `-- name: FailTasksForOfflineRuntimes :many
 UPDATE agent_task_queue
 SET status = 'failed', completed_at = now(), error = 'runtime went offline',

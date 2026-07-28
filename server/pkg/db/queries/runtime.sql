@@ -294,3 +294,17 @@ WHERE status = 'offline'
   AND last_seen_at < now() - make_interval(secs => @stale_seconds::double precision)
   AND id NOT IN (SELECT DISTINCT runtime_id FROM agent)
 RETURNING id, workspace_id;
+
+-- name: GetAgentRuntimeFreshness :one
+-- Returns last_seen_at + status for a single runtime. Used by the
+-- wait_reason classifier to detect waiting_runtime (SMA-36539 R1).
+SELECT last_seen_at, status FROM agent_runtime
+WHERE id = $1;
+
+-- name: ListAgentRuntimeFreshness :many
+-- Bulk variant of GetAgentRuntimeFreshness for the workspace task list
+-- handler. Caller pre-collects runtime_ids and we return one row per
+-- existing runtime; missing runtimes are absent from the result (the
+-- handler treats absence as "no runtime / offline").
+SELECT id AS runtime_id, last_seen_at, status FROM agent_runtime
+WHERE id = ANY($1::uuid[]);

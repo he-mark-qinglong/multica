@@ -1,0 +1,338 @@
+{
+  "BTCUSDT": {
+    "symbol": "BTCUSDT",
+    "long": {
+      "scenario_a_literal": {
+        "n_setups": 730,
+        "fill_rate": 1.0,
+        "tp1_first_rate": 0.8986301369863013,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.0,
+        "no_exit_in_horizon_rate": 0.10136986301369863,
+        "mean_markout_filled_bps": 76.5895547595635,
+        "median_markout_filled_bps": 67.76230464297444,
+        "mean_mtm_at_horizon_end_filled_bps": 101.57132351062486,
+        "outcomes_breakdown": {
+          "tp1_first": 0.8986301369863013,
+          "no_exit_in_horizon": 0.10136986301369863
+        }
+      },
+      "scenario_b_defensive": {
+        "n_setups": 730,
+        "fill_rate": 1.0,
+        "tp1_first_rate": 0.826027397260274,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.09452054794520548,
+        "no_exit_in_horizon_rate": 0.07945205479452055,
+        "mean_markout_filled_bps": 60.265225137308185,
+        "median_markout_filled_bps": 63.68949992973724,
+        "mean_mtm_at_horizon_end_filled_bps": 101.57132351062486,
+        "outcomes_breakdown": {
+          "tp1_first": 0.826027397260274,
+          "dropout_first": 0.09452054794520548,
+          "no_exit_in_horizon": 0.07945205479452055
+        }
+      }
+    },
+    "short": {
+      "scenario_a_literal": {
+        "n_setups": 730,
+        "fill_rate": 0.9986301369863013,
+        "tp1_first_rate": 0.8834019204389575,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.0,
+        "no_exit_in_horizon_rate": 0.11659807956104253,
+        "mean_markout_filled_bps": 69.35527291037945,
+        "median_markout_filled_bps": 65.89765299371659,
+        "mean_mtm_at_horizon_end_filled_bps": 83.21897942452036,
+        "outcomes_breakdown": {
+          "tp1_first": 0.8821917808219178,
+          "no_exit_in_horizon": 0.11643835616438356,
+          "no_fill": 0.0013698630136986301
+        }
+      },
+      "scenario_b_defensive": {
+        "n_setups": 730,
+        "fill_rate": 0.9986301369863013,
+        "tp1_first_rate": 0.7914951989026063,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.12757201646090535,
+        "no_exit_in_horizon_rate": 0.08093278463648834,
+        "mean_markout_filled_bps": 47.10634771397174,
+        "median_markout_filled_bps": 60.16601078261351,
+        "mean_mtm_at_horizon_end_filled_bps": 83.21897942452036,
+        "outcomes_breakdown": {
+          "tp1_first": 0.7904109589041096,
+          "dropout_first": 0.1273972602739726,
+          "no_exit_in_horizon": 0.08082191780821918,
+          "no_fill": 0.0013698630136986301
+        }
+      }
+    },
+    "combined": {
+      "scenario_a_literal": {
+        "n_setups": 1460,
+        "fill_rate": 0.9993150684931507,
+        "tp1_first_rate": 0.8910212474297464,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.0,
+        "no_exit_in_horizon_rate": 0.10897875257025359,
+        "mean_markout_filled_bps": 72.97489302683206,
+        "median_markout_filled_bps": 67.05163901619743,
+        "mean_mtm_at_horizon_end_filled_bps": 92.40144082469602,
+        "outcomes_breakdown": {
+          "tp1_first": 0.8904109589041096,
+          "no_exit_in_horizon": 0.10890410958904109,
+          "no_fill": 0.0006849315068493151
+        }
+      },
+      "scenario_b_defensive": {
+        "n_setups": 1460,
+        "fill_rate": 0.9993150684931507,
+        "tp1_first_rate": 0.8087731322823852,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.11103495544893763,
+        "no_exit_in_horizon_rate": 0.08019191226867718,
+        "mean_markout_filled_bps": 53.6902959792463,
+        "median_markout_filled_bps": 61.56506240631378,
+        "mean_mtm_at_horizon_end_filled_bps": 92.40144082469602,
+        "outcomes_breakdown": {
+          "tp1_first": 0.8082191780821918,
+          "dropout_first": 0.11095890410958904,
+          "no_exit_in_horizon": 0.08013698630136987,
+          "no_fill": 0.0006849315068493151
+        }
+      }
+    }
+  },
+  "ETHUSDT": {
+    "symbol": "ETHUSDT",
+    "long": {
+      "scenario_a_literal": {
+        "n_setups": 730,
+        "fill_rate": 1.0,
+        "tp1_first_rate": 0.8863013698630137,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.0,
+        "no_exit_in_horizon_rate": 0.1136986301369863,
+        "mean_markout_filled_bps": 109.2251636974807,
+        "median_markout_filled_bps": 99.97383885487169,
+        "mean_mtm_at_horizon_end_filled_bps": 153.8654379950745,
+        "outcomes_breakdown": {
+          "tp1_first": 0.8863013698630137,
+          "no_exit_in_horizon": 0.1136986301369863
+        }
+      },
+      "scenario_b_defensive": {
+        "n_setups": 730,
+        "fill_rate": 1.0,
+        "tp1_first_rate": 0.7945205479452054,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.12465753424657534,
+        "no_exit_in_horizon_rate": 0.08082191780821918,
+        "mean_markout_filled_bps": 84.62911789241348,
+        "median_markout_filled_bps": 95.8517728654148,
+        "mean_mtm_at_horizon_end_filled_bps": 153.8654379950745,
+        "outcomes_breakdown": {
+          "tp1_first": 0.7945205479452054,
+          "dropout_first": 0.12465753424657534,
+          "no_exit_in_horizon": 0.08082191780821918
+        }
+      }
+    },
+    "short": {
+      "scenario_a_literal": {
+        "n_setups": 730,
+        "fill_rate": 0.9986301369863013,
+        "tp1_first_rate": 0.8724279835390947,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.0,
+        "no_exit_in_horizon_rate": 0.12757201646090535,
+        "mean_markout_filled_bps": 96.00414288619383,
+        "median_markout_filled_bps": 94.63408712244795,
+        "mean_mtm_at_horizon_end_filled_bps": 122.26541227667401,
+        "outcomes_breakdown": {
+          "tp1_first": 0.8712328767123287,
+          "no_exit_in_horizon": 0.1273972602739726,
+          "no_fill": 0.0013698630136986301
+        }
+      },
+      "scenario_b_defensive": {
+        "n_setups": 730,
+        "fill_rate": 0.9986301369863013,
+        "tp1_first_rate": 0.757201646090535,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.1522633744855967,
+        "no_exit_in_horizon_rate": 0.09053497942386832,
+        "mean_markout_filled_bps": 59.13132554148018,
+        "median_markout_filled_bps": 86.0090344924749,
+        "mean_mtm_at_horizon_end_filled_bps": 122.26541227667401,
+        "outcomes_breakdown": {
+          "tp1_first": 0.7561643835616438,
+          "dropout_first": 0.15205479452054796,
+          "no_exit_in_horizon": 0.09041095890410959,
+          "no_fill": 0.0013698630136986301
+        }
+      }
+    },
+    "combined": {
+      "scenario_a_literal": {
+        "n_setups": 1460,
+        "fill_rate": 0.9993150684931507,
+        "tp1_first_rate": 0.8793694311172036,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.0,
+        "no_exit_in_horizon_rate": 0.12063056888279644,
+        "mean_markout_filled_bps": 102.61918414201249,
+        "median_markout_filled_bps": 97.48235081747907,
+        "mean_mtm_at_horizon_end_filled_bps": 138.07625447984904,
+        "outcomes_breakdown": {
+          "tp1_first": 0.8787671232876713,
+          "no_exit_in_horizon": 0.12054794520547946,
+          "no_fill": 0.0006849315068493151
+        }
+      },
+      "scenario_b_defensive": {
+        "n_setups": 1460,
+        "fill_rate": 0.9993150684931507,
+        "tp1_first_rate": 0.7758738862234407,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.13845099383139137,
+        "no_exit_in_horizon_rate": 0.08567511994516792,
+        "mean_markout_filled_bps": 71.88895982261884,
+        "median_markout_filled_bps": 91.01573456558332,
+        "mean_mtm_at_horizon_end_filled_bps": 138.07625447984904,
+        "outcomes_breakdown": {
+          "tp1_first": 0.7753424657534247,
+          "dropout_first": 0.13835616438356163,
+          "no_exit_in_horizon": 0.08561643835616438,
+          "no_fill": 0.0006849315068493151
+        }
+      }
+    }
+  },
+  "SOLUSDT": {
+    "symbol": "SOLUSDT",
+    "long": {
+      "scenario_a_literal": {
+        "n_setups": 730,
+        "fill_rate": 1.0,
+        "tp1_first_rate": 0.852054794520548,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.0,
+        "no_exit_in_horizon_rate": 0.14794520547945206,
+        "mean_markout_filled_bps": 131.61121204672259,
+        "median_markout_filled_bps": 117.52437651130288,
+        "mean_mtm_at_horizon_end_filled_bps": 169.98801965320064,
+        "outcomes_breakdown": {
+          "tp1_first": 0.852054794520548,
+          "no_exit_in_horizon": 0.14794520547945206
+        }
+      },
+      "scenario_b_defensive": {
+        "n_setups": 730,
+        "fill_rate": 1.0,
+        "tp1_first_rate": 0.7657534246575343,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.12191780821917808,
+        "no_exit_in_horizon_rate": 0.11232876712328767,
+        "mean_markout_filled_bps": 99.49863076129066,
+        "median_markout_filled_bps": 109.89684966644627,
+        "mean_mtm_at_horizon_end_filled_bps": 169.98801965320064,
+        "outcomes_breakdown": {
+          "tp1_first": 0.7657534246575343,
+          "dropout_first": 0.12191780821917808,
+          "no_exit_in_horizon": 0.11232876712328767
+        }
+      }
+    },
+    "short": {
+      "scenario_a_literal": {
+        "n_setups": 730,
+        "fill_rate": 0.9986301369863013,
+        "tp1_first_rate": 0.8930041152263375,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.0,
+        "no_exit_in_horizon_rate": 0.10699588477366255,
+        "mean_markout_filled_bps": 121.43676026133505,
+        "median_markout_filled_bps": 114.02420355479677,
+        "mean_mtm_at_horizon_end_filled_bps": 157.00581050016336,
+        "outcomes_breakdown": {
+          "tp1_first": 0.8917808219178082,
+          "no_exit_in_horizon": 0.10684931506849316,
+          "no_fill": 0.0013698630136986301
+        }
+      },
+      "scenario_b_defensive": {
+        "n_setups": 730,
+        "fill_rate": 0.9986301369863013,
+        "tp1_first_rate": 0.7750342935528121,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.1412894375857339,
+        "no_exit_in_horizon_rate": 0.08367626886145405,
+        "mean_markout_filled_bps": 78.97925868067034,
+        "median_markout_filled_bps": 101.17465037091941,
+        "mean_mtm_at_horizon_end_filled_bps": 157.00581050016336,
+        "outcomes_breakdown": {
+          "tp1_first": 0.773972602739726,
+          "dropout_first": 0.1410958904109589,
+          "no_exit_in_horizon": 0.08356164383561644,
+          "no_fill": 0.0013698630136986301
+        }
+      }
+    },
+    "combined": {
+      "scenario_a_literal": {
+        "n_setups": 1460,
+        "fill_rate": 0.9993150684931507,
+        "tp1_first_rate": 0.8725154215215901,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.0,
+        "no_exit_in_horizon_rate": 0.12748457847840988,
+        "mean_markout_filled_bps": 126.52747294353716,
+        "median_markout_filled_bps": 115.05134227435352,
+        "mean_mtm_at_horizon_end_filled_bps": 163.50136408598735,
+        "outcomes_breakdown": {
+          "tp1_first": 0.8719178082191781,
+          "no_exit_in_horizon": 0.1273972602739726,
+          "no_fill": 0.0006849315068493151
+        }
+      },
+      "scenario_b_defensive": {
+        "n_setups": 1460,
+        "fill_rate": 0.9993150684931507,
+        "tp1_first_rate": 0.77039067854695,
+        "tp2_first_rate": 0.0,
+        "sl_first_rate": 0.0,
+        "dropout_first_rate": 0.13159698423577793,
+        "no_exit_in_horizon_rate": 0.09801233721727211,
+        "mean_markout_filled_bps": 89.24597671963731,
+        "median_markout_filled_bps": 104.23120376106944,
+        "mean_mtm_at_horizon_end_filled_bps": 163.50136408598735,
+        "outcomes_breakdown": {
+          "tp1_first": 0.7698630136986301,
+          "dropout_first": 0.13150684931506848,
+          "no_exit_in_horizon": 0.09794520547945205,
+          "no_fill": 0.0006849315068493151
+        }
+      }
+    }
+  }
+}

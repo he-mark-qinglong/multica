@@ -1,42 +1,64 @@
-# Task Contract Template v1
-# Embed this as a ```contract fenced block at the top of the issue description.
-# All fields are mandatory unless marked optional.
+# 任务契约模板 v1（contract-collab P0，2026-07-26 批准）
+# 用法：orchestrator 派单时复制本模板，填写后把整块放进 issue body 顶部的
+# ```contract 代码块。规则：无契约不派单。worker 读 issue 即见契约。
+# 默认值：valid_until = created_at+24h；timeout = 4h；纯代码任务 data_as_of 可填 n/a。
+# 设计依据：docs/plans/contract-collab/03-contract-collaboration-scheme.md §1
 
+# ===== 契约头（元数据）=====
 contract_version: 1
-task_id: <SMA-XXXXX>
-title: <one-line title>
-layer: <L1|L2|L3|L4|L5>  # orchestrator/ops | research | executor | decision | knowledge
-issuer: <orchestrator-agent-name>
-assignee: <worker-agent-name>
-created_at: YYYY-MM-DDTHH:MM+TZ
-valid_until: YYYY-MM-DDTHH:MM+TZ  # optional, defaults to decision_time
-timeout: <Nh|Nd>
-data_as_of: YYYY-MM-DDTHH:MMZ      # cut-off for any data used in the task
-decision_time: YYYY-MM-DDTHH:MM+TZ # when a verdict/decision is expected
+task_id: SMA-XXXXX                    # issue id，兼作 conversation-id
+title: <一句话任务名>
+layer: L3                             # 目标层（对照 org 结构文档接单表）
+issuer: multica-orchestrator          # caller（precondition 责任人）
+assignee: <agent-name>                # callee（postcondition 责任人）
+created_at: <ISO8601+tz>
+valid_until: <ISO8601+tz>             # 派发时效；过期须 orchestrator 续期
+timeout: 4h
 
+# ===== 数据时点（防前视）=====
+data_as_of: <允许使用的最新数据时间戳 | n/a>
+decision_time: "<结论要支持的决策时点；invariant: data_as_of ≤ decision_time>"
+
+# ===== Preconditions（caller 义务；派发瞬间与开工前各验一次）=====
 preconditions:
-  - type: artifact_exists
-    ref: <path/to/file@sha>
-  - type: issue_closed
-    ref: <SMA-XXXXX>
-  - type: branch_clean
-    ref: <branch-name>
+  - type: artifact_exists             # 机器可查；可变引用必须 pin SHA
+    ref: <repo 内路径>@<SHA>
+  # - type: issue_closed
+  #   ref: <SMA-XXXXX>
+  # - type: branch_clean
+  #   ref: <branch-name>
+  # - type: upstream_merged
+  #   ref: main@<SHA>
+  # - type: freshness
+  #   subject: <镜像/数据>
+  #   pinned: <digest>
+  #   max_age: 2h
+  # - type: metric_version
+  #   ref: fee_shock@v2               # 口径版本锁定
 
+# ===== Deliverables（callee 义务：产出物清单）=====
 deliverables:
   - type: git_branch
-    pattern: agent/<agent-name>/<task-id-or-slug>
+    pattern: agent/<agent-name>/<task-id>
     remote: he-mark-qinglong/multica
   - type: file_in_branch
     ref: <relative/path/in/repo>
-  - type: visualization_bundle  # see docs/plans/quant-visualization-mandate.md
+  # - type: file
+  #   path: <repo 内路径>
+  - type: visualization_bundle        # 量化任务必须附图，见 quant-visualization-mandate
     required: true
+    refs:
+      - results/equity_curve.png
+      - results/trade_history_long.png
+      - results/trade_history_short.png
+      - results/trade_diagnostic.png
+      - results/returns_heatmap.png
 
+# ===== Acceptance evidence（done 的充要条件，全部机器可查）=====
 acceptance_evidence:
   - check: git_remote_branch_exists
-    ref: agent/<agent-name>/<task-id-or-slug>
-  - check: file_in_main
-    ref: <relative/path/in/repo>
-  - check: attestation_run
+    ref: agent/<agent-name>/<task-id>
+  - check: attestation_run            # 必须由非 assignee 的 evidence gate 执行
     attestation_id: <to be filled by evidence gate, e.g. att-7f3a9b2>
     executor: <evidence-gate-agent-name>  # MUST be different from assignee
     command: <exact repro command>
@@ -45,25 +67,47 @@ acceptance_evidence:
     ref: results/{equity_curve,trade_history_long,trade_history_short,trade_diagnostic,returns_heatmap}.png
   - check: human_reviewable_sample
     ref: trade_history_long.png must show >=50 trades across >=3 regimes
+  # - check: file_in_main
+  #   ref: <repo 内路径>
+  # - check: json_fields_present      # 缺字段=FAIL
+  #   ref: <json 文件路径>
+  #   fields: [field_a, field_b]
+  # - check: command_exit_zero        # P1 阶段人工/手动跑；P2 才自动
+  #   run: <命令>
 
+# ===== Breach policy（违约处置）=====
 breach_policy:
-  on_timeout:
-    action: redispatch_new_assignee
-    grace: 30m
+  on_precondition_fail: escalate_to_issuer        # caller 的锅：退回派单方修卡
   on_postcondition_fail:
-    action: redispatch_new_assignee
+    action: redispatch_new_assignee               # 不原样重派同一 agent
+    escalation_ladder:                            # 同一 task_id 累计计数
+      - redispatch_new_assignee                   # 第 1 次
+      - orchestrator_review                       # 第 2 次：审查任务卡可执行性
+      - escalate_human                            # 第 3 次：冻结 + 人工
   on_attestation_fail:
     action: rerun_attestation
     max_retries: 2
   on_offspec_comment:
     action: request_resubmit
+  on_invariant_break: escalate_human
+  on_timeout:
+    action: cancel_with_NOOP_comment
+    grace: 30m
+  env_fail_check_first: true                      # 归因二段判定：先查环境再算 agent 的锅
 
+# ===== Signoff chain（签核语义）=====
 signoff_chain:
-  required:
-    - smark-signoff-proxy
-  requires_attestation_run: true
+  required: [smark-signoff-proxy]
+  prohibited_self_sign: true          # L2/L3 不签自己产出
+  requires_attestation_run: true      # PASS 必须引用 attestation_id，无 id 作废
 
+# ===== Invariants（全程成立；soft violation 计数，重复即升级 hard）=====
 invariants:
+  - comment_schema_compliant          # [type=...] 首行
+  - no_layer_crossing
   - data_cutoff_respected
   - no_lookahead
   - cost_basis_ratified
+
+# ===== 口径引用（registry 版本引用）=====
+metric_refs: []                       # 例: [fee_shock@v2, oos_sharpe@v1]

@@ -554,15 +554,27 @@ def _format_human(report: SeriesReport) -> str:
             f"[{flag_str}]")
 
 
+def _default_root() -> Path:
+    env = os.environ.get("QUANT_LOOP_ROOT")
+    if env:
+        return Path(env)
+    try:
+        import sys
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+        from _shared.paths import quant_loop_root
+        return quant_loop_root()
+    except Exception:
+        return Path(__file__).resolve().parents[1]
+
+
 def main(argv: Optional[list[str]] = None) -> int:
     p = argparse.ArgumentParser(
         description="Missing-bar detector for quant-loop OHLCV parquet series.",
     )
     p.add_argument("--root", type=Path,
-                   default=Path(os.environ.get("QUANT_LOOP_ROOT",
-                                               "/home/smark/multica/quant-loop")),
+                   default=_default_root(),
                    help="quant-loop root directory (default: $QUANT_LOOP_ROOT or "
-                        "/home/smark/multica/quant-loop).")
+                        "_shared.paths-derived).")
     p.add_argument("--window-days", type=int, default=7,
                    help="Sliding window size in days (default: 7).")
     p.add_argument("--buckets", default="shared_pool,freqtrade_user_data,strategy_local",

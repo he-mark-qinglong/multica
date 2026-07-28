@@ -368,7 +368,7 @@ func (r *recordingMetrics) IncClaimTransientError() {
 // TestMemoryClaimLeaseAcceptsOnlyAllowedFrom verifies that allowFrom
 // is treated as a status whitelist, not a single value.
 func TestMemoryClaimLeaseAcceptsOnlyAllowedFrom(t *testing.T) {
-	leafID := uuid.New()
+	_ = uuid.New() // leafID placeholder: seeded inline below
 	store := NewMemoryClaimLease()
 
 	cases := []struct {
@@ -524,7 +524,7 @@ func TestDbClaimLeaseInvalidArgsFailFast(t *testing.T) {
 	if _, err := l.TryClaim(context.Background(), uuid.New(), uuid.New(), []string{}); err == nil {
 		t.Error("empty allowFrom did not error")
 	}
-	if _, _, err := l.DropClaim(context.Background(), uuid.Nil, uuid.New()); err == nil {
+	if _, err := l.DropClaim(context.Background(), uuid.Nil, uuid.New()); err == nil {
 		t.Error("nil leafID on DropClaim did not error")
 	}
 	if _, err := l.ListClaimedLeaves(context.Background(), uuid.New(), time.Now(), 0); err == nil {

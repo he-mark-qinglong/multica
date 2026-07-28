@@ -153,8 +153,54 @@ func runTaskList(cmd *cobra.Command, _ []string) error {
 			formatTaskAge(strVal(task, "created_at")),
 		})
 	}
+	// WAIT_REASON is only meaningful for queued rows; for other statuses the
+	// server leaves the field empty, so we render "" to keep the columns
+	// aligned. Surfacing it for non-queued statuses would invite noise
+	// (e.g. a path string for waiting_local_directory doesn't belong in
+	// the "reason the daemon can't claim" sense the column represents).
+	if anyQueued(tasksRaw, status) {
+		headers = append(headers, "WAIT_REASON")
+		for i, raw := range tasksRaw {
+			task, ok := raw.(map[string]any)
+			if !ok {
+				continue
+			}
+			if strVal(task, "status") != "queued" {
+				rows[i] = append(rows[i], "")
+				continue
+			}
+			rows[i] = append(rows[i], strVal(task, "wait_reason"))
+		}
+	}
 	cli.PrintTable(os.Stdout, headers, rows)
 	return nil
+}
+
+// anyQueued reports whether the user asked for queued tasks (status filter
+// either omitted, equals "queued", or comma-list contains "queued"). It
+// powers the WAIT_REASON column toggle: showing the column when the result
+// set contains no queued rows is noise, hiding it when there are queued
+// rows would defeat the point of the feature. Non-queued-only filters
+// (--status running, dispatched, …) leave the column out.
+func anyQueued(rowsRaw []any, statusFilter string) bool {
+	for _, raw := range rowsRaw {
+		task, ok := raw.(map[string]any)
+		if !ok {
+			continue
+		}
+		if strVal(task, "status") == "queued" {
+			return true
+		}
+	}
+	// Defensive: if rowsRaw is empty but the user explicitly filtered to
+	// queued, still show the column header so empty output reads as
+	// "no queued tasks" rather than "feature hidden".
+	for _, s := range strings.Split(statusFilter, ",") {
+		if strings.TrimSpace(s) == "queued" {
+			return true
+		}
+	}
+	return false
 }
 
 func runTaskGet(cmd *cobra.Command, args []string) error {

@@ -2,7 +2,7 @@
 
 归档原则（PLAN_20260724_hf_strategy_optimization.md §2.1 / Phase C）：已判 KILL 的策略目录整体迁入此目录，`results/` 证据链随目录保留，**不删除任何文件**。各家族子目录的 `KILL_SUMMARY.md` 写明 kill 原因与 revival 条件。
 
-未归档（仍在 `strategies/`）：`mtf_xs_pairs_1m_15m_2h_*`（H3 为 live 候选族）、`loid_iceberg_v4_1m_20260720`（唯一幸存高频资产，Phase E 推进对象）、`pairs_cointegration_1d_20260709`（PASS）、`_indicators/`（共享指标库）。
+未归档（仍在 `strategies/`）：`loid_iceberg_v4_1m_20260720`、`pairs_cointegration_1d_20260709`（PASS）、`_indicators/`（共享指标库）。〔2026-07-26 更新：mtf_xs_pairs 全家族已封存入墓地，见 KILLED_mtf_xs_pairs.md〕
 
 ---
 
