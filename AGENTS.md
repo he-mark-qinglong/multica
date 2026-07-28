@@ -165,6 +165,15 @@ Full plan: `docs/plans/multica-quant-permanent-loop-2026-07-25.md`. Read it befo
 - **Git** — push via HTTPS to fork `he-mark-qinglong/multica` (origin `multica-ai/multica` is read-only, 403). Never commit others' uncommitted changes in the worktree.
 - **Python** — always `/Users/mark/sdk/mamba-envs/trading/bin/python3` (default python3 lacks pyarrow).
 
+## Long-term roadmap (2026–2036)
+
+> **Single source of truth for the 10-year plan:** `docs/plans/roadmap-2026-2036.md`. Read it before claiming any cross-quarter or architectural task.
+> Agent org evolution (phase II/III roles) is in `docs/plans/agent-org-structure-2026-07-25.md` §5.
+
+- **2026 Q3 current focus** — infrastructure closure (`infra-sprint-2026-07-25` W1–W5), `signal-enhance-h3` KEEP/KILL verdict, and making the 1-day research epoch self-sustaining (research-scout → SPEC → backtest → verdict → retro).
+- **2026 Q4 preview** — first execution-cost-aware strategies (maker-20bps gate), portfolio-level risk overlay, and frozen-family audit (`_graveyard/`).
+- **Roadmap maintenance** — autopilot `roadmap-maintainer` (`023e2849-6245-49c8-bab4-8c88564bfe81`) runs on the last 28th–31st of each month at 22:00 Asia/Shanghai, creates issue `[roadmap-maintainer YYYY-MM-DD]`, and verifies/adjusts the next 90-day plan. Master issue: `SMA-36734`.
+
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence
 
@@ -209,3 +218,73 @@ This project is indexed by GitNexus as **multica** (97334 symbols, 252907 relati
 | Index, status, clean, wiki CLI commands | `.claude/skills/gitnexus/gitnexus-cli/SKILL.md` |
 
 <!-- gitnexus:end -->
+
+---
+
+## 2026-07-28 基础设施重构（P0–P4）
+
+> **所有 agent 必读。** 本节记录 2026-07-28 的可靠性 + 模型分层重构。
+> 原始方案文件：`~/.kimi-code/sessions/.../plans/signal-quake-terra.md`
+
+### 架构变更：全栈本地化
+
+| 组件 | 变更前 | 变更后 |
+|------|--------|--------|
+| multica server | .105 远端 (`192.168.0.105:8080`) | **本机** (`127.0.0.1:8080`)，launchd `com.smark.multica-server-local` |
+| Postgres | .105 Docker (`pgvector/pgvector:pg17`) | **本机 Homebrew** PG17 + pgvector 0.8.5 |
+| 数据 | 34064 tasks / 27 autopilots | 已 dump 迁移，完整保留 |
+| 隧道 (caocao-tunnel :18091) | SSH 隧道 → 10.6.0.91 | **已退役**（`.plist.disabled`），系统已切直连 MiniMax |
+| daemon server_url | `http://192.168.0.105:8080` | `http://127.0.0.1:8080` |
+| .105 server | active | **已停**（`systemctl --user stop multica-server`）|
+
+### Provider 路由（全部国内直连，无隧道）
+
+| 档位 | Provider | Model | 延迟 | 用途 |
+|------|----------|-------|------|------|
+| trivial | minimax (`api.minimax.io/anthropic`) | MiniMax-M3 | ~3s | 巡检/CRUD/格式化 |
+| medium | glm-smark (`open.bigmodel.cn/api/anthropic`) | glm-5.2 | ~0.7s | 通用编码/分析 |
+| hard | managed:kimi-tang (`api.kimi.com/coding/v1`) | **k3** | ~1s | 深度推理/规划/长上下文 |
+
+### Agent 模型分配
+
+| 模型 | Agent |
+|------|-------|
+| 🔴 K3 (`managed:kimi-tang/k3`) | quant-researcher, multica-orchestrator, multica-strategy, smark-decision-maker |
+| 🟡 GLM (`glm-5.2-smark`) | persona-advisor, quant-analyst, multica-code, smark-signoff-proxy |
+| 🟢 MiniMax (`caocao-m3`) | multica-ops, knowledge-curator, strategy-worker-1/2, ops-worker-1, quant-research-agent |
+
+### 新增脚本（`~/.multica/scripts/`）
+
+| 脚本 | 功能 | 触发方式 |
+|------|------|----------|
+| `multica-safe-restart.{sh,py}` | drain in-flight → cancel → restart → rerun | 手动 / watchdog 调用；替代裸 `daemon restart` |
+| `provider_healthcheck.py` | 探活所有 provider，写 `provider-health.json` | 手动 / watchdog 调用 |
+| `watchdog_selfheal.sh` | stall 检测 → provider 健康 → 条件重启 | 定时（建议 cron/autopilot） |
+| `difficulty_router.py` | 新 issue 自动分类 + 打 `difficulty:*` 标签 | **launchd 每 5 分钟** (`com.smark.difficulty-router`) |
+
+### 新增路由脚本（`~/multica/quant-loop/scripts/`）
+
+| 脚本 | 功能 |
+|------|------|
+| `task_router.py` | 规则版难度分类器 + 三档路由表。CLI: `python3 task_router.py "任务描述"` → JSON |
+
+### 可靠性改动
+
+| 改动 | 变更前 | 变更后 |
+|------|--------|--------|
+| daemon drain 超时 | 30s 硬编码 | **120s**（env `MULTICA_DAEMON_DRAIN_TIMEOUT` 可配） |
+| launchd ExitTimeOut | 5s（默认） | **150s**（plist 已改） |
+| 熔断阈值 | 24h / 50 runs / 90% fail | **1h / 10 runs / 50% fail**（.105 env + 本地 server env） |
+| dispatch 队列深度 | 无限制 | **>100 跳过 tick**（env `MULTICA_MAX_DISPATCH_QUEUE_DEPTH`） |
+| healthcheck | 探 :18091 隧道（假阴假阳） | 动态读 `ANTHROPIC_BASE_URL` |
+| publish_metrics.py sharpe | 12/20 策略解析 | **20/20**（修复嵌套 sharpe 别名） |
+| upload_artifacts.py | 零幂等 | **SHA-256 指纹去重** |
+| SKIP 状态 | 只打印不回传 | **`publish_outcomes.json` 回传 server** |
+
+### 运维须知
+
+- **重启 daemon 永远用 `~/.multica/scripts/multica-safe-restart.sh`**，不要裸 `multica daemon restart` 或 `kill`。
+- **隧道已退役**——不要重新启用 `com.smark.caocao-tunnel`。模型走 MiniMax/GLM/Kimi 直连。
+- **server 在本机**——`http://127.0.0.1:8080`。Postgres 是 Homebrew PG17（`brew services`）。
+- **难度标签**——`difficulty:trivial/medium/hard` 三个 label 已创建，`difficulty_router.py` 每 5 分钟自动打标。
+- **回滚**——daemon 旧 binary 备份在 `~/.local/bin/multica.bak-*`；隧道 plist 在 `.plist.disabled`。

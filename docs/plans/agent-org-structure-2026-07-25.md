@@ -85,3 +85,35 @@ L4 无法判决 / 超出授权       → [type=ESCALATE] → L0 人类
   daemon 级 Mac=6 / .105=10。orchestrator 分派时不得超过目标 agent 的空余容量
 - **misroute 复盘**：每次 blocked-转派在 epoch-retro 计数，周均 >3 次说明路由表要修
 - 本文件变更 = 组织结构变更，需 L0 批准后进 AGENTS.md 摘要
+
+---
+
+## 5. 组织演进（2027–2036）
+
+> 详细时间线见 `docs/plans/roadmap-2026-2036.md` §5。
+> 原则：新角色在能力依赖解锁后才创建，不提前造岗位。
+
+### 阶段一（2026–2027）：当前 14 agent
+
+维持 §1 结构不变。quant-researcher 单线程承载策略主线；
+multica-strategy + strategy-worker-1/2 跑验证管线；multica-code 负责管线/服务。
+
+### 阶段二（2027–2029）：新增 2 角色
+
+| 新角色 | 层 | 接单范围 | 拒绝（转谁） |
+|---|---|---|---|
+| `portfolio-manager` | L3 | 组合权重、相关性监控、组合级回撤预算、再平衡执行 | 单个策略验证 → multica-strategy；代码实现 → multica-code |
+| `execution-researcher` | L2 | maker 执行、队列位置模型、撮合回放、成本模型 | 数据工程 → ops-worker-1；策略假设 → quant-researcher |
+
+### 阶段三（2029–2036）：新增 2 角色
+
+| 新角色 | 层 | 接单范围 | 拒绝（转谁） |
+|---|---|---|---|
+| `regime-detector` | L2 | 市场状态分类器、regime 自适应信号、组合权重 regime 调整 | 数据 → ops-worker-1；组合配置 → portfolio-manager |
+| `meta-evolver` | L1 | 研究流程元优化：预检阈值、窗口数、派单策略、方法论改进假设 | 具体策略 → quant-researcher；基础设施 → multica-ops |
+
+### 演进纪律
+
+1. 新角色创建前必须有 SPEC：明确职责边界、接单范围、验收证据、与现有角色的交接面。
+2. 新角色先以「临时 agent」跑 1 个季度，验收通过后再写入本文件和 agent instructions。
+3. 不合并能力重叠的角色；旧角色在能力被完全替代后才标记 deprecated。
