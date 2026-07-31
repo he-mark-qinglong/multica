@@ -249,7 +249,7 @@ def _status(row: dict[str, Any]) -> str:
     if not has_metrics and not row["frameworks"]:
         return "UNTESTED"
     consistent = _framework_consistent(row)
-    if _framework_killed(row) and not consistent:
+    if _framework_killed(row):
         return "KILL"
     if consistent:
         return "PASS" if _profitable(row) else "CV_PASS"

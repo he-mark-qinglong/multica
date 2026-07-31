@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-31T17:38:27.099864+00:00",
+  "generated": "2026-07-31T23:32:58.157209+00:00",
   "strategies": [
     {
       "strategy_key": "donchian_breakout_atr_1d_20260709",
@@ -117,9 +117,9 @@
     },
     {
       "strategy_key": "vpvr_carry_term_8h_20260711",
-      "verdict": "CV_PASS",
-      "kill_reason": null,
-      "kill_evidence": null
+      "verdict": "KILL",
+      "kill_reason": "framework verdict AUTO-ARCHIVE per W5 (NOT-PROFITABLE) (freqtrade)",
+      "kill_evidence": "strategies/vpvr_carry_term_8h_20260711/results/framework_cv_freqtrade.json"
     },
     {
       "strategy_key": "vpvr_edge_reversion_1d_20260726",
