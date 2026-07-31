@@ -1,0 +1,99 @@
+{
+  "history": [
+    {
+      "ts_utc": "2026-07-26T05:23:48.726702+00:00",
+      "severity_counts": {
+        "critical": 0,
+        "warning": 0,
+        "info": 0,
+        "healthy": 0
+      },
+      "live_mode": false
+    },
+    {
+      "ts_utc": "2026-07-26T05:24:09.162646+00:00",
+      "severity_counts": {
+        "critical": 0,
+        "warning": 1,
+        "info": 0,
+        "healthy": 0
+      },
+      "live_mode": false
+    },
+    {
+      "ts_utc": "2026-07-26T05:25:09.281278+00:00",
+      "severity_counts": {
+        "critical": 0,
+        "warning": 0,
+        "info": 0,
+        "healthy": 0
+      },
+      "live_mode": false
+    },
+    {
+      "ts_utc": "2026-07-26T05:26:02.679204+00:00",
+      "severity_counts": {
+        "critical": 0,
+        "warning": 0,
+        "info": 0,
+        "healthy": 0
+      },
+      "live_mode": false
+    },
+    {
+      "ts_utc": "2026-07-26T05:26:03.407417+00:00",
+      "severity_counts": {
+        "critical": 0,
+        "warning": 1,
+        "info": 0,
+        "healthy": 0
+      },
+      "live_mode": false
+    }
+  ],
+  "last_snapshot": {
+    "ts_utc": "2026-07-26T05:26:03.407417+00:00",
+    "ts_epoch": 1785043563,
+    "live_mode": false,
+    "config": {
+      "telegram_token_present": false,
+      "telegram_chat_id_present": false,
+      "dedup_window_min": 30
+    },
+    "severity_counts": {
+      "critical": 0,
+      "warning": 1,
+      "info": 0,
+      "healthy": 0
+    },
+    "raw_alert_count": 1,
+    "fresh_alert_count": 1,
+    "suppressed_alert_count": 0,
+    "send_attempted": 0,
+    "send_succeeded": 0,
+    "sources_present": {
+      "status_page": true,
+      "db_pool": true,
+      "daemon_alive": true,
+      "autopilot_total": 27
+    },
+    "thresholds": {
+      "paused_pct_warn": 20.0,
+      "missed_autopilots_escalate": 1,
+      "daemon_uptime_warn_sec": 60,
+      "in_progress_backlog_warn": 700,
+      "blocked_backlog_escalate": 80
+    },
+    "alerts_fresh": [
+      {
+        "id": "75169b89760c",
+        "source": "status-page-monitor",
+        "severity": "warning",
+        "summary": "status-page-monitor verdict=warn",
+        "ts_utc": "2026-07-26T05:13:18.823844+00:00",
+        "detail_count": 1
+      }
+    ],
+    "alerts_suppressed": []
+  }
+}

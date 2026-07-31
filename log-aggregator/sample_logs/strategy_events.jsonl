@@ -1,0 +1,12 @@
+{"ts": "2026-07-26T00:00:12Z", "level": "INFO", "source": "strategy.vpvr_xs", "message": "bars loaded: 1440"}
+{"ts": "2026-07-26T00:00:42Z", "level": "DEBUG", "source": "strategy.vpvr_xs", "message": "hvn computed at 2150.4 (vol=8120)"}
+{"ts": "2026-07-26T00:01:12Z", "level": "INFO", "source": "strategy.vpvr_xs", "message": "signal=short confidence=0.62"}
+{"ts": "2026-07-26T00:01:42Z", "level": "WARNING", "source": "strategy.vpvr_xs", "message": "fill slippage 6.2bps > threshold 5bps"}
+{"ts": "2026-07-26T00:02:12Z", "level": "INFO", "source": "strategy.vpvr_xs", "message": "position opened: SHORT ETHUSDT qty=0.05 @ 2150.6"}
+{"ts": "2026-07-26T00:02:42Z", "level": "ERROR", "source": "strategy.vpvr_xs", "message": "TP hit but cancel failed for SL; manual cleanup queued"}
+{"ts": "2026-07-26T00:03:12Z", "level": "INFO", "source": "strategy.vpvr_xs", "message": "position closed: pnl=+0.42 USDT"}
+{"ts": "2026-07-26T00:03:42Z", "level": "INFO", "source": "strategy.vpvr_xs", "message": "idle — waiting for next bar"}
+{"ts": "2026-07-26T00:04:12Z", "level": "DEBUG", "source": "strategy.vpvr_xs", "message": "lvn computed at 2142.1 (vol=240)"}
+{"ts": "2026-07-26T00:04:42Z", "level": "INFO", "source": "strategy.vpvr_xs", "message": "signal=long confidence=0.71"}
+{"ts": "2026-07-26T00:05:12Z", "level": "INFO", "source": "strategy.vpvr_xs", "message": "position opened: LONG ETHUSDT qty=0.04 @ 2143.0"}
+{"ts": "2026-07-26T00:05:42Z", "level": "ERROR", "source": "strategy.vpvr_xs", "message": "kline gap detected — backfill triggered"}

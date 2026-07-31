@@ -1,0 +1,4 @@
+{"ts": "2026-07-22T14:00:00+08:00", "source": "system", "category": "resource_saturation", "pattern": "lan_disk_below_30pct", "signature": "disk 30pct avail 300GB"}
+{"ts": "2026-07-22T14:00:30+08:00", "source": "system", "category": "resource_saturation", "pattern": "lan_disk_below_30pct", "signature": "disk 30pct avail 295GB"}
+{"ts": "2026-07-22T14:01:00+08:00", "source": "autopilot_run", "category": "api_error", "pattern": "rate_limit_60s", "signature": "anthropic 60s rate x4"}
+{"ts": "2026-07-22T14:01:30+08:00", "source": "issue", "category": "auth_failure", "pattern": "codex_401", "signature": "codex 401 token"}

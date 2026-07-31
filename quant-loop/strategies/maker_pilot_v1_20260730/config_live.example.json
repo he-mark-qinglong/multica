@@ -1,0 +1,39 @@
+{
+  "api_key": "",
+  "api_secret": "",
+  "testnet": true,
+  "venue": "binance_perp",
+  "symbol": "BTCUSDT",
+  "tick_size": 0.01,
+
+  "gamma": 0.1,
+  "sigma_window_seconds": 60,
+  "horizon_seconds": 300.0,
+
+  "base_spread_bp": 2.0,
+  "size_usd": 100,
+  "inventory_skew_factor": 1.0,
+  "vol_spread_coeff": 0.5,
+
+  "max_inventory_usd": 1000.0,
+
+  "fill_penalty_bp": 1.0,
+  "penalty_decay_per_second": 0.5,
+  "sweep_threshold": 3,
+  "sweep_cooldown_seconds": 5.0,
+  "max_penalty_bp": 10.0,
+  "expected_sweep_cost_bp": 1.74,
+
+  "max_hold_seconds": 300.0,
+  "tp_bp": 5.0,
+  "sl_bp": 10.0,
+
+  "maker_fee_bp": 2.0,
+  "taker_fee_bp": 5.0,
+
+  "kelly_fraction": 0.25,
+  "kelly_pnl_history_bp": [],
+
+  "tick_interval_seconds": 1.0,
+  "max_runtime_seconds": 0
+}

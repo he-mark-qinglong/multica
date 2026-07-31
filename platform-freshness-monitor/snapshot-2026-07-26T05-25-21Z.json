@@ -1,0 +1,81 @@
+{
+  "monitor": "platform-freshness-monitor",
+  "monitor_id": "SMA-35770-082",
+  "ts_utc": "2026-07-26T05:25:21.203797+00:00",
+  "ts_epoch": 1785043521,
+  "elapsed_sec": 7.477,
+  "verdict": "no-op",
+  "escalations": [],
+  "warnings": [],
+  "tables": {
+    "comment": {
+      "error": "psql rc=2",
+      "stderr": "bash: -c: line 1: syntax error near unexpected token `)'\nbash: -c: line 1: `docker exec multica-postgres-1 psql -U multica -d multica -X -Atc 'SELECT to_char(max(created_at) AT TIME ZONE \\'UTC\\', \\'YYYY-MM-DD\"T\"HH24:MI:SS.USOF\\'), EXTRACT(EPOCH FROM (now() - max(created_at)))::bigint FROM comment;''",
+      "verdict": "unknown",
+      "threshold_warn_s": 600,
+      "threshold_escalate_s": 3600
+    },
+    "activity_log": {
+      "error": "psql rc=2",
+      "stderr": "bash: -c: line 1: syntax error near unexpected token `)'\nbash: -c: line 1: `docker exec multica-postgres-1 psql -U multica -d multica -X -Atc 'SELECT to_char(max(created_at) AT TIME ZONE \\'UTC\\', \\'YYYY-MM-DD\"T\"HH24:MI:SS.USOF\\'), EXTRACT(EPOCH FROM (now() - max(created_at)))::bigint FROM activity_l",
+      "verdict": "unknown",
+      "threshold_warn_s": 600,
+      "threshold_escalate_s": 3600
+    },
+    "autopilot_run": {
+      "error": "psql rc=2",
+      "stderr": "bash: -c: line 1: syntax error near unexpected token `)'\nbash: -c: line 1: `docker exec multica-postgres-1 psql -U multica -d multica -X -Atc 'SELECT to_char(max(triggered_at) AT TIME ZONE \\'UTC\\', \\'YYYY-MM-DD\"T\"HH24:MI:SS.USOF\\'), EXTRACT(EPOCH FROM (now() - max(triggered_at)))::bigint FROM autopi",
+      "verdict": "unknown",
+      "threshold_warn_s": 1200,
+      "threshold_escalate_s": 7200
+    },
+    "artifact": {
+      "error": "psql rc=2",
+      "stderr": "bash: -c: line 1: syntax error near unexpected token `)'\nbash: -c: line 1: `docker exec multica-postgres-1 psql -U multica -d multica -X -Atc 'SELECT to_char(max(created_at) AT TIME ZONE \\'UTC\\', \\'YYYY-MM-DD\"T\"HH24:MI:SS.USOF\\'), EXTRACT(EPOCH FROM (now() - max(created_at)))::bigint FROM artifact;'",
+      "verdict": "unknown",
+      "threshold_warn_s": 14400,
+      "threshold_escalate_s": 86400
+    },
+    "webhook_delivery": {
+      "error": "psql rc=2",
+      "stderr": "bash: -c: line 1: syntax error near unexpected token `)'\nbash: -c: line 1: `docker exec multica-postgres-1 psql -U multica -d multica -X -Atc 'SELECT to_char(max(created_at) AT TIME ZONE \\'UTC\\', \\'YYYY-MM-DD\"T\"HH24:MI:SS.USOF\\'), EXTRACT(EPOCH FROM (now() - max(created_at)))::bigint FROM webhook_de",
+      "verdict": "unknown",
+      "threshold_warn_s": 1800,
+      "threshold_escalate_s": 14400
+    },
+    "task_usage": {
+      "error": "psql rc=2",
+      "stderr": "bash: -c: line 1: syntax error near unexpected token `)'\nbash: -c: line 1: `docker exec multica-postgres-1 psql -U multica -d multica -X -Atc 'SELECT to_char(max(created_at) AT TIME ZONE \\'UTC\\', \\'YYYY-MM-DD\"T\"HH24:MI:SS.USOF\\'), EXTRACT(EPOCH FROM (now() - max(created_at)))::bigint FROM task_usage",
+      "verdict": "unknown",
+      "threshold_warn_s": 14400,
+      "threshold_escalate_s": 86400
+    }
+  },
+  "thresholds": {
+    "comment": {
+      "warn_s": 600,
+      "escalate_s": 3600
+    },
+    "activity_log": {
+      "warn_s": 600,
+      "escalate_s": 3600
+    },
+    "autopilot_run": {
+      "warn_s": 1200,
+      "escalate_s": 7200
+    },
+    "artifact": {
+      "warn_s": 14400,
+      "escalate_s": 86400
+    },
+    "webhook_delivery": {
+      "warn_s": 1800,
+      "escalate_s": 14400
+    },
+    "task_usage": {
+      "warn_s": 14400,
+      "escalate_s": 86400
+    }
+  },
+  "probe_count": 6
+}

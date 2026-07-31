@@ -1,0 +1,180 @@
+{
+  "cuts": {
+    "by_direction": {
+      "long": {
+        "gross_sum": -0.864711465193922,
+        "mean_gross_bp": -35.294345518119265,
+        "mean_net_bp": -57.294345518119265,
+        "n_trades": 245,
+        "net_sum": -1.403711465193922,
+        "win_rate_net": 0.15918367346938775
+      }
+    },
+    "by_exit_reason": {
+      "stop": {
+        "gross_sum": -1.0111784518765994,
+        "mean_gross_bp": -68.3228683700405,
+        "mean_net_bp": -90.3228683700405,
+        "n_trades": 148,
+        "net_sum": -1.3367784518765995,
+        "win_rate_net": 0.0
+      },
+      "target": {
+        "gross_sum": 0.2991953573668036,
+        "mean_gross_bp": 85.48438781908673,
+        "mean_net_bp": 63.48438781908673,
+        "n_trades": 35,
+        "net_sum": 0.22219535736680354,
+        "win_rate_net": 0.9714285714285714
+      },
+      "time_stop": {
+        "gross_sum": 0.04542452842053191,
+        "mean_gross_bp": 151.41509473510635,
+        "mean_net_bp": 129.41509473510635,
+        "n_trades": 3,
+        "net_sum": 0.038824528420531905,
+        "win_rate_net": 1.0
+      },
+      "trailing": {
+        "gross_sum": -0.15727950176727334,
+        "mean_gross_bp": -33.463723780270925,
+        "mean_net_bp": -55.46372378027093,
+        "n_trades": 47,
+        "net_sum": -0.2606795017672734,
+        "win_rate_net": 0.02127659574468085
+      },
+      "trend_reversal": {
+        "gross_sum": -0.04087339733738482,
+        "mean_gross_bp": -34.06116444782068,
+        "mean_net_bp": -56.06116444782067,
+        "n_trades": 12,
+        "net_sum": -0.06727339733738481,
+        "win_rate_net": 0.08333333333333333
+      }
+    },
+    "by_holding_quartile": {
+      "(0.999, 3.0]": {
+        "gross_sum": -0.38950771335777545,
+        "mean_gross_bp": -53.35722100791445,
+        "mean_net_bp": -75.35722100791446,
+        "n_trades": 73,
+        "net_sum": -0.5501077133577755,
+        "win_rate_net": 0.0136986301369863
+      },
+      "(15.0, 96.0]": {
+        "gross_sum": -0.03670543351379607,
+        "mean_gross_bp": -6.01728418258952,
+        "mean_net_bp": -28.01728418258953,
+        "n_trades": 61,
+        "net_sum": -0.17090543351379614,
+        "win_rate_net": 0.29508196721311475
+      },
+      "(3.0, 6.0]": {
+        "gross_sum": -0.18399258189365197,
+        "mean_gross_bp": -35.383188825702305,
+        "mean_net_bp": -57.3831888257023,
+        "n_trades": 52,
+        "net_sum": -0.2983925818936519,
+        "win_rate_net": 0.17307692307692307
+      },
+      "(6.0, 15.0]": {
+        "gross_sum": -0.25450573642869845,
+        "mean_gross_bp": -43.136565496389565,
+        "mean_net_bp": -65.13656549638955,
+        "n_trades": 59,
+        "net_sum": -0.38430573642869836,
+        "win_rate_net": 0.1864406779661017
+      }
+    },
+    "by_year": {
+      "2022": {
+        "gross_sum": -0.2812467094634248,
+        "mean_gross_bp": -61.140589013787995,
+        "mean_net_bp": -83.14058901378797,
+        "n_trades": 46,
+        "net_sum": -0.3824467094634247,
+        "win_rate_net": 0.06521739130434782
+      },
+      "2023": {
+        "gross_sum": -0.1435157962645639,
+        "mean_gross_bp": -28.70315925291278,
+        "mean_net_bp": -50.70315925291279,
+        "n_trades": 50,
+        "net_sum": -0.25351579626456394,
+        "win_rate_net": 0.22
+      },
+      "2024": {
+        "gross_sum": -0.1820129238775805,
+        "mean_gross_bp": -30.335487312930084,
+        "mean_net_bp": -52.33548731293007,
+        "n_trades": 60,
+        "net_sum": -0.31401292387758045,
+        "win_rate_net": 0.2
+      },
+      "2025": {
+        "gross_sum": -0.23030120710389035,
+        "mean_gross_bp": -33.3769865367957,
+        "mean_net_bp": -55.37698653679569,
+        "n_trades": 69,
+        "net_sum": -0.3821012071038903,
+        "win_rate_net": 0.11594202898550725
+      },
+      "2026": {
+        "gross_sum": -0.027634828484462415,
+        "mean_gross_bp": -13.817414242231207,
+        "mean_net_bp": -35.817414242231216,
+        "n_trades": 20,
+        "net_sum": -0.07163482848446243,
+        "win_rate_net": 0.25
+      }
+    }
+  },
+  "cuts_reference_scenario": "ratified_11bp_side_22bpRT",
+  "meta": {
+    "kind": "single",
+    "labels": [
+      "BTCUSDT"
+    ],
+    "n_trades": 245,
+    "span_end": "2026-07-08 00:00:00",
+    "span_start": "2022-02-11 00:00:00"
+  },
+  "scenarios": [
+    {
+      "bps_per_side": 0,
+      "break_even_bps_per_side": -17.64717275905963,
+      "cost_drag_ratio": null,
+      "cost_rt_bps_effective": 0.0,
+      "cost_sum": 0.0,
+      "daily_sharpe_gross": -10.724704995981607,
+      "daily_sharpe_net": -10.724704995981607,
+      "gross_sum": -0.864711465193922,
+      "mean_gross_bp": -35.294345518119265,
+      "mean_net_bp": -35.294345518119265,
+      "n_trades": 245,
+      "net_sum": -0.864711465193922,
+      "scenario": "zero_cost",
+      "verdict": "MECHANISM_KILL",
+      "win_rate_gross": 0.17551020408163265,
+      "win_rate_net": 0.17551020408163265
+    },
+    {
+      "bps_per_side": 11,
+      "break_even_bps_per_side": -17.64717275905963,
+      "cost_drag_ratio": null,
+      "cost_rt_bps_effective": 22.0,
+      "cost_sum": 0.539,
+      "daily_sharpe_gross": -10.724704995981607,
+      "daily_sharpe_net": -15.799381862689831,
+      "gross_sum": -0.864711465193922,
+      "mean_gross_bp": -35.294345518119265,
+      "mean_net_bp": -57.294345518119265,
+      "n_trades": 245,
+      "net_sum": -1.403711465193922,
+      "scenario": "ratified_11bp_side_22bpRT",
+      "verdict": "MECHANISM_KILL",
+      "win_rate_gross": 0.17551020408163265,
+      "win_rate_net": 0.15918367346938775
+    }
+  ]
+}

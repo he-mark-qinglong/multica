@@ -1,0 +1,59 @@
+{
+  "smoke_name": "order_to_fill_linker_p7exec_055",
+  "stages": [
+    {
+      "name": "stage1_btc_buy_partial_then_filled",
+      "expected": "is_orphan=False, final status=FILLED",
+      "r1a_orphan": false,
+      "r1a_status": "PARTIALLY_FILLED",
+      "r1b_orphan": false,
+      "r1b_status": "FILLED"
+    },
+    {
+      "name": "stage2_eth_sell_full_fill",
+      "expected": "is_orphan=False, final status=FILLED",
+      "r2_orphan": false,
+      "r2_status": "FILLED"
+    },
+    {
+      "name": "stage3_btc_sell_rejected",
+      "expected": "venue REJECTED \u2192 intent REJECTED",
+      "r3_status": "REJECTED"
+    },
+    {
+      "name": "stage4_orphan_journaled_not_dropped",
+      "expected": "both orphan, orphan_count=2",
+      "orphan_a_orphan": true,
+      "orphan_b_orphan": true,
+      "orphan_count": 2
+    },
+    {
+      "name": "stage5_restart_recover_pending_then_resolve_by_order_id",
+      "expected": "rehydrated 3 intents, orderId-only resolves to A",
+      "rehydrated": 3,
+      "r5_orphan": false,
+      "r5_coid": "A-coid-btc-buy",
+      "r5_status": "FILLED"
+    },
+    {
+      "name": "stage6_late_cancel_does_not_downgrade_filled",
+      "expected": "intent stays FILLED even after late CANCELED",
+      "r6_status": "FILLED",
+      "intent_status_persisted": "FILLED"
+    },
+    {
+      "name": "stage7_duplicate_trade_id_silent_idempotent",
+      "expected": "both returns same intent_status, no second journal row",
+      "r7a_status": "FILLED",
+      "r7b_status": "FILLED"
+    },
+    {
+      "name": "stage8_misrouted_side_raises_intentmismatch",
+      "expected": "IntentMismatch raised, intent still FILLED",
+      "raised": true,
+      "exc_msg": "FillReport side 'SELL' does not match intent side 'BUY' for client_order_id 'A-coid-btc-buy' / order_id 1100001"
+    }
+  ],
+  "stages_total": 8,
+  "passed": true
+}

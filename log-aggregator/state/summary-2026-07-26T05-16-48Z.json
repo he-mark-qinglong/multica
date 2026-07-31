@@ -1,0 +1,123 @@
+{
+  "total": 37,
+  "parsed": 37,
+  "unparsed": 0,
+  "by_level": {
+    "INFO": 16,
+    "DEBUG": 3,
+    "WARNING": 4,
+    "ERROR": 6,
+    "OTHER": 6,
+    "CRITICAL": 2
+  },
+  "by_source": {
+    "strategy.vpvr_xs": 12,
+    "multica": 10,
+    "app": 15
+  },
+  "by_level_source": {
+    "INFO": {
+      "strategy.vpvr_xs": 7,
+      "app": 9
+    },
+    "DEBUG": {
+      "strategy.vpvr_xs": 2,
+      "app": 1
+    },
+    "WARNING": {
+      "strategy.vpvr_xs": 1,
+      "multica": 1,
+      "app": 2
+    },
+    "ERROR": {
+      "strategy.vpvr_xs": 2,
+      "multica": 2,
+      "app": 2
+    },
+    "OTHER": {
+      "multica": 6
+    },
+    "CRITICAL": {
+      "multica": 1,
+      "app": 1
+    }
+  },
+  "by_minute_level": {
+    "1785024000": {
+      "INFO": 3,
+      "DEBUG": 1
+    },
+    "1785024060": {
+      "INFO": 2,
+      "WARNING": 2
+    },
+    "1785024120": {
+      "INFO": 2,
+      "ERROR": 2
+    },
+    "1785024180": {
+      "INFO": 3,
+      "DEBUG": 1
+    },
+    "1785024240": {
+      "DEBUG": 1,
+      "INFO": 3,
+      "WARNING": 1
+    },
+    "1785024300": {
+      "INFO": 2,
+      "ERROR": 2,
+      "CRITICAL": 1
+    },
+    "1787702460": {
+      "OTHER": 2
+    },
+    "1787702520": {
+      "OTHER": 1,
+      "WARNING": 1
+    },
+    "1787702580": {
+      "OTHER": 2
+    },
+    "1787702640": {
+      "ERROR": 1,
+      "OTHER": 1
+    },
+    "1787702700": {
+      "ERROR": 1,
+      "CRITICAL": 1
+    },
+    "1785024360": {
+      "INFO": 1
+    }
+  },
+  "earliest_ts": 1785024001.0,
+  "latest_ts": 1787702735.0,
+  "duration_sec": 2678734.0,
+  "parse_error_rate": 0.0,
+  "parse_errors_sample": [],
+  "elapsed_sec": 0.0166,
+  "lines_per_sec": 2231.19,
+  "file_inventory": {
+    "strategy_events": {
+      "path": "sample_logs/strategy_events.jsonl",
+      "size_bytes": 1546,
+      "line_count": 12
+    },
+    "daemon": {
+      "path": "sample_logs/daemon.log",
+      "size_bytes": 768,
+      "line_count": 10
+    },
+    "app": {
+      "path": "sample_logs/app.log",
+      "size_bytes": 1003,
+      "line_count": 15
+    }
+  },
+  "run_ts_utc": "2026-07-26T05:16:48.002029+00:00",
+  "paths": [
+    "sample_logs"
+  ],
+  "recursive": true
+}

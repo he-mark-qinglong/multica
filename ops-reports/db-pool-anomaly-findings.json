@@ -1,0 +1,141 @@
+{
+  "findings": [
+    {
+      "anomalous_metrics": [
+        {
+          "baseline_mad": 1.0,
+          "baseline_median": 14.0,
+          "method": "mad",
+          "metric": "idle",
+          "modified_z": -4.7215,
+          "value": 7,
+          "window": 12
+        }
+      ],
+      "file": "dbpool-2026-07-15T17-29-48Z.json",
+      "ts_utc": "2026-07-15T17:29:48.685318+00:00",
+      "verdict_recorded": "no-op"
+    },
+    {
+      "anomalous_metrics": [
+        {
+          "baseline_mad": 1.0,
+          "baseline_median": 14.0,
+          "method": "mad",
+          "metric": "idle",
+          "modified_z": -4.7215,
+          "value": 7,
+          "window": 12
+        }
+      ],
+      "file": "dbpool-2026-07-15T20-35-14Z.json",
+      "ts_utc": "2026-07-15T20:35:14.933871484Z",
+      "verdict_recorded": "no-op"
+    },
+    {
+      "anomalous_metrics": [
+        {
+          "baseline_mad": 2.0,
+          "baseline_median": 11.5,
+          "method": "mad",
+          "metric": "idle",
+          "modified_z": 4.552875,
+          "value": 25,
+          "window": 12
+        }
+      ],
+      "file": "dbpool-2026-07-16T22-52-32Z.json",
+      "ts_utc": "2026-07-16T14:52:32Z",
+      "verdict_recorded": "HEALTHY_NOOP"
+    },
+    {
+      "anomalous_metrics": [
+        {
+          "baseline_mad": 1.5,
+          "baseline_median": 12.5,
+          "method": "mad",
+          "metric": "idle",
+          "modified_z": 3.8221666666666665,
+          "value": 21,
+          "window": 12
+        }
+      ],
+      "file": "dbpool-2026-07-16T15-09-22Z.json",
+      "ts_utc": "2026-07-16T15:09:22Z",
+      "verdict_recorded": "HEALTHY_NOOP"
+    },
+    {
+      "anomalous_metrics": [
+        {
+          "baseline_mad": 1.0,
+          "baseline_median": 13.0,
+          "method": "mad",
+          "metric": "idle",
+          "modified_z": 8.094,
+          "value": 25,
+          "window": 12
+        }
+      ],
+      "file": "dbpool-2026-07-16T16-09-39Z.json",
+      "ts_utc": "2026-07-16T16:09:39+00:00",
+      "verdict_recorded": "no-op"
+    },
+    {
+      "anomalous_metrics": [
+        {
+          "baseline_mad": 1.0,
+          "baseline_median": 13.0,
+          "method": "mad",
+          "metric": "idle",
+          "modified_z": 5.396,
+          "value": 21,
+          "window": 12
+        }
+      ],
+      "file": "dbpool-2026-07-16T16-27-36Z.json",
+      "ts_utc": "2026-07-16T16:27:36+00:00",
+      "verdict_recorded": "no-op"
+    },
+    {
+      "anomalous_metrics": [
+        {
+          "baseline_mad": 1.5,
+          "baseline_median": 13.5,
+          "method": "mad",
+          "metric": "idle",
+          "modified_z": 4.271833333333333,
+          "value": 23,
+          "window": 12
+        },
+        {
+          "baseline_mad": 0.0,
+          "baseline_median": 1.0,
+          "method": "constant",
+          "metric": "active",
+          "modified_z": Infinity,
+          "value": 3,
+          "window": 12
+        }
+      ],
+      "file": "dbpool-2026-07-16T21-37-16Z.json",
+      "ts_utc": "2026-07-16T21:37:16+00:00",
+      "verdict_recorded": "no-op"
+    }
+  ],
+  "metrics": [
+    "idle",
+    "active",
+    "idle_in_tx",
+    "stuck_in_tx",
+    "slow_queries",
+    "oldest_tx_age_sec",
+    "pool_util_pct",
+    "acquired_app_estimate"
+  ],
+  "min_samples": 8,
+  "n_anomalies": 7,
+  "n_snapshots": 42,
+  "snapshots_dir": "/Users/mark/multica/db-pool-monitor",
+  "threshold": 3.5,
+  "window": 12
+}

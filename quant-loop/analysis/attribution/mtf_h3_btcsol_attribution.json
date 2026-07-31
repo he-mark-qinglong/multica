@@ -1,0 +1,228 @@
+{
+  "cuts": {
+    "by_direction": {
+      "long_a_short_b": {
+        "gross_sum": 1.0101084649913856,
+        "mean_gross_bp": 0.44517781621480196,
+        "mean_net_bp": -43.55482218378521,
+        "n_trades": 22690,
+        "net_sum": -98.82589153500864,
+        "win_rate_net": 0.1117672983693257
+      },
+      "short_a_long_b": {
+        "gross_sum": 1.2472318278549808,
+        "mean_gross_bp": 0.5629572682712619,
+        "mean_net_bp": -43.437042731728745,
+        "n_trades": 22155,
+        "net_sum": -96.23476817214504,
+        "win_rate_net": 0.11013315278718122
+      }
+    },
+    "by_exit_reason": {
+      "max_holding": {
+        "gross_sum": -3.9214059816511586,
+        "mean_gross_bp": -144.16933756070435,
+        "mean_net_bp": -188.16933756070438,
+        "n_trades": 272,
+        "net_sum": -5.118205981651159,
+        "win_rate_net": 0.003676470588235294
+      },
+      "regime_break": {
+        "gross_sum": -46.46647001094804,
+        "mean_gross_bp": -14.670224793505097,
+        "mean_net_bp": -58.6702247935051,
+        "n_trades": 31674,
+        "net_sum": -185.83207001094806,
+        "win_rate_net": 0.006882616657195176
+      },
+      "z_mean_revert": {
+        "gross_sum": 52.64521628544557,
+        "mean_gross_bp": 40.81340901267196,
+        "mean_net_bp": -3.1865909873280427,
+        "n_trades": 12899,
+        "net_sum": -4.110383714554442,
+        "win_rate_net": 0.36878827816109777
+      }
+    },
+    "by_holding_quartile": {
+      "(1.999, 3.0]": {
+        "gross_sum": -11.865397348834534,
+        "mean_gross_bp": -5.0915711246286195,
+        "mean_net_bp": -49.09157112462863,
+        "n_trades": 23304,
+        "net_sum": -114.40299734883456,
+        "win_rate_net": 0.01085650532097494
+      },
+      "(25.0, 240.0]": {
+        "gross_sum": 15.696174553608138,
+        "mean_gross_bp": 14.072238258569246,
+        "mean_net_bp": -29.92776174143076,
+        "n_trades": 11154,
+        "net_sum": -33.38142544639187,
+        "win_rate_net": 0.29047875201721357
+      },
+      "(3.0, 25.0]": {
+        "gross_sum": -1.5734369119272378,
+        "mean_gross_bp": -1.5148136246531605,
+        "mean_net_bp": -45.51481362465317,
+        "n_trades": 10387,
+        "net_sum": -47.27623691192724,
+        "win_rate_net": 0.14277462212380862
+      }
+    },
+    "by_year": {
+      "2022": {
+        "gross_sum": 0.33530112730824535,
+        "mean_gross_bp": 0.3325740203414455,
+        "mean_net_bp": -43.66742597965856,
+        "n_trades": 10082,
+        "net_sum": -44.02549887269176,
+        "win_rate_net": 0.1312239634993057
+      },
+      "2023": {
+        "gross_sum": 0.18916249097399584,
+        "mean_gross_bp": 0.18080911008793332,
+        "mean_net_bp": -43.81919088991208,
+        "n_trades": 10462,
+        "net_sum": -45.843637509026024,
+        "win_rate_net": 0.12301663161919327
+      },
+      "2024": {
+        "gross_sum": 1.0830813894151707,
+        "mean_gross_bp": 1.1400856730686009,
+        "mean_net_bp": -42.85991432693141,
+        "n_trades": 9500,
+        "net_sum": -40.71691861058484,
+        "win_rate_net": 0.12010526315789474
+      },
+      "2025": {
+        "gross_sum": 0.18996317419738507,
+        "mean_gross_bp": 0.19610113987548783,
+        "mean_net_bp": -43.80389886012452,
+        "n_trades": 9687,
+        "net_sum": -42.432836825802625,
+        "win_rate_net": 0.10302467224114793
+      },
+      "2026": {
+        "gross_sum": 0.4598321109515692,
+        "mean_gross_bp": 0.8991632986929393,
+        "mean_net_bp": -43.100836701307074,
+        "n_trades": 5114,
+        "net_sum": -22.041767889048437,
+        "win_rate_net": 0.04438795463433711
+      }
+    }
+  },
+  "cuts_reference_scenario": "ratified_11bp_side_44bpRT",
+  "gate_a3": {
+    "abs_err": 7.815970093361102e-13,
+    "ledger_net_sum": -33.61865970715286,
+    "pass": true,
+    "reconstructed_net_sum_at_config_cost": -33.61865970715364
+  },
+  "gate_a6": {
+    "finding": "net_sum negative even at config cost (8bp RT); summary.json PROFITABLE tag derived from cost-free per-bar equity path (SMA-36566 fee-shock bug class)",
+    "pass": false
+  },
+  "meta": {
+    "kind": "pair",
+    "labels": [
+      "BTCUSDT/SOLUSDT"
+    ],
+    "n_trades": 44845,
+    "span_end": "2026-07-10 23:53:00",
+    "span_start": "2022-01-01 04:43:00"
+  },
+  "scenarios": [
+    {
+      "bps_per_side": 2,
+      "break_even_bps_per_side": 0.12584124723193033,
+      "cost_drag_ratio": 15.893040191455846,
+      "cost_rt_bps_effective": 8.0,
+      "cost_sum": 35.876000000000005,
+      "daily_sharpe_gross": 1.1386530320801478,
+      "daily_sharpe_net": -15.225195629203983,
+      "gross_sum": 2.257340292846366,
+      "mean_gross_bp": 0.5033649889277213,
+      "mean_net_bp": -7.49663501107228,
+      "n_trades": 44845,
+      "net_sum": -33.61865970715364,
+      "scenario": "config_2bp_side_8bpRT",
+      "verdict": "COST_CAP_KILL",
+      "win_rate_gross": 0.45329468168134684,
+      "win_rate_net": 0.32598951945590365
+    },
+    {
+      "bps_per_side": 7,
+      "break_even_bps_per_side": 0.12584124723193033,
+      "cost_drag_ratio": 55.62564067009546,
+      "cost_rt_bps_effective": 28.0,
+      "cost_sum": 125.566,
+      "daily_sharpe_gross": 1.1386530320801478,
+      "daily_sharpe_net": -37.27513241264306,
+      "gross_sum": 2.257340292846366,
+      "mean_gross_bp": 0.5033649889277213,
+      "mean_net_bp": -27.496635011072275,
+      "n_trades": 44845,
+      "net_sum": -123.30865970715362,
+      "scenario": "t10_maker2_taker5",
+      "verdict": "COST_CAP_KILL",
+      "win_rate_gross": 0.45329468168134684,
+      "win_rate_net": 0.18954175493366038
+    },
+    {
+      "bps_per_side": 11,
+      "break_even_bps_per_side": 0.12584124723193033,
+      "cost_drag_ratio": 87.41172105300716,
+      "cost_rt_bps_effective": 44.0,
+      "cost_sum": 197.318,
+      "daily_sharpe_gross": 1.1386530320801478,
+      "daily_sharpe_net": -44.051729110042565,
+      "gross_sum": 2.257340292846366,
+      "mean_gross_bp": 0.5033649889277213,
+      "mean_net_bp": -43.496635011072286,
+      "n_trades": 44845,
+      "net_sum": -195.0606597071537,
+      "scenario": "ratified_11bp_side_44bpRT",
+      "verdict": "COST_CAP_KILL",
+      "win_rate_gross": 0.45329468168134684,
+      "win_rate_net": 0.11095997324116401
+    },
+    {
+      "bps_per_side": 12,
+      "break_even_bps_per_side": 0.12584124723193033,
+      "cost_drag_ratio": 95.35824114873506,
+      "cost_rt_bps_effective": 47.99999999999999,
+      "cost_sum": 215.25599999999997,
+      "daily_sharpe_gross": 1.1386530320801478,
+      "daily_sharpe_net": -45.10277433821726,
+      "gross_sum": 2.257340292846366,
+      "mean_gross_bp": 0.5033649889277213,
+      "mean_net_bp": -47.49663501107227,
+      "n_trades": 44845,
+      "net_sum": -212.9986597071536,
+      "scenario": "curator_24bpRT",
+      "verdict": "COST_CAP_KILL",
+      "win_rate_gross": 0.45329468168134684,
+      "win_rate_net": 0.09675549113613557
+    },
+    {
+      "bps_per_side": 30,
+      "break_even_bps_per_side": 0.12584124723193033,
+      "cost_drag_ratio": 238.39560287183767,
+      "cost_rt_bps_effective": 120.0,
+      "cost_sum": 538.14,
+      "daily_sharpe_gross": 1.1386530320801478,
+      "daily_sharpe_net": -51.804407241261906,
+      "gross_sum": 2.257340292846366,
+      "mean_gross_bp": 0.5033649889277213,
+      "mean_net_bp": -119.49663501107229,
+      "n_trades": 44845,
+      "net_sum": -535.8826597071536,
+      "scenario": "curator_60bpRT",
+      "verdict": "COST_CAP_KILL",
+      "win_rate_gross": 0.45329468168134684,
+      "win_rate_net": 0.013535511205262571
+    }
+  ]
+}

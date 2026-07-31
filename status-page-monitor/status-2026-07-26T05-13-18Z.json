@@ -1,0 +1,54 @@
+{
+  "ts_utc": "2026-07-26T05:13:18.823844+00:00",
+  "ts_epoch": 1785042798,
+  "verdict": "warn",
+  "escalations": [],
+  "warnings": [
+    "stalled in_progress sample: 4/100 (>24h)"
+  ],
+  "daemon": {
+    "alive": true,
+    "status": "running",
+    "pid": 834,
+    "uptime_raw": "15h19m37s",
+    "uptime_sec": 55177,
+    "cli_version": "dev",
+    "agents": [
+      "claude",
+      "codex",
+      "kimi"
+    ],
+    "workspace_count": 1,
+    "active_task_count": 12,
+    "server_url": "http://192.168.0.105:8080"
+  },
+  "autopilots": {
+    "total": 27,
+    "status_dist": {
+      "active": 27
+    },
+    "paused_count": 0,
+    "paused_pct": 0.0,
+    "stale_missed": []
+  },
+  "issue_counts": {
+    "todo": 205,
+    "in_progress": 623,
+    "in_review": 429,
+    "blocked": 59,
+    "done": 357
+  },
+  "stalled_in_progress_sample": {
+    "sample_size": 100,
+    "sample_limit": 200,
+    "stale_hours": 24,
+    "stale_count": 4,
+    "stale_pct_of_sample": 4.0
+  },
+  "thresholds": {
+    "in_progress_backlog_warn": 700,
+    "blocked_backlog_warn": 80,
+    "autopilot_paused_warn_pct": 20,
+    "last_run_stale_hours": 26
+  }
+}

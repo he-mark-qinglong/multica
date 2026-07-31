@@ -1,0 +1,171 @@
+{
+  "engine": "pyalgotrade",
+  "engine_version": "0.20",
+  "engine_sha": "pyalgotrade-0.20",
+  "iteration": 72,
+  "strategy_key": "vpvr_carry_term_8h_20260711",
+  "inhouse": {
+    "sharpe": -0.2636387910052974,
+    "ann_total_return": -0.12522352507663376,
+    "total_return": -0.12522352507663376,
+    "max_dd": -0.37488516017917806,
+    "n_trades": 42,
+    "timeframe": "8h",
+    "status": "NOT-PROFITABLE"
+  },
+  "framework": {
+    "sharpe": -0.26294610091394016,
+    "ann_total_return": -0.00028602096582242,
+    "total_return": -0.00028602096582242,
+    "max_dd": -0.0027208205656705626,
+    "n_bars": 9912,
+    "n_fills": 42,
+    "n_windows": 4,
+    "per_symbol": {
+      "BTCUSDT": {
+        "0": {
+          "n_bars": 1239,
+          "n_fills": 9,
+          "sharpe": -1.2705903089644202,
+          "ann_total_return": -0.0016851981397115745,
+          "total_return": -0.0019019897687437837,
+          "max_dd": -0.0027208205656705626,
+          "pf": 0.21714577113482975,
+          "win_rate": 0.2222222222222222,
+          "n_native_trades_in_window": 9
+        },
+        "1": {
+          "n_bars": 1239,
+          "n_fills": 8,
+          "sharpe": -1.1730005937303452,
+          "ann_total_return": -0.0012797732630489556,
+          "total_return": -0.0014444469133477744,
+          "max_dd": -0.001542187086898899,
+          "pf": 0.32070070267642575,
+          "win_rate": 0.5,
+          "n_native_trades_in_window": 8
+        },
+        "2": {
+          "n_bars": 1239,
+          "n_fills": 3,
+          "sharpe": 0.42400724586678096,
+          "ann_total_return": 0.0002528211139183334,
+          "total_return": 0.00028538080634010754,
+          "max_dd": -0.0004327966863260727,
+          "pf": 4.921998842162512,
+          "win_rate": 0.3333333333333333,
+          "n_native_trades_in_window": 3
+        },
+        "3": {
+          "n_bars": 1239,
+          "n_fills": 4,
+          "sharpe": -0.7987887483725753,
+          "ann_total_return": -0.0003831925811697001,
+          "total_return": -0.0004325245151179935,
+          "max_dd": -0.0006047130675280241,
+          "pf": 0.38802906971831536,
+          "win_rate": 0.5,
+          "n_native_trades_in_window": 4
+        }
+      },
+      "ETHUSDT": {
+        "0": {
+          "n_bars": 1239,
+          "n_fills": 7,
+          "sharpe": -0.4794985312014551,
+          "ann_total_return": -0.00042732802673173254,
+          "total_return": -0.0004823405548340931,
+          "max_dd": -0.001038933981336405,
+          "pf": 0.4767697854748371,
+          "win_rate": 0.42857142857142855,
+          "n_native_trades_in_window": 7
+        },
+        "1": {
+          "n_bars": 1239,
+          "n_fills": 7,
+          "sharpe": 0.15247442493459323,
+          "ann_total_return": 0.00013894199455743994,
+          "total_return": 0.0001568345584079811,
+          "max_dd": -0.001090251780795155,
+          "pf": 1.3546574309682837,
+          "win_rate": 0.5714285714285714,
+          "n_native_trades_in_window": 7
+        },
+        "2": {
+          "n_bars": 1239,
+          "n_fills": 3,
+          "sharpe": -0.07598074756024284,
+          "ann_total_return": -6.835600360044491e-05,
+          "total_return": -7.715766996407858e-05,
+          "max_dd": -0.000812382128824926,
+          "pf": 0.6609514567444807,
+          "win_rate": 0.6666666666666666,
+          "n_native_trades_in_window": 3
+        },
+        "3": {
+          "n_bars": 1239,
+          "n_fills": 1,
+          "sharpe": 1.117808451716143,
+          "ann_total_return": 0.0011639171792072744,
+          "total_return": 0.001313889864623885,
+          "max_dd": -0.00011539178683047218,
+          "pf": Infinity,
+          "win_rate": 1.0,
+          "n_native_trades_in_window": 1
+        }
+      }
+    },
+    "share_lots_used": 10000,
+    "note": "share_lots=10000 used to rescale 1 share = 1/10000 BTC so pyalgotrade integer sizing produces meaningful fills at crypto prices; per-trade pnl normalised back to real-dollar notional in onOrderUpdated."
+  },
+  "framework_oos": {
+    "oos_sharpe_mean": -0.26294610091394016,
+    "oos_total_return_ann_mean": -0.00028602096582242,
+    "oos_max_dd_max": -0.0027208205656705626,
+    "n_folds": 4,
+    "folds": [
+      {
+        "fold": 1,
+        "lo_window": "2022-01-01 00:00:00+00:00",
+        "hi_window": "2023-02-17 22:00:00+00:00"
+      },
+      {
+        "fold": 2,
+        "lo_window": "2023-02-17 22:00:00+00:00",
+        "hi_window": "2024-04-05 20:00:00+00:00"
+      },
+      {
+        "fold": 3,
+        "lo_window": "2024-04-05 20:00:00+00:00",
+        "hi_window": "2025-05-23 18:00:00+00:00"
+      },
+      {
+        "fold": 4,
+        "lo_window": "2025-05-23 18:00:00+00:00",
+        "hi_window": "2026-07-10 16:00:00+00:00"
+      }
+    ]
+  },
+  "divergence_pct": {
+    "sharpe": 0.26274209827617223,
+    "ann_total_return": 99.7715916672627,
+    "max_dd": 99.27422558834547
+  },
+  "max_abs_rel_divergence_pct": 99.7715916672627,
+  "w5_threshold_pct": 50.0,
+  "w5_auto_archive": true,
+  "w5_verdict": "AUTO-ARCHIVE per W5",
+  "w5_tipping_metrics": [
+    "ann_total_return 99.77%",
+    "max_dd 99.27%"
+  ],
+  "approach": "pyalgotrade 0.20 cross-check: replay native entry/exit schedule over real bar close prices via pyalgotrade's event-driven broker (in-memory membf.BarFeed, TradePercentage per-fill commission). Entry/exit timestamps + direction from native trades; fills re-priced at next bar (one-bar fill offset, same convention as backtrader). Position sizing: integer shares with share_lots=10000 rescale (1 share = 1/10000 BTC, so $1000 notional = 250 shares at $40k BTC). Realised pnl normalised back to real-dollar notional. Sharpe computed from per-bar returns \u00d7 sqrt(365.25*3) (8h bars). 4-fold chronological walk-forward OOS. Equity curve is one MTM tick per bar in real-dollar terms.",
+  "cost_model": {
+    "inhouse_fee_bps_per_side": 1.0,
+    "inhouse_slip_bps_per_side": 1.0,
+    "inhouse_round_trip": 0.0004,
+    "framework_round_trip": 0.0004,
+    "delta_per_trade": 0.0
+  },
+  "generated_at_utc": "2026-07-26T07:49:04.510056+00:00"
+}

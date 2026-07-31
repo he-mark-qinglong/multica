@@ -1,0 +1,55 @@
+{
+  "monitor": "platform-freshness-monitor",
+  "monitor_id": "SMA-35770-082",
+  "ts_utc": "2026-07-26T05:28:15.587999+00:00",
+  "ts_epoch": 1785043695,
+  "elapsed_sec": 1.009,
+  "verdict": "healthy",
+  "escalations": [],
+  "warnings": [],
+  "tables": {
+    "comment": {
+      "newest_utc": "2026-07-26T05:28:06.338717Z",
+      "age_seconds": 10,
+      "age_human": "10s",
+      "verdict": "healthy",
+      "threshold_warn_s": 600,
+      "threshold_escalate_s": 3600
+    },
+    "autopilot_run": {
+      "newest_utc": "2026-07-26T05:28:00.750774Z",
+      "age_seconds": 16,
+      "age_human": "16s",
+      "verdict": "healthy",
+      "threshold_warn_s": 1200,
+      "threshold_escalate_s": 7200
+    }
+  },
+  "thresholds": {
+    "comment": {
+      "warn_s": 600,
+      "escalate_s": 3600
+    },
+    "activity_log": {
+      "warn_s": 600,
+      "escalate_s": 3600
+    },
+    "autopilot_run": {
+      "warn_s": 1200,
+      "escalate_s": 7200
+    },
+    "artifact": {
+      "warn_s": 14400,
+      "escalate_s": 86400
+    },
+    "webhook_delivery": {
+      "warn_s": 1800,
+      "escalate_s": 14400
+    },
+    "task_usage": {
+      "warn_s": 14400,
+      "escalate_s": 86400
+    }
+  },
+  "probe_count": 2
+}

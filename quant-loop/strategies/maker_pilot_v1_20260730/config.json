@@ -1,0 +1,66 @@
+{
+  "strategy": "maker_pilot_v1",
+  "symbol": "BTCUSDT",
+  "data_source": "binance_usdm_aggtrades",
+  "description": "Market-making pilot using Avellaneda-Stoikov reservation price + adverse selection guard",
+
+  "fair_value": {
+    "vwap_lookback": 20,
+    "vpvr_bars": 200,
+    "spread_estimate_ticks": 2
+  },
+
+  "reservation_price": {
+    "gamma": 0.1,
+    "sigma_window_seconds": 60,
+    "horizon_seconds": 300.0
+  },
+
+  "quoting": {
+    "base_spread_bp": 2.0,
+    "size_usd": 1000.0,
+    "tick_size": 0.01,
+    "inventory_skew_factor": 1.0,
+    "vol_spread_coeff": 0.5
+  },
+
+  "inventory": {
+    "max_inventory_usd": 5000.0
+  },
+
+  "adverse_selection": {
+    "fill_penalty_bp": 1.0,
+    "penalty_decay_per_second": 0.5,
+    "sweep_threshold": 3,
+    "sweep_cooldown_seconds": 5.0,
+    "max_penalty_bp": 10.0,
+    "expected_sweep_cost_bp": 1.74
+  },
+
+  "exit": {
+    "max_hold_seconds": 300.0,
+    "tp_bp": 5.0,
+    "sl_bp": 10.0
+  },
+
+  "cost_model": {
+    "maker_fee_bp": 2.0,
+    "taker_fee_bp": 5.0
+  },
+
+  "data_window": {
+    "start_ts": "2026-04-19",
+    "end_ts": "2026-04-22"
+  },
+
+  "gate_thresholds": {
+    "G1_sharpe": 1.0,
+    "G2_ann_return": 0.15,
+    "G3_max_dd": -0.25,
+    "G4_profit_factor": 1.5,
+    "G5_cpcv_mean_oos_sharpe": 1.0,
+    "G6_bootstrap_ci95_lower": 0.5,
+    "G7_deflated_sharpe": 0.0,
+    "T1_min_trades": 30
+  }
+}

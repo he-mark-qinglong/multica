@@ -1,0 +1,1 @@
+anomalies=7/42 window=12 threshold=3.5

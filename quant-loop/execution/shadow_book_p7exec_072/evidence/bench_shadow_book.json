@@ -1,0 +1,16 @@
+{
+  "n": 100000,
+  "n_coids": 200,
+  "persist": true,
+  "min_us": 132.834,
+  "p50_us": 161.875,
+  "p95_us": 200.917,
+  "p99_us": 241.958,
+  "max_us": 38401.167,
+  "mean_us": 192.57959435,
+  "budget_us": 250.0,
+  "p50_within_budget": true,
+  "p99_within_budget": true,
+  "python_version": "3.8.2",
+  "timestamp_iso": "2026-07-26T02:43:15+0800"
+}

@@ -1,0 +1,68 @@
+{
+  "bench_name": "order_to_fill_linker_p7exec_055",
+  "host": "darwin",
+  "python": "3.8.2",
+  "config": {
+    "n_fills_per_round": 2000,
+    "n_rounds": 5,
+    "warmup_discarded": 200,
+    "path_kind": "warm_journal_with_intents_prebound"
+  },
+  "rounds": [
+    {
+      "round": 0,
+      "n_samples": 1800,
+      "median_us": 240.667,
+      "p95_us": 419.473,
+      "p99_us": 4877.67,
+      "mean_us": 341.807,
+      "max_us": 6669.958
+    },
+    {
+      "round": 1,
+      "n_samples": 1800,
+      "median_us": 118.792,
+      "p95_us": 176.014,
+      "p99_us": 3352.889,
+      "mean_us": 188.94,
+      "max_us": 6253.416
+    },
+    {
+      "round": 2,
+      "n_samples": 1800,
+      "median_us": 119.021,
+      "p95_us": 162.175,
+      "p99_us": 3494.819,
+      "mean_us": 190.564,
+      "max_us": 9881.083
+    },
+    {
+      "round": 3,
+      "n_samples": 1800,
+      "median_us": 122.041,
+      "p95_us": 164.267,
+      "p99_us": 3417.824,
+      "mean_us": 179.849,
+      "max_us": 4894.209
+    },
+    {
+      "round": 4,
+      "n_samples": 1800,
+      "median_us": 118.938,
+      "p95_us": 163.69,
+      "p99_us": 3586.321,
+      "mean_us": 181.474,
+      "max_us": 4938.959
+    }
+  ],
+  "aggregate": {
+    "total_samples": 9000,
+    "median_us": 125.292,
+    "p95_us": 280.166,
+    "p99_us": 3640.761,
+    "mean_us": 216.527,
+    "max_us": 9881.083,
+    "budget_us": 250,
+    "within_budget_p99": false
+  }
+}

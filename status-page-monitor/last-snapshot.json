@@ -1,0 +1,47 @@
+{
+  "ts_utc": "2026-07-26T07:06:28.883035+00:00",
+  "ts_epoch": 1785049588,
+  "verdict": "healthy",
+  "escalations": [],
+  "warnings": [],
+  "daemon": {
+    "alive": true,
+    "status": "running",
+    "pid": 834,
+    "uptime_raw": "15h38m20s",
+    "uptime_sec": 56300,
+    "cli_version": "dev",
+    "agents": [
+      "claude",
+      "codex",
+      "kimi"
+    ],
+    "workspace_count": 1,
+    "active_task_count": 12,
+    "server_url": "http://192.168.0.105:8080"
+  },
+  "autopilots": {
+    "rc": 2,
+    "stderr": "Could not connect to the Multica server. Make sure the server address is correct and reachable.",
+    "autopilots": []
+  },
+  "issue_counts": {
+    "todo": null,
+    "in_progress": null,
+    "in_review": null,
+    "blocked": null,
+    "done": null
+  },
+  "stalled_in_progress_sample": {
+    "rc": 2,
+    "stderr": "Could not connect to the Multica server. Make sure the server address is correct and reachable.",
+    "sample_size": 0,
+    "stale_count": 0
+  },
+  "thresholds": {
+    "in_progress_backlog_warn": 700,
+    "blocked_backlog_warn": 80,
+    "autopilot_paused_warn_pct": 20,
+    "last_run_stale_hours": 26
+  }
+}

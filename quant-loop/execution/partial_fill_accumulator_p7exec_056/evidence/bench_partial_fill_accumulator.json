@@ -1,0 +1,14 @@
+{
+  "n": 3000,
+  "warmup": 300,
+  "unit": "microseconds",
+  "median": 122.459,
+  "p95": 157.167,
+  "p99": 291.709,
+  "max": 5839.667,
+  "min": 107.292,
+  "final_fill_count": 3300,
+  "final_total_qty": 3.2999999999997476,
+  "budget_us": 250.0,
+  "within_budget": true
+}

@@ -1,0 +1,32 @@
+{
+  "comment": {
+    "verdict": "healthy",
+    "age_seconds": 23,
+    "ts_utc": "2026-07-26T07:28:23.770240+00:00"
+  },
+  "activity_log": {
+    "verdict": "healthy",
+    "age_seconds": 16,
+    "ts_utc": "2026-07-26T07:28:23.770240+00:00"
+  },
+  "autopilot_run": {
+    "verdict": "healthy",
+    "age_seconds": 4,
+    "ts_utc": "2026-07-26T07:28:23.770240+00:00"
+  },
+  "artifact": {
+    "verdict": "warn",
+    "age_seconds": 36176,
+    "ts_utc": "2026-07-26T07:28:23.770240+00:00"
+  },
+  "webhook_delivery": {
+    "verdict": "escalate",
+    "age_seconds": null,
+    "ts_utc": "2026-07-26T07:28:23.770240+00:00"
+  },
+  "task_usage": {
+    "verdict": "escalate",
+    "age_seconds": 367597,
+    "ts_utc": "2026-07-26T07:28:23.770240+00:00"
+  }
+}

@@ -1,0 +1,7 @@
+{"ts": "2026-07-21T10:00:00+08:00", "source": "patrol_self_report", "category": "data_integrity", "pattern": "file_overwrite_recovery", "signature": "s_recovery_marker_v2"}
+{"ts": "2026-07-21T10:00:30+08:00", "source": "autopilot_run", "category": "api_error", "pattern": "ECONNRESET", "signature": "API ECONNRESET x6"}
+{"ts": "2026-07-21T10:01:00+08:00", "source": "autopilot_run", "category": "api_error", "pattern": "ECONNRESET", "signature": "API ECONNRESET x6"}
+{"ts": "2026-07-21T10:01:30+08:00", "source": "issue", "category": "api_error", "pattern": "ECONNRESET", "signature": "API ECONNRESET agent"}
+{"ts": "2026-07-21T10:02:00+08:00", "source": "system", "category": "resource_saturation", "pattern": "lan_disk_below_30pct", "signature": "disk 28pct avail 330GB"}
+{"ts": "2026-07-21T10:02:30+08:00", "source": "system", "category": "resource_saturation", "pattern": "tokyo_timeout_60034", "signature": "tokyo 60034 timeout x3"}
+{"ts": "2026-07-21T10:03:00+08:00", "source": "system", "category": "outage", "pattern": "lan_outage_partial_8090_3210", "signature": "LAN :8090 / :3210 outage window 5m"}

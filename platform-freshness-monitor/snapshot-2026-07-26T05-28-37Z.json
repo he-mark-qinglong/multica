@@ -1,0 +1,93 @@
+{
+  "monitor": "platform-freshness-monitor",
+  "monitor_id": "SMA-35770-082",
+  "ts_utc": "2026-07-26T05:28:37.860466+00:00",
+  "ts_epoch": 1785043717,
+  "elapsed_sec": 6.074,
+  "verdict": "escalate",
+  "escalations": [
+    "webhook_delivery: table is empty (no rows ever written)",
+    "task_usage: age=4d04h (>= escalate 86400s)"
+  ],
+  "warnings": [
+    "artifact: age=8h03m (>= warn 14400s)"
+  ],
+  "tables": {
+    "comment": {
+      "newest_utc": "2026-07-26T05:28:37.401588Z",
+      "age_seconds": 1,
+      "age_human": "1s",
+      "verdict": "healthy",
+      "threshold_warn_s": 600,
+      "threshold_escalate_s": 3600
+    },
+    "activity_log": {
+      "newest_utc": "2026-07-26T05:28:31.828499Z",
+      "age_seconds": 7,
+      "age_human": "7s",
+      "verdict": "healthy",
+      "threshold_warn_s": 600,
+      "threshold_escalate_s": 3600
+    },
+    "autopilot_run": {
+      "newest_utc": "2026-07-26T05:28:00.750774Z",
+      "age_seconds": 39,
+      "age_human": "39s",
+      "verdict": "healthy",
+      "threshold_warn_s": 1200,
+      "threshold_escalate_s": 7200
+    },
+    "artifact": {
+      "newest_utc": "2026-07-25T21:25:31.133238Z",
+      "age_seconds": 28990,
+      "age_human": "8h03m",
+      "verdict": "warn",
+      "threshold_warn_s": 14400,
+      "threshold_escalate_s": 86400
+    },
+    "webhook_delivery": {
+      "newest_utc": null,
+      "age_seconds": null,
+      "age_human": "no-rows",
+      "empty_table": true,
+      "verdict": "escalate",
+      "threshold_warn_s": 1800,
+      "threshold_escalate_s": 14400
+    },
+    "task_usage": {
+      "newest_utc": "2026-07-22T01:21:50.994115Z",
+      "age_seconds": 360413,
+      "age_human": "4d04h",
+      "verdict": "escalate",
+      "threshold_warn_s": 14400,
+      "threshold_escalate_s": 86400
+    }
+  },
+  "thresholds": {
+    "comment": {
+      "warn_s": 600,
+      "escalate_s": 3600
+    },
+    "activity_log": {
+      "warn_s": 600,
+      "escalate_s": 3600
+    },
+    "autopilot_run": {
+      "warn_s": 1200,
+      "escalate_s": 7200
+    },
+    "artifact": {
+      "warn_s": 14400,
+      "escalate_s": 86400
+    },
+    "webhook_delivery": {
+      "warn_s": 1800,
+      "escalate_s": 14400
+    },
+    "task_usage": {
+      "warn_s": 14400,
+      "escalate_s": 86400
+    }
+  },
+  "probe_count": 6
+}

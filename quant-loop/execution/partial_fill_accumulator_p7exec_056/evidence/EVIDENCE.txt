@@ -1,0 +1,115 @@
+EVIDENCE — partial_fill_accumulator_p7exec_056
+==============================================
+
+Generated: 2026-07-26 (multica-code implementation run)
+
+Reproduction
+------------
+  cd ~/multica/quant-loop/execution/partial_fill_accumulator_p7exec_056
+  python3 test_partial_fill_accumulator.py -v    # 15 unit tests
+  python3 test_smoke.py                            # integration smoke
+  python3 bench_partial_fill_accumulator.py       # latency bench
+  python3 partial_fill_accumulator.py              # inline self-check
+
+Unit tests
+----------
+test_partial_fill_accumulator.py — 15 tests, all pass.
+
+  test_first_fill_creates_state                       — happy: unknown coid → new state
+  test_vwap_across_two_fills                          — happy: (0.01*50000+0.005*50100)/0.015 = 50033.33
+  test_finalize_sets_terminal_status                  — happy: FILLED marker persists in journal
+  test_duplicate_trade_id_is_idempotent               — failure: silent idempotent on duplicate
+  test_late_fill_after_terminal_raises                — failure: LateFillRejected + LATE_FILL_LIQUIDITY journaled
+  test_unknown_terminal_status_raises_value_error     — failure: bad status → ValueError
+  test_finalize_unknown_coid_raises_key_error         — failure: unknown coid → KeyError
+  test_double_finalize_same_status_is_idempotent      — failure: same status twice — no overwrite
+  test_double_finalize_different_status_no_op         — failure: contradicting status — no overwrite
+  test_replay_rebuilds_state                          — recovery: in-memory wipe + replay rebuilds
+  test_on_fill_hydrates_from_journal                  — recovery: cold-start on_fill hydrates from sqlite
+  test_replay_unknown_coid_returns_none               — recovery: replay on empty coid → None
+  test_known_orders_enumerates_cache                  — happy: in-memory key enumeration
+  test_terminal_statuses_is_complete                  — invariant: canonical terminal set
+  test_state_is_immutable                             — invariant: frozen dataclass
+
+Results: Ran 15 tests in 0.135s — OK (failures=0, errors=0).
+
+One bug caught and fixed during this run:
+  Before fix: ``on_fill`` unconditionally overwrote
+  ``self._state[coid]`` with the folded value, even on a duplicate
+  ``trade_id`` (where ``append_event`` returns False). After fix the
+  in-memory cache stays in lock-step with the journal on duplicates.
+
+Integration smoke
+-----------------
+test_smoke.py — SMOKE PASS.
+
+Drove a synthetic 5-fill feed across 2 coids (BTC long FILLED;
+ETH short CANCELED), closed the journal, reopened it, replayed both
+coids. State before close and after replay are bit-identical:
+
+  smoke-coid-btc-1  total=0.030  vwap=50041.66  notional=1501.25  fills=3  status=FILLED
+  smoke-coid-eth-1  total=2.500  vwap=2994.00   notional=7485.00  fills=2  status=CANCELED
+
+The replay-symmetry check (before close == after reopen+replay) is
+the cold-start durability guarantee the spec asks for
+(INTERFACE.md §6).
+
+Latency bench
+-------------
+bench_partial_fill_accumulator.py — within budget.
+
+  n=3000 + warmup=300, single coid, warm WAL journal
+
+  median         122.5 us      ← MAP-P7 budget is < 250us. PASS.
+  p95            157.2 us
+  p99            291.7 us      ← just over; tail spike on WAL checkpoint
+  max           5839.7 us      ← single spike (likely first WAL fsync)
+  min            107.3 us
+
+  within_budget     true (median)
+
+Full report: evidence/bench_partial_fill_accumulator.json.
+
+Component shape
+---------------
+  partial_fill_accumulator_p7exec_056/
+  ├── README.md                                   (usage + constraints)
+  ├── SPEC.md                                     (design rationale + 3 alternatives)
+  ├── INTERFACE.md                                (wire contract, FillEvent/PartialFillState,
+  │                                                terminal statuses, idempotency rules,
+  │                                                recovery / cold-start)
+  ├── __init__.py                                 (public surface export)
+  ├── partial_fill_accumulator.py                 (Accumulator, FillEvent, PartialFillState,
+  │                                                LateFillRejected, PartialFillJournal,
+  │                                                pure helpers, schema, __main__ self-check)
+  ├── test_partial_fill_accumulator.py            (15 unittest cases, no pytest)
+  ├── test_smoke.py                               (integration smoke, replay symmetry)
+  ├── bench_partial_fill_accumulator.py           (latency bench)
+  └── evidence/
+      ├── EVIDENCE.txt                            (this file)
+      └── bench_partial_fill_accumulator.json     (machine-readable bench report)
+
+Deliverable spec compliance
+---------------------------
+Acceptance: ✓ unit tests cover happy + failure modes   (15 tests, 11 documented failures)
+Acceptance: ✓ integration smoke passes                 (test_smoke.py, replay symmetry OK)
+Constraint: ✓ hot-path overhead < 250us               (median 122us, evidence file)
+Constraint: ✓ local state journaled (sqlite WAL)      (PartialFillJournal)
+Constraint: ✓ never silently drop fills               (LATE_FILL_LIQUIDITY journaled on late
+                                                       fills; duplicate trade_id is idempotent
+                                                       not dropped)
+Constraint: ✓ folder suffix _p7exec_NNN               (matches the issue key)
+
+runner.py status
+----------------
+Per SPEC §8, ``execution/runner.py`` does NOT exist on this checkout
+(prior agent's edits were wiped by a workspace restore; only the
+stale ``__pycache__/runner.cpython-310.pyc`` remains). The component
+ships standalone with its own journal; the future wire-up is
+documented in SPEC §8 (4 lines in runner.py to construct the
+Accumulator and translate the connector fill_row → FillEvent).
+
+The other ~18 sibling component folders in ``execution/`` also have
+only ``__pycache__`` (their source was wiped by the same restore).
+That is a workspace-wide recovery problem, not specific to this
+component — out of scope for SMA-36243.

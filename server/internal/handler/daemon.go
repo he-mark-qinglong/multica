@@ -1191,6 +1191,24 @@ func (h *Handler) ClaimTaskByRuntime(w http.ResponseWriter, r *http.Request) {
 			resp.WorkspaceID = uuidToString(issue.WorkspaceID)
 			resp.ThreadName = issue.Title
 
+			// Difficulty-driven model override: if the issue carries a
+			// difficulty:* label, route execution to the matching
+			// provider/model regardless of the agent's bound model. Kill
+			// switch: MULTICA_DIFFICULTY_MODEL_OVERRIDE=false.
+			if resp.Agent != nil && difficultyModelOverrideEnabled() {
+				if labels, lerr := h.Queries.ListLabelsByIssue(r.Context(), db.ListLabelsByIssueParams{
+					IssueID:     task.IssueID,
+					WorkspaceID: issue.WorkspaceID,
+				}); lerr == nil {
+					if m, ok := difficultyModelForLabels(labels); ok {
+						slog.Info("difficulty model override",
+							"issue_id", uuidToString(task.IssueID),
+							"from", resp.Agent.Model, "to", m)
+						resp.Agent.Model = m
+					}
+				}
+			}
+
 			// Squad-leader briefing injection: when the issue is assigned
 			// to a squad and the claiming agent is that squad's current
 			// leader, append a full briefing (Operating Protocol + Roster

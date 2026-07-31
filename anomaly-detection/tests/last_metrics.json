@@ -1,0 +1,114 @@
+[
+  {
+    "scenario": "e2e_cli_run_py_sample_metrics",
+    "files_scanned": 4,
+    "elapsed_sec": 0.2462,
+    "total_points": 570,
+    "anomaly_count": 128,
+    "suppressed_count": 0,
+    "by_severity": {
+      "WARNING": 38,
+      "CRITICAL": 90
+    },
+    "by_detector": {
+      "zscore": 13,
+      "robust_zscore": 55,
+      "ewma_zscore": 12,
+      "iqr": 30,
+      "rate_of_change": 18
+    },
+    "by_metric": {
+      "cpu_pct": 24,
+      "db_pool_in_use": 12,
+      "api_ms": 68,
+      "trade_volume": 24
+    },
+    "points_per_sec": 8629.2
+  },
+  {
+    "scenario": "stress_100k_default_bank",
+    "n_points": 100000,
+    "injected_spikes": 478,
+    "elapsed_sec": 19.1411,
+    "points_per_sec": 5224.37,
+    "anomaly_count": 3048,
+    "by_severity": {
+      "CRITICAL": 1150,
+      "WARNING": 1898
+    },
+    "by_detector": {
+      "zscore": 672,
+      "robust_zscore": 556,
+      "ewma_zscore": 430,
+      "iqr": 362,
+      "rate_of_change": 1028
+    },
+    "by_metric": {
+      "memory_pct": 626,
+      "cpu_pct": 610,
+      "db_pool_in_use": 576,
+      "api_ms": 618,
+      "trade_volume": 618
+    },
+    "detectors": [
+      "ZScoreDetector",
+      "RobustZScoreDetector",
+      "EWMAZScoreDetector",
+      "IQRDetector",
+      "RateOfChangeDetector"
+    ]
+  },
+  {
+    "scenario": "per_detector_matrix_clean_series_with_one_spike",
+    "series_length": 151,
+    "spike_index": 100,
+    "spike_value": 200.0,
+    "matrix": {
+      "zscore": {
+        "anomaly_count": 5,
+        "fired_at_indices": [
+          24,
+          70,
+          96,
+          100,
+          134
+        ],
+        "spike_caught": true
+      },
+      "robust_zscore": {
+        "anomaly_count": 3,
+        "fired_at_indices": [
+          24,
+          70,
+          100
+        ],
+        "spike_caught": true
+      },
+      "ewma_zscore": {
+        "anomaly_count": 2,
+        "fired_at_indices": [
+          24,
+          100
+        ],
+        "spike_caught": true
+      },
+      "iqr": {
+        "anomaly_count": 1,
+        "fired_at_indices": [
+          100
+        ],
+        "spike_caught": true
+      },
+      "rate_of_change": {
+        "anomaly_count": 4,
+        "fired_at_indices": [
+          34,
+          97,
+          100,
+          101
+        ],
+        "spike_caught": true
+      }
+    }
+  }
+]

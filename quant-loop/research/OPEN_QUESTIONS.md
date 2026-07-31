@@ -243,3 +243,21 @@
 - **NO implementation work this session** — quant-researcher role is SPEC + acceptance gates per multica-agent-base §strategy-layer contract. Downstream chain: strat-execution (L3 impl) → strat-data (L3 sources) → strat-validation (L3 OOS) → quant-analyst (L4 sub-cap audit + V3 Aumann re-impl) → smark-signoff-proxy (L4 V7 sign-off).
 - **PRIMARY continues unchanged**: mtf_xs_pairs H3 LIVE + ETH/SOL G5; T07 portfolio-correlation; T11 awaiting T10 + analyst blocker clear; T12 awaiting strat-indicators impl.
 - **Verdict (this session, quant-researcher)**: SPEC shipped; pre-registered V-gates cannot be evaluated until implementation + walk-forward OOS run. Promote-to-SMA-30199 contingent on V0-V7 passing. SMA-35536 status: blocked → in_progress → in_review once this comment posts.
+
+### T14 — Performance attribution (shipped 2026-07-28, research infrastructure)
+- **Status**: shipped — tool + SPEC + donor EVIDENCE. Gates A0-A5 PASS, A6 FAIL-with-finding (recorded, not redefined). Not a strategy thread; no SMA-30199 promotion.
+- **Question (answered)**: Can "cost kill vs mechanism kill" be made mechanical from a closed-trade ledger? YES — `_shared/attribution/decompose.py` (gross recomputed from prices, cost swept by CostSpec, analytic break-even, kill classification, sentinels per T11 lesson).
+- **Key donor numbers**: H3 (44,845 trades) gross +0.5bp/trade, break-even 0.126 bps/side → COST_CAP_KILL at every realistic cost (net −33.62 @ 8bp config, −195.06 @ 44bp ratified pair). trend_multi BTC MECHANISM_KILL at zero cost (gross −0.865).
+- **A6 finding**: H3 summary.json "PROFITABLE"/Sharpe 2.32 came from cost-FREE per-bar equity path (`mtf_xs_pairs_base_20260718.py:560`); cost existed only in the trade log (line 576). SMA-36566 fee-shock bug class, surfaced mechanically.
+- **Cuts finding**: z_mean_revert exits carry all gross edge (+52.6); regime_break exits bleed (−46.5 gross). Edge lives in 25–240-bar holds.
+- **NEW open question (T14.1, quant-analyst audit)**: (a) do other strategy summaries share the cost-free `pnl_per_bar` pattern (sweep `_indicators/*base*.py`)? (b) unify trade-log vs equity-path notional/compounding conventions so per-trade and equity-path attribution agree by construction (tool break-even 0.126 bps/side vs curator 20bps RT divergence).
+- **Threads**: `THREADS/T14-performance-attribution.md`. SPEC: `research/specs/performance_attribution_v1_20260728/SPEC.md`. Evidence: `analysis/attribution/`.
+- **Links**: SMA-35757 + SMA-35669 + SMA-34875 (donor) + SMA-36566 (bug class) + SMA-35037/SMA-35021 (cost-cap kill class) + SMA-36615/SMA-36661 (mechanism kill class + sentinel lesson) + T07 (alpha_beta consumer).
+
+## Strategic Decision 2026-07-28 (T14 performance attribution, quant-researcher)
+- **T14 shipped** — Research #87 (SMA-35757) executed end-to-end in research-mainline scope (SPEC + implementation + tests + donor EVIDENCE), instead of SPEC-only hand-off, because the deliverable was a self-contained validation tool and the T12/T13 SPEC-only hand-offs stalled 24h+ downstream.
+- **Method chosen**: cost attribution (gross recomputed from prices; ledger pnl_pct never trusted) + conditional cuts + kill classification (MECHANISM_KILL / COST_CAP_KILL / VIABLE_AT_COST) + analytic break-even. Brinson rejected (no sectors/benchmark in crypto perp).
+- **Gate discipline**: A6 pre-registered gate FAILED on false premise — recorded as finding (H3 PROFITABLE tag was a gross-path artifact), NOT redefined post-hoc. Same discipline as T11 round-1/2 sentinel lesson.
+- **Convergent validation**: 2026-07-26 mtf_xs_pairs family seal reproduced mechanically (COST_CAP_KILL at all realistic costs; zero cost headroom).
+- **Downstream (not this thread)**: results-ledger batch annotation (strategy-worker); 口径 audit + cost-free pnl_per_bar sweep (quant-analyst); T07 consumes per-strategy net daily series + alpha_beta().
+- **PRIMARY continues unchanged**: T07 portfolio-correlation is the top remaining P2 research pick; T12/T13 SPEC stalls flagged to orchestrator (curator retro 2026-07-27 already recommended nudge).
