@@ -123,6 +123,25 @@ def scan_strategy_dir(path: Path) -> dict[str, Any]:
         "frameworks": {},
     }
 
+    # Authoritative validation verdict (results/validation/verdict.json)
+    # takes precedence over raw metrics: a strategy whose validation harness
+    # returned KILL must show as KILL even if metrics.json still holds stale
+    # positive numbers (e.g. pairs_cointegration_1d, SMA-35169 — KILL verdict
+    # in validation/verdict.json but ledger showed Sharpe 6.1 CV_PASS from a
+    # stale 2026-07-17 summary).
+    verdict_json = None
+    for _cand in (
+        path / "results" / "validation" / "verdict.json",
+        path / "results" / "walk_forward_optimized.json",
+        path / "results" / "walk_forward.json",
+    ):
+        _j = _load_json(_cand)
+        if _j and _j.get("verdict"):
+            verdict_json = _j
+            break
+    row["validation_verdict"] = verdict_json.get("verdict") if verdict_json else None
+    row["validation_rationale"] = (verdict_json.get("rationale") or "")[:200] if verdict_json else None
+
     for cv_path in sorted(path.glob("results/framework_cv_*.json")):
         engine = cv_path.stem.replace("framework_cv_", "")
         cv = _load_json(cv_path)
@@ -224,6 +243,8 @@ def _status(row: dict[str, Any]) -> str:
     candidate (PASS) only when BOTH hold."""
     if row["status"] == "GRAVEYARD":
         return "KILL"
+    if row.get("validation_verdict") in ("KILL", "FAIL"):
+        return "KILL"
     has_metrics = any(row.get(k) is not None for k in _PROFITABILITY_REQUIRED)
     if not has_metrics and not row["frameworks"]:
         return "UNTESTED"
@@ -303,6 +324,11 @@ def _kill_fields(row: dict[str, Any]) -> tuple[str | None, str | None]:
     if row["status"] == "GRAVEYARD":
         family = row.get("graveyard_family", "?")
         return f"archived to strategies/_graveyard/{family}", row["path"]
+    if row.get("validation_verdict") in ("KILL", "FAIL"):
+        return (
+            row.get("validation_rationale") or f"validation verdict {row.get('validation_verdict')}",
+            f"{row['path']}/results/validation/verdict.json",
+        )
     for engine, fw in row["frameworks"].items():
         v = fw.get("verdict") or ""
         if "AUTO-ARCHIVE" in v or "NOT-PROFITABLE" in v:

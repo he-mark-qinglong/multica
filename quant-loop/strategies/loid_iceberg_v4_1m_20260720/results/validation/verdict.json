@@ -1,0 +1,14 @@
+{
+  "issue": "SMA-34992",
+  "strategy": "loid_iceberg_v4_1m_20260720",
+  "verdict": "KILL",
+  "generated_at_utc": "2026-07-31T15:30:00+00:00",
+  "rationale": "Step-jump equity artefact exposed by canonical engine. Legacy backtest.py builds an additive step-jump equity curve (notional + cumsum(pnl_usd), flat between trades, jump at exit bars) whose pct_change Sharpe is inflated to +2.468 by flat-bar denominator dilution, while annualised_return is honestly -1.0 and max_drawdown -130.8% (NAV went negative — physically impossible without leverage blow-up). Re-running the SAME cached 59268 trades through the authoritative per-bar compounding engine (_shared/run_backtest.py, equity=cap*cumprod(1+ret)) yields annualised -1.0, maxDD -1.0 (NAV to zero), Sharpe -540 to -700 across 8/10/24bp RT cost — a 90-day blow-up, not HOLD. Root cause: loid backtest.py does not use the authoritative engine (PLAN sec 1.4 adoption rate 15/469). The Sharpe 2.468 in the cached metrics is a fabrication of the step-jump equity model.",
+  "evidence": "results/sma-34992/loid_iceberg_v4_canonical_vs_legacy.json",
+  "legacy_metrics": "results/sma-34992/loid_iceberg_v4_btc_90d_metrics.json",
+  "canonical_engine": "_shared/run_backtest.py (per-bar compounding, fill cost mode)",
+  "revival_conditions": [
+    "migrate signal layer to authoritative _shared/run_backtest.py (output Trade list only, never walk equity locally)",
+    "re-run 90d scan under canonical engine and clear G1 (OOS Sharpe >= 1.0) + worst-fold >= 0 + DSR > 0"
+  ]
+}
