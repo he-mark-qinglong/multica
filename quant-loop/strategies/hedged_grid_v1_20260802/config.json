@@ -1,0 +1,47 @@
+{
+  "strategy": "hedged_grid_v1",
+  "description": "ER-gated rolling-range grid on 1h spot, inventory delta-hedged with perp (band rebalancing), short perp collects funding.",
+  "initial_capital": 10000.0,
+
+  "symbols": [
+    {
+      "symbol": "BTCUSDT",
+      "er_threshold": 0.3,
+      "er_period": 24,
+      "n_levels": 10,
+      "range_days": 30,
+      "hedge_band": 0.10,
+      "spot_fee_bp": 10.0,
+      "perp_fee_bp": 5.0,
+      "capital_fraction": 1.0
+    },
+    {
+      "symbol": "ETHUSDT",
+      "er_threshold": 0.4,
+      "er_period": 24,
+      "n_levels": 10,
+      "range_days": 30,
+      "hedge_band": 0.10,
+      "spot_fee_bp": 10.0,
+      "perp_fee_bp": 5.0,
+      "capital_fraction": 1.0
+    },
+    {
+      "symbol": "SOLUSDT",
+      "er_threshold": 0.3,
+      "er_period": 24,
+      "n_levels": 10,
+      "range_days": 30,
+      "hedge_band": 0.10,
+      "spot_fee_bp": 10.0,
+      "perp_fee_bp": 5.0,
+      "capital_fraction": 1.0
+    }
+  ],
+
+  "evaluation": {
+    "min_calmar": 0.5,
+    "prototype_reference_calmar": {"BTCUSDT": 2.38, "ETHUSDT": 0.87, "SOLUSDT": 1.52},
+    "note": "Prototype was measured on 973 days; local data spans ~1702 days, so exact reproduction is not expected."
+  }
+}

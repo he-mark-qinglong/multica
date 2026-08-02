@@ -45,17 +45,15 @@ import tempfile
 from datetime import datetime
 from pathlib import Path
 
-try:
-    # Optional import — scripts/comment_schema_lint is the T4 cross-card contract.
-    # Lives at <repo-root>/scripts/comment_schema_lint.py (parents[3] of this file).
-    sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
-    from scripts.comment_schema_lint import lint_comment  # type: ignore[import-not-found]
-except Exception:
-    lint_comment = None  # type: ignore[assignment]
-
-
 # ---------------------------------------------------------------------------
-# Comment-schema self-check (fallback when scripts/comment_schema_lint is absent)
+# Comment-schema self-check.
+#
+# NOTE: an earlier revision optionally delegated to
+# <parent-repo>/scripts/comment_schema_lint.lint_comment as the "cross-card
+# contract".  That API drifted: it now takes a comment *dict* (not a raw
+# string) and its SCHEMA_RE rejects the bare ``+HH`` offset form that the
+# AGENTS.md schema (and this module's tests) treat as canonical.  The local
+# regex below is therefore the single authority again.
 # ---------------------------------------------------------------------------
 
 _RE = re.compile(
@@ -68,14 +66,8 @@ def valid_comment_first_line(line: str) -> bool:
     """Return True iff ``line`` matches the AGENTS.md comment-schema first line.
 
     Wrapped into a free function so tests can target it directly without the
-    subprocess harness. When ``scripts/comment_schema_lint`` is importable
-    we delegate to ``lint_comment`` (the cross-card contract) instead of
-    this regex, so the two stay in lock-step.
+    subprocess harness.
     """
-    if lint_comment is not None:
-        # ``lint_comment`` validates the full input's first line; pass a
-        # single-line document so it inspects exactly ``line``.
-        return lint_comment(line + "\n") == []
     return bool(_RE.match(line))
 
 

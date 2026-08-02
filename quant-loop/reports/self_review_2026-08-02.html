@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>quant-loop 自省报告 #1 — 评价体系自我反思层</title>
+<style>
+  body { font-family: -apple-system, "Helvetica Neue", "PingFang SC", sans-serif;
+         max-width: 1080px; margin: 2em auto; padding: 0 1em; color: #222; }
+  h1 { border-bottom: 2px solid #444; padding-bottom: 0.3em; }
+  table { border-collapse: collapse; width: 100%; margin: 0.6em 0 1.2em; }
+  th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left;
+            vertical-align: top; }
+  th { background: #f2f2f2; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .state { font-size: 0.6em; background: #eef; border: 1px solid #99c;
+            border-radius: 4px; padding: 2px 8px; margin-left: 0.6em;
+            vertical-align: middle; }
+  .overall { font-size: 0.6em; margin-left: 0.8em; vertical-align: middle; }
+  .muted { color: #888; }
+  .notes { background: #fffbe6; border: 1px solid #e5d89b; padding: 0.8em 2em; }
+  header p { color: #555; }
+  section.strategy { margin-bottom: 2.5em; }
+</style>
+</head>
+<body>
+<header>
+  <h1>quant-loop 自省报告 #1 — 评价体系自我反思层</h1>
+  <p>生成时间：2026-08-02T00:00:00+00:00　·　复盘窗口：2026-07-31 ~ 2026-08-02（评价体系自省层首轮复盘）</p>
+</header>
+
+<section class="strategy">
+  <h2>cash_carry_combo_v1_20260731
+    <span class="state">paper</span>
+    <span class="overall"><span style="display:inline-block;width:0.7em;height:0.7em;border-radius:50%;background:#c0392b;margin-right:0.35em"></span>越限</span>
+  </h2>
+  <table>
+    <thead><tr><th>指标</th><th>预期（回测）</th><th>实际</th>
+    <th>相对偏差</th><th>灯号</th></tr></thead>
+    <tbody><tr><td>年化收益</td><td class='num'>14.75%</td><td class='num'>15.55%</td><td class='num'>-5.4%</td><td><span style="display:inline-block;width:0.7em;height:0.7em;border-radius:50%;background:#1a7f37;margin-right:0.35em"></span>容差内</td></tr><tr><td>最大回撤</td><td class='num'>-17.91%</td><td class='num'>-8.79%</td><td class='num'>-50.9%</td><td><span style="display:inline-block;width:0.7em;height:0.7em;border-radius:50%;background:#c0392b;margin-right:0.35em"></span>越限</td></tr><tr><td>Calmar</td><td class='num'>0.823</td><td class='num'>1.768</td><td class='num'>-114.7%</td><td><span style="display:inline-block;width:0.7em;height:0.7em;border-radius:50%;background:#c0392b;margin-right:0.35em"></span>越限</td></tr><tr><td>盈亏比 PF</td><td class='num'>—</td><td class='num'>1.024</td><td class='num'>—</td><td>—</td></tr></tbody>
+  </table>
+  <p><strong>回测有效性信念（belief）：</strong>0.40 / 1.00</p>
+  
+  <details><summary>信念变化轨迹（2 条）</summary>
+    <table>
+      <thead><tr><th>时间</th><th>置信度变化</th><th>触发</th><th>原因</th></tr></thead>
+      <tbody><tr><td>2026-07-31</td><td class='num'>1.00 → 0.70</td><td>越限</td><td>[2026-07-31] funding carry 前视偏差：A 模型（事后已知 funding）avg +45.7bp / PF 2.04，B 模型（可成交口径）-17.6bp / PF 0.76；以悲观口径为准，原盈利结论被推翻。该 combo 的 carry 前提受损。</td></tr><tr><td>2026-08-02</td><td class='num'>0.70 → 0.40</td><td>越限</td><td>[2026-07-31 ~ 2026-08-02（评价体系自省层首轮复盘）] breach: max_drawdown: expected -0.1791 vs actual -0.08794 (rel err -50.9%, breach); calmar: expected 0.8233 vs actual 1.768 (rel err -114.7%, breach)</td></tr></tbody>
+    </table>
+  </details>
+  <ul class='notes'><li>paper runner 974 天 ledger 已跑通（2023-10-31 → 2026-06-30），未触发 kill。</li><li>paper 与回测的口径差异：paper 含逐日费用/滑点记账，回测为事件口径。</li></ul>
+</section>
+<section class="strategy">
+  <h2>hedged_grid_v1_20260802
+    <span class="state">backtesting</span>
+    <span class="overall"><span style="display:inline-block;width:0.7em;height:0.7em;border-radius:50%;background:#1a7f37;margin-right:0.35em"></span>容差内</span>
+  </h2>
+  <table>
+    <thead><tr><th>指标</th><th>预期（回测）</th><th>实际</th>
+    <th>相对偏差</th><th>灯号</th></tr></thead>
+    <tbody><tr><td>年化收益</td><td class='num'>4.28%</td><td class='num'>—</td><td class='num'>—</td><td>—</td></tr><tr><td>最大回撤</td><td class='num'>-4.15%</td><td class='num'>—</td><td class='num'>—</td><td>—</td></tr><tr><td>Calmar</td><td class='num'>1.030</td><td class='num'>—</td><td class='num'>—</td><td>—</td></tr></tbody>
+  </table>
+  <p><strong>回测有效性信念（belief）：</strong>0.70 / 1.00</p>
+  <p><strong>信号衰减检查：</strong>dead（recent IC -0.113，IC 斜率 +0.011/yr，半衰期 n/a，recent Sharpe +2.31）</p>
+  <details><summary>信念变化轨迹（1 条）</summary>
+    <table>
+      <thead><tr><th>时间</th><th>置信度变化</th><th>触发</th><th>原因</th></tr></thead>
+      <tbody><tr><td>2026-08-02</td><td class='num'>1.00 → 0.70</td><td>越限</td><td>[2026-08-02] 原型回测引擎三处 bug（幻影交易 / 双重计费 / 前 30 天无对冲），原型 -12.6%/yr 与修复后 +4.35%/yr（BTC Calmar 2.57）的差异说明：引擎未守恒前，收益数字不可信。</td></tr></tbody>
+    </table>
+  </details>
+  <ul class='notes'><li>仅有回测证据（combo Calmar 1.03 过门槛 1.0）；paper runner 未接线，偏差分级待 paper 数据。</li><li>信号衰减检查基于重跑回测的组合日收益（信号=过去 20 日均收益，无前视）。</li></ul>
+</section>
+<section class="lessons">
+  <h2>教训记录（lessons）</h2>
+  <table>
+    <thead><tr><th>编号</th><th>日期</th><th>策略</th><th>事件</th>
+    <th>方法论教训</th></tr></thead>
+    <tbody><tr><td>L-20260731-01</td><td>2026-07-31</td><td>cash_carry_combo_v1_20260731</td><td>funding carry 前视偏差：A 模型按事后已知的 funding 结算，avg +45.7bp、PF 2.04；改用逐事件可成交的 B 模型后 -17.6bp、PF 0.76。两次&#x27;以为盈利&#x27;被双口径复算诚实推翻。</td><td>结算类收益必须同时实现&#x27;理想口径&#x27;与&#x27;可成交口径&#x27;双模型：两口径剧烈分歧本身就是前视偏差检测器；对外结论一律以悲观口径为准，乐观口径只作上界参考。</td></tr><tr><td>L-20260802-01</td><td>2026-08-02</td><td>hedged_grid_v1_20260802</td><td>对冲网格原型三处引擎 bug：幻影交易（无对手价成交）、费用双重计费、前 30 天无对冲真空。修复前 -12.6%/yr，修复后 +4.35%/yr（BTC Calmar 2.57，组合 1.03）。</td><td>先守恒、后评价：回测引擎须先通过守恒检查（成交必有对手价、费用只计一次、对冲无真空期），才有资格解读收益；修 bug 前后的收益差不是 alpha，是噪声。</td></tr><tr><td>L-20260802-02</td><td>2026-08-02</td><td>（工作区级）</td><td>跨所 funding 因子方向假设被拒：先验为 contrarian（高 funding 反转），t 值为正不支持；实测为动量方向，t = -3.49。</td><td>方向性先验被数据拒绝时，如实记录拒绝证据并反向检验；被拒的假设是资产不是污点——写入 lessons 防止未来重复提出同一假设。</td></tr></tbody>
+  </table>
+</section>
+</body>
+</html>

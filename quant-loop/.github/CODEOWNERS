@@ -1,0 +1,32 @@
+# CODEOWNERS for quant-loop (J19)
+# 审查规则与清单见 docs/code-review.md。
+# 默认 owner: @he-mark-qinglong；按 _shared/ 子目录细化指派，
+# 新子系统 owner 就位后在对应行追加 handle 即可（靠后的规则优先）。
+
+# 默认兜底
+*                                                          @he-mark-qinglong
+
+# 共享基础设施
+quant-loop/_shared/validation/                             @he-mark-qinglong
+quant-loop/_shared/validators/                             @he-mark-qinglong
+quant-loop/_shared/gates/                                  @he-mark-qinglong
+quant-loop/_shared/portfolio/                              @he-mark-qinglong
+quant-loop/_shared/market_making/                          @he-mark-qinglong
+quant-loop/_shared/execution/                              @he-mark-qinglong
+quant-loop/_shared/ops/                                    @he-mark-qinglong
+quant-loop/_shared/strategy_kit/                           @he-mark-qinglong
+quant-loop/_shared/sizing/                                 @he-mark-qinglong
+quant-loop/_shared/regime/                                 @he-mark-qinglong
+quant-loop/_shared/l2/                                     @he-mark-qinglong
+quant-loop/_shared/data/                                   @he-mark-qinglong
+quant-loop/_shared/adapters/                               @he-mark-qinglong
+quant-loop/_shared/swarm/                                  @he-mark-qinglong
+
+# 策略与执行
+quant-loop/strategies/                                     @he-mark-qinglong
+quant-loop/execution/                                      @he-mark-qinglong
+
+# 仓库级配置与流程
+quant-loop/pyproject.toml                                  @he-mark-qinglong
+quant-loop/.github/                                        @he-mark-qinglong
+quant-loop/docs/code-review.md                             @he-mark-qinglong

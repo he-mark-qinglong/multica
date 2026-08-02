@@ -27,7 +27,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 QUANT_LOOP = REPO_ROOT.parents[1]
 _INDICATORS_DIR = QUANT_LOOP / "strategies" / "_indicators"
 _SHARED_DIR = QUANT_LOOP / "_shared"
-for _p in (str(_INDICATORS_DIR), str(_SHARED_DIR / "execution"), str(_SHARED_DIR / "sizing")):
+for _p in (str(REPO_ROOT), str(_INDICATORS_DIR), str(_SHARED_DIR / "execution"), str(_SHARED_DIR / "sizing")):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 

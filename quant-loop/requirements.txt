@@ -1,0 +1,9 @@
+# Direct dependencies of quant-loop (_shared / strategies / execution / scripts).
+# Pinned transitive closure lives in requirements-lock.txt.
+numpy
+pandas
+pyarrow
+scipy
+requests
+websockets
+pytest

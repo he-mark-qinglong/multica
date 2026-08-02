@@ -1,0 +1,9 @@
+{
+  "strategy": "meta_label_template",
+  "symbol": "SYNTH",
+  "mom_window": 12,
+  "tp": 0.02,
+  "sl": 0.01,
+  "max_bars": 24,
+  "size_fraction": 0.5
+}

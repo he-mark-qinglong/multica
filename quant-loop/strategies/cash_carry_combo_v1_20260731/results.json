@@ -1,0 +1,58 @@
+{
+  "config": {
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT"
+    ],
+    "leverage": 2.0,
+    "filter_symbols": [
+      "SOLUSDT"
+    ]
+  },
+  "per_symbol": {
+    "BTCUSDT": {
+      "days": 973,
+      "total_return_bp": 3915.580340750295,
+      "total_return_pct": 39.15580340750295,
+      "annualized_return": 0.14688456571159894,
+      "max_drawdown_bp": -1852.1359944266292,
+      "max_drawdown_pct": -0.1852135994426629,
+      "calmar": 0.7930549708746976,
+      "filter_applied": false,
+      "n_events": 2921
+    },
+    "ETHUSDT": {
+      "days": 973,
+      "total_return_bp": 4152.902513254202,
+      "total_return_pct": 41.52902513254202,
+      "annualized_return": 0.15578719602649369,
+      "max_drawdown_bp": -2541.4577191030603,
+      "max_drawdown_pct": -0.254145771910306,
+      "calmar": 0.6129836229637321,
+      "filter_applied": false,
+      "n_events": 2921
+    },
+    "SOLUSDT": {
+      "days": 973,
+      "total_return_bp": 3724.889400000003,
+      "total_return_pct": 37.248894000000035,
+      "annualized_return": 0.13973120565262087,
+      "max_drawdown_bp": -2072.0712859974965,
+      "max_drawdown_pct": -0.20720712859974966,
+      "calmar": 0.6743552048468939,
+      "filter_applied": true,
+      "n_events": 2921
+    }
+  },
+  "combo": {
+    "days": 973,
+    "total_return_bp": 3931.1240846681667,
+    "total_return_pct": 39.31124084668167,
+    "annualized_return": 0.1474676557969045,
+    "max_drawdown_bp": -1791.170576149143,
+    "max_drawdown_pct": -0.1791170576149143,
+    "calmar": 0.8233032507375528
+  },
+  "verdict": "PASS"
+}

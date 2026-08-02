@@ -1,0 +1,12 @@
+{
+  "generated_at": "2026-08-02",
+  "audit_log": "strategies/lifecycle_audit.jsonl",
+  "states": {
+    "cash_carry_combo_v1_20260731": "paper",
+    "hedged_grid_v1_20260802": "backtesting"
+  },
+  "evidence": {
+    "cash_carry_combo_v1_20260731": "backtest verdict PASS (Calmar 0.82) + paper runner 974d ledger through 2026-06-30, not killed",
+    "hedged_grid_v1_20260802": "backtest verdict PASS (combo Calmar 1.03 >= gate 1.0); paper runner not yet wired"
+  }
+}

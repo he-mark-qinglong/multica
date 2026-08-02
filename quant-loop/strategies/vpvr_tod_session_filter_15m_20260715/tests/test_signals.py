@@ -18,6 +18,8 @@ from tod_calendar import (
     session_label,
     is_session_active,
 )
+from strategy import run_backtest  # noqa: E402
+from data_loader import load_15m  # noqa: E402
 
 
 PARAMS = {
@@ -93,9 +95,6 @@ def test_session_filter_suppresses_asia_signals():
 
 def test_run_backtest_produces_trades():
     """Smoke test that run_backtest emits trades on the 15m BTCUSDT data."""
-    from strategy import run_backtest
-    from data_loader import load_15m
-
     cfg = {
         "variant": "A",
         "strategy_key": "vpvr_tod_session_filter_15m_20260715",

@@ -23,6 +23,7 @@ from strategy import (
     true_range,
     wilder_atr,
 )
+from data_loader import load_all, load_funding_series  # noqa: E402
 
 
 def _toy_pair_ohlcv(n: int = 1500, seed: int = 31) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -123,7 +124,6 @@ def test_run_pair_backtest_with_funding_blowoff_blocks_entries():
 
 def test_data_load_smoke_real_btc_eth():
     """Real BTCUSDT/ETHUSDT 15m parquets smoke test."""
-    from data_loader import load_all, load_funding_series
     btc_p = ROOT / "data" / "BTCUSDT__15m.parquet"
     eth_p = ROOT / "data" / "ETHUSDT__15m.parquet"
     if not (btc_p.is_file() and eth_p.is_file()):

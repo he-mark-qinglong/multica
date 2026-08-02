@@ -1,0 +1,16 @@
+{
+  "strategy_id": "cash_carry_combo_v1_20260731",
+  "timeframe": "8h",
+  "starting_capital_usd": 100000.0,
+  "cost_bps_rt": 0.0,
+  "freq_per_year": 1095,
+  "backtest_expectations": {
+    "backtest_max_dd_pct": 0.1791170576149143
+  },
+  "kill_criteria": {
+    "min_trades_before_kill_check": 100,
+    "min_live_profit_factor": 1.0,
+    "max_drawdown_multiple_vs_backtest": 1.5,
+    "rolling_20d_sharpe_floor": 0.0
+  }
+}

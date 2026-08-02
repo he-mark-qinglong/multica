@@ -1,0 +1,9 @@
+{
+  "strategy": "funding_carry_template",
+  "symbol": "SYNTH",
+  "funding_window": 24,
+  "entry_threshold": 0.0005,
+  "rebalance_bars": 8,
+  "hold_bars": 24,
+  "size_fraction": 0.3
+}

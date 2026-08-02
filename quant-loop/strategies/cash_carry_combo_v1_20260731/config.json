@@ -1,0 +1,51 @@
+{
+  "strategy": "cash_carry_combo_v1",
+  "description": "Delta-neutral cash-and-carry: long spot + short perp, harvest funding. 3-symbol combo with regime exit filter.",
+
+  "symbols": ["BTCUSDT", "ETHUSDT", "SOLUSDT"],
+
+  "legs": {
+    "perp_side": "short",
+    "spot_side": "long",
+    "delta_neutral": true
+  },
+
+  "leverage": 2.0,
+  "margin_mode": "cross",
+  "liquidation_guard": {
+    "max_effective_leverage": 2.0,
+    "rebalance_threshold_pct": 0.25,
+    "note": "Short perp leg: 2x leverage → ~50% adverse move approaches liquidation. Rebalance (move spot collateral to perp margin) when loss on perp leg exceeds 25% of position."
+  },
+
+  "cost_model": {
+    "perp_fee_bp_per_side": 5.0,
+    "spot_fee_bp_per_side": 10.0,
+    "entry_cost_bp_at_1x": 15.0,
+    "exit_cost_bp_at_1x": 15.0,
+    "note": "Costs scale with leverage: at 2x, entry+exit = 60bp total."
+  },
+
+  "regime_filter": {
+    "enabled_symbols": ["SOLUSDT"],
+    "trailing_window_events": 90,
+    "exit_when_trailing_funding_sum_bp_below": 0,
+    "note": "90 events ≈ 30 days. When trailing 30d funding sum < 0, close the position (stop paying); re-enter when it turns positive again."
+  },
+
+  "data": {
+    "funding_dir": "data/funding",
+    "spot_dir": "data/spot",
+    "spot_interval": "1h",
+    "match_tolerance_minutes": 30
+  },
+
+  "evaluation": {
+    "criteria": ["annualized_return", "max_drawdown", "calmar"],
+    "relaxed_gates": {
+      "min_annualized_return": 0.05,
+      "max_drawdown_floor": -0.25,
+      "min_calmar": 0.5
+    }
+  }
+}

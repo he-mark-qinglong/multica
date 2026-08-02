@@ -1,0 +1,10 @@
+{
+  "strategy": "mean_reversion_template",
+  "symbol": "SYNTH",
+  "rsi_period": 14,
+  "oversold": 30.0,
+  "overbought": 70.0,
+  "exit_level": 50.0,
+  "size_fraction": 0.5,
+  "max_hold_bars": 100
+}

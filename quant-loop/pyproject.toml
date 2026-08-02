@@ -1,0 +1,39 @@
+# quant-loop repository tooling configuration.
+# Baseline established in the GJ work package (J1 coverage, J16 lint).
+# Existing code is NOT reformatted to satisfy these rules; the configs
+# define the target standard for new/changed code. See docs/lint-baseline.md.
+
+[tool.pytest.ini_options]
+# Many strategies/<name>/tests/ directories reuse the same package name
+# ("tests") and the same top-level module names (strategy, data_loader, ...).
+# importlib import mode avoids "import file mismatch" collection errors on
+# full-tree runs; see strategies/conftest.py for the remaining sys.modules
+# isolation between strategy-local modules.
+addopts = "--import-mode=importlib"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+# E: pycodestyle errors, F: pyflakes, W: pycodestyle warnings,
+# I: isort, UP: pyupgrade. D (docstring style) is intentionally NOT
+# selected — docstring conventions are encouraged, not enforced.
+select = ["E", "F", "W", "I", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+# Test files may use bare except-raises patterns and star-adjacent idioms.
+"**/test_*.py" = ["E501"]
+
+[tool.coverage.run]
+source = ["_shared"]
+omit = ["*/test_*.py", "*/__pycache__/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]

@@ -284,19 +284,19 @@ REAL_BARS_15M = (
 def test_real_btcusdt_15m_anchor():
     """Smoke test against the real BTCUSDT 15m pool.
 
-    Anchored to ``data/manifests/perp_resampled_2026-07-24.yaml:63-65``:
-    240,392 rows, first_open 2019-09-08T17:45:00Z,
-    last_open 2026-07-17T19:30:00Z.
+    Expectations are derived from the parquet file itself (row count from
+    the footer, first/last open from the ``open_time`` column) rather than
+    hardcoded — the pool is extended over time, so fixed anchors rot.
     """
     meta = pq.ParquetFile(str(REAL_BARS_15M)).metadata
-    assert meta.num_rows == 240392, f"manifest anchor broken: {meta.num_rows}"
+    open_times = pd.read_parquet(REAL_BARS_15M, columns=["open_time"])["open_time"]
 
     df = dl.load_bars("BTCUSDT", "15m")
-    assert len(df) == 240392
+    assert len(df) == meta.num_rows == len(open_times)
     assert str(df.index.tz) == "UTC"
     assert df.index.is_monotonic_increasing
-    assert df.index[0] == pd.Timestamp("2019-09-08T17:45:00Z")
-    assert df.index[-1] == pd.Timestamp("2026-07-17T19:30:00Z")
+    assert df.index[0] == dl._to_utc_datetime(pd.Series([open_times.iloc[0]])).iloc[0]
+    assert df.index[-1] == dl._to_utc_datetime(pd.Series([open_times.iloc[-1]])).iloc[0]
 
 
 @pytest.mark.skipif(
@@ -305,6 +305,7 @@ def test_real_btcusdt_15m_anchor():
 )
 def test_real_15m_reads_columns_only():
     """Cheap column-projection check — materialise only ``open``."""
+    expected_rows = pq.ParquetFile(str(REAL_BARS_15M)).metadata.num_rows
     df = dl.load_bars("BTCUSDT", "15m", columns=["open"])
     assert list(df.columns) == ["open"]
-    assert len(df) == 240392
+    assert len(df) == expected_rows

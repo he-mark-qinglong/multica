@@ -1,0 +1,9 @@
+{
+  "strategy": "hedged_grid_template",
+  "symbol": "SYNTH",
+  "anchor_window": 50,
+  "atr_period": 14,
+  "grid_k": 1.5,
+  "size_fraction": 0.2,
+  "max_hold_bars": 100
+}

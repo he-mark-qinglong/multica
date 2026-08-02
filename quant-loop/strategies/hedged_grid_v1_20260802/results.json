@@ -1,0 +1,53 @@
+{
+  "config": {
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT"
+    ],
+    "initial_capital": 10000.0
+  },
+  "per_symbol": {
+    "BTCUSDT": {
+      "days": 1702.9,
+      "total_return": 0.2030108661930845,
+      "annualized_return": 0.04351297254346514,
+      "max_drawdown_pct": -0.016940262402716733,
+      "calmar": 2.5686126642576035,
+      "n_grid_trades": 937,
+      "n_rebalances": 201,
+      "funding_received": 2642.3906338445336,
+      "fees_paid": 225.20958731554333
+    },
+    "ETHUSDT": {
+      "days": 1702.9,
+      "total_return": 0.12376440961045376,
+      "annualized_return": 0.026527434014866035,
+      "max_drawdown_pct": -0.034920429154880916,
+      "calmar": 0.7596537229599949,
+      "n_grid_trades": 1311,
+      "n_rebalances": 228,
+      "funding_received": 2322.8829973740726,
+      "fees_paid": 253.02204501053123
+    },
+    "SOLUSDT": {
+      "days": 1702.9,
+      "total_return": 0.27210996361881734,
+      "annualized_return": 0.05832354493028725,
+      "max_drawdown_pct": -0.1102137129860592,
+      "calmar": 0.529185918431625,
+      "n_grid_trades": 1115,
+      "n_rebalances": 230,
+      "funding_received": 4973.657220482901,
+      "fees_paid": 309.13931889575565
+    }
+  },
+  "combo": {
+    "days": 1702.9,
+    "total_return": 0.19962841314078528,
+    "annualized_return": 0.04278798382953949,
+    "max_drawdown_pct": -0.04152451827493997,
+    "calmar": 1.030426976810036
+  },
+  "verdict": "PASS"
+}

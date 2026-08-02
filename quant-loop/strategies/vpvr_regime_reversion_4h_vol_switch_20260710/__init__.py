@@ -1,0 +1,1 @@
+"""Strategy package ``vpvr_regime_reversion_4h_vol_switch_20260710`` (package marker for pytest importlib mode)."""

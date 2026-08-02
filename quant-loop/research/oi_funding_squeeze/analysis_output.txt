@@ -1,0 +1,92 @@
+=== coverage ===
+BTCUSDT: OI 2026-07-12 06:00:00+00:00 -> 2026-08-02 01:00:00+00:00 (500 rows, median dt=0 days 01:00:00)
+           FU 2021-11-20 16:00:00.007000+00:00 -> 2026-07-25 16:00:00+00:00 | PX 2022-01-01 00:00:00+00:00 -> 2026-07-24 23:30:00+00:00
+           COMMON WINDOW: 2026-07-12 06:00:00+00:00 -> 2026-07-24 23:30:00+00:00 = 12 days
+ETHUSDT: OI 2026-07-12 06:00:00+00:00 -> 2026-08-02 01:00:00+00:00 (500 rows, median dt=0 days 01:00:00)
+           FU 2021-11-20 16:00:00.007000+00:00 -> 2026-07-25 16:00:00+00:00 | PX 2022-01-01 00:00:00+00:00 -> 2026-07-24 23:30:00+00:00
+           COMMON WINDOW: 2026-07-12 06:00:00+00:00 -> 2026-07-24 23:30:00+00:00 = 12 days
+SOLUSDT: OI 2026-07-12 06:00:00+00:00 -> 2026-08-02 01:00:00+00:00 (500 rows, median dt=0 days 01:00:00)
+           FU 2021-11-20 16:00:00.007000+00:00 -> 2026-07-25 16:00:00+00:00 | PX 2022-01-01 00:00:00+00:00 -> 2026-07-24 23:30:00+00:00
+           COMMON WINDOW: 2026-07-12 06:00:00+00:00 -> 2026-07-24 23:30:00+00:00 = 12 days
+BNBUSDT: OI 2026-07-12 06:00:00+00:00 -> 2026-08-02 01:00:00+00:00 (500 rows, median dt=0 days 01:00:00)
+           FU 2022-01-01 00:00:00.006000+00:00 -> 2026-07-25 16:00:00+00:00 | PX 2022-01-01 00:00:00+00:00 -> 2026-07-24 23:30:00+00:00
+           COMMON WINDOW: 2026-07-12 06:00:00+00:00 -> 2026-07-24 23:30:00+00:00 = 12 days
+AVAXUSDT: OI 2026-07-12 06:00:00+00:00 -> 2026-08-02 01:00:00+00:00 (500 rows, median dt=0 days 01:00:00)
+           FU 2022-01-01 00:00:00.006000+00:00 -> 2026-07-25 16:00:00+00:00 | PX 2022-01-01 00:00:00+00:00 -> 2026-07-24 23:30:00+00:00
+           COMMON WINDOW: 2026-07-12 06:00:00+00:00 -> 2026-07-24 23:30:00+00:00 = 12 days
+DOGEUSDT: OI 2026-07-12 06:00:00+00:00 -> 2026-08-02 01:00:00+00:00 (500 rows, median dt=0 days 01:00:00)
+           FU 2022-01-01 00:00:00.006000+00:00 -> 2026-07-25 16:00:00+00:00 | PX 2022-01-01 00:00:00+00:00 -> 2026-07-24 23:30:00+00:00
+           COMMON WINDOW: 2026-07-12 06:00:00+00:00 -> 2026-07-24 23:30:00+00:00 = 12 days
+LINKUSDT: OI 2026-07-12 06:00:00+00:00 -> 2026-08-02 01:00:00+00:00 (500 rows, median dt=0 days 01:00:00)
+           FU 2022-01-01 00:00:00.006000+00:00 -> 2026-07-25 16:00:00+00:00 | PX 2022-01-01 00:00:00+00:00 -> 2026-07-24 23:30:00+00:00
+           COMMON WINDOW: 2026-07-12 06:00:00+00:00 -> 2026-07-24 23:30:00+00:00 = 12 days
+
+=== SPEC: daily grid, z-window=20d, |score|>2.0 ===
+BTCUSDT: factor_days=0 events=0
+ETHUSDT: factor_days=0 events=0
+SOLUSDT: factor_days=0 events=0
+BNBUSDT: factor_days=0 events=0
+AVAXUSDT: factor_days=0 events=0
+DOGEUSDT: factor_days=0 events=0
+LINKUSDT: factor_days=0 events=0
+-- pooled events --
+       n  mean   t  win
+col                    
+ret_1  0   NaN NaN  NaN
+ret_3  0   NaN NaN  NaN
+ret_7  0   NaN NaN  NaN
+-- pooled baseline (direction rule on all days) --
+       n  mean   t  win
+col                    
+ret_1  0   NaN NaN  NaN
+ret_3  0   NaN NaN  NaN
+ret_7  0   NaN NaN  NaN
+
+=== LOOSE5: daily grid, z-window=5d, |score|>2.0 ===
+BTCUSDT: factor_days=3 events=0
+ETHUSDT: factor_days=3 events=0
+SOLUSDT: factor_days=3 events=0
+BNBUSDT: factor_days=9 events=0
+AVAXUSDT: factor_days=9 events=0
+DOGEUSDT: factor_days=2 events=0
+LINKUSDT: factor_days=2 events=0
+-- pooled events --
+       n  mean   t  win
+col                    
+ret_1  0   NaN NaN  NaN
+ret_3  0   NaN NaN  NaN
+ret_7  0   NaN NaN  NaN
+-- pooled baseline (direction rule on all days) --
+        n   mean      t    win
+col                           
+ret_1  17 0.0049 1.3066 0.6471
+ret_3  13 0.0011 0.1535 0.6923
+ret_7   5 0.0074 0.7535 0.6000
+
+=== HOURLY5: hourly grid, z-window=120h, |score|>2.0 ===
+BTCUSDT: factor_hours=60 events=2
+ETHUSDT: factor_hours=60 events=0
+SOLUSDT: factor_hours=60 events=2
+BNBUSDT: factor_hours=211 events=2
+AVAXUSDT: factor_hours=211 events=15
+DOGEUSDT: factor_hours=49 events=2
+LINKUSDT: factor_hours=49 events=1
+-- pooled events (OVERLAPPING windows, t optimistic) --
+          n    mean       t    win
+col                               
+ret_24   24 -0.0010 -0.3344 0.3750
+ret_72   24 -0.0000 -0.0139 0.4583
+ret_168  24 -0.0029 -0.5928 0.3333
+-- pooled baseline --
+           n   mean      t    win
+col                              
+ret_24   700 0.0007 1.4161 0.3643
+ret_72   700 0.0006 0.9318 0.3629
+ret_168  700 0.0003 0.4289 0.3357
+-- per-symbol event counts & 24h mean/t --
+  AVAXUSDT: n=15 mean24=-0.1412% t=-0.30 win=33.3%
+  BNBUSDT: n=2 mean24=0.9046% t=3.96 win=100.0%
+  BTCUSDT: n=2 mean24=-0.9536% t=-1.00 win=0.0%
+  DOGEUSDT: n=2 mean24=-0.2602% t=-1.00 win=0.0%
+  LINKUSDT: n=1 mean24=0.1201% t=nan win=100.0%
+  SOLUSDT: n=2 mean24=0.0605% t=0.33 win=50.0%
