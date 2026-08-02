@@ -113,41 +113,128 @@ def certify_metrics(metrics: dict, strict: bool = True) -> GateResult:
     return GateResult(passed=len(failed) == 0, failed_gates=failed, reasons=reasons, metrics=metrics)
 
 
-def certify_strategy(metrics_path: str | Path, n_trials: int = 100) -> GateResult:
+def certify_strategy(
+    metrics_path: str | Path,
+    n_trials: int | None = None,
+    ledger_path: str | Path | None = None,
+) -> GateResult:
     """Read metrics.json + compute DSR if not present, then certify.
-    
+
     Args:
         metrics_path: path to a strategy's metrics.json
-        n_trials: family size for DSR (default 100; campaigns typically have 100+ trials)
+        n_trials: REAL family size for DSR (number of candidates actually
+            tried). There is no default: when DSR must be computed and no
+            trial count can be resolved, certification FAILS explicitly
+            (reason MISSING_N_TRIALS) rather than inventing a number.
+        ledger_path: optional results-ledger.json override (tests). Defaults
+            to <repo>/results-ledger.json.
+
+    n_trials resolution order when DSR must be computed:
+        1. explicit ``n_trials`` argument
+        2. ``n_trials`` field inside metrics.json
+        3. derived from the results-ledger family: the strategy_key is
+           located in the ledger, its family inferred (same rule as
+           scripts/build_results_ledger.py), and n_trials = number of ledger
+           strategies in that family.
     """
     path = Path(metrics_path).expanduser()
     if not path.exists():
         return GateResult(passed=False, failed_gates=["FILE"], reasons=[f"not found: {path}"], metrics={})
-    
+
     with open(path) as f:
         m = json.load(f)
-    
+
     # If cpcv fields missing but OOS sharpe present, compute DSR
     if "deflated_sharpe" not in m and "cpcv_mean_oos_sharpe" in m:
+        resolved = _resolve_n_trials(n_trials, m, path, ledger_path)
+        if resolved is None:
+            return GateResult(
+                passed=False,
+                failed_gates=["G7"],
+                reasons=[
+                    "G7 deflated_sharpe > 0.0: MISSING_N_TRIALS — DSR must be "
+                    "computed from the real trial count; pass n_trials=, set "
+                    "'n_trials' in metrics.json, or make the strategy "
+                    "resolvable in results-ledger.json (refusing the old "
+                    "hard-coded default of 100)"
+                ],
+                metrics=m,
+            )
         try:
             sys.path.insert(0, str(Path(__file__).parent.parent / "validation"))
             from cpcv import deflated_sharpe
             sharpe = m["cpcv_mean_oos_sharpe"]
             sample_len = m.get("n_bars", m.get("n_bars_total", 365 * 4))  # default 1y 6h bars
-            dsr = deflated_sharpe(sharpe, n_trials, sample_len)
+            dsr = deflated_sharpe(
+                sharpe, resolved, sample_len,
+                trial_sharpe_var=m.get("trial_sharpe_var"),
+            )
             m["deflated_sharpe"] = dsr
+            m["n_trials"] = resolved
         except Exception:
             pass  # leave to gate to fail naturally
-    
+
     return certify_metrics(m)
 
 
+def _resolve_n_trials(
+    n_trials: int | None,
+    metrics: dict,
+    metrics_path: Path,
+    ledger_path: str | Path | None,
+) -> int | None:
+    """Resolve the real DSR trial count; None when it cannot be known."""
+    if n_trials is not None:
+        return int(n_trials)
+    from_metrics = metrics.get("n_trials")
+    if isinstance(from_metrics, (int, float)) and not isinstance(from_metrics, bool) and from_metrics >= 1:
+        return int(from_metrics)
+    return _n_trials_from_ledger(metrics_path, ledger_path)
+
+
+def _infer_family(name: str) -> str:
+    """Family inference — keep in sync with scripts/build_results_ledger.py."""
+    parts = name.split("_")
+    if parts[0] == "vpvr":
+        return "_".join(parts[:3]) if len(parts) >= 3 else name
+    if parts[0] in ("funding", "momentum", "trend", "vol", "bb", "pairs", "mtf", "loid"):
+        return "_".join(parts[:2]) if len(parts) >= 2 else name
+    return parts[0]
+
+
+def _n_trials_from_ledger(metrics_path: Path, ledger_path: str | Path | None) -> int | None:
+    """Derive family size from results-ledger.json.
+
+    Finds this strategy's key in the ledger (by matching a path component of
+    metrics_path against ledger strategy_keys), then counts ledger strategies
+    in the same inferred family. Returns None when unresolvable.
+    """
+    ledger = Path(ledger_path) if ledger_path else (
+        Path(__file__).resolve().parents[2] / "results-ledger.json"
+    )
+    try:
+        with open(ledger) as f:
+            entries = json.load(f).get("strategies", [])
+    except Exception:
+        return None
+    keys = {e.get("strategy_key") for e in entries if e.get("strategy_key")}
+    if not keys:
+        return None
+    resolved_parts = metrics_path.resolve().parts
+    hit = next((p for p in resolved_parts if p in keys), None)
+    if hit is None:
+        return None
+    family = _infer_family(hit)
+    return sum(1 for k in keys if _infer_family(k) == family)
+
+
 def main():
-    """CLI: python -m _shared.gates.enforce <metrics.json>"""
+    """CLI: python -m _shared.gates.enforce <metrics.json> [n_trials]"""
     if len(sys.argv) < 2:
-        print("usage: enforce.py <metrics.json>", file=sys.stderr)
+        print("usage: enforce.py <metrics.json> [n_trials]", file=sys.stderr)
         sys.exit(2)
-    result = certify_strategy(sys.argv[1])
+    n_trials = int(sys.argv[2]) if len(sys.argv) > 2 else None
+    result = certify_strategy(sys.argv[1], n_trials=n_trials)
     print(str(result))
     if result.reasons:
         for r in result.reasons:

@@ -12,10 +12,15 @@ aggregate across all paths to get OOS Sharpe distribution.
 Includes Deflated Sharpe Ratio (Bailey & López de Prado 2014) for
 multiple-testing correction.
 """
+import math
 from dataclasses import dataclass, field
 from itertools import combinations
 import numpy as np
 import pandas as pd
+from scipy.stats import norm as _norm
+
+# Euler-Mascheroni constant, used by the DSR extreme-value approximation.
+_EULER_MASCHERONI = 0.5772156649015329
 
 
 @dataclass
@@ -90,44 +95,84 @@ def sharpe_from_returns(returns: np.ndarray, periods_per_year: int = 365) -> flo
     return float(np.mean(returns) / np.std(returns, ddof=1) * np.sqrt(periods_per_year))
 
 
+def expected_max_sharpe_z(n_trials: int) -> float:
+    """Standardized expected maximum of ``n_trials`` iid N(0, 1) Sharpe estimates.
+
+    Bailey & López de Prado (2014) extreme-value approximation:
+
+        E[max z] = (1 - γ) Φ⁻¹(1 - 1/N) + γ Φ⁻¹(1 - 1/(N·e))
+
+    where γ is the Euler-Mascheroni constant and Φ⁻¹ the standard normal
+    quantile function. A single trial has no maximum to correct for, so the
+    expected maximum under the null is 0 (the formula diverges at N=1).
+
+    Numerically identical to purgedcv's ``_expected_max_z`` reference.
+    """
+    if n_trials < 1:
+        raise ValueError(f"n_trials must be >= 1, got {n_trials}")
+    if n_trials == 1:
+        return 0.0
+    return float(
+        (1.0 - _EULER_MASCHERONI) * _norm.ppf(1.0 - 1.0 / n_trials)
+        + _EULER_MASCHERONI * _norm.ppf(1.0 - 1.0 / (n_trials * math.e))
+    )
+
+
 def deflated_sharpe(
     observed_sharpe: float,
     n_trials: int,
     sample_len: int,
     skew: float = 0.0,
     kurt: float = 3.0,
+    trial_sharpe_var: float | None = None,
 ) -> float:
-    """Deflated Sharpe Ratio per Bailey & López de Prado (2014).
+    """Deflated Sharpe value per Bailey & López de Prado (2014).
 
-    Adjusts observed Sharpe for multiple testing. Returns the Sharpe value
-    that would be statistically significant at 95% after n_trials tests.
+    Computes the multiple-testing hurdle
+
+        SR* = sqrt(V̂[{SRₙ}]) · E[max z]          (see expected_max_sharpe_z)
+
+    and returns ``observed_sharpe - SR*``. The edge survives the
+    multiple-testing correction iff the returned value is > 0 — exactly
+    equivalent to the DSR probability (PSR evaluated at SR*) being > 0.5,
+    since PSR is monotonic in the observed Sharpe.
 
     Args:
         observed_sharpe: the best Sharpe from n_trials backtests
         n_trials: number of strategies tried (family size)
         sample_len: length of the returns series (bars)
-        skew: returns skewness (0 = normal)
-        kurt: returns kurtosis (3 = normal)
+        skew: returns skewness (0 = normal); only used by the fallback below
+        kurt: returns kurtosis (3 = normal); only used by the fallback below
+        trial_sharpe_var: V̂[{SRₙ}] — variance of the Sharpe estimates across
+            the n_trials candidates, in the same Sharpe units as
+            ``observed_sharpe``. This is the canonical input of the spec
+            formula. When omitted (caller only has a single trial's Sharpe),
+            falls back to the Lo (2002) variance of the Sharpe estimator
+            itself, (1/(T-1))(1 - γ₃·SR + (γ₄-1)/4·SR²), documented here so
+            the substitution is an explicit choice, not an oversight.
 
     Returns:
-        Deflated Sharpe — if observed > deflated, the edge is real.
+        Deflated Sharpe value — if > 0, the edge is real after deflation.
     """
     if n_trials < 1 or sample_len < 2:
         return observed_sharpe
-    # Expected max of n_trials draws from N(0, 1)
-    emc = 0.5772156649  # Euler-Mascheroni
-    expected_max = (np.sqrt(2 * np.log(n_trials))
-                    - ((np.pi - emc) / np.sqrt(2 * np.log(n_trials)))
-                    if n_trials > 1 else 0.0)
-    # Variance of Sharpe estimator (Lo 2002, adjusted for non-normality)
-    var_sharpe = (1 / (sample_len - 1)) * (1 - skew * observed_sharpe + ((kurt - 1) / 4) * observed_sharpe**2)
-    if var_sharpe <= 0:
-        return observed_sharpe
-    # Deflated Sharpe = observed minus the multiple-testing hurdle
-    # (expected max Sharpe under the null = expected_max * SE(SR)).
+    if trial_sharpe_var is not None:
+        if not np.isfinite(trial_sharpe_var) or trial_sharpe_var < 0:
+            raise ValueError(f"trial_sharpe_var must be finite and >= 0, got {trial_sharpe_var}")
+        var = float(trial_sharpe_var)
+    else:
+        # Fallback: variance of the single Sharpe estimator (Lo 2002,
+        # adjusted for non-normality). NOT the across-trial variance V̂[{SRₙ}]
+        # of the spec — pass trial_sharpe_var whenever the family of trial
+        # Sharpes is known.
+        var = (1.0 / (sample_len - 1)) * (
+            1 - skew * observed_sharpe + ((kurt - 1) / 4.0) * observed_sharpe**2
+        )
+    if var <= 0:
+        return observed_sharpe  # zero spread → no hurdle
+    sr_star = float(np.sqrt(var) * expected_max_sharpe_z(n_trials))
     # n_trials=1 → expected_max=0 → no penalty → returns observed.
-    # The edge is real at 95% iff the returned value is > 0.
-    return float(observed_sharpe - expected_max * np.sqrt(var_sharpe))
+    return float(observed_sharpe - sr_star)
 
 
 def cpcv(

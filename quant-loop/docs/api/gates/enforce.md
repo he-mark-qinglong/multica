@@ -17,15 +17,21 @@ Check a metrics dict against all gates.
 | `metrics` | dict | — |
 | `strict` | bool | True |
 
-## `certify_strategy(metrics_path: str | pathlib.Path, n_trials: int = 100) -> _shared.gates.enforce.GateResult`
+## `certify_strategy(metrics_path: str | pathlib.Path, n_trials: int | None = None, ledger_path: str | pathlib.Path | None = None) -> _shared.gates.enforce.GateResult`
 
 Read metrics.json + compute DSR if not present, then certify.
+
+When DSR must be computed, the real trial count is required — resolution
+order: explicit `n_trials` argument → `n_trials` field in metrics.json →
+results-ledger family size. If none resolve, certification FAILS explicitly
+with reason `MISSING_N_TRIALS` (the old hard-coded default of 100 is gone).
 
 | Parameter | Type | Default |
 |---|---|---|
 | `metrics_path` | str | pathlib.Path | — |
-| `n_trials` | int | 100 |
+| `n_trials` | int | None | — |
+| `ledger_path` | str | pathlib.Path | None | — |
 
 ## `main()`
 
-CLI: python -m _shared.gates.enforce <metrics.json>
+CLI: python -m _shared.gates.enforce <metrics.json> [n_trials]

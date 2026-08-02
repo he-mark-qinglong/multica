@@ -144,6 +144,95 @@ def test_missing_file_returns_file_failure():
     assert "FILE" in result.failed_gates
 
 
+def _write_metrics(tmp_dir, m, strategy_dir=None):
+    """Write metrics dict to a temp metrics.json, return its path."""
+    import json
+    if strategy_dir:
+        d = os.path.join(tmp_dir, "strategies", strategy_dir, "results")
+        os.makedirs(d, exist_ok=True)
+        path = os.path.join(d, "metrics.json")
+    else:
+        path = os.path.join(tmp_dir, "metrics.json")
+    with open(path, "w") as f:
+        json.dump(m, f)
+    return path
+
+
+_METRICS_NO_DSR = {
+    "sharpe_daily": 1.5,
+    "annualized_return": 0.30,
+    "max_drawdown_pct": -0.10,
+    "profit_factor": 2.0,
+    "cpcv_mean_oos_sharpe": 1.5,
+    "bootstrap_ci95_lower": 0.8,
+    "n_trades": 100,
+    # deflated_sharpe intentionally omitted
+}
+
+
+def test_missing_n_trials_explicit_fail():
+    # No explicit n_trials, none in metrics, no ledger match → explicit FAIL,
+    # never the old hard-coded default of 100.
+    with tempfile.TemporaryDirectory() as tmp:
+        path = _write_metrics(tmp, dict(_METRICS_NO_DSR))
+        result = certify_strategy(path, ledger_path=os.path.join(tmp, "no_ledger.json"))
+    assert not result.passed, "missing n_trials must FAIL, not default to 100"
+    assert "G7" in result.failed_gates
+    assert any("MISSING_N_TRIALS" in r for r in result.reasons), result.reasons
+    assert "deflated_sharpe" not in result.metrics
+
+
+def test_n_trials_from_metrics_field():
+    # metrics.json carries its own real trial count → used directly.
+    from _shared.validation.cpcv import deflated_sharpe
+    m = dict(_METRICS_NO_DSR, n_trials=7, n_bars=1460)
+    with tempfile.TemporaryDirectory() as tmp:
+        path = _write_metrics(tmp, m)
+        result = certify_strategy(path, ledger_path=os.path.join(tmp, "no_ledger.json"))
+    expected = deflated_sharpe(1.5, 7, 1460)
+    assert abs(result.metrics["deflated_sharpe"] - expected) < 1e-12, (
+        f"{result.metrics['deflated_sharpe']} vs {expected}"
+    )
+    assert result.metrics["n_trials"] == 7
+
+
+def test_n_trials_derived_from_results_ledger():
+    # No explicit n_trials → derived from the results-ledger family:
+    # target strategy's family (vpvr_a_b_*) has 2 entries in the ledger.
+    import json
+    from _shared.validation.cpcv import deflated_sharpe
+    ledger = {
+        "strategies": [
+            {"strategy_key": "vpvr_a_b_1d_20260801"},
+            {"strategy_key": "vpvr_a_b_4h_20260801"},
+            {"strategy_key": "vpvr_a_c_1d_20260801"},
+            {"strategy_key": "momentum_trend_1h_20260801"},
+        ]
+    }
+    m = dict(_METRICS_NO_DSR, n_bars=1460)
+    with tempfile.TemporaryDirectory() as tmp:
+        path = _write_metrics(tmp, m, strategy_dir="vpvr_a_b_1d_20260801")
+        ledger_path = os.path.join(tmp, "results-ledger.json")
+        with open(ledger_path, "w") as f:
+            json.dump(ledger, f)
+        result = certify_strategy(path, ledger_path=ledger_path)
+    expected = deflated_sharpe(1.5, 2, 1460)
+    assert abs(result.metrics["deflated_sharpe"] - expected) < 1e-12, (
+        f"family-derived n_trials=2: {result.metrics['deflated_sharpe']} vs {expected}"
+    )
+    assert result.metrics["n_trials"] == 2
+
+
+def test_explicit_n_trials_beats_metrics_and_ledger():
+    from _shared.validation.cpcv import deflated_sharpe
+    m = dict(_METRICS_NO_DSR, n_trials=7, n_bars=1460)
+    with tempfile.TemporaryDirectory() as tmp:
+        path = _write_metrics(tmp, m)
+        result = certify_strategy(path, n_trials=120)
+    expected = deflated_sharpe(1.5, 120, 1460)
+    assert abs(result.metrics["deflated_sharpe"] - expected) < 1e-12
+
+
 # ---------------------------------------------------------------------------
 # Runner
 # ---------------------------------------------------------------------------

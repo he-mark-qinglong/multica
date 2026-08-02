@@ -23,6 +23,7 @@ from _shared.validation.cpcv import (
     _purge_boundaries,
     cpcv,
     deflated_sharpe,
+    expected_max_sharpe_z,
     sharpe_from_returns,
 )
 
@@ -168,6 +169,75 @@ def test_deflated_sharpe_invalid_inputs_passthrough():
     s = 1.5
     assert deflated_sharpe(s, n_trials=0, sample_len=1000) == s
     assert deflated_sharpe(s, n_trials=5, sample_len=1) == s
+
+
+def test_expected_max_sharpe_z_matches_spec_formula():
+    # Bailey-LdP (2014): (1-γ)Φ⁻¹(1-1/N) + γΦ⁻¹(1-1/(N·e))
+    from scipy.stats import norm
+
+    gamma = 0.5772156649015329
+    for n in (2, 5, 10, 42, 100, 1000):
+        spec = (1 - gamma) * norm.ppf(1 - 1 / n) + gamma * norm.ppf(1 - 1 / (n * np.e))
+        got = expected_max_sharpe_z(n)
+        assert abs(got - spec) < 1e-12, f"n={n}: {got} vs spec {spec}"
+    assert expected_max_sharpe_z(1) == 0.0
+    # Strictly increasing in N for N >= 2 (more trials → higher hurdle)
+    zs = [expected_max_sharpe_z(n) for n in (2, 3, 5, 10, 50, 200)]
+    assert all(b > a for a, b in zip(zs, zs[1:]))
+
+
+def test_deflated_sharpe_uses_trial_sharpe_var():
+    # With V̂[{SRₙ}] given, hurdle must be sqrt(V̂)·E[max z] exactly —
+    # the Lo-2002 estimator variance (and hence skew/kurt) must NOT enter.
+    s, n, t = 1.5, 10, 1000
+    var = 0.04
+    d = deflated_sharpe(s, n, t, trial_sharpe_var=var)
+    expected = s - np.sqrt(var) * expected_max_sharpe_z(n)
+    assert abs(d - expected) < 1e-12, f"{d} vs {expected}"
+    # skew/kurt are irrelevant when V̂ is supplied
+    d2 = deflated_sharpe(s, n, t, skew=5.0, kurt=99.0, trial_sharpe_var=var)
+    assert d2 == d
+    # zero across-trial variance → no hurdle
+    assert deflated_sharpe(s, n, t, trial_sharpe_var=0.0) == s
+
+
+def test_deflated_sharpe_matches_purgedcv_reference():
+    """Numerical alignment with purgedcv.deflated_sharpe_ratio_full (tol 1e-6).
+
+    Skipped silently when the optional `purgedcv` reference package is not
+    installed.
+    """
+    try:
+        from purgedcv import deflated_sharpe_ratio_full
+    except ImportError:
+        return
+
+    rng = np.random.default_rng(11)
+    for n_trials, var_sharpe in ((1, 0.02), (5, 0.01), (36, 0.04), (100, 0.0025)):
+        returns = rng.normal(0.001, 0.01, size=500)
+        diag = deflated_sharpe_ratio_full(returns, n_trials=n_trials, var_sharpe=var_sharpe)
+
+        # 1. Standardized expected maximum aligns.
+        assert abs(expected_max_sharpe_z(n_trials) - diag.expected_max_z) < 1e-6, (
+            f"n={n_trials}: {expected_max_sharpe_z(n_trials)} vs {diag.expected_max_z}"
+        )
+
+        # 2. SR* hurdle aligns: purgedcv uses ddof=0 per-observation Sharpe.
+        sr_hat = float(returns.mean() / returns.std(ddof=0))
+        d = deflated_sharpe(
+            sr_hat, n_trials=n_trials, sample_len=returns.size,
+            trial_sharpe_var=var_sharpe,
+        )
+        sr_star_ours = sr_hat - d
+        assert abs(sr_star_ours - diag.sr_star) < 1e-6, (
+            f"n={n_trials}: sr_star {sr_star_ours} vs purgedcv {diag.sr_star}"
+        )
+
+        # 3. Sign convention aligns with the DSR probability: our value > 0
+        # iff purgedcv's DSR probability > 0.5 (PSR is monotonic in SR̂).
+        assert (d > 0) == (diag.dsr > 0.5), (
+            f"n={n_trials}: deflated {d} vs purgedcv dsr {diag.dsr}"
+        )
 
 
 def test_ci95_handles_few_folds():

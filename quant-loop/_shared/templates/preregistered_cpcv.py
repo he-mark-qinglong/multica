@@ -201,6 +201,37 @@ def evaluate_candidate(
     }
 
 
+def _apply_family_trial_variance(
+    results: list[dict], n_trials: int, sample_len: int
+) -> None:
+    """Recompute each candidate's DSR with the spec V̂[{SRₙ}] (in place).
+
+    Bailey & López de Prado (2014) deflate by the expected max over the
+    trial family, scaled by the ACROSS-CANDIDATE Sharpe variance — not by
+    the per-candidate estimator variance used as fallback inside
+    ``evaluate_candidate``. Once the whole pre-registered family has been
+    evaluated, that variance is known, so every candidate's
+    ``deflated_sharpe`` is recomputed against it and the value used is
+    pinned to ``trial_sharpe_var`` for auditability. With fewer than two
+    finite candidates the family variance is undefined and the per-candidate
+    fallback values are kept.
+    """
+    means = [v["mean_oos_sharpe"] for v in results if np.isfinite(v["mean_oos_sharpe"])]
+    if len(means) < 2:
+        return
+    var = float(np.var(means, ddof=1))
+    for v in results:
+        if not np.isfinite(v["mean_oos_sharpe"]):
+            continue
+        v["deflated_sharpe"] = deflated_sharpe(
+            observed_sharpe=v["mean_oos_sharpe"],
+            n_trials=n_trials,
+            sample_len=sample_len,
+            trial_sharpe_var=var,
+        )
+        v["trial_sharpe_var"] = var
+
+
 def decide_chosen(
     results: Sequence[dict],
     gates: dict | None = None,
@@ -256,6 +287,7 @@ def run_preregistered_cpcv(
         evaluate_candidate(c, data, signal_fn, cpcv_config=cfg, n_trials=n_trials)
         for c in candidates
     ]
+    _apply_family_trial_variance(results, n_trials, sample_len=int(data.shape[0]))
 
     if gates is None:
         chosen, verdict = None, None
@@ -273,7 +305,8 @@ def run_preregistered_cpcv(
         "anti_overfit_notes": [
             "Pre-registered candidate set was chosen a priori on economic reasoning;",
             "no variant parameters were tuned based on OOS Sharpe readings.",
-            "DSR penalty applied with n_trials = len(pre_registered_candidates).",
+            "DSR penalty applied with n_trials = len(pre_registered_candidates) "
+            "and V̂[{SRₙ}] = across-candidate variance of mean OOS Sharpe.",
             "Selection is first-pass-in-registration-order; no OOS re-ranking.",
         ],
     }

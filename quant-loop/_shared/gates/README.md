@@ -27,8 +27,11 @@ if not result.passed:
     print(result.reasons)          # why it failed
 ```
 
-`certify_strategy(metrics_path, n_trials=100)` reads a `metrics.json` and
+`certify_strategy(metrics_path, n_trials=None)` reads a `metrics.json` and
 auto-computes DSR from `cpcv_mean_oos_sharpe` when `deflated_sharpe` is absent.
+Computing DSR requires the real trial count: pass `n_trials`, set `n_trials`
+in metrics.json, or let it derive from the results-ledger family — otherwise
+certification fails explicitly with `MISSING_N_TRIALS`.
 
 ## CI hook
 

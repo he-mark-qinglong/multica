@@ -26,9 +26,19 @@ Run CPCV on a strategy.
 | `embargo_bars` | int | 50 |
 | `periods_per_year` | int | 365 |
 
-## `deflated_sharpe(observed_sharpe: float, n_trials: int, sample_len: int, skew: float = 0.0, kurt: float = 3.0) -> float`
+## `expected_max_sharpe_z(n_trials: int) -> float`
 
-Deflated Sharpe Ratio per Bailey & López de Prado (2014).
+Standardized expected maximum of `n_trials` iid N(0, 1) Sharpe estimates,
+per the Bailey & López de Prado (2014) extreme-value approximation:
+`(1-γ)Φ⁻¹(1-1/N) + γΦ⁻¹(1-1/(N·e))`. Numerically identical to purgedcv's
+reference (`_expected_max_z`).
+
+## `deflated_sharpe(observed_sharpe: float, n_trials: int, sample_len: int, skew: float = 0.0, kurt: float = 3.0, trial_sharpe_var: float | None = None) -> float`
+
+Deflated Sharpe value per Bailey & López de Prado (2014): returns
+`observed_sharpe - SR*` where `SR* = sqrt(V̂[{SRₙ}]) · expected_max_sharpe_z(n_trials)`.
+The edge survives multiple testing iff the returned value is > 0 (equivalent
+to the DSR probability being > 0.5).
 
 | Parameter | Type | Default |
 |---|---|---|
@@ -37,6 +47,11 @@ Deflated Sharpe Ratio per Bailey & López de Prado (2014).
 | `sample_len` | int | — |
 | `skew` | float | 0.0 |
 | `kurt` | float | 3.0 |
+| `trial_sharpe_var` | float | None | None |
+
+`trial_sharpe_var` is the spec's V̂[{SRₙ}] — variance of Sharpe estimates
+across the `n_trials` candidates. When omitted, falls back to the Lo (2002)
+variance of the single Sharpe estimator (documented in the docstring).
 
 ## `sharpe_from_returns(returns: numpy.ndarray, periods_per_year: int = 365) -> float`
 
