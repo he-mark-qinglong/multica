@@ -64,3 +64,20 @@ def test_compute_tail_risk_empty():
     result = compute_tail_risk([])
     assert result.n_samples == 0
     assert result.var_95_bp == 0.0
+
+
+# ---- Regression: Bug 4 — VaR must be 0 for all-profitable samples ----
+
+def test_var_all_profitable_returns_zero():
+    """When every trade is profitable, the 5th percentile is positive.
+    abs(positive) would report a fake loss — VaR must be 0.
+    """
+    pnl = [5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0]
+    var = historical_var(pnl, 0.95)
+    assert var == 0.0  # no downside risk at 95% confidence
+
+def test_var_mixed_still_reports_loss():
+    """Sanity: with actual losses in the tail, VaR is still correct."""
+    pnl = list(range(-50, 51))
+    var = historical_var(pnl, 0.95)
+    assert 40 < var < 50  # ~5th percentile loss

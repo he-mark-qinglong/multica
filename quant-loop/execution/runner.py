@@ -32,6 +32,7 @@ runner's registration lists.
 from __future__ import annotations
 
 import json
+import logging
 import sqlite3
 import time
 from dataclasses import dataclass
@@ -174,6 +175,8 @@ _FILL_STATUSES = frozenset({"filled", "partially_filled"})
 #: Terminal ack statuses that count as a canonical ``reject`` row.
 _REJECT_STATUSES = frozenset({"rejected", "expired", "canceled", "cancelled"})
 
+_logger = logging.getLogger(__name__)
+
 
 def classify_terminal_event(ack: Mapping[str, Any]) -> str:
     """Classify a transport ack into a canonical terminal event type.
@@ -181,6 +184,8 @@ def classify_terminal_event(ack: Mapping[str, Any]) -> str:
     Pure function.  Returns ``"fill"`` or ``"reject"``.  Handles both the
     Binance-style acks (``status`` field: FILLED / PARTIALLY_FILLED /
     EXPIRED / rejected) and minimal stub acks (``{"ok": True/False}``).
+
+    Unknown acks default to **reject** (fail-safe) and emit a warning.
     """
     status = str(ack.get("status") or "").strip().lower()
     if status in _FILL_STATUSES:
@@ -192,7 +197,17 @@ def classify_terminal_event(ack: Mapping[str, Any]) -> str:
     # Binance REST reject bodies carry an error ``code`` without ``ok``.
     if ack.get("code") is not None and not ack.get("ok"):
         return "reject"
-    return "fill"
+    # Minimal stub ack: {"ok": True} → fill
+    if ack.get("ok") is True:
+        return "fill"
+    # Unknown / unrecognised ack — fail-safe: treat as reject, not fill.
+    _logger.warning(
+        "classify_terminal_event: unrecognised ack (status=%r, keys=%s) "
+        "— defaulting to reject",
+        ack.get("status"),
+        sorted(ack.keys()),
+    )
+    return "reject"
 
 
 def _coerce_float(value: Any) -> Optional[float]:

@@ -61,7 +61,11 @@ def historical_var(
     if len(arr) < 2:
         return 0.0
     percentile = (1.0 - confidence) * 100  # 95% → 5th percentile
-    return abs(float(np.percentile(arr, percentile)))
+    var_threshold = float(np.percentile(arr, percentile))
+    # VaR is a *loss* magnitude: if the tail percentile is still
+    # positive (all trades profitable), there is no loss at this
+    # confidence level → return 0.
+    return max(0.0, -var_threshold)
 
 
 def historical_cvar(

@@ -92,3 +92,23 @@ def test_portfolio_cvar_exceeds_var():
 
 def test_portfolio_var_empty():
     assert portfolio_var(pd.DataFrame(), {}) == 0.0
+
+
+# ---- Regression: Bug 2 — diversification_ratio must use textbook formula ----
+
+def test_diversification_ratio_uncorrelated():
+    """For n uncorrelated assets with equal vol, DR = sqrt(n)."""
+    np.random.seed(123)
+    n = 4
+    rets = pd.DataFrame({
+        f"s{i}": np.random.normal(0, 0.02, 500) for i in range(n)
+    })
+    result = compute_correlation(rets)
+    # DR should be close to sqrt(4) = 2 for uncorrelated equal-vol assets
+    assert 1.7 < result.diversification_ratio < 2.3
+
+def test_diversification_ratio_perfectly_correlated():
+    """Perfectly correlated assets → DR = 1 (no diversification)."""
+    rets = pd.DataFrame({"A": [1, 2, 3, 4, 5], "B": [2, 4, 6, 8, 10]})
+    result = compute_correlation(rets)
+    assert result.diversification_ratio == pytest.approx(1.0, abs=0.05)

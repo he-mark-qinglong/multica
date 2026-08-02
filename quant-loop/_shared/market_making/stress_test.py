@@ -99,6 +99,7 @@ def run_stress_test(
     historical_pnl_bp: list[float],
     historical_spread_bp: float = 4.0,
     survival_threshold_pct: float = -0.25,
+    n_strategies: int = 1,
 ) -> StressResult:
     """Estimate portfolio impact under a stress scenario.
 
@@ -116,6 +117,10 @@ def run_stress_test(
         Normal market spread (bp).
     survival_threshold_pct : float
         Max acceptable drawdown (e.g. -0.25 = -25%).
+    n_strategies : int
+        Number of strategies/assets in the portfolio — used to scale
+        VaR when *correlation_override* is active (diversification
+        benefit collapses as correlations → 1).
 
     Returns
     -------
@@ -143,6 +148,15 @@ def run_stress_test(
         base_var = 4.0
         stressed_var = base_var
 
+    # 3b. Correlation breakdown: diversification benefit collapses.
+    # Portfolio vol scales by √(1+(n-1)ρ) relative to the uncorrelated
+    # baseline, so VaR is amplified by the same factor.
+    if scenario.correlation_override is not None and n_strategies > 1:
+        vol_amplification = float(
+            np.sqrt(1.0 + (n_strategies - 1) * scenario.correlation_override)
+        )
+        stressed_var *= vol_amplification
+
     total_impact = sum(pnl_impacts)
     pnl_pct = total_impact / capital_usd if capital_usd > 0 else 0.0
 
@@ -167,6 +181,7 @@ def run_all_stress_tests(
     net_inventory_usd: float,
     historical_pnl_bp: list[float],
     historical_spread_bp: float = 4.0,
+    n_strategies: int = 1,
 ) -> list[StressResult]:
     """Run all predefined stress scenarios."""
     results = []
@@ -177,6 +192,7 @@ def run_all_stress_tests(
             net_inventory_usd=net_inventory_usd,
             historical_pnl_bp=historical_pnl_bp,
             historical_spread_bp=historical_spread_bp,
+            n_strategies=n_strategies,
         )
         results.append(result)
     return results

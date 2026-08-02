@@ -110,3 +110,62 @@ def test_run_all_scenarios():
     for r in results:
         assert isinstance(r, StressResult)
         assert r.scenario != ""
+
+
+# ---- Regression: Bug 1 — negative mean correlation must NOT trigger crisis ----
+
+def test_dynamic_erc_negative_corr_not_crisis():
+    """Mean correlation -0.8 is excellent diversification, not a crisis.
+
+    Regression for _detect_crisis using abs(mean_corr) > threshold,
+    which misclassified strong negative correlation as a crisis.
+    """
+    params = DynamicERCParams(
+        min_lookback=50, lookback=150, rebalance_freq=1,
+        crisis_corr_threshold=0.3,
+    )
+    derc = DynamicERC(params)
+    # Two assets with strong negative correlation (~-0.8)
+    np.random.seed(99)
+    base = np.random.normal(0, 0.02, 200)
+    noise = np.random.normal(0, 0.005, 200)
+    rets = pd.DataFrame({"A": base + noise, "B": -base + noise})
+    result = derc.update(rets)
+    assert result is not None
+    assert result.mean_correlation < 0  # diversified
+    assert not result.is_crisis  # negative corr → no crisis
+
+
+# ---- Regression: Bug 3 — correlation_override must amplify VaR ----
+
+def test_corr_breakdown_amplifies_var():
+    """corr_breakdown scenario must produce higher VaR with n_strategies > 1.
+
+    Regression: correlation_override was a dead parameter that
+    run_stress_test never read.
+    """
+    pnl = [1, -1, 2, -2] * 20
+
+    # n_strategies=1: correlation_override has no diversification to remove
+    result_single = run_stress_test(
+        scenario=SCENARIOS["corr_breakdown"],
+        capital_usd=10000.0,
+        net_inventory_usd=0.0,  # no inventory, isolate VaR channel
+        historical_pnl_bp=pnl,
+        n_strategies=1,
+    )
+
+    # n_strategies=5: diversification collapses, VaR amplified
+    result_multi = run_stress_test(
+        scenario=SCENARIOS["corr_breakdown"],
+        capital_usd=10000.0,
+        net_inventory_usd=0.0,
+        historical_pnl_bp=pnl,
+        n_strategies=5,
+    )
+
+    # With 5 strategies at correlation_override=0.9:
+    # vol_amplification = sqrt(1 + 4*0.9) = sqrt(4.6) ≈ 2.145
+    assert result_multi.var_after_bp > result_single.var_after_bp
+    expected_ratio = (result_multi.var_after_bp / result_single.var_after_bp)
+    assert 2.0 < expected_ratio < 2.3  # ≈ √4.6

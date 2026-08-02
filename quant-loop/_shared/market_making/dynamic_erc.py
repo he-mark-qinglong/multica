@@ -122,8 +122,9 @@ class DynamicERC:
 
     def _detect_crisis(self, window: pd.DataFrame, corr: CorrelationResult) -> bool:
         """Detect correlation/vol crisis regime."""
-        # Signal 1: mean correlation spike
-        if abs(corr.mean_correlation) > self.params.crisis_corr_threshold:
+        # Signal 1: mean correlation spike (only positive — negative
+        # correlation is excellent diversification, not a crisis)
+        if corr.mean_correlation > self.params.crisis_corr_threshold:
             return True
 
         # Signal 2: portfolio vol spike vs history

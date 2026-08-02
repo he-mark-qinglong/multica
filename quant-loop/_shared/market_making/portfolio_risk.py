@@ -35,7 +35,7 @@ class CorrelationResult:
     mean_correlation: float
     max_correlation: float
     max_pair: tuple[str, str]
-    diversification_ratio: float   # 1 / (1 + mean_corr), higher = better
+    diversification_ratio: float   # wᵀσ / √(wᵀΣw), higher = better
 
 
 def compute_correlation(
@@ -79,9 +79,19 @@ def compute_correlation(
     max_pair = pairs[max_idx] if pairs else ("", "")
     max_corr = float(upper_vals[max_idx]) if len(upper_vals) > 0 else 0.0
 
-    # Diversification ratio: simple metric
-    # 1.0 = perfectly uncorrelated, lower = more correlated
-    div_ratio = 1.0 / (1.0 + abs(mean_corr))
+    # Diversification ratio: textbook definition wᵀσ / √(wᵀΣw)
+    # with equal weights.  Equals √n for uncorrelated assets, →1 as
+    # correlations → 1.
+    cov = returns.cov()
+    n_assets = len(cov)
+    if n_assets > 1:
+        w_eq = np.full(n_assets, 1.0 / n_assets)
+        asset_vols = np.sqrt(np.maximum(np.diag(cov.values), 0.0))
+        weighted_avg_vol = float(w_eq @ asset_vols)
+        port_vol = float(np.sqrt(max(w_eq @ cov.values @ w_eq, 0.0)))
+        div_ratio = weighted_avg_vol / port_vol if port_vol > 1e-20 else 1.0
+    else:
+        div_ratio = 1.0
 
     return CorrelationResult(
         correlation_matrix=corr,
