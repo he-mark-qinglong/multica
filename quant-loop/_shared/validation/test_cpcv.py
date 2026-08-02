@@ -23,6 +23,7 @@ from _shared.validation.cpcv import (
     _purge_boundaries,
     cpcv,
     deflated_sharpe,
+    expected_max_sharpe_z,
     sharpe_from_returns,
 )
 
@@ -134,11 +135,98 @@ def test_purge_boundaries_drops_near_test():
         assert kept in remaining
 
 
-def test_embargo_drops_earliest():
-    test = np.array([10, 5, 20, 1, 15], dtype=int)
-    out = _embargo(test, embargo_bars=2)
-    # sorted = [1,5,10,15,20], drop first 2 → [10,15,20]
-    assert list(int(x) for x in out) == [10, 15, 20]
+def test_embargo_drops_post_test_train_not_test():
+    """AFML embargo: cut TRAIN bars after each test segment, never the test set."""
+    train = np.array([0, 1, 2, 8, 9, 10, 11, 15], dtype=int)
+    test = np.array([4, 5, 6], dtype=int)  # one contiguous segment (4, 6)
+    out = _embargo(train, test, embargo_bars=2)
+    remaining = set(int(x) for x in out)
+    # train bar 8 lies in (6, 6+2] → dropped; everything else kept
+    assert 8 not in remaining, "post-test train bar within embargo must be dropped"
+    for kept in (0, 1, 2, 9, 10, 11, 15):
+        assert kept in remaining, f"train bar {kept} outside embargo must survive"
+
+
+def test_purge_covers_interior_boundaries_k2():
+    """Bug-1 regression: with k_test=2 non-contiguous test groups, the interior
+    train/test boundaries must be purged too (old code purged only the global
+    test min/max)."""
+    # 6 groups x 10 bars; test groups 1 and 3 → segments (10,19) and (30,39)
+    test = np.array(list(range(10, 20)) + list(range(30, 40)), dtype=int)
+    test_set = set(int(x) for x in test)
+    train = np.array([p for p in range(60) if p not in test_set], dtype=int)
+    tp, _ = _purge_boundaries(train, test, purge_bars=3)
+    remaining = set(int(x) for x in tp)
+    for p in remaining:
+        dist = min(abs(p - t) for t in test_set)
+        assert dist > 3, f"train bar {p} survives at distance {dist} from test"
+    # Explicitly: bars between the two test segments near the interior
+    # boundaries (old bug left these in) must be gone.
+    for dropped in (7, 8, 9, 20, 21, 22, 27, 28, 29, 40, 41, 42):
+        assert dropped not in remaining, f"interior-boundary bar {dropped} not purged"
+
+
+def _leak_oracle_strategy(horizon: int):
+    """Strategy that profits ONLY from label-overlap leakage.
+
+    Mimics a model whose train labels are forward `horizon`-bar returns: any
+    train sample within `horizon` bars before a bar t has a label window
+    covering t. The oracle earns +|r| on bars covered by some train label
+    window (perfect foresight) and 0 elsewhere — so its OOS Sharpe is > 0 IFF
+    the purge failed to remove overlapping train samples (cf. purgedcv's
+    synthetic leak proof: naive KFold shows fake skill, purged shows none).
+    """
+    def fn(data_train: pd.DataFrame, data_full: pd.DataFrame) -> pd.Series:
+        ret = data_full["close"].pct_change().fillna(0.0)
+        train_pos = data_full.index.get_indexer(data_train.index)
+        covered = np.zeros(len(data_full), dtype=bool)
+        for p in train_pos:
+            hi = min(p + horizon, len(data_full) - 1)
+            covered[p:hi + 1] = True
+        return ret.abs().where(pd.Series(covered, index=data_full.index), 0.0)
+    return fn
+
+
+def test_purge_eliminates_label_overlap_leakage():
+    """End-to-end leak proof: an oracle feeding on unpurged label overlap shows
+    fake high OOS Sharpe; with purge_bars >= label horizon the same oracle has
+    exactly zero edge."""
+    data = _trending_walk(n=3600)
+    horizon = 24
+    leaked = cpcv(
+        data, _leak_oracle_strategy(horizon), n_groups=6, k_test=2,
+        purge_bars=0, embargo_bars=0, periods_per_year=24 * 365,
+    )
+    purged = cpcv(
+        data, _leak_oracle_strategy(horizon), n_groups=6, k_test=2,
+        purge_bars=horizon, embargo_bars=0, periods_per_year=24 * 365,
+    )
+    assert len(leaked.folds) > 0 and len(purged.folds) > 0
+    assert leaked.mean_oos_sharpe > 1.0, (
+        f"oracle should show fake skill without purge, got {leaked.mean_oos_sharpe}"
+    )
+    assert purged.mean_oos_sharpe == 0.0, (
+        f"purge_bars >= horizon must leave the oracle zero edge, got {purged.mean_oos_sharpe}"
+    )
+
+
+def test_embargo_does_not_cut_test_samples():
+    """Bug-2 regression: embargo must not truncate the OOS test window
+    (old code dropped the first `embargo_bars` of the merged test set)."""
+    n, n_groups = 2400, 4
+    data = _trending_walk(n=n)
+    res = cpcv(
+        data, _ma_strategy, n_groups=n_groups, k_test=1,
+        purge_bars=0, embargo_bars=100, periods_per_year=24 * 365,
+    )
+    assert len(res.folds) == n_groups, "k_test=1 → one fold per group"
+    group_bars = n // n_groups
+    for f in res.folds:
+        span_hours = (f.test_end - f.test_start).total_seconds() / 3600
+        assert span_hours == group_bars - 1, (
+            f"test window truncated by embargo: span={span_hours}h, "
+            f"expected {group_bars - 1}h"
+        )
 
 
 def test_sharpe_zero_std_returns_zero():
