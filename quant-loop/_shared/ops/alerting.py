@@ -4,6 +4,14 @@ Alert rules are pure functions returning Optional[Alert]; an Alerter fans an
 alert out to any number of sinks (log file, webhook POST). Kept dependency-free
 (stdlib urllib) so it works inside the paper runner without extra packages.
 
+Repeat suppression (P3): a condition that stays true (e.g. a stale heartbeat)
+would otherwise re-fire its rule on every poll and bury the signal in noise.
+``Alerter(repeat_interval_sec=...)`` collapses repeats of the same
+``(rule, key)`` into one page per interval; the dedup key defaults to the
+alert's ``context["process"]`` / ``context["feed"]`` so two different feeds
+or processes never mask each other. Suppressed alerts are counted
+(``Alerter.suppressed``) so the silence is itself observable.
+
 References:
 - Google SRE Book, ch. 10 "Practical Alerting" — alert on symptoms, page only
   on user-facing impact; CRITICAL here means "needs a human now".
@@ -14,13 +22,14 @@ from __future__ import annotations
 import json
 import time
 import urllib.request
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import asdict, dataclass, field
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
-from typing import Any, Mapping, Optional, Protocol, Sequence, Tuple
+from typing import Any, Protocol
 
 
-class AlertLevel(str, Enum):
+class AlertLevel(StrEnum):
     INFO = "INFO"
     WARN = "WARN"
     CRITICAL = "CRITICAL"
@@ -76,14 +85,59 @@ class WebhookSink:
             pass
 
 
+def default_dedup_key(alert: Alert) -> str:
+    """Dedup key for repeat suppression: process/feed identity, else "".
+
+    Alerts from rules that carry a ``process`` (heartbeat) or ``feed``
+    (data gap) in their context suppress per-identity, so a stale
+    ``mm_btc`` heartbeat never masks a stale ``liq_collector`` one.
+    """
+    ctx = alert.context
+    return str(ctx.get("process") or ctx.get("feed") or "")
+
+
 class Alerter:
-    """Dispatches alerts to all sinks; a sink failure never blocks the rest."""
+    """Dispatches alerts to all sinks; a sink failure never blocks the rest.
 
-    def __init__(self, sinks: Sequence[AlertSink] = ()):
-        self.sinks: Tuple[AlertSink, ...] = tuple(sinks)
+    ``repeat_interval_sec`` enables per-(rule, key) cooldown: the same
+    rule firing for the same dedup key within the interval is suppressed
+    (counted in ``suppressed``) instead of re-paged. ``None`` (default)
+    keeps the original fire-every-time behaviour. ``clock`` is injectable
+    for tests.
+    """
+
+    def __init__(
+        self,
+        sinks: Sequence[AlertSink] = (),
+        repeat_interval_sec: float | None = None,
+        key_fn: Callable[[Alert], str] | None = None,
+        clock: Callable[[], float] = time.time,
+    ):
+        self.sinks: tuple[AlertSink, ...] = tuple(sinks)
+        self.repeat_interval_sec = (
+            None if repeat_interval_sec is None else float(repeat_interval_sec)
+        )
+        self.key_fn = key_fn or default_dedup_key
+        self.clock = clock
         self.failures: int = 0
+        self.suppressed: int = 0
+        self._last_fired: dict[tuple[str, str], float] = {}
 
-    def dispatch(self, alert: Alert) -> Alert:
+    def _in_cooldown(self, alert: Alert, now: float) -> bool:
+        if self.repeat_interval_sec is None:
+            return False
+        key = (alert.rule, self.key_fn(alert))
+        last = self._last_fired.get(key)
+        if last is not None and now - last < self.repeat_interval_sec:
+            return True
+        self._last_fired[key] = now
+        return False
+
+    def dispatch(self, alert: Alert) -> Alert | None:
+        """Fan one alert out to all sinks; returns it, or None if suppressed."""
+        if self._in_cooldown(alert, float(self.clock())):
+            self.suppressed += 1
+            return None
         for sink in self.sinks:
             try:
                 sink.emit(alert)
@@ -91,12 +145,11 @@ class Alerter:
                 self.failures += 1
         return alert
 
-    def evaluate(self, *alerts: Optional[Alert]) -> Tuple[Alert, ...]:
+    def evaluate(self, *alerts: Alert | None) -> tuple[Alert, ...]:
         """Dispatch every non-None rule result; returns what was dispatched."""
         fired = tuple(a for a in alerts if a is not None)
-        for a in fired:
-            self.dispatch(a)
-        return fired
+        dispatched = tuple(a for a in (self.dispatch(a) for a in fired) if a is not None)
+        return dispatched
 
 
 # --- Rules (pure) -----------------------------------------------------------
@@ -104,8 +157,8 @@ def check_drawdown(
     peak_equity: float,
     current_equity: float,
     threshold_pct: float,
-    now: Optional[float] = None,
-) -> Optional[Alert]:
+    now: float | None = None,
+) -> Alert | None:
     """CRITICAL if drawdown from peak exceeds threshold_pct (e.g. 10.0 = 10%)."""
     if peak_equity <= 0:
         return None
@@ -129,8 +182,8 @@ def check_drawdown(
 def check_kill_switch(
     kill_triggered: bool,
     reason: str = "",
-    now: Optional[float] = None,
-) -> Optional[Alert]:
+    now: float | None = None,
+) -> Alert | None:
     """CRITICAL whenever the runner's kill switch has latched."""
     if not kill_triggered:
         return None
@@ -148,7 +201,7 @@ def check_data_gap(
     now_ts: float,
     max_gap_sec: float,
     feed: str = "market_data",
-) -> Optional[Alert]:
+) -> Alert | None:
     """CRITICAL if no data has arrived for more than max_gap_sec seconds."""
     gap = float(now_ts) - float(last_data_ts)
     if gap <= max_gap_sec:

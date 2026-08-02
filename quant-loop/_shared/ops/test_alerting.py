@@ -1,5 +1,6 @@
 """Tests for _shared/ops/alerting.py (H5)."""
 import sys
+
 sys.path.insert(0, "/Users/mark/multica/quant-loop")
 
 import json
@@ -7,8 +8,8 @@ import json
 import pytest
 
 from _shared.ops.alerting import (
-    AlertLevel,
     Alerter,
+    AlertLevel,
     LogFileSink,
     WebhookSink,
     check_data_gap,
@@ -101,3 +102,72 @@ def test_sink_failure_does_not_block_other_sinks(tmp_path):
     alerter.dispatch(check_kill_switch(True, "x", now=1.0))
     assert alerter.failures == 1
     assert len((tmp_path / "ok.jsonl").read_text().strip().splitlines()) == 1
+
+
+# --- per-rule cooldown (repeat suppression) -----------------------------------
+class _MemSink:
+    def __init__(self):
+        self.alerts = []
+
+    def emit(self, alert):
+        self.alerts.append(alert)
+
+
+def test_cooldown_suppresses_repeat_within_interval():
+    sink = _MemSink()
+    now = [1000.0]
+    alerter = Alerter([sink], repeat_interval_sec=300.0, clock=lambda: now[0])
+
+    a1 = check_drawdown(10_000, 8_000, threshold_pct=10.0, now=now[0])
+    assert alerter.dispatch(a1) is not None
+    now[0] += 60.0  # same condition re-detected 60s later
+    a2 = check_drawdown(10_000, 8_000, threshold_pct=10.0, now=now[0])
+    assert alerter.dispatch(a2) is None  # suppressed
+    assert alerter.suppressed == 1
+    assert len(sink.alerts) == 1
+
+    now[0] += 301.0  # past the repeat interval -> page again
+    a3 = check_drawdown(10_000, 8_000, threshold_pct=10.0, now=now[0])
+    assert alerter.dispatch(a3) is not None
+    assert len(sink.alerts) == 2
+
+
+def test_cooldown_keys_are_independent_per_identity():
+    sink = _MemSink()
+    alerter = Alerter([sink], repeat_interval_sec=300.0, clock=lambda: 1000.0)
+    assert alerter.dispatch(check_data_gap(0.0, 100.0, 10.0, feed="trades")) is not None
+    # different feed = different (rule, key) -> not suppressed
+    assert alerter.dispatch(check_data_gap(0.0, 100.0, 10.0, feed="funding")) is not None
+    # same feed again -> suppressed
+    assert alerter.dispatch(check_data_gap(0.0, 100.0, 10.0, feed="trades")) is None
+    assert len(sink.alerts) == 2
+
+
+def test_no_cooldown_by_default():
+    sink = _MemSink()
+    alerter = Alerter([sink])
+    for _ in range(3):
+        assert alerter.dispatch(check_kill_switch(True, "x", now=1.0)) is not None
+    assert len(sink.alerts) == 3
+    assert alerter.suppressed == 0
+
+
+def test_heartbeat_spam_collapses_to_one_page_per_interval():
+    """Regression: a stale heartbeat polled in a loop must not flood sinks."""
+    from _shared.ops.heartbeat import HeartbeatStatus, heartbeat_alert
+
+    sink = _MemSink()
+    now = [1000.0]
+    alerter = Alerter([sink], repeat_interval_sec=600.0, clock=lambda: now[0])
+    stale = HeartbeatStatus(
+        alive=False, age_sec=120.0, last_ts=880.0, state="running", timeout_sec=60.0
+    )
+    fired = 0
+    for i in range(20):  # watcher polled every 30s for 10 minutes
+        now[0] = 1000.0 + i * 30.0
+        if alerter.evaluate(heartbeat_alert(stale, process="mm_btc", now=now[0])):
+            fired += 1
+    assert fired == 1
+    assert alerter.suppressed == 19
+    assert len(sink.alerts) == 1
+    assert sink.alerts[0].rule == "heartbeat_timeout"

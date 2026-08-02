@@ -24,13 +24,14 @@ References:
 from __future__ import annotations
 
 import json
+from collections.abc import Mapping, Sequence
 from dataclasses import asdict, dataclass, field
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
-from typing import Any, Dict, Mapping, Optional, Sequence, Tuple
+from typing import Any
 
 
-class TransitionKind(str, Enum):
+class TransitionKind(StrEnum):
     """Auditable state transitions."""
 
     START = "START"                  # process/strategy startup
@@ -39,6 +40,7 @@ class TransitionKind(str, Enum):
     CLOSE = "CLOSE"                  # position closed
     KILL = "KILL"                    # kill switch latched
     SHUTDOWN = "SHUTDOWN"            # graceful stop
+    STATUS = "STATUS"                # operator status probe (remote control)
 
 
 ACTORS = ("auto", "manual")
@@ -75,7 +77,7 @@ class AuditRecord:
         return json.dumps(asdict(self), sort_keys=True, default=str)
 
     @staticmethod
-    def from_dict(d: Mapping[str, Any]) -> "AuditRecord":
+    def from_dict(d: Mapping[str, Any]) -> AuditRecord:
         return AuditRecord(
             ts=float(d["ts"]),
             kind=str(d["kind"]),
@@ -89,7 +91,7 @@ class AuditRecord:
 
 def diff_summary(
     before: Mapping[str, Any], after: Mapping[str, Any]
-) -> Dict[str, Tuple[Any, Any]]:
+) -> dict[str, tuple[Any, Any]]:
     """Key-level delta between two state summaries. Pure.
 
     Returns {key: (old, new)} for keys that were added, removed, or
@@ -97,7 +99,7 @@ def diff_summary(
     reverse. An empty dict means the transition changed nothing visible
     in the summaries.
     """
-    diff: Dict[str, Tuple[Any, Any]] = {}
+    diff: dict[str, tuple[Any, Any]] = {}
     for key in before.keys() | after.keys():
         old = before.get(key)
         new = after.get(key)
@@ -110,7 +112,7 @@ def diff_summary(
     return diff
 
 
-def diff_record(record: AuditRecord) -> Dict[str, Tuple[Any, Any]]:
+def diff_record(record: AuditRecord) -> dict[str, tuple[Any, Any]]:
     """The before->after delta of one record. Pure."""
     return diff_summary(record.before, record.after)
 
@@ -124,7 +126,7 @@ def append_record(path, record: AuditRecord) -> AuditRecord:
     return record
 
 
-def load_trail(path) -> Tuple[AuditRecord, ...]:
+def load_trail(path) -> tuple[AuditRecord, ...]:
     """Load the whole trail; empty tuple if absent. Corrupt lines skipped."""
     path = Path(path)
     if not path.exists():
@@ -142,7 +144,7 @@ def load_trail(path) -> Tuple[AuditRecord, ...]:
     return tuple(records)
 
 
-def tail(records: Sequence[AuditRecord], n: int = 10) -> Tuple[AuditRecord, ...]:
+def tail(records: Sequence[AuditRecord], n: int = 10) -> tuple[AuditRecord, ...]:
     """The newest ``n`` records, oldest-first. Pure."""
     if n < 0:
         raise ValueError("n must be >= 0")
@@ -151,12 +153,12 @@ def tail(records: Sequence[AuditRecord], n: int = 10) -> Tuple[AuditRecord, ...]
 
 def query_trail(
     records: Sequence[AuditRecord],
-    kind: Optional[str] = None,
-    actor: Optional[str] = None,
-    strategy: Optional[str] = None,
-    start_ts: Optional[float] = None,
-    end_ts: Optional[float] = None,
-) -> Tuple[AuditRecord, ...]:
+    kind: str | None = None,
+    actor: str | None = None,
+    strategy: str | None = None,
+    start_ts: float | None = None,
+    end_ts: float | None = None,
+) -> tuple[AuditRecord, ...]:
     """Filter the trail by kind / actor / strategy / time window. Pure."""
     if kind is not None:
         kind = TransitionKind(kind).value

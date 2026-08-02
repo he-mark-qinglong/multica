@@ -1,5 +1,6 @@
 """Tests for _shared/ops/audit_trail.py (H20)."""
 import sys
+
 sys.path.insert(0, "/Users/mark/multica/quant-loop")
 
 import pytest
@@ -22,7 +23,7 @@ def _rec(ts, kind=TransitionKind.START, actor="auto", strategy="mm_btc", **kw):
 
 def test_all_required_transition_kinds_exist():
     names = {k.name for k in TransitionKind}
-    assert names == {"START", "CONFIG_CHANGE", "OPEN", "CLOSE", "KILL", "SHUTDOWN"}
+    assert names == {"START", "CONFIG_CHANGE", "OPEN", "CLOSE", "KILL", "SHUTDOWN", "STATUS"}
 
 
 def test_actor_validation():

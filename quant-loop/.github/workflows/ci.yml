@@ -31,7 +31,24 @@ jobs:
             ${{ runner.os }}-pytest-
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirements.txt ruff
+
+      - name: Ruff check (changed files only)
+        # Gate per docs/lint-baseline.md: pre-existing violations are
+        # digested incrementally; new/changed .py files must be clean.
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
+            BASE="origin/${{ github.base_ref }}"
+          else
+            BASE="HEAD~1"
+          fi
+          CHANGED=$(git diff --name-only --diff-filter=ACMR "$BASE"...HEAD -- '*.py')
+          if [ -z "$CHANGED" ]; then
+            echo "no changed .py files; skipping ruff"
+          else
+            echo "$CHANGED" | xargs ruff check
+          fi
 
       - name: Run tests
         run: python -m pytest _shared/ strategies/ --tb=short -q
