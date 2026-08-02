@@ -22,15 +22,27 @@ _shared/market_making/
 ├── inventory.py             # 库存状态：不可变更新、偏斜系数、强制平仓
 ├── adverse_selection.py     # 逆向选择：fill→penalty、sweep 检测、冷却期、信念更新
 ├── quoting_engine.py        # 报价引擎：动态 spread + 库存偏斜 + tick 对齐
-├── maker_simulator.py       # 回测模拟器：aggTrades 逐 tick 回放 → list[Trade]
-└── tests/                   # 67 个单元测试（全绿）
+├── maker_simulator.py       # 回测模拟器：aggTrades 逐 tick 回放 → list[Trade]（single_position / continuous 双模式，见下）
+└── tests/                   # 单元测试（pytest 全绿）
     ├── test_fair_value.py
     ├── test_reservation_price.py
     ├── test_inventory.py
     ├── test_adverse_selection.py
     ├── test_quoting_engine.py
-    └── test_maker_simulator.py
+    ├── test_maker_simulator.py
+    └── test_maker_simulator_continuous.py
 ```
+
+## 模拟器模式（2026-08-02, SMA-36939）
+
+`MakerSimConfig.mode`：
+
+- `single_position`（默认，legacy）— 单仓位：fill 后停止报价，TP/SL/time 退出后进入下一 round-trip；reservation price 恒见 `inventory_qty=0`。
+- `continuous` — 连续做市：fill 后继续双边报价，库存贯穿全程并输入 `reservation_price`（A-S 库存偏斜激活）；仅当 `inventory.flatten_required` 触发（达限/超时/止损）才 taker 平仓；EOD 强制平仓。减仓侧 fill  capped 在当前库存，残余 dust（<10% 一手）整仓了结，PnL 按 average-cost cash-exact 记账。
+
+`MakerSimConfig.spread_mode = "optimal"` 时以 `optimal_spread.optimal_half_spread`（A-S 闭式半价差）替代启发式 base spread（vol 分量已含在闭式解中，自动置 0 避免重复计）。
+
+已知边界：默认 γ=0.1 时 A-S 库存偏移量在 BTC 价格尺度下远低于 tick（~1e-10 USD vs 0.01 USD），偏斜数学上正确但无实际减仓压力；实战需放大 γ 或依赖达限单边报价。详见 `reports/maker_sim_continuous_vs_single_2026-08-02.md`。
 
 ## 参数调优指南
 

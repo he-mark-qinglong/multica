@@ -5,6 +5,16 @@ fills, managing inventory, applying adverse-selection guards, and emitting
 closed round-trip trades compatible with the existing ``run_backtest.py``
 equity-walk engine and ``gates/enforce.py`` gate system.
 
+Modes (``MakerSimConfig.mode``):
+  - ``single_position`` (legacy default): one open position at a time; a
+    fill stops quoting until TP/SL/time exit closes the round-trip.  The
+    A-S reservation price always sees ``inventory_qty=0``.
+  - ``continuous``: true continuous market making — after a fill the
+    simulator keeps quoting both sides, inventory state persists across
+    the whole run and feeds ``reservation_price`` (A-S skew active), and
+    the position is only force-flattened when
+    ``inventory.flatten_required`` triggers (hard cap / time / stop-loss).
+
 Limitations:
   - No L2 order-book data; fill inference uses the aggTrades tape as a
     proxy (validated by the T10 markout_demo approach).
@@ -14,7 +24,7 @@ Limitations:
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Any
 
 import numpy as np
@@ -36,6 +46,10 @@ from _shared.market_making.inventory import (
     empty_inventory,
     flatten_required,
     update_inventory,
+)
+from _shared.market_making.optimal_spread import (
+    OptimalSpreadParams,
+    optimal_half_spread,
 )
 from _shared.market_making.adverse_selection import (
     AdverseSelectionParams,
@@ -101,6 +115,17 @@ class MakerSimConfig:
     # Cost model
     maker_fee_bp: float = 2.0   # per side
     taker_fee_bp: float = 5.0   # per side (exit)
+
+    # Simulation mode
+    mode: str = "single_position"  # 'single_position' (legacy) | 'continuous'
+
+    # Spread model: 'heuristic' (quoting_engine dynamic) or
+    # 'optimal' (A-S closed-form half-spread from optimal_spread.py)
+    spread_mode: str = "heuristic"
+    kappa: float = 1.5  # order arrival intensity for optimal spread
+
+    # Audit: when True, record every generated quote into metrics["quotes"]
+    record_quotes: bool = False
 
     # Data window
     start_ts: str = "2026-04-19"
@@ -190,6 +215,73 @@ def roundtrip_to_trade(rt: RoundTrip) -> Trade:
 
 
 # ---------------------------------------------------------------------------
+# Continuous-mode helpers
+# ---------------------------------------------------------------------------
+
+def _apply_signed_fill(
+    inventory: InventoryState,
+    signed_qty: float,
+    price: float,
+    ts: pd.Timestamp,
+) -> InventoryState:
+    """Apply a signed fill under average-cost accounting.
+
+    ``update_inventory`` blends ``(old_notional + fill_notional) / new_net``
+    which is correct for opens and same-direction adds, but wrong for
+    reducing fills: a partial close must leave the remainder at the prior
+    cost basis, and a flip must reset the remainder's basis to the fill
+    price.  Both cases are handled here so realized-PnL accounting in the
+    simulator stays cash-exact.
+    """
+    net = inventory.net_qty
+    if net == 0.0 or (net > 0) == (signed_qty > 0):
+        # open or same-direction add: VWAP blend is correct
+        return update_inventory(inventory, signed_qty, price, ts)
+    if abs(signed_qty) < abs(net) - 1e-15:
+        # partial reduce: remainder keeps the prior cost basis
+        inv = update_inventory(inventory, signed_qty, price, ts)
+        return replace(inv, avg_price=inventory.avg_price)
+    if abs(signed_qty) <= abs(net) + 1e-15:
+        # exact close
+        return update_inventory(inventory, signed_qty, price, ts)
+    # flip: close leg then opening leg so the remainder basis = fill price
+    inv = update_inventory(inventory, -net, price, ts)
+    return update_inventory(inv, signed_qty + net, price, ts)
+
+
+def _reducing_roundtrip(
+    inventory_before: InventoryState,
+    exit_price: float,
+    ts: pd.Timestamp,
+    reducing_qty: float,
+    maker_fee_bp: float,
+    exit_fee_bp: float,
+    exit_reason: str,
+) -> RoundTrip:
+    """Build a RoundTrip for the inventory-reducing portion of a fill."""
+    direction = "long" if inventory_before.net_qty > 0 else "short"
+    entry_price = inventory_before.avg_price
+    if direction == "long":
+        pnl_usd = (exit_price - entry_price) * reducing_qty
+    else:
+        pnl_usd = (entry_price - exit_price) * reducing_qty
+    return RoundTrip(
+        entry_ts=inventory_before.open_since or ts,
+        exit_ts=ts,
+        direction=direction,
+        entry_price=entry_price,
+        exit_price=exit_price,
+        qty=reducing_qty,
+        pnl_usd=pnl_usd,
+        pnl_bp=pnl_usd / (entry_price * reducing_qty) * 10_000
+               if entry_price * reducing_qty > 0 else 0.0,
+        maker_fee_bp=maker_fee_bp,
+        taker_fee_bp=exit_fee_bp,
+        exit_reason=exit_reason,
+    )
+
+
+# ---------------------------------------------------------------------------
 # Simulator
 # ---------------------------------------------------------------------------
 
@@ -252,6 +344,13 @@ def simulate_market_making(
     quotes_generated = 0
     quotes_filled = 0
 
+    # continuous-mode stats
+    flatten_count = 0
+    max_abs_inv_qty = 0.0
+    abs_notional_sum = 0.0
+    inv_samples = 0
+    quotes_log: list[dict] = []
+
     recent_trades_buffer: list[dict] = []
     RECENT_TRADES_N = 50
 
@@ -277,6 +376,44 @@ def simulate_market_making(
         while bar_idx < len(bar_timestamps) and bar_timestamps[bar_idx] <= ts:
             bar_idx += 1
         vpvr_bars = bars.iloc[max(0, bar_idx - config.vpvr_bars):bar_idx]
+
+        # --- continuous mode: inventory persists; flatten on risk limits ---
+        if config.mode == "continuous":
+            # Keep the USD→qty cap current with the market price.
+            inventory = replace(
+                inventory,
+                max_inventory=_max_inventory_qty(price, config.max_inventory_usd),
+            )
+            if flatten_required(inventory, price, config.max_hold_seconds,
+                                config.sl_bp, current_ts=ts):
+                if inventory.is_at_limit:
+                    flatten_reason = "limit"
+                elif inventory.open_since is not None and (
+                    ts - inventory.open_since
+                ).total_seconds() >= config.max_hold_seconds:
+                    flatten_reason = "time"
+                else:
+                    flatten_reason = "sl"
+                flatten_qty = abs(inventory.net_qty)
+                round_trips.append(_reducing_roundtrip(
+                    inventory, price, ts, flatten_qty,
+                    maker_fee_bp=config.maker_fee_bp,
+                    exit_fee_bp=config.taker_fee_bp,
+                    exit_reason=f"flatten_{flatten_reason}",
+                ))
+                fills_log.append(FillRecord(
+                    ts=ts, side="sell" if inventory.net_qty > 0 else "buy",
+                    price=price, qty=flatten_qty,
+                    fee_bp=config.taker_fee_bp, is_maker=False,
+                ))
+                inventory = _apply_signed_fill(
+                    inventory, -inventory.net_qty, price, ts,
+                )
+                flatten_count += 1
+
+            max_abs_inv_qty = max(max_abs_inv_qty, abs(inventory.net_qty))
+            abs_notional_sum += abs(inventory.net_qty) * price
+            inv_samples += 1
 
         # --- check exit on open position ---
         if open_direction is not None:
@@ -391,20 +528,43 @@ def simulate_market_making(
         max_inv_qty = _max_inventory_qty(fv.composite, config.max_inventory_usd)
         if max_inv_qty <= 0:
             continue
-        inventory = InventoryState(
-            net_qty=0.0, gross_qty=0.0, avg_price=0.0,
-            notional_usd=0.0, last_fill_ts=None,
-            max_inventory=max_inv_qty,
-        )
+        if config.mode == "continuous":
+            # Inventory persists across ticks; keep the qty cap current.
+            inventory = replace(inventory, max_inventory=max_inv_qty)
+        else:
+            # Legacy one-position model: flat between round-trips.
+            inventory = InventoryState(
+                net_qty=0.0, gross_qty=0.0, avg_price=0.0,
+                notional_usd=0.0, last_fill_ts=None,
+                max_inventory=max_inv_qty,
+            )
 
         # --- reservation price ---
         rp = reservation_price(
             fair_value=fv.composite,
-            inventory_qty=0.0,  # flat between round-trips
+            inventory_qty=inventory.net_qty if config.mode == "continuous" else 0.0,
             sigma=sig,
             time_remaining=config.horizon_seconds,
             gamma=config.gamma,
         )
+
+        # --- spread model ---
+        base_spread_bp = config.base_spread_bp
+        vol_spread_coeff = config.vol_spread_coeff
+        if config.spread_mode == "optimal":
+            # A-S closed-form half-spread; vol already priced in, so the
+            # heuristic vol component is disabled to avoid double-counting.
+            hs_frac = optimal_half_spread(
+                sigma=sig,
+                time_remaining=config.horizon_seconds,
+                params=OptimalSpreadParams(
+                    gamma=config.gamma,
+                    kappa=config.kappa,
+                    horizon_seconds=config.horizon_seconds,
+                ),
+            )
+            base_spread_bp = hs_frac * 10_000.0
+            vol_spread_coeff = 0.0
 
         # --- generate quote ---
         quote = generate_quotes(
@@ -414,11 +574,11 @@ def simulate_market_making(
             adverse_selection_penalty_bp=adv_state.penalty_bp,
             mcls_size_multiplier=1.0,  # MCLS integration at live layer
             params=QuotingParams(
-                base_spread_bp=config.base_spread_bp,
+                base_spread_bp=base_spread_bp,
                 min_spread_ticks=config.spread_estimate_ticks,
                 size_usd=config.size_usd,
                 inventory_skew_factor=config.inventory_skew_factor,
-                vol_spread_coeff=config.vol_spread_coeff,
+                vol_spread_coeff=vol_spread_coeff,
                 tick_size=config.tick_size,
             ),
             timestamp=ts,
@@ -430,6 +590,17 @@ def simulate_market_making(
         quotes_generated += 1
         active_quote = quote
         last_quote_ts = ts
+
+        if config.record_quotes:
+            quotes_log.append({
+                "ts": ts,
+                "fair_value": fv.composite,
+                "inventory_qty": inventory.net_qty,
+                "sigma": sig,
+                "reservation_price": rp,
+                "bid_price": quote.bid_price,
+                "ask_price": quote.ask_price,
+            })
 
         # --- check if this trade would have filled our quote ---
         fill_side = None
@@ -450,16 +621,45 @@ def simulate_market_making(
             # Position size
             fill_qty = config.size_usd / fill_price if fill_price > 0 else 0.0
 
-            # Open position
-            if fill_side == BID_HIT:
-                open_direction = "long"
+            if config.mode == "continuous":
+                # Inventory-aware bookkeeping: signed fill updates the
+                # persistent inventory; the reducing portion realizes PnL.
+                signed_qty = fill_qty if fill_side == BID_HIT else -fill_qty
+                if (
+                    inventory.net_qty != 0.0
+                    and (inventory.net_qty > 0) != (signed_qty > 0)
+                ):
+                    # Reducing side: cap the fill at current inventory.
+                    # If the residual would be dust (<10% of a lot), take
+                    # the whole position — dust leftovers get a meaningless
+                    # blended basis and distort per-trade PnL.
+                    reducing_qty = min(abs(signed_qty), abs(inventory.net_qty))
+                    if ((abs(inventory.net_qty) - reducing_qty) * fill_price
+                            < 0.1 * config.size_usd):
+                        reducing_qty = abs(inventory.net_qty)
+                    signed_qty = (reducing_qty if signed_qty > 0
+                                  else -reducing_qty)
+                    fill_qty = reducing_qty
+                    round_trips.append(_reducing_roundtrip(
+                        inventory, fill_price, ts, reducing_qty,
+                        maker_fee_bp=config.maker_fee_bp,
+                        exit_fee_bp=config.maker_fee_bp,  # maker exit via quote
+                        exit_reason="spread_capture",
+                    ))
+                inventory = _apply_signed_fill(
+                    inventory, signed_qty, fill_price, ts,
+                )
             else:
-                open_direction = "short"
+                # Legacy one-position model: open position, stop quoting.
+                if fill_side == BID_HIT:
+                    open_direction = "long"
+                else:
+                    open_direction = "short"
 
-            open_entry_ts = ts
-            open_entry_price = fill_price
-            open_qty = fill_qty
-            open_maker_fee_bp = config.maker_fee_bp
+                open_entry_ts = ts
+                open_entry_price = fill_price
+                open_qty = fill_qty
+                open_maker_fee_bp = config.maker_fee_bp
 
             fills_log.append(FillRecord(
                 ts=ts,
@@ -501,11 +701,36 @@ def simulate_market_making(
             exit_reason="eod",
         ))
 
+    # --- continuous mode: force-flatten any residual inventory at EOD ---
+    if config.mode == "continuous" and not inventory.is_flat and n_trades_in > 0:
+        last_price = float(trades_df.iloc[-1]["price"])
+        last_ts = trades_df.iloc[-1]["ts"]
+        round_trips.append(_reducing_roundtrip(
+            inventory, last_price, last_ts, abs(inventory.net_qty),
+            maker_fee_bp=config.maker_fee_bp,
+            exit_fee_bp=config.taker_fee_bp,
+            exit_reason="eod",
+        ))
+        inventory = _apply_signed_fill(
+            inventory, -inventory.net_qty, last_price, last_ts,
+        )
+
     elapsed = time.time() - t0
 
     # --- compute metrics ---
     metrics = _compute_metrics(round_trips, fills_log, quotes_generated,
                                quotes_filled, n_trades_in, elapsed, config)
+    metrics["mode"] = config.mode
+    metrics["spread_mode"] = config.spread_mode
+    if config.mode == "continuous":
+        metrics.update({
+            "flatten_count": flatten_count,
+            "max_abs_inventory_qty": max_abs_inv_qty,
+            "avg_abs_inventory_usd": abs_notional_sum / max(1, inv_samples),
+            "realized_pnl_usd": float(sum(rt.pnl_usd for rt in round_trips)),
+        })
+    if config.record_quotes:
+        metrics["quotes"] = quotes_log
     trades = [roundtrip_to_trade(rt) for rt in round_trips]
 
     return trades, metrics
