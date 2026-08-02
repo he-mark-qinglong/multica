@@ -21,6 +21,7 @@ from typing import Sequence
 
 import numpy as np
 import pandas as pd
+from scipy.optimize import minimize
 
 
 # ---------------------------------------------------------------------------
@@ -116,27 +117,147 @@ class ERCResult:
     n_assets: int
 
 
+def _normalise_budget(
+    budget: dict[str, float] | Sequence[float] | None,
+    assets: list[str],
+) -> np.ndarray:
+    """Validate and normalise a risk-budget vector to sum 1.
+
+    None -> equal budget 1/n (Equal Risk Contribution).
+    Raises ValueError on wrong length, unknown keys, negative entries,
+    or a zero-sum budget.
+    """
+    n = len(assets)
+    if budget is None:
+        return np.full(n, 1.0 / n)
+    if isinstance(budget, dict):
+        missing = [a for a in assets if a not in budget]
+        if missing:
+            raise ValueError(f"budget missing assets {missing}")
+        b = np.array([float(budget[a]) for a in assets])
+    else:
+        b = np.asarray(list(budget), dtype=float)
+        if b.shape != (n,):
+            raise ValueError(f"budget length {b.size} != n_assets {n}")
+    if np.any(b < 0) or not np.all(np.isfinite(b)):
+        raise ValueError("budget entries must be finite and non-negative")
+    total = float(b.sum())
+    if total <= 0:
+        raise ValueError("budget must have positive total mass")
+    return b / total
+
+
+def _solve_risk_budget(cov: np.ndarray, b: np.ndarray) -> np.ndarray:
+    """Exact risk-budgeting solution via SLSQP (Roncalli formulation).
+
+    Minimises  Σ_i (RC_i(w)/Σ_j RC_j(w) − b_i)²  with  RC_i = w_i·(Σw)_i
+    subject to 1ᵀw = 1, w ≥ 0.  Seeded from inverse-volatility weights.
+
+    With a PSD covariance and b > 0 the objective's unique global
+    minimiser on the simplex is the risk-budgeting portfolio (same point
+    as the normalised solution of the convex log-barrier problem
+    min ½ xᵀΣx − Σ_i b_i ln x_i); SLSQP with an analytic gradient and
+    tight ftol recovers it to machine precision.
+    """
+    n = cov.shape[0]
+
+    def objective(w: np.ndarray) -> float:
+        mrc = cov @ w
+        total = w @ mrc
+        if total <= 0.0:
+            return 1e6
+        frac = (w * mrc) / total
+        diff = frac - b
+        return float(diff @ diff)
+
+    def gradient(w: np.ndarray) -> np.ndarray:
+        # f = Σ_i e_i²,  e_i = rc_i/T − b_i,  rc = w ⊙ (Σw),  T = wᵀΣw
+        # ∂rc_i/∂w_j = δ_ij (Σw)_i + w_i Σ_ij,   ∂T/∂w_j = 2 (Σw)_j
+        mrc = cov @ w
+        total = w @ mrc
+        rc = w * mrc
+        e = rc / total - b
+        return 2.0 * (
+            e * mrc / total
+            + cov @ (e * w) / total
+            - 2.0 * mrc * (e @ rc) / total**2
+        )
+
+    def _slsqp(w0: np.ndarray) -> tuple[np.ndarray, float]:
+        res = minimize(
+            objective,
+            w0,
+            jac=gradient,
+            method="SLSQP",
+            bounds=[(1e-12, 1.0)] * n,
+            constraints=[{"type": "eq", "fun": lambda w: np.sum(w) - 1.0}],
+            options={"ftol": 1e-15, "maxiter": 500},
+        )
+        return res.x, objective(res.x)
+
+    # Seed: inverse-volatility weights
+    vols = np.sqrt(np.maximum(np.diag(cov), 1e-20))
+    w_invvol = (1.0 / vols) / np.sum(1.0 / vols)
+
+    # The squared-mismatch objective is not convex — SLSQP can stick on a
+    # spurious boundary KKT point from a single seed.  Multi-start from a
+    # small deterministic seed set and keep the best objective value.
+    seeds = [w_invvol, np.full(n, 1.0 / n), np.maximum(b, 1e-12) / b.sum()]
+    best_w, best_obj = None, np.inf
+    for w0 in seeds:
+        w_try, obj_try = _slsqp(w0)
+        if obj_try < best_obj:
+            best_obj, best_w = obj_try, w_try
+
+    # Rare stubborn cases: recover via the equivalent convex log-barrier
+    # problem (min ½ xᵀΣx − Σ_i b_i ln x_i, unique minimiser for PD Σ and
+    # b > 0; its normalised solution IS the risk-budgeting portfolio) and
+    # polish with SLSQP.  Keeps SLSQP on the Roncalli objective as the
+    # primary and final solver while guaranteeing exactness.
+    if best_obj > 1e-10:
+        def lb_obj(x: np.ndarray) -> float:
+            return 0.5 * x @ cov @ x - float(b @ np.log(x))
+
+        def lb_grad(x: np.ndarray) -> np.ndarray:
+            return cov @ x - b / x
+
+        res = minimize(
+            lb_obj, np.full(n, 1.0 / n), jac=lb_grad, method="L-BFGS-B",
+            bounds=[(1e-10, None)] * n,
+            options={"ftol": 1e-18, "gtol": 1e-14, "maxiter": 1000},
+        )
+        w0 = res.x / res.x.sum()
+        w_try, obj_try = _slsqp(w0)
+        if obj_try < best_obj:
+            best_obj, best_w = obj_try, w_try
+
+    w = np.maximum(best_w, 0.0)
+    return w / np.sum(w)
+
+
 def erc_weights(
     cov_matrix: pd.DataFrame,
     max_iter: int = 1000,
     tol: float = 1e-8,
+    budget: dict[str, float] | Sequence[float] | None = None,
 ) -> ERCResult:
-    """Compute Equal Risk Contribution weights.
+    """Compute Equal Risk Contribution (or general risk-budgeting) weights.
 
-    Iteratively adjusts weights so that each asset contributes equally
-    to total portfolio volatility.
+    Exact SLSQP solution of Roncalli's risk-budgeting objective:
 
-    Uses a simple fixed-point iteration on the inverse-volatility seed,
-    then refines via Newton steps on the risk-contribution mismatch.
+        min_w  Σ_i (RC_i(w)/Σ_j RC_j(w) − b_i)²
+        s.t.   1ᵀw = 1,  w ≥ 0,   RC_i = w_i·(Σw)_i
 
     Parameters
     ----------
     cov_matrix : pd.DataFrame
         Symmetric covariance matrix of asset returns.
-    max_iter : int
-        Maximum iterations.
-    tol : float
-        Convergence tolerance on weight change.
+    max_iter, tol : kept for backward compatibility (the old damped
+        fixed-point iteration used them); accepted but unused — the
+        SLSQP solve has its own tight tolerances.
+    budget : dict or sequence, optional
+        Target risk-budget fractions b_i (normalised to sum 1).
+        None (default) -> equal budget 1/n, i.e. classic ERC.
 
     Returns
     -------
@@ -150,35 +271,10 @@ def erc_weights(
     if n == 1:
         return ERCResult({assets[0]: 1.0}, {assets[0]: 1.0}, 0.0, 1)
 
+    b = _normalise_budget(budget, assets)
     cov = cov_matrix.values.astype(float)
 
-    # Seed: inverse-volatility weights
-    vols = np.sqrt(np.diag(cov))
-    vols = np.maximum(vols, 1e-10)
-    w = (1.0 / vols) / np.sum(1.0 / vols)
-
-    for _ in range(max_iter):
-        # Marginal risk contributions: MRC_i = (Σw)_i
-        mrc = cov @ w
-        port_vol = np.sqrt(max(w @ mrc, 1e-20))
-
-        # Risk contributions: RC_i = w_i * MRC_i
-        rc = w * mrc
-        rc_frac = rc / np.sum(rc)
-
-        # Target: all equal = 1/n
-        # Gradient: adjust w proportional to (target - rc_frac)
-        gradient = (1.0 / n) - rc_frac
-        step = 0.5 * gradient  # damping factor
-
-        w_new = w + step
-        w_new = np.maximum(w_new, 1e-10)
-        w_new = w_new / np.sum(w_new)  # renormalise to sum=1
-
-        if np.max(np.abs(w_new - w)) < tol:
-            w = w_new
-            break
-        w = w_new
+    w = _solve_risk_budget(cov, b)
 
     # Final risk contributions
     mrc = cov @ w

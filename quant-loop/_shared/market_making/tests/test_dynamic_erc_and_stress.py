@@ -169,3 +169,146 @@ def test_corr_breakdown_amplifies_var():
     assert result_multi.var_after_bp > result_single.var_after_bp
     expected_ratio = (result_multi.var_after_bp / result_single.var_after_bp)
     assert 2.0 < expected_ratio < 2.3  # ≈ √4.6
+
+
+# ---- Ledoit-Wolf covariance shrinkage (SMA-36941) ----
+
+from _shared.market_making.dynamic_erc import ledoit_wolf_cov
+from _shared.market_making.portfolio_risk import erc_weights
+
+
+def test_lw_delta_bounds_and_symmetry():
+    rng = np.random.default_rng(1)
+    window = pd.DataFrame(rng.normal(0, 0.01, (50, 4)), columns=list("ABCD"))
+    cov, delta = ledoit_wolf_cov(window)
+    assert 0.0 <= delta <= 1.0
+    assert np.allclose(cov.values, cov.values.T)
+
+
+def test_lw_pd_when_sample_cov_singular():
+    """T < p → sample cov singular; shrunk cov must be positive definite."""
+    rng = np.random.default_rng(2)
+    p, t_obs = 6, 4
+    window = pd.DataFrame(
+        rng.normal(0, 0.01, (t_obs, p)), columns=[f"s{i}" for i in range(p)])
+    raw = window.cov().values
+    assert np.min(np.linalg.eigvalsh(raw)) < 1e-10  # singular sample cov
+    cov, delta = ledoit_wolf_cov(window)
+    assert delta > 0.0
+    assert np.min(np.linalg.eigvalsh(cov.values)) > 0.0  # PD after shrinkage
+
+
+def test_lw_closer_to_identity_than_raw():
+    """Identity true cov, small window: shrunk cov closer to m·I than raw."""
+    rng = np.random.default_rng(3)
+    p = 8
+    window = pd.DataFrame(
+        rng.normal(0, 1.0, (30, p)), columns=[f"s{i}" for i in range(p)])
+    cov, delta = ledoit_wolf_cov(window)
+    m = np.trace(cov.values) / p
+    target = m * np.eye(p)
+    raw = window.values - window.values.mean(axis=0)
+    s = raw.T @ raw / len(raw)
+    err_shrunk = np.linalg.norm(cov.values - target)
+    err_raw = np.linalg.norm(s - target)
+    assert err_shrunk < err_raw
+
+
+def test_lw_delta_shrinks_with_more_obs():
+    """δ must decrease as the observation count grows (true Σ ≠ m·I).
+
+    Uses heterogeneous true variances: d² → ‖Σ − mI‖²_F > 0 while
+    b̄² = O(1/T), so δ → 0 with more data.  (For a true scaled-identity
+    Σ the optimal δ is 1 at any T, so that case does not apply here.)
+    """
+    rng = np.random.default_rng(4)
+    p = 5
+    scales = np.array([1.0, 1.5, 2.0, 3.0, 4.0])
+    deltas = []
+    for t_obs in (20, 200, 2000):
+        window = pd.DataFrame(
+            rng.normal(0, 1.0, (t_obs, p)) * scales,
+            columns=[f"s{i}" for i in range(p)])
+        _, delta = ledoit_wolf_cov(window)
+        deltas.append(delta)
+    assert deltas[0] > deltas[1] > deltas[2]
+    assert deltas[2] < 0.1  # large T → little shrinkage
+
+
+def test_lw_constant_data_zero_delta():
+    window = pd.DataFrame(np.ones((30, 3)) * 0.01, columns=list("ABC"))
+    cov, delta = ledoit_wolf_cov(window)
+    assert delta == 0.0
+    assert np.allclose(cov.values, 0.0)
+
+
+def test_lw_reduces_erc_weight_noise():
+    """Acceptance: ERC weights from LW-shrunk cov are less dispersed than
+    from raw cov across many small rolling windows drawn from one true cov."""
+    rng = np.random.default_rng(5)
+    p, t_obs, n_draws = 5, 30, 60
+    # fixed true covariance
+    a = rng.normal(size=(p, p))
+    true_cov = a @ a.T + np.eye(p)
+    chol = np.linalg.cholesky(true_cov)
+
+    raw_weights, lw_weights = [], []
+    for _ in range(n_draws):
+        draws = rng.normal(size=(t_obs, p)) @ chol.T
+        window = pd.DataFrame(draws, columns=[f"s{i}" for i in range(p)])
+        w_raw = erc_weights(window.cov()).weights
+        cov_lw, _ = ledoit_wolf_cov(window)
+        w_lw = erc_weights(cov_lw).weights
+        raw_weights.append([w_raw[c] for c in window.columns])
+        lw_weights.append([w_lw[c] for c in window.columns])
+
+    # dispersion = mean over assets of the std of weights across draws
+    disp_raw = float(np.std(np.array(raw_weights), axis=0).mean())
+    disp_lw = float(np.std(np.array(lw_weights), axis=0).mean())
+    print(f"\nweight dispersion raw={disp_raw:.5f} lw={disp_lw:.5f} "
+          f"ratio={disp_lw / disp_raw:.3f}")
+    assert disp_lw < disp_raw
+
+
+# ---- DynamicERC wiring ----
+
+def test_dynamic_erc_none_mode_matches_raw_cov():
+    """cov_shrinkage='none' reproduces the old raw-covariance behaviour."""
+    params = DynamicERCParams(
+        min_lookback=50, lookback=150, rebalance_freq=1, cov_shrinkage="none")
+    derc = DynamicERC(params)
+    rets = _make_returns(100)
+    result = derc.update(rets)
+    expected = erc_weights(rets.tail(150).cov()).weights
+    for k in result.raw_weights:
+        assert result.raw_weights[k] == pytest.approx(expected[k], abs=1e-12)
+
+
+def test_dynamic_erc_auto_uses_lw_on_small_windows():
+    """auto: window 100 obs < 10*3 assets? No (100 >= 30) → raw.
+    Force small window: min_lookback=25, lookback=25, 3 assets → 25 < 30 → LW."""
+    rets = _make_returns(60)
+    # small window → LW active (25 < 30)
+    params = DynamicERCParams(
+        min_lookback=25, lookback=25, rebalance_freq=1, cov_shrinkage="auto")
+    derc = DynamicERC(params)
+    result = derc.update(rets)
+    cov_lw, delta = ledoit_wolf_cov(rets.tail(25))
+    expected = erc_weights(cov_lw).weights
+    assert delta > 0.0
+    for k in result.raw_weights:
+        assert result.raw_weights[k] == pytest.approx(expected[k], abs=1e-9)
+
+    # large window → raw cov
+    params2 = DynamicERCParams(
+        min_lookback=50, lookback=150, rebalance_freq=1, cov_shrinkage="auto")
+    derc2 = DynamicERC(params2)
+    result2 = derc2.update(_make_returns(100))
+    expected2 = erc_weights(_make_returns(100).tail(150).cov()).weights
+    for k in result2.raw_weights:
+        assert result2.raw_weights[k] == pytest.approx(expected2[k], abs=1e-9)
+
+
+def test_dynamic_erc_invalid_shrinkage_mode_raises():
+    with pytest.raises(ValueError, match="cov_shrinkage"):
+        DynamicERCParams(cov_shrinkage="bogus")
