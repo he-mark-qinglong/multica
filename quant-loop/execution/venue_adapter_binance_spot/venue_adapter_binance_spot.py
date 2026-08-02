@@ -1494,6 +1494,140 @@ class BinanceSpotAdapter:
 
 
 # ---------------------------------------------------------------------------
+# Cancel / amend wire builders
+# ---------------------------------------------------------------------------
+
+#: Binance spot cancel endpoint.
+SPOT_CANCEL_PATH = "/api/v3/order"
+
+
+def build_spot_cancel_wire(
+    request: Mapping[str, Any],
+) -> Dict[str, Any]:
+    """Build Binance ``DELETE /api/v3/order`` cancel wire params.
+
+    Accepts a runner cancel request and returns::
+
+        {"symbol": "BTCUSDT", "origClientOrderId": "my-coid"}
+
+    Pure: no I/O, no signing.
+    """
+    coid = _coerce_str(
+        request.get("origClientOrderId")
+        or request.get("client_order_id")
+        or request.get("clientOrderId"),
+    )
+    symbol = _coerce_str(request.get("symbol"))
+    if not coid:
+        raise ValueError(
+            "build_spot_cancel_wire: client_order_id is required"
+        )
+    if not symbol:
+        raise ValueError(
+            "build_spot_cancel_wire: symbol is required"
+        )
+    wire: Dict[str, Any] = {
+        "symbol": symbol,
+        "origClientOrderId": coid,
+    }
+    order_id = request.get("orderId")
+    if order_id is not None:
+        wire["orderId"] = order_id
+    return wire
+
+
+def classify_spot_cancel_ack(
+    ack: Mapping[str, Any],
+) -> Tuple[BinanceSpotStatus, Optional[str], Optional[str]]:
+    """Classify a Binance spot ``DELETE /api/v3/order`` ack.
+
+    Success: ``status: "CANCELED"``.  Error: ``{"code": ..., "msg": ...}``.
+
+    Returns ``(status, reject_reason, error_code)``.
+    """
+    raw_status = str(ack.get("status") or "").strip().upper()
+    raw_code = ack.get("code")
+    error_code = str(raw_code) if raw_code is not None else None
+
+    if raw_status == "CANCELED":
+        return (BinanceSpotStatus.CANCELED, None, error_code)
+
+    if raw_code is not None:
+        try:
+            code_int = int(raw_code)
+        except (TypeError, ValueError):
+            code_int = None
+        reason_map = {
+            -2011: "UNKNOWN_ORDER",
+            -1003: "RATE_LIMITED",
+            -1021: "TIMESTAMP_OUTSIDE_RECVWINDOW",
+            -1022: "INVALID_SIGNATURE",
+        }
+        reason = (
+            reason_map.get(code_int, "OTHER")
+            if code_int is not None
+            else "OTHER"
+        )
+        return (BinanceSpotStatus.REJECTED, reason, error_code)
+
+    if raw_status:
+        try:
+            status = BinanceSpotStatus.from_raw(raw_status)
+        except ValueError:
+            status = BinanceSpotStatus.REJECTED
+        return (status, "OTHER", error_code)
+
+    return (BinanceSpotStatus.REJECTED, "OTHER", error_code)
+
+
+def build_spot_amend_wire(
+    request: Mapping[str, Any],
+) -> Dict[str, Any]:
+    """Build the amend wire for Binance spot.
+
+    Binance spot has no native amend endpoint; cancel-then-resubmit
+    is the standard pattern.  This produces the **new-order wire**
+    that the transport sends after cancelling the original.
+    """
+    coid = _coerce_str(
+        request.get("origClientOrderId")
+        or request.get("client_order_id")
+        or request.get("clientOrderId"),
+    )
+    symbol = _coerce_str(request.get("symbol"))
+    new_price = _coerce_float(request.get("price"))
+    new_qty = _coerce_float(request.get("qty"))
+
+    if not coid:
+        raise ValueError(
+            "build_spot_amend_wire: client_order_id is required"
+        )
+    if not symbol:
+        raise ValueError(
+            "build_spot_amend_wire: symbol is required"
+        )
+    if new_price is None and new_qty is None:
+        raise ValueError(
+            "build_spot_amend_wire: at least one of price / qty required"
+        )
+
+    wire: Dict[str, Any] = {
+        "symbol": symbol,
+        "side": _coerce_str(request.get("side")) or "BUY",
+        "type": _coerce_str(request.get("order_type")) or "LIMIT",
+        "newOrderRespType": "RESULT",
+    }
+    if new_price is not None:
+        wire["price"] = new_price
+    if new_qty is not None:
+        wire["quantity"] = new_qty
+    wire["newClientOrderId"] = coid
+    if wire["type"] == "LIMIT":
+        wire["timeInForce"] = _coerce_str(request.get("time_in_force")) or "GTC"
+    return wire
+
+
+# ---------------------------------------------------------------------------
 # Outbound transports (wire + paper)
 # ---------------------------------------------------------------------------
 
@@ -1705,6 +1839,7 @@ __all__ = [
     "DEFAULT_VENUE",
     "OutboundBinanceSpotTransport",
     "SCHEMA_SQL",
+    "SPOT_CANCEL_PATH",
     "SPOT_ORDER_PATH",
     "SPOT_REST_BASE",
     "T_ACK_OK",
@@ -1714,8 +1849,11 @@ __all__ = [
     "T_INTENT_TAGGED",
     "T_VALIDATION_FAILED",
     "bootstrap_journal",
+    "build_spot_amend_wire",
+    "build_spot_cancel_wire",
     "build_spot_order_wire",
     "classify_binance_spot_rest_ack",
+    "classify_spot_cancel_ack",
     "policy_fingerprint",
     "sign_binance_spot_request",
     "validate_spot_intent",

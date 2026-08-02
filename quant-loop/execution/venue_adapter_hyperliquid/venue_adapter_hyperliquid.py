@@ -1863,6 +1863,233 @@ class HyperliquidAdapter:
 
 
 # ---------------------------------------------------------------------------
+# Cancel / amend wire builders
+# ---------------------------------------------------------------------------
+
+#: Hyperliquid cancel uses the same /exchange endpoint.
+HL_CANCEL_PATH = "/exchange"
+
+
+def build_hl_cancel_action(
+    request: Mapping[str, Any],
+    *,
+    asset_index: Optional[Dict[str, int]] = None,
+) -> Dict[str, Any]:
+    """Build a Hyperliquid ``cancel`` action payload.
+
+    HL cancel targets the venue order id (``oid``) by asset index.
+    The runner's cancel request carries ``client_order_id`` /
+    ``cloid``; we emit a cancel-by-cloid action when the runner
+    supplies a cloid, otherwise fall back to cancel-by-oid when the
+    request carries ``venue_order_id`` / ``orderId``.
+
+    Action shape (cancel-by-cloid)::
+
+        {"type": "cancel", "cancels": [{"a": <asset>, "cloid": "0x..."}]}
+
+    Action shape (cancel-by-oid)::
+
+        {"type": "cancel", "cancels": [{"a": <asset>, "o": <oid>}]}
+
+    Pure: no signing (signing wraps the action via
+    :func:`sign_action` in the transport).
+    """
+    coid = _coerce_str(
+        request.get("origClientOrderId")
+        or request.get("client_order_id")
+        or request.get("clientOrderId"),
+    )
+    explicit_cloid = _coerce_str(request.get("cloid"))
+    oid = _coerce_str(
+        request.get("venue_order_id")
+        or request.get("orderId"),
+    )
+    coin = _coerce_str(request.get("symbol") or request.get("coin"))
+
+    # Prefer oid when explicitly supplied (more precise than a derived
+    # cloid).  Derive cloid from client_order_id only when no oid and
+    # no explicit cloid are available.
+    if explicit_cloid:
+        cloid = explicit_cloid
+    elif oid is not None:
+        cloid = None
+    elif coid:
+        cloid = derive_cloid(coid)
+    else:
+        cloid = None
+
+    asset = _coerce_int(request.get("asset"))
+    if asset is None:
+        index = asset_index or {}
+        if coin and coin in index:
+            asset = int(index[coin])
+        else:
+            raise ValueError(
+                "build_hl_cancel_action: cannot resolve asset index "
+                f"for coin {coin!r}"
+            )
+
+    cancel_entry: Dict[str, Any] = {"a": int(asset)}
+    if cloid and is_valid_cloid(cloid.lower()):
+        cancel_entry["cloid"] = normalize_cloid(cloid)
+    elif oid is not None:
+        cancel_entry["o"] = oid
+    else:
+        raise ValueError(
+            "build_hl_cancel_action: must supply cloid or venue_order_id"
+        )
+
+    return {
+        "type": "cancel",
+        "cancels": [cancel_entry],
+    }
+
+
+def classify_hl_cancel_response(
+    response: Mapping[str, Any],
+) -> Tuple[HyperliquidStatus, Optional[str], Optional[str]]:
+    """Classify a Hyperliquid cancel ``/exchange`` response.
+
+    Cancel success shape::
+
+        {"status": "ok", "response": {"type": "cancel", "data": {"statuses": [...]}}}
+
+    Each per-cancel status is ``"success"`` or ``{"error": "..."}``.
+
+    Returns ``(status, reject_reason, error_code)``.
+    """
+    envelope_status = str(response.get("status") or "").strip().lower()
+    if envelope_status == "err":
+        msg = _coerce_str(response.get("response")) or ""
+        return (
+            HyperliquidStatus.REJECTED,
+            _classify_error_string(msg),
+            msg[:128] or None,
+        )
+
+    inner = response.get("response")
+    if not isinstance(inner, Mapping):
+        return (
+            HyperliquidStatus.REJECTED,
+            OTHER,
+            "malformed_envelope",
+        )
+    data = inner.get("data")
+    statuses = data.get("statuses") if isinstance(data, Mapping) else None
+    if not isinstance(statuses, (list, tuple)) or not statuses:
+        return (
+            HyperliquidStatus.REJECTED,
+            OTHER,
+            "missing_statuses",
+        )
+    first = statuses[0]
+    # HL cancel statuses can be plain strings ("success") or dicts
+    # ({"error": "..."}).  Handle both.
+    if isinstance(first, str):
+        first_lower = first.strip().lower()
+        if first_lower == "success":
+            return (HyperliquidStatus.CANCELED, None, None)
+        # Unknown string — treat as error.
+        return (
+            HyperliquidStatus.REJECTED,
+            OTHER,
+            first[:128] or None,
+        )
+    if not isinstance(first, Mapping):
+        return (
+            HyperliquidStatus.REJECTED,
+            OTHER,
+            "malformed_status",
+        )
+    if "error" in first:
+        msg = _coerce_str(first.get("error")) or ""
+        return (
+            HyperliquidStatus.REJECTED,
+            _classify_error_string(msg),
+            msg[:128] or None,
+        )
+    # "success" or any non-error status → CANCELED.
+    return (HyperliquidStatus.CANCELED, None, None)
+
+
+def build_hl_amend_action(
+    request: Mapping[str, Any],
+    *,
+    asset_index: Optional[Dict[str, int]] = None,
+) -> Dict[str, Any]:
+    """Build a Hyperliquid amend action.
+
+    HL supports a native ``modify`` action that atomically updates
+    an order's price/size.  When the venue supplies ``oid``, we
+    emit a modify-by-oid; otherwise we fall back to cancel-by-cloid
+    + new order (the caller / transport handles the two legs).
+
+    Modify action shape::
+
+        {"type": "updateLeverage", ...}  -- NOT this
+
+    The actual modify is ``{"type": "order", "orders": [...], "grouping":
+    "na"}`` with the **same cloid** — HL treats resubmitting a cloid
+    that is already resting as an amend (atomic cancel+replace).
+    So ``build_hl_amend_action`` produces an ``order`` action with
+    the updated price/size and the same cloid.
+    """
+    coid = _coerce_str(
+        request.get("origClientOrderId")
+        or request.get("client_order_id")
+        or request.get("clientOrderId"),
+    )
+    cloid = _coerce_str(request.get("cloid"))
+    new_price = _coerce_float(request.get("price"))
+    new_qty = _coerce_float(request.get("qty"))
+    coin = _coerce_str(request.get("symbol") or request.get("coin"))
+    is_buy = _coerce_str(request.get("side"))
+    reduce_only = _coerce_bool(request.get("reduce_only"))
+
+    if not coid:
+        raise ValueError(
+            "build_hl_amend_action: client_order_id is required"
+        )
+    if new_price is None and new_qty is None:
+        raise ValueError(
+            "build_hl_amend_action: at least one of price / qty required"
+        )
+    if cloid is None:
+        cloid = derive_cloid(coid)
+    else:
+        cloid = normalize_cloid(cloid)
+
+    asset = _coerce_int(request.get("asset"))
+    if asset is None:
+        index = asset_index or {}
+        if coin and coin in index:
+            asset = int(index[coin])
+        else:
+            raise ValueError(
+                "build_hl_amend_action: cannot resolve asset index "
+                f"for coin {coin!r}"
+            )
+
+    limit_px = new_price if new_price is not None else 0.0
+    sz = new_qty if new_qty is not None else 0.0
+    if limit_px <= 0.0 or sz <= 0.0:
+        raise ValueError(
+            "build_hl_amend_action: price and qty must be positive"
+        )
+
+    order = build_order_wire_order(
+        asset=asset,
+        is_buy=(is_buy.upper() != "SELL") if is_buy else True,
+        limit_px=limit_px,
+        sz=sz,
+        reduce_only=reduce_only,
+        tif=_coerce_str(request.get("time_in_force")) or "Gtc",
+        cloid=cloid,
+    )
+    return build_order_action([order])
+
+
+# ---------------------------------------------------------------------------
 # Paper transport (mock /exchange responder — no network)
 # ---------------------------------------------------------------------------
 
@@ -1962,6 +2189,7 @@ HyperliquidPaperTransportFillModel = HyperliquidPaperTransport.FillModel
 __all__ = [
     "DEFAULT_HYPERLIQUID_ADAPTER_POLICY",
     "DEFAULT_VENUE",
+    "HL_CANCEL_PATH",
     "HL_EXCHANGE_PATH",
     "HL_REST_MAINNET",
     "HL_REST_TESTNET",
@@ -1992,9 +2220,12 @@ __all__ = [
     "T_WS_UPDATE",
     "bootstrap_journal",
     "build_eip712_signable",
+    "build_hl_amend_action",
+    "build_hl_cancel_action",
     "build_order_action",
     "build_order_wire_order",
     "classify_exchange_response",
+    "classify_hl_cancel_response",
     "derive_cloid",
     "is_valid_cloid",
     "map_order_update_status",

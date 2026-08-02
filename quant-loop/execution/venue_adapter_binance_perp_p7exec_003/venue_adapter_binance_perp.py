@@ -2470,6 +2470,149 @@ class BinancePerpPaperTransport:
 
 
 # ---------------------------------------------------------------------------
+# Cancel / amend wire builders
+# ---------------------------------------------------------------------------
+
+#: Binance USDT-M cancel endpoint.
+PERP_CANCEL_PATH = "/fapi/v1/order"
+
+
+def build_perp_cancel_wire(
+    request: Mapping[str, Any],
+) -> Dict[str, Any]:
+    """Build Binance ``DELETE /fapi/v1/order`` cancel wire params.
+
+    Accepts a runner cancel request (``action="cancel"``,
+    ``client_order_id`` / ``origClientOrderId``, ``symbol``) and
+    returns the venue's wire param dict::
+
+        {"symbol": "BTCUSDT", "origClientOrderId": "my-coid"}
+
+    Pure: no I/O, no signing — signing is the transport's job (the
+    transport calls :func:`sign_binance_perp_request` on the output).
+    """
+    coid = _coerce_str(
+        request.get("origClientOrderId")
+        or request.get("client_order_id")
+        or request.get("clientOrderId"),
+    )
+    symbol = _coerce_str(request.get("symbol"))
+    if not coid:
+        raise ValueError(
+            "build_perp_cancel_wire: client_order_id is required"
+        )
+    if not symbol:
+        raise ValueError(
+            "build_perp_cancel_wire: symbol is required"
+        )
+    wire: Dict[str, Any] = {
+        "symbol": symbol,
+        "origClientOrderId": coid,
+    }
+    # Accept optional orderId override.
+    order_id = request.get("orderId")
+    if order_id is not None:
+        wire["orderId"] = order_id
+    return wire
+
+
+def classify_perp_cancel_ack(
+    ack: Mapping[str, Any],
+) -> Tuple[BinancePerpStatus, Optional[str], Optional[str]]:
+    """Classify a Binance perp ``DELETE /fapi/v1/order`` ack.
+
+    Success shape carries ``status: "CANCELED"``.  Error shape is
+    ``{"code": <int>, "msg": "..."}``.
+
+    Returns ``(status, reject_reason, error_code)``.
+    """
+    raw_status = str(ack.get("status") or "").strip().upper()
+    raw_code = ack.get("code")
+    error_code = str(raw_code) if raw_code is not None else None
+
+    if raw_status == "CANCELED":
+        return (BinancePerpStatus.CANCELED, None, error_code)
+
+    if raw_code is not None:
+        # Reuse the same code-to-reason mapping as order acks.
+        try:
+            code_int = int(raw_code)
+        except (TypeError, ValueError):
+            code_int = None
+        reason_map = {
+            -2011: "UNKNOWN_ORDER",
+            -1003: "RATE_LIMITED",
+            -1021: "TIMESTAMP_OUTSIDE_RECVWINDOW",
+            -1022: "INVALID_SIGNATURE",
+        }
+        reason = reason_map.get(code_int, "OTHER") if code_int is not None else "OTHER"
+        return (BinancePerpStatus.REJECTED, reason, error_code)
+
+    if raw_status:
+        # Unexpected non-CANCELED status.
+        try:
+            status = BinancePerpStatus.from_raw(raw_status)
+        except ValueError:
+            status = BinancePerpStatus.REJECTED
+        return (status, "OTHER", error_code)
+
+    return (BinancePerpStatus.REJECTED, "OTHER", error_code)
+
+
+def build_perp_amend_wire(
+    request: Mapping[str, Any],
+) -> Dict[str, Any]:
+    """Build the amend wire for Binance perp.
+
+    Binance USDT-M has no native amend endpoint; the standard
+    pattern is cancel-then-resubmit.  This function produces the
+    **new-order wire** that the transport sends after cancelling the
+    original order.  The caller (transport) is responsible for the
+    cancel leg.
+
+    Returns the new-order wire params (same shape as a new order
+    request, minus the signature).
+    """
+    coid = _coerce_str(
+        request.get("origClientOrderId")
+        or request.get("client_order_id")
+        or request.get("clientOrderId"),
+    )
+    symbol = _coerce_str(request.get("symbol"))
+    new_price = _coerce_float(request.get("price"))
+    new_qty = _coerce_float(request.get("qty"))
+
+    if not coid:
+        raise ValueError(
+            "build_perp_amend_wire: client_order_id is required"
+        )
+    if not symbol:
+        raise ValueError(
+            "build_perp_amend_wire: symbol is required"
+        )
+    if new_price is None and new_qty is None:
+        raise ValueError(
+            "build_perp_amend_wire: at least one of price / qty required"
+        )
+
+    wire: Dict[str, Any] = {
+        "symbol": symbol,
+        "side": _coerce_str(request.get("side")) or "BUY",
+        "type": _coerce_str(request.get("order_type")) or "LIMIT",
+        "timeInForce": _coerce_str(request.get("time_in_force")) or "GTC",
+        "newOrderRespType": "RESULT",
+    }
+    if new_price is not None:
+        wire["price"] = new_price
+    if new_qty is not None:
+        wire["quantity"] = new_qty
+    # The amended order reuses the same clientOrderId so downstream
+    # analytics can chain the lifecycle.
+    wire["newClientOrderId"] = coid
+    return wire
+
+
+# ---------------------------------------------------------------------------
 # WSS consumer (file-mode + injectable for tests)
 # ---------------------------------------------------------------------------
 
@@ -2632,17 +2775,18 @@ __all__ = [
     "BinancePerpAdapterPolicy",
     "BinancePerpAckSource",
     "BinancePerpIntent",
+    "BinancePerpPaperTransport",
+    "BinancePerpPaperTransportFillModel",
     "BinancePerpSnapshot",
     "BinancePerpState",
     "BinancePerpStatus",
     "BinancePerpWssConsumer",
     "BinancePerpWssSnapshot",
     "BinancePerpWssState",
-    "BinancePerpPaperTransport",
-    "BinancePerpPaperTransportFillModel",
     "DEFAULT_BINANCE_PERP_ADAPTER_POLICY",
     "DEFAULT_VENUE",
     "OutboundBinancePerpTransport",
+    "PERP_CANCEL_PATH",
     "SCHEMA_SQL",
     "T_ACK_OK",
     "T_ACK_PARTIAL",
@@ -2661,7 +2805,10 @@ __all__ = [
     "T_WSS_HALTED",
     "T_WSS_RECONNECTING",
     "bootstrap_journal",
+    "build_perp_amend_wire",
+    "build_perp_cancel_wire",
     "classify_binance_perp_rest_ack",
+    "classify_perp_cancel_ack",
     "parse_wss_userdata_message",
     "policy_fingerprint",
     "register_with_runner",

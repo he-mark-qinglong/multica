@@ -400,6 +400,225 @@ class ExecutionRunner:
             payload=ack,
         )
 
+        self._dispatch_fill_hooks(req, ack, observations, ts_ns)
+
+        ack["observations"] = observations
+        return ack
+
+    # -- cancel / amend -------------------------------------------------------
+
+    def cancel_order(
+        self,
+        client_order_id: str,
+        *,
+        symbol: Optional[str] = None,
+        venue: Optional[str] = None,
+        extra: Optional[Mapping[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """Cancel one open order by ``client_order_id``.
+
+        Dispatches a cancel request (``action="cancel"``) through the
+        transport, journals the intent + terminal ack, and fires
+        ``on_fill`` hooks so downstream analytics see the cancellation.
+
+        Pre-trade ``on_request`` components are NOT consulted (cancel
+        reduces risk; gating it would be a bug).
+
+        Returns the transport ack dict (``status="CANCELED"`` on
+        success) with merged ``"observations"``.
+        """
+        req: Dict[str, Any] = {
+            "action": "cancel",
+            "client_order_id": str(client_order_id),
+            "clientOrderId": str(client_order_id),
+            "origClientOrderId": str(client_order_id),
+        }
+        if symbol is not None:
+            req["symbol"] = symbol
+        if venue is not None:
+            req["venue"] = venue
+        if extra:
+            req.update(dict(extra))
+
+        ts_ns = time.time_ns()
+        observations: Dict[str, Any] = {}
+
+        self._journal.record(
+            ts_ns=ts_ns,
+            client_order_id=str(client_order_id),
+            event_type="cancel",
+            symbol=req.get("symbol"),
+            venue=req.get("venue"),
+            payload=req,
+        )
+
+        try:
+            ack = dict(self._transport.send(req))
+        except Exception as exc:
+            ack = {
+                "ok": False,
+                "status": "ERROR",
+                "clientOrderId": str(client_order_id),
+                "error": f"{type(exc).__name__}: {exc}",
+            }
+
+        event_type = classify_terminal_event(ack)
+        self._journal.record(
+            ts_ns=ts_ns,
+            client_order_id=_client_order_id(req, ack),
+            event_type=event_type,
+            symbol=ack.get("symbol") or req.get("symbol"),
+            side=ack.get("side") or req.get("side"),
+            qty=terminal_qty(ack, req),
+            price=terminal_price(ack, req),
+            venue=ack.get("venue") or req.get("venue"),
+            payload=ack,
+        )
+
+        self._dispatch_fill_hooks(req, ack, observations, ts_ns)
+
+        ack["observations"] = observations
+        return ack
+
+    def amend_order(
+        self,
+        client_order_id: str,
+        new_price: Optional[float] = None,
+        new_qty: Optional[float] = None,
+        *,
+        symbol: Optional[str] = None,
+        venue: Optional[str] = None,
+        extra: Optional[Mapping[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """Amend an open order's price and/or quantity.
+
+        Dispatches an amend request (``action="amend"``) through the
+        transport.  Venues without a native amend endpoint implement
+        this as cancel-and-resubmit in the transport / adapter layer;
+        the runner treats it identically to any other outbound action.
+
+        At least one of ``new_price`` / ``new_qty`` must be provided.
+
+        Pre-trade ``on_request`` components ARE consulted for amend
+        because the resubmitted leg can add risk (a price improvement
+        may cross the spread and fill as taker).  A block prevents the
+        transport call and journals a terminal ``reject`` row.
+
+        Returns the transport ack dict with merged ``"observations"``.
+        """
+        if new_price is None and new_qty is None:
+            raise ValueError(
+                "amend_order: at least one of new_price / new_qty "
+                "must be provided"
+            )
+        req: Dict[str, Any] = {
+            "action": "amend",
+            "client_order_id": str(client_order_id),
+            "clientOrderId": str(client_order_id),
+            "origClientOrderId": str(client_order_id),
+        }
+        if new_price is not None:
+            req["price"] = float(new_price)
+        if new_qty is not None:
+            req["qty"] = float(new_qty)
+        if symbol is not None:
+            req["symbol"] = symbol
+        if venue is not None:
+            req["venue"] = venue
+        if extra:
+            req.update(dict(extra))
+
+        ts_ns = time.time_ns()
+        observations: Dict[str, Any] = {}
+        blocks: List[BlockReason] = []
+
+        self._journal.record(
+            ts_ns=ts_ns,
+            client_order_id=str(client_order_id),
+            event_type="amend",
+            symbol=req.get("symbol"),
+            qty=_coerce_float(req.get("qty")),
+            price=_coerce_float(req.get("price")),
+            venue=req.get("venue"),
+            payload=req,
+        )
+
+        for _name, component in self._components:
+            hook = getattr(component, "on_request", None)
+            if hook is None:
+                continue
+            result = hook(req, self._journal, ts_ns)
+            if result is None:
+                continue
+            if result.observation:
+                observations.update(result.observation)
+            if result.block is not None:
+                blocks.append(result.block)
+
+        if blocks:
+            ack: Dict[str, Any] = {
+                "ok": False,
+                "status": "BLOCKED",
+                "clientOrderId": str(client_order_id),
+                "blocked": True,
+                "blocks": [
+                    {
+                        "component": b.component,
+                        "reason": b.reason,
+                        "severity": b.severity,
+                    }
+                    for b in blocks
+                ],
+            }
+            self._journal.record(
+                ts_ns=ts_ns,
+                client_order_id=str(client_order_id),
+                event_type="reject",
+                symbol=req.get("symbol"),
+                venue=req.get("venue"),
+                payload=ack["blocks"],
+            )
+            ack["observations"] = observations
+            return ack
+
+        try:
+            ack = dict(self._transport.send(req))
+        except Exception as exc:
+            ack = {
+                "ok": False,
+                "status": "ERROR",
+                "clientOrderId": str(client_order_id),
+                "error": f"{type(exc).__name__}: {exc}",
+            }
+
+        event_type = classify_terminal_event(ack)
+        self._journal.record(
+            ts_ns=ts_ns,
+            client_order_id=_client_order_id(req, ack),
+            event_type=event_type,
+            symbol=ack.get("symbol") or req.get("symbol"),
+            side=ack.get("side") or req.get("side"),
+            qty=terminal_qty(ack, req),
+            price=terminal_price(ack, req),
+            venue=ack.get("venue") or req.get("venue"),
+            payload=ack,
+        )
+
+        self._dispatch_fill_hooks(req, ack, observations, ts_ns)
+
+        ack["observations"] = observations
+        return ack
+
+    # -- shared helpers -------------------------------------------------------
+
+    def _dispatch_fill_hooks(
+        self,
+        req: Mapping[str, Any],
+        ack: Dict[str, Any],
+        observations: Dict[str, Any],
+        ts_ns: int,
+    ) -> None:
+        """Fire every registered ``on_fill`` hook and merge observations."""
         for _name, component in self._fill_components:
             hook = getattr(component, "on_fill", None)
             if hook is None:
@@ -409,6 +628,3 @@ class ExecutionRunner:
                 continue
             if result.observation:
                 observations.update(result.observation)
-
-        ack["observations"] = observations
-        return ack
