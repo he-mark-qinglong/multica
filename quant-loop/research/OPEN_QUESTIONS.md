@@ -101,6 +101,12 @@
 - **Next**: collect each strategy's OOS PnL series, compute correlation matrix, identify common factors.
 - **Links**: portfolio-risk skill, all other threads.
 
+### V01 — CPCV harness correctness (validation infra, not a strategy thread)
+- **Status**: FIXED 2026-08-02 (SMA-36935, depth-review P0-1) — per-segment purge + AFML-correct embargo shipped on branch `agent/quant-researcher/sma-36661`; leak-oracle regression proves purge_bars≥h leaves zero fake edge (16/16 test_cpcv green).
+- **Open question (standing)**: which historical near-gate OOS verdicts flip under the fixed harness? The old bugs biased OOS Sharpe UP, so all KILLs only get stronger — but any PASS / WITHIN_TOLERANCE within ~±0.3 Sharpe of a gate inherited unknown positive bias and must be re-run before being used as ship evidence.
+- **Rule going forward**: no strategy sign-off on CPCV numbers produced before this fix; near-gate candidates re-run CPCV under the fixed harness first.
+- **Links**: SMA-36935 + JOURNAL 2026-08-02 entry + T09 (SMA-35167, largest CPCV-sweep consumer) + `_shared/validation/cpcv.py`.
+
 ## Strategic Decision 2026-07-24 (quant-loop cleanup + HF pivot, main session)
 
 - **Workspace restructured per PLAN_20260724_hf_strategy_optimization.md**. 123 strategy directories audited; 52 dead variants moved to `strategies/_graveyard/` with KILL_SUMMARY.md per family; 34 ghost directories deleted; paper_trading archived. Active strategies reduced to ~15.

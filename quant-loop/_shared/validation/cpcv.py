@@ -3,8 +3,11 @@
 Replaces the leaking oos_walk_forward.py. Per López de Prado AFML Ch.7:
 - Split data into N groups
 - Pick K groups as test, N-K as train, for all C(N,K) combinations ("paths")
-- Purge bars within `purge_bars` of train/test boundary
-- Embargo: skip `embargo_bars` after each test window
+- Purge train bars within `purge_bars` of EVERY train/test boundary
+  (each contiguous test segment, not just the global test min/max)
+- Embargo: drop train bars within `embargo_bars` AFTER each test window
+  (AFML Ch.7: post-test train rows are serially correlated with the test
+  period; the test set itself is never truncated)
 
 Per-fold refit (parameter fitting happens on train only), evaluate on test,
 aggregate across all paths to get OOS Sharpe distribution.
@@ -64,28 +67,58 @@ class CPCVResult:
         return (float(np.percentile(boot_means, 2.5)), float(np.percentile(boot_means, 97.5)))
 
 
+def _test_segments(test_idx: np.ndarray) -> list[tuple[int, int]]:
+    """Split test positions into contiguous (start, end) segments (inclusive)."""
+    if len(test_idx) == 0:
+        return []
+    s = np.sort(test_idx)
+    breaks = np.where(np.diff(s) > 1)[0]
+    starts = np.concatenate(([0], breaks + 1))
+    ends = np.concatenate((breaks, [len(s) - 1]))
+    return [(int(s[i]), int(s[j])) for i, j in zip(starts, ends)]
+
+
 def _purge_boundaries(
     train_idx: np.ndarray, test_idx: np.ndarray, purge_bars: int
 ) -> tuple[np.ndarray, np.ndarray]:
-    """Drop train bars within `purge_bars` of any test boundary."""
-    if purge_bars <= 0:
+    """Drop train bars within `purge_bars` of EVERY test segment boundary.
+
+    AFML Ch.7 purge: a train sample whose label horizon overlaps the test
+    window leaks, so train bars within `purge_bars` of each contiguous test
+    segment must be dropped (both sides — a superset of the t1-horizon rule).
+
+    The previous implementation purged only around the global min/max of the
+    merged test set; with k_test >= 2 and non-contiguous test groups, the
+    interior train/test boundaries were never purged → systematic leakage.
+    """
+    if purge_bars <= 0 or len(train_idx) == 0 or len(test_idx) == 0:
         return train_idx, test_idx
-    test_min, test_max = test_idx.min(), test_idx.max()
     mask = np.ones(len(train_idx), dtype=bool)
-    for ti in [test_min, test_max]:
-        # drop train bars within purge_bars of test boundary
-        for offset in range(-purge_bars, purge_bars + 1):
-            mask &= (train_idx != (ti + offset))
+    for seg_start, seg_end in _test_segments(test_idx):
+        mask &= ~((train_idx >= seg_start - purge_bars)
+                  & (train_idx <= seg_end + purge_bars))
     return train_idx[mask], test_idx
 
 
-def _embargo(test_idx: np.ndarray, embargo_bars: int) -> np.ndarray:
-    """Drop the first `embargo_bars` of test (post-train leakage buffer)."""
-    if embargo_bars <= 0:
-        return test_idx
-    # sort test, drop earliest embargo_bars
-    s = np.sort(test_idx)
-    return s[embargo_bars:]
+def _embargo(
+    train_idx: np.ndarray, test_idx: np.ndarray, embargo_bars: int
+) -> np.ndarray:
+    """Drop train bars within `embargo_bars` AFTER each test segment.
+
+    AFML Ch.7 embargo: train samples immediately following the test window
+    are serially correlated with the test period and must be excluded from
+    training. The TEST set is never touched.
+
+    The previous implementation dropped the head of the test set instead,
+    which neither blocked the leakage (post-test train rows remained) and
+    destroyed OOS samples for nothing.
+    """
+    if embargo_bars <= 0 or len(train_idx) == 0 or len(test_idx) == 0:
+        return train_idx
+    mask = np.ones(len(train_idx), dtype=bool)
+    for _, seg_end in _test_segments(test_idx):
+        mask &= ~((train_idx > seg_end) & (train_idx <= seg_end + embargo_bars))
+    return train_idx[mask]
 
 
 def sharpe_from_returns(returns: np.ndarray, periods_per_year: int = 365) -> float:
@@ -193,8 +226,8 @@ def cpcv(
                      (the harness will slice test bars + apply purge/embargo)
         n_groups: number of contiguous groups (N in CPCV notation)
         k_test: number of groups to hold out as test (K in CPCV notation)
-        purge_bars: bars to drop around train/test boundary
-        embargo_bars: post-train buffer to drop from test
+        purge_bars: bars around each train/test boundary to drop from train
+        embargo_bars: post-test train bars to drop (test set is never cut)
 
     Returns:
         CPCVResult with one FoldResult per path
@@ -214,12 +247,12 @@ def cpcv(
         train_pos = np.searchsorted(data.index.values, np.sort(train_idx))
 
         train_pos_p, test_pos_p = _purge_boundaries(train_pos, test_pos, purge_bars)
-        test_pos_e = _embargo(test_pos_p, embargo_bars)
+        train_pos_e = _embargo(train_pos_p, test_pos_p, embargo_bars)
 
         # Map back to timestamps
         all_idx = data.index.values
-        train_ts = all_idx[train_pos_p]
-        test_ts = all_idx[test_pos_e]
+        train_ts = all_idx[train_pos_e]
+        test_ts = all_idx[test_pos_p]
 
         if len(train_ts) < 100 or len(test_ts) < 30:
             continue  # too small to be meaningful
