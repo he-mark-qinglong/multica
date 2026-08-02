@@ -1,0 +1,22 @@
+# Files excluded from the Docker build context to keep image lean.
+.git
+.github
+.pytest_cache
+.ruff_cache
+.coverage
+**/__pycache__
+**/*.pyc
+**/.DS_Store
+docs/
+reports/
+results/
+research/
+backtests/
+analysis/
+_CAMPAIGN_MINDMAP/
+funding_analysis/
+*.md
+*.json
+!pyproject.toml
+.env
+.env.*

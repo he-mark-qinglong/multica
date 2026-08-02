@@ -1,0 +1,69 @@
+# Pre-commit hooks for quant-loop (J-channel).
+#
+# Install:  pip install pre-commit && pre-commit install
+# Run all:  pre-commit run --all-files
+#
+# Hooks:
+#   1. ruff       — lint + format (matches CI ruff config in pyproject.toml)
+#   2. mypy       — static type checking (gradual; per-file opt-in)
+#   3. detect-secrets — block API keys, tokens, private keys from commits
+#   4. standard hooks — trailing whitespace, EOF, large files, merge conflicts
+#   5. check-yaml/json — valid syntax for config files
+#
+# The lint baseline (docs/lint-baseline.md) records pre-existing violations;
+# pre-commit only enforces on staged (changed) files, matching CI policy.
+
+repos:
+  # --- Ruff: lint + format (matches pyproject.toml [tool.ruff]) ---
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.22
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+        files: ^( _shared|strategies|execution )/.*\.py$
+      - id: ruff-format
+        files: ^( _shared|strategies|execution )/.*\.py$
+
+  # --- Type checking (gradual adoption; only checks files with annotations) ---
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.15.0
+    hooks:
+      - id: mypy
+        files: ^_shared/.*\.py$
+        args: [--ignore-missing-imports, --no-strict-optional, --allow-untyped-defs]
+        additional_dependencies:
+          - numpy
+          - pandas
+          - scipy
+          - pyarrow
+
+  # --- Secret scanning (blocks credentials from entering the repo) ---
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: [--baseline, .secrets.baseline]
+        exclude: package.lock.json
+
+  # --- Standard hygiene hooks ---
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+      - id: check-json
+      - id: check-added-large-files
+        args: [--maxkb=500]
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: debug-statements
+      - id: requirements-txt-fixer
+
+  # --- Python-specific checks ---
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.20.0
+    hooks:
+      - id: pyupgrade
+        args: [--py312-plus]

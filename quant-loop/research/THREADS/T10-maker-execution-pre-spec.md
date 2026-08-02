@@ -59,3 +59,7 @@ After se_h3 KILL (SMA-36570), the SMA stat-arb family's structural cost-of-livin
 - Did NOT tune any param to get favorable numbers — measurement is unbiased
 - Did NOT recommend opening T10 SPEC without confirming regime-stratified measurement first
 - Did NOT claim "T10 done" — this is pre-SPEC, NOT a verdict
+## Addendum 2026-08-02 (SMA-36939 — infra follow-on, thread remains closed)
+- `maker_simulator` upgraded to true continuous market making (`mode="continuous"`): persistent inventory feeds A-S `reservation_price`, `flatten_required` drives exits; optional A-S closed-form optimal spread. 197 tests green; branch `agent/quant-researcher/sma-36939` pushed to fork. Report: `reports/maker_sim_continuous_vs_single_2026-08-02.md`.
+- **New finding affecting revival condition (a)**: default γ=0.1 makes the A-S inventory shift sub-tick (and sub-ULP) at BTC scale — inventory skew is mathematically wired but physically inert; positions build to cap and exit via taker flatten (24/40 exits in 2h BTC run). Any future pilot must first solve the γ-calibration question (filed as OPEN_QUESTIONS T10.1).
+- Thread status unchanged (closed 2026-07-26, no pilot). This addendum is infra-readiness, not a revival.

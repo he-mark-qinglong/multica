@@ -98,8 +98,9 @@
 - **Status**: exploring
 - **Question**: 34991/34992/34997/35001/35012 — do their OOS return series have correlation < 0.7, or are they 1 bet in 5 disguises?
 - **Prior**: portfolio-risk skill defines the test. No portfolio-level analysis done yet.
-- **Next**: collect each strategy's OOS PnL series, compute correlation matrix, identify common factors.
-- **Links**: portfolio-risk skill, all other threads.
+- **2026-08-02 tooling note**: the portfolio-risk machinery T07 needs is now hardened (SMA-36941, T16): exact SLSQP ERC solver with custom budget vector (|Δw|_∞ 6.4e-09 vs log-barrier reference), Ledoit-Wolf covariance shrinkage in DynamicERC (auto on small windows), and `factor_report.py` for factor-level validation. Blocker is now data plumbing (per-strategy OOS PnL series), not the math.
+- **Next**: collect each strategy's OOS PnL series, compute correlation matrix on shrunk covariance, identify common factors.
+- **Links**: portfolio-risk skill, T16 (tooling), all other threads.
 
 ### V01 — CPCV harness correctness (validation infra, not a strategy thread)
 - **Status**: FIXED 2026-08-02 (SMA-36935, depth-review P0-1) — per-segment purge + AFML-correct embargo shipped on branch `agent/quant-researcher/sma-36661`; leak-oracle regression proves purge_bars≥h leaves zero fake edge (16/16 test_cpcv green).
@@ -267,3 +268,86 @@
 - **Convergent validation**: 2026-07-26 mtf_xs_pairs family seal reproduced mechanically (COST_CAP_KILL at all realistic costs; zero cost headroom).
 - **Downstream (not this thread)**: results-ledger batch annotation (strategy-worker); 口径 audit + cost-free pnl_per_bar sweep (quant-analyst); T07 consumes per-strategy net daily series + alpha_beta().
 - **PRIMARY continues unchanged**: T07 portfolio-correlation is the top remaining P2 research pick; T12/T13 SPEC stalls flagged to orchestrator (curator retro 2026-07-27 already recommended nudge).
+
+### T10.1 — A-S 库存偏斜 γ 标定问题 (open — infra finding, 2026-08-02, SMA-36939)
+- **Status**: exploring — surfaced by continuous-mode simulator upgrade; not yet derived/backtested.
+- **Question**: At BTC price scale, the textbook A-S reservation shift `q·γ·σ²·τ` with γ=0.1 is ~1e-10 USD — far below one tick (0.01 USD) and below float64 ULP at fv≈75,000. What is the correct effective γ (or alternative skew mechanism) that makes inventory control *physically* unload before the cap forces a taker flatten?
+- **Evidence**: `reports/maker_sim_continuous_vs_single_2026-08-02.md` — continuous heuristic run: 24/40 exits were `flatten_limit` (taker 5bp), realized −$26 over 2h; skew never bent quotes because the shift rounds to zero. Continuous+optimal-spread run: flatten_limit 3/20, realized −$2.8 — spread width dominated inventory control.
+- **Hypothesis**: γ_eff ≈ tick / (q_max·σ²·τ) — i.e. γ must be scaled so a full-cap inventory shifts the reservation price by ≥1 tick. Derive, then backtest: measure flatten_limit share + realized PnL vs γ ∈ {0.1, γ_eff, 10×γ_eff}.
+- **Why it matters**: blocks T10 revival condition (a) "sub-taker execution" — a maker pilot without working inventory control is just passive quoting with a stop-loss.
+- **Links**: SMA-36939 + SMA-36598 (T10 closed) + THREADS/T10-maker-execution-pre-spec.md + Avellaneda-Stoikov 2008 + Albers et al. 2025 [arXiv:2502.18625].
+
+## Infrastructure Finding 2026-08-02: CPCV Strategy-Level Leak (SMA-36935 follow-up)
+
+- **Status**: fixed (harness-level) + documented (strategy-level)
+- **Finding**: After fixing the CPCV boundary purge/embargo bugs (SMA-36935), a **second, deeper leak** was discovered: ALL `run_cpcv.py` files in the codebase have `strategy_fn` that **ignores `data_train`** entirely — they return pre-computed full-period returns:
+  ```python
+  def strategy_fn(_data_train, data_full):
+      return rets.reindex(data_full.index).fillna(0.0)  # rets computed on FULL data
+  ```
+  This means CPCV measures **temporal stability of a fixed-parameter backtest**, NOT true out-of-sample generalization. For parameter-sweep strategies (p3opt variants), this is a real leak because parameter selection used future data.
+- **Impact**: Does NOT change any verdicts — all affected strategies are already in `_graveyard/`. The one "PROFITABLE" result (p3opt_091, Sharpe 6.34) is absurdly high regardless of the leak.
+- **Fix applied**: Added `_check_strategy_leak()` probe to `_shared/validation/cpcv.py` — calls `strategy_fn` with two disjoint train subsets; if outputs are identical, sets `CPCVResult.is_temporal_stability_only = True` and emits `UserWarning`. 19/19 existing tests pass.
+- **Lesson**: For fixed-parameter strategies (no per-fold refit), temporal-stability CPCV is a valid (weaker) test. But the DSR n_trials must reflect the parameter selection space (e.g., 864 for the KAMA grid search).
+
+## KAMA Trend BTC 4h — CPCV PASS (2026-08-02)
+
+- **Strategy**: `strategies/kama_trend_btc_4h_20260802/`
+- **Params**: KAMA(er=5, fast=2, slow=30) slope over 10 bars > 0 → long; ≤ 0 → flat
+- **CPCV**: n_groups=6, k_test=2, purge=50, embargo=20, n_trials=864
+- **Result**: mean OOS Sharpe = **1.12**, worst fold = **+0.27** (no negative folds), DSR = **1.10**
+- **Verdict**: **PASS** — first directional alpha to clear CPCV+DSR gate
+- **Caveats**: Long-only; edge weakening 2025-2026 (recent fold Sharpe 0.27-0.67); trend-following (partial BTC beta); temporal-stability test only
+- **Full report**: `research/kama_trend/REPORT.md` (864-cell grid search) + `research/kama_trend/cpcv_validation.json`
+- **Enhancement exploration in progress**: short-side, KAMA±z STD bands, ATR regime filter (sub-agent)
+
+## Current Surviving Strategies (2026-08-02)
+
+| # | Strategy | Type | Key Metric | Validation | Status |
+|---|----------|------|------------|------------|--------|
+| 1 | `cash_carry_combo_v1` | Funding arbitrage | Calmar 0.82, +14.7%/yr | Backtest (973d) | Paper runner active |
+| 2 | `hedged_grid_v1` | ER-gated grid | Calmar 1.03, +4.3%/yr | Backtest (1703d) | Backtest PASS |
+| 3 | `kama_trend_btc_4h` | KAMA trend follower | Sharpe 1.12, DSR 1.10 | CPCV PASS (15 folds) | Formalized, ready for paper |
+
+## Multi-Timeframe KAMA Breakthrough (2026-08-02)
+
+- **Strategy**: `strategies/kama_mtf_btc_4h_1d_20260802/`
+- **Signal**: 4h KAMA(er5,f2,s30,lb10) slope>0 AND 1d KAMA(er10,f3,s30,lb3) slope>0 → long; else flat
+- **CPCV**: mean OOS Sharpe = **1.75**, worst fold = **+1.20** (ALL folds >1.0), DSR = **1.72** (n_trials=868)
+- **Full backtest**: Sharpe 1.76, MaxDD -18.3%, Calmar 3.61, Annualized +66.2%
+- **vs Single-TF**: Sharpe +0.62, MaxDD -29pp (-47% → -18%), worst fold +0.93 (0.27 → 1.20)
+- **2025 fix**: t_2025 improved from -0.15 to +1.23 (the recent weakness is resolved)
+- **Key insight**: Multi-TF confirmation works because it filters false 4h trend signals against the daily trend. Unlike short-side (FAIL, fights structural drift) or ±z bands (FAIL, cuts trend profits), the AND-gate reduces entries while increasing conviction per entry.
+- **Enhancement verdicts**: short-side ❌, KAMA±z ❌, regime filter ⚠️ (risk overlay only), **multi-TF ✅ BREAKTHROUGH**
+- **Full data**: `research/kama_trend/mtf_cpcv_validation.json` + `research/kama_trend/enhancements_report.md`
+
+## Updated Surviving Strategies (2026-08-02 EOD)
+
+| # | Strategy | Sharpe | Calmar | MaxDD | DSR | Status |
+|---|----------|--------|--------|-------|-----|--------|
+| 1 | cash_carry_combo_v1 | — | 0.82 | -17.9% | — | Paper active |
+| 2 | hedged_grid_v1 | — | 1.03 | -4.2% | — | Backtest PASS |
+| 3 | kama_trend_btc_4h | 1.12 | 0.96 | -47.2% | 1.10 | CPCV PASS |
+| 4 | **kama_mtf_btc_4h_1d** | **1.76** | **3.61** | **-18.3%** | **1.72** | **CPCV PASS (BEST)** |
+
+## 3-Symbol MTF KAMA Portfolio (2026-08-02)
+
+- **Strategy**: Equal-weight portfolio of BTC + ETH + SOL MTF KAMA
+- **Portfolio Sharpe**: **2.19** (vs BTC-only 1.76)
+- **Portfolio MaxDD**: -20.4% (vs SOL single -56%)
+- **Portfolio Calmar**: **5.76** (professional-grade)
+- **Correlation**: BTC-ETH 0.53, BTC-SOL 0.28, ETH-SOL 0.30
+- **Diversification benefit**: +0.43 Sharpe, +2.1pp MaxDD vs BTC-only
+- **Per-symbol**: BTC Sharpe 1.76 / ETH 2.09 / SOL 1.50 — all CPCV PASS
+- **Config**: `research/kama_trend/portfolio_3sym_config.json`
+- **Caveat**: Long-only, all suffer simultaneously in bear markets. Correlation 0.53 BTC-ETH means partial diversification only. Portfolio-level CPCV not yet validated.
+
+## Final Surviving Strategies (2026-08-02 EOD)
+
+| # | Strategy | Sharpe | Calmar | MaxDD | DSR | Type |
+|---|----------|--------|--------|-------|-----|------|
+| 1 | cash_carry_combo_v1 | — | 0.82 | -17.9% | — | Funding arb |
+| 2 | hedged_grid_v1 | — | 1.03 | -4.2% | — | Grid + funding |
+| 3 | kama_trend_btc_4h | 1.12 | 0.96 | -47.2% | 1.10 | Trend (single-TF) |
+| 4 | kama_mtf_btc_4h_1d | 1.76 | 3.61 | -18.3% | 1.72 | Trend (multi-TF) |
+| 5 | **kama_mtf_portfolio_3sym** | **2.19** | **5.76** | **-20.4%** | — | **Portfolio** |

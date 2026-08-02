@@ -1,0 +1,41 @@
+{
+  "strategy": "kama_mtf_btc_4h_1d",
+  "params_4h": {
+    "er_window": 5,
+    "fast": 2,
+    "slow": 30,
+    "slope_lookback": 10
+  },
+  "params_1d": {
+    "er_window": 10,
+    "fast": 3,
+    "slow": 30,
+    "slope_lookback": 3
+  },
+  "signal_logic": "4h_KAMA_slope>0 AND 1d_KAMA_slope>0 \u2192 long; else flat",
+  "cpcv": {
+    "n_groups": 6,
+    "k_test": 2,
+    "purge_bars": 50,
+    "embargo_bars": 20,
+    "n_paths": 15,
+    "folds_complete": 15,
+    "mean_oos_sharpe": 1.7476,
+    "std_oos_sharpe": 0.3083,
+    "ci95": [
+      1.5935,
+      1.885
+    ],
+    "worst_fold": 1.1979,
+    "best_fold": 2.2402,
+    "deflated_sharpe": 1.7184,
+    "n_trials": 868
+  },
+  "full_backtest": {
+    "sharpe": 1.76,
+    "max_dd": -0.183,
+    "calmar": 3.044,
+    "t_2024_2026": 2.92
+  },
+  "gate_verdict": "PASS"
+}

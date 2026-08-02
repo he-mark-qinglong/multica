@@ -1,0 +1,103 @@
+version: "3.9"
+
+# Docker Compose skeleton for quant-loop services.
+#
+# Services:
+#   quant-loop  — main trading engine (Python 3.12)
+#   redis       — caching / pub-sub bus
+#   dashboard   — ops dashboard (metrics visualisation)
+#
+# Usage:
+#   docker compose up -d
+#   docker compose logs -f quant-loop
+#
+# Volumes:
+#   data/   — market data (parquet, trades)
+#   workdir/— state, logs, reports
+#
+# References:
+#   - Python 3.12 slim base image
+#   - Health checks for each service
+
+services:
+  quant-loop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: quant-loop:latest
+    container_name: quant-loop-engine
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+      - ./workdir:/app/workdir
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - REDIS_URL=redis://redis:6379/0
+      - DASHBOARD_URL=http://dashboard:8080
+      - LOG_LEVEL=INFO
+      - TZ=UTC
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - quant-loop-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: quant-loop-redis
+    restart: unless-stopped
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    networks:
+      - quant-loop-net
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    image: quant-loop-dashboard:latest
+    container_name: quant-loop-dashboard
+    restart: unless-stopped
+    volumes:
+      - ./workdir:/app/workdir:ro
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - LOG_LEVEL=INFO
+      - TZ=UTC
+    ports:
+      - "8080:8080"
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    networks:
+      - quant-loop-net
+
+volumes:
+  redis-data:
+    driver: local
+
+networks:
+  quant-loop-net:
+    driver: bridge

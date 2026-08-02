@@ -1,0 +1,50 @@
+{
+  "strategy_name": "kama_mtf_btc_4h_1d",
+  "version": "1.0",
+  "date": "2026-08-02",
+  "symbol": "BTCUSDT",
+  "timeframe": "4h",
+  "params": {
+    "tf_4h": {"er_window": 5, "fast": 2, "slow": 30, "slope_lookback": 10},
+    "tf_1d": {"er_window": 10, "fast": 3, "slow": 30, "slope_lookback": 3}
+  },
+  "cost_model": {
+    "fee_per_side_bp": 3.5,
+    "fee_round_trip_bp": 7.0,
+    "slippage_bp": 0,
+    "execution": "taker"
+  },
+  "signal_logic": "4h KAMA(er5,f2,s30) slope>0 AND 1d KAMA(er10,f3,s30) slope>0 → long; else flat. Position effective next 4h bar.",
+  "validation": {
+    "method": "CPCV (purge=50, embargo=20, n_groups=6, k_test=2)",
+    "mean_oos_sharpe": 1.7476,
+    "worst_fold": 1.1979,
+    "best_fold": 2.2402,
+    "deflated_sharpe": 1.7184,
+    "n_trials": 868,
+    "all_folds_positive": true,
+    "all_folds_above_1": true,
+    "verdict": "PASS"
+  },
+  "full_backtest": {
+    "sharpe": 1.760,
+    "max_drawdown": -0.183,
+    "calmar": 3.044,
+    "annualized_return": 0.404,
+    "t_2024_2026": 2.92,
+    "t_2025": 1.23
+  },
+  "data_span": "2019-09-08 → 2026-07-24",
+  "comparison_to_single_tf": {
+    "sharpe_improvement": "+0.62",
+    "dsr_improvement": "+0.62",
+    "maxdd_improvement": "-29pp (from -47% to -18%)",
+    "calmar_improvement": "+2.08 (from 0.96 to 3.04)"
+  },
+  "caveats": [
+    "Long-only — misses bear markets",
+    "Fixed-parameter temporal-stability CPCV, not true OOS refit",
+    "Multi-TF confirmation reduces trade frequency (fewer entries but higher conviction)",
+    "Trend-following — captures BTC beta, filtered by daily trend alignment"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "strategy": "kama_trend_btc_4h",
+  "params": {
+    "er_window": 5,
+    "fast": 2,
+    "slow": 30,
+    "slope_lookback": 10
+  },
+  "symbol": "BTCUSDT",
+  "timeframe": "4h",
+  "validated_at": "2026-08-02T11:24:36+00:00",
+  "cpcv_config": {
+    "n_groups": 6,
+    "k_test": 2,
+    "purge_bars": 50,
+    "embargo_bars": 20,
+    "periods_per_year": 2190,
+    "n_trials_for_dsr": 864
+  },
+  "aggregate": {
+    "n_paths": 15,
+    "folds_complete": 15,
+    "mean_oos_sharpe": 1.1227,
+    "std_oos_sharpe": 0.4251,
+    "ci95": [
+      0.9368,
+      1.3353
+    ],
+    "worst_fold": 0.2659,
+    "best_fold": 1.8893,
+    "deflated_sharpe": 1.0971
+  },
+  "is_temporal_stability_only": true,
+  "gate": {
+    "mean_sharpe_ge_0_5": true,
+    "worst_fold_ge_neg_0_5": true,
+    "dsr_gt_0": true,
+    "verdict": "PASS"
+  },
+  "caveats": [
+    "Long-only (misses bear markets)",
+    "Edge weakening in 2025-2026 (fold 14 Sharpe 0.67, fold 11 Sharpe 0.27)",
+    "Fixed-parameter temporal-stability test, not true OOS refit",
+    "Trend-following \u2014 may partially be capturing BTC beta, not pure alpha",
+    "Newey-West autocorrelation not adjusted \u2014 t-values systematically inflated"
+  ],
+  "data_span": "2019-09-08 \u2192 2026-07-24 (15068 bars, ~7 years)"
+}

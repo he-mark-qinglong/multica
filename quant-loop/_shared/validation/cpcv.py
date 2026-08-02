@@ -43,6 +43,12 @@ class CPCVResult:
     k_test: int
     n_paths: int  # C(N, K)
     folds: list[FoldResult] = field(default_factory=list)
+    # True when the probe detected that strategy_fn ignores data_train
+    # (returns are identical regardless of train subset). In that case the
+    # CPCV measures temporal stability of a fixed-parameter backtest, NOT
+    # true out-of-sample generalization. Results are still meaningful but
+    # should be labelled as "temporal-stability" not "OOS".
+    is_temporal_stability_only: bool = False
 
     @property
     def mean_oos_sharpe(self) -> float:
@@ -234,6 +240,31 @@ def cpcv(
     """
     paths = list(combinations(range(n_groups), k_test))
     result = CPCVResult(n_groups=n_groups, k_test=k_test, n_paths=len(paths))
+
+    # ── Strategy-level leak probe ──────────────────────────────────────
+    # Detect whether strategy_fn actually uses data_train by comparing
+    # outputs from two disjoint train subsets. If identical, the function
+    # is ignoring train data → CPCV is temporal-stability, not true OOS.
+    if len(data) >= 400:
+        try:
+            mid = len(data) // 2
+            probe_a = strategy_fn(data.iloc[:mid], data)
+            probe_b = strategy_fn(data.iloc[mid:], data)
+            if probe_a is not None and probe_b is not None:
+                result.is_temporal_stability_only = probe_a.equals(probe_b)
+        except Exception:
+            pass  # probe failure is non-fatal
+    if result.is_temporal_stability_only:
+        import warnings
+        warnings.warn(
+            "CPCV strategy_fn ignores data_train — results are temporal-"
+            "stability (fixed-parameter sub-period analysis), NOT true OOS. "
+            "If parameters were selected via sweep/optimization on full data, "
+            "the CPCV Sharpe is optimistically biased. Fix strategy_fn to "
+            "refit on data_train for true out-of-sample validation.",
+            stacklevel=2,
+        )
+    # ───────────────────────────────────────────────────────────────────
 
     # Split into N contiguous groups by index
     group_boundaries = np.array_split(data.index.values, n_groups)

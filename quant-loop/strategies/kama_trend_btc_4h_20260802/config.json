@@ -1,0 +1,37 @@
+{
+  "strategy_name": "kama_trend_btc_4h",
+  "version": "1.0",
+  "date": "2026-08-02",
+  "symbol": "BTCUSDT",
+  "timeframe": "4h",
+  "params": {
+    "er_window": 5,
+    "fast": 2,
+    "slow": 30,
+    "slope_lookback": 10
+  },
+  "cost_model": {
+    "fee_per_side_bp": 3.5,
+    "fee_round_trip_bp": 7.0,
+    "slippage_bp": 0,
+    "execution": "taker"
+  },
+  "signal_logic": "KAMA(er,fast,slow) slope over slope_lookback bars > 0 → long; ≤ 0 → flat",
+  "validation": {
+    "method": "CPCV (purge=50, embargo=20, n_groups=6, k_test=2)",
+    "mean_oos_sharpe": 1.1227,
+    "worst_fold": 0.2659,
+    "deflated_sharpe": 1.0971,
+    "n_trials": 864,
+    "verdict": "PASS",
+    "is_temporal_stability_only": true
+  },
+  "data_span": "2019-09-08 → 2026-07-24",
+  "caveats": [
+    "Long-only — misses bear markets",
+    "Edge weakening in 2025-2026 (recent fold Sharpe 0.27-0.67)",
+    "Fixed-parameter temporal-stability CPCV, not true OOS refit",
+    "Trend-following — partially captures BTC beta",
+    "Newey-West autocorrelation not adjusted"
+  ]
+}

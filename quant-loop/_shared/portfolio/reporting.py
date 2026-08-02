@@ -52,21 +52,157 @@ def sparkline(series: pd.Series, width: int = 60) -> str:
 
 
 def _risk_stats(equity: pd.Series, periods_per_year: int) -> dict:
+    """Compute the extended risk/performance metric set (≥ 20 metrics).
+
+    Returns an ordered dict of metric name → value. All values are raw
+    floats (formatting is applied at render time by :func:`_fmt_metric`).
+    """
     rets = equity.pct_change().dropna()
+    n = len(rets)
+    ppy = periods_per_year
+
     total_ret = float(equity.iloc[-1] / equity.iloc[0] - 1.0) if len(equity) > 1 else 0.0
+
+    # CAGR (annualised compound return)
+    years = len(equity) / ppy if ppy > 0 else 1.0
+    if len(equity) > 1 and equity.iloc[0] > 0 and years > 0:
+        cagr = float((equity.iloc[-1] / equity.iloc[0]) ** (1.0 / years) - 1.0)
+    else:
+        cagr = 0.0
+
     running_max = equity.cummax()
-    max_dd = float((equity / running_max - 1.0).min()) if len(equity) > 1 else 0.0
-    vol = float(rets.std(ddof=1) * math.sqrt(periods_per_year)) if len(rets) > 1 else 0.0
+    drawdowns = (equity / running_max - 1.0) if len(equity) > 1 else pd.Series(dtype=float)
+    max_dd = float(drawdowns.min()) if len(drawdowns) > 0 else 0.0
+
+    vol = float(rets.std(ddof=1) * math.sqrt(ppy)) if n > 1 else 0.0
+    mean_ret = float(rets.mean()) if n > 0 else 0.0
+    ann_ret = mean_ret * ppy
+
     sharpe = (
-        float(rets.mean() / rets.std(ddof=1) * math.sqrt(periods_per_year))
-        if len(rets) > 1 and rets.std(ddof=1) > 0 else 0.0
+        float(rets.mean() / rets.std(ddof=1) * math.sqrt(ppy))
+        if n > 1 and rets.std(ddof=1) > 0 else 0.0
     )
+
+    # Downside deviation (only negative returns)
+    downside = rets[rets < 0]
+    downside_dev = float(downside.std(ddof=1) * math.sqrt(ppy)) if len(downside) > 1 else 0.0
+
+    sortino = (
+        float(rets.mean() / downside.std(ddof=1) * math.sqrt(ppy))
+        if len(downside) > 1 and downside.std(ddof=1) > 0 else 0.0
+    )
+
+    calmar = float(cagr / abs(max_dd)) if max_dd < 0 else 0.0
+
+    # VaR / CVaR (historical, 95%)
+    if n > 0:
+        var_95 = abs(float(np.percentile(rets, 5)))
+        var_threshold = np.percentile(rets, 5)
+        tail = rets[rets <= var_threshold]
+        cvar_95 = abs(float(tail.mean())) if len(tail) > 0 else var_95
+    else:
+        var_95 = 0.0
+        cvar_95 = 0.0
+
+    # Best / worst single-period return
+    best_ret = float(rets.max()) if n > 0 else 0.0
+    worst_ret = float(rets.min()) if n > 0 else 0.0
+
+    # Win rate / profit factor
+    wins = rets[rets > 0]
+    losses = rets[rets < 0]
+    win_rate = float(len(wins) / n) if n > 0 else 0.0
+    gross_profit = float(wins.sum()) if len(wins) > 0 else 0.0
+    gross_loss = abs(float(losses.sum())) if len(losses) > 0 else 0.0
+    profit_factor = float(gross_profit / gross_loss) if gross_loss > 0 else 0.0
+    avg_win = float(wins.mean()) if len(wins) > 0 else 0.0
+    avg_loss = float(losses.mean()) if len(losses) > 0 else 0.0
+
+    # Higher moments
+    skew = float(rets.skew()) if n > 2 else 0.0
+    kurt = float(rets.kurt()) if n > 3 else 0.0  # excess kurtosis
+
+    # Max consecutive losses
+    max_consec_losses = float(_max_consecutive(rets < 0))
+
+    # Recovery factor: net profit / max drawdown
+    recovery = float(total_ret / abs(max_dd)) if max_dd < 0 else 0.0
+
+    # Pain index: average drawdown
+    pain_index = float(drawdowns.mean()) if len(drawdowns) > 0 else 0.0
+
+    # Ulcer index: root-mean-square of drawdowns
+    ulcer = float(np.sqrt(np.mean(drawdowns ** 2))) if len(drawdowns) > 0 else 0.0
+
+    # Omega ratio: E[gains] / E[losses] above/below zero threshold
+    gains = rets[rets > 0]
+    losses_abs = rets[rets < 0].abs()
+    omega = float(gains.mean() / losses_abs.mean()) if len(losses_abs) > 0 and losses_abs.mean() > 0 else 0.0
+
+    # Tail ratio: |95th percentile| / |5th percentile| of returns
+    if n > 0:
+        p95 = float(np.percentile(rets, 95))
+        p5 = float(np.percentile(rets, 5))
+        tail_ratio = abs(p95) / abs(p5) if abs(p5) > 1e-20 else 0.0
+    else:
+        tail_ratio = 0.0
+
     return {
         "Total return": total_ret,
-        "Max drawdown": max_dd,
+        "Ann. return (CAGR)": cagr,
         "Ann. volatility": vol,
+        "Max drawdown": max_dd,
         "Ann. Sharpe": sharpe,
+        "Ann. Sortino": sortino,
+        "Calmar ratio": calmar,
+        "VaR 95%": var_95,
+        "CVaR 95%": cvar_95,
+        "Best return": best_ret,
+        "Worst return": worst_ret,
+        "Win rate": win_rate,
+        "Profit factor": profit_factor,
+        "Avg win": avg_win,
+        "Avg loss": avg_loss,
+        "Skewness": skew,
+        "Excess kurtosis": kurt,
+        "Max consec. losses": max_consec_losses,
+        "Recovery factor": recovery,
+        "Pain index": pain_index,
+        "Ulcer index": ulcer,
+        "Downside deviation": downside_dev,
+        "Omega ratio": omega,
+        "Tail ratio": tail_ratio,
     }
+
+
+def _max_consecutive(mask: pd.Series) -> int:
+    """Longest run of ``True`` values in a boolean series."""
+    if len(mask) == 0:
+        return 0
+    max_run = current = 0
+    for v in mask:
+        if v:
+            current += 1
+            max_run = max(max_run, current)
+        else:
+            current = 0
+    return max_run
+
+
+# Metrics that are naturally a ratio (no % formatting)
+_RATIO_METRICS = frozenset({
+    "Ann. Sharpe", "Ann. Sortino", "Calmar ratio",
+    "Profit factor", "Recovery factor", "Skewness",
+    "Excess kurtosis", "Max consec. losses", "Ulcer index",
+    "Pain index", "Omega ratio", "Tail ratio",
+})
+
+
+def _fmt_metric(name: str, value: float) -> str:
+    """Format a metric value for the HTML table."""
+    if name in _RATIO_METRICS:
+        return f"{value:.3f}"
+    return _pct(value)
 
 
 def _pct(x: float) -> str:
@@ -125,8 +261,7 @@ def generate_report(
         "<h2>Risk metrics</h2>",
         _table(
             ["Metric", "Value"],
-            [[k, _pct(v) if k != "Ann. Sharpe" else f"{v:.2f}"]
-             for k, v in stats.items()],
+            [[k, _fmt_metric(k, v)] for k, v in stats.items()],
         ),
     ]
 

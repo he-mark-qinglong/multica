@@ -1,0 +1,46 @@
+{
+  "strategy": "kama_mtf_portfolio_3sym",
+  "description": "3-symbol MTF KAMA portfolio (BTC + ETH + SOL)",
+  "symbols": {
+    "BTC": {
+      "4h": "er5,f2,s30,lb10",
+      "1d": "er10,f3,s30,lb3"
+    },
+    "ETH": {
+      "4h": "er5,f2,s30,lb10",
+      "1d": "er10,f3,s30,lb3"
+    },
+    "SOL": {
+      "4h": "er5,f2,s30,lb10",
+      "1d": "er5,f2,s30,lb5"
+    }
+  },
+  "correlation_matrix": {
+    "BTC": {
+      "BTC": 1.0,
+      "ETH": 0.532,
+      "SOL": 0.281
+    },
+    "ETH": {
+      "BTC": 0.532,
+      "ETH": 1.0,
+      "SOL": 0.3
+    },
+    "SOL": {
+      "BTC": 0.281,
+      "ETH": 0.3,
+      "SOL": 1.0
+    }
+  },
+  "portfolio_metrics": {
+    "equal_weight": {
+      "sharpe": 2.187,
+      "max_dd": -0.2041,
+      "ann_ret": 1.1758
+    },
+    "vol_targeted": {
+      "sharpe": 2.275,
+      "max_dd": -1.2753
+    }
+  }
+}

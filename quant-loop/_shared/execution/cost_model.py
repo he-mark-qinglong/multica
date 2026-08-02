@@ -88,8 +88,11 @@ BINANCE_FUTURES = Venue(
     fixed_pure_slippage_bps=SMA34900_PURE_SLIPPAGE_BPS_PER_SIDE,  # 7.0 (ratified)
 )
 BYBIT_SPOT = Venue("bybit_spot", taker_fee_bps=10.0, maker_fee_bps=10.0)
+# OKX swap (perpetual) — Tier-1 fees: maker 2bp / taker 5bp. Slippage is
+# size-dependent (no ratified constant); uses the sqrt-impact spot path.
+OKX_PERP = Venue("okx_swap", taker_fee_bps=5.0, maker_fee_bps=2.0)
 
-VENUES = {v.name: v for v in [BINANCE_SPOT, BINANCE_FUTURES, BYBIT_SPOT]}
+VENUES = {v.name: v for v in [BINANCE_SPOT, BINANCE_FUTURES, BYBIT_SPOT, OKX_PERP]}
 
 
 def slippage_bps(notional_usd: float, adv_usd: float, impact_factor: float = 0.1) -> float:

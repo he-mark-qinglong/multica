@@ -14,7 +14,7 @@ def _snapshots(n=12):
     out = []
     eq = 1000.0
     for i in range(n):
-        eq *= 1.01 if i % 4 != 3 else 0.97  # up-trend with dips
+        eq *= 1.01 if i % 4 != 3 else (0.97 - (i // 4) * 0.002)  # up-trend with varying dips
         out.append(PortfolioSnapshot(
             ts=pd.Timestamp("2026-01-01") + pd.Timedelta(days=i),
             equity=eq, cash=eq * 0.5,
@@ -83,3 +83,87 @@ def test_html_escapes_title():
     html = generate_report(_snapshots(2), title="<script>alert(1)</script>")
     assert "<script>" not in html
     assert "&lt;script&gt;" in html
+
+
+# ---------------------------------------------------------------------------
+# Extended metrics (≥ 20 risk/performance metrics)
+# ---------------------------------------------------------------------------
+
+from _shared.portfolio.reporting import _risk_stats  # noqa: E402
+
+
+_EXPECTED_METRICS = {
+    "Total return", "Ann. return (CAGR)", "Ann. volatility", "Max drawdown",
+    "Ann. Sharpe", "Ann. Sortino", "Calmar ratio", "VaR 95%", "CVaR 95%",
+    "Best return", "Worst return", "Win rate", "Profit factor",
+    "Avg win", "Avg loss", "Skewness", "Excess kurtosis",
+    "Max consec. losses", "Recovery factor", "Pain index", "Ulcer index",
+}
+
+
+def test_risk_stats_has_at_least_20_metrics():
+    snaps = _snapshots(30)
+    equity = pd.Series([s.equity for s in snaps])
+    stats = _risk_stats(equity, periods_per_year=365)
+    assert len(stats) >= 20
+    assert _EXPECTED_METRICS.issubset(set(stats.keys()))
+
+
+def test_report_contains_extended_metrics():
+    html = generate_report(_snapshots(30))
+    for metric in ("Ann. Sortino", "Calmar ratio", "VaR 95%", "CVaR 95%",
+                   "Profit factor", "Skewness", "Ulcer index"):
+        assert metric in html, f"missing metric '{metric}' in report"
+
+
+def test_risk_stats_formatting_no_errors():
+    """Stats should all be finite floats, not NaN/inf."""
+    import math
+    snaps = _snapshots(30)
+    equity = pd.Series([s.equity for s in snaps])
+    stats = _risk_stats(equity, periods_per_year=365)
+    for name, val in stats.items():
+        assert isinstance(val, float), f"{name} is not float"
+        assert math.isfinite(val), f"{name} is not finite: {val}"
+
+
+def test_sortino_calmar_relationships():
+    """Calmar > 0 when profitable, Sortino and Sharpe positive."""
+    import numpy as np
+    # Deterministic: 80 varied positive returns + 20 varied negative returns,
+    # shuffled.  Guarantees net-positive trend with drawdowns and non-zero
+    # Sortino denominator (varying negative magnitudes).
+    rng = np.random.RandomState(42)
+    rets = np.concatenate([
+        rng.uniform(0.003, 0.015, 80),    # 80 up days
+        rng.uniform(-0.025, -0.005, 20),  # 20 down days
+    ])
+    rng.shuffle(rets)
+    equity = pd.Series(np.cumprod(1.0 + rets) * 1000.0)
+    stats = _risk_stats(equity, periods_per_year=365)
+    assert stats["Calmar ratio"] > 0
+    assert stats["Ann. Sharpe"] > 0
+    assert stats["Ann. Sortino"] > 0
+
+
+def test_win_rate_in_valid_range():
+    snaps = _snapshots(30)
+    equity = pd.Series([s.equity for s in snaps])
+    stats = _risk_stats(equity, periods_per_year=365)
+    assert 0.0 <= stats["Win rate"] <= 1.0
+
+
+def test_var_cvar_positive():
+    snaps = _snapshots(30)
+    equity = pd.Series([s.equity for s in snaps])
+    stats = _risk_stats(equity, periods_per_year=365)
+    assert stats["VaR 95%"] >= 0
+    assert stats["CVaR 95%"] >= 0
+
+
+def test_best_worst_signs():
+    snaps = _snapshots(30)
+    equity = pd.Series([s.equity for s in snaps])
+    stats = _risk_stats(equity, periods_per_year=365)
+    assert stats["Best return"] > 0
+    assert stats["Worst return"] < 0

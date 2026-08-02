@@ -1,32 +1,87 @@
 # CODEOWNERS for quant-loop (J19)
 # 审查规则与清单见 docs/code-review.md。
-# 默认 owner: @he-mark-qinglong；按 _shared/ 子目录细化指派，
-# 新子系统 owner 就位后在对应行追加 handle 即可（靠后的规则优先）。
+#
+# 多人分配 (J-channel upgrade): 每个子系统有明确的 owner 团队，
+# PR 需要至少一名 owner approve。新子系统 owner 就位后在对应行
+# 追加 handle 即可（靠后的规则优先）。
+#
+# Owner 分配原则:
+#   - 数据层 (data, l2)           → data-eng team
+#   - 策略层 (strategy_kit, ...)  → quant-research team
+#   - 执行层 (execution, adapters)→ execution-eng team
+#   - 做市 (market_making)        → mm-eng team
+#   - 风控/验证 (validation, ...) → risk team
+#   - 运维 (ops, portfolio)       → platform-eng team
+#   - 仓库配置 (.github, docs)    → repo-maintainers team
 
-# 默认兜底
+# 默认兜底 — 所有未被细分的路径
 *                                                          @he-mark-qinglong
 
-# 共享基础设施
-quant-loop/_shared/validation/                             @he-mark-qinglong
-quant-loop/_shared/validators/                             @he-mark-qinglong
-quant-loop/_shared/gates/                                  @he-mark-qinglong
-quant-loop/_shared/portfolio/                              @he-mark-qinglong
-quant-loop/_shared/market_making/                          @he-mark-qinglong
-quant-loop/_shared/execution/                              @he-mark-qinglong
-quant-loop/_shared/ops/                                    @he-mark-qinglong
-quant-loop/_shared/strategy_kit/                           @he-mark-qinglong
-quant-loop/_shared/sizing/                                 @he-mark-qinglong
-quant-loop/_shared/regime/                                 @he-mark-qinglong
-quant-loop/_shared/l2/                                     @he-mark-qinglong
-quant-loop/_shared/data/                                   @he-mark-qinglong
-quant-loop/_shared/adapters/                               @he-mark-qinglong
-quant-loop/_shared/swarm/                                  @he-mark-qinglong
+# ---------------------------------------------------------------------------
+# 数据层 — data-eng team
+# ---------------------------------------------------------------------------
+quant-loop/_shared/data/                                   @he-mark-qinglong @quant-loop/data-eng
+quant-loop/_shared/l2/                                     @he-mark-qinglong @quant-loop/data-eng
+quant-loop/_shared/indicators/                             @he-mark-qinglong @quant-loop/data-eng
 
-# 策略与执行
+# ---------------------------------------------------------------------------
+# 策略研发层 — quant-research team
+# ---------------------------------------------------------------------------
+quant-loop/_shared/strategy_kit/                           @he-mark-qinglong @quant-loop/quant-research
+quant-loop/_shared/factor_analysis/                        @he-mark-qinglong @quant-loop/quant-research
+quant-loop/_shared/regime/                                 @he-mark-qinglong @quant-loop/quant-research
+quant-loop/_shared/templates/                              @he-mark-qinglong @quant-loop/quant-research
+
+# ---------------------------------------------------------------------------
+# 执行层 — execution-eng team
+# ---------------------------------------------------------------------------
+quant-loop/_shared/execution/                              @he-mark-qinglong @quant-loop/execution-eng
+quant-loop/_shared/adapters/                               @he-mark-qinglong @quant-loop/execution-eng
+quant-loop/_shared/partial_fill.py                         @he-mark-qinglong @quant-loop/execution-eng
+quant-loop/_shared/latency_model.py                        @he-mark-qinglong @quant-loop/execution-eng
+quant-loop/execution/                                      @he-mark-qinglong @quant-loop/execution-eng
+
+# ---------------------------------------------------------------------------
+# 做市 — mm-eng team
+# ---------------------------------------------------------------------------
+quant-loop/_shared/market_making/                          @he-mark-qinglong @quant-loop/mm-eng
+
+# ---------------------------------------------------------------------------
+# 组合与资金管理 — platform-eng team
+# ---------------------------------------------------------------------------
+quant-loop/_shared/portfolio/                              @he-mark-qinglong @quant-loop/platform-eng
+quant-loop/_shared/risk/                                   @he-mark-qinglong @quant-loop/platform-eng
+quant-loop/_shared/sizing/                                 @he-mark-qinglong @quant-loop/platform-eng
+quant-loop/_shared/attribution/                            @he-mark-qinglong @quant-loop/platform-eng
+
+# ---------------------------------------------------------------------------
+# 风控与验证 — risk team
+# ---------------------------------------------------------------------------
+quant-loop/_shared/validation/                             @he-mark-qinglong @quant-loop/risk
+quant-loop/_shared/validators/                             @he-mark-qinglong @quant-loop/risk
+quant-loop/_shared/gates/                                  @he-mark-qinglong @quant-loop/risk
+
+# ---------------------------------------------------------------------------
+# 运维与可观测性 — platform-eng team
+# ---------------------------------------------------------------------------
+quant-loop/_shared/ops/                                    @he-mark-qinglong @quant-loop/platform-eng
+quant-loop/_shared/paper/                                  @he-mark-qinglong @quant-loop/platform-eng
+quant-loop/_shared/swarm/                                  @he-mark-qinglong @quant-loop/platform-eng
+quant-loop/docker-compose.yml                              @he-mark-qinglong @quant-loop/platform-eng
+quant-loop/Dockerfile                                      @he-mark-qinglong @quant-loop/platform-eng
+
+# ---------------------------------------------------------------------------
+# 策略代码
+# ---------------------------------------------------------------------------
 quant-loop/strategies/                                     @he-mark-qinglong
-quant-loop/execution/                                      @he-mark-qinglong
 
-# 仓库级配置与流程
-quant-loop/pyproject.toml                                  @he-mark-qinglong
-quant-loop/.github/                                        @he-mark-qinglong
-quant-loop/docs/code-review.md                             @he-mark-qinglong
+# ---------------------------------------------------------------------------
+# 仓库级配置与流程 — repo-maintainers team
+# ---------------------------------------------------------------------------
+quant-loop/pyproject.toml                                  @he-mark-qinglong @quant-loop/repo-maintainers
+quant-loop/.github/                                        @he-mark-qinglong @quant-loop/repo-maintainers
+quant-loop/.pre-commit-config.yaml                         @he-mark-qinglong @quant-loop/repo-maintainers
+quant-loop/docs/                                           @he-mark-qinglong @quant-loop/repo-maintainers
+quant-loop/docs/code-review.md                             @he-mark-qinglong @quant-loop/repo-maintainers
+quant-loop/requirements.txt                                @he-mark-qinglong @quant-loop/repo-maintainers
+quant-loop/requirements-lock.txt                           @he-mark-qinglong @quant-loop/repo-maintainers

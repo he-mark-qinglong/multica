@@ -39,7 +39,8 @@ from pathlib import Path
 
 import pandas as pd
 
-from _shared.data.fetch_common import merge_dedupe
+from _shared.data.fetch_common import merge_dedupe, ms_now
+from _shared.data.ingest_ts import stamp_ingest_ts
 
 PathLike = str | Path
 
@@ -201,6 +202,10 @@ class StreamIngester:
             bars = closed
         if len(bars) == 0:
             return bars
+        # dual-timestamp: stamp the local write moment onto every bar so
+        # persisted rows carry both exchange time and ingest time (F-Data).
+        write_ms = now_ms if now_ms is not None else ms_now()
+        bars = stamp_ingest_ts(bars, now_ms=write_ms)
         self.out_path.parent.mkdir(parents=True, exist_ok=True)
         existing = (
             pd.read_parquet(self.out_path) if self.out_path.exists()

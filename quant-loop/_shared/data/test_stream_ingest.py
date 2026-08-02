@@ -235,3 +235,48 @@ def test_run_ws_max_reconnects_raises(tmp_path):
             run_ws(_config(tmp_path), duration_sec=0.0, backoff_base_sec=0.001,
                    max_reconnects=2, connector=dead_connector)
         )
+
+
+# --- dual-timestamp (ingest_ts) on persisted bars (F-Data) -----------------
+def test_flush_stamps_ingest_ts(tmp_path):
+    """Persisted bars carry both exchange ``timestamp`` and ``ingest_ts``."""
+    ing = StreamIngester(_config(tmp_path))
+    ing.on_trade(_trade(1_000, price=100.0))
+    ing.on_trade(_trade(30_000, price=101.0))
+    out = ing.on_trade(_trade(61_000, price=102.0))
+    assert out is not None and len(out) == 1
+    # the write moment is the flush trigger time (61_000 ms)
+    assert out.iloc[0]["ingest_ts"] == 61_000
+    stored = pd.read_parquet(tmp_path / "BTCUSDT_1m.parquet")
+    assert "ingest_ts" in stored.columns
+    assert stored.iloc[0]["ingest_ts"] == 61_000
+    # exchange time and ingest time differ as expected
+    assert stored.iloc[0]["timestamp"] == 0
+    assert stored.iloc[0]["ingest_ts"] == 61_000
+
+
+def test_flush_ingest_ts_uses_wallclock_when_now_none(tmp_path):
+    """Final drain (now_ms=None) stamps with the real wall-clock time."""
+    ing = StreamIngester(_config(tmp_path))
+    ing.buffer.append(_trade(1_000, price=100.0))
+    out = ing.flush()  # no now_ms → wall-clock
+    assert out is not None and len(out) == 1
+    assert out.iloc[0]["ingest_ts"] > 1_600_000_000_000  # after 2020
+    stored = pd.read_parquet(tmp_path / "BTCUSDT_1m.parquet")
+    assert "ingest_ts" in stored.columns
+
+
+def test_flush_idempotent_ingest_ts_on_reflush(tmp_path):
+    """Re-flushing the same bars keeps the first ingest_ts (merge-dedupe)."""
+    cfg = _config(tmp_path)
+    ing = StreamIngester(cfg)
+    ing.buffer.append(_trade(1_000))
+    ing.flush(now_ms=60_000)  # first stamp: 60_000
+    first = pd.read_parquet(tmp_path / "BTCUSDT_1m.parquet")
+    assert first.iloc[0]["ingest_ts"] == 60_000
+    # simulate redelivery
+    ing.buffer.append(_trade(1_000))
+    ing.flush(now_ms=120_000)  # would stamp 120_000 if not idempotent
+    second = pd.read_parquet(tmp_path / "BTCUSDT_1m.parquet")
+    assert len(second) == 1  # deduped
+    assert second.iloc[0]["ingest_ts"] == 60_000  # original preserved
