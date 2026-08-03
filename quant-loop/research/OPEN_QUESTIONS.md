@@ -373,3 +373,23 @@ Tested all reasonable variations of the MTF KAMA strategy. Base config is optima
 configuration. Further improvement requires fundamentally different signal classes,
 not parameter variations. Remaining viable avenue: liquidation forced-flow factor
 (data collecting).
+
+## Forced Liquidation Flow Factor — Preliminary Signal (2026-08-03)
+
+- **Status**: PROMISING — first statistically significant untested factor
+- **Data**: 350 BTC liquidation events, 17.4 hours, 55/74 bars active (74.3%)
+- **Signal**: net signed liquidation qty (BUY positive, SELL negative) in 15min window
+- **Correlation with forward returns**:
+  - 15min: corr=-0.298, t=-2.25 (***) ← significant!
+  - 30min: corr=-0.235, t=-1.72 (**)
+  - 60min: corr=-0.154, t=-1.10 (*)
+- **Interpretation**: mean-reversion — forced liquidations create temporary
+  dislocations that revert. Shorts squeezed → price reverts down. Longs
+  liquidated → price reverts up.
+- **Quintile spread (H-L)**: -0.027% at 15min, -0.038% at 60min
+- **Economic viability**: spread (2.7bp) < retail cost (7bp). Needs 0bp maker
+  (Lighter/dYdX) to be tradeable.
+- **Sample size**: only 55 active bars — need 500+ for robust inference
+- **Collector**: running, 937 total events across BTC/ETH/SOL, accumulating
+- **Next step**: accumulate 2000+ events → full CPCV validation → if survives,
+  combine with MTF KAMA as mean-reversion overlay
