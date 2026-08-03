@@ -351,3 +351,25 @@
 | 3 | kama_trend_btc_4h | 1.12 | 0.96 | -47.2% | 1.10 | Trend (single-TF) |
 | 4 | kama_mtf_btc_4h_1d | 1.76 | 3.61 | -18.3% | 1.72 | Trend (multi-TF) |
 | 5 | **kama_mtf_portfolio_3sym** | **2.19** | **5.76** | **-20.4%** | — | **Portfolio** |
+
+## Strategy Optimization Exhaustion Report (2026-08-03)
+
+Tested all reasonable variations of the MTF KAMA strategy. Base config is optimal:
+
+| Variation | Result | Key Finding |
+|-----------|--------|-------------|
+| MTF 4h+1d AND gate (base) | ✅ Sharpe 1.76, DSR 1.72 | **Optimal configuration** |
+| Short-side enabled | ❌ Sharpe 0.78 | Shorting BTC bleeds in bull years |
+| KAMA ±z STD bands | ❌ Sharpe 0.60 | Mean-reversion exits cut trend profits |
+| ATR regime filter | ⚠️ Sharpe 0.92 | Risk overlay only (halves MaxDD but lowers Sharpe) |
+| Multi-TF RSI mean-reversion | ❌ Sharpe 0.23 | Structurally incompatible with BTC trend distribution |
+| ER-scaled position sizing | ❌ Sharpe -0.34 vs base | Fixed sizing better; ER scaling reduces both return and risk |
+| KAMA on VWAP | ❌ Sharpe 1.694 vs 1.760 | Close price is more informationally efficient |
+| KAMA on typical/median | ❌ Sharpe 1.70/1.62 | All worse than close |
+| ER raw/threshold/sqrt/cap | ❌ All worse | Fixed 1.0 position is optimal |
+| OFI at 0bp (Lighter) | ❌ Sharpe -1.28 | Signal never real (vwap-to-vwap artifact) |
+
+**Conclusion**: The MTF KAMA portfolio (Sharpe 2.19, Calmar 5.76) is the optimal
+configuration. Further improvement requires fundamentally different signal classes,
+not parameter variations. Remaining viable avenue: liquidation forced-flow factor
+(data collecting).
