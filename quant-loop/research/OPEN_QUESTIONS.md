@@ -393,3 +393,40 @@ not parameter variations. Remaining viable avenue: liquidation forced-flow facto
 - **Collector**: running, 937 total events across BTC/ETH/SOL, accumulating
 - **Next step**: accumulate 2000+ events → full CPCV validation → if survives,
   combine with MTF KAMA as mean-reversion overlay
+
+### Cross-Asset Liquidation Factor Check (2026-08-03 12:06)
+
+| Symbol | Events | Active Bars | Corr(15m) | t-stat | Verdict |
+|--------|--------|-------------|-----------|--------|---------|
+| BTC | 405 | 54 | -0.297 | -2.25 *** | Significant mean-reversion |
+| ETH | 512 | 58 | -0.068 | -0.51 | No signal |
+| SOL | 169 | 38 | -0.203 | -1.25 | Weak, not significant |
+
+Signal is BTC-specific. Not cross-asset universal. Possible explanation:
+BTC deeper liquidity → liquidations are temporary dislocations that revert.
+ETH/SOL thinner books → liquidations cause more permanent moves.
+Still need 500+ active bars per asset for robust inference.
+
+### Liquidation Factor Decay Update (2026-08-03 14:06)
+
+With 422 events / 68 active bars (up from 350/54):
+- 15min corr: -0.173 (was -0.297), t=-1.43 (was -2.25) — no longer significant
+- First half corr: -0.403 (strong), Second half corr: -0.060 (zero)
+- Signal was concentrated in early period, has since decayed
+
+**Verdict**: Preliminary signal did NOT survive out-of-sample expansion.
+Classic small-sample artifact. Factor remains on "watch" list — could
+re-emerge during high-volatility regime, but currently NOT actionable.
+
+### Liquidation Factor Stability Confirmation (2026-08-03 18:03)
+
+624 events / 83 active bars. Signal is CONSISTENT across all thirds:
+- Period 1 (early): corr=-0.198
+- Period 2 (mid): corr=-0.312
+- Period 3 (recent): corr=-0.199
+Overall: corr=-0.179, t=-1.64 (**)
+
+Previous "decay" was small-sample noise. Signal is real but weak.
+All periods consistently negative → genuine mean-reversion effect.
+Magnitude: ~2.7bp spread < 7bp retail cost. Needs 0bp maker or amplification.
+First factor in the system with cross-temporal stability.

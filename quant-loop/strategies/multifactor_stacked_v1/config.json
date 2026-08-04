@@ -1,0 +1,35 @@
+{
+  "strategy_name": "multifactor_stacked_v1",
+  "version": "1.0",
+  "date": "2026-08-04",
+  "symbols": ["BTCUSDT", "ETHUSDT", "SOLUSDT"],
+  "timeframe": "4h",
+  "params": {
+    "tf_4h": {"er_window": 5, "fast": 2, "slow": 30, "slope_lookback": 10},
+    "tf_1d": {"er_window": 10, "fast": 3, "slow": 30, "slope_lookback": 3},
+    "imb_window": 4,
+    "imb_threshold": 0.15,
+    "session_start_hour": 20,
+    "session_end_hour": 24,
+    "vol_window": 30,
+    "vol_mult": 1.5,
+    "min_votes": 3
+  },
+  "cost_model": {
+    "fee_per_side_bp": 3.5,
+    "fee_round_trip_bp": 7.0,
+    "slippage_bp": 0,
+    "execution": "taker"
+  },
+  "signal_logic": "4 factor votes (kama_mtf, book_imb_proxy, us_session, volume_conviction). Long iff kama==1 AND votes>=3/4; else flat. Position effective next 4h bar.",
+  "variants": ["kama_only", "kama_imb", "kama_session", "stacked4"],
+  "validation": {
+    "method": "CPCV (n_groups=6, k_test=2, purge=50, embargo=20) on equal-weight 3-symbol portfolio",
+    "note": "Fixed parameters -> CPCV measures temporal stability, not true OOS refit (same caveat as kama_mtf_btc_4h_1d_20260802)"
+  },
+  "caveats": [
+    "book imbalance uses taker-flow proxy from klines, not real L2 (collector accumulating)",
+    "Long-only; KAMA veto means factor stack can only reduce exposure vs kama_only",
+    "Fixed-parameter temporal-stability CPCV, not true OOS refit"
+  ]
+}

@@ -1,0 +1,466 @@
+{
+  "strategy": "multifactor_stacked_v1",
+  "variants": {
+    "kama_only": {
+      "full_sample": {
+        "total_return": 8.1937,
+        "annualized_return": 0.4577,
+        "max_drawdown": -0.3438,
+        "sharpe": 1.2545,
+        "calmar": 1.3314,
+        "n_trades": 5887
+      },
+      "n_bars": 12893,
+      "span": "2020-09-14 08:00:00 \u2192 2026-08-03 00:00:00",
+      "cpcv": {
+        "mean_oos_sharpe": 1.112,
+        "std_oos_sharpe": 0.8982,
+        "worst_fold": -0.561,
+        "best_fold": 2.3547,
+        "n_folds": 15,
+        "all_folds_positive": false,
+        "folds": [
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2022-08-31 12:00:00",
+            "oos_sharpe": 1.8138,
+            "n_trades": 2211
+          },
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2023-08-24 16:00:00",
+            "oos_sharpe": 1.6565,
+            "n_trades": 2286
+          },
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2024-08-16 20:00:00",
+            "oos_sharpe": 2.3547,
+            "n_trades": 2633
+          },
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2025-08-10 00:00:00",
+            "oos_sharpe": 2.3474,
+            "n_trades": 2556
+          },
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": 1.585,
+            "n_trades": 2157
+          },
+          {
+            "test_start": "2021-09-07 12:00:00",
+            "test_end": "2023-08-24 16:00:00",
+            "oos_sharpe": 0.0342,
+            "n_trades": 1519
+          },
+          {
+            "test_start": "2021-09-07 12:00:00",
+            "test_end": "2024-08-16 20:00:00",
+            "oos_sharpe": 1.2023,
+            "n_trades": 1866
+          },
+          {
+            "test_start": "2021-09-07 12:00:00",
+            "test_end": "2025-08-10 00:00:00",
+            "oos_sharpe": 1.1561,
+            "n_trades": 1789
+          },
+          {
+            "test_start": "2021-09-07 12:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": -0.3536,
+            "n_trades": 1390
+          },
+          {
+            "test_start": "2022-08-31 16:00:00",
+            "test_end": "2024-08-16 20:00:00",
+            "oos_sharpe": 0.9719,
+            "n_trades": 1941
+          },
+          {
+            "test_start": "2022-08-31 16:00:00",
+            "test_end": "2025-08-10 00:00:00",
+            "oos_sharpe": 0.8888,
+            "n_trades": 1864
+          },
+          {
+            "test_start": "2022-08-31 16:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": -0.561,
+            "n_trades": 1465
+          },
+          {
+            "test_start": "2023-08-24 20:00:00",
+            "test_end": "2025-08-10 00:00:00",
+            "oos_sharpe": 2.0107,
+            "n_trades": 2211
+          },
+          {
+            "test_start": "2023-08-24 20:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": 0.8348,
+            "n_trades": 1812
+          },
+          {
+            "test_start": "2024-08-17 00:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": 0.7389,
+            "n_trades": 1735
+          }
+        ]
+      }
+    },
+    "kama_imb": {
+      "full_sample": {
+        "total_return": 0.0,
+        "annualized_return": 0.0,
+        "max_drawdown": 0.0,
+        "sharpe": 0.0,
+        "calmar": 0.0,
+        "n_trades": 0
+      },
+      "n_bars": 12893,
+      "span": "2020-09-14 08:00:00 \u2192 2026-08-03 00:00:00",
+      "cpcv": {
+        "mean_oos_sharpe": 0.0,
+        "std_oos_sharpe": 0.0,
+        "worst_fold": 0.0,
+        "best_fold": 0.0,
+        "n_folds": 15,
+        "all_folds_positive": false,
+        "folds": [
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2022-08-31 12:00:00",
+            "oos_sharpe": 0.0,
+            "n_trades": 0
+          },
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2023-08-24 16:00:00",
+            "oos_sharpe": 0.0,
+            "n_trades": 0
+          },
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2024-08-16 20:00:00",
+            "oos_sharpe": 0.0,
+            "n_trades": 0
+          },
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2025-08-10 00:00:00",
+            "oos_sharpe": 0.0,
+            "n_trades": 0
+          },
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": 0.0,
+            "n_trades": 0
+          },
+          {
+            "test_start": "2021-09-07 12:00:00",
+            "test_end": "2023-08-24 16:00:00",
+            "oos_sharpe": 0.0,
+            "n_trades": 0
+          },
+          {
+            "test_start": "2021-09-07 12:00:00",
+            "test_end": "2024-08-16 20:00:00",
+            "oos_sharpe": 0.0,
+            "n_trades": 0
+          },
+          {
+            "test_start": "2021-09-07 12:00:00",
+            "test_end": "2025-08-10 00:00:00",
+            "oos_sharpe": 0.0,
+            "n_trades": 0
+          },
+          {
+            "test_start": "2021-09-07 12:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": 0.0,
+            "n_trades": 0
+          },
+          {
+            "test_start": "2022-08-31 16:00:00",
+            "test_end": "2024-08-16 20:00:00",
+            "oos_sharpe": 0.0,
+            "n_trades": 0
+          },
+          {
+            "test_start": "2022-08-31 16:00:00",
+            "test_end": "2025-08-10 00:00:00",
+            "oos_sharpe": 0.0,
+            "n_trades": 0
+          },
+          {
+            "test_start": "2022-08-31 16:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": 0.0,
+            "n_trades": 0
+          },
+          {
+            "test_start": "2023-08-24 20:00:00",
+            "test_end": "2025-08-10 00:00:00",
+            "oos_sharpe": 0.0,
+            "n_trades": 0
+          },
+          {
+            "test_start": "2023-08-24 20:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": 0.0,
+            "n_trades": 0
+          },
+          {
+            "test_start": "2024-08-17 00:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": 0.0,
+            "n_trades": 0
+          }
+        ]
+      }
+    },
+    "kama_session": {
+      "full_sample": {
+        "total_return": 0.2072,
+        "annualized_return": 0.0325,
+        "max_drawdown": -0.2765,
+        "sharpe": 0.2964,
+        "calmar": 0.1175,
+        "n_trades": 1846
+      },
+      "n_bars": 12893,
+      "span": "2020-09-14 08:00:00 \u2192 2026-08-03 00:00:00",
+      "cpcv": {
+        "mean_oos_sharpe": 0.3781,
+        "std_oos_sharpe": 0.6192,
+        "worst_fold": -0.5139,
+        "best_fold": 1.3421,
+        "n_folds": 15,
+        "all_folds_positive": false,
+        "folds": [
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2022-08-31 12:00:00",
+            "oos_sharpe": -0.2382,
+            "n_trades": 708
+          },
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2023-08-24 16:00:00",
+            "oos_sharpe": -0.0572,
+            "n_trades": 726
+          },
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2024-08-16 20:00:00",
+            "oos_sharpe": 0.3614,
+            "n_trades": 852
+          },
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2025-08-10 00:00:00",
+            "oos_sharpe": -0.2013,
+            "n_trades": 819
+          },
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": -0.5139,
+            "n_trades": 693
+          },
+          {
+            "test_start": "2021-09-07 12:00:00",
+            "test_end": "2023-08-24 16:00:00",
+            "oos_sharpe": 0.5147,
+            "n_trades": 458
+          },
+          {
+            "test_start": "2021-09-07 12:00:00",
+            "test_end": "2024-08-16 20:00:00",
+            "oos_sharpe": 1.3337,
+            "n_trades": 584
+          },
+          {
+            "test_start": "2021-09-07 12:00:00",
+            "test_end": "2025-08-10 00:00:00",
+            "oos_sharpe": 0.3895,
+            "n_trades": 551
+          },
+          {
+            "test_start": "2021-09-07 12:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": -0.161,
+            "n_trades": 425
+          },
+          {
+            "test_start": "2022-08-31 16:00:00",
+            "test_end": "2024-08-16 20:00:00",
+            "oos_sharpe": 1.3018,
+            "n_trades": 602
+          },
+          {
+            "test_start": "2022-08-31 16:00:00",
+            "test_end": "2025-08-10 00:00:00",
+            "oos_sharpe": 0.549,
+            "n_trades": 569
+          },
+          {
+            "test_start": "2022-08-31 16:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": 0.1514,
+            "n_trades": 443
+          },
+          {
+            "test_start": "2023-08-24 20:00:00",
+            "test_end": "2025-08-10 00:00:00",
+            "oos_sharpe": 1.3421,
+            "n_trades": 695
+          },
+          {
+            "test_start": "2023-08-24 20:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": 0.9839,
+            "n_trades": 569
+          },
+          {
+            "test_start": "2024-08-17 00:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": -0.0843,
+            "n_trades": 536
+          }
+        ]
+      }
+    },
+    "stacked4": {
+      "full_sample": {
+        "total_return": 0.328,
+        "annualized_return": 0.0494,
+        "max_drawdown": -0.1104,
+        "sharpe": 0.7337,
+        "calmar": 0.4473,
+        "n_trades": 264
+      },
+      "n_bars": 12893,
+      "span": "2020-09-14 08:00:00 \u2192 2026-08-03 00:00:00",
+      "cpcv": {
+        "mean_oos_sharpe": 0.7743,
+        "std_oos_sharpe": 0.4542,
+        "worst_fold": -0.0685,
+        "best_fold": 1.6881,
+        "n_folds": 15,
+        "all_folds_positive": false,
+        "folds": [
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2022-08-31 12:00:00",
+            "oos_sharpe": 0.5204,
+            "n_trades": 100
+          },
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2023-08-24 16:00:00",
+            "oos_sharpe": 0.8578,
+            "n_trades": 114
+          },
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2024-08-16 20:00:00",
+            "oos_sharpe": 0.7209,
+            "n_trades": 134
+          },
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2025-08-10 00:00:00",
+            "oos_sharpe": 0.2519,
+            "n_trades": 122
+          },
+          {
+            "test_start": "2020-09-14 08:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": 0.145,
+            "n_trades": 98
+          },
+          {
+            "test_start": "2021-09-07 12:00:00",
+            "test_end": "2023-08-24 16:00:00",
+            "oos_sharpe": 1.1824,
+            "n_trades": 62
+          },
+          {
+            "test_start": "2021-09-07 12:00:00",
+            "test_end": "2024-08-16 20:00:00",
+            "oos_sharpe": 1.6881,
+            "n_trades": 82
+          },
+          {
+            "test_start": "2021-09-07 12:00:00",
+            "test_end": "2025-08-10 00:00:00",
+            "oos_sharpe": 0.7018,
+            "n_trades": 70
+          },
+          {
+            "test_start": "2021-09-07 12:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": 0.616,
+            "n_trades": 46
+          },
+          {
+            "test_start": "2022-08-31 16:00:00",
+            "test_end": "2024-08-16 20:00:00",
+            "oos_sharpe": 1.3353,
+            "n_trades": 96
+          },
+          {
+            "test_start": "2022-08-31 16:00:00",
+            "test_end": "2025-08-10 00:00:00",
+            "oos_sharpe": 0.9164,
+            "n_trades": 84
+          },
+          {
+            "test_start": "2022-08-31 16:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": 0.8478,
+            "n_trades": 60
+          },
+          {
+            "test_start": "2023-08-24 20:00:00",
+            "test_end": "2025-08-10 00:00:00",
+            "oos_sharpe": 0.9745,
+            "n_trades": 104
+          },
+          {
+            "test_start": "2023-08-24 20:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": 0.9247,
+            "n_trades": 80
+          },
+          {
+            "test_start": "2024-08-17 00:00:00",
+            "test_end": "2026-08-03 00:00:00",
+            "oos_sharpe": -0.0685,
+            "n_trades": 68
+          }
+        ]
+      }
+    }
+  },
+  "cpcv_params": {
+    "n_groups": 6,
+    "k_test": 2,
+    "purge_bars": 50,
+    "embargo_bars": 20
+  },
+  "validation_type": "temporal-stability (fixed params)",
+  "deflated_sharpe": {
+    "best_variant": "kama_only",
+    "value": 1.2421,
+    "n_trials": 4,
+    "edge_survives_deflation": true
+  }
+}

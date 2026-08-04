@@ -41,7 +41,11 @@ def _ohlcv(n: int = 400, seed: int = 11, with_funding: bool = True) -> pd.DataFr
 # Library completeness & metadata
 # ---------------------------------------------------------------------------
 def test_all_twelve_factors_present():
-    assert set(fl.list_factors()) == EXPECTED
+    # Subset, not equality: extension packs (e.g.
+    # _shared/factor_analysis/orderbook_factors.py) register additional
+    # factors into the same library namespace when imported in the same
+    # pytest process — the core library must contain at least these 12.
+    assert EXPECTED.issubset(set(fl.list_factors()))
 
 
 def test_specs_are_frozen_dataclasses_with_metadata():
