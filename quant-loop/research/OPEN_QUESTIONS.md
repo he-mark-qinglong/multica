@@ -430,3 +430,43 @@ Previous "decay" was small-sample noise. Signal is real but weak.
 All periods consistently negative → genuine mean-reversion effect.
 Magnitude: ~2.7bp spread < 7bp retail cost. Needs 0bp maker or amplification.
 First factor in the system with cross-temporal stability.
+
+## OBPI 策略定位 (2026-08-06)
+
+### 核心定位：OBPI 是 KAMA 的增强器，不是独立策略
+
+OBPI（订单簿不平衡）已验证为真实微观结构信号，但其最大价值是**增强 KAMA**：
+
+1. **OBPI × KAMA 叠加**：KAMA + OBPI 同向过滤 → Sharpe 从 -11.7 提升到 +3.3 (+14.9)。这是 OBPI 最大的价值——作为 KAMA 的确认/过滤信号。
+2. **跨所验证**：OKX vs Binance 不平衡相关性 +0.64 (t=11.07)，排除单一交易所操纵。
+3. **统计显著**：imb>30% 时 t=2.19，2m 价差 +4.2bp。
+
+### OBPI 独立交易的可能性（待验证）
+
+不排除 OBPI 独立交易，但需要制度过滤：
+- **上涨趋势 + 高波动 + OBPI 上升**：67% 胜率，+13.84bp/笔 — 极强
+- **上涨趋势**：57% 胜率，+6.14bp/笔 — 好
+- **下跌趋势/低波动**：无效果（41-42% 胜率，~0bp/笔）
+- **期望值**：毛 +1.99bp/笔，净@1.08bp 临界（-0.17bp），净@0bp +1.99bp
+
+### 策略层级
+
+| 层级 | 策略 | 关系 |
+|------|------|------|
+| 核心 | MTF KAMA 组合 (Sharpe 2.19) | 趋势 alpha（宏观） |
+| **增强** | **OBPI 确认/过滤** | **提升 KAMA 信号质量** |
+| 候选 | OBPI 独立策略（制度过滤后） | 微观结构 alpha（待验证） |
+| 备选 | 20:00UTC 时段 / 强平因子 | 需 0bp 费率 |
+
+### 数据源
+
+- OKX books5 WS：823K snapshots (~30h)，原始 5 档订单簿
+- Binance depth10 WS：736K snapshots (~30h)，原始 10 档订单簿
+- 强平 WS：3,935 events (~86h)
+- 三个采集器持续运行中
+
+### 费率要求
+
+- OBPI 独立策略：需 ≤1.08bp（OKX VIP3 或 Binance VIP3）
+- OBPI × KAMA：7bp 下仍有效（因为 KAMA 交易频率低）
+- 20:00UTC 时段策略：需 0bp（Lighter）
